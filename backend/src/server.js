@@ -184,21 +184,26 @@ const startAIService = () => {
 };
 
 (async () => {
-  if (!(await checkAIService())) {
-    startAIService();
-    // Wait for AI service to become ready
-    let waited = 0;
-    while (!(await checkAIService()) && waited < 30) {
-      await new Promise(res => setTimeout(res, 1000));
-      waited++;
-    }
-    if (waited >= 30) {
-      console.warn('⚠️ AI Service did not start in time. Backend will continue, but AI features may not work.');
+  // Only auto-start AI service in local development
+  if (process.env.NODE_ENV !== 'production') {
+    if (!(await checkAIService())) {
+      startAIService();
+      // Wait for AI service to become ready
+      let waited = 0;
+      while (!(await checkAIService()) && waited < 30) {
+        await new Promise(res => setTimeout(res, 1000));
+        waited++;
+      }
+      if (waited >= 30) {
+        console.warn('⚠️ AI Service did not start in time. Backend will continue, but AI features may not work.');
+      } else {
+        console.log('✅ AI Service is running and ready!');
+      }
     } else {
-      console.log('✅ AI Service is running and ready!');
+      console.log('✅ AI Service already running.');
     }
   } else {
-    console.log('✅ AI Service already running.');
+    console.log('🌐 Production Mode: AI Service auto-start bypassed. Ensure AI_SERVICE_URL is set in environment variables.');
   }
 })();
 app.use('/api/auth', authRoutes);
