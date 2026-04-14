@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 // Removed unused imports
 import { CollegeDropdown } from '@/components/ui/CollegeDropdown';
 import { CompanySelector } from '@/components/ui/CompanySelector';
+import { TechnologySelector } from '@/components/ui/TechnologySelector';
 import { 
   SearchableDropdown, 
   degreeOptions, 
@@ -420,7 +421,7 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
                          
                          <div className="space-y-10">
                             <div className="space-y-6">
-                                <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-code-green/60">Core Engineering Signals</h4>
+                                <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-code-green/60">Core {currentMappedField} Signals</h4>
                                 {coreSkills.map(skill => (
                                     <SkillSlider 
                                         key={skill} 
@@ -429,6 +430,33 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
                                         onChange={(val) => setSkillRatings(prev => ({ ...prev, [skill]: val }))}
                                     />
                                 ))}
+                            </div>
+
+                            <div className="space-y-6">
+                                <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-purple-400/60">Additional Niche Skills</h4>
+                                <TechnologySelector 
+                                    value={Object.keys(skillRatings).filter(s => !coreSkills.includes(s) && !softSkills.includes(s)).join(', ')}
+                                    onChange={(val) => {
+                                      const newTechs = val.split(',').map(t => t.trim()).filter(t => t.length > 0);
+                                      setSkillRatings(prev => {
+                                        const next = { ...prev };
+                                        newTechs.forEach(t => { if (next[t] === undefined) next[t] = 5; });
+                                        return next;
+                                      });
+                                    }}
+                                />
+                                <div className="grid grid-cols-1 gap-4 mt-4">
+                                  {Object.keys(skillRatings)
+                                    .filter(s => !coreSkills.includes(s) && !softSkills.includes(s))
+                                    .map(skill => (
+                                     <SkillSlider 
+                                         key={skill} 
+                                         skill={skill}
+                                         value={skillRatings[skill]}
+                                         onChange={(val) => setSkillRatings(prev => ({ ...prev, [skill]: val }))}
+                                     />
+                                  ))}
+                                </div>
                             </div>
 
                             <div className="space-y-6">
