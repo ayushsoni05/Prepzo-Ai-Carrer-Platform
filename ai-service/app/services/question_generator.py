@@ -61,44 +61,61 @@ class QuestionGenerator:
                               "Profit & Loss", "Ages Problems", "Blood Relations", "Seating Arrangements"],
         },
         "mechanical": {
-            "Thermodynamics": ["Laws of Thermodynamics", "Carnot Cycle", "Entropy", "Heat Transfer", "Internal Combustion Engines"],
-            "Mechanics":      ["Statics & Dynamics", "Fluid Mechanics", "Kinematics", "Stress & Strain", "Machine Design"],
-            "Manufacturing":  ["Casting & Welding", "CNC Machining", "Tolerances", "Quality Control", "Metal Forming"],
-            "Aptitude":       ["Quantitative", "Logical Reasoning", "Verbal Ability", "Data Interpretation"],
+            "Thermodynamics": ["Laws of Thermodynamics", "Carnot Cycle", "Entropy & Enthalpy", "Heat Transfer & Refrigeration", "Internal Combustion Engines", "Power Plant Engineering"],
+            "Mechanics":      ["Statics & Dynamics", "Rotational Motion", "Fluid Mechanics & Machines", "Kinematics of Machinery", "Stress & Strain", "Machine Design Fundamentals"],
+            "Manufacturing":  ["Casting & Welding", "CNC Machining", "Tolerances & Limits", "Quality Control (SQD)", "Metal Forming", "Modern Manufacturing Processes"],
+            "Design":         ["CAD/CAM Principles", "Materials Science", "Vibrations & Control", "Solid Mechanics", "Mechanisms Design"],
+            "Aptitude":       ["Quantitative Aptitude", "Logical Reasoning", "Verbal Ability", "Data Interpretation", "Abstract Reasoning"],
         },
         "electrical": {
-            "Circuits":      ["Kirchhoff's Laws", "Thevenin & Norton", "AC Circuits", "Power Factor", "Network Theorems"],
-            "Machines":      ["Transformers", "Induction Motors", "Generators", "Power Systems", "Control Systems"],
-            "Electronics":   ["Semiconductors", "Op-Amps", "Digital Logic", "ADC/DAC", "Microprocessors"],
-            "Aptitude":       ["Quantitative", "Logical Reasoning", "Verbal Ability", "Data Interpretation"],
+            "Circuits":      ["Kirchhoff's Laws", "Thevenin & Norton Theorems", "AC Circuit Analysis", "Power Factor Correction", "Network Theorems & Resonance"],
+            "Machines":      ["DC & AC Machines", "Transformers", "Induction & Synchronous Motors", "Power Systems Analysis", "Protection & Switchgear"],
+            "Electronics":   ["Semiconductor Physics", "Op-Amps & Linear ICs", "Digital Logic Gates", "ADC/DAC Converters", "Microprocessors (8085/8086)", "BJT & MOSFET Analysis"],
+            "Embedded":      ["Microcontrollers (8051/ARM)", "Real-Time Operating Systems (RTOS)", "Embedded C Programming", "Peripheral Interfacing", "FPGA & VHDL"],
+            "Signals":       ["Fourier & Z-Transforms", "LTI Systems", "Signal Processing", "Communication Systems", "Modulation Techniques"],
+            "Aptitude":       ["Quantitative Aptitude", "Logical Reasoning", "Verbal Ability", "Data Interpretation", "Engineering Math"],
         },
         "civil": {
-            "Structures":     ["Structural Analysis", "RCC Design", "Steel Structures", "Strength of Materials"],
-            "Geotechnical":   ["Soil Mechanics", "Foundation Engineering", "Earth Pressure", "Slope Stability"],
-            "Hydraulics":     ["Fluid Mechanics", "Open Channel Flow", "Hydrology", "Irrigation Engineering"],
-            "Aptitude":       ["Quantitative", "Logical Reasoning", "Verbal Ability", "Data Interpretation"],
+            "Structures":     ["Structural Analysis", "RCC & Pre-stressed Design", "Steel Structures Design", "Strength of Materials", "Structural Dynamics"],
+            "Geotechnical":   ["Soil Mechanics & Classification", "Foundation Engineering", "Earth Pressure & Retaining Walls", "Slope Stability", "Soil Compaction"],
+            "Hydraulics":     ["Fluid Mechanics", "Open Channel Flow", "Hydrology & Precipitation", "Irrigation Engineering", "Water Resources Management"],
+            "Surveying":      ["GPS & Remote Sensing", "Leveling & Contouring", "Theodolite Surveying", "Curve Setting", "Estimation & Costing"],
+            "Aptitude":       ["Quantitative Aptitude", "Logical Reasoning", "Verbal Ability", "Spatial Reasoning"],
         },
         "management": {
-            "Marketing":      ["Marketing Mix (4Ps)", "Consumer Behavior", "Digital Marketing", "Market Research", "Brand Management"],
-            "Finance":        ["Financial Management", "Capital Budgeting", "Working Capital", "Risk & Return", "Financial Ratios"],
-            "HR":             ["Recruitment & Selection", "Training & Development", "Performance Appraisals", "Organizational Behavior"],
-            "Aptitude":       ["Quantitative", "Logical Reasoning", "Verbal Ability", "Business Case Analysis"],
+            "Marketing":      ["Marketing Mix (4Ps & 7Ps)", "Consumer Behavior & STP", "Digital & Social Media Marketing", "Market Research Methods", "Brand Management & Equity"],
+            "Finance":        ["Financial Management & Statement Analysis", "Capital Budgeting Techniques", "Working Capital Management", "Risk & Return Analysis", "Financial Ratios & Portfolios"],
+            "HR":             ["Recruitment & Selection", "Training & Development", "Performance Appraisals", "Organizational Behavior", "Labor Laws & Industrial Relations"],
+            "Ops":            ["Supply Chain Management", "Inventory Control (EOQ/JIT)", "Operations Research (LP)", "Project Management (CPM/PERT)", "Total Quality Management (TQM)"],
+            "Strategy":       ["SWOT & PESTLE Analysis", "Porter's Five Forces", "Business Strategy Formulation", "Competitive Advantage", "Corporate Governance"],
+            "Aptitude":       ["Quantitative Aptitude", "Logical Reasoning", "Verbal Ability", "Business Case Analysis", "Data Interpretation"],
+        },
+        "iot": {
+            "Sensors":        ["Sensor Types & Working", "Actuators & Transducers", "Signal Conditioning", "Calibration & Accuracy", "Smart Sensors"],
+            "Connectivity":   ["Wireless Protocols (Zigbee, LoRa)", "Bluetooth & BLE", "Wi-Fi & Cellular IoT", "Network Topologies", "Communication Standards"],
+            "Protocols":      ["MQTT & CoAP", "HTTP/REST in IoT", "AMQP & XMPP", "Data Serialization (JSON/Protobuf)", "Edge Computing Protocols"],
+            "Robotics":       ["Robot Kinematics", "Motion planning", "Control Systems", "Computer Vision for Robots", "AI in Robotics"],
+            "Security":       ["IoT Security Frameworks", "Encryption & Key Management", "Privacy in IoT", "Secure Boot & Firmware", "Blockchain in IoT"],
+            "Aptitude":       ["Quantitative Aptitude", "Logical Reasoning", "Verbal Ability", "System Thinking"],
         },
         "commerce": {
-            "Accounting":     ["Financial Accounting", "Corporate Accounting", "Cost & Management Accounting", "Auditing"],
-            "Taxation":       ["Income Tax", "GST", "Corporate Tax Planning", "TDS & TCS"],
-            "Economics":      ["Micro & Macro Economics", "Public Finance", "Industrial Economics", "International Trade"],
-            "Aptitude":       ["Quantitative", "Logical Reasoning", "Verbal Ability", "Business Arithmetic"],
+            "Accounting":     ["Financial Accounting Principles", "Corporate Accounting", "Cost & Management Accounting", "Auditing & Assurance", "IFRS & Ind-AS"],
+            "Taxation":       ["Income Tax (Heads of Income)", "GST Framework", "Corporate Tax Planning", "TDS & Return Filing", "Customs & International Tax"],
+            "Economics":      ["Micro & Macro Economics", "Public Finance", "Industrial Economics", "International Trade Theory", "Banking & Monetary Policy"],
+            "Law":            ["Business Law", "Company Law", "Contract Act", "Intellectual Property Rights", "Consumer Protection"],
+            "Aptitude":       ["Quantitative Aptitude", "Logical Reasoning", "Verbal Ability", "Business Arithmetic"],
         },
         "science": {
-            "CoreScience":    ["Scientific Method", "Research Methodology", "Data Analysis", "Theoretical Models"],
-            "AppliedScience": ["Biotechnology", "Nanotechnology", "Environmental Science", "Space Research"],
-            "Aptitude":       ["Quantitative", "Logical Reasoning", "Verbal Ability", "Abstract Reasoning"],
+            "CoreScience":    ["Scientific Method & Hypothesis", "Research Methodology", "Data Analysis & Statistics", "Theoretical Models", "Lab Safety & Protocols"],
+            "AppliedScience": ["Biotechnology Applications", "Nanotechnology Basics", "Environmental Science & Sustainability", "Space Research & Astronomy", "Renewable Energy"],
+            "Data":           ["Statistical Inference", "Probability Theory", "Experimental Design", "Data Visualization", "Big Data in Science"],
+            "Aptitude":       ["Quantitative Aptitude", "Logical Reasoning", "Verbal Ability", "Abstract Reasoning"],
         },
         "arts": {
-            "Humanities":     ["Political Science", "Psychology", "Sociology", "History & Heritage", "Literature Review"],
-            "Expression":     ["Creative Writing", "Communication Skills", "Mass Media", "Philosophy & Ethics"],
-            "Aptitude":       ["Verbal Ability", "Logical Reasoning", "General Awareness", "Creative Thinking"],
+            "Humanities":     ["Political Science Theory", "Psychology & Behavioral Science", "Sociology & Social Change", "Global History & Heritage", "Literature & Criticism"],
+            "Expression":     ["Creative writing & Media Ethics", "Communication Skills & Linguistics", "Mass Media & Journalism", "Philosophy & Ethics", "Visual Arts & Aesthetics"],
+            "Social":         ["Public Policy", "Social Research Methods", "Geography & Demographics", "Anthropology", "International Relations"],
+            "Aptitude":       ["Verbal Ability & Reading Comprehension", "Logical Reasoning", "General Awareness", "Creative & Lateral Thinking"],
         },
     }
 
@@ -188,6 +205,8 @@ class QuestionGenerator:
             return "mechanical"
         if any(k in s for k in ["electrical", "ece", "eee", "electronics"]):
             return "electrical"
+        if any(k in s for k in ["iot", "robotics", "mechatronics"]):
+            return "iot"
         if "civil" in s:
             return "civil"
         if any(k in s for k in ["mba", "bba", "management", "business", "pgdm"]):

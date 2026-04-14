@@ -34,56 +34,100 @@ interface Violation {
 // Use real question bank configuration and helper
 // Test configuration is provided by AI service; do not use local question bank
 
+// Helper to get field-specific sections for assessment
+function getSectionsByField(field: string): Section[] {
+  const f = (field || '').toLowerCase();
+  
+  // Computer Science / IT / Software
+  if (f.includes('computer') || f.includes('software') || f.includes('it') || f.includes('info') || f.includes('bca') || f.includes('mca')) {
+    return [
+      { id: 'cs-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
+      { id: 'cs-dsa', name: 'Data Structures', icon: '🌳', timeLimit: 25, questions: [] },
+      { id: 'cs-dbms', name: 'DBMS', icon: '🗄️', timeLimit: 25, questions: [] },
+      { id: 'cs-os', name: 'Operating Systems', icon: '⚙️', timeLimit: 25, questions: [] },
+      { id: 'cs-cn', name: 'Computer Networks', icon: '🌐', timeLimit: 25, questions: [] },
+      { id: 'cs-oops', name: 'OOPS & System Design', icon: '🔷', timeLimit: 25, questions: [] },
+    ];
+  }
+
+  // Electronics / ECE / EEE / Instrumentation
+  if (f.includes('electronics') || f.includes('ece') || f.includes('eee') || f.includes('instrumentation')) {
+    return [
+      { id: 'ece-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
+      { id: 'ece-digital', name: 'Digital Electronics', icon: '📟', timeLimit: 25, questions: [] },
+      { id: 'ece-embedded', name: 'Embedded Systems', icon: '🔌', timeLimit: 25, questions: [] },
+      { id: 'ece-signals', name: 'Signals & Systems', icon: '📉', timeLimit: 25, questions: [] },
+      { id: 'ece-vlsi', name: 'VLSI Design', icon: '🏗️', timeLimit: 25, questions: [] },
+      { id: 'ece-micro', name: 'Microprocessors', icon: '💾', timeLimit: 25, questions: [] },
+    ];
+  }
+
+  // Mechanical / Automobile
+  if (f.includes('mechanical') || f.includes('automobile') || f.includes('prod') || f.includes('mech')) {
+    return [
+      { id: 'mech-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
+      { id: 'mech-thermo', name: 'Thermodynamics', icon: '🔥', timeLimit: 25, questions: [] },
+      { id: 'mech-design', name: 'Machine Design', icon: '⚙️', timeLimit: 25, questions: [] },
+      { id: 'mech-som', name: 'Strength of Materials', icon: '🏗️', timeLimit: 25, questions: [] },
+      { id: 'mech-manu', name: 'Manufacturing', icon: '🏭', timeLimit: 25, questions: [] },
+      { id: 'mech-auto', name: 'Automobile Engineering', icon: '🚗', timeLimit: 25, questions: [] },
+    ];
+  }
+
+  // Civil Engineering
+  if (f.includes('civil')) {
+    return [
+      { id: 'civil-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
+      { id: 'civil-struct', name: 'Structural Analysis', icon: '🏗️', timeLimit: 25, questions: [] },
+      { id: 'civil-survey', name: 'Surveying', icon: '🗺️', timeLimit: 25, questions: [] },
+      { id: 'civil-geotech', name: 'Geotechnical Engineering', icon: '🌍', timeLimit: 25, questions: [] },
+      { id: 'civil-trans', name: 'Transportation', icon: '🛣️', timeLimit: 25, questions: [] },
+      { id: 'civil-water', name: 'Hydraulics & Water Resources', icon: '💧', timeLimit: 25, questions: [] },
+    ];
+  }
+
+  // Management / Commerce / Business
+  if (f.includes('manage') || f.includes('business') || f.includes('mba') || f.includes('commer') || f.includes('finan') || f.includes('account')) {
+    return [
+      { id: 'mgmt-aptitude', name: 'Quant & Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
+      { id: 'mgmt-marketing', name: 'Marketing Management', icon: '🎨', timeLimit: 25, questions: [] },
+      { id: 'mgmt-finance', name: 'Financial Accounting', icon: '💰', timeLimit: 25, questions: [] },
+      { id: 'mgmt-hr', name: 'Human Resources', icon: '👥', timeLimit: 25, questions: [] },
+      { id: 'mgmt-ops', name: 'Operations & SCM', icon: '📦', timeLimit: 25, questions: [] },
+      { id: 'mgmt-strategy', name: 'Business Strategy', icon: '♟️', timeLimit: 25, questions: [] },
+    ];
+  }
+  
+  // IoT / Robotics
+  if (f.includes('iot') || f.includes('robotics') || f.includes('mechatronics')) {
+    return [
+      { id: 'iot-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
+      { id: 'iot-sensors', name: 'Sensors & Actuators', icon: '🌡️', timeLimit: 25, questions: [] },
+      { id: 'iot-connectivity', name: 'IoT Connectivity', icon: '📶', timeLimit: 25, questions: [] },
+      { id: 'iot-robotics', name: 'Robotics Control', icon: '🤖', timeLimit: 25, questions: [] },
+      { id: 'iot-embedded', name: 'Embedded Systems', icon: '🔌', timeLimit: 25, questions: [] },
+      { id: 'iot-cloud', name: 'IoT Cloud & Data', icon: '☁️', timeLimit: 25, questions: [] },
+    ];
+  }
+
+  // Default Fallback (General Tech)
+  return [
+    { id: 'gen-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
+    { id: 'gen-tech', name: 'Technical Basics', icon: '💡', timeLimit: 25, questions: [] },
+    { id: 'gen-logic', name: 'Logical Reasoning', icon: '🧩', timeLimit: 25, questions: [] },
+    { id: 'gen-verbal', name: 'Verbal Ability', icon: '📝', timeLimit: 25, questions: [] },
+    { id: 'gen-data', name: 'Data Interpretation', icon: '📊', timeLimit: 25, questions: [] },
+    { id: 'gen-general', name: 'General Awareness', icon: '🌍', timeLimit: 25, questions: [] },
+  ];
+}
+
 // Build minimal test config from user profile for AI generator
 function buildTestConfig(user: any) {
   const field = user?.fieldOfStudy || user?.stream || 'Computer Science';
-  const defaultSections: Section[] = [
-    {
-      id: `${field}-aptitude`,
-      name: 'Aptitude',
-      icon: '🧮',
-      timeLimit: 25,
-      questions: [],
-    },
-    {
-      id: `${field}-dsa`,
-      name: 'DSA',
-      icon: '🌳',
-      timeLimit: 25,
-      questions: [],
-    },
-    {
-      id: `${field}-dbms`,
-      name: 'DBMS',
-      icon: '🗄️',
-      timeLimit: 25,
-      questions: [],
-    },
-    {
-      id: `${field}-os`,
-      name: 'Operating Systems',
-      icon: '⚙️',
-      timeLimit: 25,
-      questions: [],
-    },
-    {
-      id: `${field}-cn`,
-      name: 'Computer Networks',
-      icon: '🌐',
-      timeLimit: 25,
-      questions: [],
-    },
-    {
-      id: `${field}-oops`,
-      name: 'OOPS',
-      icon: '🔷',
-      timeLimit: 25,
-      questions: [],
-    },
-  ];
+  const defaultSections = getSectionsByField(field);
 
   return {
-    questionsPerSection: 5, // Reduced from 20 for faster dynamic generation
+    questionsPerSection: 20, // Increased to 20 as requested
     totalTime: 120, // 20 min × 6 sections
     includeInterviewLevel: true,
     includeAssessmentLevel: true,
@@ -1007,17 +1051,17 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-12">
-            <div className="p-6 md:p-8 rounded-[24px] md:rounded-[32px] bg-white/5 border border-white/5">
-              <p className="text-[10px]  font-black text-white/20 uppercase tracking-[0.2em] mb-4 text-center">Protocol Domain</p>
-              <p className="text-xl md:text-2xl  font-[900] text-white text-center uppercase italic tracking-tighter">{testConfig.field}</p>
+            <div className="p-6 md:p-8 rounded-[24px] md:rounded-[32px] bg-white/5 border border-white/5 shadow-[0_0_40px_rgba(255,255,255,0.02)] flex flex-col items-center justify-center min-h-[120px] md:min-h-[160px]">
+              <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] mb-4 text-center">Protocol Domain</p>
+              <p className="text-lg md:text-xl font-[900] text-white text-center uppercase italic tracking-tighter line-clamp-2 leading-tight">{testConfig.field}</p>
             </div>
-            <div className="p-6 md:p-8 rounded-[24px] md:rounded-[32px] bg-white/5 border border-white/5 shadow-[0_0_40px_rgba(255,255,255,0.02)]">
-              <p className="text-[10px]  font-black text-white/20 uppercase tracking-[0.2em] mb-4 text-center">Target Role</p>
-              <p className="text-xl md:text-2xl  font-[900] text-white text-center uppercase italic tracking-tighter">{testConfig.targetRole}</p>
+            <div className="p-6 md:p-8 rounded-[24px] md:rounded-[32px] bg-white/5 border border-white/5 shadow-[0_0_40px_rgba(255,255,255,0.02)] flex flex-col items-center justify-center min-h-[120px] md:min-h-[160px]">
+              <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] mb-4 text-center">Target Role</p>
+              <p className="text-lg md:text-xl font-[900] text-white text-center uppercase italic tracking-tighter line-clamp-2 leading-tight break-words">{testConfig.targetRole}</p>
             </div>
-            <div className="p-6 md:p-8 rounded-[24px] md:rounded-[32px] bg-white/5 border border-white/5">
-              <p className="text-[10px]  font-black text-white/20 uppercase tracking-[0.2em] mb-4 text-center">Duration</p>
-              <p className="text-xl md:text-2xl  font-[900] text-white text-center uppercase italic tracking-tighter">{testConfig.totalTime} MIN</p>
+            <div className="p-6 md:p-8 rounded-[24px] md:rounded-[32px] bg-white/5 border border-white/5 flex flex-col items-center justify-center min-h-[120px] md:min-h-[160px]">
+              <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] mb-4 text-center">Duration</p>
+              <p className="text-lg md:text-xl font-[900] text-white text-center uppercase italic tracking-tighter leading-tight">{testConfig.totalTime} MIN</p>
             </div>
           </div>
 
