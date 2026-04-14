@@ -1,6 +1,12 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL;
+if (!API_URL) {
+  console.warn("⚠️ VITE_API_URL is NOT set! Falling back to localhost for development.");
+}
+const BASE_URL = API_URL || 'http://localhost:5000/api';
+
+console.log(`🚀 Prepzo API initialized at: ${BASE_URL}`);
 
 // Track if we're currently refreshing the token
 let isRefreshing = false;
@@ -21,7 +27,7 @@ const processQueue = (error: AxiosError | null) => {
 };
 
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
