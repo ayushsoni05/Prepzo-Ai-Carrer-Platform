@@ -538,11 +538,23 @@ export const targetRoleOptions: DropdownOption[] = [
   { value: 'power_electronics', label: 'Power Electronics Engineer', color: 'from-yellow-600 to-amber-600' },
   { value: 'iot_dev', label: 'IoT Solutions Architect', color: 'from-cyan-700 to-blue-700' },
 
-  // --- Core Mechanical & Civil ---
+  // --- Civil & Architecture ---
+  { value: 'structural', label: 'Structural Engineer', color: 'from-amber-700 to-yellow-700' },
+  { value: 'site_engineer', label: 'Site Engineer', color: 'from-orange-700 to-red-700' },
+  { value: 'urban_planner', label: 'Urban Planner', color: 'from-emerald-700 to-green-700' },
+  { value: 'architect', label: 'Project Architect', color: 'from-slate-600 to-gray-600' },
+  { value: 'bim_manager', label: 'BIM Manager', color: 'from-blue-700 to-indigo-700' },
+
+  // --- Mechanical & Automobile ---
   { value: 'mechanical_design', label: 'Mechanical Design Engineer', color: 'from-red-600 to-orange-600' },
   { value: 'automobile', label: 'Automobile Engineer', color: 'from-slate-600 to-gray-600' },
-  { value: 'structural', label: 'Structural Engineer', color: 'from-amber-700 to-yellow-700' },
-  { value: 'construction', label: 'Construction Manager', color: 'from-stone-600 to-neutral-600' },
+  { value: 'manufacturing', label: 'Manufacturing Process Engineer', color: 'from-zinc-600 to-gray-600' },
+  { value: 'robotics_engineer', label: 'Robotics & Automation Engineer', color: 'from-rose-600 to-red-600' },
+
+  // --- Chemical & Biotech ---
+  { value: 'process_engineer', label: 'Process Engineer', color: 'from-pink-700 to-rose-700' },
+  { value: 'bio_researcher', label: 'Biotech Researcher', color: 'from-green-600 to-emerald-600' },
+  { value: 'pharma_analyst', label: 'Pharmaceutical Analyst', color: 'from-blue-500 to-teal-500' },
 
   // --- Management & Non-Tech ---
   { value: 'product', label: 'Product Manager', color: 'from-teal-500 to-green-500' },
@@ -551,6 +563,20 @@ export const targetRoleOptions: DropdownOption[] = [
   { value: 'ops_manager', label: 'Operations Manager', color: 'from-blue-400 to-cyan-400' },
   { value: 'consultant', label: 'Strategy Consultant', color: 'from-gray-500 to-slate-500' },
   { value: 'hr_specialist', label: 'HR & Talent Acquisition', color: 'from-purple-400 to-violet-400' },
+  { value: 'finance_analyst', label: 'Financial Analyst', color: 'from-emerald-500 to-teal-500' },
+  { value: 'investment_banker', label: 'Investment Banker', color: 'from-yellow-600 to-amber-600' },
+
+  // --- Arts, Media & Design ---
+  { value: 'ui_ux', label: 'UI/UX Designer', color: 'from-rose-500 to-pink-500' },
+  { value: 'graphic_designer', label: 'Graphic Designer', color: 'from-purple-600 to-indigo-600' },
+  { value: 'content_strategist', label: 'Content Strategist', color: 'from-orange-500 to-amber-500' },
+  { value: 'journalist', label: 'Media & Journalism', color: 'from-blue-600 to-cyan-600' },
+
+  // --- Legal & Medical ---
+  { value: 'corporate_lawyer', label: 'Corporate Lawyer', color: 'from-blue-800 to-indigo-800' },
+  { value: 'legal_consultant', label: 'Legal Consultant', color: 'from-slate-700 to-gray-700' },
+  { value: 'medical_practitioner', label: 'Medical Practitioner', color: 'from-emerald-600 to-green-600' },
+  { value: 'health_admin', label: 'Healthcare Administrator', color: 'from-cyan-600 to-blue-600' },
 ];
 
 /**
@@ -559,31 +585,66 @@ export const targetRoleOptions: DropdownOption[] = [
 export const getTargetRolesByField = (field: string): DropdownOption[] => {
   const f = (field || '').toLowerCase();
   
-  // Electronics / ECE / EEE
+  // Computer Science / IT / BCA / MCA
+  if (f.includes('computer') || f.includes('software') || f.includes('it') || f.includes('info') || f.includes('bca') || f.includes('mca')) {
+    return targetRoleOptions.filter(opt => 
+      ['sde', 'frontend', 'backend', 'fullstack', 'devops', 'cloud', 'security', 'qa', 'data_science', 'ml', 'product', 'data_analyst', 'ui_ux'].includes(opt.value)
+    );
+  }
+
+  // Electronics / ECE / EEE / Instrumentation
   if (f.includes('electronics') || f.includes('ece') || f.includes('eee') || f.includes('instrumentation')) {
     return targetRoleOptions.filter(opt => 
-      ['embedded', 'vlsi', 'hardware', 'control_systems', 'power_electronics', 'iot_dev', 'sde', 'ml', 'fullstack'].includes(opt.value)
+      ['embedded', 'vlsi', 'hardware', 'control_systems', 'power_electronics', 'iot_dev', 'sde', 'ml', 'fullstack', 'robotics_engineer'].includes(opt.value)
     );
   }
   
-  // Computer Science / IT
-  if (f.includes('computer') || f.includes('software') || f.includes('it') || f.includes('info')) {
+  // Civil / Architecture
+  if (f.includes('civil') || f.includes('structural') || f.includes('construction') || f.includes('arch')) {
     return targetRoleOptions.filter(opt => 
-      ['sde', 'frontend', 'backend', 'fullstack', 'devops', 'cloud', 'security', 'qa', 'data_science', 'ml', 'product', 'data_analyst'].includes(opt.value)
+      ['structural', 'site_engineer', 'urban_planner', 'architect', 'bim_manager', 'ops_manager', 'business_analyst'].includes(opt.value)
     );
   }
 
-  // Management / Business
-  if (f.includes('manage') || f.includes('business') || f.includes('mba') || f.includes('bba')) {
+  // Mechanical / Automobile / Production / Mechatronics
+  if (f.includes('mechanical') || f.includes('automobile') || f.includes('prod') || f.includes('mech')) {
     return targetRoleOptions.filter(opt => 
-      ['product', 'business_analyst', 'marketing', 'ops_manager', 'consultant', 'hr_specialist', 'data_analyst'].includes(opt.value)
+      ['mechanical_design', 'automobile', 'manufacturing', 'robotics_engineer', 'iot_dev', 'control_systems', 'ops_manager'].includes(opt.value)
     );
   }
 
-  // Mechanical
-  if (f.includes('mechanical') || f.includes('automobile')) {
+  // Chemical / Biotech / Science / Pharmaceutical
+  if (f.includes('chemical') || f.includes('biotech') || f.includes('pharma') || f.includes('science')) {
     return targetRoleOptions.filter(opt => 
-      ['mechanical_design', 'automobile', 'iot_dev', 'control_systems'].includes(opt.value)
+      ['process_engineer', 'bio_researcher', 'pharma_analyst', 'data_science', 'data_analyst', 'ops_manager'].includes(opt.value)
+    );
+  }
+
+  // Management / Business / Commerce / Finance
+  if (f.includes('manage') || f.includes('business') || f.includes('mba') || f.includes('bba') || f.includes('commer') || f.includes('finan') || f.includes('account')) {
+    return targetRoleOptions.filter(opt => 
+      ['product', 'business_analyst', 'marketing', 'ops_manager', 'consultant', 'hr_specialist', 'finance_analyst', 'investment_banker', 'data_analyst'].includes(opt.value)
+    );
+  }
+
+  // Arts / Design / Media / Humanities
+  if (f.includes('art') || f.includes('design') || f.includes('media') || f.includes('human') || f.includes('psych') || f.includes('journal')) {
+    return targetRoleOptions.filter(opt => 
+      ['ui_ux', 'graphic_designer', 'content_strategist', 'journalism', 'marketing', 'hr_specialist', 'product'].includes(opt.value)
+    );
+  }
+
+  // Law / Legal
+  if (f.includes('law') || f.includes('legal') || f.includes('llb')) {
+    return targetRoleOptions.filter(opt => 
+      ['corporate_lawyer', 'legal_consultant', 'hr_specialist', 'consultant'].includes(opt.value)
+    );
+  }
+
+  // Medical / Healthcare
+  if (f.includes('medic') || f.includes('healthcare') || f.includes('mbbs') || f.includes('bds')) {
+    return targetRoleOptions.filter(opt => 
+      ['medical_practitioner', 'health_admin', 'consultant', 'ops_manager'].includes(opt.value)
     );
   }
 
