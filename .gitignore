@@ -74,5 +74,6 @@ backend/out2.txt
 # Uploads and temporary data
 uploads/
 backend/uploads/
-data/
+/data/
+/ai-service/data/
 ai-service/__pycache__/
