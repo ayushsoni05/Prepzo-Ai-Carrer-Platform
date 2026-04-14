@@ -93,12 +93,13 @@ app.use(cors({
       return callback(null, true);
     }
     
-    if (securityConfig.cors.allowedOrigins.includes(origin)) {
+    if (securityConfig.cors.allowedOrigins.includes(origin) || (origin && origin.endsWith('.vercel.app'))) {
       callback(null, true);
     } else if (process.env.NODE_ENV !== 'production') {
       // Allow any origin in development
       callback(null, true);
     } else {
+      console.warn(`🛑 Blocked by CORS: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
