@@ -2,8 +2,13 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Code, Search, ChevronDown, X } from 'lucide-react';
 
-// Comprehensive list of technologies
-const technologies = [
+import { fieldSkillsMap } from '@/data/fieldSkillsData';
+
+// Extract all unique skills from fieldSkillsMap to provide a comprehensive list
+const fieldSpecificSkills = Array.from(new Set(Object.values(fieldSkillsMap).flat()));
+
+// Comprehensive list of technologies and skills
+const technologies = Array.from(new Set([
   // Programming Languages
   "JavaScript", "TypeScript", "Python", "Java", "C", "C++", "C#", "Go", "Rust", "Ruby", 
   "PHP", "Swift", "Kotlin", "Scala", "R", "MATLAB", "Perl", "Haskell", "Lua", "Dart",
@@ -90,7 +95,10 @@ const technologies = [
   // CMS & E-commerce
   "WordPress", "Drupal", "Joomla", "Shopify", "Magento", "WooCommerce",
   "Strapi", "Contentful", "Sanity", "Ghost", "Webflow",
-];
+
+  // Add all skills from field-specific map
+  ...fieldSpecificSkills
+]));
 
 interface TechnologySelectorProps {
   value: string;
