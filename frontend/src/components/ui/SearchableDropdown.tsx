@@ -515,22 +515,81 @@ export const yearOfStudyOptions: DropdownOption[] = [
 ];
 
 export const targetRoleOptions: DropdownOption[] = [
+  // --- Software & IT ---
   { value: 'sde', label: 'Software Development Engineer', color: 'from-purple-500 to-blue-500' },
   { value: 'frontend', label: 'Frontend Developer', color: 'from-cyan-500 to-blue-500' },
   { value: 'backend', label: 'Backend Developer', color: 'from-green-500 to-teal-500' },
   { value: 'fullstack', label: 'Full Stack Developer', color: 'from-violet-500 to-purple-500' },
-  { value: 'data', label: 'Data Scientist', color: 'from-orange-500 to-red-500' },
-  { value: 'ml', label: 'ML Engineer', color: 'from-pink-500 to-rose-500' },
   { value: 'devops', label: 'DevOps Engineer', color: 'from-amber-500 to-orange-500' },
-  { value: 'product', label: 'Product Manager', color: 'from-teal-500 to-green-500' },
-  { value: 'data_analyst', label: 'Data Analyst', color: 'from-indigo-500 to-purple-500' },
-  { value: 'ui_ux', label: 'UI/UX Designer', color: 'from-rose-500 to-pink-500' },
-  { value: 'qa', label: 'QA Engineer', color: 'from-green-600 to-emerald-600' },
-  { value: 'security', label: 'Security Engineer', color: 'from-red-500 to-orange-500' },
   { value: 'cloud', label: 'Cloud Engineer', color: 'from-sky-500 to-blue-500' },
-  { value: 'consultant', label: 'IT Consultant', color: 'from-gray-500 to-slate-500' },
+  { value: 'security', label: 'Security Engineer', color: 'from-red-500 to-orange-500' },
+  { value: 'qa', label: 'QA / Automation Engineer', color: 'from-green-600 to-emerald-600' },
+
+  // --- Data & AI ---
+  { value: 'data_science', label: 'Data Scientist', color: 'from-orange-500 to-red-500' },
+  { value: 'ml', label: 'ML / AI Engineer', color: 'from-pink-500 to-rose-500' },
+  { value: 'data_analyst', label: 'Data Analyst', color: 'from-indigo-500 to-purple-500' },
+
+  // --- Core Electronics & Electrical ---
+  { value: 'embedded', label: 'Embedded Systems Engineer', color: 'from-blue-600 to-cyan-600' },
+  { value: 'vlsi', label: 'VLSI Design Engineer', color: 'from-indigo-600 to-violet-600' },
+  { value: 'hardware', label: 'Hardware Design Engineer', color: 'from-teal-600 to-emerald-600' },
+  { value: 'control_systems', label: 'Control Systems Engineer', color: 'from-amber-600 to-orange-600' },
+  { value: 'power_electronics', label: 'Power Electronics Engineer', color: 'from-yellow-600 to-amber-600' },
+  { value: 'iot_dev', label: 'IoT Solutions Architect', color: 'from-cyan-700 to-blue-700' },
+
+  // --- Core Mechanical & Civil ---
+  { value: 'mechanical_design', label: 'Mechanical Design Engineer', color: 'from-red-600 to-orange-600' },
+  { value: 'automobile', label: 'Automobile Engineer', color: 'from-slate-600 to-gray-600' },
+  { value: 'structural', label: 'Structural Engineer', color: 'from-amber-700 to-yellow-700' },
+  { value: 'construction', label: 'Construction Manager', color: 'from-stone-600 to-neutral-600' },
+
+  // --- Management & Non-Tech ---
+  { value: 'product', label: 'Product Manager', color: 'from-teal-500 to-green-500' },
   { value: 'business_analyst', label: 'Business Analyst', color: 'from-yellow-500 to-amber-500' },
+  { value: 'marketing', label: 'Digital Marketing Lead', color: 'from-pink-600 to-rose-600' },
+  { value: 'ops_manager', label: 'Operations Manager', color: 'from-blue-400 to-cyan-400' },
+  { value: 'consultant', label: 'Strategy Consultant', color: 'from-gray-500 to-slate-500' },
+  { value: 'hr_specialist', label: 'HR & Talent Acquisition', color: 'from-purple-400 to-violet-400' },
 ];
+
+/**
+ * Filter roles based on the student's field of study
+ */
+export const getTargetRolesByField = (field: string): DropdownOption[] => {
+  const f = (field || '').toLowerCase();
+  
+  // Electronics / ECE / EEE
+  if (f.includes('electronics') || f.includes('ece') || f.includes('eee') || f.includes('instrumentation')) {
+    return targetRoleOptions.filter(opt => 
+      ['embedded', 'vlsi', 'hardware', 'control_systems', 'power_electronics', 'iot_dev', 'sde', 'ml', 'fullstack'].includes(opt.value)
+    );
+  }
+  
+  // Computer Science / IT
+  if (f.includes('computer') || f.includes('software') || f.includes('it') || f.includes('info')) {
+    return targetRoleOptions.filter(opt => 
+      ['sde', 'frontend', 'backend', 'fullstack', 'devops', 'cloud', 'security', 'qa', 'data_science', 'ml', 'product', 'data_analyst'].includes(opt.value)
+    );
+  }
+
+  // Management / Business
+  if (f.includes('manage') || f.includes('business') || f.includes('mba') || f.includes('bba')) {
+    return targetRoleOptions.filter(opt => 
+      ['product', 'business_analyst', 'marketing', 'ops_manager', 'consultant', 'hr_specialist', 'data_analyst'].includes(opt.value)
+    );
+  }
+
+  // Mechanical
+  if (f.includes('mechanical') || f.includes('automobile')) {
+    return targetRoleOptions.filter(opt => 
+      ['mechanical_design', 'automobile', 'iot_dev', 'control_systems'].includes(opt.value)
+    );
+  }
+
+  // Default: Return all
+  return targetRoleOptions;
+};
 
 export const placementTimelineOptions: DropdownOption[] = [
   { value: '1', label: 'Within 1 month', color: 'from-red-500 to-rose-500' },

@@ -35,7 +35,7 @@ export const securityConfig = {
       minSpecialChars: 1,
       noSpaces: true,
       noCommonWords: true,
-      noUserInfo: true,             // Prevent password containing email/name
+      noUserInfo: false,             // Allowed for better user flexibility
     },
   },
 

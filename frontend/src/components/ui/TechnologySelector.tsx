@@ -254,7 +254,7 @@ export const TechnologySelector = ({ value, onChange, error }: TechnologySelecto
             onChange={handleInputChange}
             onFocus={() => setIsOpen(true)}
             onKeyDown={handleKeyDown}
-            placeholder={selectedTechnologies.length === 0 ? "Search technologies..." : "Add more..."}
+            placeholder={selectedTechnologies.length === 0 ? "Search your skills..." : "Add more skills..."}
             className="flex-1 min-w-[120px] bg-transparent text-white placeholder-gray-500 focus:outline-none text-sm py-1"
           />
 
@@ -289,8 +289,8 @@ export const TechnologySelector = ({ value, onChange, error }: TechnologySelecto
                 <Search className="w-4 h-4 text-purple-400" />
                 <span className="text-sm text-gray-400">
                   {filteredTechnologies.length > 0 
-                    ? `${filteredTechnologies.length} technologies found`
-                    : 'Type to search technologies...'}
+                    ? `${filteredTechnologies.length} skills found`
+                    : 'Type to search your skills...'}
                 </span>
               </div>
 

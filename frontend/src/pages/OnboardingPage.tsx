@@ -10,7 +10,8 @@ import {
   targetRoleOptions,
   placementTimelineOptions,
   expectedCtcOptions,
-  getFieldsOfStudyByDegree
+  getFieldsOfStudyByDegree,
+  getTargetRolesByField
 } from '@/components/ui/SearchableDropdown';
 import { useAuthStore } from '@/store/authStore';
 import { uploadApi } from '@/api/auth';
@@ -454,7 +455,7 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
                         <SearchableDropdown
                          value={targetRole}
                          onChange={setTargetRole}
-                         options={targetRoleOptions}
+                         options={getTargetRolesByField(fieldOfStudy)}
                          placeholder="Select Target Role"
                          icon={Target}
                          searchable={true}

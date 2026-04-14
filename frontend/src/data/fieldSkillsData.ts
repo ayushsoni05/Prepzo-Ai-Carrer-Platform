@@ -9,7 +9,9 @@ export const fieldSkillsMap: Record<string, string[]> = {
     'Digital Electronics', 'Analog Circuits', 'Microprocessors', 'VLSI Design', 
     'Signal Processing', 'Control Systems', 'Embedded Systems', 'Electromagnetics',
     'Circuit Theory', 'Semiconductor Devices', 'Verilog/VHDL', 'PCB Design',
-    'Robotics', 'IoT (Internet of Things)', 'Communication Systems'
+    'Robotics', 'IoT (Internet of Things)', 'Communication Systems',
+    'FPGA Design', 'Microcontrollers (ATMEL, PIC, ARM)', 'Antenna Theory',
+    'Power Electronics', 'Micro-Electro-Mechanical Systems (MEMS)'
   ],
   'Mechanical': [
     'Thermodynamics', 'Fluid Mechanics', 'Strength of Materials', 'Machine Design', 
@@ -85,7 +87,10 @@ export const fieldSkillsMap: Record<string, string[]> = {
   'Non-Tech': [
     'Content Writing', 'Digital Marketing', 'Social Media Management', 'Customer Relationship Management',
     'Public Relations', 'Venture Capital', 'Event Management', 'Supply Chain Operations',
-    'Recruitment', 'Salesmanship', 'Logistics', 'Content Strategy'
+    'Recruitment', 'Salesmanship', 'Logistics', 'Content Strategy',
+    'Product Management', 'Strategy Consulting', 'Financial Analysis',
+    'Business Development', 'Operations Management', 'Market Research',
+    'Agile Methodologies', 'Scrum', 'Stakeholder Management'
   ]
 };
 
