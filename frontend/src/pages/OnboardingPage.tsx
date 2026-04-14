@@ -7,7 +7,6 @@ import {
   SearchableDropdown, 
   degreeOptions, 
   yearOfStudyOptions,
-  targetRoleOptions,
   placementTimelineOptions,
   expectedCtcOptions,
   getFieldsOfStudyByDegree,
