@@ -34,7 +34,7 @@
 
 ### AI Service
 - **Engine**: Python, FastAPI
-- **LLM Integration**: Ollama (Llama 3), Gemini Pro
+- **LLM Integration**: Groq Cloud (Llama 3.3-70b), Gemini 1.5 Pro, Ollama (Local fallback)
 - **Processing**: Specialized endpoints for assessment generation and career mentorship.
 
 ## 📂 Project Structure
@@ -43,7 +43,7 @@
 ├── frontend/          # React + Vite application
 ├── backend/           # Node.js + Express server
 ├── ai-service/        # FastAPI Python service for AI logic
-└── models/            # Shared database models and schemas
+└── .env               # Root environment configuration
 ```
 
 ## ⚙️ Getting Started
@@ -51,14 +51,15 @@
 ### Prerequisites
 - Node.js (v18+)
 - Python (v3.10+)
-- Ollama (for local AI model execution)
+- Groq API Key (Recommended for high-performance AI)
+- Ollama (Optional, for local AI model execution)
 
 ### Setup Instructions
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/prepzo.git
-   cd prepzo
+   git clone https://github.com/ayushsoni05/Prepzo-Ai-Carrer-Platform.git
+   cd Prepzo-Ai-Carrer-Platform
    ```
 
 2. **Backend Setup**
@@ -79,6 +80,7 @@
    ```bash
    cd ai-service
    pip install -r requirements.txt
+   # Ensure AI_PROVIDER=groq and GROQ_API_KEY is set in .env
    python -m uvicorn app.main:app --reload
    ```
 
