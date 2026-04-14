@@ -11,6 +11,7 @@ from contextlib import asynccontextmanager
 from loguru import logger  # pyre-ignore
 import sys
 import traceback
+import asyncio
 
 from app.config import get_settings, ensure_directories  # pyre-ignore
 from app.routers import (  # pyre-ignore
