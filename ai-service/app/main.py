@@ -59,57 +59,54 @@ async def lifespan(app: FastAPI):
     """Application lifespan manager - handles startup and shutdown"""
     global model_service, embedding_service, vector_store, database
     
-    logger.info("🚀 Prepzo AI Service: Initiating Cloud Startup Protocol...")
+    logger.info("🚀 Prepzo AI Service: Opening network ports immediately...")
     
-    try:
-        # 1. Ensure directories exist
-        ensure_directories()
-        
-        # 2. Initialize database connection (with short timeout)
-        logger.info("📦 Connecting to MongoDB Instance...")
-        database_inst = Database()
-        await asyncio.wait_for(database_inst.connect(), timeout=10.0)
-        database = database_inst
-        
-        # 3. Initialize embedding service
-        logger.info("🔤 Loading Semantic Embedding Model...")
-        embedding_inst = EmbeddingService()
-        await embedding_inst.initialize()
-        embedding_service = embedding_inst
-        
-        # 4. Initialize vector store
-        logger.info("🗄️ Loading Local FAISS Knowledge Bases...")
-        vector_inst = VectorStore(embedding_inst)
-        await vector_inst.initialize()
-        vector_store = vector_inst
-        
-        # 5. Initialize AI Model Provider
-        logger.info(f"🧠 Linking to AI Provider: {settings.ai_provider}...")
-        model_inst = ModelService()
-        await model_inst.initialize()
-        model_service = model_inst
-        
-        # Update central dependencies
-        dependencies.set_services(model_inst, embedding_inst, vector_inst, database_inst)
-        
-        # Attach to app state
-        app.state.model_service = model_inst
-        app.state.embedding_service = embedding_inst
-        app.state.vector_store = vector_inst
-        app.state.database = database_inst
-        
-        logger.info("✨ Startup Success! Port is now open for traffic.")
-        
-    except asyncio.TimeoutError:
-        logger.error("⏰ Startup Timed Out! Starting in degraded mode to keep port open.")
-    except Exception as e:
-        logger.error(f"⚠️ Critical Startup Bypass: {str(e)}")
-        logger.warning("   Service will attempt to stay alive to prevent deployment failure.")
-        
+    # 1. Basic Directory Setup (Fast)
+    ensure_directories()
+    
+    # 2. Start Services in the Background
+    # This ensures Render sees an open port in < 1 second.
+    async def initialize_background():
+        global model_service, embedding_service, vector_store, database
+        try:
+            logger.info("📦 [Background] Initiating connections...")
+            
+            # Database
+            database = Database()
+            await database.connect()
+            
+            # Embeddings (Heavy: 80MB-500MB)
+            embedding_service = EmbeddingService()
+            await embedding_service.initialize()
+            
+            # Vector Store
+            vector_store = VectorStore(embedding_service)
+            await vector_store.initialize()
+            
+            # Model Provider
+            model_service = ModelService()
+            await model_service.initialize()
+            
+            # Sync dependencies
+            dependencies.set_services(model_service, embedding_service, vector_store, database)
+            
+            # Re-attach to state
+            app.state.model_service = model_service
+            app.state.embedding_service = embedding_service
+            app.state.vector_store = vector_store
+            app.state.database = database
+            
+            logger.info("✨ [Background] All AI systems are now ONLINE.")
+        except Exception as e:
+            logger.error(f"❌ [Background] Critical init error: {e}")
+
+    # Fire and forget the background task
+    asyncio.create_task(initialize_background())
+    
+    # Port is now open!
+    logger.info("🌐 Web Server is now listening. AI loading in background...")
+    
     yield
-    
-    # Cleanup on shutdown
-    logger.info("🛑 Shutting down Prepzo AI Service...")
     
     # Cleanup on shutdown
     logger.info("🛑 Shutting down Prepzo AI Service...")
