@@ -34,6 +34,7 @@ import {
   ShieldAlert
 } from 'lucide-react';
 import { Boxes } from '@/components/ui/background-boxes';
+import { companiesApi, Company } from '@/api/companies';
 
 interface AdminPanelProps {
   onNavigate: (page: string) => void;
@@ -813,27 +814,7 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
         )}
 
         {activeTab === 'companies' && (
-          <div className="space-y-6 pointer-events-auto">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Company Management</h3>
-              <GlassButton variant="primary">
-                <Plus className="w-4 h-4 mr-2" />
-                Add Company
-              </GlassButton>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {['Google', 'Microsoft', 'Amazon', 'Meta', 'Apple', 'Netflix', 'Uber', 'Airbnb'].map((company, index) => (
-                <GlassCard key={index} delay={index * 0.1} className="text-center cursor-pointer">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center text-2xl font-bold">
-                    {company[0]}
-                  </div>
-                  <h4 className="font-semibold">{company}</h4>
-                  <p className="text-sm text-gray-400 mt-1">25 questions</p>
-                </GlassCard>
-              ))}
-            </div>
-          </div>
+          <AdminCompaniesTab />
         )}
 
         {activeTab === 'proctoring' && (
@@ -1139,3 +1120,453 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
     </div>
   );
 };
+
+// ============ Admin Companies Tab Component ============
+const INDUSTRY_OPTIONS = [
+  'Information Technology', 'Software Development', 'E-commerce',
+  'Finance & Banking', 'Consulting', 'Healthcare', 'Education',
+  'Manufacturing', 'Telecommunications', 'Media & Entertainment',
+  'Automotive', 'Aerospace', 'Energy', 'Retail', 'Hospitality', 'Real Estate', 'Other',
+];
+
+const COMPANY_TYPE_OPTIONS = ['Product', 'Service', 'Startup', 'MNC', 'Government', 'PSU', 'Other'];
+const COMPANY_SIZE_OPTIONS = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1001-5000', '5000+'];
+const HIRING_STATUS_OPTIONS = [
+  { value: 'actively_hiring', label: 'Actively Hiring', color: 'green' },
+  { value: 'occasionally_hiring', label: 'Occasionally Hiring', color: 'yellow' },
+  { value: 'not_hiring', label: 'Not Hiring', color: 'gray' },
+];
+
+const emptyCompanyForm = {
+  name: '',
+  description: '',
+  industry: 'Information Technology',
+  companyType: 'Other',
+  companySize: '51-200',
+  hiringStatus: 'actively_hiring' as 'actively_hiring' | 'occasionally_hiring' | 'not_hiring',
+  website: '',
+  headquarters: { city: '', state: '', country: 'India' } as { city: string; state?: string; country: string },
+  techStack: [] as string[],
+};
+
+function AdminCompaniesTab() {
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [form, setForm] = useState(emptyCompanyForm);
+  const [techInput, setTechInput] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
+
+  const fetchCompanies = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await companiesApi.getCompanies({
+        search: search || undefined,
+        page,
+        limit: 12,
+      });
+      if (res.success) {
+        setCompanies(res.data.companies);
+        setTotalPages(res.data.pagination.pages);
+        setTotal(res.data.pagination.total);
+      }
+    } catch {
+      toast.error('Failed to load companies');
+    } finally {
+      setLoading(false);
+    }
+  }, [search, page]);
+
+  useEffect(() => {
+    fetchCompanies();
+  }, [fetchCompanies]);
+
+  // Search debounce
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setPage(1);
+      fetchCompanies();
+    }, 400);
+    return () => clearTimeout(t);
+  }, [search]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const openAddModal = () => {
+    setForm(emptyCompanyForm);
+    setEditingId(null);
+    setTechInput('');
+    setShowModal(true);
+  };
+
+  const openEditModal = (c: Company) => {
+    setForm({
+      name: c.name || '',
+      description: c.description || '',
+      industry: c.industry || 'Information Technology',
+      companyType: c.companyType || 'Other',
+      companySize: c.companySize || '51-200',
+      hiringStatus: (c.hiringStatus || 'actively_hiring') as 'actively_hiring' | 'occasionally_hiring' | 'not_hiring',
+      website: c.website || '',
+      headquarters: (c.headquarters || { city: '', state: '', country: 'India' }) as { city: string; state?: string; country: string },
+      techStack: c.techStack || [],
+    });
+    setEditingId(c._id);
+    setTechInput('');
+    setShowModal(true);
+  };
+
+  const handleSave = async () => {
+    if (!form.name.trim()) {
+      toast.error('Company name is required');
+      return;
+    }
+    if (!form.industry) {
+      toast.error('Industry is required');
+      return;
+    }
+    setSaving(true);
+    try {
+      if (editingId) {
+        await companiesApi.updateCompany(editingId, form as unknown as Partial<Company>);
+        toast.success('Company updated!');
+      } else {
+        await companiesApi.createCompany(form as unknown as Partial<Company>);
+        toast.success('Company added!');
+      }
+      setShowModal(false);
+      fetchCompanies();
+    } catch {
+      toast.error(editingId ? 'Failed to update company' : 'Failed to add company');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async (id: string, name: string) => {
+    if (!confirm(`Delete "${name}"? This will also delete all related jobs.`)) return;
+    try {
+      await companiesApi.deleteCompany(id);
+      toast.success('Company deleted');
+      fetchCompanies();
+    } catch {
+      toast.error('Failed to delete company');
+    }
+  };
+
+  const addTech = () => {
+    const t = techInput.trim();
+    if (t && !form.techStack.includes(t)) {
+      setForm({ ...form, techStack: [...form.techStack, t] });
+    }
+    setTechInput('');
+  };
+
+  const removeTech = (tech: string) => {
+    setForm({ ...form, techStack: form.techStack.filter((t) => t !== tech) });
+  };
+
+  const hiringBadge = (status: string) => {
+    const opt = HIRING_STATUS_OPTIONS.find((o) => o.value === status);
+    if (!opt) return null;
+    const cls =
+      opt.color === 'green' ? 'bg-green-500/20 text-green-400' :
+      opt.color === 'yellow' ? 'bg-yellow-500/20 text-yellow-400' :
+      'bg-gray-500/20 text-gray-400';
+    return <span className={`px-2 py-1 rounded-full text-xs ${cls}`}>{opt.label}</span>;
+  };
+
+  return (
+    <div className="space-y-6 pointer-events-auto">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h3 className="text-lg font-semibold">Company Management</h3>
+          <p className="text-sm text-gray-400">{total} companies total</p>
+        </div>
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <div className="relative flex-1 sm:flex-initial">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <input
+              type="text"
+              placeholder="Search companies..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full sm:w-56 pl-10 pr-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+            />
+          </div>
+          <GlassButton variant="secondary" size="sm" onClick={fetchCompanies}>
+            <RefreshCw className="w-4 h-4" />
+          </GlassButton>
+          <GlassButton variant="primary" onClick={openAddModal}>
+            <Plus className="w-4 h-4 mr-2" />
+            Add Company
+          </GlassButton>
+        </div>
+      </div>
+
+      {/* Companies Grid */}
+      {loading ? (
+        <div className="flex justify-center py-12">
+          <RefreshCw className="w-8 h-8 animate-spin text-purple-400" />
+        </div>
+      ) : companies.length === 0 ? (
+        <GlassCard>
+          <div className="text-center py-12">
+            <Building2 className="w-12 h-12 text-gray-500 mx-auto mb-3" />
+            <p className="text-gray-400">No companies found</p>
+            <GlassButton variant="primary" className="mt-4" onClick={openAddModal}>
+              <Plus className="w-4 h-4 mr-2" /> Add First Company
+            </GlassButton>
+          </div>
+        </GlassCard>
+      ) : (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {companies.map((c, idx) => (
+            <motion.div
+              key={c._id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.03 }}
+            >
+              <GlassCard className="relative group">
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center text-xl font-bold flex-shrink-0">
+                    {c.logo ? (
+                      <img src={c.logo} alt={c.name} className="w-full h-full object-cover rounded-xl" />
+                    ) : (
+                      c.name?.[0] || '?'
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-semibold text-white truncate">{c.name}</h4>
+                    <p className="text-xs text-gray-400">{c.industry} • {c.companySize || 'N/A'}</p>
+                  </div>
+                  {hiringBadge(c.hiringStatus)}
+                </div>
+
+                {c.description && (
+                  <p className="text-sm text-gray-400 line-clamp-2 mb-3">{c.description}</p>
+                )}
+
+                {c.website && (
+                  <a
+                    href={c.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-purple-400 hover:text-purple-300 truncate block mb-3"
+                  >
+                    {c.website}
+                  </a>
+                )}
+
+                {c.techStack && c.techStack.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {c.techStack.slice(0, 4).map((t, i) => (
+                      <span key={i} className="px-2 py-0.5 bg-white/5 text-gray-400 text-xs rounded">{t}</span>
+                    ))}
+                    {c.techStack.length > 4 && (
+                      <span className="text-xs text-gray-500">+{c.techStack.length - 4}</span>
+                    )}
+                  </div>
+                )}
+
+                <div className="flex gap-2 pt-3 border-t border-white/5">
+                  <GlassButton variant="ghost" size="sm" className="flex-1" onClick={() => openEditModal(c)}>
+                    Edit
+                  </GlassButton>
+                  <GlassButton
+                    variant="ghost"
+                    size="sm"
+                    className="text-red-400 hover:bg-red-500/10"
+                    onClick={() => handleDelete(c._id, c.name)}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </GlassButton>
+                </div>
+              </GlassCard>
+            </motion.div>
+          ))}
+        </div>
+      )}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-3">
+          <GlassButton variant="ghost" size="sm" disabled={page === 1} onClick={() => setPage(p => p - 1)}>
+            <ChevronLeft className="w-4 h-4" />
+          </GlassButton>
+          <span className="text-sm text-gray-400">Page {page} of {totalPages}</span>
+          <GlassButton variant="ghost" size="sm" disabled={page === totalPages} onClick={() => setPage(p => p + 1)}>
+            <ChevronRight className="w-4 h-4" />
+          </GlassButton>
+        </div>
+      )}
+
+      {/* Add/Edit Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setShowModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-slate-900 border border-white/10 rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold">{editingId ? 'Edit Company' : 'Add New Company'}</h3>
+                <button onClick={() => setShowModal(false)} className="p-2 hover:bg-white/10 rounded-lg">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                {/* Company Name */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Company Name *</label>
+                  <input
+                    type="text"
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    placeholder="e.g. Google, TCS, Flipkart"
+                    className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                  />
+                </div>
+
+                {/* Description */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
+                  <textarea
+                    value={form.description}
+                    onChange={(e) => setForm({ ...form, description: e.target.value })}
+                    placeholder="Brief description about the company..."
+                    rows={3}
+                    className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-none"
+                  />
+                </div>
+
+                {/* Website / Apply Link */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Website / Apply Link</label>
+                  <input
+                    type="url"
+                    value={form.website}
+                    onChange={(e) => setForm({ ...form, website: e.target.value })}
+                    placeholder="https://careers.google.com"
+                    className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                  />
+                </div>
+
+                {/* Row: Industry + Company Type */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-1">Industry *</label>
+                    <select
+                      value={form.industry}
+                      onChange={(e) => setForm({ ...form, industry: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
+                    >
+                      {INDUSTRY_OPTIONS.map((i) => <option key={i} value={i}>{i}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-1">Company Type</label>
+                    <select
+                      value={form.companyType}
+                      onChange={(e) => setForm({ ...form, companyType: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
+                    >
+                      {COMPANY_TYPE_OPTIONS.map((t) => <option key={t} value={t}>{t}</option>)}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Row: Hiring Status + Company Size */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-1">Hiring Status</label>
+                    <select
+                      value={form.hiringStatus}
+                      onChange={(e) => setForm({ ...form, hiringStatus: e.target.value as 'actively_hiring' | 'occasionally_hiring' | 'not_hiring' })}
+                      className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
+                    >
+                      {HIRING_STATUS_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-1">Company Size</label>
+                    <select
+                      value={form.companySize}
+                      onChange={(e) => setForm({ ...form, companySize: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
+                    >
+                      {COMPANY_SIZE_OPTIONS.map((s) => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Headquarters City */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Headquarters City</label>
+                  <input
+                    type="text"
+                    value={form.headquarters.city}
+                    onChange={(e) => setForm({ ...form, headquarters: { ...form.headquarters, city: e.target.value } })}
+                    placeholder="e.g. Bangalore, Mumbai, Hyderabad"
+                    className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                  />
+                </div>
+
+                {/* Tech Stack */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Tech Stack</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={techInput}
+                      onChange={(e) => setTechInput(e.target.value)}
+                      onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addTech(); } }}
+                      placeholder="Type and press Enter"
+                      className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                    />
+                    <GlassButton variant="secondary" size="sm" onClick={addTech}>Add</GlassButton>
+                  </div>
+                  {form.techStack.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {form.techStack.map((t) => (
+                        <span key={t} className="px-2 py-1 bg-purple-500/20 text-purple-400 text-xs rounded-full flex items-center gap-1">
+                          {t}
+                          <button onClick={() => removeTech(t)} className="hover:text-red-400">×</button>
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Actions */}
+                <div className="flex gap-3 pt-4 border-t border-white/10">
+                  <GlassButton variant="secondary" className="flex-1" onClick={() => setShowModal(false)}>
+                    Cancel
+                  </GlassButton>
+                  <GlassButton variant="primary" className="flex-1" onClick={handleSave} disabled={saving}>
+                    {saving ? 'Saving...' : editingId ? 'Update Company' : 'Add Company'}
+                  </GlassButton>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}

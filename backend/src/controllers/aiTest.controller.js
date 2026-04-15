@@ -27,6 +27,7 @@ export const generateFieldTest = async (req, res, next) => {
       name: user.fullName || 'Student',
       degree: user.degree,
       stream: user.fieldOfStudy || 'Computer Science',
+      fieldOfStudy: user.fieldOfStudy || 'Computer Science',
       year: user.yearOfStudy || 'Final Year',
       targetRole: user.targetRole || 'Software Engineer',
       knownTechnologies: user.knownTechnologies || [],
@@ -89,6 +90,7 @@ export const generateSkillTest = async (req, res, next) => {
       name: user.fullName || 'Student',
       degree: user.degree,
       stream: user.fieldOfStudy || 'Computer Science',
+      fieldOfStudy: user.fieldOfStudy || 'Computer Science',
       targetRole: user.targetRole || 'Software Engineer',
     };
 
@@ -140,6 +142,7 @@ export const generateAITest = async (req, res, next) => {
       name: user.fullName || user.name || 'Student',
       degree: user.degree,
       stream: user.fieldOfStudy || user.stream || 'Computer Science',
+      fieldOfStudy: user.fieldOfStudy || user.stream || 'Computer Science',
       year: user.yearOfStudy || user.year || 'Final Year',
       targetRole: testConfig?.targetRole || user.targetRole || 'Software Engineer',
       knownTechnologies: user.knownTechnologies || user.skills || [],
@@ -250,6 +253,7 @@ export const generateCompanyTest = async (req, res, next) => {
       name: user.fullName || user.name || 'Student',
       degree: user.degree,
       stream: user.fieldOfStudy || user.stream || 'Computer Science',
+      fieldOfStudy: user.fieldOfStudy || user.stream || 'Computer Science',
       year: user.yearOfStudy || user.year || 'Final Year',
       targetRole: testConfig?.targetRole || user.targetRole || 'Software Engineer',
       knownTechnologies: user.knownTechnologies || user.skills || [],

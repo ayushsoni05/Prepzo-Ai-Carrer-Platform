@@ -199,8 +199,8 @@ class QuestionGenerator:
         raw = f"{profile.get('id', '')}-{datetime.utcnow().isoformat()}-{random.random()}"
         return hashlib.md5(raw.encode()).hexdigest()
 
-    def _stream_category(self, stream: str) -> str:
-        s = (stream or "").lower()
+    def _stream_category(self, profile: Dict[str, Any]) -> str:
+        s = (profile.get("fieldOfStudy") or profile.get("stream") or "").lower()
         if any(k in s for k in ["mechanical", "mech"]):
             return "mechanical"
         if any(k in s for k in ["electrical", "ece", "eee", "electronics"]):
@@ -853,7 +853,7 @@ Respond with ONLY this JSON:
             f"seed={seed8} | role={student_profile.get('targetRole')}"
         )
 
-        stream_cat = self._stream_category(student_profile.get("stream", ""))
+        stream_cat = self._stream_category(student_profile)
         company = (cfg.get("company") or "").lower().strip()
         company_pattern = self.COMPANY_PATTERNS.get(company)
 
@@ -998,7 +998,7 @@ Respond with ONLY this JSON:
         answered_ids: List[str],
     ) -> Dict[str, Any]:
         difficulty = await self.adjust_difficulty(performance, performance.get("currentDifficulty", "medium"))
-        stream_cat = self._stream_category(student_profile.get("stream", ""))
+        stream_cat = self._stream_category(student_profile)
         profile = student_profile or {}
         topics = self._pick_topics(stream_cat, section, profile)
         seed = self._unique_seed(student_profile)
@@ -1037,8 +1037,7 @@ Respond with ONLY this JSON:
         Covers core topics of the field from Easy to Hard.
         Focuses on interview and placement readiness.
         """
-        stream = student_profile.get("stream", "Computer Science")
-        stream_cat = self._stream_category(stream)
+        stream_cat = self._stream_category(student_profile)
         
         # Get sections for this stream
         sections_dict = self.STREAM_SECTIONS.get(stream_cat, self.STREAM_SECTIONS["computer_science"])
@@ -1079,13 +1078,13 @@ Respond with ONLY this JSON:
             
         return {
             "testId": f"field_{seed[:8]}",
-            "title": f"Stage 1: {stream} Core Assessment",
+            "title": f"Stage 1 Core Assessment",
             "description": "Comprehensive field-based assessment covering core concepts and placement topics.",
             "totalQuestions": total_q,
             "sections": final_sections,
             "metadata": {
                 "stage": 1,
-                "field": stream,
+                "field": stream_cat,
                 "generatedAt": datetime.utcnow().isoformat()
             }
         }
@@ -1101,7 +1100,7 @@ Respond with ONLY this JSON:
         Purely AI generated from selected student skills.
         """
         seed = self._unique_seed(student_profile)
-        stream_cat = self._stream_category(student_profile.get("stream", ""))
+        stream_cat = self._stream_category(student_profile)
         
         # Adaptive difficulty for Stage 2 - starts medium/hard
         dist = {"easy": 0.10, "medium": 0.40, "hard": 0.40, "advanced": 0.10}

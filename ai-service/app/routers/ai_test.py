@@ -20,6 +20,7 @@ class StudentProfile(BaseModel):
     name: str
     degree: Optional[str] = None
     stream: Optional[str] = None
+    fieldOfStudy: Optional[str] = None
     year: Optional[str] = None
     targetRole: str = "Software Engineer"
     knownTechnologies: List[str] = []

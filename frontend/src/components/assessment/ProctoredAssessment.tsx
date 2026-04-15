@@ -145,7 +145,7 @@ function buildTestConfig(user: any) {
 // Import React hooks and AnswerReviewPanel
 import { useState, useEffect, useRef, useCallback } from 'react';
 import AnswerReviewPanel from '@/components/assessment/AnswerReviewPanel';
-import { FALLBACK_SECTIONS } from '@/data/fallbackQuestions';
+import { getFallbackByField } from '@/data/fallbackQuestions';
 import { useProctoring } from '@/hooks/useProctoring';
 import { motion } from 'framer-motion';
 // import toast from 'react-hot-toast'; (duplicate removed)
@@ -551,20 +551,18 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
       }
 
       // ─── Fallback: inject comprehensive question bank if sections are still empty ─────
-      console.log('[Assessment] Pre-fallback check:', { 
-        isApiMode, 
-        sectionCount: sections?.length,
-        firstSectionQs: sections?.[0]?.questions?.length 
-      });
       const noQuestions = !sections || sections.length === 0 ||
         sections.every((s: any) => !Array.isArray(s.questions) || s.questions.length === 0);
       if (noQuestions) {
-        console.warn('[Assessment] No AI questions available — injecting fallback question bank (6 sections × 20 questions)');
-        toast('⚠️ AI service unavailable. Starting with 120 practice questions across 6 sections.', { icon: 'ℹ️' });
+        const fieldFallback = getFallbackByField(user?.fieldOfStudy || 'Computer Science');
+        console.warn(`[Assessment] No AI questions available — injecting fallback for ${user?.fieldOfStudy || 'Generic'}`);
+        toast(`⚠️ AI service unavailable. Starting with ${fieldFallback.length * 20} practice questions.`, { icon: 'ℹ️' });
+        
         isApiMode = false;
         testId = null;
         sessionId = `local_${Date.now()}`;
-        sections = FALLBACK_SECTIONS.map(fb => ({
+        
+        sections = fieldFallback.map(fb => ({
           section: {
             id: fb.id,
             name: fb.name,
