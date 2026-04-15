@@ -159,7 +159,7 @@ class QuestionGenerator:
     def __init__(self, model_service=None):
         self.model_service = model_service
         self._initialized = False
-        self._semaphore = asyncio.Semaphore(2)  # Limit concurrent LLM calls
+        self._semaphore = asyncio.Semaphore(5)  # Limit concurrent LLM calls
 
     async def _ensure_model(self):
         """Lazy initialise and inject model service from app state."""
@@ -1060,12 +1060,18 @@ Respond with ONLY this JSON:
                 stream_cat=stream_cat
             ))
             
-        all_sections_data = await asyncio.gather(*tasks)
+        all_sections_data = await asyncio.gather(*tasks, return_exceptions=True)
         
         final_sections = []
         total_q = 0
         for i, section_name in enumerate(sections_dict.keys()):
             qs = all_sections_data[i]
+            
+            # If a whole section failed, inject safety questions or log error
+            if isinstance(qs, Exception) or qs is None:
+                logger.error(f"Section generation failed for {section_name}: {qs}")
+                qs = self._get_safety_questions(section_name, 5, seed)
+            
             final_sections.append({
                 "sectionId": f"sec_{i}",
                 "name": section_name,

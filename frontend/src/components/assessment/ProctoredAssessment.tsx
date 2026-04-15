@@ -525,7 +525,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
           const resp = await api.post(
             endpoint,
             { ...aiTestConfig, testConfig: aiTestConfig }, // Send both for backward/forward compat
-            { headers: { Authorization: `Bearer ${token}` }, timeout: 600000 }
+            { timeout: 600000 }
           );
 
           toast.dismiss('ai-gen');

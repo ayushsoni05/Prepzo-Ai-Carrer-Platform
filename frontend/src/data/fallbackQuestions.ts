@@ -287,6 +287,29 @@ export const COMMERCE_FALLBACK_SECTIONS: FallbackSection[] = [
   { id: "law",        name: "Law",        icon: "⚖️", timeLimit: 25, questions: STRATEGY_QUESTIONS },
 ];
 
+/**
+ * Helper to scale a question list to exactly targetCount by repeating and shuffling.
+ * This ensures the user gets the requested volume (e.g. 20 questions) even in fallback.
+ */
+const scaleToCount = (questions: FallbackQuestion[], targetCount: number): FallbackQuestion[] => {
+  if (questions.length === 0) return [];
+  
+  const result: FallbackQuestion[] = [...questions];
+  let index = 0;
+  
+  while (result.length < targetCount) {
+    const q = questions[index % questions.length];
+    // Append with a unique ID to avoid React key issues
+    result.push({
+      ...q,
+      id: `${q.id}_v${Math.floor(result.length / questions.length)}` 
+    });
+    index++;
+  }
+  
+  return result.slice(0, targetCount);
+};
+
 export const IOT_FALLBACK_SECTIONS: FallbackSection[] = [
   { id: "aptitude",     name: "Aptitude",     icon: "🧮", timeLimit: 25, questions: APTITUDE_QUESTIONS },
   { id: "sensors",      name: "Sensors",      icon: "🌡️", timeLimit: 25, questions: CIRCUITS_QUESTIONS },
@@ -315,46 +338,53 @@ export const ARTS_FALLBACK_SECTIONS: FallbackSection[] = [
 // ────────────────────────────────────────────────────
 export const getFallbackByField = (field: string): FallbackSection[] => {
   const f = field.toLowerCase();
+  let baseSections: FallbackSection[] = [];
 
   // Computer Science / IT / CSE
   if (f.includes('computer') || f.includes('software') || f.includes('cse') || f.includes('it') || f.includes('info') || f.includes('bca') || f.includes('mca') || f.includes('csc')) {
-    return CS_FALLBACK_SECTIONS;
+    baseSections = CS_FALLBACK_SECTIONS;
   }
   // Electronics / Electrical
-  if (f.includes('electronics') || f.includes('electrical') || f.includes('ece') || f.includes('eee')) {
-    return ELECTRICAL_FALLBACK_SECTIONS;
+  else if (f.includes('electronics') || f.includes('electrical') || f.includes('ece') || f.includes('eee')) {
+    baseSections = ELECTRICAL_FALLBACK_SECTIONS;
   }
   // Mechanical
-  if (f.includes('mechanical') || f.includes('mech') || f.includes('automobile')) {
-    return MECHANICAL_FALLBACK_SECTIONS;
+  else if (f.includes('mechanical') || f.includes('mech') || f.includes('automobile')) {
+    baseSections = MECHANICAL_FALLBACK_SECTIONS;
   }
   // Civil
-  if (f.includes('civil')) {
-    return CIVIL_FALLBACK_SECTIONS;
+  else if (f.includes('civil')) {
+    baseSections = CIVIL_FALLBACK_SECTIONS;
   }
   // Management / MBA
-  if (f.includes('manage') || f.includes('mba') || f.includes('bba') || f.includes('pgdm') || f.includes('business')) {
-    return MANAGEMENT_FALLBACK_SECTIONS;
+  else if (f.includes('manage') || f.includes('mba') || f.includes('bba') || f.includes('pgdm') || f.includes('business')) {
+    baseSections = MANAGEMENT_FALLBACK_SECTIONS;
   }
   // Commerce
-  if (f.includes('commer') || f.includes('bcom') || f.includes('account') || f.includes('taxation') || f.includes('finan')) {
-    return COMMERCE_FALLBACK_SECTIONS;
+  else if (f.includes('commer') || f.includes('bcom') || f.includes('account') || f.includes('taxation') || f.includes('finan')) {
+    baseSections = COMMERCE_FALLBACK_SECTIONS;
   }
   // IoT / Robotics
-  if (f.includes('iot') || f.includes('robotics') || f.includes('mechatronics')) {
-    return IOT_FALLBACK_SECTIONS;
+  else if (f.includes('iot') || f.includes('robotics') || f.includes('mechatronics')) {
+    baseSections = IOT_FALLBACK_SECTIONS;
   }
   // Science
-  if (f.includes('bsc') || f.includes('msc') || f.includes('science') || f.includes('physics') || f.includes('chemistry') || f.includes('biology') || f.includes('math')) {
-    return SCIENCE_FALLBACK_SECTIONS;
+  else if (f.includes('bsc') || f.includes('msc') || f.includes('science') || f.includes('physics') || f.includes('chemistry') || f.includes('biology') || f.includes('math')) {
+    baseSections = SCIENCE_FALLBACK_SECTIONS;
   }
   // Arts / Humanities
-  if (f.includes('ba') || f.includes('ma') || f.includes('arts') || f.includes('humanities') || f.includes('sociology') || f.includes('psychology') || f.includes('history')) {
-    return ARTS_FALLBACK_SECTIONS;
+  else if (f.includes('ba') || f.includes('ma') || f.includes('arts') || f.includes('humanities') || f.includes('sociology') || f.includes('psychology') || f.includes('history')) {
+    baseSections = ARTS_FALLBACK_SECTIONS;
+  }
+  else {
+    baseSections = CS_FALLBACK_SECTIONS;
   }
 
-  // Default to CS
-  return CS_FALLBACK_SECTIONS;
+  // SCALE ALL SECTIONS TO 20 QUESTIONS
+  return baseSections.map(s => ({
+    ...s,
+    questions: scaleToCount(s.questions, 20)
+  }));
 };
 
 export default CS_FALLBACK_SECTIONS;
