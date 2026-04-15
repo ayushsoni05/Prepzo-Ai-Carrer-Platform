@@ -38,6 +38,9 @@ class TestConfig(BaseModel):
     adaptive: bool = True
     enableProctoring: bool = True
     targetRole: Optional[str] = None
+    testMode: Optional[str] = None
+    fieldOfStudy: Optional[str] = None
+    degree: Optional[str] = None
 
 
 class GenerateTestRequest(BaseModel):

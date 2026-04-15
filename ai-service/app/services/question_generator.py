@@ -890,17 +890,15 @@ Respond with ONLY this JSON:
                     seen.add(s.lower())
         
         sections = cfg.get("sections") or final_sections
-        if test_mode != "skills":
-            sections = sections[:5]
-            if "Aptitude" not in sections and len(sections) > 0:
-                sections.insert(0, "Aptitude")
-                sections = sections[:5]
+        # Ensure Aptitude is included if not already present
+        if test_mode != "skills" and "Aptitude" not in sections and len(sections) > 0:
+            sections.insert(0, "Aptitude")
 
         # Difficulty distribution based on CGPA and ratings if available
         # If CGPA > 8 or high skill ratings, increase Hard/Advanced percent
         dist = {"easy": 0.15, "medium": 0.40, "hard": 0.30, "advanced": 0.15}
         
-        num_q = max(3, min(int(num_q_raw) if num_q_raw is not None else 15, 25))
+        num_q = max(3, min(int(num_q_raw) if num_q_raw is not None else 20, 25))
         time_per_section = int(time_per_raw) if time_per_raw is not None else 1200   # 20 min default
 
         test_sections = []
@@ -1044,7 +1042,7 @@ Respond with ONLY this JSON:
         
         # Divide 60 questions across available sections (at least 60 total)
         num_sections = len(sections_dict)
-        q_per_section = (60 + num_sections - 1) // num_sections 
+        q_per_section = 20  # 20 questions per section
         
         seed = self._unique_seed(student_profile)
         

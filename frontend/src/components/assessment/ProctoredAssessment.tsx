@@ -38,27 +38,28 @@ interface Violation {
 function getSectionsByField(field: string): Section[] {
   const f = (field || '').toLowerCase();
   
-  // Computer Science / IT / Software
-  if (f.includes('computer') || f.includes('software') || f.includes('it') || f.includes('info') || f.includes('bca') || f.includes('mca')) {
+  // Computer Science / IT / Software / CSE
+  // Section names MUST match backend STREAM_SECTIONS keys exactly
+  if (f.includes('computer') || f.includes('software') || f.includes('cse') || f.includes('it') || f.includes('info') || f.includes('bca') || f.includes('mca') || f.includes('csc')) {
     return [
       { id: 'cs-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
-      { id: 'cs-dsa', name: 'Data Structures', icon: '🌳', timeLimit: 25, questions: [] },
+      { id: 'cs-dsa', name: 'DSA', icon: '🌳', timeLimit: 25, questions: [] },
       { id: 'cs-dbms', name: 'DBMS', icon: '🗄️', timeLimit: 25, questions: [] },
-      { id: 'cs-os', name: 'Operating Systems', icon: '⚙️', timeLimit: 25, questions: [] },
-      { id: 'cs-cn', name: 'Computer Networks', icon: '🌐', timeLimit: 25, questions: [] },
-      { id: 'cs-oops', name: 'OOPS & System Design', icon: '🔷', timeLimit: 25, questions: [] },
+      { id: 'cs-os', name: 'OS', icon: '⚙️', timeLimit: 25, questions: [] },
+      { id: 'cs-cn', name: 'CN', icon: '🌐', timeLimit: 25, questions: [] },
+      { id: 'cs-oops', name: 'OOPS', icon: '🔷', timeLimit: 25, questions: [] },
     ];
   }
 
-  // Electronics / ECE / EEE / Instrumentation
-  if (f.includes('electronics') || f.includes('ece') || f.includes('eee') || f.includes('instrumentation')) {
+  // Electronics / ECE / EEE / Instrumentation / Electrical
+  if (f.includes('electronics') || f.includes('electrical') || f.includes('ece') || f.includes('eee') || f.includes('instrumentation')) {
     return [
       { id: 'ece-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
-      { id: 'ece-digital', name: 'Digital Electronics', icon: '📟', timeLimit: 25, questions: [] },
-      { id: 'ece-embedded', name: 'Embedded Systems', icon: '🔌', timeLimit: 25, questions: [] },
-      { id: 'ece-signals', name: 'Signals & Systems', icon: '📉', timeLimit: 25, questions: [] },
-      { id: 'ece-vlsi', name: 'VLSI Design', icon: '🏗️', timeLimit: 25, questions: [] },
-      { id: 'ece-micro', name: 'Microprocessors', icon: '💾', timeLimit: 25, questions: [] },
+      { id: 'ece-circuits', name: 'Circuits', icon: '⚡', timeLimit: 25, questions: [] },
+      { id: 'ece-machines', name: 'Machines', icon: '📟', timeLimit: 25, questions: [] },
+      { id: 'ece-electronics', name: 'Electronics', icon: '🔌', timeLimit: 25, questions: [] },
+      { id: 'ece-embedded', name: 'Embedded', icon: '💾', timeLimit: 25, questions: [] },
+      { id: 'ece-signals', name: 'Signals', icon: '📉', timeLimit: 25, questions: [] },
     ];
   }
 
@@ -67,10 +68,9 @@ function getSectionsByField(field: string): Section[] {
     return [
       { id: 'mech-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
       { id: 'mech-thermo', name: 'Thermodynamics', icon: '🔥', timeLimit: 25, questions: [] },
-      { id: 'mech-design', name: 'Machine Design', icon: '⚙️', timeLimit: 25, questions: [] },
-      { id: 'mech-som', name: 'Strength of Materials', icon: '🏗️', timeLimit: 25, questions: [] },
+      { id: 'mech-mechanics', name: 'Mechanics', icon: '⚙️', timeLimit: 25, questions: [] },
       { id: 'mech-manu', name: 'Manufacturing', icon: '🏭', timeLimit: 25, questions: [] },
-      { id: 'mech-auto', name: 'Automobile Engineering', icon: '🚗', timeLimit: 25, questions: [] },
+      { id: 'mech-design', name: 'Design', icon: '🏗️', timeLimit: 25, questions: [] },
     ];
   }
 
@@ -78,46 +78,76 @@ function getSectionsByField(field: string): Section[] {
   if (f.includes('civil')) {
     return [
       { id: 'civil-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
-      { id: 'civil-struct', name: 'Structural Analysis', icon: '🏗️', timeLimit: 25, questions: [] },
+      { id: 'civil-struct', name: 'Structures', icon: '🏗️', timeLimit: 25, questions: [] },
+      { id: 'civil-geotech', name: 'Geotechnical', icon: '🌍', timeLimit: 25, questions: [] },
+      { id: 'civil-hydraulics', name: 'Hydraulics', icon: '💧', timeLimit: 25, questions: [] },
       { id: 'civil-survey', name: 'Surveying', icon: '🗺️', timeLimit: 25, questions: [] },
-      { id: 'civil-geotech', name: 'Geotechnical Engineering', icon: '🌍', timeLimit: 25, questions: [] },
-      { id: 'civil-trans', name: 'Transportation', icon: '🛣️', timeLimit: 25, questions: [] },
-      { id: 'civil-water', name: 'Hydraulics & Water Resources', icon: '💧', timeLimit: 25, questions: [] },
     ];
   }
 
-  // Management / Commerce / Business
-  if (f.includes('manage') || f.includes('business') || f.includes('mba') || f.includes('commer') || f.includes('finan') || f.includes('account')) {
+  // Management / MBA / BBA / PGDM
+  if (f.includes('manage') || f.includes('business') || f.includes('mba') || f.includes('bba') || f.includes('pgdm')) {
     return [
-      { id: 'mgmt-aptitude', name: 'Quant & Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
-      { id: 'mgmt-marketing', name: 'Marketing Management', icon: '🎨', timeLimit: 25, questions: [] },
-      { id: 'mgmt-finance', name: 'Financial Accounting', icon: '💰', timeLimit: 25, questions: [] },
-      { id: 'mgmt-hr', name: 'Human Resources', icon: '👥', timeLimit: 25, questions: [] },
-      { id: 'mgmt-ops', name: 'Operations & SCM', icon: '📦', timeLimit: 25, questions: [] },
-      { id: 'mgmt-strategy', name: 'Business Strategy', icon: '♟️', timeLimit: 25, questions: [] },
+      { id: 'mgmt-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
+      { id: 'mgmt-marketing', name: 'Marketing', icon: '🎨', timeLimit: 25, questions: [] },
+      { id: 'mgmt-finance', name: 'Finance', icon: '💰', timeLimit: 25, questions: [] },
+      { id: 'mgmt-hr', name: 'HR', icon: '👥', timeLimit: 25, questions: [] },
+      { id: 'mgmt-ops', name: 'Ops', icon: '📦', timeLimit: 25, questions: [] },
+      { id: 'mgmt-strategy', name: 'Strategy', icon: '♟️', timeLimit: 25, questions: [] },
     ];
   }
   
-  // IoT / Robotics
-  if (f.includes('iot') || f.includes('robotics') || f.includes('mechatronics')) {
+  // Commerce / Accounting
+  if (f.includes('commer') || f.includes('bcom') || f.includes('account') || f.includes('taxation') || f.includes('finan')) {
     return [
-      { id: 'iot-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
-      { id: 'iot-sensors', name: 'Sensors & Actuators', icon: '🌡️', timeLimit: 25, questions: [] },
-      { id: 'iot-connectivity', name: 'IoT Connectivity', icon: '📶', timeLimit: 25, questions: [] },
-      { id: 'iot-robotics', name: 'Robotics Control', icon: '🤖', timeLimit: 25, questions: [] },
-      { id: 'iot-embedded', name: 'Embedded Systems', icon: '🔌', timeLimit: 25, questions: [] },
-      { id: 'iot-cloud', name: 'IoT Cloud & Data', icon: '☁️', timeLimit: 25, questions: [] },
+      { id: 'com-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
+      { id: 'com-accounting', name: 'Accounting', icon: '📊', timeLimit: 25, questions: [] },
+      { id: 'com-taxation', name: 'Taxation', icon: '💰', timeLimit: 25, questions: [] },
+      { id: 'com-economics', name: 'Economics', icon: '📈', timeLimit: 25, questions: [] },
+      { id: 'com-law', name: 'Law', icon: '⚖️', timeLimit: 25, questions: [] },
     ];
   }
 
-  // Default Fallback (General Tech)
+  // IoT / Robotics / Mechatronics
+  if (f.includes('iot') || f.includes('robotics') || f.includes('mechatronics')) {
+    return [
+      { id: 'iot-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
+      { id: 'iot-sensors', name: 'Sensors', icon: '🌡️', timeLimit: 25, questions: [] },
+      { id: 'iot-connectivity', name: 'Connectivity', icon: '📶', timeLimit: 25, questions: [] },
+      { id: 'iot-protocols', name: 'Protocols', icon: '🔗', timeLimit: 25, questions: [] },
+      { id: 'iot-robotics', name: 'Robotics', icon: '🤖', timeLimit: 25, questions: [] },
+      { id: 'iot-security', name: 'Security', icon: '🔒', timeLimit: 25, questions: [] },
+    ];
+  }
+
+  // Science / BSc / MSc
+  if (f.includes('bsc') || f.includes('msc') || f.includes('science') || f.includes('physics') || f.includes('chemistry') || f.includes('biology') || f.includes('math')) {
+    return [
+      { id: 'sci-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
+      { id: 'sci-core', name: 'CoreScience', icon: '🔬', timeLimit: 25, questions: [] },
+      { id: 'sci-applied', name: 'AppliedScience', icon: '🧪', timeLimit: 25, questions: [] },
+      { id: 'sci-data', name: 'Data', icon: '📊', timeLimit: 25, questions: [] },
+    ];
+  }
+
+  // Arts / Humanities / BA / MA
+  if (f.includes('ba') || f.includes('ma') || f.includes('arts') || f.includes('humanities') || f.includes('sociology') || f.includes('psychology') || f.includes('history')) {
+    return [
+      { id: 'arts-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
+      { id: 'arts-humanities', name: 'Humanities', icon: '📖', timeLimit: 25, questions: [] },
+      { id: 'arts-expression', name: 'Expression', icon: '✍️', timeLimit: 25, questions: [] },
+      { id: 'arts-social', name: 'Social', icon: '🌍', timeLimit: 25, questions: [] },
+    ];
+  }
+
+  // Default Fallback (General Tech — matches backend 'computer_science')
   return [
     { id: 'gen-aptitude', name: 'Aptitude', icon: '🧮', timeLimit: 25, questions: [] },
-    { id: 'gen-tech', name: 'Technical Basics', icon: '💡', timeLimit: 25, questions: [] },
-    { id: 'gen-logic', name: 'Logical Reasoning', icon: '🧩', timeLimit: 25, questions: [] },
-    { id: 'gen-verbal', name: 'Verbal Ability', icon: '📝', timeLimit: 25, questions: [] },
-    { id: 'gen-data', name: 'Data Interpretation', icon: '📊', timeLimit: 25, questions: [] },
-    { id: 'gen-general', name: 'General Awareness', icon: '🌍', timeLimit: 25, questions: [] },
+    { id: 'gen-dsa', name: 'DSA', icon: '🌳', timeLimit: 25, questions: [] },
+    { id: 'gen-dbms', name: 'DBMS', icon: '🗄️', timeLimit: 25, questions: [] },
+    { id: 'gen-os', name: 'OS', icon: '⚙️', timeLimit: 25, questions: [] },
+    { id: 'gen-cn', name: 'CN', icon: '🌐', timeLimit: 25, questions: [] },
+    { id: 'gen-oops', name: 'OOPS', icon: '🔷', timeLimit: 25, questions: [] },
   ];
 }
 
@@ -125,10 +155,11 @@ function getSectionsByField(field: string): Section[] {
 function buildTestConfig(user: any) {
   const field = user?.fieldOfStudy || user?.stream || 'Computer Science';
   const defaultSections = getSectionsByField(field);
+  const sectionCount = defaultSections.length;
 
   return {
-    questionsPerSection: 20, // Increased to 20 as requested
-    totalTime: 120, // 20 min × 6 sections
+    questionsPerSection: 20, // 20 questions per section
+    totalTime: sectionCount * 25, // 25 min per section
     includeInterviewLevel: true,
     includeAssessmentLevel: true,
     targetRole: user?.targetRole || 'Software Engineer',
@@ -389,15 +420,30 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
   // Get icon for section
   const getSectionIcon = (sectionName: string): string => {
     const icons: Record<string, string> = {
-      'DBMS': '🗄️', 'CN': '🌐', 'OOPS': '🔷', 'SQL': '📊',
-      'Coding': '💻', 'DSA': '🌳', 'OS': '⚙️', 'Aptitude': '🧮',
-      'Logical': '🧩', 'Verbal': '📝', 'SystemDesign': '🏗️',
-      'WebDevelopment': '🌍', 'DevOps': '🚀', 'Security': '🔒',
-      'ML': '🤖', 'Cloud': '☁️',
+      // CS
+      'Aptitude': '🧮', 'DSA': '🌳', 'DBMS': '🗄️', 'OS': '⚙️', 'CN': '🌐', 'OOPS': '🔷',
+      'System Design': '🏗️', 'Coding': '💻', 'SQL': '📊',
+      // Electronics / Electrical
+      'Circuits': '⚡', 'Machines': '📟', 'Electronics': '🔌', 'Embedded': '💾', 'Signals': '📉',
+      // Mechanical
+      'Thermodynamics': '🔥', 'Mechanics': '⚙️', 'Manufacturing': '🏭', 'Design': '🏗️',
+      // Civil
+      'Structures': '🏗️', 'Geotechnical': '🌍', 'Hydraulics': '💧', 'Surveying': '🗺️',
+      // Management
+      'Marketing': '🎨', 'Finance': '💰', 'HR': '👥', 'Ops': '📦', 'Strategy': '♟️',
+      // Commerce
+      'Accounting': '📊', 'Taxation': '💰', 'Economics': '📈', 'Law': '⚖️',
+      // IoT
+      'Sensors': '🌡️', 'Connectivity': '📶', 'Protocols': '🔗', 'Robotics': '🤖', 'Security': '🔒',
+      // Science
+      'CoreScience': '🔬', 'AppliedScience': '🧪', 'Data': '📊',
+      // Arts
+      'Humanities': '📖', 'Expression': '✍️', 'Social': '🌍',
+      // General
+      'DevOps': '🚀', 'ML': '🤖', 'Cloud': '☁️', 'WebDevelopment': '🌍',
       // Full names
       'Operating Systems': '⚙️', 'Computer Networks': '🌐',
-      'Data Structures': '🌳', 'System Design': '🏗️',
-      'Technical Fundamentals': '💡', 'Data Structures & Algorithms': '🌳',
+      'Data Structures': '🌳', 'Technical Fundamentals': '💡', 'Data Structures & Algorithms': '🌳',
     };
     return icons[sectionName] || '📋';
   };
@@ -450,14 +496,16 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
           
           const aiTestConfig = {
             targetRole: user?.targetRole || 'Software Engineer',
-            // Stage 1 (Field) expects ~60 questions. Stage 2 (Skill) expects 10 per skill.
-            questionsPerSection: isFieldTest ? 10 : (isSkillTest ? 10 : 5), 
+            questionsPerSection: 20, // 20 questions per section for all modes
             testMode: testMode || 'combined',
             adaptive: true,
             enableProctoring: !skipProctoring,
             degree: user?.degree || testConfig.degree,
             fieldOfStudy: user?.fieldOfStudy,
             skillRatings: user?.skillRatings,
+            // Pass the exact section names displayed in Operational Modules
+            // so the AI generates questions matching what the user sees
+            sections: testConfig.sections.map((s: Section) => s.name),
             // For skill test, pass the selected skills
             skills: user?.knownTechnologies || [],
           };
