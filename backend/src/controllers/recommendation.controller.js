@@ -225,6 +225,7 @@ export const generateRecommendations = asyncHandler(async (req, res) => {
     const normalizedRecommendations = {
       analysisInsights: aiRecommendations.analysisInsights || aiRecommendations.analysis_insights || aiRecommendations.analysis || { strengths: [], primaryWeaknesses: [] },
       prioritySkillGaps: aiRecommendations.prioritySkillGaps || aiRecommendations.priority_skill_gaps || aiRecommendations.skill_gaps || [],
+      careerPaths: aiRecommendations.career_paths || aiRecommendations.careerPaths || [],
       recommendations: {
         courses: aiRecommendations.recommendations?.courses || [],
         youtube: aiRecommendations.recommendations?.youtube || [],
@@ -239,6 +240,7 @@ export const generateRecommendations = asyncHandler(async (req, res) => {
       careerAdvice: aiRecommendations.careerAdvice || aiRecommendations.career_advice || {},
       explanationSummary: aiRecommendations.explanationSummary || aiRecommendations.reasoning || aiRecommendations.explanation || ''
     };
+
 
     // Mark old recommendations as not latest
     await Recommendation.markOldAsNotLatest(userId).catch(err => console.error('Error marking old recommendations:', err));
@@ -713,7 +715,9 @@ export const regenerateRecommendations = asyncHandler(async (req, res) => {
     user: userId,
     analysisInsights: aiRecommendations.analysisInsights || {},
     prioritySkillGaps: aiRecommendations.prioritySkillGaps || [],
+    careerPaths: aiRecommendations.career_paths || aiRecommendations.careerPaths || [],
     recommendations: {
+
       courses: aiRecommendations.recommendations?.courses || [],
       youtube: aiRecommendations.recommendations?.youtube || [],
       certifications: aiRecommendations.recommendations?.certifications || [],

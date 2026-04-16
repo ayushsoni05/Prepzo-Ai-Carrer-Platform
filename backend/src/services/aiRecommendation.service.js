@@ -70,14 +70,14 @@ export const generateAIRecommendations = async (data) => {
     Student Profile: ${JSON.stringify(studentProfile)}
     Assessment Score: ${score}%
     Target Role: ${targetRole}
-    Section Performance: ${JSON.stringify(assessmentResults.sections || assessmentResults.sectionResults)}
+    Section Performance (Operational Modules): ${JSON.stringify(assessmentResults.sections || assessmentResults.sectionResults)}
     
     CRITICAL INSTRUCTIONS:
     1. ${isBeginnerCondition}
-    2. Each recommendation MUST include: title, platform/channel, type (Course/YouTube/Project), level, a brief "Why This?", and crucially the explicit "skill" attribute (the precise skill this targets).
-    3. Provide a structured "Success Roadmap" with at least 3-4 Phases and 8-12 weeks total. Ensure the roadmap is perfectly tailored to the 0-20% beginner or the advanced user.
-    4. Generate real, high-quality, recognizable platforms and courses (e.g., Coursera, Udemy, FreeCodeCamp, Youtube channels).
-    5. Pure AI involvement: Ensure every piece of reasoning, summary, and recommendation logic is distinct, intelligent, highly personalized, and mathematically aligned with their exact weaknesses.
+    2. Based on the "Section Performance" (Operational Modules), DO NOT just stick to the initial Target Role. Recommend 3 distinct career paths that fit this student's module scores.
+    3. Each recommendation MUST include: title, platform/channel, type (Course/YouTube/Project), level, a brief "Why This?", and crucially the explicit "skill" attribute.
+    4. Provide a structured "Success Roadmap" with at least 3-4 Phases and 8-12 weeks total.
+    5. Pure AI involvement: Ensure every piece of reasoning, summary, and recommendation logic is distinct and mathematically aligned with their exact weaknesses.
     
     RESPONSE FORMAT (JSON ONLY - DO NOT WRAP IN BACKTICKS):
     {
@@ -91,6 +91,9 @@ export const generateAIRecommendations = async (data) => {
         "strengths": ["skill1"],
         "primaryWeaknesses": ["skill1"]
       },
+      "career_paths": [
+        { "role": "Role Name", "fit_score": 95, "why_this_role": "Because you scored high in X and Y modules", "market_demand": "High", "salary_expectation": "$70k - $90k" }
+      ],
       "prioritySkillGaps": [
         { "skill": "...", "priority": "critical/important", "reasoning": "..." }
       ],
@@ -123,6 +126,7 @@ export const generateAIRecommendations = async (data) => {
       "confidenceScore": 0.98
     }
     `;
+
 
     try {
         const result = await model.generateContent(prompt);

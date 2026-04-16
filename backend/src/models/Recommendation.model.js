@@ -186,8 +186,12 @@ const recommendationSchema = new mongoose.Schema({
   // Career Advice
   careerAdvice: { type: mongoose.Schema.Types.Mixed, default: {} },
 
+  // Career Paths
+  careerPaths: [{ type: mongoose.Schema.Types.Mixed }],
+
   // Summary
   explanationSummary: { type: String },
+
 
   // Metadata
   metadata: {

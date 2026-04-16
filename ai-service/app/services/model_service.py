@@ -347,7 +347,8 @@ Provide evaluation as JSON:
         self,
         student_profile: Dict[str, Any],
         skill_gaps: List[str],
-        target_role: str
+        target_role: str,
+        assessment_results: Dict[str, Any] = {}
     ) -> Dict[str, Any]:
         """
         Generate highly personalized career advice that feels like it's from a real mentor
@@ -358,39 +359,58 @@ Provide evaluation as JSON:
         experience_level = student_profile.get('experience', student_profile.get('yearOfStudy', 'Fresher'))
         target_companies = student_profile.get('targetCompanies', student_profile.get('preferredCompanies', []))
         
+        # Extract operational module (section) performance
+        sections = assessment_results.get('sections', assessment_results.get('sectionResults', []))
+        module_performance = "\n".join([
+            f"- {s.get('name', s.get('section', 'Unknown'))}: {s.get('score', 0)}% ({s.get('correct', 0)}/{s.get('total', 0)} correct)"
+            for s in sections
+        ]) if sections else "No module-level data available"
+
         system_prompt = """You are a senior career mentor with 25+ years of experience hiring at top tech companies.
 Your advice must be HIGHLY SPECIFIC to this individual student. 
 Every piece of advice should reference their actual profile, skills, and goals.
 You are NOT giving generic advice - you are consulting for THIS specific person.
+Analyze their performance in each technical module (operational module) to suggest the best-fit career paths.
 Respond ONLY with valid JSON. No markdown, no explanations outside JSON."""
         
-        prompt = f"""Generate personalized career advice for this SPECIFIC student:
+        prompt = f"""Generate personalized career advice and alternative role recommendations for this SPECIFIC student:
 
 🎓 STUDENT PROFILE:
 - Name: {student_name}
-- Target Role: {target_role}
+- Initial Target Role: {target_role}
+- Field: {student_profile.get('fieldOfStudy', 'Not specified')}
 - Current Skills: {', '.join(known_skills[:10]) if known_skills else 'Not specified'}
 - Experience Level: {experience_level}
 - Target Companies: {', '.join(target_companies[:5]) if target_companies else 'Top tech companies'}
 - Education: {student_profile.get('education', student_profile.get('degree', 'Not specified'))}
-- Field: {student_profile.get('fieldOfStudy', 'Not specified')}
+
+📊 OPERATIONAL MODULE PERFORMANCE (ASSESSMENT):
+{module_performance}
 
 🔴 IDENTIFIED SKILL GAPS (CRITICAL):
 {', '.join(skill_gaps[:5]) if skill_gaps else 'To be analyzed from assessment'}
 
 📋 YOUR TASK:
-Generate a career advice JSON that feels like it was written by a mentor who spent hours analyzing {student_name}'s profile.
-
-Every field must be specific to {student_name} - NOT generic advice.
+Generate a career advice JSON that feels like it was written by a mentor who spent hours analyzing {student_name}'s profile and assessment performance.
+Do NOT just recommend the initial target role. Based on {student_name}'s strengths in specific modules, recommend 3 distinct career paths.
 
 Respond with JSON:
 {{
     "overall_readiness": <0-100 based on skills vs gaps>,
-    "personal_message": "A 2-3 sentence personalized message to {student_name} acknowledging their specific situation",
-    "priority_actions": [
-        {{"action": "SPECIFIC action for {student_name}", "timeline": "X days/weeks", "impact": "How this helps get closer to {target_role}", "details": "Step by step how to do this"}}
+    "personal_message": "A 2-3 sentence personalized message to {student_name} acknowledging their specific situation and assessment performance",
+    "career_paths": [
+        {{
+            "role": "Suggested Job Role (e.g. Frontend Engineer, Data Analyst, etc.)",
+            "fit_score": 0-100,
+            "why_this_role": "Personalized reason based on {student_name}'s module scores and skills",
+            "market_demand": "High/Medium/Low",
+            "salary_expectation": "Range based on entry level"
+        }}
     ],
-    "skill_development_order": ["skill1 - because {student_name} needs...", "skill2 - since their target is..."],
+    "priority_actions": [
+        {{"action": "SPECIFIC action for {student_name}", "timeline": "X days/weeks", "impact": "How this helps get closer to their goals", "details": "Step by step how to do this"}}
+    ],
+    "skill_development_order": ["skill1 - because {student_name} needs...", "skill2 - since their performance in {random_module} shows..."],
     "daily_routine": {{
         "recommended_hours": X,
         "morning": "What to do",
@@ -399,22 +419,23 @@ Respond with JSON:
         "weekend": "What to do"
     }},
     "interview_preparation_tips": [
-        {{"topic": "topic", "tip": "specific tip for {target_role} interviews", "resources": "specific resource"}}
+        {{"topic": "topic", "tip": "specific tip for {student_name} based on their weaknesses", "resources": "specific resource"}}
     ],
     "resume_suggestions": [
-        {{"issue": "what might be weak", "fix": "how to fix", "impact": "why it matters for {target_role}"}}
+        {{"issue": "what might be weak", "fix": "how to fix", "impact": "why it matters for their top recommended role"}}
     ],
     "confidence_boosters": ["encouragement specific to {student_name}'s journey"],
-    "common_mistakes_to_avoid": ["mistake specific to {target_role} aspirants"],
+    "common_mistakes_to_avoid": ["mistake specific to their career phase"],
     "timeline_to_job_ready": "X weeks/months with explanation",
     "target_company_strategy": {{
-        "companies": {target_companies[:3] if target_companies else ['target companies']},
+        "companies": {target_companies[:3] if target_companies else ['Top Tech Firms']},
         "approach": "How {student_name} should approach these companies",
         "when_to_apply": "Timing advice",
         "preparation_checklist": ["item1", "item2"]
     }},
     "next_steps_this_week": ["Very specific action for Monday", "action for midweek", "end of week milestone"]
 }}"""
+
         
         response = await self.generate(
             prompt=prompt,

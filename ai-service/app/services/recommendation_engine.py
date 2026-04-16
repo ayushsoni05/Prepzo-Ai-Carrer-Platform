@@ -260,8 +260,10 @@ class RecommendationEngine:
             career_advice_task = self.model_service.generate_career_advice(
                 student_profile,
                 [g['skill'] for g in prioritized_gaps[:5]],  # pyre-ignore
-                target_role
+                target_role,
+                assessment_results
             ) if self.model_service.has_model else asyncio.sleep(0, result={})
+
             
             # Using a safer wait with timeout
             results = await asyncio.gather(reasoning_task, career_advice_task, return_exceptions=True)
