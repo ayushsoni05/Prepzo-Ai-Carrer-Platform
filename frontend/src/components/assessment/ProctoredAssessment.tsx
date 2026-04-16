@@ -581,19 +581,27 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
         }
       } catch (apiError: any) {
         toast.dismiss('ai-gen');
-        const errMsg = apiError?.response?.data?.detail || apiError?.message || 'AI service unavailable';
+        const status = apiError?.response?.status;
+        const errMsg = apiError?.response?.data?.message || apiError?.response?.data?.detail || apiError?.message || 'AI service unavailable';
         
-        // Only show red error if it's not a handled empty-result case
+        console.error('[Assessment] AI generation failed:', { status, errMsg });
+
+        if (status === 401) {
+          toast.error('Session expired. Please logout and login again to proceed.', { duration: 6000 });
+          setTestState(prev => ({ ...prev, status: 'setup' }));
+          return;
+        }
+
+        if (status === 400 && errMsg.includes('Invalid input')) {
+          toast.error('Special characters detected in your profile. Please simplify your Career Goals.', { duration: 6000 });
+        }
+        
+        // Use local fallback bank if AI is unreachable
         if (!errMsg.includes('empty test')) {
-          console.error('[Assessment] AI generation failed:', errMsg);
-          if (
-            errMsg.toLowerCase().includes('ollama') ||
-            errMsg.toLowerCase().includes('model not available') ||
-            apiError?.response?.status === 503
-          ) {
-            toast.error('⚠️ AI model (Ollama) is not running. Please start Ollama then try again.', { duration: 8000 });
+          if (status === 503 || errMsg.toLowerCase().includes('ollama')) {
+            toast.error('⚠️ AI model is loading. Directing you to comprehensive practice bank...', { duration: 5000 });
           } else {
-            toast.error(`AI generation failed: ${String(errMsg).slice(0, 120)}`);
+            toast.error(`AI service struggle: ${String(errMsg).slice(0, 80)}. Using practice bank instead.`);
           }
         }
       }

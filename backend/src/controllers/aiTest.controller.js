@@ -22,16 +22,16 @@ export const generateFieldTest = async (req, res, next) => {
     const { testConfig } = req.body;
 
     const studentProfile = {
-      userId: user._id.toString(),
-      id: user._id.toString(),
-      name: user.fullName || 'Student',
-      degree: user.degree,
-      stream: user.fieldOfStudy || 'Computer Science',
-      fieldOfStudy: user.fieldOfStudy || 'Computer Science',
-      year: user.yearOfStudy || 'Final Year',
-      targetRole: user.targetRole || 'Software Engineer',
-      knownTechnologies: user.knownTechnologies || [],
-      careerGoals: user.careerGoals || '',
+      userId: user?._id?.toString() || 'unknown',
+      id: user?._id?.toString() || 'unknown',
+      name: user?.fullName || user?.name || 'Student',
+      degree: user?.degree || 'Bachelor of Technology',
+      stream: user?.fieldOfStudy || user?.stream || 'Computer Science',
+      fieldOfStudy: user?.fieldOfStudy || user?.stream || 'Computer Science',
+      year: user?.yearOfStudy || user?.year || 'Final Year',
+      targetRole: user?.targetRole || 'Software Engineer',
+      knownTechnologies: user?.knownTechnologies || user?.skills || [],
+      careerGoals: user?.careerGoals || 'Prepare for top tech placements',
     };
 
     console.log(`[aiTest] generateFieldTest start for user ${user._id}`);

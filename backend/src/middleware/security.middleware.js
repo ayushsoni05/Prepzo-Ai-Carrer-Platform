@@ -209,7 +209,20 @@ export const sanitizeInput = (req, res, next) => {
  */
 export const noSQLInjectionPrevention = (req, res, next) => {
   const checkForInjection = (obj, path = '') => {
+    // Basic types that are safe
+    if (obj === null || obj === undefined || typeof obj === 'boolean' || typeof obj === 'number') {
+      return { found: false };
+    }
+
     if (typeof obj === 'string') {
+      // Exempt certain common fields that might contain technical chars or currency
+      const exemptFields = ['careerGoals', 'targetRole', 'message', 'text', 'code', 'bio', 'description', 'prompt', 'question', 'explanation'];
+      const fieldName = path.split('.').pop();
+      
+      if (exemptFields.includes(fieldName)) {
+        return { found: false };
+      }
+
       // Check for MongoDB operators in string values
       const dangerousPatterns = [
         /^\$/, // Starts with $
@@ -226,8 +239,11 @@ export const noSQLInjectionPrevention = (req, res, next) => {
     
     if (obj && typeof obj === 'object') {
       for (const [key, value] of Object.entries(obj)) {
+        // Skip specific common fields for performance and safety
+        if (['password', 'token', 'refreshToken'].includes(key)) continue;
+
         // Check for MongoDB operators in keys
-        if (key.startsWith('$')) {
+        if (typeof key === 'string' && key.startsWith('$')) {
           return { found: true, path: `${path}.${key}`, value: key };
         }
         

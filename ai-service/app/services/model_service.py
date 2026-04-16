@@ -173,8 +173,16 @@ class ModelService:
                     generated_text = result.get("choices", [{}])[0].get("message", {}).get("content", "")
                     return self._clean_response(generated_text)
                 else:
-                    logger.error(f"Groq API error: {response.status_code}")
-                    return "Connecting to advanced intelligence streams..."
+                    error_detail = response.text
+                    logger.error(f"Groq API error: {response.status_code} - {error_detail}")
+                    if response.status_code == 401:
+                        raise RuntimeError("Groq API Key is invalid or expired. Please check Hugging Face Secrets.")
+                    elif response.status_code == 429:
+                        raise RuntimeError("Groq Rate Limit exceeded. Please try again in 1 minute.")
+                    elif response.status_code == 400:
+                        raise RuntimeError(f"Groq Bad Request (400): {error_detail[:100]}... Possibly invalid model or prompt.")
+                    raise RuntimeError(f"Groq API failed with status {response.status_code}")
+
             
             else:
                 # Ollama API call (Local)

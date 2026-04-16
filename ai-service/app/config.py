@@ -57,6 +57,15 @@ class Settings(BaseSettings):
     # Logging
     log_level: str = Field(default="INFO", env="LOG_LEVEL")
     log_file: str = Field(default="./logs/ai_service.log", env="LOG_FILE")
+
+    def __init__(self, **values):
+        super().__init__(**values)
+        # Clean critical string values
+        self.groq_api_key = str(self.groq_api_key).strip() if hasattr(self, 'groq_api_key') and self.groq_api_key else ""
+        self.groq_model = str(self.groq_model).strip() if hasattr(self, 'groq_model') and self.groq_model else "llama-3.3-70b-versatile"
+        self.ollama_url = str(self.ollama_url).strip().rstrip('/') if hasattr(self, 'ollama_url') and self.ollama_url else "http://localhost:11434"
+        self.ai_provider = str(self.ai_provider).strip().lower() if hasattr(self, 'ai_provider') and self.ai_provider else "ollama"
+
     
     # Security
     api_key: str = Field(default="", env="API_KEY")
