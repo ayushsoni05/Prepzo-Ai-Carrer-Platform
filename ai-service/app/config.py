@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     port: int = Field(default=8000, env="PORT")
     debug: bool = Field(default=False, env="DEBUG")
     workers: int = Field(default=1, env="WORKERS")
+    low_memory_mode: bool = Field(default=False, env="LOW_MEMORY_MODE")
     
     # AI Provider (ollama, groq, gemini)
     ai_provider: str = Field(default="ollama", env="AI_PROVIDER")

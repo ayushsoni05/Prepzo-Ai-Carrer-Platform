@@ -109,67 +109,67 @@ class Database:
         
         logger.info("📑 Database indexes ensured")
     
-    # Collection accessors
+    # Collection accessors with safety checks
     @property
     def embeddings(self):
-        return self.db.embeddings
+        return self.db.embeddings if self.db is not None else None
     
     @property
     def skill_vectors(self):
-        return self.db.skill_vectors
+        return self.db.skill_vectors if self.db is not None else None
     
     @property
     def interview_questions(self):
-        return self.db.interview_questions
+        return self.db.interview_questions if self.db is not None else None
     
     @property
     def courses(self):
-        return self.db.courses
+        return self.db.courses if self.db is not None else None
     
     @property
     def youtube_resources(self):
-        return self.db.youtube_resources
+        return self.db.youtube_resources if self.db is not None else None
     
     @property
     def certifications(self):
-        return self.db.certifications
+        return self.db.certifications if self.db is not None else None
     
     @property
     def recommendation_logs(self):
-        return self.db.recommendation_logs
+        return self.db.recommendation_logs if self.db is not None else None
     
     @property
     def resource_quality_scores(self):
-        return self.db.resource_quality_scores
+        return self.db.resource_quality_scores if self.db is not None else None
     
     @property
     def improvement_tracking(self):
-        return self.db.improvement_tracking
+        return self.db.improvement_tracking if self.db is not None else None
     
     @property
     def mentor_conversations(self):
-        return self.db.mentor_conversations
+        return self.db.mentor_conversations if self.db is not None else None
     
     @property
     def industry_trends(self):
-        return self.db.industry_trends
+        return self.db.industry_trends if self.db is not None else None
 
     @property
     def job_roles(self):
-        return self.db.job_roles
+        return self.db.job_roles if self.db is not None else None
 
     @property
     def study_notes(self):
-        return self.db.study_notes
+        return self.db.study_notes if self.db is not None else None
 
     @property
     def interview_prep(self):
-        return self.db.interview_prep
+        return self.db.interview_prep if self.db is not None else None
 
     @property
     def practice_problems(self):
-        return self.db.practice_problems
+        return self.db.practice_problems if self.db is not None else None
 
     @property
     def projects(self):
-        return self.db.projects
+        return self.db.projects if self.db is not None else None

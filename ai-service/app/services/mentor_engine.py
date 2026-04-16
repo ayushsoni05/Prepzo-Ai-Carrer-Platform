@@ -161,22 +161,24 @@ class MentorEngine:
         }
         
         # Get latest recommendation data
-        recent_rec = await self.db.recommendation_logs.find_one(
-            {"student_id": user_id},
-            sort=[("generated_at", -1)]
-        )
-        
-        if recent_rec:
-            context["weak_areas"] = recent_rec.get("gaps_identified", [])[:5]
-            context["strong_areas"] = recent_rec.get("strengths", [])[:3]
-            context["last_assessment_score"] = recent_rec.get("assessment_score", 0)
-            context["roadmap_progress"] = recent_rec.get("learning_path", {})
-            context["target_role"] = recent_rec.get("target_role", "Software Engineer")
+        if self.db and self.db.recommendation_logs is not None:
+            recent_rec = await self.db.recommendation_logs.find_one(
+                {"student_id": user_id},
+                sort=[("generated_at", -1)]
+            )
+            
+            if recent_rec:
+                context["weak_areas"] = recent_rec.get("gaps_identified", [])[:5]
+                context["strong_areas"] = recent_rec.get("strengths", [])[:3]
+                context["last_assessment_score"] = recent_rec.get("assessment_score", 0)
+                context["roadmap_progress"] = recent_rec.get("learning_path", {})
+                context["target_role"] = recent_rec.get("target_role", "Software Engineer")
         
         # Get improvement tracking history
-        improvements = await self.db.improvement_tracking.find(
-            {"user_id": user_id}
-        ).sort("recorded_at", -1).limit(10).to_list(10)
+        if self.db and self.db.improvement_tracking is not None:
+            improvements = await self.db.improvement_tracking.find(
+                {"user_id": user_id}
+            ).sort("recorded_at", -1).limit(10).to_list(10)
         
         if improvements:
             context["recent_progress"] = [
@@ -192,9 +194,12 @@ class MentorEngine:
                 context["learning_streak"] = len(improvements)
         
         # Get conversation history for personality insights
-        recent_convos = await self.db.mentor_conversations.find(
-            {"user_id": user_id}
-        ).sort("timestamp", -1).limit(20).to_list(20)
+        if self.db and self.db.mentor_conversations is not None:
+            recent_convos = await self.db.mentor_conversations.find(
+                {"user_id": user_id}
+            ).sort("timestamp", -1).limit(20).to_list(20)
+        else:
+            recent_convos = []
         
         if recent_convos:
             context["interaction_count"] = len(recent_convos)
@@ -226,6 +231,9 @@ class MentorEngine:
     ) -> List[Dict[str, str]]:
         """Load recent conversation history"""
         
+        if not self.db or self.db.mentor_conversations is None:
+            return []
+
         conversations = await self.db.mentor_conversations.find({
             "user_id": user_id,
             "session_id": session_id
@@ -582,7 +590,10 @@ You're making progress! Consistency is key - keep practicing daily and you'll se
         intent: str
     ):
         """Save conversation to database"""
-        
+        if not self.db or self.db.mentor_conversations is None:
+            logger.warning("⚠️ Skipping conversation save: Database disconnected.")
+            return
+
         await self.db.mentor_conversations.insert_one({
             "user_id": user_id,
             "session_id": session_id,

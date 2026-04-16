@@ -58,27 +58,38 @@ export const chat = asyncHandler(async (req, res) => {
   };
 
   // Call AI mentor
-  const response = await aiService.chatWithMentor(
-    userId,
-    activeSessionId,
-    message,
-    userContext
-  );
+  let response;
+  try {
+    response = await aiService.chatWithMentor(
+      userId,
+      activeSessionId,
+      message,
+      userContext
+    );
+  } catch (error) {
+    console.error('Mentor chat call failed:', error.message);
+    return res.status(200).json({
+      success: true,
+      sessionId: activeSessionId,
+      message: "I hit a temporary connection issue. Ask again in a moment and I'll pick it back up.",
+      status: 'error_fallback',
+      suggestions: ["Try again", "What happened?", "Tell me a joke"]
+    });
+  }
 
   // Extract message from nested response structure
-  // AI service returns: { success: true, response: { message: "...", session_id: "...", ... } }
   const aiResponse = response.response || response;
   const actualMessage = typeof aiResponse === 'string' 
     ? aiResponse 
-    : (aiResponse?.message || aiResponse?.response || 'I apologize, but I encountered an issue. Please try again.');
+    : (aiResponse?.message || aiResponse?.response || "I'm processing your request. Could you please rephrase that?");
 
   res.status(200).json({
     success: true,
     sessionId: aiResponse?.session_id || activeSessionId,
     message: actualMessage,
-    intent: aiResponse?.intent_detected || aiResponse?.intent || response.intent,
-    resources: aiResponse?.resources || response.resources || [],
-    suggestions: aiResponse?.suggestions || response.suggestions || []
+    intent: aiResponse?.intent_detected || aiResponse?.intent || response?.intent,
+    resources: aiResponse?.resources || response?.resources || [],
+    suggestions: aiResponse?.suggestions || response?.suggestions || []
   });
 });
 

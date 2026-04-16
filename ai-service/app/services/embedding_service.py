@@ -27,9 +27,10 @@ class EmbeddingService:
     
     async def initialize(self):
         """Initialize the embedding model"""
-        if self._initialized:
+        if self.settings.low_memory_mode:
+            logger.warning("🧊 [Low Memory Mode] Skipping SentenceTransformer model load to save RAM.")
             return
-        
+
         try:
             loop = asyncio.get_event_loop()
             self.model = await loop.run_in_executor(
