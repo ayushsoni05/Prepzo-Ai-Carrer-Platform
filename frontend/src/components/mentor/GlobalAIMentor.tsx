@@ -111,19 +111,34 @@ export function GlobalAIMentor() {
         learningGoals: user?.skillGaps || [],
       });
 
-      if (response.sessionId) {
-        setSessionId(response.sessionId);
+      if (response.status === 'warming_up') {
+        setMessages((current) => [
+          ...current,
+          {
+            id: `a-${Date.now()}`,
+            role: 'assistant',
+            content: response.message,
+            suggestions: response.suggestions,
+          },
+        ]);
+        return;
       }
 
-      setMessages((current) => [
-        ...current,
-        {
-          id: `a-${Date.now()}`,
-          role: 'assistant',
-          content: typeof response.message === 'string' ? response.message : 'I received a response in an unexpected format. Please try again.',
-          suggestions: response.suggestions,
-        },
-      ]);
+      if (response.success) {
+        if (response.sessionId) {
+          setSessionId(response.sessionId);
+        }
+
+        setMessages((current) => [
+          ...current,
+          {
+            id: `a-${Date.now()}`,
+            role: 'assistant',
+            content: typeof response.message === 'string' ? response.message : 'I received a response in an unexpected format.',
+            suggestions: response.suggestions,
+          },
+        ]);
+      }
     } catch {
       setMessages((current) => [
         ...current,

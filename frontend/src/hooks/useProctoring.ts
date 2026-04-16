@@ -547,24 +547,16 @@ export function useProctoring(callbacks?: ProctoringCallbacks) {
       if (video.paused && video.srcObject && video.isConnected && video.readyState >= 2) {
         // Use a small timeout to ensure the video element is fully ready
         delayedPlayTimeoutRef.current = setTimeout(() => {
-          if (video.paused && video.srcObject && video.isConnected) {
-            try {
-              const playPromise = video.play();
-              if (playPromise && typeof playPromise.catch === 'function') {
-                playPromise.catch((error: unknown) => {
-                  // Ignore benign play/pause race errors.
-                  if ((error as { name?: string })?.name !== 'AbortError') {
-                    console.debug('Video play warning:', error);
-                  }
-                });
+          // One final check before playing
+          if (video && video.paused && video.srcObject && video.isConnected && video.readyState >= 2) {
+            video.play().catch((error: any) => {
+              // Benign race condition where play() is interrupted by pause() or src change
+              if (error.name !== 'AbortError') {
+                console.warn('Video playback issue:', error);
               }
-            } catch (error) {
-              if ((error as { name?: string })?.name !== 'AbortError') {
-                console.debug('Video play warning:', error);
-              }
-            }
+            });
           }
-        }, 100);
+        }, 150);
       }
     }
   }, [state.webcamStream]);
