@@ -204,3 +204,8 @@ export const exportUsers = async (format: 'json' | 'csv' = 'json'): Promise<{ us
   });
   return response.data;
 };
+
+export const seedSystemData = async (): Promise<{ success: boolean; message: string; data: any }> => {
+  const response = await api.post('/admin/seed');
+  return response.data;
+};

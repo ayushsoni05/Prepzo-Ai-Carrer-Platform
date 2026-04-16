@@ -407,8 +407,30 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8 pointer-events-auto"
         >
-          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-          <p className="text-gray-400 mt-2">Manage users, tests, and platform settings</p>
+          <div className="flex items-center justify-between pointer-events-auto">
+            <div>
+              <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+              <p className="text-gray-400 mt-2">Manage users, tests, and platform settings</p>
+            </div>
+            <GlassButton 
+              variant="secondary" 
+              onClick={async () => {
+                const toastId = toast.loading('Seeding system data...');
+                try {
+                  const res = await adminApi.seedSystemData();
+                  if (res.success) {
+                    toast.success(res.message, { id: toastId });
+                    fetchStats();
+                  }
+                } catch (err: any) {
+                  toast.error(err.response?.data?.message || 'Seeding failed', { id: toastId });
+                }
+              }}
+            >
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Seed System Data
+            </GlassButton>
+          </div>
         </motion.div>
 
         {activeTab === 'dashboard' && (

@@ -21,9 +21,14 @@ export interface User {
   role: 'student' | 'admin' | 'superadmin';
   isOnboarded: boolean;
   isAssessmentComplete: boolean;
+  isFieldTestComplete: boolean;
+  isSkillTestComplete: boolean;
+  isAssessmentLocked?: boolean;
+  assessmentUnlockDate?: string;
   isEmailVerified?: boolean;
   placementReadinessScore: number;
   atsScore: number;
+
   skillGaps: string[];
   strengths: string[];
   weaknesses: string[];

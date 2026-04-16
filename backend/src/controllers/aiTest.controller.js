@@ -34,6 +34,17 @@ export const generateFieldTest = async (req, res, next) => {
       careerGoals: user?.careerGoals || 'Prepare for top tech placements',
     };
 
+    // Check if locked
+    if (user.isAssessmentLocked) {
+      return res.status(403).json({
+        success: false,
+        message: 'Assessment is locked. You can retake it after 3 days.',
+        unlockDate: user.assessmentUnlockDate,
+        lockedUntil: user.assessmentUnlockDate?.toLocaleString()
+      });
+    }
+
+
     console.log(`[aiTest] generateFieldTest start for user ${user._id}`);
     const result = await aiService.generateFieldTest(studentProfile, testConfig || {});
 
@@ -98,6 +109,17 @@ export const generateSkillTest = async (req, res, next) => {
       knownTechnologies: user.knownTechnologies || []
     };
 
+    // Check if locked
+    if (user.isAssessmentLocked) {
+      return res.status(403).json({
+        success: false,
+        message: 'Assessment is locked. You can retake it after 3 days.',
+        unlockDate: user.assessmentUnlockDate,
+        lockedUntil: user.assessmentUnlockDate?.toLocaleString()
+      });
+    }
+
+
 
     console.log(`[aiTest] generateSkillTest start for user ${user._id} for ${skills.length} skills`);
     const result = await aiService.generateSkillTest(studentProfile, skills, testConfig || {});
@@ -153,6 +175,16 @@ export const generateAITest = async (req, res, next) => {
       knownTechnologies: user.knownTechnologies || user.skills || [],
       careerGoals: user.careerGoals || `Become a ${user.targetRole || 'Software Engineer'} at a top company`,
     };
+    
+    // Check if locked
+    if (user.isAssessmentLocked) {
+      return res.status(403).json({
+        success: false,
+        message: 'Assessment is locked. You can retake it after 3 days.',
+        unlockDate: user.assessmentUnlockDate,
+        lockedUntil: user.assessmentUnlockDate?.toLocaleString()
+      });
+    }
 
     // Generate test using AI service (instrument timing for diagnostics)
     const start = Date.now();
@@ -264,6 +296,16 @@ export const generateCompanyTest = async (req, res, next) => {
       knownTechnologies: user.knownTechnologies || user.skills || [],
       careerGoals: user.careerGoals || `Become a ${user.targetRole || 'Software Engineer'} at a top company`,
     };
+
+    // Check if locked
+    if (user.isAssessmentLocked) {
+      return res.status(403).json({
+        success: false,
+        message: 'Assessment is locked. You can retake it after 3 days.',
+        unlockDate: user.assessmentUnlockDate,
+        lockedUntil: user.assessmentUnlockDate?.toLocaleString()
+      });
+    }
 
     // Generate company-specific test
     const result = await aiService.generateCompanyTest(studentProfile, company, testConfig || {});

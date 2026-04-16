@@ -623,7 +623,45 @@ export default function AICareerResults({ recommendations }: AICareerResultsProp
         {/* AI Analysis */}
         <AIAnalysisCard analysis={analysis} />
         
+        {/* Career Paths - NEW SECTION */}
+        {(recommendations as any).career_paths?.length > 0 && (
+          <div className="space-y-10">
+            <div className="flex items-center gap-4">
+              <h2 className="text-xl md:text-2xl  font-[900] text-white uppercase tracking-tight italic">Matching Career Profiles</h2>
+              <div className="h-[1px] flex-1 bg-white/5" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {(recommendations as any).career_paths.map((path: any, i: number) => (
+                <GlassCard key={i} className="rounded-[32px] p-8 bg-[#161a20]/60 border-white/5 relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
+                    <TrendingUp size={60} />
+                  </div>
+                  <div className="relative z-10">
+                    <div className="flex justify-between items-start mb-6">
+                      <span className="text-[9px]  font-black text-white/20 uppercase tracking-[0.3em]">Fit Score</span>
+                      <span className="text-2xl  font-[900] text-emerald-400 italic">{path.fit_score}%</span>
+                    </div>
+                    <h4 className="text-xl  font-[900] text-white uppercase tracking-tight mb-4 group-hover:text-blue-400 transition-colors">{path.role}</h4>
+                    <p className="text-[13px]  font-medium text-white/40 italic leading-relaxed mb-6">{path.why_this_role}</p>
+                    <div className="pt-6 border-t border-white/5 flex justify-between items-center">
+                      <div className="flex flex-col">
+                        <span className="text-[9px]  font-black text-white/20 uppercase tracking-widest">Market Demand</span>
+                        <span className="text-[11px]  font-bold text-white uppercase">{path.market_demand}</span>
+                      </div>
+                      <div className="flex flex-col text-right">
+                        <span className="text-[9px]  font-black text-white/20 uppercase tracking-widest">Est. Salary</span>
+                        <span className="text-[11px]  font-bold text-white uppercase">{path.salary_expectation}</span>
+                      </div>
+                    </div>
+                  </div>
+                </GlassCard>
+              ))}
+            </div>
+          </div>
+        )}
+        
         {/* Improvement Prediction */}
+
         <ImprovementPredictionCard prediction={improvementPrediction} />
         
         {/* 🚀 Dynamic Roadmap Section (Primary Growth Path) */}

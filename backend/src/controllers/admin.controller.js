@@ -1,5 +1,23 @@
 import User from '../models/User.model.js';
 import TestSession from '../models/TestSession.model.js';
+import { runSeeder } from '../utils/seeder.js';
+
+// @desc    Seed system data (Companies, Jobs)
+// @route   POST /api/admin/seed
+// @access  Private/Admin
+export const seedSystemData = async (req, res) => {
+  try {
+    const results = await runSeeder();
+    res.json({
+      success: true,
+      message: 'System data seeded successfully',
+      data: results
+    });
+  } catch (error) {
+    console.error('Seed system data error:', error);
+    res.status(500).json({ message: error.message || 'Server error' });
+  }
+};
 
 // @desc    Get admin dashboard statistics
 // @route   GET /api/admin/stats

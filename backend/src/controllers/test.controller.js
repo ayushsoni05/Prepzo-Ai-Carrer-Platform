@@ -22,6 +22,23 @@ export const startTestSession = async (req, res) => {
       isProctoringEnabled
     } = req.body;
 
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Check if assessment is locked (Stage 1 or Stage 2 check)
+    if (user.isAssessmentLocked) {
+      const unlockDate = user.assessmentUnlockDate;
+      return res.status(403).json({
+        success: false,
+        message: 'Assessment is locked. You can retake it after 3 days.',
+        unlockDate,
+        lockedUntil: unlockDate?.toLocaleString()
+      });
+    }
+
+
     const testSession = await TestSession.create({
       userId: req.user._id,
       testType: testType || 'field_based',
@@ -323,12 +340,29 @@ export const completeTest = async (req, res) => {
     const testResult = new TestResult(testResultData);
     await testResult.save();
 
-    // Update user's placement readiness score if this is their best score
+    // Update user's placement readiness score and completion flags
     const user = await User.findById(req.user._id);
-    if (user && (!user.placementReadinessScore || overallScore > user.placementReadinessScore)) {
-      user.placementReadinessScore = overallScore;
+    if (user) {
+      if (!user.placementReadinessScore || overallScore > user.placementReadinessScore) {
+        user.placementReadinessScore = overallScore;
+      }
+      
+      // Update specific completion flags
+      if (testSession.testType === 'field_based') {
+        user.isFieldTestComplete = true;
+      } else if (testSession.testType === 'skill_based') {
+        user.isSkillTestComplete = true;
+      }
+      
+      // Check if fully qualified
+      if (user.isFieldTestComplete && user.isSkillTestComplete) {
+        user.isAssessmentComplete = true;
+      }
+      
+      user.lastAssessmentAt = new Date();
       await user.save();
     }
+
 
     // Prepare response
     const responseData = {

@@ -145,6 +145,11 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  lastAssessmentAt: {
+    type: Date,
+    default: null,
+  },
+
 
   // Assessment Scores
   placementReadinessScore: {
@@ -656,9 +661,24 @@ userSchema.methods.verifyEmail = async function() {
   await this.save();
 };
 
+// Virtual for assessment locking
+userSchema.virtual('isAssessmentLocked').get(function() {
+  if (!this.lastAssessmentAt) return false;
+  const threeDaysInMs = 3 * 24 * 60 * 60 * 1000;
+  const timeSinceLast = Date.now() - this.lastAssessmentAt.getTime();
+  return timeSinceLast < threeDaysInMs;
+});
+
+// Virtual for assessment unlock date
+userSchema.virtual('assessmentUnlockDate').get(function() {
+  if (!this.lastAssessmentAt) return null;
+  const threeDaysInMs = 3 * 24 * 60 * 60 * 1000;
+  return new Date(this.lastAssessmentAt.getTime() + threeDaysInMs);
+});
+
 // Method to convert to JSON for frontend (excluding sensitive data)
 userSchema.methods.toJSON = function() {
-  const obj = this.toObject();
+  const obj = this.toObject({ virtuals: true });
   delete obj.password;
   delete obj.passwordHistory;
   delete obj.twoFactorSecret;
@@ -667,6 +687,7 @@ userSchema.methods.toJSON = function() {
   delete obj._id;
   return obj;
 };
+
 
 // Static: Find user with password for authentication
 userSchema.statics.findByEmailWithPassword = async function(email) {

@@ -11,6 +11,7 @@ import {
   getProctoringLogs,
   bulkUserAction,
   exportUsers,
+  seedSystemData,
 } from '../controllers/admin.controller.js';
 import { protect, admin } from '../middleware/auth.middleware.js';
 
@@ -22,6 +23,7 @@ router.use(admin);
 
 // Dashboard
 router.get('/stats', getDashboardStats);
+router.post('/seed', seedSystemData);
 
 // Users management
 router.get('/users', getAllUsers);

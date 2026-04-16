@@ -1173,32 +1173,61 @@ export function Dashboard({ onNavigate }: DashboardProps) {
       );
     }
 
+    const isLocked = !!user?.isAssessmentLocked;
+    const unlockDate = user?.assessmentUnlockDate ? new Date(user.assessmentUnlockDate) : null;
+
     return (
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 selection:bg-white selection:text-black">
         <GlassCard className="rounded-[40px] p-10 bg-[#161a20]/60 border-white/5 relative overflow-hidden group">
           <p className="text-[11px]  font-[900] uppercase tracking-[0.4em] text-white/30 mb-8">Assessment Studio</p>
-          <h2 className="text-3xl  font-[900] text-white uppercase tracking-tight mb-8 italic">Skill Signal</h2>
-          <p className="text-[15px]  font-medium tracking-tight leading-relaxed text-white/50 mb-10">Launch your proctored assessment inside redesigned obsidian panels with smoother motion and legible progress cues.</p>
+          <div className="flex items-center gap-4 mb-8">
+            <h2 className="text-3xl  font-[900] text-white uppercase tracking-tight italic">Skill Signal</h2>
+            {isLocked && (
+              <span className="flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-[10px] font-black text-amber-500 uppercase tracking-widest">
+                <Lock size={12} /> Locked
+              </span>
+            )}
+          </div>
+          
+          {isLocked ? (
+            <div className="mb-10">
+              <p className="text-[15px]  font-medium tracking-tight leading-relaxed text-amber-500/80 mb-6 italic">
+                Strategic cool-down active. Your neural pathways are processing the recent assessment. You can retake the test starting {unlockDate?.toLocaleDateString()} at {unlockDate?.toLocaleTimeString()}.
+              </p>
+              <div className="inline-block p-4 bg-amber-500/5 border border-amber-500/10 rounded-2xl">
+                <p className="text-[10px] font-black text-amber-500/40 uppercase tracking-[0.3em] mb-1">Available On</p>
+                <p className="text-xl font-black text-white">{unlockDate?.toLocaleDateString()}</p>
+              </div>
+            </div>
+          ) : (
+            <p className="text-[15px]  font-medium tracking-tight leading-relaxed text-white/50 mb-10"> Launch your proctored assessment inside redesigned obsidian panels with smoother motion and legible progress cues.</p>
+          )}
+
           <div className="flex flex-wrap items-center gap-10">
             <div className="flex gap-4">
               <button 
-                onClick={() => setStartAssessment('field')}
-                className="relative h-[55px] px-8 group active:scale-95 transition-transform text-white"
+                onClick={() => !isLocked && setStartAssessment('field')}
+                disabled={isLocked}
+                className={`relative h-[55px] px-8 group active:scale-95 transition-transform text-white ${isLocked ? 'opacity-40 cursor-not-allowed grayscale' : ''}`}
               >
-                <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                  <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
-                </svg>
-                <span className="relative z-10 flex items-center justify-center h-full text-[#161a20]  font-[800] text-xs uppercase tracking-widest gap-2">
-                  Launch Field Test <ArrowRight size={16} />
+                {!isLocked && (
+                  <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                    <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
+                  </svg>
+                )}
+                {isLocked && <div className="absolute inset-0 w-full h-full bg-white/5 border border-white/10 rounded-xl" />}
+                <span className={`relative z-10 flex items-center justify-center h-full ${isLocked ? 'text-white/40' : 'text-[#161a20]'} font-[800] text-xs uppercase tracking-widest gap-2`}>
+                  {isFieldComplete ? 'Retake Stage 1' : 'Launch Field Test'} <ArrowRight size={16} />
                 </span>
               </button>
               
               <button 
-                onClick={() => setStartAssessment('skills')}
-                className="relative h-[55px] px-8 group active:scale-95 transition-transform text-white bg-indigo-500/20 border border-indigo-400/30 rounded-lg hover:bg-indigo-500/40"
+                onClick={() => !isLocked && setStartAssessment('skills')}
+                disabled={isLocked || !isFieldComplete}
+                className={`relative h-[55px] px-8 group active:scale-95 transition-transform text-white rounded-lg transition-all ${isLocked || !isFieldComplete ? 'opacity-40 cursor-not-allowed grayscale bg-white/5 border-white/10' : 'bg-indigo-500/20 border border-indigo-400/30 hover:bg-indigo-500/40'}`}
               >
-                <span className="relative z-10 flex items-center justify-center h-full text-indigo-300 font-[800] text-xs uppercase tracking-widest gap-2">
-                  Launch Skills Test <ArrowRight size={16} />
+                <span className={`relative z-10 flex items-center justify-center h-full ${isLocked || !isFieldComplete ? 'text-white/40' : 'text-indigo-300'} font-[800] text-xs uppercase tracking-widest gap-2`}>
+                  {isSkillComplete ? 'Retake Stage 2' : 'Launch Skills Test'} <ArrowRight size={16} />
                 </span>
               </button>
             </div>
@@ -1211,6 +1240,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
             </button>
           </div>
         </GlassCard>
+
 
         <GlassCard className="rounded-[32px] p-10 bg-[#161a20]/60 border-white/5">
           <p className="text-[11px]  font-[900] uppercase tracking-[0.4em] text-white/30 mb-10">Current Status</p>
