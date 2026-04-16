@@ -584,8 +584,15 @@ Respond with ONLY this JSON:
                     tasks.append(self._gen_mcq(section, topic, difficulty, profile_ctx, target_company, seed, q_idx))
                 q_idx += 1
 
-        # Generate all questions in parallel but controlled by semaphore
-        results = await asyncio.gather(*tasks, return_exceptions=True)
+        # Generate questions in small batches (chunks) to prevent timeouts on Render
+        results = []
+        chunk_size = 5
+        for i in range(0, len(tasks), chunk_size):
+            chunk = tasks[i : i + chunk_size]
+            batch_results = await asyncio.gather(*chunk, return_exceptions=True)
+            results.extend(batch_results)
+            # Yield control back to ensure event loop stays alive
+            await asyncio.sleep(0.2)
         
         questions: List[Dict[str, Any]] = []
         for i, res in enumerate(results):
@@ -1040,9 +1047,9 @@ Respond with ONLY this JSON:
         # Get sections for this stream
         sections_dict = self.STREAM_SECTIONS.get(stream_cat, self.STREAM_SECTIONS["computer_science"])
         
-        # Divide 60 questions across available sections (at least 60 total)
+        # Divide 60+ questions across available sections
         num_sections = len(sections_dict)
-        q_per_section = 20  # 20 questions per section
+        q_per_section = 15  # Balanced volume for stability (Render-safe)
         
         seed = self._unique_seed(student_profile)
         
@@ -1050,17 +1057,20 @@ Respond with ONLY this JSON:
         dist = {"easy": 0.25, "medium": 0.50, "hard": 0.20, "advanced": 0.05}
         
         tasks = []
+        all_sections_data = []
         for section in sections_dict.keys():
-            tasks.append(self._generate_section(
+            # Generate section data
+            section_data = await self._generate_section(
                 section=section,
                 profile=student_profile,
                 num_q=q_per_section,
                 dist=dist,
                 seed=seed,
                 stream_cat=stream_cat
-            ))
-            
-        all_sections_data = await asyncio.gather(*tasks, return_exceptions=True)
+            )
+            all_sections_data.append(section_data)
+            # Small delay between sections to prevent the LLM queue from exploding on Render
+            await asyncio.sleep(0.5)
         
         final_sections = []
         total_q = 0

@@ -11,17 +11,19 @@ import {
   FileText, Target, Lightbulb, Sparkles, CheckCircle2,
   RefreshCw, MessageCircle, Award, BookOpen
 } from 'lucide-react';
-import { askResumeMentor, getQuickTip } from '@/api/resume';
+import { chatWithMentor, getMentorSessions, getSessionHistory, MentorResource } from '@/api/mentor';
 import { useAuthStore } from '@/store/authStore';
 import { useAppStore } from '@/store/appStore';
+import toast from 'react-hot-toast';
 
 interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
-  actionItems?: string[];
-  relatedTopics?: string[];
+  suggestions?: string[];
+  resources?: MentorResource[];
+  intent?: string;
 }
 
 // Quick action suggestions for resume
@@ -40,6 +42,7 @@ export function PrepzoAIMentor() {
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [sessionId, setSessionId] = useState<string | undefined>(undefined);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(true);
@@ -105,11 +108,11 @@ export function PrepzoAIMentor() {
       }
       
       greeting += `I can help you with:\n\n`;
-      greeting += `• **Resume optimization** - Improve ATS score and content\n`;
-      greeting += `• **Skill gaps** - Identify missing skills for your target role\n`;
-      greeting += `• **Impact statements** - Add quantifiable achievements\n`;
-      greeting += `• **Professional summary** - Write compelling summaries\n\n`;
-      greeting += `Ask me anything about your resume or career!`;
+      greeting += `• **Mock Interviews** - Practice with real-time feedback\n`;
+      greeting += `• **Technical Concepts** - Clear explanations of DSA, OOPS, and more\n`;
+      greeting += `• **Career Roadmap** - Tailored advice for your target role\n`;
+      greeting += `• **Resume & Profile** - Data-driven optimization tips\n\n`;
+      greeting += `Ask me anything! "How do I implement a Trie?" or "Mock interview for Java".`;
 
       const greetingMessage: Message = {
         id: 'greeting',
@@ -137,23 +140,38 @@ export function PrepzoAIMentor() {
     setIsLoading(true);
 
     try {
-      const response = await askResumeMentor(content.trim(), 'resume');
+      const response = await chatWithMentor(
+        content.trim(), 
+        sessionId,
+        {
+          targetRole: user?.targetRole,
+          currentSkills: user?.knownTechnologies
+        }
+      );
 
-      const assistantMessage: Message = {
-        id: `assistant-${Date.now()}`,
-        role: 'assistant',
-        content: response.data.answer,
-        timestamp: new Date(),
-        actionItems: response.data.actionItems,
-        relatedTopics: response.data.relatedTopics
-      };
+      if (response.success) {
+        if (response.sessionId && !sessionId) {
+          setSessionId(response.sessionId);
+        }
 
-      setMessages(prev => [...prev, assistantMessage]);
+        const assistantMessage: Message = {
+          id: `assistant-${Date.now()}`,
+          role: 'assistant',
+          content: response.message,
+          timestamp: new Date(),
+          suggestions: response.suggestions,
+          resources: response.resources,
+          intent: response.intent
+        };
+
+        setMessages(prev => [...prev, assistantMessage]);
+      }
     } catch (error) {
+      console.error('Mentor chat error:', error);
       const errorMessage: Message = {
         id: `error-${Date.now()}`,
         role: 'assistant',
-        content: "I apologize, but I'm having trouble connecting right now. Please try again in a moment. In the meantime, you can review your resume analysis in the dashboard.",
+        content: "I'm having a slight technical hiccup. Please try again in a second!",
         timestamp: new Date()
       };
       setMessages(prev => [...prev, errorMessage]);
@@ -179,6 +197,7 @@ export function PrepzoAIMentor() {
 
   const resetChat = () => {
     setMessages([]);
+    setSessionId(undefined);
     setShowQuickActions(true);
   };
 
@@ -358,31 +377,37 @@ export function PrepzoAIMentor() {
                       })}
                     </div>
                     
-                    {/* Action Items */}
-                    {message.actionItems && message.actionItems.length > 0 && (
+                    {/* Resources */}
+                    {message.resources && message.resources.length > 0 && (
                       <div className="mt-3 pt-3 border-t border-white/10">
-                        <p className="text-xs font-medium text-white/70 mb-2">Action Items:</p>
-                        <ul className="space-y-1">
-                          {message.actionItems.map((item, i) => (
-                            <li key={i} className="flex items-start gap-2 text-xs text-white/80">
-                              <CheckCircle2 className="w-3 h-3 text-green-400 flex-shrink-0 mt-0.5" />
-                              {item}
-                            </li>
+                        <p className="text-xs font-medium text-white/70 mb-2">Recommended Resources:</p>
+                        <div className="space-y-2">
+                          {message.resources.map((res, i) => (
+                            <a
+                              key={i}
+                              href={res.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 p-2 rounded bg-white/5 hover:bg-white/10 transition-colors text-xs text-indigo-400"
+                            >
+                              <BookOpen className="w-3 h-3" />
+                              <span className="flex-1 truncate">{res.title}</span>
+                            </a>
                           ))}
-                        </ul>
+                        </div>
                       </div>
                     )}
                     
-                    {/* Related Topics */}
-                    {message.relatedTopics && message.relatedTopics.length > 0 && (
+                    {/* Suggestions */}
+                    {message.suggestions && message.suggestions.length > 0 && (
                       <div className="mt-3 flex flex-wrap gap-2">
-                        {message.relatedTopics.map((topic, i) => (
+                        {message.suggestions.map((suggestion, i) => (
                           <button
                             key={i}
-                            onClick={() => handleRelatedTopic(topic)}
-                            className="px-2 py-1 text-xs bg-white/10 hover:bg-white/20 rounded-full text-white/80 transition-colors"
+                            onClick={() => handleSendMessage(suggestion)}
+                            className="px-2 py-1 text-xs bg-indigo-500/20 hover:bg-indigo-500/30 border border-indigo-500/30 rounded-full text-indigo-300 transition-colors"
                           >
-                            {topic}
+                            {suggestion}
                           </button>
                         ))}
                       </div>

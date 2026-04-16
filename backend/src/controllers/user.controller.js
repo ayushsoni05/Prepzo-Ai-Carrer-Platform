@@ -116,8 +116,21 @@ export const completeOnboarding = async (req, res) => {
     const updatedUser = await user.save();
     res.json({ user: updatedUser.toJSON() });
   } catch (error) {
-    console.error('Complete onboarding error:', error);
-    res.status(500).json({ message: error.message || 'Server error' });
+    console.error('Complete onboarding error details:', {
+      message: error.message,
+      stack: error.stack,
+      userId: req.user?.id,
+      payload: req.body
+    });
+    
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ 
+        message: 'Validation failed', 
+        errors: Object.values(error.errors).map(err => err.message) 
+      });
+    }
+
+    res.status(500).json({ message: error.message || 'Server error during onboarding' });
   }
 };
 

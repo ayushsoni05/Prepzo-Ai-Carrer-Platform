@@ -543,7 +543,8 @@ export function useProctoring(callbacks?: ProctoringCallbacks) {
       }
 
       // Only play if video is paused, has a valid source, and is connected to DOM
-      if (video.paused && video.srcObject && video.isConnected) {
+      // Also check readyState to ensure metadata is loaded
+      if (video.paused && video.srcObject && video.isConnected && video.readyState >= 2) {
         // Use a small timeout to ensure the video element is fully ready
         delayedPlayTimeoutRef.current = setTimeout(() => {
           if (video.paused && video.srcObject && video.isConnected) {
