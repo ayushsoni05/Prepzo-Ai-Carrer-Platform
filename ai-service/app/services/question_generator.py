@@ -599,15 +599,6 @@ Respond with ONLY this JSON:
             if isinstance(res, Exception) or res is None:
                 # Slot-based recovery: if AI failed this specific question, inject a safety one immediately
                 logger.warning(f"  → Question slot {i} failed in {section}. Injecting safety fallback.")
-                # We need topic and difficulty for the failed slot
-                diff_idx = 0
-                temp_count = 0
-                target_diff = "medium"
-                for d in self.DIFFICULTY_ORDER:
-                    temp_count += counts.get(d, 0)
-                    if i < temp_count:
-                        target_diff = d
-                        break
                 
                 safety_qs = self._get_safety_questions(section, 1, seed)
                 if safety_qs:
@@ -1059,27 +1050,34 @@ Respond with ONLY this JSON:
         tasks = []
         all_sections_data = []
         for section in sections_dict.keys():
-            # Generate section data
-            section_data = await self._generate_section(
-                section=section,
-                profile=student_profile,
-                num_q=q_per_section,
-                dist=dist,
-                seed=seed,
-                stream_cat=stream_cat
-            )
-            all_sections_data.append(section_data)
+            try:
+                # Generate section data
+                section_data = await self._generate_section(
+                    section=section,
+                    profile=student_profile,
+                    num_q=q_per_section,
+                    dist=dist,
+                    seed=seed,
+                    stream_cat=stream_cat
+                )
+                all_sections_data.append(section_data)
+            except Exception as e:
+                logger.error(f"Critical failure in section generation for {section}: {e}")
+                # Inject a whole section of safety questions if the AI engine crashed
+                safety_qs = self._get_safety_questions(section, 5, seed)
+                all_sections_data.append(safety_qs)
+            
             # Small delay between sections to prevent the LLM queue from exploding on Render
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.3)
         
         final_sections = []
         total_q = 0
         for i, section_name in enumerate(sections_dict.keys()):
             qs = all_sections_data[i]
             
-            # If a whole section failed, inject safety questions or log error
-            if isinstance(qs, Exception) or qs is None:
-                logger.error(f"Section generation failed for {section_name}: {qs}")
+            # Double-check: If a whole section failed or is empty, inject safety questions
+            if not qs or len(qs) == 0:
+                logger.error(f"Section generation produced no questions for {section_name}. Filling with safety net.")
                 qs = self._get_safety_questions(section_name, 5, seed)
             
             final_sections.append({
@@ -1119,18 +1117,24 @@ Respond with ONLY this JSON:
         # Adaptive difficulty for Stage 2 - starts medium/hard
         dist = {"easy": 0.10, "medium": 0.40, "hard": 0.40, "advanced": 0.10}
         
-        tasks = []
+        all_skill_data = []
         for skill in skills:
-            tasks.append(self._generate_section(
-                section=skill,  # Skill itself is the section
-                profile=student_profile,
-                num_q=10,
-                dist=dist,
-                seed=seed,
-                stream_cat=stream_cat
-            ))
+            try:
+                skill_data = await self._generate_section(
+                    section=skill,
+                    profile=student_profile,
+                    num_q=10,
+                    dist=dist,
+                    seed=seed,
+                    stream_cat=stream_cat
+                )
+                all_skill_data.append(skill_data)
+            except Exception as e:
+                logger.error(f"Skill section generation failed for {skill}: {e}")
+                safety_qs = self._get_safety_questions(skill, 2, seed)
+                all_skill_data.append(safety_qs)
             
-        all_skill_data = await asyncio.gather(*tasks)
+            await asyncio.sleep(0.3)
         
         final_sections = []
         total_q = 0
