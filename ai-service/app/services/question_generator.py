@@ -1038,9 +1038,14 @@ Respond with ONLY this JSON:
         # Get sections for this stream
         sections_dict = self.STREAM_SECTIONS.get(stream_cat, self.STREAM_SECTIONS["computer_science"])
         
-        # Divide 60+ questions across available sections
+        # Core Operational Modules for this Field
         num_sections = len(sections_dict)
-        q_per_section = 15  # Balanced volume for stability (Render-safe)
+        q_per_section = 20  # Full 20 questions per module to ensure comprehensive assessment
+        
+        # Ensure at least 60 questions for field mastery
+        total_target = max(60, num_sections * q_per_section)
+
+
         
         seed = self._unique_seed(student_profile)
         
@@ -1123,7 +1128,7 @@ Respond with ONLY this JSON:
                 skill_data = await self._generate_section(
                     section=skill,
                     profile=student_profile,
-                    num_q=10,
+                    num_q=10, # Exactly 10 questions per skill as requested
                     dist=dist,
                     seed=seed,
                     stream_cat=stream_cat

@@ -88,11 +88,16 @@ export const generateSkillTest = async (req, res, next) => {
       userId: user._id.toString(),
       id: user._id.toString(),
       name: user.fullName || 'Student',
-      degree: user.degree,
+      degree: user.degree || 'B.Tech',
       stream: user.fieldOfStudy || 'Computer Science',
       fieldOfStudy: user.fieldOfStudy || 'Computer Science',
+      year: user.yearOfStudy || '3rd Year',
       targetRole: user.targetRole || 'Software Engineer',
+      careerGoals: user.careerGoals || `Success in ${user.targetRole || 'Technical'} role`,
+      skillRatings: user.skillRatings || {},
+      knownTechnologies: user.knownTechnologies || []
     };
+
 
     console.log(`[aiTest] generateSkillTest start for user ${user._id} for ${skills.length} skills`);
     const result = await aiService.generateSkillTest(studentProfile, skills, testConfig || {});
