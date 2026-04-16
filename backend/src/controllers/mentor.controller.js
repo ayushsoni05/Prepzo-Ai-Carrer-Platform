@@ -24,16 +24,27 @@ export const chat = asyncHandler(async (req, res) => {
     throw new Error('Message is required');
   }
 
-  // Check if AI service is available
-  if (!aiService) {
-    res.status(503);
-    throw new Error('AI mentor service not configured');
-  }
-
+  // Check if AI service is available (reachable)
   const isAvailable = await aiService.isServiceAvailable();
   if (!isAvailable) {
-    res.status(503);
-    throw new Error('AI mentor service temporarily unavailable');
+    res.status(503).json({
+      success: false,
+      message: 'AI Mentor is currently offline. Please wait a moment while it boots up on Render.',
+      status: 'offline'
+    });
+    return;
+  }
+
+  // Check if models are loaded
+  const isReady = await aiService.isServiceReady();
+  if (!isReady) {
+    return res.status(200).json({
+      success: true,
+      sessionId: sessionId || uuidv4(),
+      message: "I'm currently warming up my AI brain (loading models). I'll be fully ready to chat in about 30-60 seconds! How can I help you in the meantime?",
+      status: 'warming_up',
+      suggestions: ["Check my progress", "What's new?", "Wait a moment"]
+    });
   }
 
   // Generate session ID if not provided

@@ -36,10 +36,10 @@ aiClient.interceptors.response.use(
  */
 const isServiceAvailable = async () => {
     try {
-        const response = await aiClient.get('/health', { timeout: 5000 });
+        const response = await aiClient.get('/health', { timeout: 20000 });
         return response.data.status === 'healthy';
     } catch (error) {
-        console.warn('AI Service not available:', error.message);
+        console.warn('AI Service not reachable (timeout/down):', error.message);
         return false;
     }
 };
@@ -49,7 +49,7 @@ const isServiceAvailable = async () => {
  */
 const isServiceReady = async () => {
     try {
-        const response = await aiClient.get('/ready', { timeout: 5000 });
+        const response = await aiClient.get('/ready', { timeout: 20000 });
         return response.data.ready === true;
     } catch (error) {
         return false;

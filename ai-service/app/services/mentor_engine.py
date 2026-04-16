@@ -104,11 +104,20 @@ class MentorEngine:
             # AI model not available - provide helpful error
             error_msg = str(e)
             logger.error(f"AI generation failed: {error_msg}")
-            response = {
-                "message": f"⚠️ **AI Service Temporarily Unavailable**\n\nI'm unable to generate a response right now. The AI model is not running.\n\n**To enable AI responses:**\n1. Install Ollama: https://ollama.ai\n2. Run: `ollama serve`\n3. Pull a model: `ollama pull mistral`\n4. Restart the AI service\n\nPlease try again once Ollama is running.",
-                "suggestions": ["Try again", "Check system status"],
-                "follow_up_questions": []
-            }
+            
+            # Check if it's a "not initialized" error
+            if "not initialized" in error_msg.lower():
+                response = {
+                    "message": "👋 **I'm warming up!**\n\nI'm currently loading my knowledge base and AI models onto the server. This usually takes about 30 seconds. Feel free to ask me something else in a moment!",
+                    "suggestions": ["Tell me a joke", "Check my progress"],
+                    "follow_up_questions": []
+                }
+            else:
+                response = {
+                    "message": "⚠️ **AI Service Interruption**\n\nI encountered a technical issue while generating a response. My engineering team has been notified. Please try again in a few seconds.",
+                    "suggestions": ["Try again", "Go to dashboard"],
+                    "follow_up_questions": []
+                }
         
         # Save conversation
         await self._save_conversation(

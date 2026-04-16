@@ -149,22 +149,30 @@ export function PrepzoAIMentor() {
         }
       );
 
-      if (response.success) {
-        if (response.sessionId && !sessionId) {
-          setSessionId(response.sessionId);
-        }
-
-        const assistantMessage: Message = {
-          id: `assistant-${Date.now()}`,
+      if (response.status === 'warming_up') {
+        const warmingMsg: Message = {
+          id: Date.now().toString(),
           role: 'assistant',
           content: response.message,
           timestamp: new Date(),
-          suggestions: response.suggestions,
-          resources: response.resources,
-          intent: response.intent
+          suggestions: response.suggestions
         };
+        setMessages(prev => [...prev, warmingMsg]);
+        return;
+      }
 
-        setMessages(prev => [...prev, assistantMessage]);
+      if (response.success) {
+        const aiMsg: Message = {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: response.message,
+          timestamp: new Date(),
+          intent: response.intent,
+          resources: response.resources,
+          suggestions: response.suggestions
+        };
+        setMessages(prev => [...prev, aiMsg]);
+        if (response.sessionId) setSessionId(response.sessionId);
       }
     } catch (error) {
       console.error('Mentor chat error:', error);
