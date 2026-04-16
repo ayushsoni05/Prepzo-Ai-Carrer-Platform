@@ -43,6 +43,7 @@ export function JobsPage() {
   const [recommendations, setRecommendations] = useState<Job[]>([]);
   const [trendingJobs, setTrendingJobs] = useState<Job[]>([]);
   const [urgentJobs, setUrgentJobs] = useState<Job[]>([]);
+  const [hiringCompanies, setHiringCompanies] = useState<any[]>([]);
   
   // Filters state
   const [filters, setFilters] = useState<JobFilters | null>(null);
@@ -107,17 +108,20 @@ export function JobsPage() {
     loadJobs();
   }, [loadJobs]);
 
-  // Load recommendations, trending, urgent
+  // Load recommendations, trending, urgent, and hiring companies
   useEffect(() => {
     const loadExtra = async () => {
       try {
-        const [trendingRes, urgentRes] = await Promise.all([
+        const { companiesApi } = await import('@/api/companies');
+        const [trendingRes, urgentRes, hiringRes] = await Promise.all([
           jobsApi.getTrendingJobs(),
           jobsApi.getUrgentJobs(),
+          companiesApi.getHiringCompanies(),
         ]);
         
         if (trendingRes.success) setTrendingJobs(trendingRes.data);
         if (urgentRes.success) setUrgentJobs(urgentRes.data);
+        if (hiringRes.success) setHiringCompanies(hiringRes.data);
 
         if (isAuthenticated) {
           const recsRes = await jobsApi.getRecommendations(5);
@@ -131,6 +135,7 @@ export function JobsPage() {
     };
     loadExtra();
   }, [isAuthenticated]);
+
 
   // Handle search
   const handleSearch = (e: React.FormEvent) => {
@@ -315,7 +320,48 @@ export function JobsPage() {
                 </div>
               </GlassCard>
             )}
+
+            {/* Hiring Companies */}
+            {hiringCompanies.length > 0 && (
+              <GlassCard className="p-4 border-emerald-500/30">
+                <div className="flex items-center gap-2 mb-4">
+                  <Building2 className="w-5 h-5 text-emerald-400" />
+                  <h3 className="font-semibold text-white">Top Hiring Companies</h3>
+                </div>
+                <div className="space-y-4">
+                  {hiringCompanies.slice(0, 5).map((company) => (
+                    <div
+                      key={company._id}
+                      onClick={() => navigate(`/companies/${company.slug}`)}
+                      className="flex items-center gap-3 p-2 hover:bg-white/5 rounded-lg cursor-pointer transition-colors"
+                    >
+                      <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center overflow-hidden shrink-0">
+                        {company.logo ? (
+                          <img src={company.logo} alt={company.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <Building2 className="w-5 h-5 text-purple-400" />
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <h4 className="font-medium text-white text-sm truncate">{company.name}</h4>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <span className="text-[10px] bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded uppercase font-bold tracking-wider">Hiring</span>
+                          <span className="text-[10px] text-white/30">• {company.industry}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <button 
+                    onClick={() => navigate('/companies')}
+                    className="w-full py-2 text-[11px] font-black uppercase tracking-widest text-purple-400 hover:text-purple-300 transition-colors border-t border-white/5 pt-4"
+                  >
+                    View All Companies
+                  </button>
+                </div>
+              </GlassCard>
+            )}
           </div>
+
 
           {/* Main Content - Job Listings */}
           <div className="lg:col-span-3">
