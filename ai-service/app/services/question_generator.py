@@ -856,7 +856,7 @@ Respond with ONLY this JSON:
         company_pattern = self.COMPANY_PATTERNS.get(company)
 
         # Handle separated test modes (Field vs Skills)
-        test_mode = cfg.get("testMode", "combined").lower()
+        test_mode = (cfg.get("testMode") or "combined").lower()
         
         final_sections = []
         if test_mode == "skills":
