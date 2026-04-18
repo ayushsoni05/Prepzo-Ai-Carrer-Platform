@@ -52,49 +52,74 @@ export const generateFieldTest = async (req, res, next) => {
     // 1. Generate Module ID
     const moduleId = `${studentProfile.stream.toLowerCase().replace(/[^a-z0-9]/g, '_')}_${studentProfile.targetRole.toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
     
-    // 2. Try to fetch from Seeded Question Bank
+    // 2. Fetch from Seeded Question Bank (Stage 1: Field-based, 60 questions)
+    // We attempt to get 60 questions from the specific module, then fall back to the field, then to a universal core
     let questions = await Question.aggregate([
       { $match: { moduleId } },
       { $sample: { size: 60 } }
     ]);
 
-    let testData;
+    // Fallback 1: If insufficient questions for specific moduleId, pull from the general field
+    if (questions.length < 60) {
+      console.log(`[aiTest] Specific module ${moduleId} insufficient (${questions.length}/60). Pulling from field: ${studentProfile.stream}`);
+      const needed = 60 - questions.length;
+      const fieldQuestions = await Question.aggregate([
+        { $match: { 
+            field: studentProfile.fieldOfStudy, 
+            moduleId: { $ne: moduleId } 
+          } 
+        },
+        { $sample: { size: needed } }
+      ]);
+      questions = [...questions, ...fieldQuestions];
+    }
 
-    if (questions.length >= 60) {
-      console.log(`[aiTest] Found ${questions.length} questions in seeded bank for ${moduleId}.`);
-      testData = {
-        testId: `seeded_${moduleId}_${Date.now()}`,
-        totalQuestions: questions.length,
-        totalTime: questions.length * 60, // 1 min per question
-        sections: [
-          {
-            id: 'field_section',
-            name: `${studentProfile.stream} Assessment`,
-            questions: questions.map((q, idx) => ({
-              id: q._id,
-              type: q.type,
-              question: q.questionText,
-              options: q.options,
-              correct: q.correctAnswer,
-              explanation: q.explanation,
-              difficulty: q.difficulty,
-              topics: q.topics
-            }))
-          }
-        ]
-      };
-    } else {
-      // 3. Fallback to Real-time Generation
-      console.log(`[aiTest] Seeded bank insufficient (${questions.length}/60). Falling back to AI generation.`);
-      
-      // Boost this module's priority in the background seeder
+    // Fallback 2: Universal core (Computer Science) if still insufficient
+    if (questions.length < 60 && studentProfile.fieldOfStudy !== 'Computer Science') {
+      console.log(`[aiTest] Field ${studentProfile.stream} still insufficient. Using universal core fallback.`);
+      const needed = 60 - questions.length;
+      const universalQuestions = await Question.aggregate([
+        { $match: { field: 'Computer Science' } },
+        { $sample: { size: needed } }
+      ]);
+      questions = [...questions, ...universalQuestions];
+    }
+
+    if (questions.length === 0) {
+       return res.status(404).json({
+         success: false,
+         message: 'No seeded questions found for this field/role. Please try again later while seeding is in progress.',
+       });
+    }
+
+    console.log(`[aiTest] Found ${questions.length} questions from seeded banks for ${moduleId}. No AI generation used.`);
+    
+    // Construct test data
+    const testData = {
+      testId: `seeded_${moduleId}_${Date.now()}`,
+      totalQuestions: questions.length,
+      totalTime: questions.length * 60, // 1 min per question
+      sections: [
+        {
+          id: 'field_section',
+          name: `${studentProfile.stream} Assessment`,
+          questions: questions.map((q, idx) => ({
+            id: q._id,
+            type: q.type || 'mcq',
+            question: q.questionText,
+            options: q.options,
+            correct: q.correctAnswer,
+            explanation: q.explanation,
+            difficulty: q.difficulty,
+            topics: q.topics
+          }))
+        }
+      ]
+    };
+
+    // Ensure we trigger seeding for this module if it was thin
+    if (questions.length < 60) {
       seeder.boostModule(studentProfile.stream, studentProfile.targetRole);
-      
-      const result = await aiService.generateFieldTest(studentProfile, testConfig || {});
-      if (!result.success) {
-        throw new Error(result.error || 'Failed to generate field assessment');
-      }
-      testData = result.test;
     }
 
     const testSession = await TestSession.create({
@@ -171,7 +196,7 @@ export const generateSkillTest = async (req, res, next) => {
     // 1. Generate Module ID
     const moduleId = `${studentProfile.stream.toLowerCase().replace(/[^a-z0-9]/g, '_')}_${studentProfile.targetRole.toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
 
-    // 2. Try to fetch from Seeded Question Bank (Filter by topics/skills)
+    // 2. Fetch from Seeded Question Bank (Filter by topics/skills)
     let questions = await Question.aggregate([
       { 
         $match: { 
@@ -182,42 +207,60 @@ export const generateSkillTest = async (req, res, next) => {
       { $sample: { size: skills.length * 10 } }
     ]);
 
-    let testData;
+    // Fallback: If not enough specific skill questions for this module, 
+    // try any questions for these skills in the same field
+    if (questions.length < (skills.length * 5)) {
+      console.log(`[aiTest] Skill questions for ${moduleId} limited (${questions.length}). Pulling from field-wide skill pool.`);
+      const existingIds = questions.map(q => q._id);
+      const needed = (skills.length * 10) - questions.length;
+      
+      const fieldSkillQuestions = await Question.aggregate([
+        { 
+          $match: { 
+            field: studentProfile.fieldOfStudy,
+            topics: { $in: skills },
+            _id: { $nin: existingIds }
+          } 
+        },
+        { $sample: { size: needed } }
+      ]);
+      questions = [...questions, ...fieldSkillQuestions];
+    }
 
-    if (questions.length >= (skills.length * 5)) { // Allow half-density for skills
-      console.log(`[aiTest] Found ${questions.length} skill-relevant questions in seeded bank.`);
-      testData = {
-        testId: `seeded_skills_${moduleId}_${Date.now()}`,
-        totalQuestions: questions.length,
-        totalTime: questions.length * 60,
-        sections: skills.map(skill => ({
+    if (questions.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No seeded questions found for these skills. Please update your profile or try later.'
+      });
+    }
+
+    console.log(`[aiTest] Found ${questions.length} skill-relevant questions from seeded bank. No AI generation used.`);
+
+    // Construct test data
+    const testData = {
+      testId: `seeded_skills_${moduleId}_${Date.now()}`,
+      totalQuestions: questions.length,
+      totalTime: questions.length * 60,
+      sections: skills.map(skill => {
+        const skillQuestions = questions.filter(q => q.topics && q.topics.includes(skill));
+        if (skillQuestions.length === 0) return null;
+        
+        return {
           id: `skill_${skill.toLowerCase().replace(/[^a-z0-9]/g, '_')}`,
           name: skill,
-          questions: questions
-            .filter(q => q.topics.includes(skill))
-            .slice(0, 10)
-            .map(q => ({
-              id: q._id,
-              type: q.type,
-              question: q.questionText,
-              options: q.options,
-              correct: q.correctAnswer,
-              explanation: q.explanation,
-              difficulty: q.difficulty,
-              topics: q.topics
-            }))
-        })).filter(s => s.questions.length > 0)
-      };
-    } else {
-      // 3. Fallback to AI
-      console.log(`[aiTest] Seeded bank insufficient for specific skills. Falling back to AI.`);
-      
-      const result = await aiService.generateSkillTest(studentProfile, skills, testConfig || {});
-      if (!result.success) {
-        throw new Error(result.error || 'Failed to generate skill assessment');
-      }
-      testData = result.test;
-    }
+          questions: skillQuestions.slice(0, 10).map(q => ({
+            id: q._id,
+            type: q.type || 'mcq',
+            question: q.questionText,
+            options: q.options,
+            correct: q.correctAnswer,
+            explanation: q.explanation,
+            difficulty: q.difficulty,
+            topics: q.topics
+          }))
+        };
+      }).filter(s => s !== null)
+    };
 
     const testSession = await TestSession.create({
       userId: user._id,
