@@ -175,8 +175,13 @@ class ModelService:
                 else:
                     error_detail = response.text
                     logger.error(f"Groq API error: {response.status_code} - {error_detail}")
+                    
                     if response.status_code == 401:
-                        raise RuntimeError("Groq API Key is invalid or expired. Please check Hugging Face Secrets.")
+                        logger.warning("🚨 Groq API Key is invalid. FALLING BACK TO OLLAMA (Local Intelligence)...")
+                        self.provider = "ollama"
+                        self.model_name = self.ollama_model
+                        return await self.generate(prompt, max_tokens, temperature, top_p, stop, system_prompt)
+                        
                     elif response.status_code == 429:
                         raise RuntimeError("Groq Rate Limit exceeded. Please try again in 1 minute.")
                     elif response.status_code == 400:
