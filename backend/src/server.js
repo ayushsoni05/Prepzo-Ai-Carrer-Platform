@@ -210,6 +210,8 @@ const startAIService = () => {
     }
   } else {
     console.log('🌐 Production Mode: AI Service auto-start bypassed. Ensure AI_SERVICE_URL is set in environment variables.');
+    // Start the Autonomous Seeder in production too
+    seeder.start().catch(err => console.error('Failed to start Autonomous Seeder in Production:', err));
   }
 })();
 app.use('/api/auth', authRoutes);
