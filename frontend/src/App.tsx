@@ -48,7 +48,10 @@ export default function App() {
       const protectedPages = ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
-      if (isOnProtectedPage && isAuthenticated) {
+      // Safety check: if we think we're authenticated but have no token, sync state
+      const hasToken = !!localStorage.getItem('prepzo-token');
+      
+      if (isOnProtectedPage && isAuthenticated && hasToken) {
         try {
           // Validate session via HTTP-only cookies
           const validatedUser = await fetchUser();
@@ -67,14 +70,22 @@ export default function App() {
           // fetchUser already handles 401 by calling logout()
           setAuthValidated(false);
         }
-      } else if (isOnProtectedPage && !isAuthenticated) {
-        // Not authenticated and trying to access protected page
-        setCurrentPage('landing');
-        window.location.hash = 'landing';
+      } else if ((isOnProtectedPage && !isAuthenticated) || (isAuthenticated && !hasToken)) {
+        // Not authenticated and trying to access protected page OR
+        // State says authenticated but token is missing physically
+        if (isAuthenticated && !hasToken) {
+          // Sync state to not-authenticated if token is missing
+          useAuthStore.getState().logout();
+        }
+        
+        if (isOnProtectedPage) {
+          setCurrentPage('landing');
+          window.location.hash = 'landing';
+        }
         setAuthValidated(false);
       } else {
         // Not on protected page, no validation needed
-        setAuthValidated(isAuthenticated);
+        setAuthValidated(isAuthenticated && hasToken);
       }
       setIsInitialized(true);
     };

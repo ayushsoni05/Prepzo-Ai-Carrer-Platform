@@ -303,13 +303,12 @@ export const refresh = async (req, res) => {
  */
 export const getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
-
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
+    // req.user is already populated by the protect middleware
+    if (!req.user) {
+      return res.status(401).json({ success: false, message: 'Not authorized' });
     }
 
-    res.json({ success: true, user: user.toJSON() });
+    res.json({ success: true, user: req.user.toJSON() });
   } catch (error) {
     console.error('Get me error:', error);
     res.status(500).json({ success: false, message: error.message || 'Server error' });
