@@ -25,6 +25,7 @@ import applicationRoutes from './routes/application.routes.js';
 import networkRoutes from './routes/network.routes.js';
 import notificationRoutes from './routes/notification.routes.js';
 import publicRoutes from './routes/public.routes.js';
+import { seeder } from './services/autonomousSeeder.service.js';
 import { errorHandler, notFound } from './middleware/error.middleware.js';
 import aiValidation from './middleware/aiValidation.middleware.js';
 import {
@@ -199,9 +200,13 @@ const startAIService = () => {
         console.warn('⚠️ AI Service did not start in time. Backend will continue, but AI features may not work.');
       } else {
         console.log('✅ AI Service is running and ready!');
+        // Start the Autonomous Seeder
+        seeder.start().catch(err => console.error('Failed to start Autonomous Seeder:', err));
       }
     } else {
       console.log('✅ AI Service already running.');
+      // Start the Autonomous Seeder
+      seeder.start().catch(err => console.error('Failed to start Autonomous Seeder:', err));
     }
   } else {
     console.log('🌐 Production Mode: AI Service auto-start bypassed. Ensure AI_SERVICE_URL is set in environment variables.');

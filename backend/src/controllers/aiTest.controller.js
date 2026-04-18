@@ -7,6 +7,8 @@ import TestSession from '../models/TestSession.model.js';
 import TestResult from '../models/TestResult.model.js';
 import ProctoringSession from '../models/ProctoringSession.model.js';
 import User from '../models/User.model.js';
+import Question from '../models/Question.model.js';
+import { seeder } from '../services/autonomousSeeder.service.js';
 import aiService from '../services/aiService.js';
 
 // =====================================================
@@ -46,10 +48,53 @@ export const generateFieldTest = async (req, res, next) => {
 
 
     console.log(`[aiTest] generateFieldTest start for user ${user._id}`);
-    const result = await aiService.generateFieldTest(studentProfile, testConfig || {});
+    
+    // 1. Generate Module ID
+    const moduleId = `${studentProfile.stream.toLowerCase().replace(/[^a-z0-9]/g, '_')}_${studentProfile.targetRole.toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
+    
+    // 2. Try to fetch from Seeded Question Bank
+    let questions = await Question.aggregate([
+      { $match: { moduleId } },
+      { $sample: { size: 60 } }
+    ]);
 
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to generate field assessment');
+    let testData;
+
+    if (questions.length >= 60) {
+      console.log(`[aiTest] Found ${questions.length} questions in seeded bank for ${moduleId}.`);
+      testData = {
+        testId: `seeded_${moduleId}_${Date.now()}`,
+        totalQuestions: questions.length,
+        totalTime: questions.length * 60, // 1 min per question
+        sections: [
+          {
+            id: 'field_section',
+            name: `${studentProfile.stream} Assessment`,
+            questions: questions.map((q, idx) => ({
+              id: q._id,
+              type: q.type,
+              question: q.questionText,
+              options: q.options,
+              correct: q.correctAnswer,
+              explanation: q.explanation,
+              difficulty: q.difficulty,
+              topics: q.topics
+            }))
+          }
+        ]
+      };
+    } else {
+      // 3. Fallback to Real-time Generation
+      console.log(`[aiTest] Seeded bank insufficient (${questions.length}/60). Falling back to AI generation.`);
+      
+      // Boost this module's priority in the background seeder
+      seeder.boostModule(studentProfile.stream, studentProfile.targetRole);
+      
+      const result = await aiService.generateFieldTest(studentProfile, testConfig || {});
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to generate field assessment');
+      }
+      testData = result.test;
     }
 
     const testSession = await TestSession.create({
@@ -57,8 +102,8 @@ export const generateFieldTest = async (req, res, next) => {
       testType: 'field_assessment',
       status: 'active',
       startTime: new Date(),
-      totalQuestions: result.test.totalQuestions || 60,
-      testData: result.test,
+      totalQuestions: testData.totalQuestions || 60,
+      testData: testData,
       metadata: {
         stage: 1,
         field: studentProfile.stream
@@ -69,7 +114,7 @@ export const generateFieldTest = async (req, res, next) => {
       success: true,
       data: {
         sessionId: testSession._id,
-        test: result.test
+        test: testData
       }
     });
   } catch (error) {
@@ -122,10 +167,56 @@ export const generateSkillTest = async (req, res, next) => {
 
 
     console.log(`[aiTest] generateSkillTest start for user ${user._id} for ${skills.length} skills`);
-    const result = await aiService.generateSkillTest(studentProfile, skills, testConfig || {});
+    
+    // 1. Generate Module ID
+    const moduleId = `${studentProfile.stream.toLowerCase().replace(/[^a-z0-9]/g, '_')}_${studentProfile.targetRole.toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
 
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to generate skill assessment');
+    // 2. Try to fetch from Seeded Question Bank (Filter by topics/skills)
+    let questions = await Question.aggregate([
+      { 
+        $match: { 
+          moduleId,
+          topics: { $in: skills } 
+        } 
+      },
+      { $sample: { size: skills.length * 10 } }
+    ]);
+
+    let testData;
+
+    if (questions.length >= (skills.length * 5)) { // Allow half-density for skills
+      console.log(`[aiTest] Found ${questions.length} skill-relevant questions in seeded bank.`);
+      testData = {
+        testId: `seeded_skills_${moduleId}_${Date.now()}`,
+        totalQuestions: questions.length,
+        totalTime: questions.length * 60,
+        sections: skills.map(skill => ({
+          id: `skill_${skill.toLowerCase().replace(/[^a-z0-9]/g, '_')}`,
+          name: skill,
+          questions: questions
+            .filter(q => q.topics.includes(skill))
+            .slice(0, 10)
+            .map(q => ({
+              id: q._id,
+              type: q.type,
+              question: q.questionText,
+              options: q.options,
+              correct: q.correctAnswer,
+              explanation: q.explanation,
+              difficulty: q.difficulty,
+              topics: q.topics
+            }))
+        })).filter(s => s.questions.length > 0)
+      };
+    } else {
+      // 3. Fallback to AI
+      console.log(`[aiTest] Seeded bank insufficient for specific skills. Falling back to AI.`);
+      
+      const result = await aiService.generateSkillTest(studentProfile, skills, testConfig || {});
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to generate skill assessment');
+      }
+      testData = result.test;
     }
 
     const testSession = await TestSession.create({
@@ -133,8 +224,8 @@ export const generateSkillTest = async (req, res, next) => {
       testType: 'skill_assessment',
       status: 'active',
       startTime: new Date(),
-      totalQuestions: result.test.totalQuestions || (skills.length * 10),
-      testData: result.test,
+      totalQuestions: testData.totalQuestions || (skills.length * 10),
+      testData: testData,
       metadata: {
         stage: 2,
         skillsCovered: skills
@@ -145,7 +236,7 @@ export const generateSkillTest = async (req, res, next) => {
       success: true,
       data: {
         sessionId: testSession._id,
-        test: result.test
+        test: testData
       }
     });
   } catch (error) {
