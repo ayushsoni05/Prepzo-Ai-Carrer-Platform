@@ -176,12 +176,15 @@ export function GlobalAIMentor() {
             <div className="bg-[#161a20] border border-white/10 shadow-2xl backdrop-blur-xl flex h-full flex-col overflow-hidden rounded-[32px]">
               <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-white shadow-lg">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-code-green/10 border border-code-green/20 text-code-green shadow-lg">
                     <Bot className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-[13px] font-[800] uppercase tracking-widest text-white">Prepzo AI</p>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">{headerLabel}</p>
+                    <p className="text-[13px] font-[800] uppercase tracking-widest text-white">Prepzo AI Mentor</p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <div className="w-1.5 h-1.5 rounded-full bg-code-green animate-pulse" />
+                      <p className="text-[9px] font-black uppercase tracking-widest text-code-green">{headerLabel}</p>
+                    </div>
                   </div>
                 </div>
 
@@ -199,12 +202,12 @@ export function GlobalAIMentor() {
                 {messages.map((message) => (
                   <div key={message.id} className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                     {message.role === 'assistant' && (
-                      <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-white">
+                      <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white/60">
                         <Sparkles className="h-4 w-4" />
                       </div>
                     )}
-                    <div className={`flex max-w-[82%] flex-col ${message.role === 'user' ? 'items-end' : 'items-start'}`}>
-                      <div className={`whitespace-pre-wrap rounded-[24px] px-4 py-3 text-[13px] font-bold tracking-wide leading-7 ${message.role === 'user' ? 'bg-white text-[#161a20] shadow-lg' : 'bg-white/5 border border-white/10 text-white/80'}`}>
+                    <div className={`flex max-w-[85%] flex-col ${message.role === 'user' ? 'items-end' : 'items-start'}`}>
+                      <div className={`whitespace-pre-wrap rounded-[22px] px-5 py-4 text-[13px] font-medium leading-relaxed backdrop-blur-xl ${message.role === 'user' ? 'bg-code-green/20 text-code-green border border-code-green/30 shadow-green-900/10 shadow-lg' : 'bg-white/5 text-white/80 border border-white/10 shadow-lg'}`}>
                         {message.content}
                       </div>
                       {message.suggestions?.length ? (
@@ -214,7 +217,7 @@ export function GlobalAIMentor() {
                               key={suggestion}
                               type="button"
                               onClick={() => void sendMessage(suggestion)}
-                              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] uppercase font-bold tracking-widest text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+                              className="rounded-full border border-code-green/30 bg-code-green/10 px-3 py-1.5 text-[10px] uppercase font-bold tracking-widest text-code-green hover:bg-code-green/20 transition-colors"
                             >
                               {suggestion}
                             </button>
@@ -223,7 +226,7 @@ export function GlobalAIMentor() {
                       ) : null}
                     </div>
                     {message.role === 'user' && (
-                      <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 text-white">
+                      <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-code-green/10 border border-code-green/20 text-code-green">
                         <User className="h-4 w-4" />
                       </div>
                     )}
@@ -231,8 +234,8 @@ export function GlobalAIMentor() {
                 ))}
 
                 {isLoading && (
-                  <div className="flex items-center gap-2 text-white/60 text-[10px] uppercase font-bold tracking-widest animate-pulse ml-10">
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                  <div className="flex items-center gap-2 text-code-green text-[10px] uppercase font-bold tracking-widest animate-pulse ml-10">
+                    <div className="w-1.5 h-1.5 rounded-full bg-code-green animate-bounce" />
                     SIGNAL PROCESSING...
                   </div>
                 )}
@@ -250,7 +253,7 @@ export function GlobalAIMentor() {
                   </div>
                 )}
 
-                <div className="bg-white/5 border border-white/10 flex items-end gap-3 rounded-[28px] p-2">
+                <div className="bg-white/5 border border-white/10 flex items-end gap-3 rounded-[28px] p-2 focus-within:border-white/30 transition-colors">
                   <textarea
                     value={inputValue}
                     onChange={(event) => setInputValue(event.target.value)}
@@ -262,12 +265,12 @@ export function GlobalAIMentor() {
                     }}
                     rows={1}
                     placeholder="INITIATE SIGNAL..."
-                    className="min-h-[56px] flex-1 resize-none bg-transparent px-3 py-3 text-[13px] font-bold tracking-widest text-white outline-none placeholder:text-white/20"
+                    className="min-h-[56px] flex-1 resize-none bg-transparent px-3 py-3 text-[13px] font-medium tracking-wide text-white outline-none placeholder:text-white/30 placeholder:uppercase placeholder:tracking-widest placeholder:font-bold"
                   />
                   <button
                     type="button"
                     onClick={() => void sendMessage(inputValue)}
-                    className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#161a20] shadow-lg disabled:opacity-50 transition-transform active:scale-95 flex-shrink-0"
+                    className="flex h-11 w-11 items-center justify-center rounded-full bg-code-green text-[#161a20] shadow-lg disabled:opacity-50 transition-transform active:scale-95 flex-shrink-0"
                     disabled={!inputValue.trim() || isLoading}
                   >
                     <Send className="h-4 w-4" />
@@ -284,7 +287,7 @@ export function GlobalAIMentor() {
         whileHover={{ scale: 1.04, y: -2 }}
         whileTap={{ scale: 0.97 }}
         onClick={() => setIsOpen((value) => !value)}
-        className="fixed bottom-5 right-4 z-[68] flex items-center gap-3 rounded-full bg-white px-4 py-3 text-[12px] uppercase font-[900] tracking-widest text-[#161a20] shadow-[0_20px_45px_rgba(255,255,255,0.15)]"
+        className="fixed bottom-5 right-4 z-[68] flex items-center gap-3 rounded-full bg-code-green px-4 py-3 text-[12px] uppercase font-[900] tracking-widest text-[#161a20] shadow-[0_0_30px_rgba(94,210,156,0.3)]"
       >
         <MessageSquare className="h-5 w-5" />
         <span className="hidden sm:inline">Connect to AI</span>
