@@ -50,7 +50,7 @@ const passwordSchema = z.string()
 const signupSchema = z.object({
   fullName: z.string().min(2, "Full name is required"),
   email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Valid phone number required"),
+  phone: z.string().regex(/^\\d{10}$/, "Phone number must be exactly 10 digits"),
   dateOfBirth: z.string().min(1, "Date of birth is required"),
   gender: z.string().min(1, "Gender is required"),
   collegeName: z.string().min(2, "College name is required"),
@@ -441,6 +441,10 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                             {...registerLogin('email')}
                             type="email"
                             placeholder="EMAIL ADDRESS"
+                            onChange={(e) => {
+                              e.target.value = e.target.value.toLowerCase();
+                              registerLogin('email').onChange(e);
+                            }}
                             className="w-full bg-white/5 border border-white/5 focus:border-white/20 rounded-2xl py-4 pl-14 pr-5 text-white placeholder-white/20 font-bold text-[13px] tracking-widest outline-none transition-all"
                           />
                         </div>
@@ -565,6 +569,10 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                                 {...registerSignup('email')}
                                 type="email"
                                 placeholder="EMAIL ADDRESS"
+                                onChange={(e) => {
+                                  e.target.value = e.target.value.toLowerCase();
+                                  registerSignup('email').onChange(e);
+                                }}
                                 className="w-full bg-white/5 border border-white/5 focus:border-white/20 rounded-2xl py-4 pl-14 pr-5 text-white placeholder-white/20 font-bold text-[13px] tracking-widest outline-none transition-all"
                               />
                             </div>
@@ -575,6 +583,10 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                               <input
                                 {...registerSignup('phone')}
                                 placeholder="PHONE NUMBER"
+                                maxLength={10}
+                                onInput={(e) => {
+                                  e.currentTarget.value = e.currentTarget.value.replace(/\\D/g, '').slice(0, 10);
+                                }}
                                 className="w-full bg-white/5 border border-white/5 focus:border-white/20 rounded-2xl py-4 pl-14 pr-5 text-white placeholder-white/20 font-bold text-[13px] tracking-widest outline-none transition-all"
                               />
                             </div>
