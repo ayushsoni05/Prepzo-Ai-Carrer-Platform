@@ -43,6 +43,12 @@ const questionSchema = new mongoose.Schema({
   companyTags: [{
     type: String,
   }],
+  category: {
+    type: String,
+    enum: ['foundational', 'practical'],
+    default: 'foundational',
+    index: true,
+  },
   metadata: {
     generatedBy: { type: String, default: 'groq' },
     modelUsed: { type: String, default: 'llama-3.1-70b-versatile' },

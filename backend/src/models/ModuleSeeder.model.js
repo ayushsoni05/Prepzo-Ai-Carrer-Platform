@@ -23,6 +23,12 @@ const moduleSeederSchema = new mongoose.Schema({
     type: [String],
     default: [],
   },
+  category: {
+    type: String,
+    enum: ['foundational', 'practical'],
+    default: 'foundational',
+    index: true,
+  },
   status: {
     type: String,
     enum: ['pending', 'active', 'completed', 'failed'],

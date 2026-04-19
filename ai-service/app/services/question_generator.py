@@ -324,6 +324,10 @@ CONTEXT: {profile_ctx}
 SECTION: {section}
 TOPIC: {topic}
 DIFFICULTY: {difficulty.upper()}
+CATEGORY: {category.upper() if category else 'TECHNICAL'}
+
+STRICT INSTRUCTION:
+{ 'Generate a theoretical, foundational, or principled question focusing on core concepts and underlying mechanics.' if category == 'foundational' else 'Generate a practical, applied, or skill-specific question focusing on real-world implementation, debugging, or deep technical depth.' if category == 'practical' else 'Generate a comprehensive technical interview question.' }
 
 The question should be technical and challenging. Respond ONLY with a JSON object in this format:
 {{
@@ -340,6 +344,10 @@ The question should be technical and challenging. Respond ONLY with a JSON objec
         return f"""Task: Generate 1 coding problem for {company.upper()}.
 Topic: {topic}
 Difficulty: {difficulty.upper()}
+Category: {category.upper() if category else 'TECHNICAL'}
+
+STRICT INSTRUCTION:
+{ 'Focus on whiteboard-style conceptual implementation, data structure principles, and logic.' if category == 'foundational' else 'Focus on industrial-grade implementation, handling edge cases, optimization for production, and skill-specific complex scenarios.' if category == 'practical' else 'Generate a challenging coding problem.' }
 
 Stictly respond with ONLY JSON:
 {{
@@ -361,7 +369,7 @@ Stictly respond with ONLY JSON:
 }}"""
 
     def _short_answer_prompt(self, section: str, topic: str, difficulty: str,
-                              profile_ctx: str, company: str, seed: str, idx: int) -> str:
+                              profile_ctx: str, company: str, seed: str, idx: int, category: str = "") -> str:
         return f"""Generate a high-level system design or architectural interview question asked at {company.upper() or 'Microsoft/Meta'}.
 
 STUDENT CONTEXT:
@@ -369,6 +377,10 @@ STUDENT CONTEXT:
 
 TOPIC: {topic}
 DIFFICULTY: {difficulty.upper()}
+CATEGORY: {category.upper() if category else 'TECHNICAL'}
+
+STRICT INSTRUCTION:
+{ 'Analyze theoretical trade-offs, foundational architectures, and academic concepts.' if category == 'foundational' else 'Analyze practical system bottlenecks, real-world deployment challenges, and skill-specific troubleshooting.' if category == 'practical' else 'Analyze deep trade-offs, scalability, or performance bottlenecks.' }
 
 STRICT RULES:
 - Ask about deep trade-offs, scalability, or performance bottlenecks.
@@ -394,8 +406,8 @@ Respond with ONLY this JSON:
     # ──────────────────────────────────────────────────────────────────────────
 
     async def _gen_mcq(self, section: str, topic: str, difficulty: str,
-                        profile_ctx: str, company: str, seed: str, idx: int) -> Dict[str, Any]:
-        prompt = self._mcq_prompt(section, topic, difficulty, profile_ctx, company, seed, idx)
+                        profile_ctx: str, company: str, seed: str, idx: int, category: str = "") -> Dict[str, Any]:
+        prompt = self._mcq_prompt(section, topic, difficulty, profile_ctx, company, seed, idx, category)
         for attempt in range(3):
             try:
                 raw = await self._llm(prompt, max_tokens=800, temperature=0.85 + (attempt * 0.05))
@@ -426,8 +438,8 @@ Respond with ONLY this JSON:
         return None
 
     async def _gen_coding(self, section: str, topic: str, difficulty: str,
-                           profile_ctx: str, company: str, seed: str, idx: int) -> Dict[str, Any]:
-        prompt = self._coding_prompt(section, topic, difficulty, profile_ctx, company, seed, idx)
+                           profile_ctx: str, company: str, seed: str, idx: int, category: str = "") -> Dict[str, Any]:
+        prompt = self._coding_prompt(section, topic, difficulty, profile_ctx, company, seed, idx, category)
         for attempt in range(3):
             try:
                 raw = await self._llm(prompt, max_tokens=1500, temperature=0.82 + (attempt * 0.05))
@@ -465,8 +477,8 @@ Respond with ONLY this JSON:
         return None
 
     async def _gen_short_answer(self, section: str, topic: str, difficulty: str,
-                                 profile_ctx: str, company: str, seed: str, idx: int) -> Dict[str, Any]:
-        prompt = self._short_answer_prompt(section, topic, difficulty, profile_ctx, company, seed, idx)
+                                 profile_ctx: str, company: str, seed: str, idx: int, category: str = "") -> Dict[str, Any]:
+        prompt = self._short_answer_prompt(section, topic, difficulty, profile_ctx, company, seed, idx, category)
         for attempt in range(3):
             try:
                 raw = await self._llm(prompt, max_tokens=900, temperature=0.80 + (attempt * 0.05))
@@ -577,11 +589,11 @@ Respond with ONLY this JSON:
                 target_company = company if company else random.choice(top_firms)
 
                 if qtype == "coding":
-                    tasks.append(self._gen_coding(section, topic, difficulty, profile_ctx, target_company, seed, q_idx))
+                    tasks.append(self._gen_coding(section, topic, difficulty, profile_ctx, target_company, seed, q_idx, category))
                 elif qtype == "short_answer":
-                    tasks.append(self._gen_short_answer(section, topic, difficulty, profile_ctx, target_company, seed, q_idx))
+                    tasks.append(self._gen_short_answer(section, topic, difficulty, profile_ctx, target_company, seed, q_idx, category))
                 else:
-                    tasks.append(self._gen_mcq(section, topic, difficulty, profile_ctx, target_company, seed, q_idx))
+                    tasks.append(self._gen_mcq(section, topic, difficulty, profile_ctx, target_company, seed, q_idx, category))
                 q_idx += 1
 
         # Generate questions in small batches (chunks) to prevent timeouts on Render
@@ -912,6 +924,7 @@ Respond with ONLY this JSON:
                     stream_cat=stream_cat,
                     company_pattern=company_pattern,
                     company=company,
+                    category=cfg.get("category", "")
                 )
                 if qs:
                     test_sections.append({
@@ -1063,7 +1076,8 @@ Respond with ONLY this JSON:
                     num_q=q_per_section,
                     dist=dist,
                     seed=seed,
-                    stream_cat=stream_cat
+                    stream_cat=stream_cat,
+                    category='foundational'
                 )
                 all_sections_data.append(section_data)
             except Exception as e:
@@ -1131,7 +1145,8 @@ Respond with ONLY this JSON:
                     num_q=10, # Exactly 10 questions per skill as requested
                     dist=dist,
                     seed=seed,
-                    stream_cat=stream_cat
+                    stream_cat=stream_cat,
+                    category='practical'
                 )
                 all_skill_data.append(skill_data)
             except Exception as e:

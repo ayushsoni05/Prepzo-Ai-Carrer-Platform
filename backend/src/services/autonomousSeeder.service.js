@@ -80,7 +80,8 @@ class AutonomousSeeder {
       const testConfig = {
         questionCount: this.batchSize,
         difficultyRange: 'mixed',
-        isSeedingTask: true 
+        isSeedingTask: true,
+        category: job.category || 'foundational'
       };
 
       const aiResponse = await aiService.generateAITest(studentProfile, testConfig);
@@ -101,6 +102,7 @@ class AutonomousSeeder {
         explanation: q.explanation,
         difficulty: q.difficulty || 'medium',
         topics: q.topics || job.topics || [],
+        category: job.category || 'foundational',
         metadata: {
           generatedBy: 'groq',
           modelUsed: 'llama-3.1-70b-versatile',
@@ -133,7 +135,7 @@ class AutonomousSeeder {
     const moduleId = `${field.toLowerCase().replace(/[^a-z0-9]/g, '_')}_${targetRole.toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
     await ModuleSeeder.findOneAndUpdate(
       { moduleId },
-      { $set: { priority: 10, status: 'pending' }, $setOnInsert: { field, targetRole, questionCount: 0 } },
+      { $set: { priority: 10, status: 'pending', category: 'foundational' }, $setOnInsert: { field, targetRole, questionCount: 0 } },
       { upsert: true }
     );
     console.log(`Boosted module priority: ${moduleId}`);
@@ -150,7 +152,7 @@ class AutonomousSeeder {
     await ModuleSeeder.findOneAndUpdate(
       { moduleId },
       { 
-        $set: { priority: 15, status: 'pending' }, 
+        $set: { priority: 15, status: 'pending', category: 'practical' }, 
         $setOnInsert: { 
           field: field || 'General', 
           targetRole: targetRole || 'Software Engineer', 

@@ -61,7 +61,7 @@ export const generateFieldTest = async (req, res, next) => {
     const fieldFuzzy = new RegExp(studentProfile.stream.split(' ')[0], 'i'); // Match first word (e.g. "Computer")
 
     let questions = await Question.aggregate([
-      { $match: { moduleId } },
+      { $match: { moduleId, category: 'foundational' } },
       { $sample: { size: 60 } }
     ]);
 
@@ -70,7 +70,7 @@ export const generateFieldTest = async (req, res, next) => {
       const altModuleId = moduleId.replace('computer_science___engineering', 'computer_science');
       if (altModuleId !== moduleId) {
         const altQuestions = await Question.aggregate([
-          { $match: { moduleId: altModuleId } },
+          { $match: { moduleId: altModuleId, category: 'foundational' } },
           { $sample: { size: 60 - questions.length } }
         ]);
         questions = [...questions, ...altQuestions];
@@ -85,6 +85,7 @@ export const generateFieldTest = async (req, res, next) => {
         { 
           $match: { 
             field: { $regex: fieldFuzzy }, 
+            category: 'foundational',
             _id: { $nin: questions.map(q => q._id) }
           } 
         },
@@ -101,6 +102,7 @@ export const generateFieldTest = async (req, res, next) => {
         { 
           $match: { 
             field: { $regex: /Computer Science|Information Technology/i },
+            category: 'foundational',
             _id: { $nin: questions.map(q => q._id) }
           } 
         },
@@ -114,7 +116,7 @@ export const generateFieldTest = async (req, res, next) => {
       console.log(`[aiTest] Ultimate fallback. Pulling any available questions.`);
       const needed = 60 - questions.length;
       const anyQuestions = await Question.aggregate([
-        { $match: { _id: { $nin: questions.map(q => q._id) } } },
+        { $match: { category: 'foundational', _id: { $nin: questions.map(q => q._id) } } },
         { $sample: { size: needed } }
       ]);
       questions = [...questions, ...anyQuestions];
@@ -251,7 +253,8 @@ export const generateSkillTest = async (req, res, next) => {
       let skillBatch = await Question.aggregate([
         { 
           $match: { 
-            topics: { $in: [new RegExp(`^${skill}$`, 'i'), skill] } 
+            topics: { $in: [new RegExp(`^${skill}$`, 'i'), skill] },
+            category: 'practical'
           } 
         },
         { $sample: { size: QUESTIONS_PER_SKILL } }
@@ -269,6 +272,7 @@ export const generateSkillTest = async (req, res, next) => {
             $match: { 
               field: { $regex: new RegExp(studentProfile.stream.split(' ')[0], 'i') },
               topics: { $regex: new RegExp(skill, 'i') },
+              category: 'practical',
               _id: { $nin: [...usedIds, ...skillBatch.map(q => q._id)] }
             } 
           },
