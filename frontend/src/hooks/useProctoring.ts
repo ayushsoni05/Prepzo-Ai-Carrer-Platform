@@ -537,26 +537,16 @@ export function useProctoring(callbacks?: ProctoringCallbacks) {
       video.srcObject = state.webcamStream;
       video.muted = true;
       video.playsInline = true;
-
-      if (delayedPlayTimeoutRef.current) {
-        clearTimeout(delayedPlayTimeoutRef.current);
-      }
-
-      // Only play if video is paused, has a valid source, and is connected to DOM
-      // Also check readyState to ensure metadata is loaded
-      if (video.paused && video.srcObject && video.isConnected && video.readyState >= 2) {
-        // Use a small timeout to ensure the video element is fully ready
-        delayedPlayTimeoutRef.current = setTimeout(() => {
-          // One final check before playing
-          if (video && video.paused && video.srcObject && video.isConnected && video.readyState >= 2) {
-            video.play().catch((error: any) => {
-              // Benign race condition where play() is interrupted by pause() or src change
-              if (error.name !== 'AbortError') {
-                console.warn('Video playback issue:', error);
-              }
-            });
-          }
-        }, 150);
+      
+      // Let the browser handle autoPlay natively to prevent unhandled promise rejections
+      // on active state changes or unmounts. Just in case it's paused, we will silently try to play.
+      if (video.paused) {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // Silently catch AbortError to prevent browser console pollution
+          });
+        }
       }
     }
   }, [state.webcamStream]);

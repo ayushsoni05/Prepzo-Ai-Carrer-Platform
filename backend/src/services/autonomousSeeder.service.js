@@ -67,6 +67,7 @@ class AutonomousSeeder {
     try {
       // 1. Request batch from AI Service
       const studentProfile = {
+        id: 'bot_seeder_' + job.moduleId,
         name: 'Seeder Bot',
         stream: job.field,
         targetRole: job.targetRole,

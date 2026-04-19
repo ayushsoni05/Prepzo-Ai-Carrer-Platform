@@ -1462,6 +1462,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
           <>
             <video 
               ref={videoRef} 
+              autoPlay
               muted 
               playsInline
               className="fixed bottom-4 right-4 w-32 h-24 rounded-xl object-cover z-50 border-2 border-white/20"
