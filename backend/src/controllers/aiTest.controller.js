@@ -121,10 +121,14 @@ export const generateFieldTest = async (req, res, next) => {
     }
 
     if (questions.length === 0) {
-       // Return 404 with 'empty test' so frontend silently triggers local fallback
-       return res.status(404).json({
-         success: false,
-         message: 'empty test - database seeding in progress',
+       // Return 200 with recovery token so frontend silently triggers local fallback without browser 404 logs
+       return res.status(200).json({
+         success: true,
+         message: 'Database seeding in progress, triggering fallback',
+         data: {
+           sessionId: 'recovery_database_seeding_' + Date.now(),
+           test: null
+         }
        });
     }
 
@@ -294,9 +298,13 @@ export const generateSkillTest = async (req, res, next) => {
     }
 
     if (questions.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: 'empty test - database seeding in progress'
+      return res.status(200).json({
+         success: true,
+         message: 'Database seeding in progress, triggering fallback',
+         data: {
+           sessionId: 'recovery_database_seeding_' + Date.now(),
+           test: null
+         }
       });
     }
 
