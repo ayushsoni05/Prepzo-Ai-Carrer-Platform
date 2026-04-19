@@ -186,7 +186,7 @@ export const generateFieldTest = async (req, res, next) => {
   }
 };
 
-// @desc    Generate Stage 2: Skill-based Assessment (10 questions per skill)
+// @desc    Generate Stage 2: Skill-based Assessment (60 questions total, distributed across selected skills)
 // @route   POST /api/ai-test/generate/skill-test
 // @access  Private
 export const generateSkillTest = async (req, res, next) => {
@@ -194,12 +194,17 @@ export const generateSkillTest = async (req, res, next) => {
     const user = req.user;
     const { testConfig } = req.body;
 
-    // Use skills selected by student
-    const skills = user.knownTechnologies || [];
+    // Use skills selected by student from onboarding (skillRatings map or knownTechnologies)
+    const selectedSkills = user.knownTechnologies || [];
+    const skillMap = user.skillRatings || {};
+    
+    // Merge skills from both sources to be sure
+    const skills = [...new Set([...selectedSkills, ...Object.keys(skillMap)])].filter(Boolean);
+
     if (!skills.length) {
       return res.status(400).json({
         success: false,
-        message: 'No skills found in user profile. Please update skills in onboarding.'
+        message: 'No skills found in user profile. Please select skills in onboarding form to start Skill Precision Assessment.'
       });
     }
 
@@ -210,11 +215,11 @@ export const generateSkillTest = async (req, res, next) => {
       degree: user.degree || 'B.Tech',
       stream: user.fieldOfStudy || 'Computer Science',
       fieldOfStudy: user.fieldOfStudy || 'Computer Science',
-      year: user.yearOfStudy || '3rd Year',
+      year: user.yearOfStudy || 'Final Year',
       targetRole: user.targetRole || 'Software Engineer',
       careerGoals: user.careerGoals || `Success in ${user.targetRole || 'Technical'} role`,
       skillRatings: user.skillRatings || {},
-      knownTechnologies: user.knownTechnologies || []
+      knownTechnologies: skills
     };
 
     // Check if locked
@@ -227,37 +232,37 @@ export const generateSkillTest = async (req, res, next) => {
       });
     }
 
-
-
-    console.log(`[aiTest] generateSkillTest start for user ${user._id} for ${skills.length} skills`);
+    console.log(`[aiTest] generateSkillTest (Stage 2) start for user ${user._id} | Skills: ${skills.join(', ')}`);
     
     // 1. Generate Module ID
     const cleanField = studentProfile.stream.toLowerCase().replace(/[^a-z0-9]/g, '_');
     const cleanRole  = studentProfile.targetRole.toLowerCase().replace(/[^a-z0-9]/g, '_');
     const moduleId = `${cleanField}_${cleanRole}`;
 
+    // Target: 60 questions total (Stage 2 consistency with Stage 1)
+    const TARGET_QUESTIONS = 60;
+    const questionsPerSkill = Math.max(5, Math.floor(TARGET_QUESTIONS / skills.length));
+
     // 2. Fetch from Seeded Question Bank (Filter by topics/skills)
     let questions = await Question.aggregate([
       { 
         $match: { 
-          moduleId,
           topics: { $in: skills } 
         } 
       },
-      { $sample: { size: skills.length * 10 } }
+      { $sample: { size: TARGET_QUESTIONS } }
     ]);
 
-    // Fallback 1: Field-wide skill questions (if specific module is thin)
-    if (questions.length < (skills.length * 5)) {
-      console.log(`[aiTest] Skill questions for ${moduleId} limited. Pulling from field-wide skill pool.`);
+    // Fallback 1: Pull from any module within the same fuzzy field if thin
+    if (questions.length < TARGET_QUESTIONS) {
+      console.log(`[aiTest] Stage 2 pool thin for skills: ${skills.join(', ')}. Expanding search.`);
       const existingIds = questions.map(q => q._id);
-      const needed = (skills.length * 10) - questions.length;
+      const needed = TARGET_QUESTIONS - questions.length;
       
       const fieldSkillQuestions = await Question.aggregate([
         { 
           $match: { 
             field: { $regex: new RegExp(studentProfile.stream.split(' ')[0], 'i') },
-            topics: { $in: skills },
             _id: { $nin: existingIds }
           } 
         },
@@ -266,41 +271,28 @@ export const generateSkillTest = async (req, res, next) => {
       questions = [...questions, ...fieldSkillQuestions];
     }
 
-    // Fallback 2: Universal topic match (any field)
-    if (questions.length < (skills.length * 5)) {
-      console.log(`[aiTest] Field skill bank insufficient. Using universal technical skill pool.`);
+    // Fallback 2: Universal technical questions
+    if (questions.length < TARGET_QUESTIONS) {
+      console.log(`[aiTest] Stage 2 still thin. Using universal technical core.`);
       const existingIds = questions.map(q => q._id);
-      const needed = (skills.length * 10) - questions.length;
+      const needed = TARGET_QUESTIONS - questions.length;
       
-      const universalSkillQuestions = await Question.aggregate([
+      const universalQuestions = await Question.aggregate([
         { 
           $match: { 
-            topics: { $in: skills },
+            field: { $regex: /Computer Science|Information Technology|Engineering/i },
             _id: { $nin: existingIds }
           } 
         },
         { $sample: { size: needed } }
       ]);
-      questions = [...questions, ...universalSkillQuestions];
-    }
-
-    // Fallback 3: Ultimate fallback - any available questions
-    if (questions.length < (skills.length * 5)) {
-      console.log(`[aiTest] Ultimate fallback. Pulling any available questions for skills.`);
-      const existingIds = questions.map(q => q._id);
-      const needed = (skills.length * 10) - questions.length;
-      
-      const anyQuestions = await Question.aggregate([
-        { $match: { _id: { $nin: existingIds } } },
-        { $sample: { size: needed } }
-      ]);
-      questions = [...questions, ...anyQuestions];
+      questions = [...questions, ...universalQuestions];
     }
 
     if (questions.length === 0) {
       return res.status(200).json({
          success: true,
-         message: 'Database seeding in progress, triggering fallback',
+         message: 'Database seeding in progress for your specific skills, triggering recovery fallback',
          data: {
            sessionId: 'recovery_database_seeding_' + Date.now(),
            test: null
@@ -308,32 +300,64 @@ export const generateSkillTest = async (req, res, next) => {
       });
     }
 
-    console.log(`[aiTest] Found ${questions.length} skill-relevant questions from seeded bank.`);
+    console.log(`[aiTest] Successfully sourced ${questions.length} questions for Stage 2 Skill Precision.`);
 
-    // Construct test data
+    // Group questions into sections based on skills for better UI presentation
+    const sections = skills.map(skill => {
+      // Find questions that match this skill
+      const skillQuestions = questions.filter(q => 
+        q.topics && q.topics.some(t => t.toLowerCase() === skill.toLowerCase())
+      );
+      
+      // If questions are low, trigger background seeding boost for this topic
+      if (skillQuestions.length < 10) {
+        seeder.boostTopic(skill, studentProfile.stream, studentProfile.targetRole);
+      }
+
+      if (skillQuestions.length === 0) return null;
+      
+      return {
+        id: `skill_${skill.toLowerCase().replace(/[^a-z0-9]/g, '_')}`,
+        name: skill,
+        questions: skillQuestions.map(q => ({
+          id: q._id,
+          type: q.type || 'mcq',
+          question: q.questionText || q.question,
+          options: q.options,
+          correct: q.correctAnswer !== undefined ? q.correctAnswer : q.correct,
+          explanation: q.explanation,
+          difficulty: q.difficulty,
+          topics: q.topics
+        }))
+      };
+    }).filter(s => s !== null);
+
+    // If sectioning failed to capture all questions, put them in a catch-all
+    const capturedIds = new Set(sections.flatMap(s => s.questions.map(q => q.id.toString())));
+    const remainingQuestions = questions.filter(q => !capturedIds.has(q._id.toString()));
+
+    if (remainingQuestions.length > 0) {
+      sections.push({
+        id: 'skill_mix',
+        name: 'Technical Core',
+        questions: remainingQuestions.map(q => ({
+          id: q._id,
+          type: q.type || 'mcq',
+          question: q.questionText || q.question,
+          options: q.options,
+          correct: q.correctAnswer !== undefined ? q.correctAnswer : q.correct,
+          explanation: q.explanation,
+          difficulty: q.difficulty,
+          topics: q.topics
+        }))
+      });
+    }
+
     const testData = {
       testId: `seeded_skills_${moduleId}_${Date.now()}`,
       totalQuestions: questions.length,
       totalTime: questions.length * 60,
-      sections: skills.map(skill => {
-        const skillQuestions = questions.filter(q => q.topics && q.topics.includes(skill));
-        if (skillQuestions.length === 0) return null;
-        
-        return {
-          id: `skill_${skill.toLowerCase().replace(/[^a-z0-9]/g, '_')}`,
-          name: skill,
-          questions: skillQuestions.slice(0, 10).map(q => ({
-            id: q._id,
-            type: q.type || 'mcq',
-            question: q.questionText,
-            options: q.options,
-            correct: q.correctAnswer,
-            explanation: q.explanation,
-            difficulty: q.difficulty,
-            topics: q.topics
-          }))
-        };
-      }).filter(s => s !== null)
+      sections: sections
     };
 
     const testSession = await TestSession.create({
@@ -341,11 +365,12 @@ export const generateSkillTest = async (req, res, next) => {
       testType: 'skill_assessment',
       status: 'active',
       startTime: new Date(),
-      totalQuestions: testData.totalQuestions || (skills.length * 10),
+      totalQuestions: testData.totalQuestions,
       testData: testData,
       metadata: {
         stage: 2,
-        skillsCovered: skills
+        skillsCovered: skills,
+        source: 'seeded_bank'
       }
     });
 

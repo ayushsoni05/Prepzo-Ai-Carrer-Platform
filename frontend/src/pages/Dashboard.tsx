@@ -355,7 +355,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
                 onClick={() => setShowFullRecommendations(true)}
                 className="text-[12px] text-white  font-black uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity"
               >
-                Open AI Insights
+                Open AI Career Recommendation
               </button>
             </div>
           </div>

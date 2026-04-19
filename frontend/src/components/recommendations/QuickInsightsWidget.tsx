@@ -72,7 +72,7 @@ export default function QuickInsightsWidget({ onViewFull }: QuickInsightsWidgetP
             <Brain className="w-6 h-6 text-gray-400" />
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-white">AI Career Insights</h3>
+            <h3 className="font-semibold text-white">Prepzo AI Career Recommendation</h3>
             <p className="text-sm text-gray-400">Complete an assessment to unlock personalized AI recommendations</p>
           </div>
           <button
@@ -98,7 +98,7 @@ export default function QuickInsightsWidget({ onViewFull }: QuickInsightsWidgetP
             <Sparkles className="w-5 h-5 text-blue-400" />
           </div>
           <div>
-            <h3 className="font-semibold text-white">AI Career Insights</h3>
+            <h3 className="font-semibold text-white">Prepzo AI Career Recommendation</h3>
             <p className="text-xs text-gray-400">
               {insights.source === 'ai' ? 'Powered by AI Analysis' : 'Based on your assessment'}
             </p>
@@ -180,7 +180,7 @@ export default function QuickInsightsWidget({ onViewFull }: QuickInsightsWidgetP
         className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl text-white font-medium hover:shadow-lg hover:shadow-blue-500/25 transition-all"
       >
         <Brain className="w-5 h-5" />
-        View Full AI Recommendations
+        View Full Prepzo AI Career Recommendation
       </button>
     </motion.div>
   );

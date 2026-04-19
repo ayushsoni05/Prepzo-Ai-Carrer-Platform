@@ -439,7 +439,7 @@ const RoadmapSection = ({ roadmap }: { roadmap: AIRecommendationResult['learning
     <div className="flex items-center justify-between mb-10 md:mb-12">
         <div>
            <p className="text-[10px]  font-black text-white/20 uppercase tracking-[0.2em] mb-2">{roadmap.title}</p>
-           <h3 className="text-2xl md:text-3xl  font-[900] text-white uppercase tracking-tighter italic leading-none">Career Pathing</h3>
+           <h3 className="text-2xl md:text-3xl  font-[900] text-white uppercase tracking-tighter italic leading-none">AI Milestone Plan</h3>
         </div>
         <Rocket className="w-6 h-6 md:w-8 md:h-8 text-white/10" />
     </div>
@@ -598,7 +598,7 @@ export default function AICareerResults({ recommendations }: AICareerResultsProp
               </div>
             )}
             <h1 className="text-4xl sm:text-5xl md:text-7xl  font-[900] text-white uppercase tracking-tighter leading-[0.85] italic mb-8">
-                Career<br />Readiness<br />Signal
+                Prepzo AI<br />Career<br />Recommendation
             </h1>
             <p className="text-white/40 text-[14px] md:text-[16px]  font-medium max-w-2xl mx-auto leading-relaxed italic">
                 {analysis.careerReadinessScore <= 20 
@@ -627,7 +627,7 @@ export default function AICareerResults({ recommendations }: AICareerResultsProp
         {(recommendations as any).career_paths?.length > 0 && (
           <div className="space-y-10">
             <div className="flex items-center gap-4">
-              <h2 className="text-xl md:text-2xl  font-[900] text-white uppercase tracking-tight italic">Matching Career Profiles</h2>
+              <h2 className="text-xl md:text-2xl  font-[900] text-white uppercase tracking-tight italic">Recommended Career Roles</h2>
               <div className="h-[1px] flex-1 bg-white/5" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

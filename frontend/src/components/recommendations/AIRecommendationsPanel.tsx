@@ -97,7 +97,7 @@ const AIRecommendationsPanel: React.FC<AIRecommendationsPanelProps> = ({ onClose
         
         setRecs(mappedRecs);
       } else {
-         setError("No recent AI Career analysis found. Please take an assessment first so we can fetch your genuine score recommendations.");
+        setError("No recent Prepzo AI Career Recommendation found. Please take an assessment first so we can fetch your genuine score recommendations.");
       }
     } catch (err: any) {
       setError(err?.message || 'Failed to load recommendations.');
@@ -113,7 +113,7 @@ const AIRecommendationsPanel: React.FC<AIRecommendationsPanelProps> = ({ onClose
           <Brain className="w-16 h-16 text-cyan-400 mb-4" />
         </motion.div>
         <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 animate-pulse">
-          Loading AI Career Recommendations...
+          Loading Prepzo AI Career Recommendation...
         </h3>
       </div>
     );

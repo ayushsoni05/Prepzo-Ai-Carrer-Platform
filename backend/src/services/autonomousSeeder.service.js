@@ -72,15 +72,15 @@ class AutonomousSeeder {
         stream: job.field,
         targetRole: job.targetRole,
         fieldOfStudy: job.field,
-        degree: 'B.Tech', // Default for seeder context
+        degree: 'B.Tech', 
         year: '4',
-        knownTechnologies: []
+        knownTechnologies: job.topics || [] 
       };
 
       const testConfig = {
         questionCount: this.batchSize,
         difficultyRange: 'mixed',
-        isSeedingTask: true // Flag for AI service to optimize
+        isSeedingTask: true 
       };
 
       const aiResponse = await aiService.generateAITest(studentProfile, testConfig);
@@ -100,7 +100,7 @@ class AutonomousSeeder {
         correctAnswer: q.correctAnswer,
         explanation: q.explanation,
         difficulty: q.difficulty || 'medium',
-        topics: q.topics || [],
+        topics: q.topics || job.topics || [],
         metadata: {
           generatedBy: 'groq',
           modelUsed: 'llama-3.1-70b-versatile',
@@ -119,7 +119,7 @@ class AutonomousSeeder {
       console.log(`Successfully seeded ${results.length} questions for ${job.moduleId}. Total: ${job.questionCount}`);
     } catch (error) {
       console.error(`Error processing job ${job.moduleId}:`, error.message);
-      job.status = 'pending'; // Reset to pending for retry
+      job.status = 'pending'; 
       job.errorLog = error.message;
       job.retryCount += 1;
       await job.save();
@@ -127,7 +127,7 @@ class AutonomousSeeder {
   }
 
   /**
-   * Trigger an immediate seeding for a specific module (e.g. when a student opens it)
+   * Trigger an immediate seeding for a specific module
    */
   async boostModule(field, targetRole) {
     const moduleId = `${field.toLowerCase().replace(/[^a-z0-9]/g, '_')}_${targetRole.toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
@@ -137,6 +137,30 @@ class AutonomousSeeder {
       { upsert: true }
     );
     console.log(`Boosted module priority: ${moduleId}`);
+  }
+
+  /**
+   * Trigger an immediate seeding for a specific topic (skill)
+   */
+  async boostTopic(topic, field, targetRole) {
+    const topicId = `topic_${topic.toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
+    const cleanField = (field || 'General').toLowerCase().replace(/[^a-z0-9]/g, '_');
+    const moduleId = `${topicId}_in_${cleanField}`;
+
+    await ModuleSeeder.findOneAndUpdate(
+      { moduleId },
+      { 
+        $set: { priority: 15, status: 'pending' }, 
+        $setOnInsert: { 
+          field: field || 'General', 
+          targetRole: targetRole || 'Software Engineer', 
+          questionCount: 0,
+          topics: [topic] 
+        } 
+      },
+      { upsert: true }
+    );
+    console.log(`Boosted topic priority: ${moduleId} (${topic})`);
   }
 
   stop() {
