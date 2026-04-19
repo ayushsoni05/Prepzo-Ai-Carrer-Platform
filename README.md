@@ -30,13 +30,13 @@ Prepzo is a next-generation, AI-powered career platform designed exclusively for
 *(Replace the placeholder links below with your actual image paths once uploaded to GitHub or your host)*
 
 ### Student Command Center (Dashboard)
-![Dashboard Demo](https://via.placeholder.com/1000x500.png?text=Dashboard+Overview+Screenshot)
+![Dashboard Demo](docs/screenshots/dashboard.png)
 
 ### Real-Time Live Assessment 
-![Assessment Mode](https://via.placeholder.com/1000x500.png?text=Live+Assessment+%26+Proctoring+Screenshot)
+![Assessment Mode](docs/screenshots/assessment.png)
 
 ### AI Mentor Interaction
-![AI Mentor](https://via.placeholder.com/1000x500.png?text=Interactive+AI+Mentor+Screenshot)
+![AI Mentor](docs/screenshots/mentor.png)
 
 ---
 
