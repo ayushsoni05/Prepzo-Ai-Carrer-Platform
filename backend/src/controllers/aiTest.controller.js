@@ -109,40 +109,22 @@ export const generateFieldTest = async (req, res, next) => {
       questions = [...questions, ...universalQuestions];
     }
 
-    // FINAL FAILSAFE: If DB is genuinely empty (0 questions), trigger immediate AI generation 
-    // This respects the user's "we seeded" requirement by filling the bank on-demand
-    if (questions.length === 0) {
-       console.warn(`[aiTest] Database seeded bank is empty. Triggering emergency AI generation for ${moduleId}`);
-       try {
-         const emergencyTest = await aiService.generateAITest(studentProfile, { questionCount: 60 });
-         if (emergencyTest?.success && emergencyTest.test?.sections?.[0]?.questions) {
-           const aiQs = emergencyTest.test.sections[0].questions;
-           // Map to format
-           questions = aiQs.map(q => ({
-             ...q,
-             questionText: q.question || q.questionText,
-             correctAnswer: q.correct || q.correctAnswer
-           }));
-           
-           // Background: Save these to the seed bank so they are "seeded" for the next person
-           Question.insertMany(questions.map(q => ({
-             ...q,
-             moduleId,
-             field: studentProfile.fieldOfStudy,
-             targetRole: studentProfile.targetRole,
-             metadata: { generatedBy: 'emergency_fallback' }
-           }))).catch(err => console.error('Failed to save emergency seed:', err));
-         }
-       } catch (aiErr) {
-         console.error('[aiTest] Emergency AI fallback failed:', aiErr.message);
-       }
+    // Fallback 4: ANY questions if still struggling (e.g. fresh DB)
+    if (questions.length < 60) {
+      console.log(`[aiTest] Ultimate fallback. Pulling any available questions.`);
+      const needed = 60 - questions.length;
+      const anyQuestions = await Question.aggregate([
+        { $match: { _id: { $nin: questions.map(q => q._id) } } },
+        { $sample: { size: needed } }
+      ]);
+      questions = [...questions, ...anyQuestions];
     }
 
     if (questions.length === 0) {
-       // Only return 404 if literally everything failed
+       // Return 404 with 'empty test' so frontend silently triggers local fallback
        return res.status(404).json({
          success: false,
-         message: 'Seeded questions are being initialized. Please try again in 5 minutes.',
+         message: 'empty test - database seeding in progress',
        });
     }
 
@@ -298,41 +280,23 @@ export const generateSkillTest = async (req, res, next) => {
       questions = [...questions, ...universalSkillQuestions];
     }
 
-    // FINAL FAILSAFE: Emergency on-demand generation
-    if (questions.length === 0) {
-      console.warn(`[aiTest] No seeded questions found for skills ${skills.join(', ')}. Triggering emergency AI.`);
-      try {
-        const emergencyTest = await aiService.generateAITest(studentProfile, { 
-          skills, 
-          questionCount: skills.length * 10 
-        });
-        if (emergencyTest?.success && emergencyTest.test?.sections?.[0]?.questions) {
-           const aiQs = emergencyTest.test.sections[0].questions;
-           questions = aiQs.map(q => ({
-             ...q,
-             questionText: q.question || q.questionText,
-             correctAnswer: q.correct || q.correctAnswer
-           }));
-           
-           // Background: Seed them
-           Question.insertMany(questions.map(q => ({
-             ...q,
-             moduleId,
-             field: studentProfile.fieldOfStudy,
-             targetRole: studentProfile.targetRole,
-             topics: skills.filter(s => q.questionText.toLowerCase().includes(s.toLowerCase())),
-             metadata: { generatedBy: 'emergency_skill_fallback' }
-           }))).catch(err => console.error('Failed to save emergency skill seed:', err));
-        }
-      } catch (aiErr) {
-        console.error('[aiTest] Emergency skill fallback failed:', aiErr.message);
-      }
+    // Fallback 3: Ultimate fallback - any available questions
+    if (questions.length < (skills.length * 5)) {
+      console.log(`[aiTest] Ultimate fallback. Pulling any available questions for skills.`);
+      const existingIds = questions.map(q => q._id);
+      const needed = (skills.length * 10) - questions.length;
+      
+      const anyQuestions = await Question.aggregate([
+        { $match: { _id: { $nin: existingIds } } },
+        { $sample: { size: needed } }
+      ]);
+      questions = [...questions, ...anyQuestions];
     }
 
     if (questions.length === 0) {
       return res.status(404).json({
         success: false,
-        message: 'No questions found for these specific skills. Seeding is in progress, please try again soon.'
+        message: 'empty test - database seeding in progress'
       });
     }
 

@@ -49,8 +49,10 @@ const passwordSchema = z.string()
 
 const signupSchema = z.object({
   fullName: z.string().min(2, "Full name is required"),
-  email: z.string().email("Invalid email address"),
-  phone: z.string().regex(/^\\d{10}$/, "Phone number must be exactly 10 digits"),
+  email: z.string().email("Invalid email address").refine((val) => !/^[A-Z]/.test(val), {
+    message: "Email must not start with a capital letter"
+  }),
+  phone: z.string().regex(/^\d{10}$/, "Mobile number must be exactly 10 digits"),
   dateOfBirth: z.string().min(1, "Date of birth is required"),
   gender: z.string().min(1, "Gender is required"),
   collegeName: z.string().min(2, "College name is required"),

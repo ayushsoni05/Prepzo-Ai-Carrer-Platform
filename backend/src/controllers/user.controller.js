@@ -91,14 +91,14 @@ export const completeOnboarding = async (req, res) => {
     } = req.body;
 
     // Update education data if provided
-    if (collegeName !== undefined) user.collegeName = collegeName;
-    if (degree !== undefined) user.degree = degree;
-    if (fieldOfStudy !== undefined) user.fieldOfStudy = fieldOfStudy;
-    if (yearOfStudy !== undefined) user.yearOfStudy = yearOfStudy;
+    user.collegeName = collegeName || user.collegeName || 'Not specified';
+    user.degree = degree || user.degree || 'Not specified';
+    user.fieldOfStudy = fieldOfStudy || user.fieldOfStudy || 'Not specified';
+    user.yearOfStudy = yearOfStudy || user.yearOfStudy || 'Not specified';
 
     // Update onboarding data
     if (cgpa !== undefined) user.cgpa = cgpa;
-    if (targetRole !== undefined) user.targetRole = targetRole;
+    user.targetRole = targetRole || user.targetRole || 'Software Engineer';
     if (skillRatings !== undefined) user.skillRatings = skillRatings;
     if (placementTimeline !== undefined) user.placementTimeline = placementTimeline;
     if (expectedCtc !== undefined) user.expectedCtc = expectedCtc;
