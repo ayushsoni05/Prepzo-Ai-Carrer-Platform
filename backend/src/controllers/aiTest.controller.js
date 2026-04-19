@@ -239,55 +239,69 @@ export const generateSkillTest = async (req, res, next) => {
     const cleanRole  = studentProfile.targetRole.toLowerCase().replace(/[^a-z0-9]/g, '_');
     const moduleId = `${cleanField}_${cleanRole}`;
 
-    // Target: 60 questions total (Stage 2 consistency with Stage 1)
-    const TARGET_QUESTIONS = 60;
-    const questionsPerSkill = Math.max(5, Math.floor(TARGET_QUESTIONS / skills.length));
+    // Target: 10 questions per selected area of expertise
+    const QUESTIONS_PER_SKILL = 10;
+    const finalQuestions = [];
+    const usedIds = new Set();
 
-    // 2. Fetch from Seeded Question Bank (Filter by topics/skills)
-    let questions = await Question.aggregate([
-      { 
-        $match: { 
-          topics: { $in: skills } 
-        } 
-      },
-      { $sample: { size: TARGET_QUESTIONS } }
-    ]);
+    console.log(`[aiTest] Sourcing 10 questions per skill for: ${skills.join(', ')}`);
 
-    // Fallback 1: Pull from any module within the same fuzzy field if thin
-    if (questions.length < TARGET_QUESTIONS) {
-      console.log(`[aiTest] Stage 2 pool thin for skills: ${skills.join(', ')}. Expanding search.`);
-      const existingIds = questions.map(q => q._id);
-      const needed = TARGET_QUESTIONS - questions.length;
-      
-      const fieldSkillQuestions = await Question.aggregate([
+    for (const skill of skills) {
+      // 1. Fetch from Seeded Question Bank (Filter by specific topic/skill)
+      let skillBatch = await Question.aggregate([
         { 
           $match: { 
-            field: { $regex: new RegExp(studentProfile.stream.split(' ')[0], 'i') },
-            _id: { $nin: existingIds }
+            topics: { $in: [new RegExp(`^${skill}$`, 'i'), skill] } 
           } 
         },
-        { $sample: { size: needed } }
+        { $sample: { size: QUESTIONS_PER_SKILL } }
       ]);
-      questions = [...questions, ...fieldSkillQuestions];
+
+      console.log(`[aiTest] Sourced ${skillBatch.length}/${QUESTIONS_PER_SKILL} for skill: ${skill}`);
+
+      // If batch is thin, trigger background seeding boost and try to fill from field
+      if (skillBatch.length < QUESTIONS_PER_SKILL) {
+        seeder.boostTopic(skill, studentProfile.stream, studentProfile.targetRole);
+        
+        const needed = QUESTIONS_PER_SKILL - skillBatch.length;
+        const fieldQuestions = await Question.aggregate([
+          { 
+            $match: { 
+              field: { $regex: new RegExp(studentProfile.stream.split(' ')[0], 'i') },
+              topics: { $regex: new RegExp(skill, 'i') },
+              _id: { $nin: [...usedIds, ...skillBatch.map(q => q._id)] }
+            } 
+          },
+          { $sample: { size: needed } }
+        ]);
+        skillBatch = [...skillBatch, ...fieldQuestions];
+      }
+
+      // Final fallback to core field questions if still thin
+      if (skillBatch.length < QUESTIONS_PER_SKILL) {
+        const needed = QUESTIONS_PER_SKILL - skillBatch.length;
+        const universalQuestions = await Question.aggregate([
+          { 
+            $match: { 
+              field: { $regex: /Computer Science|Information Technology|Engineering/i },
+              _id: { $nin: [...usedIds, ...skillBatch.map(q => q._id)] }
+            } 
+          },
+          { $sample: { size: needed } }
+        ]);
+        skillBatch = [...skillBatch, ...universalQuestions];
+      }
+
+      // Add to final pool tracking unique IDs
+      skillBatch.forEach(q => {
+        if (!usedIds.has(q._id.toString())) {
+          finalQuestions.push(q);
+          usedIds.add(q._id.toString());
+        }
+      });
     }
 
-    // Fallback 2: Universal technical questions
-    if (questions.length < TARGET_QUESTIONS) {
-      console.log(`[aiTest] Stage 2 still thin. Using universal technical core.`);
-      const existingIds = questions.map(q => q._id);
-      const needed = TARGET_QUESTIONS - questions.length;
-      
-      const universalQuestions = await Question.aggregate([
-        { 
-          $match: { 
-            field: { $regex: /Computer Science|Information Technology|Engineering/i },
-            _id: { $nin: existingIds }
-          } 
-        },
-        { $sample: { size: needed } }
-      ]);
-      questions = [...questions, ...universalQuestions];
-    }
+    const questions = finalQuestions;
 
     if (questions.length === 0) {
       return res.status(200).json({
