@@ -208,7 +208,16 @@ export function GlobalAIMentor() {
                     )}
                     <div className={`flex max-w-[85%] flex-col ${message.role === 'user' ? 'items-end' : 'items-start'}`}>
                       <div className={`whitespace-pre-wrap rounded-[22px] px-5 py-4 text-[13px] font-medium leading-relaxed backdrop-blur-xl ${message.role === 'user' ? 'bg-code-green/20 text-code-green border border-code-green/30 shadow-green-900/10 shadow-lg' : 'bg-white/5 text-white/80 border border-white/10 shadow-lg'}`}>
-                        {message.content}
+                        {message.content.split('\n').map((line, i) => {
+                          const parts = line.replace(/^#{1,6}\s+/, '').split('**');
+                          return (
+                            <p key={i} className="mb-1 last:mb-0 min-h-[0.5em]">
+                              {parts.map((part, j) => 
+                                j % 2 === 1 ? <strong key={j} className={message.role === 'user' ? 'text-code-green font-bold' : 'text-white/95 font-bold'}>{part}</strong> : <span key={j}>{part}</span>
+                              )}
+                            </p>
+                          );
+                        })}
                       </div>
                       {message.suggestions?.length ? (
                         <div className="mt-2 flex flex-wrap gap-2">
