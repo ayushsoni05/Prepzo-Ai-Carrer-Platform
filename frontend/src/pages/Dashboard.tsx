@@ -1150,7 +1150,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
         <ProctoredAssessment
           testMode={startAssessment as 'field' | 'skills'}
           onBack={() => setStartAssessment(false)}
-          onComplete={(score: number) => {
+          onComplete={() => {
             const mode = startAssessment;
             setStartAssessment(false);
             

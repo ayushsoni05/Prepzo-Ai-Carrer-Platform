@@ -4,6 +4,7 @@ import {
   Youtube, Rocket, BookOpen,
   Users, Star, PlayCircle, Play
 } from 'lucide-react';
+import { GlassCard } from '@/components/ui/GlassCard';
 import { 
   AIRecommendationResult, 
   CourseRecommendation, 
