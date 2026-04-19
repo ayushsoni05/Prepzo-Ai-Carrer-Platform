@@ -1,3 +1,4 @@
+import { showSuccess, showError, showInfo } from '@/utils/toastManager';
 import toast from 'react-hot-toast';
 import { Boxes } from '@/components/ui/background-boxes';
 // --- Local definitions for missing types ---
@@ -174,7 +175,135 @@ function buildTestConfig(user: any) {
 }
 
 // Import React hooks and AnswerReviewPanel
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, memo } from 'react';
+
+// --- Sub-components for Performance Optimization ---
+
+const TimerDisplay = memo(({ seconds, label, className }: { seconds: number; label: string; className?: string }) => {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  
+  return (
+    <div className={cn("flex flex-col", className)}>
+      <span className="text-[8px] md:text-[9px] font-black text-white/20 uppercase tracking-[0.2em] italic">{label}</span>
+      <span className={cn(
+        "font-[900] text-xl md:text-3xl tracking-tighter italic leading-none transition-colors duration-300",
+        seconds < 60 && label.includes('Expiry') ? "text-red-400" : "text-white"
+      )}>
+        {timeStr}
+      </span>
+    </div>
+  );
+});
+
+const QuestionArea = memo(({ 
+  currentQuestion, 
+  currentSection, 
+  onAnswer, 
+  onNavigate,
+  questionIndex 
+}: { 
+  currentQuestion: Question; 
+  currentSection: any; 
+  onAnswer: (id: string, idx: number) => void; 
+  onNavigate: (idx: number) => void;
+  questionIndex: number;
+}) => (
+  <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-white/5 overflow-hidden group">
+    <div className="flex items-center justify-between mb-8 md:mb-10">
+      <div className="flex items-center gap-3 md:gap-4">
+        <span className="text-2xl md:text-3xl grayscale group-hover:grayscale-0 transition-all">{currentSection.section.icon}</span>
+        <div className="flex flex-col">
+           <span className="text-[8px] md:text-[9px] font-black text-white/20 uppercase tracking-[0.3em] italic">Current Segment</span>
+           <span className="text-[12px] md:text-[14px] font-black text-white uppercase italic tracking-widest">{currentSection.section.name}</span>
+        </div>
+      </div>
+      <div className="text-right">
+        <span className="text-[8px] md:text-[9px] font-black text-white/20 uppercase tracking-[0.3em] italic">Signal Pointer</span>
+        <p className="text-[12px] md:text-[14px] font-black text-white uppercase">Q {questionIndex + 1} <span className="text-white/20">/ {currentSection.questions.length}</span></p>
+      </div>
+    </div>
+
+    <div className="w-full h-[2px] bg-white/5 rounded-full overflow-hidden mb-8 md:mb-12">
+      <motion.div 
+        className="h-full bg-white shadow-[0_0_20px_rgba(255,255,255,0.4)]"
+        initial={{ width: 0 }}
+        animate={{ width: `${((questionIndex + 1) / currentSection.questions.length) * 100}%` }}
+        transition={{ type: "spring", stiffness: 50 }}
+      />
+    </div>
+
+    <div className="flex flex-wrap gap-4 mb-8">
+      {currentQuestion.companyAskedIn && (
+        <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
+          <Target size={14} className="text-white/40" />
+          <span className="text-[10px] font-black text-white/60 uppercase tracking-widest italic">
+            Asked at {currentQuestion.companyAskedIn}
+          </span>
+        </div>
+      )}
+       <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
+          <Award size={14} className="text-white/40" />
+          <span className="text-[10px] font-black text-white/60 uppercase tracking-widest italic">
+            Grade: {currentQuestion.difficulty}
+          </span>
+        </div>
+    </div>
+
+    <h3 className="text-xl md:text-3xl font-black text-white uppercase tracking-tight leading-tight mb-8 md:mb-12 italic">
+      {currentQuestion.question}
+    </h3>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-8 md:mb-12">
+      {currentQuestion.options.map((option, idx) => (
+        <button
+          key={idx}
+          onClick={() => onAnswer(currentQuestion.id, idx)}
+          className={`group/opt relative p-4 md:p-6 rounded-[20px] md:rounded-[24px] text-left transition-all duration-300 transform active:scale-[0.98] border ${
+            currentSection.answers[currentQuestion.id] === idx
+              ? 'bg-white border-white'
+              : 'bg-white/5 border-white/5 h-full hover:bg-white/10 hover:border-white/10'
+          }`}
+        >
+          <div className="flex items-center gap-4 md:gap-5">
+            <span className={`flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-[12px] md:rounded-[14px] text-[12px] md:text-[14px] font-[900] transition-colors ${
+              currentSection.answers[currentQuestion.id] === idx
+                ? 'bg-[#161a20] text-white'
+                : 'bg-white/5 text-white/20 group-hover/opt:text-white/60'
+            }`}>
+              {String.fromCharCode(65 + idx)}
+            </span>
+            <span className={`text-[13px] md:text-[15px] font-medium italic ${
+              currentSection.answers[currentQuestion.id] === idx ? 'text-[#161a20]' : 'text-white/60 group-hover/opt:text-white'
+            }`}>
+              {option}
+            </span>
+          </div>
+        </button>
+      ))}
+    </div>
+
+    <div className="flex flex-wrap gap-2 mb-8 md:mb-12 p-4 md:p-5 rounded-[24px] md:rounded-[28px] bg-white/5 border border-white/5 max-h-[140px] md:max-h-none overflow-y-auto">
+      {currentSection.questions.map((q: any, idx: number) => (
+        <button
+          key={q.id}
+          onClick={() => onNavigate(idx)}
+          className={`w-9 h-9 md:w-11 md:h-11 rounded-[12px] md:rounded-[14px] text-[10px] md:text-[12px] font-black transition-all duration-300 border ${
+            idx === questionIndex
+              ? 'bg-white text-[#161a20] border-white scale-110 shadow-[0_10px_25px_rgba(255,255,255,0.2)]'
+              : currentSection.answers[q.id] !== undefined
+              ? 'bg-white/20 text-white border-white/20'
+              : 'bg-white/5 text-white/10 border-transparent hover:border-white/10'
+          }`}
+        >
+          {idx + 1}
+        </button>
+      ))}
+    </div>
+  </div>
+));
+
 import AnswerReviewPanel from '@/components/assessment/AnswerReviewPanel';
 import { getFallbackByField } from '@/data/fallbackQuestions';
 import { useProctoring } from '@/hooks/useProctoring';
@@ -392,12 +521,6 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
     onBack();
   };
 
-  // Format time
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
 
   // Convert API question to local format
   const convertApiQuestion = (q: any): Question => {
@@ -457,7 +580,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
         const proctoringStarted = await proctoring.startProctoring();
         console.log('[Assessment] proctoringStarted:', proctoringStarted);
         if (!proctoringStarted) {
-          toast.error('Cannot start proctored test without permissions. Try Practice Mode instead.');
+        showError('Cannot start proctored test without permissions. Try Practice Mode instead.');
           console.error('[Assessment] Proctoring permissions denied or failed.');
           // Reset loading status so UI doesn't remain stuck
           setTestState(prev => ({ ...prev, status: 'setup' }));
@@ -465,7 +588,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
         }
       } else {
         setPracticeMode(true);
-        toast('Starting in Practice Mode - no proctoring');
+        showInfo('Starting in Practice Mode - no proctoring');
         console.log('[Assessment] Practice mode enabled.');
         
         // Even in practice mode, forcibly enter fullscreen to maintain focus layout
@@ -515,12 +638,9 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
           else if (isSkillTest) endpoint = '/ai-test/generate/skill-test';
 
           console.log(`[Assessment] Calling ${endpoint}...`, aiTestConfig);
-          toast.loading(
-            isFieldTest 
-              ? '🤖 Stage 1: Generating 60 core placement questions...' 
-              : '🤖 Stage 2: Generating 10 questions per selected skill...', 
-            { id: 'ai-gen' }
-          );
+          showInfo(isFieldTest 
+            ? '🤖 Stage 1: Generating 60 core placement questions...' 
+            : '🤖 Stage 2: Generating 10 questions per selected skill...');
 
           const resp = await api.post(
             endpoint,
@@ -569,7 +689,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
                 timeSpent:       0,
               };
             });
-            toast.success(`✅ ${aiTest.totalQuestions} unique AI questions generated!`);
+            showSuccess(`✅ ${aiTest.totalQuestions} unique AI questions generated!`);
           } else if (isRecovery) {
             // Backend explicitly returned a recovery payload — skip throw and use fallback
             console.log('[Assessment] Backend triggered recovery mode. Proceeding with local fallback.');
@@ -587,23 +707,16 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
         console.error('[Assessment] AI generation failed:', { status, errMsg });
 
         if (status === 401) {
-          toast.error('Session expired. Please logout and login again to proceed.', { duration: 6000 });
+          showError('Session expired. Please logout and login again to proceed.');
           setTestState(prev => ({ ...prev, status: 'setup' }));
           return;
         }
 
         if (status === 400 && errMsg.includes('Invalid input')) {
-          toast.error('Special characters detected in your profile. Please simplify your Career Goals.', { duration: 6000 });
+          showError('Special characters detected in your profile. Please simplify your Career Goals.');
         }
         
-        // Use local fallback bank if AI is unreachable
-        if (!errMsg.includes('empty test')) {
-          if (status === 503 || errMsg.toLowerCase().includes('ollama')) {
-            toast.error('⚠️ AI model is loading. Directing you to comprehensive practice bank...', { duration: 5000 });
-          } else {
-            toast.error(`AI service struggle: ${String(errMsg).slice(0, 80)}. Using practice bank instead.`);
-          }
-        }
+            showError(`AI service struggle: ${String(errMsg).slice(0, 80)}. Using practice bank instead.`);
       }
 
       // ─── Fallback: inject comprehensive question bank if sections are still empty ─────
@@ -612,7 +725,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
       if (noQuestions) {
         const fieldFallback = getFallbackByField(user?.fieldOfStudy || 'Computer Science');
         console.warn(`[Assessment] No AI questions available — injecting fallback for ${user?.fieldOfStudy || 'Generic'}`);
-        toast(`⚠️ AI service unavailable. Starting with ${fieldFallback.length * 20} practice questions.`, { icon: 'ℹ️' });
+        showInfo(`⚠️ AI service unavailable. Starting with ${fieldFallback.length * 20} practice questions.`);
         
         isApiMode = false;
         testId = null;
@@ -663,10 +776,10 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
       setSectionTimeRemaining((currentSection.section?.timeLimit ?? 15) * 60);
       console.log('[Assessment] Section timer set.');
 
-      toast.success('Test started! Good luck!');
+      showSuccess('Test started! Good luck!');
     } catch (error) {
       console.error('[Assessment] Error starting test:', error);
-      toast.error('Failed to start test. Please try again.');
+      showError('Failed to start test. Please try again.');
       setTestState((prev: TestState) => ({ ...prev, status: 'setup' }));
     }
   };
@@ -791,7 +904,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
         };
       });
       if (autoSubmit) {
-        toast('Section time ended. Moving to next section.');
+        showInfo('Section time ended. Moving to next section.');
       }
     } else {
       // Last section - submit test
@@ -912,10 +1025,10 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
       console.log('✅ Backend real AI recommendations loaded:', backendRecs);
       localStorage.setItem('backendRecommendations', JSON.stringify(backendRecs));
       localStorage.setItem('testAnalysis', JSON.stringify(analysis));
-      toast.success('✅ Real AI recommendations generated from your test results!');
+      showSuccess('✅ Real AI recommendations generated from your test results!');
     } catch (backendErr) {
       console.error('Backend AI failed:', backendErr);
-      toast.error('Backend AI temporarily unavailable');
+      showError('Backend AI temporarily unavailable');
     }
 
     // Calculate strengths and weaknesses based on section performance
@@ -965,9 +1078,8 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
 
         console.log('Test submitted to intelligent engine:', apiResult);
         
-        // Use API recommendations if available
         if (apiResult.recommendations?.length > 0) {
-          toast.success(`Recommendations: ${apiResult.recommendations.slice(0, 2).join(', ')}`);
+          showSuccess(`Recommendations: ${apiResult.recommendations.slice(0, 2).join(', ')}`);
         }
       } catch (apiError) {
         console.log('Could not submit to question API:', apiError);
@@ -1485,10 +1597,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
               <div className="p-2 md:p-3 bg-white/5 rounded-[14px] md:rounded-[18px]">
                 <Clock className="w-4 h-4 md:w-5 md:h-5 text-white/40" />
               </div>
-              <div className="flex flex-col">
-                <span className="text-[8px] md:text-[9px]  font-black text-white/20 uppercase tracking-[0.2em] italic">Session Clock</span>
-                <span className=" font-[900] text-xl md:text-3xl text-white tracking-tighter italic leading-none">{formatTime(testState.timeRemaining)}</span>
-              </div>
+              <TimerDisplay seconds={testState.timeRemaining} label="Session Clock" />
             </div>
             <div className="hidden md:block h-10 w-[1px] bg-white/5" />
             <div className="flex flex-col text-right md:text-left">
@@ -1498,12 +1607,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
           </div>
           
           <div className="flex items-center justify-between md:justify-end gap-4 md:gap-8">
-            <div className="flex flex-col">
-                <span className="text-[8px] md:text-[9px]  font-black text-white/20 uppercase tracking-[0.2em] italic">Module Expiry</span>
-                <span className={` font-black text-[14px] md:text-[18px] italic tracking-widest ${sectionTimeRemaining < 60 ? 'text-red-400' : 'text-white/60'}`}>
-                  {formatTime(sectionTimeRemaining)}
-                </span>
-            </div>
+            <TimerDisplay seconds={sectionTimeRemaining} label="Module Expiry" />
             {!practiceMode && (
               <div className="flex items-center gap-4 md:gap-6 pl-4 md:pl-8 border-l border-white/5">
                 {proctoring.state.warningCount > 0 && (
@@ -1535,100 +1639,13 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
           ))}
         </div>
 
-        {/* Question card */}
-        <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-white/5 overflow-hidden group">
-          <div className="flex items-center justify-between mb-8 md:mb-10">
-            <div className="flex items-center gap-3 md:gap-4">
-              <span className="text-2xl md:text-3xl grayscale group-hover:grayscale-0 transition-all">{currentSection.section.icon}</span>
-              <div className="flex flex-col">
-                 <span className="text-[8px] md:text-[9px]  font-black text-white/20 uppercase tracking-[0.3em] italic">Current Segment</span>
-                 <span className="text-[12px] md:text-[14px]  font-black text-white uppercase italic tracking-widest">{currentSection.section.name}</span>
-              </div>
-            </div>
-            <div className="text-right">
-              <span className="text-[8px] md:text-[9px]  font-black text-white/20 uppercase tracking-[0.3em] italic">Signal Pointer</span>
-              <p className="text-[12px] md:text-[14px]  font-black text-white uppercase">Q {testState.currentQuestionIndex + 1} <span className="text-white/20">/ {currentSection.questions.length}</span></p>
-            </div>
-          </div>
-
-          <div className="w-full h-[2px] bg-white/5 rounded-full overflow-hidden mb-8 md:mb-12">
-            <motion.div 
-              className="h-full bg-white shadow-[0_0_20px_rgba(255,255,255,0.4)]"
-              initial={{ width: 0 }}
-              animate={{ width: `${((testState.currentQuestionIndex + 1) / currentSection.questions.length) * 100}%` }}
-              transition={{ type: "spring", stiffness: 50 }}
-            />
-          </div>
-
-          {/* Question context badges */}
-          <div className="flex flex-wrap gap-4 mb-8">
-            {currentQuestion.companyAskedIn && (
-              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
-                <Target size={14} className="text-white/40" />
-                <span className="text-[10px]  font-black text-white/60 uppercase tracking-widest italic">
-                  Asked at {currentQuestion.companyAskedIn}
-                </span>
-              </div>
-            )}
-             <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
-                <Award size={14} className="text-white/40" />
-                <span className="text-[10px]  font-black text-white/60 uppercase tracking-widest italic">
-                  Grade: {currentQuestion.difficulty}
-                </span>
-              </div>
-          </div>
-
-          <h3 className="text-xl md:text-3xl  font-black text-white uppercase tracking-tight leading-tight mb-8 md:mb-12 italic">
-            {currentQuestion.question}
-          </h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-8 md:mb-12">
-            {currentQuestion.options.map((option, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleAnswer(currentQuestion.id, idx)}
-                className={`group/opt relative p-4 md:p-6 rounded-[20px] md:rounded-[24px] text-left transition-all duration-300 transform active:scale-[0.98] border ${
-                  currentSection.answers[currentQuestion.id] === idx
-                    ? 'bg-white border-white'
-                    : 'bg-white/5 border-white/5 h-full hover:bg-white/10 hover:border-white/10'
-                }`}
-              >
-                <div className="flex items-center gap-4 md:gap-5">
-                  <span className={`flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-[12px] md:rounded-[14px] text-[12px] md:text-[14px]  font-[900] transition-colors ${
-                    currentSection.answers[currentQuestion.id] === idx
-                      ? 'bg-[#161a20] text-white'
-                      : 'bg-white/5 text-white/20 group-hover/opt:text-white/60'
-                  }`}>
-                    {String.fromCharCode(65 + idx)}
-                  </span>
-                  <span className={`text-[13px] md:text-[15px]  font-medium italic ${
-                    currentSection.answers[currentQuestion.id] === idx ? 'text-[#161a20]' : 'text-white/60 group-hover/opt:text-white'
-                  }`}>
-                    {option}
-                  </span>
-                </div>
-              </button>
-            ))}
-          </div>
-
-          {/* Question navigation grid */}
-          <div className="flex flex-wrap gap-2 mb-8 md:mb-12 p-4 md:p-5 rounded-[24px] md:rounded-[28px] bg-white/5 border border-white/5 max-h-[140px] md:max-h-none overflow-y-auto">
-            {currentSection.questions.map((q, idx) => (
-              <button
-                key={q.id}
-                onClick={() => setTestState(prev => ({ ...prev, currentQuestionIndex: idx }))}
-                className={`w-9 h-9 md:w-11 md:h-11 rounded-[12px] md:rounded-[14px] text-[10px] md:text-[12px]  font-black transition-all duration-300 border ${
-                  idx === testState.currentQuestionIndex
-                    ? 'bg-white text-[#161a20] border-white scale-110 shadow-[0_10px_25px_rgba(255,255,255,0.2)]'
-                    : currentSection.answers[q.id] !== undefined
-                    ? 'bg-white/20 text-white border-white/20'
-                    : 'bg-white/5 text-white/10 border-transparent hover:border-white/10'
-                }`}
-              >
-                {idx + 1}
-              </button>
-            ))}
-          </div>
+        <QuestionArea
+          currentQuestion={currentQuestion}
+          currentSection={currentSection}
+          onAnswer={handleAnswer}
+          onNavigate={(idx: number) => setTestState(prev => ({ ...prev, currentQuestionIndex: idx }))}
+          questionIndex={testState.currentQuestionIndex}
+        />
 
           <div className="flex flex-col md:flex-row justify-between items-center pt-8 md:pt-10 border-t border-white/5 gap-6">
             <button
@@ -1674,7 +1691,6 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
             Operational Unit {testState.currentSectionIndex + 1} <span className="text-white/10">/ {testState.sections.length}</span>
           </p>
         </div>
-      </div>
       </>
     );
   }

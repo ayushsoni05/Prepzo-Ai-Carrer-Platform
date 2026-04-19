@@ -24,7 +24,7 @@ import {
 } from 'lucide-react';
 import Sidebar from '@/components/navigation/Sidebar';
 import { MobileNav } from '@/components/navigation/MobileNav';
-import toast from 'react-hot-toast';
+import { showSuccess, showError, showInfo } from '@/utils/toastManager';
 import { jsPDF } from 'jspdf';
 import { GlassButton, GlassCard } from '@/components/ui/GlassCard';
 import ThemeToggle from '@/components/ui/ThemeToggle';
@@ -265,11 +265,11 @@ export function Dashboard({ onNavigate }: DashboardProps) {
 
   const exportAtsReportPdf = () => {
     if (!isFullyQualified) {
-      toast.error('Complete both assessment stages to unlock ATS reports.');
+      showError('Complete both assessment stages to unlock ATS reports.');
       return;
     }
     if (!resumeAnalysis) {
-      toast.error('Run ATS analysis first to export report.');
+      showError('Run ATS analysis first to export report.');
       return;
     }
 
@@ -595,9 +595,9 @@ export function Dashboard({ onNavigate }: DashboardProps) {
                             await uploadApi.uploadResume(file);
                             const info = await uploadApi.getResumeInfo();
                             setResumeInfo(info);
-                            toast.success('Resume uploaded successfully! AI will now extract this data.');
+                            showSuccess('Resume uploaded successfully! AI will now extract this data.');
                           } catch {
-                            toast.error('Failed to upload resume');
+                            showError('Failed to upload resume');
                           } finally {
                             setIsResumeUploading(false);
                           }
@@ -728,18 +728,16 @@ export function Dashboard({ onNavigate }: DashboardProps) {
                       const role = resumeRoleInput || user?.targetRole || 'Software Engineer';
                       
                       try {
-                        // AUTO EXTRACT LOGIC for Section 1: If an upload exists but hasn't been parsed
                         if (resumeInfo?.resumeUrl && !resumeAnalysis) {
-                          toast.loading('Extracting deep components from previous resume...', { id: 'extract-toast' });
+                          showInfo('Extracting deep components from previous resume...');
                           await analyzeResume('', role, undefined);
-                          toast.success('Extraction complete. Compiling specific architectural layout.', { id: 'extract-toast' });
+                          showSuccess('Extraction complete. Compiling specific architectural layout.');
                         }
                         
                         await generateResume(role, jobDescriptionInput || undefined, templateInput);
-                        toast.success('AI Resume generated successfully!');
-                      } catch {
-                        toast.dismiss('extract-toast');
-                        toast.error('Failed to generate resume. Ensure connection is stable.');
+                        showSuccess('Resume analyzed successfully!');
+                      } catch (error: any) {
+                        showError(error.response?.data?.message || 'Resume analysis failed');
                       }
                     }}
                     className="relative w-full py-4 px-8 bg-[#000000] border border-white/10 rounded-xl text-white  font-black uppercase tracking-widest hover:border-indigo-500/50 transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
@@ -817,14 +815,15 @@ export function Dashboard({ onNavigate }: DashboardProps) {
                         const hasText = resumeTextInput.trim().length > 0;
                         const role = resumeRoleInput || user?.targetRole || 'Software Engineer';
                         if (!hasText && !resumeInfo?.resumeUrl) {
-                          toast.error('Input resume text or upload a file first.');
+                          showError('Input resume text or upload a file first.');
                           return;
                         }
+                        showInfo('Analyzing resume...');
                         try {
                           await analyzeResume(resumeTextInput, role, jobDescriptionInput || undefined);
-                          toast.success('ATS analysis complete!');
-                        } catch {
-                          toast.error('Analysis failed.');
+                          showSuccess('Resume analyzed successfully!');
+                        } catch (error: any) {
+                          showError(error.response?.data?.message || 'Resume analysis failed');
                         }
                       }}
                       className="h-[55px] px-10 rounded-xl"
@@ -844,11 +843,12 @@ export function Dashboard({ onNavigate }: DashboardProps) {
                         setTemplateInput('Standard Professional ATS');
                         setResumeWorkspace('maker');
                         const role = resumeRoleInput || user?.targetRole || 'Software Engineer';
-                        toast.success('Optimizing structural syntax for ATS compliance...');
+                        showInfo('Optimizing structural syntax for ATS compliance...');
                         try {
                            await generateResume(role, jobDescriptionInput || undefined, 'Standard Professional ATS');
+                           showSuccess('Optimization complete!');
                         } catch {
-                           toast.error('Auto-generation failed. Check neural link.');
+                           showError('Auto-generation failed. Check neural link.');
                         }
                       }}
                       className="h-[55px] px-10 rounded-xl bg-code-green/10 text-code-green hover:bg-code-green/20 border border-code-green/30 ml-auto"
@@ -863,8 +863,8 @@ export function Dashboard({ onNavigate }: DashboardProps) {
                       setIsResumeUploading(true);
                       try {
                         await uploadApi.uploadResume(file);
-                        toast.success('Resume uploaded! You can now analyze or auto-optimize.');
-                      } catch { toast.error('Upload failed.'); }
+                        showSuccess('Resume uploaded! You can now analyze or auto-optimize.');
+                      } catch { showError('Upload failed.'); }
                       finally { setIsResumeUploading(false); }
                     }} />
                   </div>
@@ -1167,7 +1167,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
               updateUser(updates);
             }
             
-            toast.success(`${mode === 'field' ? 'Stage 1' : 'Stage 2'} Assessment Completed!`);
+            showSuccess(`${mode === 'field' ? 'Stage 1' : 'Stage 2'} Assessment Completed!`);
           }}
         />
       );

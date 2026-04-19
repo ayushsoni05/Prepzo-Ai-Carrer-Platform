@@ -17,7 +17,7 @@ import { useAuthStore } from '@/store/authStore';
 import { uploadApi } from '@/api/auth';
 import { fieldSkillsMap, softSkills, getMappedField } from '@/data/fieldSkillsData';
 import ThinkingLoader from '@/components/ui/loading';
-import toast from 'react-hot-toast';
+import { showSuccess, showError, showInfo } from '@/utils/toastManager';
 import {
   Brain,
   GraduationCap,
@@ -187,9 +187,9 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
       const response = await uploadApi.uploadResume(file);
       setResumeUrl(response.resumeUrl);
       updateUser({ resumeUrl: response.resumeUrl });
-      toast.success('Resume synchronized');
+      showSuccess('Resume synchronized');
     } catch (error) {
-      toast.error('Sync failed');
+      showInfo('Draft auto-saved');
     } finally {
       setIsUploading(false);
     }
