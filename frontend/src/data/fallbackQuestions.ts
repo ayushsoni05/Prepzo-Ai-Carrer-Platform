@@ -413,7 +413,7 @@ export const getFallbackByField = (field: string): FallbackSection[] => {
 /**
  * NEW: Skill-based resolver for Stage 2
  */
-export const getFallbackBySkills = (skills: string[]): FallbackSection[] => {
+export const getFallbackBySkills = (_skills: string[]): FallbackSection[] => {
   // If user has specific skills, we should ideally map them, 
   // but for a universal fallback, we provide the Technical Depth mix.
   const technicalDepth: FallbackSection = {

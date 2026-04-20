@@ -331,6 +331,8 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
         role: 'admin',
         isOnboarded: true,
         isAssessmentComplete: true,
+        isFieldTestComplete: true,
+        isSkillTestComplete: true,
         placementReadinessScore: 100,
         atsScore: 100,
         skillGaps: [],
