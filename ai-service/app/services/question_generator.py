@@ -316,17 +316,7 @@ class QuestionGenerator:
     # Prompts Optimized for Small Models (1B-8B)
     # ──────────────────────────────────────────────────────────────────────────
 
-    def _mcq_prompt(
-        self,
-        section: str,
-        topic: str,
-        difficulty: str,
-        profile_ctx: str,
-        company: str,
-        seed: str,
-        idx: int,
-        category: str = ""
-    ) -> str:
+    def _mcq_prompt(self, section: str, topic: str, difficulty: str, profile_ctx: str, company: str, seed: str, idx: int, category: str = "") -> str:
         return f"""Generate 1 multiple-choice question for a technical interview at {company.upper() or 'a tech company'}.
 
 CONTEXT: {profile_ctx}
@@ -348,17 +338,7 @@ The question should be technical and challenging. Respond ONLY with a JSON objec
   "difficulty": "{difficulty}"
 }}"""
 
-    def _coding_prompt(
-        self,
-        section: str,
-        topic: str,
-        difficulty: str,
-        profile_ctx: str,
-        company: str,
-        seed: str,
-        idx: int,
-        category: str = ""
-    ) -> str:
+    def _coding_prompt(self, section: str, topic: str, difficulty: str, profile_ctx: str, company: str, seed: str, idx: int, category: str = "") -> str:
         return f"""Task: Generate 1 coding problem for {company.upper()}.
 Topic: {topic}
 Difficulty: {difficulty.upper()}
@@ -386,17 +366,7 @@ Stictly respond with ONLY JSON:
   }}
 }}"""
 
-    def _short_answer_prompt(
-        self,
-        section: str,
-        topic: str,
-        difficulty: str,
-        profile_ctx: str,
-        company: str,
-        seed: str,
-        idx: int,
-        category: str = ""
-    ) -> str:
+    def _short_answer_prompt(self, section: str, topic: str, difficulty: str, profile_ctx: str, company: str, seed: str, idx: int, category: str = "") -> str:
         return f"""Generate a high-level system design or architectural interview question asked at {company.upper() or 'Microsoft/Meta'}.
 
 STUDENT CONTEXT:
@@ -587,18 +557,7 @@ Respond with ONLY this JSON:
     # Section-level generation
     # ──────────────────────────────────────────────────────────────────────────
 
-    async def _generate_section(
-        self,
-        section: str,
-        profile: Dict[str, Any],
-        num_q: int,
-        dist: Dict[str, float],
-        seed: str,
-        stream_cat: str,
-        company_pattern: Optional[Dict[str, Any]] = None,
-        company: str = "",
-        category: str = "",
-    ) -> List[Dict[str, Any]]:
+    async def _generate_section(self, section: str, profile: Dict[str, Any], num_q: int, dist: Dict[str, float], seed: str, stream_cat: str, company_pattern: Optional[Dict[str, Any]] = None, company: str = "", category: str = "") -> List[Dict[str, Any]]:
         topics: List[str] = self._pick_topics(stream_cat, section, profile)
         profile_ctx = self._profile_context(profile)
         
