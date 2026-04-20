@@ -112,7 +112,7 @@ const demoJDs = [
 ];
 
 export function Dashboard() {
-  const { user, updateUser } = useAuthStore();
+  const { user, updateUser, completeAssessmentAsync } = useAuthStore();
   const {
     dashboardTab,
     setDashboardTab,
@@ -1178,22 +1178,40 @@ export function Dashboard() {
         <ProctoredAssessment
           testMode={startAssessment as 'field' | 'skills'}
           onBack={() => setStartAssessment(false)}
-          onComplete={() => {
+          onComplete={(results: any) => {
             const mode = startAssessment;
             setStartAssessment(false);
             
             if (user && typeof user === 'object') {
-              const updates: any = { ...user };
-              if (mode === 'field') updates.isFieldTestComplete = true;
-              if (mode === 'skills') updates.isSkillTestComplete = true;
+              const updates: any = {};
+              if (mode === 'field') {
+                updates.isFieldTestComplete = true;
+                updates.fieldAssessmentResults = {
+                  ...results,
+                  completedAt: new Date().toISOString()
+                };
+              }
+              if (mode === 'skills') {
+                updates.isSkillTestComplete = true;
+                updates.skillAssessmentResults = {
+                  ...results,
+                  completedAt: new Date().toISOString()
+                };
+              }
               
-              // If both are now complete, set isAssessmentComplete and SHOW RECOMMENDATIONS
-              if (updates.isFieldTestComplete && updates.isSkillTestComplete) {
+              // Local state check for dual completion
+              const isFieldDone = mode === 'field' || user.isFieldTestComplete;
+              const isSkillDone = mode === 'skills' || user.isSkillTestComplete;
+              
+              if (isFieldDone && isSkillDone) {
                 updates.isAssessmentComplete = true;
                 setShowFullRecommendations(true);
               }
               
-              updateUser(updates);
+              updates.lastAssessmentAt = new Date().toISOString();
+              
+              // Sync to backend
+              completeAssessmentAsync(updates);
             }
             
             showSuccess(`${mode === 'field' ? 'Stage 1' : 'Stage 2'} Assessment Completed!`);

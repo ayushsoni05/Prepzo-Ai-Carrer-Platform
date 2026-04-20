@@ -101,6 +101,7 @@ interface AuthState {
   verifyEmailAsync: (otp: string) => Promise<void>;
   resendOTPAsync: () => Promise<void>;
   changePasswordAsync: (currentPassword: string, newPassword: string) => Promise<void>;
+  completeAssessmentAsync: (data: AssessmentData) => Promise<User>;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -268,6 +269,20 @@ export const useAuthStore = create<AuthState>()(
         } catch (error: unknown) {
           const message = error instanceof Error ? error.message : 
             (error as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Password change failed';
+          set({ isLoading: false, error: message });
+          throw error;
+        }
+      },
+
+      completeAssessmentAsync: async (data) => {
+        set({ isLoading: true, error: null });
+        try {
+          const response = await userApi.completeAssessment(data);
+          set({ user: response.user, isLoading: false });
+          return response.user;
+        } catch (error: unknown) {
+          const message = error instanceof Error ? error.message : 
+            (error as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Assessment synchronization failed';
           set({ isLoading: false, error: message });
           throw error;
         }

@@ -151,17 +151,30 @@ export const completeAssessment = async (req, res) => {
       skillGaps,
       strengths,
       weaknesses,
+      isFieldTestComplete,
+      isSkillTestComplete,
+      isAssessmentComplete,
+      fieldAssessmentResults,
+      skillAssessmentResults,
+      lastAssessmentAt
     } = req.body;
 
-    // Update assessment data
+    // Update assessment status flags
+    if (isFieldTestComplete !== undefined) user.isFieldTestComplete = isFieldTestComplete;
+    if (isSkillTestComplete !== undefined) user.isSkillTestComplete = isSkillTestComplete;
+    if (isAssessmentComplete !== undefined) user.isAssessmentComplete = isAssessmentComplete;
+    if (lastAssessmentAt !== undefined) user.lastAssessmentAt = lastAssessmentAt;
+
+    // Update detailed results if provided
+    if (fieldAssessmentResults !== undefined) user.fieldAssessmentResults = fieldAssessmentResults;
+    if (skillAssessmentResults !== undefined) user.skillAssessmentResults = skillAssessmentResults;
+
+    // Update standard metrics
     if (placementReadinessScore !== undefined) user.placementReadinessScore = placementReadinessScore;
     if (atsScore !== undefined) user.atsScore = atsScore;
     if (skillGaps !== undefined) user.skillGaps = skillGaps;
     if (strengths !== undefined) user.strengths = strengths;
     if (weaknesses !== undefined) user.weaknesses = weaknesses;
-
-    // Mark assessment as complete
-    user.isAssessmentComplete = true;
 
     const updatedUser = await user.save();
     res.json({ user: updatedUser.toJSON() });

@@ -171,9 +171,10 @@ export default function App() {
   const handleNavigate = (page: string) => {
     const newPage = page as Page;
 
-    // When entering dashboard from outside, start in Assessment as requested.
+    // Navigation logic
     if (newPage === 'dashboard' && currentPage !== 'dashboard') {
-      setDashboardTab('assessment');
+      // Removed: forced reset to 'assessment' tab. 
+      // Relying on persisted state in appStore.
     }
 
     setCurrentPage(newPage);

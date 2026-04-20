@@ -42,6 +42,12 @@ export interface AssessmentData {
   skillGaps?: string[];
   strengths?: string[];
   weaknesses?: string[];
+  isFieldTestComplete?: boolean;
+  isSkillTestComplete?: boolean;
+  isAssessmentComplete?: boolean;
+  fieldAssessmentResults?: any;
+  skillAssessmentResults?: any;
+  lastAssessmentAt?: string;
 }
 
 export interface User {
