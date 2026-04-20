@@ -97,57 +97,67 @@ export const generateRecommendations = asyncHandler(async (req, res) => {
 
   const startTime = Date.now();
 
-  // Normalize section data for AI service (support both formats)
+  // Resolve testType from DB if not provided
+  let testType = assessmentDataFull.testType || 'field_based';
+  if (testResultId) {
+    try {
+      const fullResult = await TestResult.findById(testResultId).select('testType').lean();
+      if (fullResult) testType = fullResult.testType;
+    } catch (dbErr) {
+      console.warn('Could not fetch testType from TestResult:', dbErr.message);
+    }
+  }
+
   // Use ONLY internal AI service (NO FALLBACK - per requirements)
   let aiRecommendations = null;
-  let generatedBy = 'prepzo-ai-service';
+  let generatedBy = 'groq-llama-3.3';
   
   try {
-    const isAvailable = await aiService.isServiceAvailable();
-    if (isAvailable) {
-      // Pass FULL assessment data (not just scores) to Python AI
-      const pythonResponse = await aiService.generateRecommendations({
-        userId: user._id.toString(),
-        currentSkills: studentProfile.knownTechnologies || user.knownTechnologies || [],
-        targetRole: studentProfile.targetRole,
-        targetCompanies: studentProfile.targetCompanies,
-        assessmentResults: {
-          ...assessmentDataFull,
-          sections: sectionData
-        },
-        preferences: studentProfile.learningPreferences || {}
-      });
+    // PASS testType TO RECOMMENDATION ENGINE
+    aiRecommendations = await generateAIRecommendations({
+      studentProfile,
+      assessmentResults: {
+        ...assessmentDataFull,
+        overallScore: placementReadinessScore,
+        sections: sectionData
+      },
+      targetRole: studentProfile.targetRole,
+      testType: testType
+    });
 
-      if (pythonResponse && pythonResponse.success) {
-        aiRecommendations = pythonResponse.recommendations || {};
-        generatedBy = aiRecommendations.metadata?.generatedBy || 'prepzo-ai-service';
-        console.log(`AI Recommendations generated successfully using ${generatedBy}`);
-      } else {
-        console.warn('AI service returned success:false, using partial data');
-        aiRecommendations = pythonResponse?.recommendations || {};
-      }
-    } else {
-      throw new Error('AI service not available');
-    }
+    generatedBy = aiRecommendations.generatedBy || 'groq-llama-3.3';
+    console.log(`✅ Recommendations generated successfully using ${generatedBy} for mode: ${testType}`);
   } catch (aiError) {
-    console.warn('⚠️ Internal Python AI service failed or unavailable. Transitioning to Backup Gemini AI Engine...');
+    console.warn('⚠️ Primary AI Engine failed. Attempting Python Service as secondary fallback...', aiError.message);
     
     try {
-      // Call our NEW high-fidelity Gemini recommendation generator
-      aiRecommendations = await generateAIRecommendations({
-        studentProfile,
-        assessmentResults: {
-          ...assessmentDataFull,
-          overallScore: placementReadinessScore,
-          sections: sectionData
-        },
-        targetRole: studentProfile.targetRole
-      });
+      const isAvailable = await aiService.isServiceAvailable();
+      if (isAvailable) {
+        const pythonResponse = await aiService.generateRecommendations({
+          userId: user._id.toString(),
+          currentSkills: studentProfile.knownTechnologies || user.knownTechnologies || [],
+          targetRole: studentProfile.targetRole,
+          targetCompanies: studentProfile.targetCompanies,
+          assessmentResults: {
+            ...assessmentDataFull,
+            sections: sectionData,
+            testType
+          },
+          preferences: studentProfile.learningPreferences || {}
+        });
 
-      generatedBy = aiRecommendations.generatedBy || 'gemini-1.5-flash';
-      console.log(`✅ Gemini Recommendations generated successfully as fallback!`);
-    } catch (geminiError) {
-      console.error('❌ BOTH AI services failed. Transitioning to Dynamic Local Engine.');
+        if (pythonResponse && pythonResponse.success) {
+          aiRecommendations = pythonResponse.recommendations || {};
+          generatedBy = aiRecommendations.metadata?.generatedBy || 'prepzo-ai-service';
+        } else {
+          throw new Error('Python AI service returned failure');
+        }
+      } else {
+        throw new Error('Python AI service not reachable');
+      }
+    } catch (pythonError) {
+      console.error('❌ ALL AI services failed. Transitioning to Dynamic Local Engine.');
+
       
       const weaknesses = sectionData.filter(s => s.score < 50 || s.status === 'weak').map(s => s.name || s.section || 'General Concepts');
       if (weaknesses.length === 0) weaknesses.push('Advanced Core Architectures');
@@ -221,9 +231,20 @@ export const generateRecommendations = asyncHandler(async (req, res) => {
       aiRecommendations = { analysisInsights: { strengths: [], primaryWeaknesses: [] } };
     }
 
+    // Map section results to the format expected by the frontend
+    const sectionScores = sectionData.map(s => ({
+      name: s.name || s.section || 'General',
+      score: s.score || 0,
+      total: s.totalQuestions || s.total || 0,
+      correct: s.correctAnswers || s.correct || 0,
+      percentage: Math.round(s.score || ((s.correct || 0) / (s.total || 1)) * 100),
+      status: s.status || (s.score >= 70 ? 'strength' : s.score >= 50 ? 'moderate' : 'weakness'),
+      category: s.score >= 80 ? 'advanced' : s.score >= 50 ? 'intermediate' : 'beginner'
+    }));
+
     // Normalize snake_case from Python to camelCase for Mongoose
     const normalizedRecommendations = {
-      analysisInsights: aiRecommendations.analysisInsights || aiRecommendations.analysis_insights || aiRecommendations.analysis || { strengths: [], primaryWeaknesses: [] },
+      analysisInsights: aiRecommendations.analysisInsights || aiRecommendations.analysis || { strengths: [], primaryWeaknesses: [] },
       prioritySkillGaps: aiRecommendations.prioritySkillGaps || aiRecommendations.priority_skill_gaps || aiRecommendations.skill_gaps || [],
       careerPaths: aiRecommendations.career_paths || aiRecommendations.careerPaths || [],
       recommendations: {
@@ -238,8 +259,10 @@ export const generateRecommendations = asyncHandler(async (req, res) => {
       learningPath: aiRecommendations.learningPath || aiRecommendations.learning_path || {},
       improvementPrediction: aiRecommendations.improvementPrediction || aiRecommendations.improvement_prediction || {},
       careerAdvice: aiRecommendations.careerAdvice || aiRecommendations.career_advice || {},
-      explanationSummary: aiRecommendations.explanationSummary || aiRecommendations.reasoning || aiRecommendations.explanation || ''
+      explanationSummary: aiRecommendations.explanationSummary || aiRecommendations.reasoning || aiRecommendations.explanation || '',
+      sectionScores: sectionScores // ADDED THIS
     };
+
 
 
     // Mark old recommendations as not latest
@@ -351,6 +374,7 @@ export const getLatestRecommendations = asyncHandler(async (req, res) => {
       _id: recommendation._id,
       analysisInsights: recommendation.analysisInsights,
       prioritySkillGaps: recommendation.prioritySkillGaps,
+      sectionScores: recommendation.sectionScores,
       recommendations: recommendation.recommendations,
       learningPath: recommendation.learningPath,
       improvementPrediction: recommendation.improvementPrediction,
@@ -363,6 +387,7 @@ export const getLatestRecommendations = asyncHandler(async (req, res) => {
       } : {},
       createdAt: recommendation.createdAt,
     },
+
   });
 });
 

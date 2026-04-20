@@ -4,11 +4,20 @@
  */
 
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import OpenAI from 'openai';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+// Groq configuration - High Performance Llama 3.3
+const groq = new OpenAI({
+    apiKey: process.env.GROQ_API_KEY,
+    baseURL: 'https://api.groq.com/openai/v1',
+});
+
+
 
 // Resource Library for high-fidelity thumbnails (Common Skills)
 const RESOURCE_METADATA = {
@@ -47,138 +56,146 @@ const getThumbnail = (skill) => {
 
 /**
  * Generate Pure AI Recommendations
+ * Supports Groq (Primary) and Gemini (Fallback)
  */
 export const generateAIRecommendations = async (data) => {
-    const { studentProfile, assessmentResults, targetRole } = data;
+    const { studentProfile, assessmentResults, targetRole, testType = 'field_based' } = data;
     const score = assessmentResults.overallScore || 0;
-    const isBeginner = score <= 20;
-
-    // Upgraded to Gemini 1.5 Pro for maximum accuracy, robust reasoning, and pure AI involvement
-    const model = genAI.getGenerativeModel({ 
-        model: "gemini-1.5-pro",
-        generationConfig: { responseMimeType: "application/json" }
-    });
-
-    const isBeginnerCondition = isBeginner 
-        ? "BEGGINER STARTUP CASE (SCORE <= 20%): The roadmap MUST be a 'Beginner Foundation Roadmap'. YOU MUST RECOMMEND ALL FUNDAMENTAL SKILLS for their target role because they are weak in everything. YOU MUST PROVIDE EXACTLY 2 TO 3 HIGH-QUALITY RECOMMENDATIONS (inclusive of Course, YouTube, and Project) FOR **EVERY SINGLE REQUIRED SKILL**. Ensure a 100% comprehensive roadmap." 
-        : "Focus on their weak skills (score < 60%). For EACH weak skill, provide exactly 1-2 high-quality recommendations.";
-
-    const prompt = `
-    You are the Prepzo AI Placement Mentor, an elite career advisor with 100% accuracy in skill gap analysis. 
-    Analyze this student's assessment results and generate a PURE AI-based career roadmap and resource recommendation.
     
+    // Stage Differentiation Logic
+    const isStage2 = testType === 'skill_assessment';
+    const roadmapHorizon = isStage2 ? "3-month intensive 'Sprint' roadmap" : "6-month broad foundational roadmap";
+    const focusArea = isStage2 ? "Deep technical mastery of the specific skills you just tested" : "Broad core engineering fundamentals (DSA, OS, DBMS) and role-based readiness";
+    
+    const prompt = `
+    You are the Prepzo AI placement mentor. Your task is to generate a HIGH-FIDELITY, dynamic career recommendation JSON for a student.
+    
+    CONTEXT:
     Student Profile: ${JSON.stringify(studentProfile)}
     Assessment Score: ${score}%
     Target Role: ${targetRole}
-    Section Performance (Operational Modules): ${JSON.stringify(assessmentResults.sections || assessmentResults.sectionResults)}
+    Test Mode: ${testType} (${isStage2 ? 'Skill Precision' : 'Field Assessment'})
+    Section Performance: ${JSON.stringify(assessmentResults.sections || assessmentResults.sectionResults)}
     
-    CRITICAL INSTRUCTIONS:
-    1. ${isBeginnerCondition}
-    2. Based on the "Section Performance" (Operational Modules), DO NOT just stick to the initial Target Role. Recommend 3 distinct career paths that fit this student's module scores.
-    3. Each recommendation MUST include: title, platform/channel, type (Course/YouTube/Project), level, a brief "Why This?", and crucially the explicit "skill" attribute.
-    4. Provide a structured "Success Roadmap" with at least 3-4 Phases and 8-12 weeks total.
-    5. Pure AI involvement: Ensure every piece of reasoning, summary, and recommendation logic is distinct and mathematically aligned with their exact weaknesses.
+    REQUIREMENTS:
+    1. ROADMAP: Generate a structured roadmap with exactly ${isStage2 ? '3 intensive phases' : '4 phases'}.
+       - Stage 1 (Field): Focus on broad CS fundamentals first.
+       - Stage 2 (Skill): Focus on advanced implementation and system architecting of the specific skills tested.
+    2. RESOURCES: For EACH weak skill (score < 70%), recommend exactly:
+       - 1 High-quality Course (Real titles/platforms like Coursera, Udemy, etc.)
+       - 1 YouTube Playlist (Searchable titles, real-looking IDs)
+       - 1 Project (Production-level description)
+    3. NO HARDCODED PLACEHOLDERS: Your response must be 100% synthesized by AI.
+    4. YOUTUBE LINKS: Use valid-looking YouTube URLs like https://www.youtube.com/watch?v=dQw4w9WgXcQ (placeholders are okay if the titles are high fidelity).
     
-    RESPONSE FORMAT (JSON ONLY - DO NOT WRAP IN BACKTICKS):
+    RESPONSE FORMAT (JSON ONLY):
     {
       "analysis": {
         "strengthSummary": "...",
         "weaknessSummary": "...",
         "skillGapAnalysis": "...",
-        "overallAssessment": "...",
         "careerReadinessScore": ${score},
         "interviewConfidence": ${Math.min(score + 15, 100)},
-        "strengths": ["skill1"],
-        "primaryWeaknesses": ["skill1"]
+        "strengths": [],
+        "primaryWeaknesses": []
       },
       "career_paths": [
-        { "role": "Role Name", "fit_score": 95, "why_this_role": "Because you scored high in X and Y modules", "market_demand": "High", "salary_expectation": "$70k - $90k" }
+        { "role": "...", "fit_score": 90, "why_this_role": "...", "market_demand": "High", "salary_expectation": "..." }
       ],
       "prioritySkillGaps": [
-        { "skill": "...", "priority": "critical/important", "reasoning": "..." }
+        { "skill": "...", "importance": "critical", "reasoning": "..." }
       ],
       "recommendations": {
         "courses": [ { "title": "...", "platform": "...", "level": "...", "whyThisCourse": "...", "skill": "...", "duration": "..." } ],
         "youtube": [ { "playlistTitle": "...", "channelName": "...", "url": "...", "skill": "..." } ],
         "projects": [ { "title": "...", "description": "...", "techStack": ["..."], "difficulty": "...", "skill": "..." } ],
-        "certifications": [ { "title": "...", "issuingAuthority": "...", "duration": "...", "resumeImpact": 15, "url": "..." } ],
-        "studyNotes": [ { "title": "...", "category": "...", "skillsCovered": ["..."] } ],
-        "interviewPrep": [ { "title": "...", "category": "...", "timeToComplete": "..." } ],
-        "practice": [ { "title": "...", "type": "...", "matchPercentage": 90 } ]
+        "certifications": [ { "title": "...", "issuingAuthority": "...", "duration": "...", "url": "..." } ]
       },
       "improvementPrediction": {
         "currentScore": ${score},
-        "predictedScore": ${Math.min(score + 45, 100)},
-        "improvementPercentage": 45,
-        "timeToAchieve": "12 weeks",
-        "interviewConfidenceBoost": 25,
-        "placementReadinessBoost": 35
+        "predictedScore": ${Math.min(score + 40, 100)},
+        "timeToAchieve": "${isStage2 ? '8 weeks' : '16 weeks'}"
       },
       "learningPath": {
-        "title": "${isBeginner ? 'Beginner Foundation Masterclass' : 'Professional Placement Acceleration'}",
-        "readinessGoal": "Market Ready",
-        "weeklyCommitment": "15 Hours",
+        "title": "${isStage2 ? 'Skill Precision Sprint' : 'Field Core Mastery Roadmap'}",
+        "readinessGoal": "Production Ready",
         "phases": [
           { "phase": "...", "weeks": "...", "focus": ["..."], "milestone": "...", "tasks": ["..."] }
         ]
       },
-      "summary": "Detailed overall summary explanation based on findings that proves AI pure involvement.",
-      "confidenceScore": 0.98
+      "summary": "...",
+      "confidenceScore": 0.99
     }
     `;
 
-
     try {
-        const result = await model.generateContent(prompt);
-        const responseText = result.response.text();
-        
-        let aiData;
-        try {
-            // Trim any potential raw text or codeblock artifacts
-            let cleanedText = responseText.replace(/```json/gi, '').replace(/```/g, '').trim();
-            const firstBrace = cleanedText.indexOf('{');
-            const lastBrace = cleanedText.lastIndexOf('}');
-            if (firstBrace !== -1 && lastBrace !== -1) {
-                cleanedText = cleanedText.slice(firstBrace, lastBrace + 1);
-            }
-            aiData = JSON.parse(cleanedText);
-        } catch (e) {
-            console.error('Failed to parse AI JSON:', e.message);
-            const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-            if (!jsonMatch) throw new Error('Failed to extract JSON from AI response');
-            aiData = JSON.parse(jsonMatch[0]);
-        }
+        console.log(`[aiRecommendation] Calling Groq for ${testType} recommendations...`);
+        const completion = await groq.chat.completions.create({
+            messages: [{ role: "user", content: prompt }],
+            model: "llama-3.3-70b-versatile",
+            response_format: { type: "json_object" },
+            temperature: 0.7,
+            max_tokens: 3000
+        });
 
-        // ENRICH WITH THUMBNAILS (Pure AI Matching logic)
-        aiData.recommendations.courses = (aiData.recommendations.courses || []).map(c => ({
-            ...c,
-            thumbnail: getThumbnail(c.skill || c.title)
-        }));
-        
-        aiData.recommendations.youtube = (aiData.recommendations.youtube || []).map(v => ({
-            ...v,
-            thumbnailUrl: getThumbnail(v.skill || v.playlistTitle)
-        }));
+        const aiData = JSON.parse(completion.choices[0].message.content);
 
-        aiData.recommendations.projects = (aiData.recommendations.projects || []).map(p => ({
-            ...p,
-            thumbnailUrl: getThumbnail(p.skill || p.title)
-        }));
-
-        return {
-            ...aiData,
-            generatedBy: 'Gemini-1.5-Pro',
-            metadata: {
-                timestamp: new Date(),
-                model: 'Gemini-1.5-Pro',
-                accuracyTarget: '100%'
-            }
-        };
+        // Enrichment with high-quality thumbnails
+        return processAIData(aiData, 'Groq (Llama 3.3)');
     } catch (error) {
-        console.error('Gemini Recommendation Generation Failed:', error);
-        throw error;
+        console.error('Groq Failed, falling back to Gemini...', error.message);
+        try {
+            const model = genAI.getGenerativeModel({ 
+                model: "gemini-1.5-pro",
+                generationConfig: { responseMimeType: "application/json" }
+            });
+            const result = await model.generateContent(prompt);
+            const aiData = JSON.parse(result.response.text());
+            return processAIData(aiData, 'Gemini 1.5 Pro');
+        } catch (geminiError) {
+            console.error('Both AI providers failed:', geminiError.message);
+            throw geminiError;
+        }
     }
 };
+
+/**
+ * Helper to process AI output and add metadata/thumbnails
+ */
+const processAIData = (data, provider) => {
+    // Enrich with dynamic thumbnails
+    if (data.recommendations) {
+        if (data.recommendations.courses) {
+            data.recommendations.courses = data.recommendations.courses.map(c => ({
+                ...c,
+                thumbnail: getThumbnail(c.skill || c.title)
+            }));
+        }
+        if (data.recommendations.youtube) {
+            data.recommendations.youtube = data.recommendations.youtube.map(v => ({
+                ...v,
+                thumbnailUrl: getThumbnail(v.skill || v.playlistTitle)
+            }));
+        }
+        if (data.recommendations.projects) {
+            data.recommendations.projects = data.recommendations.projects.map(p => ({
+                ...p,
+                thumbnailUrl: getThumbnail(p.skill || p.title)
+            }));
+        }
+    }
+
+    return {
+        ...data,
+        generatedBy: provider,
+        metadata: {
+            timestamp: new Date(),
+            provider: provider,
+            accuracyTarget: '100%'
+        }
+    };
+};
+
 
 /**
  * Generate Quick Insights

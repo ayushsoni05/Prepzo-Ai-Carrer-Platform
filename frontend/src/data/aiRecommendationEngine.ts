@@ -197,8 +197,16 @@ export interface AIRecommendationResult {
   };
   learningPath: Roadmap;
   improvementPrediction: ImprovementPrediction;
+  careerPaths?: any[];
+  explanationSummary?: string;
+  metadata?: {
+    generatedBy: string;
+    generatedAt: string;
+    targetRole: string;
+  };
   generatedAt: string;
 }
+
 
 // Comprehensive Course Database with Real Links
 const courseDatabase: Record<string, CourseRecommendation[]> = {

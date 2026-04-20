@@ -189,8 +189,12 @@ const recommendationSchema = new mongoose.Schema({
   // Career Paths
   careerPaths: [{ type: mongoose.Schema.Types.Mixed }],
 
+  // Section Scores (Mapped from Assessment)
+  sectionScores: [{ type: mongoose.Schema.Types.Mixed }],
+
   // Summary
   explanationSummary: { type: String },
+
 
 
   // Metadata

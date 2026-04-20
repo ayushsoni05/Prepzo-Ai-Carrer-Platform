@@ -511,8 +511,11 @@ export default function AICareerResults({ recommendations }: AICareerResultsProp
       interviewConfidenceBoost: 0,
       placementReadinessBoost: 0
     }, 
-    sectionScores = [] 
+    sectionScores = [],
+    careerPaths = [],
+    metadata = { generatedBy: 'AI' }
   } = (recommendations || {}) as any;
+
 
   // Sync analysis data regardless if the backend sent it as analysis or analysisInsights
   const analysis = analysisInsights || backwardAnalysis || {
@@ -606,7 +609,12 @@ export default function AICareerResults({ recommendations }: AICareerResultsProp
                   ? "Foundation mode activated. We've decoded your baseline signals and prepared a core mastery roadmap to bridge your initial skill gaps."
                   : "Decoded performance metrics processed through AI analysis. This is your high-fidelity roadmap to market dominance."}
             </p>
+            <div className="mt-4 flex items-center justify-center gap-2">
+               <span className="text-[9px]  font-black text-white/20 uppercase tracking-[0.2em]">Engine: {metadata?.generatedBy || 'AI'}</span>
+               <div className="w-1 h-1 bg-emerald-500 rounded-full animate-pulse" />
+            </div>
         </div>
+
         
         {/* Section Scores Grid */}
         <div className="space-y-10">
@@ -625,14 +633,15 @@ export default function AICareerResults({ recommendations }: AICareerResultsProp
         <AIAnalysisCard analysis={analysis} />
         
         {/* Career Paths - NEW SECTION */}
-        {(recommendations as any).career_paths?.length > 0 && (
+        {careerPaths?.length > 0 && (
           <div className="space-y-10">
             <div className="flex items-center gap-4">
               <h2 className="text-xl md:text-2xl  font-[900] text-white uppercase tracking-tight italic">Recommended Career Roles</h2>
               <div className="h-[1px] flex-1 bg-white/5" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {(recommendations as any).career_paths.map((path: any, i: number) => (
+              {careerPaths.map((path: any, i: number) => (
+
                 <GlassCard key={i} className="rounded-[32px] p-8 bg-[#161a20]/60 border-white/5 relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                     <TrendingUp size={60} />
