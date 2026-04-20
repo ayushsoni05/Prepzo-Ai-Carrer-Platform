@@ -41,7 +41,7 @@ import ThinkingLoader from '@/components/ui/loading';
 import allTemplates from '@/data/templates.json';
 import { Boxes } from '@/components/ui/background-boxes';
 
-interface DashboardProps {}
+
 
 type DashboardTab = 'overview' | 'resume' | 'assessment' | 'opportunities' | 'settings';
 
