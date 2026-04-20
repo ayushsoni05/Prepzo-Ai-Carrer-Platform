@@ -153,14 +153,36 @@ function getSectionsByField(field: string): Section[] {
 }
 
 // Build minimal test config from user profile for AI generator
-function buildTestConfig(user: any) {
+function buildTestConfig(user: any, testMode?: 'field' | 'skills') {
   const field = user?.fieldOfStudy || user?.stream || 'Computer Science';
-  const defaultSections = getSectionsByField(field);
-  const sectionCount = defaultSections.length;
+  
+  let sections: Section[] = [];
+  
+  if (testMode === 'skills') {
+    // Stage 2: Build sections from user's known technologies
+    const skills = user?.knownTechnologies || [];
+    sections = skills.map((skill: string) => ({
+      id: `skill-${skill.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+      name: skill,
+      icon: '📋', // Placeholder icon, will be updated by getSectionIcon in component
+      timeLimit: 15, // 15 mins per skill in Stage 2
+      questions: []
+    }));
+    
+    // If no skills, fallback to a general section to avoid empty UI
+    if (sections.length === 0) {
+      sections = [{ id: 'skill-general', name: 'General Technical', icon: '💡', timeLimit: 25, questions: [] }];
+    }
+  } else {
+    // Stage 1 (Default): Build sections from domain field
+    sections = getSectionsByField(field);
+  }
+
+  const totalTime = sections.reduce((acc, s) => acc + s.timeLimit, 0);
 
   return {
-    questionsPerSection: 20, // 20 questions per section
-    totalTime: sectionCount * 25, // 25 min per section
+    questionsPerSection: testMode === 'skills' ? 10 : 20, 
+    totalTime: totalTime,
     includeInterviewLevel: true,
     includeAssessmentLevel: true,
     targetRole: user?.targetRole || 'Software Engineer',
@@ -170,7 +192,7 @@ function buildTestConfig(user: any) {
     skillRatings: user?.skillRatings || {},
     knownTechnologies: user?.knownTechnologies || [],
     company: undefined,
-    sections: defaultSections,
+    sections: sections,
   };
 }
 
@@ -407,7 +429,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const sectionTimerRef = useRef<NodeJS.Timeout | null>(null);
   
-  const [testConfig] = useState<TestConfig>(() => buildTestConfig(user));
+  const [testConfig] = useState<TestConfig>(() => buildTestConfig(user, testMode));
 
   const [testState, setTestState] = useState<TestState>({
     sections: [],
@@ -567,6 +589,12 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
       // Full names
       'Operating Systems': '⚙️', 'Computer Networks': '🌐',
       'Data Structures': '🌳', 'Technical Fundamentals': '💡', 'Data Structures & Algorithms': '🌳',
+      // Common Skills
+      'React': '⚛️', 'Node.js': '🟢', 'Express': '🚂', 'MongoDB': '🍃',
+      'Python': '🐍', 'Java': '☕', 'Docker': '🐳', 'Kubernetes': '☸️', 'AWS': '☁️',
+      'Azure': '🔷', 'GCP': '☁️', 'Frontend': '🖥️', 'Backend': '⚙️', 'Fullstack': '🌐',
+      'Machine Learning': '🤖', 'Data Science': '📊', 'Cybersecurity': '🔒',
+      'TypeScript': '🔷', 'JavaScript': '🟨', 'C++': '🔵', 'Dart': '🎯', 'Flutter': '📱'
     };
     return icons[sectionName] || '📋';
   };
