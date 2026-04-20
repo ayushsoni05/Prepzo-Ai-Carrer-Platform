@@ -150,6 +150,9 @@ app.get('/api/health', (req, res) => {
 
 // --- AI Service Auto-Start ---
 const checkAIService = async () => {
+  // Never run AI service health checks in production serverless
+  if (process.env.NODE_ENV === 'production') return false;
+  
   const axios = await import('axios');
   try {
     const res = await axios.default.get('http://localhost:8000/ready', { timeout: 3000 });
@@ -187,7 +190,8 @@ const startAIService = () => {
 
 (async () => {
   // Only auto-start AI service in local development
-  if (process.env.NODE_ENV !== 'production') {
+  // IMPORTANT: Spawning child processes and persistent loops (seeder) will crash Vercel/Serverless envs
+  if (process.env.NODE_ENV !== 'production' && process.env.AUTO_START_AI === 'true') {
     if (!(await checkAIService())) {
       startAIService();
       // Wait for AI service to become ready
@@ -200,18 +204,16 @@ const startAIService = () => {
         console.warn('⚠️ AI Service did not start in time. Backend will continue, but AI features may not work.');
       } else {
         console.log('✅ AI Service is running and ready!');
-        // Start the Autonomous Seeder
+        // Start the Autonomous Seeder only in dev
         seeder.start().catch(err => console.error('Failed to start Autonomous Seeder:', err));
       }
     } else {
       console.log('✅ AI Service already running.');
-      // Start the Autonomous Seeder
+      // Start the Autonomous Seeder only in dev
       seeder.start().catch(err => console.error('Failed to start Autonomous Seeder:', err));
     }
   } else {
-    console.log('🌐 Production Mode: AI Service auto-start bypassed. Ensure AI_SERVICE_URL is set in environment variables.');
-    // Start the Autonomous Seeder in production too
-    seeder.start().catch(err => console.error('Failed to start Autonomous Seeder in Production:', err));
+    console.log('🌐 Production Mode / Manual AI Start: Background loops and child processes bypassed for stability.');
   }
 })();
 app.use('/api/auth', authRoutes);

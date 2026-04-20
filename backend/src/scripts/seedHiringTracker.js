@@ -117,7 +117,7 @@ async function seedData() {
           company: company._id,
           description: listing.Description,
           jobType: 'full_time', // default
-          workMode: listing.Location.includes('Remote') || listing.Location.includes('PAN') ? 'remote' : 'onsite',
+          workMode: (listing.Location.includes('Remote') || listing.Location.includes('PAN')) ? 'remote' : 'onsite',
           experienceLevel: 'entry', // default
           locations: locationArr,
           applicationLink: listing['Apply Link'],
@@ -126,6 +126,12 @@ async function seedData() {
           isApproved: true,
           postedBy: admin._id
         });
+        jobsCreated++;
+      } else if (!existingJob.isApproved) {
+        // Force approval for existing tracker jobs
+        existingJob.isApproved = true;
+        existingJob.status = 'active';
+        await existingJob.save();
         jobsCreated++;
       }
     }

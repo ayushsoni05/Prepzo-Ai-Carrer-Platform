@@ -25,6 +25,13 @@ class AutonomousSeeder {
    */
   async run() {
     while (this.isActive) {
+      // Safety check: Never run persistent loops in production serverless environments
+      if (process.env.NODE_ENV === 'production') {
+        console.warn('⛔ Seeder loop attempted to run in production. Terminating loop for stability.');
+        this.isActive = false;
+        break;
+      }
+
       try {
         const job = await this.getNextJob();
         if (!job) {
