@@ -250,41 +250,6 @@ export const generateSkillTest = async (req, res, next) => {
 
       console.log(`[aiTest] Sourced ${skillBatch.length}/${QUESTIONS_PER_SKILL} for skill: ${skill}`);
 
-      // If batch is thin, trigger background seeding boost and try to fill from field
-      if (skillBatch.length < QUESTIONS_PER_SKILL) {
-        seeder.boostTopic(skill, studentProfile.stream, studentProfile.targetRole);
-        
-        const needed = QUESTIONS_PER_SKILL - skillBatch.length;
-        const fieldQuestions = await Question.aggregate([
-          { 
-            $match: { 
-              field: { $regex: new RegExp(studentProfile.stream.split(' ')[0], 'i') },
-              topics: { $regex: new RegExp(skill, 'i') },
-              category: 'practical',
-              _id: { $nin: [...usedIds, ...skillBatch.map(q => q._id)] }
-            } 
-          },
-          { $sample: { size: needed } }
-        ]);
-        skillBatch = [...skillBatch, ...fieldQuestions];
-      }
-
-      // Final fallback to core field questions if still thin
-      if (skillBatch.length < QUESTIONS_PER_SKILL) {
-        const needed = QUESTIONS_PER_SKILL - skillBatch.length;
-        const universalQuestions = await Question.aggregate([
-          { 
-            $match: { 
-              category: 'practical',
-              field: { $regex: /Computer Science|Information Technology|Engineering/i },
-              _id: { $nin: [...usedIds, ...skillBatch.map(q => q._id)] }
-            } 
-          },
-          { $sample: { size: needed } }
-        ]);
-        skillBatch = [...skillBatch, ...universalQuestions];
-      }
-
       // Add to final pool tracking unique IDs
       skillBatch.forEach(q => {
         if (!usedIds.has(q._id.toString())) {
@@ -346,7 +311,7 @@ export const generateSkillTest = async (req, res, next) => {
     if (remainingQuestions.length > 0) {
       sections.push({
         id: 'skill_mix',
-        name: 'Technical Core',
+        name: 'Technical Depth',
         questions: remainingQuestions.map(q => ({
           id: q._id,
           type: q.type || 'mcq',
