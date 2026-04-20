@@ -20,7 +20,11 @@ import {
 
   Upload,
   Lock,
-  CheckCircle
+  CheckCircle,
+  Building2,
+  MapPin,
+  Briefcase,
+  ArrowUpRight
 } from 'lucide-react';
 import Sidebar from '@/components/navigation/Sidebar';
 import { MobileNav } from '@/components/navigation/MobileNav';
@@ -134,6 +138,8 @@ export function Dashboard() {
   const [opportunitiesWorkspace, setOpportunitiesWorkspace] = useState<'selection' | 'jobs' | 'companies' | 'applications' | 'network'>('selection');
   const [isResumeUploading, setIsResumeUploading] = useState(false);
   const [newCompanyName, setNewCompanyName] = useState('');
+  const [dashboardJobs, setDashboardJobs] = useState<Job[]>([]);
+  const [dashboardJobsLoading, setDashboardJobsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Format helper for 2 decimal places
@@ -173,6 +179,28 @@ export function Dashboard() {
     setResumeRoleInput(selected.role);
     setJobDescriptionInput(selected.description);
   }, [selectedDemoJD]);
+
+  // Load jobs for the opportunities workspace
+  useEffect(() => {
+    const loadJobs = async () => {
+      if (opportunitiesWorkspace !== 'jobs') return;
+      
+      setDashboardJobsLoading(true);
+      try {
+        const { jobsApi } = await import('@/api/jobs');
+        const response = await jobsApi.searchJobs({ limit: 50 });
+        if (response.success) {
+          setDashboardJobs(response.data.jobs);
+        }
+      } catch (error) {
+        console.error('Failed to load dashboard jobs:', error);
+      } finally {
+        setDashboardJobsLoading(false);
+      }
+    };
+    
+    void loadJobs();
+  }, [opportunitiesWorkspace]);
 
   const activeTab = (dashboardTab as DashboardTab) || 'overview';
   const readinessScore = user?.placementReadinessScore || 68.42;
@@ -1357,6 +1385,85 @@ export function Dashboard() {
           </div>
         </div>
 
+        {opportunitiesWorkspace === 'jobs' && (
+          <div className="space-y-6">
+            {/* Headers and list start */}
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <p className="text-[10px] font-[900] uppercase tracking-[0.5em] text-white/30 mb-2">Live Opportunity Grid</p>
+                <h3 className="text-3xl font-[900] text-white uppercase tracking-tighter italic">
+                  Matched <span className="text-blue-400">Openings.</span>
+                </h3>
+              </div>
+              <GlassButton 
+                onClick={() => window.location.hash = 'jobs'}
+                className="text-[10px] font-black uppercase tracking-widest"
+              >
+                Open Full Workspace
+              </GlassButton>
+            </div>
+
+            {dashboardJobsLoading ? (
+              <div className="py-20 flex justify-center">
+                <ThinkingLoader loadingText="Synchronizing with Global Hiring Tracker..." />
+              </div>
+            ) : dashboardJobs.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {dashboardJobs.map((job) => (
+                  <GlassCard 
+                    key={job._id}
+                    className="p-6 border-white/5 hover:border-blue-500/30 transition-all group relative overflow-hidden"
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center border border-white/10 group-hover:border-blue-500/30 transition-colors">
+                          <Building2 className="w-6 h-6 text-blue-400" />
+                        </div>
+                        <div>
+                          <h4 className="font-black text-white uppercase tracking-tight text-lg group-hover:text-blue-400 transition-colors">{job.title}</h4>
+                          <p className="text-xs font-bold text-white/40 uppercase tracking-widest">{job.company?.name || 'Venture Capital'}</p>
+                        </div>
+                      </div>
+                      <span className="text-[10px] font-black uppercase bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded border border-blue-500/20">
+                        {job.workMode}
+                      </span>
+                    </div>
+                    
+                    <p className="text-[13px] font-medium text-white/50 leading-relaxed italic mb-6 line-clamp-2">
+                      {job.description}
+                    </p>
+
+                    <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-1.5 text-[10px] font-black text-white/30 uppercase tracking-[0.1em]">
+                          <MapPin size={12} />
+                          {job.locations?.[0]?.city || 'Hybrid'}
+                        </div>
+                        <div className="flex items-center gap-1.5 text-[10px] font-black text-white/30 uppercase tracking-[0.1em]">
+                          <Briefcase size={12} />
+                          {job.jobType?.replace('_', ' ')}
+                        </div>
+                      </div>
+                      <a 
+                        href={job.applicationLink} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-[10px] font-black text-blue-400 uppercase tracking-widest hover:text-white transition-colors flex items-center gap-2"
+                      >
+                        Apply Now <ArrowUpRight size={12} />
+                      </a>
+                    </div>
+                  </GlassCard>
+                ))}
+              </div>
+            ) : (
+              <div className="py-20 text-center border-2 border-dashed border-white/5 rounded-[40px]">
+                <p className="text-[11px] font-black text-white/20 uppercase tracking-widest italic">No matching job signals detected in your current radius.</p>
+              </div>
+            )}
+          </div>
+        )}
+
         {opportunitiesWorkspace === 'companies' && (
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
             <div className="lg:col-span-12">
@@ -1418,14 +1525,14 @@ export function Dashboard() {
           </div>
         )}
 
-        {opportunitiesWorkspace !== 'companies' && (
+        {['applications', 'network'].includes(opportunitiesWorkspace) && (
           <div className="h-[600px] flex flex-col items-center justify-center text-center">
             <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-10">
-               <Lock className="w-10 h-10 text-white/10 animate-pulse" />
+               <Bot className="w-10 h-10 text-white/20 animate-pulse" />
             </div>
-            <h3 className="text-3xl  font-[900] text-white uppercase tracking-tighter italic mb-4">Module <span className="text-white/40">Offline.</span></h3>
+            <h3 className="text-3xl  font-[900] text-white uppercase tracking-tighter italic mb-4">Workspace <span className="text-white/40">Empty.</span></h3>
             <p className="text-[13px]  font-medium text-white/30 uppercase tracking-widest max-w-sm mx-auto">
-              This tactical workspace is currently under maintenance. Company signals are live and functional.
+              You haven't initiated any {opportunitiesWorkspace} signals yet. Your progress will appear here in real-time.
             </p>
           </div>
         )}
