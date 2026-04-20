@@ -11,21 +11,17 @@ import {
   Filter,
   MapPin,
   Briefcase,
-  Clock,
-  DollarSign,
   Building2,
   Bookmark,
   BookmarkCheck,
   X,
   TrendingUp,
-  Zap,
-  Users,
   ArrowUpRight,
   BarChart3,
   Bot,
   ChevronRight,
 } from 'lucide-react';
-import { GlassCard, GlassButton } from '@/components/ui/GlassCard';
+import { GlassButton } from '@/components/ui/GlassCard';
 import { Boxes } from '@/components/ui/background-boxes';
 import { useAuthStore } from '@/store/authStore';
 import { jobsApi, Job, JobSearchParams, JobFilters } from '@/api/jobs';
@@ -45,8 +41,6 @@ export function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [recommendations, setRecommendations] = useState<Job[]>([]);
-  const [trendingJobs, setTrendingJobs] = useState<Job[]>([]);
-  const [urgentJobs, setUrgentJobs] = useState<Job[]>([]);
   const [hiringCompanies, setHiringCompanies] = useState<any[]>([]);
   
   // Filters state
@@ -117,14 +111,10 @@ export function JobsPage() {
     const loadExtra = async () => {
       try {
         const { companiesApi } = await import('@/api/companies');
-        const [trendingRes, urgentRes, hiringRes] = await Promise.all([
-          jobsApi.getTrendingJobs(),
-          jobsApi.getUrgentJobs(),
+        const [hiringRes] = await Promise.all([
           companiesApi.getHiringCompanies(),
         ]);
         
-        if (trendingRes.success) setTrendingJobs(trendingRes.data);
-        if (urgentRes.success) setUrgentJobs(urgentRes.data);
         if (hiringRes.success) setHiringCompanies(hiringRes.data);
 
         if (isAuthenticated) {
@@ -182,62 +172,84 @@ export function JobsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Header */}
-      <div className="bg-black/30 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 md:mb-6">
-            <h1 className="text-2xl md:text-3xl font-bold text-white">Find Your Dream Job</h1>
-            {isAuthenticated && (
-              <GlassButton
-                onClick={() => navigate('/jobs/saved')}
-                className="flex items-center gap-2 w-full sm:w-auto justify-center"
-              >
-                <Bookmark className="w-4 h-4" />
-                Saved Jobs
-              </GlassButton>
-            )}
+    <div className="min-h-screen bg-[#0a0c10] selection:bg-[#00ff9d] selection:text-[#0a0c10] overflow-x-hidden relative">
+      {/* Background Effect */}
+      <div className="absolute inset-0 w-full h-full bg-[#0a0c10] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+      <Boxes />
+
+      {/* Header / Hero Section */}
+      <div className="relative z-10 border-b border-white/5 bg-[#161a20]/30 backdrop-blur-3xl">
+        <div className="max-w-7xl mx-auto px-6 py-12 md:py-20 text-left">
+          <div className="flex items-center gap-4 text-[13px] font-rubik font-[900] uppercase tracking-[0.5em] text-white/40 mb-8">
+            <TrendingUp size={20} strokeWidth={2.5} />
+            Transmission Hub
+          </div>
+          
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
+            <div className="max-w-3xl">
+              <h1 className="text-4xl md:text-7xl font-rubik font-[900] leading-[0.95] tracking-tighter text-white uppercase mb-6">
+                Map the <br/>
+                <span className="text-white/40">Opportunity Grid.</span>
+              </h1>
+              <p className="text-[18px] md:text-[21px] leading-relaxed text-white/50 font-rubik font-medium tracking-tight max-w-xl">
+                Real-time scanning of 142+ active career nodes. Bridge your potential to the ecosystem pulse.
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              {isAuthenticated && (
+                <GlassButton
+                  onClick={() => navigate('/jobs/saved')}
+                  className="px-8 py-4 h-auto bg-white/5 hover:bg-white/10"
+                >
+                   <Bookmark className="w-5 h-5 text-[#00ff9d]" />
+                   <span className="text-[14px] font-black uppercase tracking-widest ml-3">Saved Nodes</span>
+                </GlassButton>
+              )}
+            </div>
           </div>
 
-          {/* Search Form */}
-          <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-2 md:gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400" />
+          {/* Search Console - Integrated */}
+          <form onSubmit={handleSearch} className="mt-12 flex flex-col md:flex-row gap-4">
+            <div className="flex-1 relative group">
+              <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-white/20 group-focus-within:text-[#00ff9d] transition-colors" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Job title, skills, or company"
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-purple-500/30 rounded-xl text-white placeholder-purple-300/50 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all"
+                className="w-full pl-16 pr-8 py-5 bg-[#0a0c10]/50 border border-white/5 rounded-[24px] text-white placeholder-white/20 focus:border-[#00ff9d]/30 focus:bg-[#0a0c10] transition-all font-rubik font-medium"
               />
             </div>
-            <div className="md:w-64 relative">
-              <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400" />
+            <div className="md:w-72 relative group">
+              <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-white/20 group-focus-within:text-[#00ff9d] transition-colors" />
               <input
                 type="text"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="Location"
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-purple-500/30 rounded-xl text-white placeholder-purple-300/50 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all"
+                className="w-full pl-16 pr-8 py-5 bg-[#0a0c10]/50 border border-white/5 rounded-[24px] text-white placeholder-white/20 focus:border-[#00ff9d]/30 focus:bg-[#0a0c10] transition-all font-rubik font-medium"
               />
             </div>
             <div className="flex gap-2">
-              <GlassButton type="submit" className="flex-1 md:flex-none bg-purple-600 hover:bg-purple-500">
-                Search
-              </GlassButton>
-              <GlassButton
+              <button 
+                type="submit" 
+                className="px-10 py-5 rounded-[24px] bg-[#00ff9d] text-[#0a0c10] font-black uppercase tracking-widest text-[13px] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#00ff9d]/10"
+              >
+                Scan Grid
+              </button>
+              <button
                 type="button"
                 onClick={() => setShowFilters(true)}
-                className="flex items-center gap-2"
+                className="px-6 py-5 rounded-[24px] bg-white/5 border border-white/5 text-white/40 hover:text-white hover:bg-white/10 transition-all flex items-center gap-3"
               >
-                <Filter className="w-4 h-4" />
-                <span className="hidden sm:inline">Filters</span>
+                <Filter size={18} />
                 {Object.keys(selectedFilters).length > 0 && (
-                  <span className="bg-purple-500 text-white text-xs px-2 py-0.5 rounded-full">
+                  <span className="w-5 h-5 rounded-full bg-[#00ff9d] text-[#0a0c10] text-[10px] font-black flex items-center justify-center">
                     {Object.keys(selectedFilters).length}
                   </span>
                 )}
-              </GlassButton>
+              </button>
             </div>
           </form>
         </div>

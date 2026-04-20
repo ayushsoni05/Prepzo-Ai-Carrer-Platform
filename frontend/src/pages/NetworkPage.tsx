@@ -24,11 +24,7 @@ import {
   Sparkles,
   Globe,
   ChevronDown,
-  ArrowUpRight,
-  TrendingDown,
-  BarChart3,
   Bot,
-  Zap,
 } from 'lucide-react';
 import { GlassCard, GlassButton } from '@/components/ui/GlassCard';
 import { Boxes } from '@/components/ui/background-boxes';
@@ -218,7 +214,6 @@ export function NetworkPage() {
     }
   };
 
-  return (
   return (
     <div className="min-h-screen bg-[#0a0c10] selection:bg-[#00ff9d] selection:text-[#0a0c10] overflow-x-hidden relative">
       {/* Background Effect */}

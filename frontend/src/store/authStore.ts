@@ -1,10 +1,12 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { authApi, userApi, RegisterData, LoginData, OnboardingData, SessionInfo } from '@/api/auth';
+import { authApi, userApi, RegisterData, LoginData, OnboardingData, SessionInfo, AssessmentData } from '@/api/auth';
 
 export interface User {
   id: string;
+  _id?: string;
   fullName: string;
+  profileImage?: string;
   email: string;
   phone: string;
   dateOfBirth: string;

@@ -12,17 +12,11 @@ import {
   Building2,
   Users,
   Star,
-  Briefcase,
   Heart,
-  ChevronRight,
-  CheckCircle,
   Zap,
   Award,
   ArrowUpRight,
   TrendingUp,
-  BarChart3,
-  Bot,
-  ZapOff,
 } from 'lucide-react';
 import { GlassCard, GlassButton } from '@/components/ui/GlassCard';
 import { Boxes } from '@/components/ui/background-boxes';
@@ -43,7 +37,6 @@ export function CompaniesPage() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
   const [featuredCompanies, setFeaturedCompanies] = useState<Company[]>([]);
-  const [hiringCompanies, setHiringCompanies] = useState<Company[]>([]);
   const [industries, setIndustries] = useState<string[]>([]);
   
   // Filters state
@@ -106,13 +99,11 @@ export function CompaniesPage() {
   useEffect(() => {
     const loadExtra = async () => {
       try {
-        const [featuredRes, hiringRes] = await Promise.all([
+        const [featuredRes] = await Promise.all([
           companiesApi.getFeaturedCompanies(),
-          companiesApi.getHiringCompanies(),
         ]);
         
         if (featuredRes.success) setFeaturedCompanies(featuredRes.data);
-        if (hiringRes.success) setHiringCompanies(hiringRes.data);
       } catch (error) {
         console.error('Failed to load extra data:', error);
       }
@@ -163,7 +154,6 @@ export function CompaniesPage() {
     }
   };
 
-  return (
   return (
     <div className="min-h-screen bg-[#0a0c10] selection:bg-[#00ff9d] selection:text-[#0a0c10] overflow-x-hidden relative">
       {/* Background Effect */}
@@ -442,44 +432,6 @@ function FeaturedCompanyCard({
   );
 }
 
-// Company Mini Card
-function CompanyMiniCard({
-  company,
-  onClick,
-}: {
-  company: Company;
-  onClick: () => void;
-}) {
-  return (
-    <GlassCard
-      className="p-4 cursor-pointer hover:border-purple-400/50 transition-colors"
-      onClick={onClick}
-    >
-      <div className="flex items-center gap-3">
-        <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center overflow-hidden">
-          {company.logo ? (
-            <img
-              src={company.logo}
-              alt={company.name}
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <Building2 className="w-6 h-6 text-purple-400" />
-          )}
-        </div>
-        <div className="flex-1">
-          <h4 className="font-medium text-white">{company.name}</h4>
-          <p className="text-purple-300 text-sm">{company.industry}</p>
-        </div>
-        {company.jobCount && company.jobCount > 0 && (
-          <span className="px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">
-            {company.jobCount} jobs
-          </span>
-        )}
-      </div>
-    </GlassCard>
-  );
-}
 
 function CompanyCard({
   company,
