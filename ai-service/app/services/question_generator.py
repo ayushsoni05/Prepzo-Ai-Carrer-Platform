@@ -317,7 +317,7 @@ class QuestionGenerator:
     # ──────────────────────────────────────────────────────────────────────────
 
     def _mcq_prompt(self, section: str, topic: str, difficulty: str,
-                    profile_ctx: str, company: str, seed: str, idx: int) -> str:
+                    profile_ctx: str, company: str, seed: str, idx: int, category: str = "") -> str:
         return f"""Generate 1 multiple-choice question for a technical interview at {company.upper() or 'a tech company'}.
 
 CONTEXT: {profile_ctx}
@@ -340,7 +340,7 @@ The question should be technical and challenging. Respond ONLY with a JSON objec
 }}"""
 
     def _coding_prompt(self, section: str, topic: str, difficulty: str,
-                       profile_ctx: str, company: str, seed: str, idx: int) -> str:
+                       profile_ctx: str, company: str, seed: str, idx: int, category: str = "") -> str:
         return f"""Task: Generate 1 coding problem for {company.upper()}.
 Topic: {topic}
 Difficulty: {difficulty.upper()}
@@ -570,6 +570,7 @@ Respond with ONLY this JSON:
         stream_cat: str,
         company_pattern: Optional[Dict[str, Any]] = None,
         company: str = "",
+        category: str = "",
     ) -> List[Dict[str, Any]]:
         topics: List[str] = self._pick_topics(stream_cat, section, profile)
         profile_ctx = self._profile_context(profile)
