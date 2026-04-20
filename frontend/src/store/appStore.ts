@@ -171,6 +171,8 @@ interface AppState {
   toggleDarkMode: () => void;
   setCurrentPage: (page: string) => void;
   setDashboardTab: (tab: string) => void;
+  showFullRecommendations: boolean;
+  setShowFullRecommendations: (show: boolean) => void;
   setResumeAnalysis: (analysis: ResumeAnalysisPersist | null) => void;
   setAnalysisStep: (step: 'upload' | 'selectJob' | 'analyzing' | 'results') => void;
   setSelectedJobId: (jobId: string | null) => void;
@@ -193,6 +195,7 @@ export const useAppStore = create<AppState>()(
       darkMode: true,
       currentPage: 'landing',
       dashboardTab: 'overview',
+      showFullRecommendations: false,
       resumeAnalysis: null,
       atsHistory: [],
       resumeAnalysisLoading: false,
@@ -205,6 +208,7 @@ export const useAppStore = create<AppState>()(
       toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
       setCurrentPage: (page) => set({ currentPage: page }),
       setDashboardTab: (tab) => set({ dashboardTab: tab }),
+      setShowFullRecommendations: (show) => set({ showFullRecommendations: show }),
       setResumeAnalysis: (analysis) => set({ resumeAnalysis: analysis }),
       setAnalysisStep: (step) => set({ analysisStep: step }),
       setSelectedJobId: (jobId) => set({ selectedJobId: jobId }),
@@ -343,6 +347,7 @@ export const useAppStore = create<AppState>()(
       partialize: (state) => ({
         darkMode: state.darkMode,
         dashboardTab: state.dashboardTab,
+        showFullRecommendations: state.showFullRecommendations,
         analysisStep: state.analysisStep,
         selectedJobId: state.selectedJobId,
         // Don't persist resumeAnalysis - it's user-specific and comes from backend

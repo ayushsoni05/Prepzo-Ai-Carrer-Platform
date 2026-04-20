@@ -60,12 +60,17 @@ export interface User {
   linkedin: string;
   github: string;
   resumeUrl?: string;
-  role: 'student' | 'admin';
+  role: 'student' | 'admin' | 'superadmin';
   isOnboarded: boolean;
   isAssessmentComplete: boolean;
+  isFieldTestComplete: boolean;
+  isSkillTestComplete: boolean;
+  isAssessmentLocked?: boolean;
+  assessmentUnlockDate?: string;
   isEmailVerified?: boolean;
   placementReadinessScore: number;
   atsScore: number;
+
   skillGaps: string[];
   strengths: string[];
   weaknesses: string[];
@@ -74,6 +79,42 @@ export interface User {
   expectedCtc?: string;
   preferredCompanies?: string[];
   skillRatings?: Record<string, number>;
+  testResults?: {
+    totalQuestions: number;
+    correctAnswers: number;
+    score: number;
+    sectionResults: {
+      name: string;
+      total: number;
+      correct: number;
+      score: number;
+    }[];
+    takenAt: string;
+  };
+  interviewScore?: number;
+  skillsMatchedScore?: number;
+
+  // Per-stage persistent results
+  fieldAssessmentResults?: {
+    score: number;
+    sections: {
+      name: string;
+      score: number;
+      correct: number;
+      total: number;
+    }[];
+    completedAt: string;
+  };
+  skillAssessmentResults?: {
+    score: number;
+    sections: {
+      name: string;
+      score: number;
+      correct: number;
+      total: number;
+    }[];
+    completedAt: string;
+  };
 }
 
 export interface AuthResponse {

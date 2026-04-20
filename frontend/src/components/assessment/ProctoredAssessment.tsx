@@ -516,6 +516,41 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
     onWarning: handleWarning,
   });
 
+  // Auto-load results if already completed (Persistence)
+  useEffect(() => {
+    if (!user) return;
+
+    const savedResults = testMode === 'field' ? user.fieldAssessmentResults : user.skillAssessmentResults;
+    
+    if (savedResults && savedResults.sections && savedResults.sections.length > 0) {
+      console.log(`📊 Found existing ${testMode} results for user, auto-loading...`);
+      
+      const mappedResults = {
+        totalQuestions: savedResults.sections.reduce((acc: number, s: any) => acc + (s.total || 0), 0),
+        correctAnswers: savedResults.sections.reduce((acc: number, s: any) => acc + (s.correct || 0), 0),
+        attemptedQuestions: savedResults.sections.reduce((acc: number, s: any) => acc + (s.total || 0), 0),
+        unattemptedQuestions: 0,
+        accuracyRate: savedResults.score || 0,
+        score: savedResults.score || 0,
+        sectionResults: savedResults.sections.map((s: any) => ({
+          name: s.name,
+          total: s.total || 0,
+          correct: s.correct || 0,
+          attempted: s.total || 0,
+          unattempted: 0,
+          score: s.score || 0,
+          accuracyRate: s.score || 0
+        })),
+        violations: []
+      };
+
+      setResults(mappedResults);
+      setShowResults(true);
+      setShowInstructions(false);
+      setTestState(prev => ({ ...prev, status: 'completed' }));
+    }
+  }, [testMode, user]);
+
   // Cleanup proctoring on unmount
   useEffect(() => {
     return () => {
@@ -778,7 +813,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
             questions: [],
             timeLimit: fb.timeLimit,
           } as Section,
-          questions: fb.questions.map(q => ({
+          questions: fb.questions.map((q: Question) => ({
             id: q.id,
             question: q.question,
             options: q.options,

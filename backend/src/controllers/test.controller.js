@@ -347,11 +347,28 @@ export const completeTest = async (req, res) => {
         user.placementReadinessScore = overallScore;
       }
       
-      // Update specific completion flags
+      // Update specific completion flags and persistent storage
+      const sectionSummaries = testSession.sections.map(s => ({
+        name: s.sectionName,
+        score: s.score,
+        correct: s.correctAnswers,
+        total: s.questionsAttempted
+      }));
+
       if (testSession.testType === 'field_based') {
         user.isFieldTestComplete = true;
-      } else if (testSession.testType === 'skill_based') {
+        user.fieldAssessmentResults = {
+          score: overallScore,
+          sections: sectionSummaries,
+          completedAt: new Date()
+        };
+      } else if (testSession.testType === 'skill_based' || testSession.testType === 'skill') {
         user.isSkillTestComplete = true;
+        user.skillAssessmentResults = {
+          score: overallScore,
+          sections: sectionSummaries,
+          completedAt: new Date()
+        };
       }
       
       // Check if fully qualified

@@ -121,10 +121,10 @@ export function Dashboard({ onNavigate }: DashboardProps) {
     loadResumeAnalysisFromBackend,
     generatedResume,
     resumeGenerationLoading,
-    generateResume
+    generateResume,
+    showFullRecommendations,
+    setShowFullRecommendations
   } = useAppStore();
-
-  const [showFullRecommendations, setShowFullRecommendations] = useState(false);
   const [startAssessment, setStartAssessment] = useState<false | 'field' | 'skills'>(false);
   const [resumeTextInput, setResumeTextInput] = useState('');
   const [resumeRoleInput, setResumeRoleInput] = useState(user?.targetRole || '');
@@ -1159,9 +1159,10 @@ export function Dashboard({ onNavigate }: DashboardProps) {
               if (mode === 'field') updates.isFieldTestComplete = true;
               if (mode === 'skills') updates.isSkillTestComplete = true;
               
-              // If both are now complete, set isAssessmentComplete
+              // If both are now complete, set isAssessmentComplete and SHOW RECOMMENDATIONS
               if (updates.isFieldTestComplete && updates.isSkillTestComplete) {
                 updates.isAssessmentComplete = true;
+                setShowFullRecommendations(true);
               }
               
               updateUser(updates);

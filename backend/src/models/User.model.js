@@ -149,6 +149,26 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
+  fieldAssessmentResults: {
+    score: Number,
+    sections: [{
+      name: String,
+      score: Number,
+      correct: Number,
+      total: Number
+    }],
+    completedAt: Date
+  },
+  skillAssessmentResults: {
+    score: Number,
+    sections: [{
+      name: String,
+      score: Number,
+      correct: Number,
+      total: Number
+    }],
+    completedAt: Date
+  },
 
 
   // Assessment Scores

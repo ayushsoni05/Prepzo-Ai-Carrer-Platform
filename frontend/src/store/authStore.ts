@@ -51,6 +51,28 @@ export interface User {
   };
   interviewScore?: number;
   skillsMatchedScore?: number;
+
+  // Per-stage persistent results
+  fieldAssessmentResults?: {
+    score: number;
+    sections: {
+      name: string;
+      score: number;
+      correct: number;
+      total: number;
+    }[];
+    completedAt: string;
+  };
+  skillAssessmentResults?: {
+    score: number;
+    sections: {
+      name: string;
+      score: number;
+      correct: number;
+      total: number;
+    }[];
+    completedAt: string;
+  };
 }
 
 interface AuthState {
