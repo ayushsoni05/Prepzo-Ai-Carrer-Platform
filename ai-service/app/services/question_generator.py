@@ -402,8 +402,7 @@ Respond with ONLY this JSON:
     # Single question generation
     # ──────────────────────────────────────────────────────────────────────────
 
-    async def _gen_mcq(self, section: str, topic: str, difficulty: str,
-                        profile_ctx: str, company: str, seed: str, idx: int, category: str = "") -> Dict[str, Any]:
+    async def _gen_mcq(self, section: str, topic: str, difficulty: str, profile_ctx: str, company: str, seed: str, idx: int, category: str = "") -> dict:
         prompt = self._mcq_prompt(section, topic, difficulty, profile_ctx, company, seed, idx, category)
         for attempt in range(3):
             try:
@@ -434,8 +433,7 @@ Respond with ONLY this JSON:
         # Return None instead of raising to allow section to contain other valid questions
         return None
 
-    async def _gen_coding(self, section: str, topic: str, difficulty: str,
-                           profile_ctx: str, company: str, seed: str, idx: int, category: str = "") -> Dict[str, Any]:
+    async def _gen_coding(self, section: str, topic: str, difficulty: str, profile_ctx: str, company: str, seed: str, idx: int, category: str = "") -> dict:
         prompt = self._coding_prompt(section, topic, difficulty, profile_ctx, company, seed, idx, category)
         for attempt in range(3):
             try:
@@ -473,8 +471,7 @@ Respond with ONLY this JSON:
 
         return None
 
-    async def _gen_short_answer(self, section: str, topic: str, difficulty: str,
-                                 profile_ctx: str, company: str, seed: str, idx: int, category: str = "") -> Dict[str, Any]:
+    async def _gen_short_answer(self, section: str, topic: str, difficulty: str, profile_ctx: str, company: str, seed: str, idx: int, category: str = "") -> dict:
         prompt = self._short_answer_prompt(section, topic, difficulty, profile_ctx, company, seed, idx, category)
         for attempt in range(3):
             try:
@@ -523,7 +520,7 @@ Respond with ONLY this JSON:
     # Context builders
     # ──────────────────────────────────────────────────────────────────────────
 
-    def _profile_context(self, profile: Dict[str, Any]) -> str:
+    def _profile_context(self, profile: dict) -> str:
         skills = profile.get("knownTechnologies", [])
         # Include specific skill ratings if available
         skill_ratings = profile.get("skillRatings", {})
@@ -540,7 +537,7 @@ Respond with ONLY this JSON:
             f"Career Goals: {profile.get('careerGoals', 'Placement at top tech company')}"
         )
 
-    def _company_context(self, pattern: Optional[Dict[str, Any]], company: str) -> str:
+    def _company_context(self, pattern: dict, company: str) -> str:
         if not pattern:
             # Randomly pick a top company if none specified to add spice
             top_firms = ["Google", "Amazon", "Microsoft", "Meta", "Uber", "Netflix", "Adobe", "Zomato", "Swiggy", "Walmart"]
@@ -557,7 +554,7 @@ Respond with ONLY this JSON:
     # Section-level generation
     # ──────────────────────────────────────────────────────────────────────────
 
-    async def _generate_section(self, section: str, profile: Dict[str, Any], num_q: int, dist: Dict[str, float], seed: str, stream_cat: str, company_pattern: Optional[Dict[str, Any]] = None, company: str = "", category: str = "") -> List[Dict[str, Any]]:
+    async def _generate_section(self, section: str, profile: dict, num_q: int, dist: dict, seed: str, stream_cat: str, company_pattern: dict = None, company: str = "", category: str = "") -> list:
         topics: List[str] = self._pick_topics(stream_cat, section, profile)
         profile_ctx = self._profile_context(profile)
         
