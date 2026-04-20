@@ -41,9 +41,7 @@ import ThinkingLoader from '@/components/ui/loading';
 import allTemplates from '@/data/templates.json';
 import { Boxes } from '@/components/ui/background-boxes';
 
-interface DashboardProps {
-  onNavigate: (page: string) => void;
-}
+interface DashboardProps {}
 
 type DashboardTab = 'overview' | 'resume' | 'assessment' | 'opportunities' | 'settings';
 
@@ -109,7 +107,7 @@ const demoJDs = [
   },
 ];
 
-export function Dashboard({ onNavigate }: DashboardProps) {
+export function Dashboard() {
   const { user, updateUser } = useAuthStore();
   const {
     dashboardTab,

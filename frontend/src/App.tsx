@@ -222,7 +222,7 @@ export default function App() {
       {currentPage === 'landing' && <LandingPage onNavigate={handleNavigate} />}
       {currentPage === 'login' && <AuthPage mode="login" onNavigate={handleNavigate} />}
       {currentPage === 'signup' && <AuthPage mode="signup" onNavigate={handleNavigate} />}
-      {currentPage === 'dashboard' && <Dashboard onNavigate={handleNavigate} />}
+      {currentPage === 'dashboard' && <Dashboard />}
       {currentPage === 'admin' && <AdminPanel onNavigate={handleNavigate} />}
       {currentPage === 'onboarding' && <OnboardingPage onNavigate={handleNavigate} />}
       {currentPage === 'jobs' && <JobsPage />}
