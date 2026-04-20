@@ -515,6 +515,11 @@ function JobCard({
               </span>
             </div>
 
+            {/* Description Preview */}
+            <p className="text-purple-300/80 text-sm mt-3 line-clamp-2">
+              {job.description}
+            </p>
+
             {/* Salary & Posted */}
             <div className="flex items-center gap-4 mt-3 text-sm text-purple-400">
               {job.salary && (

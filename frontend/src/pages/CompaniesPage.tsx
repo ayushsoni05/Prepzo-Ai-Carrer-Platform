@@ -458,7 +458,14 @@ function CompanyCard({
             )}
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-white">{company.name}</h3>
+            <div className="flex items-center gap-2">
+              <h3 className="text-lg font-semibold text-white">{company.name}</h3>
+              {company.companyType && (
+                <span className="px-2 py-0.5 bg-purple-500/20 text-purple-300 text-[10px] rounded border border-purple-500/30 uppercase font-bold tracking-wider">
+                  {company.companyType}
+                </span>
+              )}
+            </div>
             <p className="text-purple-300 text-sm">{company.industry}</p>
           </div>
         </div>
