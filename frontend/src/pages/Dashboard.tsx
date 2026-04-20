@@ -133,7 +133,9 @@ export function Dashboard({ onNavigate }: DashboardProps) {
   const [selectedDemoJD, setSelectedDemoJD] = useState('');
   const [resumeInfo, setResumeInfo] = useState<ResumeInfo | null>(null);
   const [resumeWorkspace, setResumeWorkspace] = useState<'selection' | 'maker' | 'ats' | 'gallery'>('selection');
+  const [opportunitiesWorkspace, setOpportunitiesWorkspace] = useState<'selection' | 'jobs' | 'companies' | 'applications' | 'network'>('selection');
   const [isResumeUploading, setIsResumeUploading] = useState(false);
+  const [newCompanyName, setNewCompanyName] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Format helper for 2 decimal places
@@ -223,22 +225,22 @@ export function Dashboard({ onNavigate }: DashboardProps) {
     {
       title: 'Jobs',
       description: 'Track role-matched openings with cleaner filters and calmer surfaces.',
-      action: () => onNavigate('jobs'),
+      action: () => setOpportunitiesWorkspace('jobs'),
     },
     {
       title: 'Companies',
       description: 'Company prep, hiring signals, and target lists in a premium workspace.',
-      action: () => onNavigate('companies'),
+      action: () => setOpportunitiesWorkspace('companies'),
     },
     {
       title: 'Applications',
       description: 'Review application status, momentum, and next actions in one view.',
-      action: () => onNavigate('applications'),
+      action: () => setOpportunitiesWorkspace('applications'),
     },
     {
       title: 'Network',
       description: 'Stay connected to peers, mentors, and warm opportunities.',
-      action: () => onNavigate('network'),
+      action: () => setOpportunitiesWorkspace('network'),
     },
   ];
 
@@ -1269,25 +1271,169 @@ export function Dashboard({ onNavigate }: DashboardProps) {
     );
   };
 
-  const renderOpportunities = () => (
-    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4 selection:bg-white selection:text-black">
-      {shellCards.map((card) => (
-        <GlassCard key={card.title} className="rounded-[32px] p-8 bg-[#161a20]/60 border-white/5 flex flex-col justify-between group h-full">
-          <div>
-            <p className="text-[11px]  font-[900] uppercase tracking-[0.4em] text-white/30 mb-8">{card.title} Workspace</p>
-            <h3 className="text-2xl  font-[900] text-white uppercase tracking-tight mb-4 italic leading-tight">{card.title}</h3>
-            <p className="text-[13px]  font-medium leading-relaxed text-white/40 italic">{card.description}</p>
+  const handleAddCompany = async () => {
+    if (!newCompanyName.trim()) return;
+    
+    const currentCompanies = user?.preferredCompanies || [];
+    if (currentCompanies.includes(newCompanyName.trim())) {
+      showInfo('Company already in your target list.');
+      return;
+    }
+
+    try {
+      await updateUser({
+        preferredCompanies: [...currentCompanies, newCompanyName.trim()]
+      });
+      setNewCompanyName('');
+      showSuccess(`${newCompanyName} added to target list.`);
+    } catch {
+      showError('Failed to update target companies.');
+    }
+  };
+
+  const handleRemoveCompany = async (name: string) => {
+    try {
+      await updateUser({
+        preferredCompanies: (user?.preferredCompanies || []).filter(c => c !== name)
+      });
+      showSuccess(`${name} removed from target list.`);
+    } catch {
+      showError('Failed to update target companies.');
+    }
+  };
+
+  const renderOpportunities = () => {
+    if (opportunitiesWorkspace === 'selection') {
+      return (
+        <div className="relative">
+          <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-4 selection:bg-white selection:text-black relative z-10">
+            {shellCards.map((card, idx) => (
+              <GlassCard 
+                key={card.title} 
+                className="rounded-[40px] p-10 bg-[#161a20]/40 border-white/5 flex flex-col justify-between group h-[400px] hover:bg-white/5 transition-all duration-700 relative overflow-hidden backdrop-blur-3xl"
+              >
+                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-700">
+                  <Sparkles size={120} className="text-white" />
+                </div>
+                
+                <div>
+                  <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-10 group-hover:border-white/20 transition-colors">
+                    {idx === 0 ? <Zap className="text-blue-400" /> : idx === 1 ? <Target className="text-emerald-400" /> : idx === 2 ? <Activity className="text-amber-400" /> : <Bot className="text-purple-400" />}
+                  </div>
+                  <p className="text-[10px]  font-[900] uppercase tracking-[0.4em] text-white/20 mb-6">{card.title} Workspace</p>
+                  <h3 className="text-3xl  font-[900] text-white uppercase tracking-tighter mb-4 italic group-hover:text-blue-400 transition-colors">{card.title}</h3>
+                  <p className="text-[13px]  font-medium leading-relaxed text-white/30 italic group-hover:text-white/50 transition-colors">{card.description}</p>
+                </div>
+
+                <button 
+                  onClick={card.action}
+                  className="relative h-14 w-full group/btn overflow-hidden rounded-2xl border border-white/5 hover:border-white/20 transition-all"
+                >
+                  <div className="absolute inset-0 bg-white opacity-0 group-hover/btn:opacity-5 transition-opacity" />
+                  <span className="relative z-10 flex items-center justify-center h-full text-[10px]  font-black uppercase tracking-[0.2em] text-white/60 group-hover/btn:text-white transition-colors gap-3">
+                    Enter Workspace <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                  </span>
+                </button>
+              </GlassCard>
+            ))}
           </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-12 pb-20 selection:bg-white selection:text-black">
+        <div className="flex items-center justify-between">
           <button 
-            onClick={card.action}
-            className="mt-8 text-[11px]  font-black uppercase tracking-[0.2em] text-white group-hover:translate-x-2 transition-transform flex items-center gap-2"
+            onClick={() => setOpportunitiesWorkspace('selection')}
+            className="group flex items-center gap-3 text-white/40 hover:text-white transition-all  font-black uppercase tracking-[0.3em] text-[10px]"
           >
-            Enter Workspace <ArrowRight size={14} />
+            <ArrowRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" />
+            Exit Workspace
           </button>
-        </GlassCard>
-      ))}
-    </div>
-  );
+          
+          <div className="flex gap-4">
+            <h2 className="text-xl  font-[900] text-white uppercase tracking-tighter italic">
+              {opportunitiesWorkspace} <span className="text-white/20">Module.</span>
+            </h2>
+          </div>
+        </div>
+
+        {opportunitiesWorkspace === 'companies' && (
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+            <div className="lg:col-span-12">
+              <GlassCard className="rounded-[40px] p-10 md:p-16 bg-[#161a20]/60 border-white/5 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
+                
+                <p className="text-[11px]  font-[900] uppercase tracking-[0.5em] text-white/30 mb-8">Intelligence Layer</p>
+                <h3 className="text-4xl md:text-6xl  font-[900] text-white uppercase tracking-tighter mb-10 italic">
+                  Company <span className="text-emerald-400">Tracker.</span>
+                </h3>
+
+                <div className="max-w-2xl space-y-10">
+                  <div className="relative group">
+                    <input 
+                      type="text"
+                      value={newCompanyName}
+                      onChange={(e) => setNewCompanyName(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleAddCompany()}
+                      placeholder="Enter target company name (e.g. Google, NVIDIA)..."
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white text-lg  font-bold placeholder:text-white/20 focus:outline-none focus:border-emerald-500/50 transition-all"
+                    />
+                    <button 
+                      onClick={handleAddCompany}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 h-12 px-8 bg-emerald-500 text-[#161a20]  font-black text-[11px] uppercase tracking-widest rounded-xl hover:bg-emerald-400 active:scale-95 transition-all"
+                    >
+                      Add Signal
+                    </button>
+                  </div>
+
+                  <div className="pt-10 border-t border-white/5">
+                    <p className="text-[10px]  font-black uppercase tracking-[0.3em] text-white/20 mb-8">Active Targets</p>
+                    <div className="flex flex-wrap gap-4">
+                      {user?.preferredCompanies && user.preferredCompanies.length > 0 ? (
+                        user.preferredCompanies.map((company) => (
+                          <div 
+                            key={company}
+                            className="group relative px-8 py-5 rounded-2xl bg-white/5 border border-white/5 hover:border-white/20 transition-all flex items-center gap-6"
+                          >
+                            <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
+                            <span className="text-lg  font-black text-white uppercase tracking-tighter italic">{company}</span>
+                            <button 
+                              onClick={() => handleRemoveCompany(company)}
+                              className="opacity-0 group-hover:opacity-100 p-2 hover:bg-red-500/20 rounded-lg text-red-400 transition-all"
+                            >
+                              <ArrowRight size={14} className="rotate-45" />
+                            </button>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="w-full py-20 text-center border-2 border-dashed border-white/5 rounded-3xl">
+                          <p className="text-[11px]  font-black text-white/20 uppercase tracking-widest italic">No companies tracked yet. Start monitoring common targets.</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </GlassCard>
+            </div>
+          </div>
+        )}
+
+        {opportunitiesWorkspace !== 'companies' && (
+          <div className="h-[600px] flex flex-col items-center justify-center text-center">
+            <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-10">
+               <Lock className="w-10 h-10 text-white/10 animate-pulse" />
+            </div>
+            <h3 className="text-3xl  font-[900] text-white uppercase tracking-tighter italic mb-4">Module <span className="text-white/40">Offline.</span></h3>
+            <p className="text-[13px]  font-medium text-white/30 uppercase tracking-widest max-w-sm mx-auto">
+              This tactical workspace is currently under maintenance. Company signals are live and functional.
+            </p>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   const renderSettings = () => (
     <div className="grid grid-cols-1 gap-8 xl:grid-cols-12 selection:bg-white selection:text-black">
