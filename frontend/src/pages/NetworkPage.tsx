@@ -24,8 +24,14 @@ import {
   Sparkles,
   Globe,
   ChevronDown,
+  ArrowUpRight,
+  TrendingDown,
+  BarChart3,
+  Bot,
+  Zap,
 } from 'lucide-react';
 import { GlassCard, GlassButton } from '@/components/ui/GlassCard';
+import { Boxes } from '@/components/ui/background-boxes';
 import { useAuthStore } from '@/store/authStore';
 import { networkApi, Post, Connection, ConnectionSuggestion, UserSummary } from '@/api/network';
 import ThinkingLoader from '@/components/ui/loading';
@@ -213,44 +219,50 @@ export function NetworkPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Header */}
-      <div className="bg-black/30 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6">
-          <h1 className="text-2xl md:text-3xl font-bold text-white">My Network</h1>
+  return (
+    <div className="min-h-screen bg-[#0a0c10] selection:bg-[#00ff9d] selection:text-[#0a0c10] overflow-x-hidden relative">
+      {/* Background Effect */}
+      <div className="absolute inset-0 w-full h-full bg-[#0a0c10] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+      <Boxes />
+
+      {/* Header / Hero Section */}
+      <div className="relative z-10 border-b border-white/5 bg-[#161a20]/30 backdrop-blur-3xl">
+        <div className="max-w-7xl mx-auto px-6 py-12 md:py-20 text-left">
+          <div className="flex items-center gap-4 text-[13px] font-rubik font-[900] uppercase tracking-[0.5em] text-white/40 mb-8">
+            <Users size={20} strokeWidth={2.5} />
+            Transmission Hub
+          </div>
           
-          {/* Tabs */}
-          <div className="flex gap-2 md:gap-4 mt-4 md:mt-6 overflow-x-auto pb-2">
-            {(['feed', 'connections', 'requests'] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap transition-colors ${
-                  activeTab === tab
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-white/5 text-purple-300 hover:bg-white/10'
-                }`}
-              >
-                {tab === 'feed' && 'Feed'}
-                {tab === 'connections' && (
-                  <>
-                    <span className="hidden sm:inline">Connections</span>
-                    <span className="sm:hidden">Connect</span>
-                    {` (${connections.length})`}
-                  </>
-                )}
-                {tab === 'requests' && (
-                  <>
-                    Requests
-                    {requests.received.length > 0 && (
-                      <span className="ml-1 md:ml-2 px-1.5 md:px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">
-                        {requests.received.length}
-                      </span>
-                    )}
-                  </>
-                )}
-              </button>
-            ))}
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
+            <div className="max-w-3xl">
+              <h1 className="text-4xl md:text-7xl font-rubik font-[900] leading-[0.95] tracking-tighter text-white uppercase mb-6">
+                Connect the <br/>
+                <span className="text-white/40">Neural Nodes.</span>
+              </h1>
+              <p className="text-[18px] md:text-[21px] leading-relaxed text-white/50 font-rubik font-medium tracking-tight max-w-xl">
+                Real-time synchronization with 142+ certified professional nodes. Bridge the distance through data-rich interaction.
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex gap-2 p-1 bg-[#161a20] rounded-[24px] border border-white/5">
+                {(['feed', 'connections', 'requests'] as const).map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-8 py-4 rounded-[20px] text-[11px] font-black uppercase tracking-[0.2em] transition-all ${
+                      activeTab === tab
+                        ? 'bg-[#00ff9d] text-[#0a0c10]'
+                        : 'text-white/40 hover:bg-white/5'
+                    }`}
+                  >
+                    {tab === 'feed' && 'Signal Feed'}
+                    {tab === 'connections' && 'Nodes'}
+                    {tab === 'requests' && 'Buffer'}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -259,22 +271,40 @@ export function NetworkPage() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-8">
           {/* Sidebar - Hidden on mobile, shown in tabs/bottom */}
           <div className="hidden lg:block lg:col-span-1 space-y-6">
-            {/* User Card */}
-            <GlassCard className="p-4 md:p-6 text-center">
-              <div className="w-16 md:w-20 h-16 md:h-20 bg-purple-500/30 rounded-full mx-auto mb-4 flex items-center justify-center">
-<span className="text-3xl text-white">
+            {/* User Profile Overview */}
+            <div className="bg-[#161a20]/80 border border-white/5 rounded-[40px] p-8 backdrop-blur-xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-6 opacity-40">
+                 <Bot size={24} className="text-[#00ff9d]" />
+              </div>
+              <div className="w-24 h-24 bg-[#161a20] border-4 border-white/5 rounded-[32px] mx-auto mb-6 flex items-center justify-center overflow-hidden shadow-2xl relative z-10">
+                <span className="text-4xl font-rubik font-[900] text-white">
                   {user?.fullName?.charAt(0) || 'U'}
                 </span>
+                {user?.profileImage && (
+                  <img src={user.profileImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                )}
               </div>
-              <h3 className="font-semibold text-white">{user?.fullName}</h3>
-              <p className="text-purple-300 text-sm">{user?.targetRole || 'Student'}</p>
-              <div className="flex justify-center gap-4 mt-4 text-sm">
+              <h3 className="text-xl font-rubik font-[900] text-white uppercase tracking-tighter text-center mb-1">{user?.fullName}</h3>
+              <p className="text-[12px] font-black uppercase tracking-[0.2em] text-[#00ff9d] text-center mb-8">{user?.targetRole || 'CORE ENTITY'}</p>
+              
+              <div className="grid grid-cols-2 gap-4 py-8 border-y border-white/5">
                 <div className="text-center">
-                  <div className="font-semibold text-white">{connections.length}</div>
-                  <div className="text-purple-400">Connections</div>
+                   <p className="text-2xl font-rubik font-[900] text-white">{connections.length}</p>
+                   <p className="text-[10px] font-black uppercase tracking-widest text-white/30">Nodes</p>
+                </div>
+                <div className="text-center">
+                   <p className="text-2xl font-rubik font-[900] text-white">42</p>
+                   <p className="text-[10px] font-black uppercase tracking-widest text-white/30">Visits</p>
                 </div>
               </div>
-            </GlassCard>
+              
+              <button 
+                onClick={() => navigate(`/profile/${user?._id}`)}
+                className="w-full mt-8 py-4 rounded-2xl bg-white/5 border border-white/5 text-[11px] font-black uppercase tracking-[0.3em] text-white hover:bg-white/10 transition-all"
+              >
+                Access ID Core
+              </button>
+            </div>
 
             {/* Suggestions */}
             {suggestions.length > 0 && (
@@ -353,56 +383,55 @@ export function NetworkPage() {
             {/* Feed Tab */}
             {activeTab === 'feed' && (
               <div className="space-y-6">
-                {/* Create Post */}
-                <GlassCard className="p-4">
-                  <div
-                    className="flex items-center gap-4 cursor-pointer"
-                    onClick={() => setShowCreatePost(true)}
-                  >
-                    <div className="w-12 h-12 bg-purple-500/30 rounded-full flex items-center justify-center">
-<span className="text-white">{user?.fullName?.charAt(0)}</span>
-                    </div>
-                    <div className="flex-1 py-3 px-4 bg-white/5 rounded-full text-purple-400 text-sm">
-                      Share something with your network...
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-center gap-6 mt-4 pt-4 border-t border-white/10">
-                    <button className="flex items-center gap-2 text-purple-300 hover:text-purple-200 text-sm">
-                      <Image className="w-5 h-5 text-blue-400" />
-                      Photo
-                    </button>
-                    <button className="flex items-center gap-2 text-purple-300 hover:text-purple-200 text-sm">
-                      <Video className="w-5 h-5 text-green-400" />
-                      Video
-                    </button>
-                    <button className="flex items-center gap-2 text-purple-300 hover:text-purple-200 text-sm">
-                      <FileText className="w-5 h-5 text-orange-400" />
-                      Article
-                    </button>
-                  </div>
-                </GlassCard>
+                {/* Create Post - Premium Input Node */}
+                <div className="bg-[#161a20]/60 border border-white/5 rounded-[32px] p-8 backdrop-blur-xl mb-10 overflow-hidden relative">
+                   <div className="flex items-center gap-6">
+                      <div className="w-14 h-14 bg-[#161a20] border border-white/10 rounded-2xl flex items-center justify-center overflow-hidden shrink-0 shadow-xl">
+                         <span className="text-xl font-rubik font-[900] text-white">{user?.fullName?.charAt(0)}</span>
+                      </div>
+                      <div 
+                         onClick={() => setShowCreatePost(true)}
+                         className="flex-1 py-4 px-8 bg-white/5 border border-white/5 rounded-2xl text-white/30 text-[14px] font-bold cursor-pointer hover:bg-white/10 transition-all font-rubik"
+                      >
+                         Initiate status transmission...
+                      </div>
+                   </div>
+                   <div className="flex items-center gap-8 mt-8 pt-8 border-t border-white/5">
+                      <button className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-white/40 hover:text-[#00ff9d] transition-all">
+                         <Image size={18} className="text-blue-400" />
+                         Visual Node
+                      </button>
+                      <button className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-white/40 hover:text-[#00ff9d] transition-all">
+                         <Video size={18} className="text-[#00ff9d]" />
+                         Stream Node
+                      </button>
+                      <button className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-white/40 hover:text-[#00ff9d] transition-all">
+                         <FileText size={18} className="text-orange-400" />
+                         Logic Paper
+                      </button>
+                   </div>
+                </div>
 
                 {/* Posts */}
                 {loading ? (
-                  <div className="flex items-center justify-center py-20">
+                  <div className="flex items-center justify-center py-32">
                     <ThinkingLoader loadingText="Mapping Nodes" />
                   </div>
                 ) : posts.length === 0 ? (
-                  <GlassCard className="p-12 text-center">
-                    <MessageSquare className="w-16 h-16 text-purple-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-white mb-2">No posts yet</h3>
-                    <p className="text-purple-300">
-                      Connect with others to see their posts or start sharing!
-                    </p>
-                  </GlassCard>
+                  <div className="bg-[#161a20]/20 border border-white/5 rounded-[40px] p-24 text-center backdrop-blur-xl">
+                    <MessageSquare className="w-16 h-16 text-white/10 mx-auto mb-8" />
+                    <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-4">Quiet Spectrum</h3>
+                    <p className="text-white/30 font-rubik font-bold uppercase text-[13px] tracking-wide">No signals detected in your immediate network</p>
+                  </div>
                 ) : (
                   <AnimatePresence>
                     {posts.map((post, idx) => (
                       <motion.div
                         key={post._id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.05 }}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: idx * 0.05, duration: 0.8 }}
                       >
                         <PostCard
                           post={post}
@@ -626,113 +655,147 @@ function PostCard({
   const [showComments, setShowComments] = useState(false);
 
   return (
-    <GlassCard className="p-6">
+    <div className="group bg-[#161a20]/40 border border-white/5 rounded-[32px] p-8 md:p-10 transition-all hover:bg-[#1c2128] hover:border-white/10 shadow-2xl backdrop-blur-sm relative overflow-hidden mb-8">
       {/* Header */}
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-purple-500/30 rounded-full flex items-center justify-center overflow-hidden">
+      <div className="flex items-start justify-between mb-8">
+        <div className="flex items-center gap-5">
+          <div className="w-16 h-16 bg-[#161a20] border border-white/10 rounded-[22px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-1 group-hover:border-[#00ff9d]/30 transition-colors">
             {post.author.profileImage ? (
               <img
                 src={post.author.profileImage}
                 alt={post.author.fullName}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded-[18px]"
               />
             ) : (
-              <span className="text-white">{post.author.fullName.charAt(0)}</span>
+              <span className="text-xl font-rubik font-[900] text-white">{post.author.fullName.charAt(0)}</span>
             )}
           </div>
           <div>
-            <p className="font-medium text-white">{post.author.fullName}</p>
-            <p className="text-purple-400 text-sm">{post.author.targetRole || 'Member'}</p>
-            <div className="flex items-center gap-2 text-purple-500 text-xs">
-              <span>{new Date(post.createdAt).toLocaleDateString()}</span>
-              {post.visibility === 'public' ? (
-                <Globe className="w-3 h-3" />
-              ) : (
-                <Users className="w-3 h-3" />
-              )}
+            <div className="flex items-center gap-3 mb-1">
+               <p className="text-lg font-rubik font-[900] text-white uppercase tracking-tight group-hover:text-[#00ff9d] transition-colors">{post.author.fullName}</p>
+               <div className="w-1 h-1 rounded-full bg-[#00ff9d]" />
+               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#00ff9d] bg-[#00ff9d]/10 px-2 py-0.5 rounded">NODE 1A</p>
+            </div>
+            <p className="text-[12px] font-black uppercase tracking-[0.2em] text-white/30">{post.author.targetRole || 'MEMBER'}</p>
+            <div className="flex items-center gap-3 mt-2 text-[10px] font-black uppercase tracking-widest text-white/20">
+              <span className="flex items-center gap-2">
+                <Clock size={12} />
+                {new Date(post.createdAt).toLocaleDateString()}
+              </span>
+              <span className="w-1 h-1 rounded-full bg-white/5" />
+              <span className="flex items-center gap-2">
+                {post.visibility === 'public' ? <Globe size={12} /> : <Users size={12} />}
+                {post.visibility.toUpperCase()}
+              </span>
             </div>
           </div>
         </div>
-        <button className="p-2 hover:bg-white/10 rounded-lg">
-          <MoreHorizontal className="w-5 h-5 text-purple-400" />
+        <button className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/5 border border-white/5 text-white/30 hover:text-white transition-all">
+           <MoreHorizontal size={20} />
         </button>
       </div>
 
       {/* Content */}
-      <p className="text-white whitespace-pre-wrap mb-4">{post.content}</p>
+      <div className="relative mb-8">
+        <p className="text-[16px] md:text-[18px] leading-relaxed text-white/80 font-medium tracking-tight whitespace-pre-wrap font-rubik">
+           {post.content}
+        </p>
+      </div>
 
       {/* Hashtags */}
       {post.hashtags.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div className="flex flex-wrap gap-4 mb-8">
           {post.hashtags.map((tag) => (
-            <span key={tag} className="text-purple-400 text-sm hover:underline cursor-pointer">
+            <span key={tag} className="text-[#00ff9d] text-[11px] font-black uppercase tracking-widest hover:underline cursor-pointer bg-[#00ff9d]/5 px-3 py-1 rounded-lg">
               #{tag}
             </span>
           ))}
         </div>
       )}
 
-      {/* Images */}
+      {/* Images - Premium Display */}
       {post.images && post.images.length > 0 && (
-        <div className="grid grid-cols-2 gap-2 mb-4">
+        <div className={`grid gap-4 mb-8 ${post.images.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
           {post.images.map((img, idx) => (
-            <img
-              key={idx}
-              src={img}
-              alt="Post image"
-              className="w-full h-48 object-cover rounded-lg"
-            />
+            <div key={idx} className="relative rounded-[24px] overflow-hidden border border-white/10 group/img">
+               <img
+                 src={img}
+                 alt="Post image"
+                 className="w-full h-[400px] object-cover group-hover/img:scale-105 transition-transform duration-700"
+               />
+               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0c10]/40 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity" />
+            </div>
           ))}
         </div>
       )}
 
-      {/* Stats */}
-      <div className="flex items-center justify-between py-3 border-t border-b border-white/10 mb-3 text-sm text-purple-400">
-        <span>{post.likeCount} likes</span>
-        <span>{post.commentCount} comments</span>
+      {/* Stats - Tech Style */}
+      <div className="flex items-center gap-10 py-6 border-y border-white/5 mb-6 text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
+        <div className="flex items-center gap-3">
+           <span className="text-white">{post.likeCount}</span>
+           LIKES
+        </div>
+        <div className="flex items-center gap-3">
+           <span className="text-white">{post.commentCount}</span>
+           COMMENT NODES
+        </div>
       </div>
 
       {/* Actions */}
-      <div className="flex items-center justify-around">
-        <button
-          onClick={onLike}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-            post.isLiked
-              ? 'text-red-400 bg-red-500/10'
-              : 'text-purple-300 hover:bg-white/5'
-          }`}
-        >
-          <Heart className={`w-5 h-5 ${post.isLiked ? 'fill-current' : ''}`} />
-          Like
-        </button>
-        <button
-          onClick={() => setShowComments(!showComments)}
-          className="flex items-center gap-2 px-4 py-2 text-purple-300 hover:bg-white/5 rounded-lg transition-colors"
-        >
-          <MessageSquare className="w-5 h-5" />
-          Comment
-        </button>
-        <button className="flex items-center gap-2 px-4 py-2 text-purple-300 hover:bg-white/5 rounded-lg transition-colors">
-          <Share2 className="w-5 h-5" />
-          Share
+      <div className="flex items-center justify-between">
+        <div className="flex gap-4">
+           <button
+             onClick={onLike}
+             className={`flex items-center gap-3 px-8 py-4 rounded-2xl transition-all border ${
+               post.isLiked
+                 ? 'bg-[#ff3b3b]/10 border-[#ff3b3b]/30 text-[#ff3b3b]'
+                 : 'bg-white/5 border-white/5 text-white/40 hover:bg-white/10'
+             }`}
+           >
+             <Heart size={18} className={post.isLiked ? 'fill-current' : ''} />
+             <span className="text-[11px] font-black uppercase tracking-widest">Transmit Like</span>
+           </button>
+           
+           <button
+             onClick={() => setShowComments(!showComments)}
+             className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/5 rounded-2xl text-white/40 hover:bg-white/10 transition-all"
+           >
+             <MessageSquare size={18} />
+             <span className="text-[11px] font-black uppercase tracking-widest">Open Thread</span>
+           </button>
+        </div>
+
+        <button className="w-12 h-12 rounded-2xl bg-white text-[#0a0c10] flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-xl">
+           <Share2 size={20} />
         </button>
       </div>
 
       {/* Comments Section */}
-      {showComments && (
-        <div className="mt-4 pt-4 border-t border-white/10">
-          <div className="flex gap-3">
-            <div className="w-8 h-8 bg-purple-500/30 rounded-full flex-shrink-0" />
-            <input
-              type="text"
-              placeholder="Write a comment..."
-              className="flex-1 bg-white/5 border border-purple-500/30 rounded-full px-4 py-2 text-white text-sm placeholder-purple-400"
-            />
-          </div>
-        </div>
-      )}
-    </GlassCard>
+      <AnimatePresence>
+        {showComments && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="mt-8 pt-8 border-t border-white/5">
+              <div className="flex gap-4 items-center bg-white/5 rounded-2xl p-2 pr-6">
+                <div className="w-10 h-10 bg-[#161a20] border border-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                   <span className="text-white font-black">Y</span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Record your pulse on this signal..."
+                  className="flex-1 bg-transparent border-none text-white text-[14px] font-bold placeholder-white/10 focus:outline-none py-3"
+                />
+                <button className="text-[#00ff9d] text-[10px] font-black uppercase tracking-widest">Push</button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 

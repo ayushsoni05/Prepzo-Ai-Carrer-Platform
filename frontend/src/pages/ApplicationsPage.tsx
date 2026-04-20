@@ -19,9 +19,14 @@ import {
   FileText,
   Video,
   Award,
+  ArrowUpRight,
+  TrendingUp,
+  BarChart3,
+  Zap,
 } from 'lucide-react';
-import { GlassCard, GlassButton } from '@/components/ui/GlassCard';
+import { GlassButton } from '@/components/ui/GlassCard';
 import { CircularProgress } from '@/components/ui/CircularProgress';
+import { Boxes } from '@/components/ui/background-boxes';
 import { useAuthStore } from '@/store/authStore';
 import { applicationsApi, Application, ApplicationStatus } from '@/api/applications';
 import ThinkingLoader from '@/components/ui/loading';
@@ -30,7 +35,7 @@ import toast from 'react-hot-toast';
 // Status configurations
 const statusConfig: Record<ApplicationStatus, {
   label: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.ComponentType<{ className?: string; size?: number }>;
   color: string;
   bgColor: string;
 }> = {
@@ -118,7 +123,7 @@ export function ApplicationsPage() {
     }
   };
 
-  // Calculate stats percentages
+  // Internal statistics calculate nodes
   const getActiveRate = () => {
     if (!stats?.statusBreakdown) return 0;
     const active = ['applied', 'viewed', 'under_review', 'shortlisted', 'interview_scheduled', 'interview_completed'];
@@ -126,98 +131,101 @@ export function ApplicationsPage() {
     return stats.totalApplications > 0 ? Math.round((activeCount / stats.totalApplications) * 100) : 0;
   };
 
-  const getResponseRate = () => {
-    if (!stats?.statusBreakdown) return 0;
-    const responded = ['viewed', 'under_review', 'shortlisted', 'interview_scheduled', 'interview_completed', 'offer_extended', 'rejected'];
-    const respondedCount = responded.reduce((sum, status) => sum + (stats.statusBreakdown[status] || 0), 0);
-    return stats.totalApplications > 0 ? Math.round((respondedCount / stats.totalApplications) * 100) : 0;
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Header */}
-      <div className="bg-black/30 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6">
-          <h1 className="text-2xl md:text-3xl font-bold text-white">My Applications</h1>
-          <p className="text-purple-300 mt-1 md:mt-2 text-sm md:text-base">Track and manage your job applications</p>
+    <div className="min-h-screen bg-[#0a0c10] selection:bg-[#00ff9d] selection:text-[#0a0c10] overflow-x-hidden relative">
+      {/* Background Effect */}
+      <div className="absolute inset-0 w-full h-full bg-[#0a0c10] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+      <Boxes />
+
+      {/* Header / Hero Section */}
+      <div className="relative z-10 border-b border-white/5 bg-[#161a20]/30 backdrop-blur-3xl">
+        <div className="max-w-7xl mx-auto px-6 py-12 md:py-20 text-left">
+          <div className="flex items-center gap-4 text-[13px] font-rubik font-[900] uppercase tracking-[0.5em] text-white/40 mb-8">
+            <TrendingUp size={20} strokeWidth={2.5} />
+            Application Console
+          </div>
+          
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
+            <div className="max-w-3xl">
+              <h1 className="text-4xl md:text-7xl font-rubik font-[900] leading-[0.95] tracking-tighter text-white uppercase mb-6">
+                Live Status <br/>
+                <span className="text-white/40">Propagation.</span>
+              </h1>
+              <p className="text-[18px] md:text-[21px] leading-relaxed text-white/50 font-rubik font-medium tracking-tight max-w-xl">
+                Real-time tracking of your recruitment signals. Monitor every pulse from review to onboarding.
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="bg-[#161a20] border border-white/5 p-6 rounded-[32px] min-w-[200px]">
+                 <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-white/20 mb-2">
+                    <Zap size={14} className="text-[#00ff9d]" />
+                    Efficiency Rating
+                 </div>
+                 <div className="flex items-center gap-4">
+                    <span className="text-4xl font-rubik font-[900] text-white">{getActiveRate()}%</span>
+                    <div className="w-12 h-12">
+                       <CircularProgress value={getActiveRate()} size={48} strokeWidth={4} />
+                    </div>
+                 </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
-        {/* Stats Overview */}
+      <div className="max-w-7xl mx-auto px-6 py-12 md:py-16 relative z-10">
+        {/* Stats Overview - Premium Blocks */}
         {stats && (
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mb-6 md:mb-8">
-            <GlassCard className="p-4 text-center">
-              <div className="text-3xl font-bold text-white mb-1">
-                {stats.totalApplications}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+            <div className="bg-[#161a20]/50 border border-white/5 p-10 rounded-[48px] backdrop-blur-xl group hover:border-[#00ff9d]/30 transition-all">
+              <p className="text-6xl font-rubik font-[900] text-white tracking-tighter mb-4 italic group-hover:scale-110 transition-transform origin-left">{stats.totalApplications}</p>
+              <div className="flex items-center gap-3">
+                 <div className="w-2 h-2 rounded-full bg-white/20" />
+                 <p className="text-[10px] uppercase font-black tracking-[0.3em] text-white/30">Total Nodes</p>
               </div>
-              <div className="text-purple-300 text-sm">Total Applications</div>
-            </GlassCard>
+            </div>
             
-            <GlassCard className="p-4 text-center">
-              <div className="text-3xl font-bold text-green-400 mb-1">
-                {stats.statusBreakdown['shortlisted'] || 0}
+            <div className="bg-[#161a20]/50 border border-white/5 p-10 rounded-[48px] backdrop-blur-xl group hover:border-[#00ff9d]/30 transition-all">
+              <p className="text-6xl font-rubik font-[900] text-[#00ff9d] tracking-tighter mb-4 italic group-hover:scale-110 transition-transform origin-left">{stats.statusBreakdown['shortlisted'] || 0}</p>
+              <div className="flex items-center gap-3">
+                 <div className="w-2 h-2 rounded-full bg-[#00ff9d]" />
+                 <p className="text-[10px] uppercase font-black tracking-[0.3em] text-white/30">Shortlisted</p>
               </div>
-              <div className="text-purple-300 text-sm">Shortlisted</div>
-            </GlassCard>
+            </div>
             
-            <GlassCard className="p-4 text-center">
-              <div className="text-3xl font-bold text-purple-400 mb-1">
-                {stats.statusBreakdown['interview_scheduled'] || 0}
+            <div className="bg-[#161a20]/50 border border-white/5 p-10 rounded-[48px] backdrop-blur-xl group hover:border-[#00ff9d]/30 transition-all">
+              <p className="text-6xl font-rubik font-[900] text-white tracking-tighter mb-4 italic group-hover:scale-110 transition-transform origin-left">{stats.statusBreakdown['interview_scheduled'] || 0}</p>
+              <div className="flex items-center gap-3">
+                 <div className="w-2 h-2 rounded-full bg-purple-500" />
+                 <p className="text-[10px] uppercase font-black tracking-[0.3em] text-white/30">Active Interviews</p>
               </div>
-              <div className="text-purple-300 text-sm">Interviews</div>
-            </GlassCard>
+            </div>
             
-            <GlassCard className="p-4 text-center">
-              <div className="text-3xl font-bold text-emerald-400 mb-1">
-                {stats.statusBreakdown['offer_extended'] || 0}
+            <div className="bg-[#00ff9d] p-10 rounded-[48px] group hover:scale-[1.02] transition-all shadow-2xl shadow-[#00ff9d]/20">
+              <p className="text-6xl font-rubik font-[900] text-[#0a0c10] tracking-tighter mb-4 italic">{stats.statusBreakdown['offer_extended'] || 0}</p>
+              <div className="flex items-center gap-3">
+                 <div className="w-2 h-2 rounded-full bg-[#0a0c10]" />
+                 <p className="text-[10px] uppercase font-black tracking-[0.3em] text-[#0a0c10]/40">Offers Extracted</p>
               </div>
-              <div className="text-purple-300 text-sm">Offers</div>
-            </GlassCard>
+            </div>
           </div>
         )}
 
-        {/* Progress Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
-          <GlassCard className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-semibold text-white mb-2">Active Rate</h3>
-                <p className="text-purple-300 text-sm">
-                  Applications still in progress
-                </p>
-              </div>
-              <CircularProgress value={getActiveRate()} size={80} />
-            </div>
-          </GlassCard>
-          
-          <GlassCard className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-semibold text-white mb-2">Response Rate</h3>
-                <p className="text-purple-300 text-sm">
-                  Applications with employer response
-                </p>
-              </div>
-              <CircularProgress value={getResponseRate()} size={80} />
-            </div>
-          </GlassCard>
-        </div>
-
-        {/* Filter Tabs */}
-        <div className="flex flex-wrap gap-2 mb-6 overflow-x-auto pb-2">
+        {/* Filter Tabs - Premium Glass Chips */}
+        <div className="flex flex-wrap gap-4 mb-12 overflow-x-auto pb-4 scrollbar-hide">
           <button
             onClick={() => {
               setSelectedStatus('');
               setPage(1);
             }}
-            className={`px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm whitespace-nowrap transition-colors ${
+            className={`px-8 py-3 rounded-full text-[12px] font-black uppercase tracking-widest transition-all border ${
               selectedStatus === ''
-                ? 'bg-purple-600 text-white'
-                : 'bg-white/5 text-purple-300 hover:bg-white/10'
+                ? 'bg-[#00ff9d] text-[#0a0c10] border-[#00ff9d]'
+                : 'bg-white/5 text-white/40 border-white/5 hover:bg-white/10'
             }`}
           >
-            All ({stats?.totalApplications || 0})
+            All Signal ({stats?.totalApplications || 0})
           </button>
           {Object.entries(statusConfig).map(([status, config]) => {
             const count = stats?.statusBreakdown[status] || 0;
@@ -230,16 +238,15 @@ export function ApplicationsPage() {
                   setSelectedStatus(status as ApplicationStatus);
                   setPage(1);
                 }}
-                className={`px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm whitespace-nowrap transition-colors flex items-center gap-1 md:gap-2 ${
+                className={`px-8 py-3 rounded-full text-[12px] font-black uppercase tracking-widest transition-all border flex items-center gap-3 ${
                   selectedStatus === status
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-white/5 text-purple-300 hover:bg-white/10'
+                    ? 'bg-[#00ff9d]/10 border-[#00ff9d] text-[#00ff9d]'
+                    : 'bg-white/5 text-white/40 border-white/5 hover:bg-white/10'
                 }`}
               >
-                <config.icon className="w-3 h-3 md:w-4 md:h-4" />
-                <span className="hidden sm:inline">{config.label}</span>
-                <span className="sm:hidden">{config.label.split(' ')[0]}</span>
-                ({count})
+                <config.icon className="w-4 h-4" />
+                <span>{config.label}</span>
+                <span className="opacity-40">[{count}]</span>
               </button>
             );
           })}
@@ -247,39 +254,42 @@ export function ApplicationsPage() {
 
         {/* Applications List */}
         {loading ? (
-          <div className="flex items-center justify-center py-20">
+          <div className="flex items-center justify-center py-32">
             <ThinkingLoader loadingText="Retrieving History" />
           </div>
         ) : applications.length === 0 ? (
-          <GlassCard className="p-12 text-center">
-            <Briefcase className="w-16 h-16 text-purple-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">
-              {selectedStatus ? 'No applications with this status' : 'No applications yet'}
+          <div className="bg-[#161a20]/20 border border-white/5 rounded-[40px] p-24 text-center backdrop-blur-xl">
+            <Briefcase className="w-16 h-16 text-white/10 mx-auto mb-8" />
+            <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-4">
+              {selectedStatus ? 'No history detected' : 'No activity logged'}
             </h3>
-            <p className="text-purple-300 mb-6">
+            <p className="text-white/30 font-rubik font-bold uppercase text-[13px] tracking-wide mb-10">
               {selectedStatus
-                ? 'Try a different filter'
-                : 'Start applying to jobs to track your progress here'}
+                ? 'Try a different signal filter'
+                : 'Start applying to jobs to initiate tracking'}
             </p>
-            <GlassButton onClick={() => navigate('/jobs')}>
-              Browse Jobs
-            </GlassButton>
-          </GlassCard>
+            <button 
+              onClick={() => navigate('/jobs')}
+              className="px-12 py-5 rounded-full bg-white text-[#0a0c10] font-black text-[14px] uppercase tracking-widest hover:scale-105 transition-all"
+            >
+              Browse Opportunity Grid
+            </button>
+          </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <AnimatePresence>
-              {applications.map((application, idx) => (
+              {applications.map((app, idx) => (
                 <motion.div
-                  key={application._id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ delay: idx * 0.05 }}
+                  key={app._id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.05, duration: 0.8 }}
                 >
                   <ApplicationCard
-                    application={application}
-                    onView={() => navigate(`/applications/${application._id}`)}
-                    onWithdraw={() => handleWithdraw(application._id)}
+                    application={app}
+                    onView={() => navigate(`/applications/${app._id}`)}
+                    onWithdraw={() => handleWithdraw(app._id)}
                   />
                 </motion.div>
               ))}
@@ -314,7 +324,6 @@ export function ApplicationsPage() {
   );
 }
 
-// Application Card Component
 function ApplicationCard({
   application,
   onView,
@@ -337,116 +346,117 @@ function ApplicationCard({
   );
 
   return (
-    <GlassCard
-      className="p-6 cursor-pointer hover:border-purple-400/50 transition-colors"
+    <div
+      className="group relative bg-[#161a20]/40 border border-white/5 rounded-[32px] p-8 md:p-10 transition-all hover:bg-[#1c2128] hover:border-white/20 hover:scale-[1.01] cursor-pointer shadow-2xl backdrop-blur-sm overflow-hidden"
       onClick={onView}
     >
-      <div className="flex items-start justify-between">
-        <div className="flex gap-4">
-          {/* Company Logo */}
-          <div className="w-14 h-14 bg-white/10 rounded-xl flex items-center justify-center overflow-hidden">
+      <div className="absolute top-0 right-0 p-8 opacity-0 group-hover:opacity-100 transition-opacity">
+         <ArrowUpRight size={24} className="text-[#00ff9d]" />
+      </div>
+
+      <div className="flex flex-col md:flex-row items-start justify-between gap-8 relative z-10">
+        <div className="flex flex-col md:flex-row gap-8 flex-1">
+          {/* Company Logo - Premium Style */}
+          <div className="w-20 h-20 bg-[#161a20] border border-white/10 rounded-[24px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-2 group-hover:border-[#00ff9d]/30 transition-colors">
             {application.company.logo ? (
               <img
                 src={application.company.logo}
                 alt={application.company.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain rounded-xl"
               />
             ) : (
-              <Building2 className="w-6 h-6 text-purple-400" />
+              <Building2 className="w-10 h-10 text-white/10" />
             )}
           </div>
 
-          {/* Job Info */}
-          <div className="flex-1">
-            <h3 className="text-lg font-semibold text-white">
+          {/* Application Info */}
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-3 mb-2">
+               <span className={`text-[10px] font-black uppercase tracking-[0.2em] px-2.5 py-1 rounded border flex items-center gap-2 ${config.color} ${config.bgColor} border-white/10`}>
+                 <StatusIcon size={12} />
+                 {config.label}
+               </span>
+               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30 bg-white/5 px-2.5 py-1 rounded">
+                  Applied {new Date(application.createdAt).toLocaleDateString()}
+               </span>
+            </div>
+            
+            <h3 className="text-2xl md:text-3xl font-rubik font-[900] text-white uppercase tracking-tight mb-2 group-hover:text-[#00ff9d] transition-colors leading-[1.1]">
               {application.job.title}
             </h3>
-            <p className="text-purple-300">{application.company.name}</p>
-
-            {/* Meta */}
-            <div className="flex flex-wrap gap-3 mt-2 text-sm text-purple-400">
-              {application.job.locations?.[0] && (
-                <span className="flex items-center gap-1">
-                  <MapPin className="w-4 h-4" />
-                  {application.job.locations[0].city}
-                </span>
-              )}
-              <span className="flex items-center gap-1">
-                <Clock className="w-4 h-4" />
-                Applied {new Date(application.createdAt).toLocaleDateString()}
-              </span>
+            
+            <div className="flex items-center gap-3 mb-6">
+               <p className="text-[15px] font-rubik font-bold text-white/50 tracking-tight">{application.company.name}</p>
+               <span className="w-1 h-1 rounded-full bg-white/10" />
+               <p className="text-[14px] font-rubik font-bold text-white/30 tracking-tight flex items-center gap-2">
+                 <MapPin size={14} />
+                 {application.job.locations?.[0]?.city || 'Remote'}
+               </p>
             </div>
 
-            {/* Upcoming Interview Alert */}
+            {/* Upcoming Interview Alert - Premium Banner */}
             {upcomingInterview && (
-              <div className="mt-3 p-2 bg-purple-500/20 rounded-lg flex items-center gap-2 text-purple-300 text-sm">
-                <Calendar className="w-4 h-4" />
-                Interview: {upcomingInterview.round} on{' '}
-                {new Date(upcomingInterview.date).toLocaleDateString()} at{' '}
-                {new Date(upcomingInterview.date).toLocaleTimeString([], {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
+              <div className="inline-flex items-center gap-4 bg-purple-500/10 border border-purple-500/20 px-6 py-3 rounded-2xl mb-8">
+                <Calendar className="w-5 h-5 text-purple-400" />
+                <div className="flex items-center gap-2">
+                   <span className="text-[11px] font-black uppercase tracking-widest text-purple-300">Next Transmission:</span>
+                   <span className="text-[11px] font-bold text-white tracking-tight">
+                     {upcomingInterview.round} on {new Date(upcomingInterview.date).toLocaleDateString()}
+                   </span>
+                </div>
               </div>
             )}
+
+            {/* Progress Timeline - Narrative Style */}
+            <div className="flex items-center gap-3 overflow-x-auto scrollbar-hide pb-2">
+              {application.statusHistory.slice(-4).map((history: { status: ApplicationStatus }, idx: number) => {
+                const historyConfig = statusConfig[history.status];
+                const HistoryIcon = historyConfig?.icon || Clock;
+                
+                return (
+                  <div key={idx} className="flex items-center shrink-0">
+                    {idx > 0 && <div className="w-4 h-px bg-white/10" />}
+                    <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/5 rounded-xl">
+                      <HistoryIcon size={12} className={historyConfig?.color || 'text-white/20'} />
+                      <span className={`text-[10px] font-black uppercase tracking-widest ${historyConfig?.color || 'text-white/20'}`}>
+                        {historyConfig?.label || history.status}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
 
-        {/* Status & Actions */}
-        <div className="flex flex-col items-end gap-2">
-          {/* Status Badge */}
-          <span
-            className={`px-3 py-1 rounded-full text-sm flex items-center gap-1 ${config.bgColor} ${config.color}`}
-          >
-            <StatusIcon className="w-4 h-4" />
-            {config.label}
-          </span>
+        {/* Match Signal / Action Section */}
+        <div className="flex flex-row md:flex-col items-center md:items-end justify-between w-full md:w-auto gap-10 md:min-w-[120px]">
+          <div className="text-right">
+             <div className="flex items-center gap-3 mb-2 justify-end">
+                <span className="text-4xl font-rubik font-[900] text-[#00ff9d] italic leading-none">{application.matchScore?.overall || 85}%</span>
+                <BarChart3 size={20} className="text-[#00ff9d]/40" />
+             </div>
+             <p className="text-[9px] font-black uppercase tracking-[0.3em] text-white/20 whitespace-nowrap">EXTRACTED MATCH</p>
+          </div>
 
-          {/* Match Score */}
-          {application.matchScore && (
-            <span className="text-sm text-purple-400">
-              {application.matchScore.overall}% match
-            </span>
-          )}
-
-          {/* Withdraw Button */}
-          {canWithdraw && (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onWithdraw();
-              }}
-              className="text-red-400 text-sm hover:text-red-300 transition-colors"
-            >
-              Withdraw
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Progress Timeline */}
-      <div className="mt-4 pt-4 border-t border-white/10">
-        <div className="flex items-center gap-2 overflow-x-auto">
-          {application.statusHistory.slice(-4).map((history, idx) => {
-            const historyConfig = statusConfig[history.status];
-            const HistoryIcon = historyConfig?.icon || Clock;
-            
-            return (
-              <div key={idx} className="flex items-center">
-                {idx > 0 && <div className="w-8 h-0.5 bg-purple-500/30" />}
-                <div
-                  className={`flex items-center gap-1 px-2 py-1 rounded ${historyConfig?.bgColor || 'bg-white/10'}`}
+          <div className="flex gap-4">
+             {canWithdraw && (
+               <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onWithdraw();
+                  }}
+                  className="px-6 py-4 rounded-2xl bg-white/5 border border-white/5 text-[11px] font-black uppercase tracking-widest text-red-400/40 hover:bg-red-500/10 hover:text-red-400 transition-all"
                 >
-                  <HistoryIcon className={`w-3 h-3 ${historyConfig?.color || 'text-purple-400'}`} />
-                  <span className={`text-xs ${historyConfig?.color || 'text-purple-300'}`}>
-                    {historyConfig?.label || history.status}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+                  Withdraw
+               </button>
+             )}
+             <button className="w-12 h-12 rounded-2xl bg-white text-[#0a0c10] flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-xl shadow-white/5">
+                <ArrowUpRight size={20} />
+             </button>
+          </div>
         </div>
       </div>
-    </GlassCard>
+    </div>
   );
 }
