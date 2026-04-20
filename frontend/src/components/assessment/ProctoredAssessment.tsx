@@ -327,7 +327,7 @@ const QuestionArea = memo(({
 ));
 
 import AnswerReviewPanel from '@/components/assessment/AnswerReviewPanel';
-import { getFallbackByField } from '@/data/fallbackQuestions';
+import { getFallbackByField, getFallbackBySkills } from '@/data/fallbackQuestions';
 import { useProctoring } from '@/hooks/useProctoring';
 import { motion } from 'framer-motion';
 // import toast from 'react-hot-toast'; (duplicate removed)
@@ -750,16 +750,27 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
       // ─── Fallback: inject comprehensive question bank if sections are still empty ─────
       const noQuestions = !sections || sections.length === 0 ||
         sections.every((s: any) => !Array.isArray(s.questions) || s.questions.length === 0);
+        
       if (noQuestions) {
-        const fieldFallback = getFallbackByField(user?.fieldOfStudy || 'Computer Science');
-        console.warn(`[Assessment] No AI questions available — injecting fallback for ${user?.fieldOfStudy || 'Generic'}`);
-        showInfo(`⚠️ AI service unavailable. Starting with ${fieldFallback.length * 20} practice questions.`);
+        let fallbackSections: any[] = [];
+        
+        if (testMode === 'skills') {
+          // Stage 2: Strictly quarantined skill-based fallback
+          console.warn('[Assessment] No AI skill questions available — using technical depth fallback.');
+          fallbackSections = getFallbackBySkills(user?.knownTechnologies || []);
+          showInfo('🤖 Skill pool currently being seeded. Using technical depth practice bank.');
+        } else {
+          // Stage 1: Domain-based fallback
+          console.warn(`[Assessment] No AI field questions available — injecting fallback for ${user?.fieldOfStudy || 'Generic'}`);
+          fallbackSections = getFallbackByField(user?.fieldOfStudy || 'Computer Science');
+          showInfo(`⚠️ AI service unavailable. Starting with ${fallbackSections.length * 20} practice questions.`);
+        }
         
         isApiMode = false;
         testId = null;
         sessionId = `local_${Date.now()}`;
         
-        sections = fieldFallback.map(fb => ({
+        sections = fallbackSections.map(fb => ({
           section: {
             id: fb.id,
             name: fb.name,

@@ -33,6 +33,29 @@ const APTITUDE_QUESTIONS: FallbackQuestion[] = [
   { id:"apt5", question:"The average of first 10 natural numbers is:", options:["5","5.5","6","6.5"], correct:1, difficulty:"easy", explanation:"Sum = 55, Avg = 55/10 = 5.5." },
 ];
 
+/**
+ * ────────────────────────────────────────────────────
+ * NEW: UNIVERSAL TECHNICAL SKILL FALLBACK (For Stage 2)
+ * ────────────────────────────────────────────────────
+ */
+const TECHNICAL_SKILL_QUESTIONS: FallbackQuestion[] = [
+  // React
+  { id:"skl1", question:"What is the purpose of React's useEffect hook?", options:["Manage state in components","Handle side effects like data fetching","Iterate over array elements","Style components dynamically"], correct:1, difficulty:"medium", explanation:"useEffect handles side effects (API calls, subscriptions, etc.) outside the render cycle." },
+  { id:"skl2", question:"In React, what is the 'Virtual DOM'?", options:["A direct copy of the real DOM","A lightweight JavaScript representation of the DOM","A hardware acceleration for rendering","A cloud-based DOM service"], correct:1, difficulty:"easy", explanation:"Virtual DOM is a memory representation of the UI that React uses for efficient reconciliation." },
+  // Node.js
+  { id:"skl3", question:"What is the event loop in Node.js?", options:["A recursive function call","A mechanism that handles non-blocking I/O operations","A loop that iterates over a database","A way to handle multi-threading"], correct:1, difficulty:"medium", explanation:"The event loop allows Node.js to perform non-blocking I/O operations by offloading tasks." },
+  // Docker
+  { id:"skl4", question:"Which Docker command is used to build an image from a Dockerfile?", options:["docker run","docker pack","docker build","docker create"], correct:2, difficulty:"easy", explanation:"'docker build' builds an image from a Dockerfile in the current directory." },
+  // Python
+  { id:"skl5", question:"In Python, what is a List Comprehension?", options:["A comprehensive list of all variables","A concise way to create lists using expressions","A way to compress lists into ZIP files","A debugging tool for arrays"], correct:1, difficulty:"easy", explanation:"List comprehensions provide a short syntax to create a new list based on values of an existing list." },
+  // Git
+  { id:"skl6", question:"What does 'git merge' do?", options:["Deletes a branch","Combines changes from different branches","Uploads code to GitHub","Resets the working directory"], correct:1, difficulty:"easy", explanation:"Git merge combines the multiple sequences of commits into one unified history." },
+  // General Web
+  { id:"skl7", question:"What is the purpose of a RESTful API's 'PUT' method?", options:["Retrieve data","Delete data","Create or update a resource completely","Partial update of a resource"], correct:2, difficulty:"medium", explanation:"PUT is used to create a new resource or replace the target resource with the uploaded content." },
+  // MongoDB
+  { id:"skl8", question:"Which type of database is MongoDB?", options:["Relational","NoSQL / Document-oriented","Graph-based","Key-Value store"], correct:1, difficulty:"easy", explanation:"MongoDB is a document-oriented NoSQL database that stores data in JSON-like format." }
+];
+
 // ────────────────────────────────────────────────────
 // 1. COMPUTER SCIENCE
 // ────────────────────────────────────────────────────
@@ -385,6 +408,23 @@ export const getFallbackByField = (field: string): FallbackSection[] => {
     ...s,
     questions: scaleToCount(s.questions, 20)
   }));
+};
+
+/**
+ * NEW: Skill-based resolver for Stage 2
+ */
+export const getFallbackBySkills = (skills: string[]): FallbackSection[] => {
+  // If user has specific skills, we should ideally map them, 
+  // but for a universal fallback, we provide the Technical Depth mix.
+  const technicalDepth: FallbackSection = {
+    id: "tech-depth",
+    name: "Technical Depth",
+    icon: "⚙️",
+    timeLimit: 25,
+    questions: scaleToCount(TECHNICAL_SKILL_QUESTIONS, 20)
+  };
+
+  return [technicalDepth];
 };
 
 export default CS_FALLBACK_SECTIONS;
