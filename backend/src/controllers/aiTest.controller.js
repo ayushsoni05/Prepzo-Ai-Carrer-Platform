@@ -94,14 +94,13 @@ export const generateFieldTest = async (req, res, next) => {
       questions = [...questions, ...fieldQuestions];
     }
 
-    // Fallback 3: Universal Technical Core (Computer Science)
+    // Fallback 3: Universal Technical Core
     if (questions.length < 60) {
-      console.log(`[aiTest] Field still insufficient. Using universal technical core.`);
       const needed = 60 - questions.length;
       const universalQuestions = await Question.aggregate([
         { 
           $match: { 
-            field: { $regex: /Computer Science|Information Technology/i },
+            field: { $regex: /Computer Science|Information Technology|Engineering/i },
             category: 'foundational',
             _id: { $nin: questions.map(q => q._id) }
           } 
@@ -109,17 +108,6 @@ export const generateFieldTest = async (req, res, next) => {
         { $sample: { size: needed } }
       ]);
       questions = [...questions, ...universalQuestions];
-    }
-
-    // Fallback 4: ANY questions if still struggling (e.g. fresh DB)
-    if (questions.length < 60) {
-      console.log(`[aiTest] Ultimate fallback. Pulling any available questions.`);
-      const needed = 60 - questions.length;
-      const anyQuestions = await Question.aggregate([
-        { $match: { category: 'foundational', _id: { $nin: questions.map(q => q._id) } } },
-        { $sample: { size: needed } }
-      ]);
-      questions = [...questions, ...anyQuestions];
     }
 
     if (questions.length === 0) {
@@ -287,6 +275,7 @@ export const generateSkillTest = async (req, res, next) => {
         const universalQuestions = await Question.aggregate([
           { 
             $match: { 
+              category: 'practical',
               field: { $regex: /Computer Science|Information Technology|Engineering/i },
               _id: { $nin: [...usedIds, ...skillBatch.map(q => q._id)] }
             } 
