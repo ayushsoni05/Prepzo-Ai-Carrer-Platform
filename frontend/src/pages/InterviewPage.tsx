@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Boxes } from '@/components/ui/background-boxes';
-import questionsData from '../../../../interview_questions_bank.json';
+import questionsData from '../data/interview_questions_bank.json';
 
 interface Question {
   id: string;
