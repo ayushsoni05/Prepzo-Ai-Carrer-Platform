@@ -376,12 +376,12 @@ export function Dashboard() {
          <QuickInsightsWidget onViewFull={() => setShowFullRecommendations(true)} />
       </div>
 
-      <div id="question-bank-container" className="pointer-events-auto mt-14">
-        <div className="mb-10 px-4">
-          <h2 className="text-[11px] font-[900] uppercase tracking-[0.5em] text-[#5ed29c] mb-2 italic opacity-60">Repository</h2>
-          <h1 className="text-3xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic">Interview <span className="text-white/10">Library.</span></h1>
+      <div id="question-bank-container" className="pointer-events-auto mt-10">
+        <div className="mb-6 px-4">
+          <h2 className="text-[10px] font-[900] uppercase tracking-[0.5em] text-[#5ed29c] mb-2 italic opacity-80">Repository</h2>
+          <h1 className="text-2xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic">Interview <span className="text-white/40">Library.</span></h1>
         </div>
-        <div className="p-1 border border-white/5 rounded-[40px] bg-black shadow-2xl overflow-hidden">
+        <div className="p-1 border border-white/5 rounded-[40px] bg-black shadow-2xl relative">
             <QuestionBank />
         </div>
       </div>
