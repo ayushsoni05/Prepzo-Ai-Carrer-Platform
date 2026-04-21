@@ -174,11 +174,11 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
   const handleFileSelect = useCallback(async (file: File) => {
     const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
     if (!allowedTypes.includes(file.type)) {
-      toast.error('Invalid file type. Only PDF and Word files allowed.');
+      showError('Invalid file type. Only PDF and Word files allowed.');
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      toast.error('File size too large. Max 5MB.');
+      showError('File size too large. Max 5MB.');
       return;
     }
     setResumeName(file.name);
@@ -227,9 +227,9 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
       setResumeUrl(null);
       setResumeName(null);
       updateUser({ resumeUrl: '' });
-      toast.success('Resume deleted');
+      showSuccess('Resume deleted');
     } catch (error) {
-      toast.error('Delete failed');
+      showError('Delete failed');
     }
   }, [updateUser]);
 
@@ -247,7 +247,7 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
         targetRole, skillRatings, placementTimeline, expectedCtc, preferredCompanies,
       });
       clearDraft();
-      toast.success('Onboarding verified');
+      showSuccess('Onboarding verified');
       onNavigate('dashboard');
     } catch (error) {
       completeOnboarding();

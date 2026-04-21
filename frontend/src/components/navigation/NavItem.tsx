@@ -11,7 +11,7 @@ interface NavItemProps {
   className?: string;
 }
 
-export const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, active, onClick, badge, showLabel = false, className = '' }) => (
+export const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, active, onClick, badge, showLabel = false }) => (
   <motion.div
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.97 }}

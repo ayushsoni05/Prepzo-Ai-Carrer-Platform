@@ -194,7 +194,7 @@ export const useAppStore = create<AppState>()(
     (set) => ({
       darkMode: true,
       currentPage: 'landing',
-      dashboardTab: 'overview',
+      dashboardTab: 'home',
       showFullRecommendations: false,
       resumeAnalysis: null,
       atsHistory: [],
