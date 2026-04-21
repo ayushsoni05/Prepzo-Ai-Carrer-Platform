@@ -8,13 +8,14 @@ interface NavItemProps {
   onClick?: () => void;
   badge?: string | number;
   showLabel?: boolean;
+  className?: string;
 }
 
-export const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, active, onClick, badge, showLabel = false }) => (
+export const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, active, onClick, badge, showLabel = false, className = '' }) => (
   <motion.div
     whileHover={{ scale: 1.1 }}
     whileTap={{ scale: 0.97 }}
-    className={`relative flex flex-col items-center gap-1 cursor-pointer group select-none ${active ? 'text-white' : 'text-white/70'}`}
+    className={`relative flex flex-col items-center gap-1 cursor-pointer group select-none ${active ? 'text-white' : 'text-white/70'} ${className}`}
     onClick={onClick}
   >
     <div className={`relative p-3 rounded-xl transition-all duration-200 ${active ? 'bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg' : 'bg-white/5 group-hover:bg-white/10'}`}>

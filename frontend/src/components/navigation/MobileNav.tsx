@@ -10,7 +10,7 @@ interface MobileNavProps {
 }
 
 const navItems = [
-  { label: 'Overview', icon: Home, id: 'overview' },
+  { label: 'Home', icon: Home, id: 'home' },
   { label: 'Resume', icon: FileText, id: 'resume' },
   { label: 'Assessment', icon: Brain, id: 'assessment' },
   { label: 'Jobs', icon: Briefcase, id: 'jobs' },

@@ -17,7 +17,7 @@ const Sidebar: React.FC<SidebarProps> = ({ active, onNavigate, badgeMap, lockedI
     
     <div className="relative flex flex-row items-center gap-1 z-10">
       {[
-        { id: 'overview', icon: Home, label: 'Overview' },
+        { id: 'home', icon: Home, label: 'Home' },
         { id: 'resume', icon: FileText, label: 'Resume' },
         { id: 'assessment', icon: Brain, label: 'Skill' },
         { id: 'opportunities', icon: Briefcase, label: 'Jobs' },

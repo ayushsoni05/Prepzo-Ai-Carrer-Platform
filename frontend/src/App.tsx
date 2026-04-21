@@ -13,17 +13,18 @@ import { JobsPage } from '@/pages/JobsPage';
 import { CompaniesPage } from '@/pages/CompaniesPage';
 import { ApplicationsPage } from '@/pages/ApplicationsPage';
 import { NetworkPage } from '@/pages/NetworkPage';
+import { InterviewPage } from '@/pages/InterviewPage';
 import TetrisDemo from '@/pages/TetrisDemo';
 import ThinkingLoader from '@/components/ui/loading';
 import Sidebar from '@/components/navigation/Sidebar';
 import { MobileNav } from '@/components/navigation/MobileNav';
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'interview' | 'tetris-demo';
 
 // Get initial page from URL hash or default to 'landing'
 const getPageFromHash = (): Page => {
   const hash = window.location.hash.slice(1) as Page;
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'interview', 'tetris-demo'];
   return validPages.includes(hash) ? hash : 'landing';
 };
 
@@ -47,7 +48,7 @@ export default function App() {
     
     const initializeAuth = async () => {
       // Only validate session if user is trying to access a protected page
-      const protectedPages = ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network'];
+      const protectedPages = ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'interview'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
       // Safety check: if we think we're authenticated but have no token, sync state
@@ -153,13 +154,7 @@ export default function App() {
     if (!isAuthenticated) {
       // If not authenticated and on protected page, redirect to landing
       if ([
-        'dashboard',
-        'admin',
-        'onboarding',
-        'jobs',
-        'companies',
-        'applications',
-        'network',
+        'interview',
       ].includes(currentPage)) {
         handleNavigate('landing');
       }
@@ -196,7 +191,7 @@ export default function App() {
 
   // Map current page to sidebar active ID
   const getSidebarActiveId = (page: Page) => {
-    if (page === 'dashboard') return 'overview';
+    if (page === 'dashboard') return 'home';
     if (['jobs', 'companies', 'applications', 'network'].includes(page)) return 'opportunities';
     return page;
   };
@@ -206,6 +201,7 @@ export default function App() {
   const isFullyQualified = isFieldComplete && isSkillComplete;
 
   const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network'].includes(currentPage);
+  const isImmersivePage = ['interview'].includes(currentPage);
 
   return (
     <div className="page-shell">
@@ -244,8 +240,8 @@ export default function App() {
         <div className="flex min-h-screen">
           <Sidebar 
             active={getSidebarActiveId(currentPage)} 
-            onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'overview' ? 'dashboard' : id)}
-            lockedItems={!isFullyQualified ? ['overview', 'resume', 'opportunities', 'settings'] : []}
+            onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
+            lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
           />
           <main className="flex-1">
             {currentPage === 'dashboard' && <Dashboard />}
@@ -256,18 +252,19 @@ export default function App() {
           </main>
           <MobileNav
             active={getSidebarActiveId(currentPage)}
-            onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'overview' ? 'dashboard' : id)}
-            lockedItems={!isFullyQualified ? ['overview', 'resume', 'opportunities', 'settings'] : []}
+            onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
+            lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
           />
         </div>
       )}
 
       {currentPage === 'admin' && <AdminPanel onNavigate={handleNavigate} />}
       {currentPage === 'onboarding' && <OnboardingPage onNavigate={handleNavigate} />}
+      {currentPage === 'interview' && <InterviewPage onNavigate={handleNavigate} />}
       {currentPage === 'tetris-demo' && <TetrisDemo />}
       
       {/* Prepzo AI Mentor - Available on all authenticated pages (ChatGPT-style) */}
-      {authValidated && isAuthenticated && ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network'].includes(currentPage) && (
+      {authValidated && isAuthenticated && ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'interview'].includes(currentPage) && (
         <GlobalAIMentor />
       )}
     </div>

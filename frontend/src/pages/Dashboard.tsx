@@ -8,23 +8,21 @@ import {
   ShieldCheck,
   Sparkles,
   Target,
-  ChevronRight,
-  CheckCircle2,
-  CircleDashed,
-  TrendingUp,
   Download,
   Zap,
   Award,
   Shield,
   Brain,
-
+  Rocket,
+  TrendingUp,
   Upload,
-  Lock,
+  CheckCircle2,
   CheckCircle,
   Building2,
   MapPin,
   Briefcase,
-  ArrowUpRight
+  ArrowUpRight,
+  Lock as LucideLock
 } from 'lucide-react';
 import { type Job } from '@/api/jobs';
 import { showSuccess, showError, showInfo } from '@/utils/toastManager';
@@ -35,7 +33,6 @@ import { CircularProgress, SkillBar } from '@/components/ui/CircularProgress';
 import { SearchableDropdown } from '@/components/ui/SearchableDropdown';
 import { useAuthStore } from '@/store/authStore';
 import { useAppStore } from '@/store/appStore';
-import QuickInsightsWidget from '@/components/recommendations/QuickInsightsWidget';
 import { ProctoredAssessment } from '@/components/assessment/ProctoredAssessment';
 import { uploadApi, type ResumeInfo } from '@/api/auth';
 import { ResumeRenderer } from '@/components/resume/ResumeRenderer';
@@ -45,7 +42,7 @@ import { Boxes } from '@/components/ui/background-boxes';
 
 
 
-type DashboardTab = 'overview' | 'resume' | 'assessment' | 'opportunities' | 'settings';
+type DashboardTab = 'home' | 'resume' | 'assessment' | 'opportunities' | 'settings';
 
 
 
@@ -198,7 +195,7 @@ export function Dashboard() {
     void loadJobs();
   }, [opportunitiesWorkspace]);
 
-  const activeTab = (dashboardTab as DashboardTab) || 'overview';
+  const activeTab = (dashboardTab as DashboardTab) || 'home';
   const readinessScore = user?.placementReadinessScore || 68.42;
   const atsScore = resumeAnalysis?.overallScore ?? user?.atsScore ?? 0;
   const interviewScore = user?.interviewScore || 72.15;
@@ -211,37 +208,6 @@ export function Dashboard() {
       level: Math.max(55, Math.min(94, readinessScore - 8 + index * 7.25)),
     }));
   }, [readinessScore, user?.knownTechnologies]);
-
-  const focusAreas = user?.skillGaps?.length ? user.skillGaps.slice(0, 4) : ['System design', 'Mock interviews', 'Resume positioning', 'SQL fluency'];
-  const strengths = user?.strengths?.length ? user.strengths.slice(0, 3) : ['Fast learner', 'Product mindset', 'Communication'];
-
-  const progressChecklist = useMemo(
-    () => [
-      { label: 'Profile completed', done: !!user?.isOnboarded },
-      { label: 'Resume uploaded', done: !!resumeInfo?.resumeUrl },
-      { label: 'ATS analyzed', done: !!resumeAnalysis },
-      { label: 'Assessment completed', done: !!user?.isAssessmentComplete },
-    ],
-    [resumeAnalysis, resumeInfo?.resumeUrl, user?.isAssessmentComplete, user?.isOnboarded]
-  );
-
-  const recentActivity = useMemo(
-    () => [
-      {
-        title: user?.isAssessmentComplete ? 'Assessment completed' : 'Assessment pending',
-        subtitle: user?.isAssessmentComplete ? 'Your score is recorded in dashboard analytics.' : 'Take your first test to unlock deeper recommendations.',
-      },
-      {
-        title: resumeAnalysis ? 'ATS analysis updated' : 'ATS analysis not started',
-        subtitle: resumeAnalysis ? `Latest ATS score: ${formatVal(resumeAnalysis.overallScore || atsScore)}%` : 'Run Resume Lab checker to generate keyword and fit insights.',
-      },
-      {
-        title: 'Placement workspace connected',
-        subtitle: 'Jobs, companies, applications, and network are available from the left panel.',
-      },
-    ],
-    [atsScore, resumeAnalysis, user?.isAssessmentComplete]
-  );
 
   const shellCards = [
     {
@@ -345,67 +311,9 @@ export function Dashboard() {
     doc.save(`prepzo-ats-report-${Date.now()}.pdf`);
   };
 
-  const renderOverview = () => (
-    <div className="space-y-10 selection:bg-white selection:text-black">
-      {/* Row 1: Welcome + Mentor, side by side, equal width */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-        <GlassCard className="rounded-[32px] md:rounded-[40px] p-6 md:p-10 h-full flex flex-col justify-between bg-[#161a20]/40 border-white/5 backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-8 opacity-5">
-            <Bot size={80} />
-          </div>
-          <div className="relative z-10">
-            <p className="text-[10px]  font-[900] uppercase tracking-[0.4em] text-white/30 mb-6 md:mb-8">Career Cockpit</p>
-            <h1 className="text-3xl md:text-5xl  font-[900] text-white uppercase tracking-tighter leading-[0.9] italic mb-6 md:mb-8">
-              Welcome back,<br/>
-              <span className="text-white/40">{user?.fullName?.split(' ')[0] || 'there'}.</span>
-            </h1>
-            <p className="max-w-xl text-[15px]  font-medium tracking-tight leading-relaxed text-white/50 mb-10">
-              Prepzo has synchronized your AI mentor, readiness scores, and placement signals into your personal command center.
-            </p>
-            <div className="flex flex-wrap gap-6">
-              <button 
-                onClick={() => setDashboardTab('assessment')}
-                className="relative h-[55px] px-8 group active:scale-95 transition-transform"
-              >
-                <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                  <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
-                </svg>
-                <span className="relative z-10 flex items-center justify-center h-full text-[#161a20]  font-[800] text-sm uppercase tracking-widest gap-2">
-                  Continue Prep <ArrowRight size={16} />
-                </span>
-              </button>
-              
-              <button 
-                onClick={() => setShowFullRecommendations(true)}
-                className="text-[12px] text-white  font-black uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity"
-              >
-                Open AI Career Recommendation
-              </button>
-            </div>
-          </div>
-        </GlassCard>
-
-        <GlassCard className="rounded-[32px] md:rounded-[40px] p-6 md:p-10 h-full flex flex-col justify-between bg-[#161a20]/40 border-white/5 backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-8 opacity-5">
-            <Sparkles size={80} />
-          </div>
-          <div className="relative z-10">
-            <p className="text-[10px]  font-[900] uppercase tracking-[0.4em] text-white/30 mb-6 md:mb-8">AI Mentor Signal</p>
-            <h2 className="text-2xl md:text-3xl  font-[900] text-white uppercase tracking-tight mb-6 md:mb-8 italic">Mentor Surface</h2>
-            <p className="text-[15px]  font-medium tracking-tight leading-relaxed text-white/50 mb-10">Your floating mentor stays available across pages with context-aware logic and role-based guidance.</p>
-            
-            <div className="grid grid-cols-1 gap-4">
-              {['Build system design roadmap', 'Coach me for frontend interview'].map((prompt) => (
-                <div key={prompt} className="bg-white/5 border border-white/5 rounded-2xl px-6 py-4 text-[13px]  font-bold text-white/40 uppercase tracking-widest hover:bg-white/10 transition-colors cursor-pointer">
-                  {prompt}
-                </div>
-              ))}
-            </div>
-          </div>
-        </GlassCard>
-      </div>
-
-      {/* Row 2: Metrics */}
+  const renderHome = () => (
+    <div className="space-y-16 pb-20 selection:bg-white selection:text-black">
+      {/* Metric Grid - High Level Signal Status */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {[
           { label: 'Readiness', value: readinessScore, icon: TrendingUp },
@@ -418,113 +326,67 @@ export function Dashboard() {
               <metric.icon size={20} className="text-white/20" />
               <span className="text-[9px] font-black uppercase tracking-[0.3em] text-code-green bg-code-green/10 px-2 py-0.5 rounded">Verified</span>
             </div>
-            <p className="text-4xl  font-[900] text-white tracking-tighter leading-none mb-4">{formatVal(metric.value)}<span className="text-lg opacity-30 italic">%</span></p>
-            <p className="text-[10px]  font-black uppercase tracking-[0.2em] text-white/30">{metric.label} SIGNAL</p>
+            <p className="text-4xl font-[900] text-white tracking-tighter leading-none mb-4">{formatVal(metric.value)}<span className="text-lg opacity-30 italic">%</span></p>
+            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30">{metric.label} SIGNAL</p>
           </GlassCard>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-        <GlassCard className="rounded-2xl p-6 xl:col-span-12">
-          <div className="grid gap-6 md:grid-cols-2">
+      {/* Main Feature Entry: Interview Practice Question */}
+      <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
+        <GlassCard 
+          onClick={() => window.location.hash = 'interview'}
+          className="rounded-[48px] p-12 md:p-16 bg-[#161a20]/60 border-white/5 relative overflow-hidden group cursor-pointer hover:border-white/20 transition-all duration-500"
+        >
+          <div className="absolute top-0 right-0 p-16 opacity-5 group-hover:opacity-10 transition-opacity">
+            <Rocket size={180} />
+          </div>
+          
+          <div className="relative z-10 max-w-3xl">
+            <div className="flex items-center gap-4 text-[11px] font-[900] uppercase tracking-[0.5em] text-code-green mb-10">
+              <Zap size={20} className="animate-pulse" />
+              Practice Environment Active
+            </div>
+            
+            <h2 className="text-4xl md:text-7xl font-[900] text-white uppercase tracking-tighter mb-8 leading-[0.9] italic">
+              Interview Practice <span className="text-white/30">Question.</span>
+            </h2>
+            
+            <p className="text-[18px] md:text-[21px] text-white/50 mb-12 font-medium tracking-tight leading-relaxed">
+               Access our elite-tier Question Bank mapped across system design, high-level technical fundamentals, and refined behavioral patterns. Master each signal with timed precision.
+            </p>
+
+            <button className="relative w-[220px] h-[65px] group-hover:scale-105 transition-transform duration-500">
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 184 65" fill="none" preserveAspectRatio="none">
+                    <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
+                </svg>
+                <span className="relative z-10 flex items-center justify-center h-full text-[#161a20] font-[900] text-sm uppercase tracking-[0.2em] gap-3">
+                    Enter Workspace <ArrowRight size={18} />
+                </span>
+            </button>
+          </div>
+        </GlassCard>
+      </div>
+
+      {/* Skill Readiness Bar Detail */}
+      <GlassCard className="rounded-[40px] p-10 bg-[#161a20]/40 border-white/5">
+        <div className="grid gap-12 md:grid-cols-2 items-center">
             <div className="flex items-center justify-center">
               <CircularProgress value={readinessScore} label="Launch score" color="purple" />
             </div>
-            <div className="space-y-4">
+            <div className="space-y-8">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[var(--text-muted)]">Signals</p>
-                <h3 className="mt-3 text-2xl font-semibold text-[var(--text)]">Progress that feels tangible</h3>
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 mb-2">Technical Pulse</p>
+                <h3 className="text-3xl font-[900] text-white uppercase tracking-tight italic">Skill Maturity</h3>
               </div>
-              {skillBars.map((item, index) => (
-                <SkillBar key={item.skill} skill={item.skill} level={item.level} delay={index * 0.08} />
-              ))}
+              <div className="space-y-6">
+                {skillBars.map((item, index) => (
+                  <SkillBar key={item.skill} skill={item.skill} level={item.level} delay={index * 0.08} />
+                ))}
+              </div>
             </div>
-          </div>
-        </GlassCard>
-
-      </div>
-
-      <QuickInsightsWidget onViewFull={() => setShowFullRecommendations(true)} />
-
-      <div className="grid grid-cols-1 gap-8 xl:grid-cols-12">
-        <GlassCard className="rounded-[24px] md:rounded-[32px] p-6 md:p-8 xl:col-span-7 bg-[#161a20]/60 border-white/5 relative overflow-hidden group">
-          <div className="flex items-center justify-between gap-4 mb-8 md:mb-10">
-            <div>
-              <p className="text-[9px] md:text-[10px]  font-[900] uppercase tracking-[0.3em] text-white/30 mb-2">Strength Map</p>
-              <h3 className="text-xl md:text-2xl  font-[900] text-white uppercase tracking-tight italic">Top Levers</h3>
-            </div>
-            <Sparkles className="h-5 w-5 text-white/20" />
-          </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {strengths.map((item) => (
-              <div key={item} className="bg-white/5 border border-white/5 rounded-2xl p-6 hover:bg-white/10 transition-colors">
-                <p className="text-[13px]  font-black text-white uppercase tracking-widest mb-3">{item}</p>
-                <p className="text-[12px]  font-medium leading-relaxed text-white/40 italic">Signal strength verified through assessment metrics.</p>
-              </div>
-            ))}
-          </div>
-        </GlassCard>
-
-        <GlassCard className="rounded-[32px] p-8 xl:col-span-5 bg-[#161a20]/60 border-white/5">
-          <p className="text-[10px]  font-[900] uppercase tracking-[0.3em] text-white/30 mb-8">Focus Areas</p>
-          <div className="grid gap-3">
-            {focusAreas.map((item, index) => (
-              <div key={item} className="bg-white/5 border border-white/5 flex items-center justify-between rounded-2xl px-6 py-4 group hover:bg-white/10 transition-colors">
-                <div>
-                  <p className="text-[13px]  font-black text-white uppercase tracking-widest">{item}</p>
-                  <p className="text-[10px]  font-bold text-white/20 uppercase tracking-[0.2em] mt-1">Priority Lane {index + 1}</p>
-                </div>
-                <ChevronRight className="h-4 w-4 text-white/20 group-hover:text-white transition-colors" />
-              </div>
-            ))}
-          </div>
-        </GlassCard>
-      </div>
-
-      {/* Checklist section */}
-      <div className="grid grid-cols-1 gap-8 xl:grid-cols-12">
-        <GlassCard className="rounded-[32px] p-8 xl:col-span-5 bg-[#161a20]/60 border-white/5">
-          <p className="text-[10px]  font-[900] uppercase tracking-[0.3em] text-white/30 mb-8">Progress Checklist</p>
-          <div className="grid gap-3">
-            {progressChecklist.map((item) => (
-              <div key={item.label} className="bg-white/5 border border-white/5 flex items-center justify-between rounded-2xl px-6 py-4">
-                <span className="text-[11px]  font-black text-white/40 uppercase tracking-widest">{item.label}</span>
-                {item.done ? (
-                  <span className="inline-flex items-center gap-2 text-code-green">
-                    <CheckCircle2 className="h-3.5 w-3.5" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">Active</span>
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-2 text-white/10 italic">
-                    <CircleDashed className="h-3.5 w-3.5" />
-                    <span className="text-[10px] font-black uppercase tracking-widest">Locked</span>
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-        </GlassCard>
-
-        <GlassCard className="rounded-[32px] p-8 xl:col-span-7 bg-[#161a20]/60 border-white/5 relative overflow-hidden">
-          <div className="flex items-center justify-between gap-4 mb-10">
-            <div>
-              <p className="text-[10px]  font-[900] uppercase tracking-[0.3em] text-white/30 mb-2">Recent activity</p>
-              <h3 className="text-2xl  font-[900] text-white uppercase tracking-tight italic">Working Timeline</h3>
-            </div>
-            <Activity className="h-5 w-5 text-white/20" />
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2">
-            {recentActivity.map((event, index) => (
-              <div key={event.title} className="bg-white/5 border border-white/5 rounded-2xl p-5 group hover:bg-white/10 transition-colors">
-                <p className="text-[13px]  font-black text-white uppercase tracking-widest mb-2">{event.title}</p>
-                <p className="text-[12px]  font-medium leading-relaxed text-white/40 italic">{event.subtitle}</p>
-                <p className="text-[9px]  font-bold text-white/10 uppercase tracking-[0.2em] mt-4">Signal Event {index + 1}</p>
-              </div>
-            ))}
-          </div>
-        </GlassCard>
-      </div>
+        </div>
+      </GlassCard>
     </div>
   );
 
@@ -1227,7 +1089,7 @@ export function Dashboard() {
             <h2 className="text-3xl  font-[900] text-white uppercase tracking-tight italic">Skill Signal</h2>
             {isLocked && (
               <span className="flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-[10px] font-black text-amber-500 uppercase tracking-widest">
-                <Lock size={12} /> Locked
+                <LucideLock size={12} /> Locked
               </span>
             )}
           </div>
@@ -1503,7 +1365,7 @@ export function Dashboard() {
                 <div className="mb-8 relative inline-flex">
                    <div className="absolute inset-0 bg-blue-500/20 blur-2xl rounded-full" />
                    <div className="relative w-20 h-20 rounded-3xl bg-white/10 border border-white/20 flex items-center justify-center">
-                      <Lock className="w-8 h-8 text-white animate-pulse" />
+                      <LucideLock className="w-8 h-8 text-white animate-pulse" />
                    </div>
                 </div>
 
@@ -1572,8 +1434,8 @@ export function Dashboard() {
 
             <header className="sticky top-0 z-30 px-6 py-6 flex items-center justify-between pointer-events-none">
               <div className="flex items-center gap-6 pointer-events-auto">
-                <h2 className="text-xl  font-[900] uppercase tracking-[0.2em] text-white italic">
-                  {activeTab === 'overview' ? 'Cockpit' : activeTab === 'resume' ? 'Resume Lab' : activeTab === 'assessment' ? 'Skill Signal' : activeTab}
+                <h2 className="text-xl font-[900] uppercase tracking-[0.2em] text-white italic">
+                  {activeTab === 'home' ? 'Home' : activeTab === 'resume' ? 'Resume Lab' : activeTab === 'assessment' ? 'Skill Signal' : activeTab}
                 </h2>
                 <div className="h-4 w-[1px] bg-white/10" />
                 <p className="text-[10px]  font-black text-white/30 uppercase tracking-[0.2em]">Prepzo Satellite .01</p>
@@ -1591,9 +1453,9 @@ export function Dashboard() {
             </header>
             
             <div className="relative z-10 mx-auto w-full max-w-7xl space-y-12 px-6 pb-32 pointer-events-none">
-              {activeTab === 'overview' && (
+              {activeTab === 'home' && (
                 <div className="pointer-events-auto">
-                    {renderOverview()}
+                    {renderHome()}
                 </div>
               )}
               {activeTab === 'resume' && (

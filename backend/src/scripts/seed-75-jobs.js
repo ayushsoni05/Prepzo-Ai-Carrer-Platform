@@ -12,7 +12,20 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const MONGO_URI = process.env.MONGODB_URI;
+const TARGET_DB = process.env.DB_NAME || 'prepzo';
+let MONGO_URI = process.env.MONGODB_URI;
+
+// Ensure we are hitting the target DB
+if (MONGO_URI.includes('.net/')) {
+  const parts = MONGO_URI.split('/');
+  const lastPart = parts.pop();
+  const dbAndQuery = lastPart.split('?');
+  dbAndQuery[0] = TARGET_DB;
+  parts.push(dbAndQuery.join('?'));
+  MONGO_URI = parts.join('/');
+}
+
+console.log(`🚀 Targeting Database: ${TARGET_DB}`);
 const DATA_FILE = path.join(__dirname, '../../../', 'India_Hiring_Tracker_April2026.json');
 const DEFAULT_ADMIN_ID = '69a590f221db2e23dc9e1e11';
 
@@ -67,7 +80,15 @@ async function seed75Jobs() {
           email: 'admin@prepzo.com',
           password: 'AdminPassword123!',
           role: 'admin',
-          isOnboarded: true
+          isOnboarded: true,
+          targetRole: 'SDE',
+          yearOfStudy: '4',
+          fieldOfStudy: 'Computer Science',
+          degree: 'B.Tech',
+          collegeName: 'System University',
+          gender: 'Other',
+          dateOfBirth: new Date('2000-01-01'),
+          phone: '0000000000'
         });
       }
     }
