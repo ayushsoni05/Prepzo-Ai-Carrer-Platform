@@ -312,35 +312,35 @@ export function Dashboard() {
   };
 
   const renderHome = () => (
-    <div className="max-w-5xl mx-auto space-y-6 selection:bg-white selection:text-black font-rubik">
+    <div className="max-w-6xl mx-auto space-y-10 selection:bg-white selection:text-black font-rubik">
       {/* Row 1: Welcome + Mentor */}
-      <div className="rounded-[30px] p-6 md:p-8 mb-6 bg-black border border-[#5ed29c]/30 shadow-[0_0_40px_rgba(94,210,156,0.05)] relative overflow-hidden group">
-        <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity pointer-events-none transform group-hover:scale-110 duration-700">
-          <Bot size={120} />
+      <div className="rounded-[40px] p-10 md:p-12 mb-8 bg-black border border-[#5ed29c]/20 shadow-2xl relative overflow-hidden group">
+        <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none transform group-hover:scale-110 duration-700">
+          <Bot size={150} />
         </div>
         <div className="relative z-10">
-          <p className="text-[9px] font-[900] uppercase tracking-[0.4em] text-[#5ed29c] mb-4 opacity-70">Career Cockpit</p>
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-            <div className="max-w-xl">
-              <h1 className="text-3xl md:text-5xl font-[900] text-white uppercase tracking-tighter leading-[0.9] italic mb-6">
+          <p className="text-[10px] font-[900] uppercase tracking-[0.5em] text-[#5ed29c] mb-6">Career Cockpit</p>
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
+            <div className="max-w-3xl">
+              <h1 className="text-4xl md:text-7xl font-[900] text-white uppercase tracking-tighter leading-[0.8] italic mb-8">
                 Welcome back,<br/>
                 <span className="text-white/20">{user?.fullName?.split(' ')[0] || 'there'}.</span>
               </h1>
-              <p className="text-[14px] font-medium tracking-tight leading-relaxed text-white/30 max-w-md italic">
-                Prepzo has synchronized your AI mentor and placement signals into this command center.
+              <p className="text-[16px] font-medium tracking-tight leading-relaxed text-white/40 max-w-xl italic">
+                Prepzo has synchronized your AI mentor, readiness scores, and placement signals into this command center.
               </p>
             </div>
             
             <div className="flex flex-wrap gap-4">
               <button 
                 onClick={() => setDashboardTab('assessment')}
-                className="relative h-[48px] px-8 group active:scale-95 transition-transform"
+                className="relative h-[65px] px-10 group active:scale-95 transition-transform"
               >
-                <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105 shadow-xl shadow-[#5ed29c]/10" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105 shadow-2xl shadow-[#5ed29c]/10" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                   <path d="M0 0H184L174 65H10L0 0Z" fill="#5ed29c" />
                 </svg>
-                <span className="relative z-10 flex items-center justify-center h-full text-black font-[900] text-[10px] uppercase tracking-[0.2em] gap-3 italic">
-                  Launch <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                <span className="relative z-10 flex items-center justify-center h-full text-[#070b0a] font-[900] text-[12px] uppercase tracking-[0.2em] gap-3 italic">
+                   Continue Prep <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </span>
               </button>
             </div>
@@ -348,21 +348,21 @@ export function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-        <div className="rounded-[24px] p-6 bg-[#0a0c10] border border-white/5 xl:col-span-12 shadow-2xl">
-          <div className="grid gap-8 md:grid-cols-2 items-center">
-            <div className="flex flex-col items-center justify-center gap-4">
+      <div className="grid grid-cols-1 gap-8 xl:grid-cols-12">
+        <div className="rounded-[40px] p-10 bg-[#070b0a] border border-white/5 xl:col-span-12 shadow-2xl">
+          <div className="grid gap-12 md:grid-cols-2 items-center">
+            <div className="flex flex-col items-center justify-center gap-6">
               <CircularProgress value={readinessScore} label="Launch score" color="purple" />
-              <div className="px-3 py-1 bg-[#5ed29c]/5 border border-[#5ed29c]/10 rounded-full">
-                 <span className="text-[8px] font-[900] text-[#5ed29c] uppercase tracking-widest italic opacity-60">Signal Calibrated</span>
+              <div className="px-4 py-2 bg-[#5ed29c]/5 border border-[#5ed29c]/10 rounded-full">
+                 <span className="text-[10px] font-[900] text-[#5ed29c] uppercase tracking-widest italic opacity-60">Signal Calibrated High</span>
               </div>
             </div>
-            <div className="space-y-6">
+            <div className="space-y-8">
               <div>
-                <p className="text-[9px] font-[900] uppercase tracking-[0.3em] text-white/20 mb-1 italic">Signals</p>
-                <h3 className="text-xl font-[900] text-white uppercase italic tracking-tighter opacity-90">Progress Tracker</h3>
+                <p className="text-[11px] font-[900] uppercase tracking-[0.4em] text-white/20 mb-2 italic">Signals</p>
+                <h3 className="text-3xl font-[900] text-white uppercase italic tracking-tighter">Progress Tracker</h3>
               </div>
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {skillBars.map((item, index) => (
                   <SkillBar key={item.skill} skill={item.skill} level={item.level} delay={index * 0.08} />
                 ))}
@@ -372,16 +372,16 @@ export function Dashboard() {
         </div>
       </div>
 
-      <div id="ai-insights" className="mt-6">
+      <div id="ai-insights" className="mt-8">
          <QuickInsightsWidget onViewFull={() => setShowFullRecommendations(true)} />
       </div>
 
-      <div id="question-bank-container" className="pointer-events-auto mt-10">
-        <div className="mb-6 px-4">
-          <h2 className="text-[9px] font-[900] uppercase tracking-[0.4em] text-[#5ed29c] mb-2 italic opacity-60">Repository</h2>
-          <h1 className="text-2xl md:text-4xl font-[900] text-white uppercase tracking-tighter italic">Interview <span className="text-white/10">Library.</span></h1>
+      <div id="question-bank-container" className="pointer-events-auto mt-14">
+        <div className="mb-10 px-4">
+          <h2 className="text-[11px] font-[900] uppercase tracking-[0.5em] text-[#5ed29c] mb-2 italic opacity-60">Repository</h2>
+          <h1 className="text-3xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic">Interview <span className="text-white/10">Library.</span></h1>
         </div>
-        <div className="p-1 border border-white/5 rounded-[24px] bg-black shadow-2xl">
+        <div className="p-1 border border-white/5 rounded-[40px] bg-black shadow-2xl overflow-hidden">
             <QuestionBank />
         </div>
       </div>
@@ -1080,96 +1080,96 @@ export function Dashboard() {
     const unlockDate = user?.assessmentUnlockDate ? new Date(user.assessmentUnlockDate) : null;
 
     return (
-      <div className="max-w-4xl mx-auto grid grid-cols-1 gap-4 lg:grid-cols-2 selection:bg-white selection:text-black font-rubik">
-        <div className="rounded-[30px] p-6 md:p-8 bg-black border border-[#5ed29c]/20 relative overflow-hidden group shadow-2xl">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 gap-8 lg:grid-cols-2 selection:bg-white selection:text-black font-rubik">
+        <div className="rounded-[40px] p-10 md:p-14 bg-black border border-[#5ed29c]/20 relative overflow-hidden group shadow-2xl">
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#5ed29c]/30 to-transparent" />
           
-          <p className="text-[9px] font-[900] uppercase tracking-[0.4em] text-[#5ed29c] mb-6 opacity-60">Operational Studio</p>
-          <div className="flex items-center gap-3 mb-6">
-            <h2 className="text-2xl md:text-3xl font-[900] text-white uppercase tracking-tighter italic leading-none">Skill <span className="text-white/30">Signal.</span></h2>
+          <p className="text-[11px] font-[900] uppercase tracking-[0.5em] text-[#5ed29c] mb-10 opacity-60">Operational Studio</p>
+          <div className="flex items-center gap-4 mb-10">
+            <h2 className="text-4xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic leading-none">Skill <span className="text-white/30">Signal.</span></h2>
             {isLocked && (
-              <span className="flex items-center gap-2 px-2 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-[9px] font-[900] text-amber-500 uppercase tracking-widest italic animate-pulse">
-                <Lock size={10} /> LOCKED
+              <span className="flex items-center gap-3 px-5 py-2 bg-amber-500/10 border border-amber-500/20 rounded-full text-[11px] font-[900] text-amber-500 uppercase tracking-widest italic animate-pulse">
+                <Lock size={14} /> LOCKED
               </span>
             )}
           </div>
           
           {isLocked ? (
-            <div className="mb-8">
-              <p className="text-[14px] font-medium tracking-tight leading-relaxed text-amber-500/30 mb-6 italic max-w-xs">
-                Terminals offline. Neural calibration in sync.
+            <div className="mb-10">
+              <p className="text-[17px] font-medium tracking-tight leading-relaxed text-amber-500/30 mb-8 italic max-w-sm">
+                Terminals offline. Neural calibration in sync. Signal restoration required for access.
               </p>
-              <div className="inline-block p-5 bg-amber-500/5 border border-amber-500/10 rounded-[24px]">
-                <p className="text-[9px] font-[900] text-amber-500/30 uppercase tracking-[0.3em] mb-2 italic">Sync</p>
-                <p className="text-xl font-[900] text-white uppercase tracking-tighter">{unlockDate?.toLocaleDateString()}</p>
+              <div className="inline-block p-8 bg-amber-500/5 border border-amber-500/10 rounded-[32px]">
+                <p className="text-[11px] font-[900] text-amber-500/30 uppercase tracking-[0.4em] mb-2 italic">Sync Window</p>
+                <p className="text-3xl font-[900] text-white uppercase tracking-tighter">{unlockDate?.toLocaleDateString()}</p>
               </div>
             </div>
           ) : (
-            <p className="text-[14px] font-medium tracking-tight leading-relaxed text-white/20 mb-8 max-w-sm italic">
-               Launch your proctored assessment in sharp obsidian matrix.
+            <p className="text-[17px] font-medium tracking-tight leading-relaxed text-white/20 mb-12 max-w-md italic">
+               Launch your proctored assessment in high-fidelity obsidian matrix.
             </p>
           )}
 
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-col sm:flex-row gap-4">
               <button 
                 onClick={() => !isLocked && setStartAssessment('field')}
                 disabled={isLocked}
-                className={`relative h-[45px] px-6 group active:scale-95 transition-transform ${isLocked ? 'opacity-20 cursor-not-allowed grayscale' : ''}`}
+                className={`relative h-[65px] px-10 group active:scale-95 transition-transform ${isLocked ? 'opacity-20 cursor-not-allowed grayscale' : ''}`}
               >
                 {!isLocked && (
                   <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                     <path d="M0 0H184L174 65H10L0 0Z" fill="#5ed29c" />
                   </svg>
                 )}
-                {isLocked && <div className="absolute inset-0 w-full h-full bg-white/5 border border-white/10 rounded-lg" />}
-                <span className={`relative z-10 flex items-center justify-center h-full ${isLocked ? 'text-white/40' : 'text-black'} font-[900] text-[10px] uppercase tracking-[0.2em] gap-2 italic`}>
-                  {isFieldComplete ? 'Retake S1' : 'Launch S1'} <ArrowRight size={14} />
+                {isLocked && <div className="absolute inset-0 w-full h-full bg-white/5 border border-white/10 rounded-2xl" />}
+                <span className={`relative z-10 flex items-center justify-center h-full ${isLocked ? 'text-white/40' : 'text-black'} font-[900] text-[12px] uppercase tracking-[0.2em] gap-3 italic`}>
+                  {isFieldComplete ? 'Retake Stage 1' : 'Launch Stage 1'} <ArrowRight size={18} />
                 </span>
               </button>
               
               <button 
                 onClick={() => !isLocked && setStartAssessment('skills')}
                 disabled={isLocked || !isFieldComplete}
-                className={`relative h-[45px] px-6 group active:scale-95 border rounded-lg transition-all hover:bg-[#5ed29c]/10 ${isLocked || !isFieldComplete ? 'opacity-10 cursor-not-allowed grayscale bg-white/5 border-white/10' : 'bg-transparent border-[#5ed29c]/40 text-[#5ed29c]'}`}
+                className={`relative h-[65px] px-10 group active:scale-95 border rounded-[12px] transition-all hover:bg-[#5ed29c]/10 ${isLocked || !isFieldComplete ? 'opacity-10 cursor-not-allowed grayscale bg-white/5 border-white/10' : 'bg-transparent border-[#5ed29c]/40 text-[#5ed29c]'}`}
               >
-                <span className={`relative z-10 flex items-center justify-center h-full font-[900] text-[10px] uppercase tracking-[0.2em] gap-2 italic`}>
-                  {isSkillComplete ? 'Retake S2' : 'Launch S2'} <ArrowRight size={14} />
+                <span className={`relative z-10 flex items-center justify-center h-full font-[900] text-[12px] uppercase tracking-[0.2em] gap-3 italic`}>
+                  {isSkillComplete ? 'Retake Stage 2' : 'Launch Stage 2'} <ArrowRight size={18} />
                 </span>
               </button>
           </div>
           
-          <div className="mt-8">
+          <div className="mt-12">
             <button 
               onClick={() => setShowFullRecommendations(true)}
-              className="group flex items-center gap-2 text-[9px] text-white font-[900] uppercase tracking-[0.2em] opacity-20 hover:opacity-100 transition-all italic"
+              className="group flex items-center gap-3 text-[11px] text-white font-[900] uppercase tracking-[0.3em] opacity-20 hover:opacity-100 transition-all italic"
             >
-              Analyze <ChevronRight size={10} className="group-hover:translate-x-1 transition-transform" />
+              Analyze Records <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
         </div>
 
 
-        <div className="rounded-[30px] p-6 md:p-8 bg-black border border-white/5 shadow-2xl relative overflow-hidden">
-          <p className="text-[9px] font-[900] uppercase tracking-[0.4em] text-white/10 mb-6 italic">Telemetry</p>
-          <div className="grid gap-3 sm:grid-cols-2 mb-8">
-            <div className="bg-white/[0.01] border border-white/5 rounded-[24px] p-5">
-              <p className="text-[8px] font-[900] uppercase tracking-[0.2em] text-[#5ed29c] mb-1 italic opacity-60">Score</p>
-              <p className="text-4xl font-[900] text-white uppercase tracking-tighter italic">{formatVal(user?.testResults?.score || 0)}%</p>
+        <div className="rounded-[40px] p-10 md:p-14 bg-black border border-white/5 shadow-2xl relative overflow-hidden">
+          <p className="text-[11px] font-[900] uppercase tracking-[0.5em] text-white/10 mb-10 italic">Diagnostics</p>
+          <div className="grid gap-6 sm:grid-cols-2 mb-12">
+            <div className="bg-white/[0.01] border border-white/5 rounded-[32px] p-8">
+              <p className="text-[10px] font-[900] uppercase tracking-[0.2em] text-[#5ed29c] mb-2 italic opacity-60">Result</p>
+              <p className="text-6xl font-[900] text-white uppercase tracking-tighter italic">{formatVal(user?.testResults?.score || 0)}%</p>
             </div>
-            <div className="bg-white/[0.01] border border-white/5 rounded-[24px] p-5">
-              <p className="text-[8px] font-[900] uppercase tracking-[0.2em] text-white/5 mb-1 italic">State</p>
-              <p className="text-2xl font-[900] text-white uppercase tracking-tighter italic opacity-80">{user?.isAssessmentComplete ? 'ACTIVE' : 'READY'}</p>
+            <div className="bg-white/[0.01] border border-white/5 rounded-[32px] p-8">
+              <p className="text-[10px] font-[900] uppercase tracking-[0.2em] text-white/5 mb-2 italic">Neural State</p>
+              <p className="text-4xl font-[900] text-white uppercase tracking-tighter italic opacity-80">{user?.isAssessmentComplete ? 'ACTIVE' : 'IDLE'}</p>
             </div>
           </div>
           {user?.testResults?.sectionResults?.length ? (
-            <div className="space-y-3">
+            <div className="space-y-6">
               {user.testResults.sectionResults.map((section) => (
                 <SkillBar key={section.name} skill={section.name} level={section.score} />
               ))}
             </div>
           ) : (
-            <div className="py-10 text-center border border-dashed border-white/5 rounded-[24px]">
-               <p className="text-[10px] font-black italic text-white/5 uppercase tracking-[0.3em]">Offline.</p>
+            <div className="py-20 text-center border border-dashed border-white/5 rounded-[40px]">
+               <p className="text-[12px] font-black italic text-white/5 uppercase tracking-[0.4em]">Grid Offline.</p>
             </div>
           )}
         </div>

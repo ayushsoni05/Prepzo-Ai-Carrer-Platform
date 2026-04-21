@@ -232,81 +232,81 @@ const QuestionArea = memo(({
   onNavigate: (idx: number) => void;
   questionIndex: number;
 }) => (
-  <div className="relative bg-black rounded-[40px] p-6 md:p-10 border border-[#5ed29c]/20 overflow-hidden group font-rubik shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+  <div className="relative bg-black rounded-[50px] p-10 md:p-16 border border-[#5ed29c]/20 overflow-hidden group font-rubik shadow-[0_0_80px_rgba(0,0,0,0.8)]">
     {/* Console Accents */}
-    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#5ed29c]/30 to-transparent" />
+    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#5ed29c]/40 to-transparent" />
     
-    <div className="flex items-center justify-between mb-10">
-      <div className="flex items-center gap-4">
-        <div className="w-14 h-14 rounded-[20px] bg-white/[0.02] border border-white/5 flex items-center justify-center grayscale group-hover:grayscale-0 transition-all">
-            <span className="text-2xl md:text-3xl">{currentSection.section.icon}</span>
+    <div className="flex items-center justify-between mb-12">
+      <div className="flex items-center gap-6">
+        <div className="w-16 h-16 rounded-[24px] bg-white/[0.03] border border-white/5 flex items-center justify-center grayscale group-hover:grayscale-0 transition-all">
+            <span className="text-3xl md:text-4xl">{currentSection.section.icon}</span>
         </div>
         <div className="flex flex-col">
-           <span className="text-[9px] font-[900] text-[#5ed29c] uppercase tracking-[0.4em] italic mb-1 opacity-60">Module</span>
-           <span className="text-lg md:text-2xl font-[900] text-white uppercase italic tracking-tight">{currentSection.section.name}</span>
+           <span className="text-[10px] font-[900] text-[#5ed29c] uppercase tracking-[0.5em] italic mb-1 opacity-70">Neural Module</span>
+           <span className="text-xl md:text-3xl font-[900] text-white uppercase italic tracking-tight">{currentSection.section.name}</span>
         </div>
       </div>
       <div className="text-right">
-        <span className="text-[9px] font-[900] text-white/20 uppercase tracking-[0.4em] italic mb-1 block">Probe Index</span>
-        <p className="text-lg md:text-2xl font-[900] text-white uppercase tracking-tighter">
-            {questionIndex + 1} <span className="text-[#5ed29c]">/ {currentSection.questions.length}</span>
+        <span className="text-[10px] font-[900] text-white/20 uppercase tracking-[0.5em] italic mb-1 block">Vector Probe</span>
+        <p className="text-xl md:text-3xl font-[900] text-white uppercase tracking-tighter">
+            PROBE {questionIndex + 1} <span className="text-[#5ed29c]">/ {currentSection.questions.length}</span>
         </p>
       </div>
     </div>
 
-    <div className="w-full h-[2px] bg-white/5 rounded-full overflow-hidden mb-10">
+    <div className="w-full h-[3px] bg-white/5 rounded-full overflow-hidden mb-12">
       <motion.div 
-        className="h-full bg-[#5ed29c] shadow-[0_0_15px_rgba(94,210,156,0.5)]"
+        className="h-full bg-[#5ed29c] shadow-[0_0_20px_rgba(94,210,156,0.6)]"
         initial={{ width: 0 }}
         animate={{ width: `${((questionIndex + 1) / currentSection.questions.length) * 100}%` }}
         transition={{ type: "spring", stiffness: 40 }}
       />
     </div>
 
-    <div className="flex flex-wrap gap-2 mb-10">
+    <div className="flex flex-wrap gap-3 mb-12">
       {currentQuestion.companyAskedIn && (
-        <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.02] border border-white/5">
-          <Target size={12} className="text-[#5ed29c]/60" />
-          <span className="text-[9px] font-[900] text-white/40 uppercase tracking-widest italic">
-            SEEN AT {currentQuestion.companyAskedIn}
+        <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/[0.03] border border-white/5">
+          <Target size={14} className="text-[#5ed29c]" />
+          <span className="text-[10px] font-[900] text-white/50 uppercase tracking-[0.2em] italic">
+            SIGNAL DETECTED AT {currentQuestion.companyAskedIn}
           </span>
         </div>
       )}
-       <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.02] border border-white/5">
-          <Award size={12} className="text-white/20" />
-          <span className="text-[9px] font-[900] text-white/40 uppercase tracking-widest italic">
-             {currentQuestion.difficulty}
+       <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/[0.03] border border-white/5">
+          <Award size={14} className="text-white/30" />
+          <span className="text-[10px] font-[900] text-white/50 uppercase tracking-[0.2em] italic">
+             COMPLEXITY: {currentQuestion.difficulty}
           </span>
         </div>
     </div>
 
-    <h3 className="text-xl md:text-3xl font-[900] text-white uppercase tracking-tighter leading-[1.2] mb-12 italic opacity-90">
+    <h3 className="text-2xl md:text-5xl font-[900] text-white uppercase tracking-tighter leading-[1.1] mb-16 italic opacity-95">
       {currentQuestion.question}
     </h3>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-12">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
       {currentQuestion.options.map((option, idx) => {
         const isSelected = currentSection.answers[currentQuestion.id] === idx;
         return (
           <button
             key={idx}
             onClick={() => onAnswer(currentQuestion.id, idx)}
-            className={`group/opt relative p-5 md:p-6 rounded-[20px] text-left transition-all duration-200 border ${
+            className={`group/opt relative p-7 md:p-10 rounded-[28px] text-left transition-all duration-300 border ${
               isSelected
-                ? 'bg-[#5ed29c] border-[#5ed29c]'
-                : 'bg-white/[0.01] border-white/5 hover:border-[#5ed29c]/40'
+                ? 'bg-[#5ed29c] border-[#5ed29c] shadow-2xl shadow-[#5ed29c]/20 scale-[1.02]'
+                : 'bg-white/[0.02] border-white/5 hover:border-[#5ed29c]/40'
             }`}
           >
-            <div className="flex items-center gap-4">
-              <span className={`flex items-center justify-center w-8 h-8 rounded-lg text-[12px] font-[900] transition-colors ${
+            <div className="flex items-center gap-6">
+              <span className={`flex items-center justify-center w-10 h-10 rounded-xl text-[14px] font-[900] transition-colors ${
                 isSelected
                   ? 'bg-black text-[#5ed29c]'
-                  : 'bg-white/5 text-white/20'
+                  : 'bg-white/5 text-white/30'
               }`}>
                 {String.fromCharCode(65 + idx)}
               </span>
-              <span className={`text-[14px] font-bold italic leading-tight ${
-                isSelected ? 'text-black' : 'text-white/50 group-hover/opt:text-white/80'
+              <span className={`text-[16px] md:text-[20px] font-bold italic leading-tight ${
+                isSelected ? 'text-black' : 'text-white/60 group-hover/opt:text-white/90'
               }`}>
                 {option}
               </span>
@@ -316,7 +316,7 @@ const QuestionArea = memo(({
       })}
     </div>
 
-    <div className="flex flex-wrap gap-2 p-5 rounded-[24px] bg-white/[0.01] border border-white/5">
+    <div className="flex flex-wrap gap-3 p-8 rounded-[32px] bg-white/[0.01] border border-white/5">
       {currentSection.questions.map((q: any, idx: number) => {
         const isCurrent = idx === questionIndex;
         const isAnswered = currentSection.answers[q.id] !== undefined;
@@ -324,12 +324,12 @@ const QuestionArea = memo(({
           <button
             key={q.id}
             onClick={() => onNavigate(idx)}
-            className={`w-8 h-8 md:w-10 md:h-10 rounded-lg text-[10px] font-[900] transition-all border ${
+            className={`w-10 h-10 md:w-12 md:h-12 rounded-xl text-[12px] font-[900] transition-all border ${
               isCurrent
-                ? 'bg-[#5ed29c] text-black border-[#5ed29c] scale-110'
+                ? 'bg-[#5ed29c] text-black border-[#5ed29c] shadow-2xl shadow-[#5ed29c]/30 scale-125'
                 : isAnswered
-                ? 'bg-[#5ed29c]/10 text-[#5ed29c] border-[#5ed29c]/20'
-                : 'bg-white/[0.02] text-white/10 border-transparent'
+                ? 'bg-[#5ed29c]/10 text-[#5ed29c] border-[#5ed29c]/30'
+                : 'bg-white/[0.03] text-white/20 border-transparent hover:border-white/10'
             }`}
           >
             {idx + 1}
