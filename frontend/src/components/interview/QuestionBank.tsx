@@ -13,7 +13,6 @@ import {
   BookOpen,
   Filter
 } from 'lucide-react';
-import { GlassCard, GlassButton } from '../ui/GlassCard';
 import questionsData from '../../data/interview_questions_bank.json';
 
 interface Question {
@@ -339,7 +338,7 @@ export const QuestionBank: React.FC = () => {
       {/* Footer Info */}
       <div className="flex items-center justify-center gap-8 text-[9px] font-black uppercase tracking-[0.3em] text-white/20">
         <div className="flex items-center gap-2">
-          <Trophy size={14} /> Total Mastery: {Math.round((currentQuestionIndex / currentQuestions.length) * 100)}%
+          <Trophy size={14} /> Total Mastery: {Math.round((currentQuestionIndex / filteredQuestions.length) * 100)}%
         </div>
         <div className="w-1 h-1 rounded-full bg-white/10" />
         <div className="flex items-center gap-2">
