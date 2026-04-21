@@ -311,21 +311,21 @@ export function Dashboard() {
   };
 
   const renderHome = () => (
-    <div className="space-y-10 selection:bg-white selection:text-black">
-      {/* Row 1: Welcome + Mentor, side by side, equal width */}
-      <GlassCard className="rounded-[40px] p-8 md:p-12 mb-8 bg-[#161a20]/40 border-white/5 backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
-        <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
-          <Bot size={120} />
+    <div className="space-y-12 selection:bg-white selection:text-black font-rubik">
+      {/* Row 1: Welcome + Mentor */}
+      <GlassCard className="rounded-[60px] p-10 md:p-14 mb-8 bg-[#070b0a] border-white/5 backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
+        <div className="absolute top-0 right-0 p-16 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none transform group-hover:scale-110 duration-700">
+          <Bot size={180} />
         </div>
         <div className="relative z-10">
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-500/60 mb-6">Career Cockpit</p>
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
-            <div className="max-w-2xl">
-              <h1 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.9] italic mb-6">
+          <p className="text-[11px] font-[900] uppercase tracking-[0.5em] text-[#5ed29c] mb-10">Career Cockpit</p>
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
+            <div className="max-w-3xl">
+              <h1 className="text-5xl md:text-8xl font-[900] text-white uppercase tracking-tighter leading-[0.8] italic mb-10">
                 Welcome back,<br/>
-                <span className="text-white/40">{user?.fullName?.split(' ')[0] || 'there'}.</span>
+                <span className="text-white/30">{user?.fullName?.split(' ')[0] || 'there'}.</span>
               </h1>
-              <p className="text-[15px] font-medium tracking-tight leading-relaxed text-white/50">
+              <p className="text-[17px] font-medium tracking-tight leading-relaxed text-white/50 max-w-xl">
                 Prepzo has synchronized your AI mentor, readiness scores, and placement signals into this command center. Your floating mentor stays available across pages with context-aware logic.
               </p>
             </div>
@@ -333,13 +333,13 @@ export function Dashboard() {
             <div className="flex flex-wrap gap-4">
               <button 
                 onClick={() => setDashboardTab('assessment')}
-                className="relative h-[55px] px-8 group active:scale-95 transition-transform"
+                className="relative h-[65px] px-10 group active:scale-95 transition-transform"
               >
                 <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                   <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
                 </svg>
-                <span className="relative z-10 flex items-center justify-center h-full text-[#161a20] font-black text-xs uppercase tracking-widest gap-2">
-                  Continue Prep <ArrowRight size={16} />
+                <span className="relative z-10 flex items-center justify-center h-full text-[#070b0a] font-[900] text-[13px] uppercase tracking-[0.2em] gap-3 italic">
+                  Continue Prep <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </span>
               </button>
             </div>
@@ -347,36 +347,43 @@ export function Dashboard() {
         </div>
       </GlassCard>
 
-
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-        <GlassCard className="rounded-2xl p-6 xl:col-span-12">
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="flex items-center justify-center">
+      <div className="grid grid-cols-1 gap-8 xl:grid-cols-12">
+        <GlassCard className="rounded-[40px] p-10 bg-[#161a20]/40 border-white/5 xl:col-span-12 backdrop-blur-xl">
+          <div className="grid gap-12 md:grid-cols-2 items-center">
+            <div className="flex flex-col items-center justify-center gap-6">
               <CircularProgress value={readinessScore} label="Launch score" color="purple" />
-            </div>
-            <div className="space-y-4">
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[var(--text-muted)]">Signals</p>
-                <h3 className="mt-3 text-2xl font-semibold text-[var(--text)]">Progress that feels tangible</h3>
+              <div className="px-4 py-2 bg-[#5ed29c]/10 border border-[#5ed29c]/20 rounded-full">
+                 <span className="text-[10px] font-[900] text-[#5ed29c] uppercase tracking-widest italic">Signal Calibration High</span>
               </div>
-              {skillBars.map((item, index) => (
-                <SkillBar key={item.skill} skill={item.skill} level={item.level} delay={index * 0.08} />
-              ))}
+            </div>
+            <div className="space-y-8">
+              <div>
+                <p className="text-[11px] font-[900] uppercase tracking-[0.4em] text-white/30 mb-2">Signals</p>
+                <h3 className="text-3xl font-[900] text-white uppercase italic tracking-tighter">Progress that feels tangible</h3>
+              </div>
+              <div className="space-y-6">
+                {skillBars.map((item, index) => (
+                  <SkillBar key={item.skill} skill={item.skill} level={item.level} delay={index * 0.08} />
+                ))}
+              </div>
             </div>
           </div>
         </GlassCard>
-
       </div>
 
-      <QuickInsightsWidget onViewFull={() => setShowFullRecommendations(true)} />
+      <div id="ai-insights" className="mt-12">
+         <QuickInsightsWidget onViewFull={() => setShowFullRecommendations(true)} />
+      </div>
 
       {/* Question Bank Series */}
-      <div id="question-bank-container" className="pointer-events-auto mt-12">
-        <div className="mb-8">
-          <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 mb-2">Pre-Placement Prep</h2>
-          <h1 className="text-3xl font-black text-white uppercase tracking-tighter italic">Interview Question Bank</h1>
+      <div id="question-bank-container" className="pointer-events-auto mt-16 px-4">
+        <div className="mb-10 text-center md:text-left">
+          <h2 className="text-[11px] font-[900] uppercase tracking-[0.5em] text-[#5ed29c] mb-4 italic">Pre-Placement Prep</h2>
+          <h1 className="text-4xl md:text-6xl font-[900] text-white uppercase tracking-tighter italic">Interview <span className="text-white/20">Question Bank.</span></h1>
         </div>
-        <QuestionBank />
+        <div className="p-2 border border-white/5 rounded-[40px] bg-white/[0.02]">
+            <QuestionBank />
+        </div>
       </div>
     </div>
   );
@@ -1073,91 +1080,100 @@ export function Dashboard() {
     const unlockDate = user?.assessmentUnlockDate ? new Date(user.assessmentUnlockDate) : null;
 
     return (
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 selection:bg-white selection:text-black">
-        <GlassCard className="rounded-[40px] p-10 bg-[#161a20]/60 border-white/5 relative overflow-hidden group">
-          <p className="text-[11px]  font-[900] uppercase tracking-[0.4em] text-white/30 mb-8">Assessment Studio</p>
-          <div className="flex items-center gap-4 mb-8">
-            <h2 className="text-3xl  font-[900] text-white uppercase tracking-tight italic">Skill Signal</h2>
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 selection:bg-white selection:text-black font-rubik">
+        <GlassCard className="rounded-[60px] p-10 md:p-14 bg-[#070b0a] border-white/5 relative overflow-hidden group shadow-2xl">
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#5ed29c]/20 to-transparent" />
+          
+          <p className="text-[11px] font-[900] uppercase tracking-[0.5em] text-[#5ed29c] mb-10">Assessment Studio</p>
+          <div className="flex items-center gap-6 mb-10">
+            <h2 className="text-4xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic">Skill <span className="text-white/40">Signal.</span></h2>
             {isLocked && (
-              <span className="flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-[10px] font-black text-amber-500 uppercase tracking-widest">
-                <Lock size={12} /> Locked
+              <span className="flex items-center gap-3 px-5 py-2 bg-amber-500/10 border border-amber-500/20 rounded-full text-[11px] font-[900] text-amber-500 uppercase tracking-widest italic animate-pulse">
+                <Lock size={14} /> LOCKED
               </span>
             )}
           </div>
           
           {isLocked ? (
-            <div className="mb-10">
-              <p className="text-[15px]  font-medium tracking-tight leading-relaxed text-amber-500/80 mb-6 italic">
+            <div className="mb-12">
+              <p className="text-[17px] font-medium tracking-tight leading-relaxed text-amber-500/60 mb-10 italic max-w-sm">
                 Strategic cool-down active. Your neural pathways are processing the recent assessment. You can retake the test starting {unlockDate?.toLocaleDateString()} at {unlockDate?.toLocaleTimeString()}.
               </p>
-              <div className="inline-block p-4 bg-amber-500/5 border border-amber-500/10 rounded-2xl">
-                <p className="text-[10px] font-black text-amber-500/40 uppercase tracking-[0.3em] mb-1">Available On</p>
-                <p className="text-xl font-black text-white">{unlockDate?.toLocaleDateString()}</p>
+              <div className="inline-block p-8 bg-amber-500/5 border border-amber-500/10 rounded-[32px] backdrop-blur-md">
+                <p className="text-[11px] font-[900] text-amber-500/40 uppercase tracking-[0.4em] mb-3 italic">Available On</p>
+                <p className="text-3xl font-[900] text-white uppercase tracking-tighter">{unlockDate?.toLocaleDateString()}</p>
               </div>
             </div>
           ) : (
-            <p className="text-[15px]  font-medium tracking-tight leading-relaxed text-white/50 mb-10"> Launch your proctored assessment inside redesigned obsidian panels with smoother motion and legible progress cues.</p>
+            <p className="text-[17px] font-medium tracking-tight leading-relaxed text-white/50 mb-12 max-w-md italic">
+               Launch your proctored assessment inside redesigned obsidian panels with smoother motion and legible progress cues.
+            </p>
           )}
 
           <div className="flex flex-wrap items-center gap-10">
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <button 
                 onClick={() => !isLocked && setStartAssessment('field')}
                 disabled={isLocked}
-                className={`relative h-[55px] px-8 group active:scale-95 transition-transform text-white ${isLocked ? 'opacity-40 cursor-not-allowed grayscale' : ''}`}
+                className={`relative h-[65px] px-10 group active:scale-95 transition-transform ${isLocked ? 'opacity-40 cursor-not-allowed grayscale' : ''}`}
               >
                 {!isLocked && (
                   <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                     <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
                   </svg>
                 )}
-                {isLocked && <div className="absolute inset-0 w-full h-full bg-white/5 border border-white/10 rounded-xl" />}
-                <span className={`relative z-10 flex items-center justify-center h-full ${isLocked ? 'text-white/40' : 'text-[#161a20]'} font-[800] text-xs uppercase tracking-widest gap-2`}>
-                  {isFieldComplete ? 'Retake Stage 1' : 'Launch Field Test'} <ArrowRight size={16} />
+                {isLocked && <div className="absolute inset-0 w-full h-full bg-white/5 border border-white/10 rounded-2xl" />}
+                <span className={`relative z-10 flex items-center justify-center h-full ${isLocked ? 'text-white/40' : 'text-[#070b0a]'} font-[900] text-[12px] uppercase tracking-[0.2em] gap-3 italic`}>
+                  {isFieldComplete ? 'Retake Stage 1' : 'Launch Field Test'} <ArrowRight size={18} />
                 </span>
               </button>
               
               <button 
                 onClick={() => !isLocked && setStartAssessment('skills')}
                 disabled={isLocked || !isFieldComplete}
-                className={`relative h-[55px] px-8 group active:scale-95 transition-transform text-white rounded-lg transition-all ${isLocked || !isFieldComplete ? 'opacity-40 cursor-not-allowed grayscale bg-white/5 border-white/10' : 'bg-indigo-500/20 border border-indigo-400/30 hover:bg-indigo-500/40'}`}
+                className={`relative h-[65px] px-10 group active:scale-95 border rounded-[10px] transition-all transform skew-x-[-15deg] ${isLocked || !isFieldComplete ? 'opacity-40 cursor-not-allowed grayscale bg-white/5 border-white/10' : 'bg-[#5ed29c]/10 border-[#5ed29c]/20 hover:bg-[#5ed29c]/20 text-[#5ed29c]'}`}
               >
-                <span className={`relative z-10 flex items-center justify-center h-full ${isLocked || !isFieldComplete ? 'text-white/40' : 'text-indigo-300'} font-[800] text-xs uppercase tracking-widest gap-2`}>
-                  {isSkillComplete ? 'Retake Stage 2' : 'Launch Skills Test'} <ArrowRight size={16} />
+                <span className={`relative z-10 flex items-center justify-center h-full transform skew-x-[15deg] font-[900] text-[12px] uppercase tracking-[0.2em] gap-3 italic`}>
+                  {isSkillComplete ? 'Retake Stage 2' : 'Launch Skills Test'} <ArrowRight size={18} />
                 </span>
               </button>
             </div>
-            
+          </div>
+          
+          <div className="mt-14">
             <button 
               onClick={() => setShowFullRecommendations(true)}
-              className="text-[12px] text-white  font-black uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity"
+              className="group flex items-center gap-3 text-[12px] text-white font-[900] uppercase tracking-[0.3em] opacity-40 hover:opacity-100 transition-all italic"
             >
-              Review AI Recommendations
+              Review AI Recommendations <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
         </GlassCard>
 
 
-        <GlassCard className="rounded-[32px] p-10 bg-[#161a20]/60 border-white/5">
-          <p className="text-[11px]  font-[900] uppercase tracking-[0.4em] text-white/30 mb-10">Current Status</p>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="bg-white/5 border border-white/5 rounded-2xl p-6">
-              <p className="text-[10px]  font-black uppercase tracking-[0.2em] text-white/20 mb-2">Assessment Score</p>
-              <p className="text-4xl  font-[900] text-white uppercase tracking-tighter italic">{formatVal(user?.testResults?.score || 0)}%</p>
+        <GlassCard className="rounded-[60px] p-10 md:p-14 bg-[#161a20]/60 border-white/5 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
+          <p className="text-[11px] font-[900] uppercase tracking-[0.5em] text-white/30 mb-12">Current Status</p>
+          <div className="grid gap-6 sm:grid-cols-2 mb-12">
+            <div className="bg-white/[0.03] border border-white/5 rounded-[32px] p-8 hover:bg-white/[0.05] transition-colors">
+              <p className="text-[11px] font-[900] uppercase tracking-[0.3em] text-[#5ed29c] mb-4 italic">Assessment Score</p>
+              <p className="text-6xl font-[900] text-white uppercase tracking-tighter italic">{formatVal(user?.testResults?.score || 0)}%</p>
             </div>
-            <div className="bg-white/5 border border-white/5 rounded-2xl p-6">
-              <p className="text-[10px]  font-black uppercase tracking-[0.2em] text-white/20 mb-2">Completion</p>
-              <p className="text-2xl  font-[900] text-white uppercase tracking-tighter italic">{user?.isAssessmentComplete ? 'Active' : 'Pending'}</p>
+            <div className="bg-white/[0.03] border border-white/5 rounded-[32px] p-8 hover:bg-white/[0.05] transition-colors">
+              <p className="text-[11px] font-[900] uppercase tracking-[0.3em] text-white/20 mb-4 italic">Completion</p>
+              <p className="text-4xl font-[900] text-white uppercase tracking-tighter italic leading-none">{user?.isAssessmentComplete ? 'ACTIVE' : 'PENDING'}</p>
             </div>
           </div>
           {user?.testResults?.sectionResults?.length ? (
-            <div className="mt-10 space-y-4">
+            <div className="space-y-6">
+               <p className="text-[11px] font-[900] uppercase tracking-[0.4em] text-white/30 mb-6 italic">Neural Map</p>
               {user.testResults.sectionResults.map((section) => (
                 <SkillBar key={section.name} skill={section.name} level={section.score} />
               ))}
             </div>
           ) : (
-            <p className="mt-10 text-[13px]  font-medium italic text-white/20 uppercase tracking-widest">Take assessment to unlock deeper signals.</p>
+            <div className="py-20 text-center border border-dashed border-white/10 rounded-[40px]">
+               <p className="text-[13px] font-black italic text-white/20 uppercase tracking-[0.4em]">Initialize signals to unlock map.</p>
+            </div>
           )}
         </GlassCard>
       </div>
@@ -1394,21 +1410,22 @@ export function Dashboard() {
             <div className="absolute inset-0 w-full h-full bg-slate-950 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
             <Boxes />
 
-            <header className="sticky top-0 z-30 px-6 py-6 flex items-center justify-between pointer-events-none">
-              <div className="flex items-center gap-6 pointer-events-auto">
-                <h2 className="text-xl  font-[900] uppercase tracking-[0.2em] text-white italic">
-                  {activeTab === 'home' ? 'Cockpit' : activeTab === 'resume' ? 'Resume Lab' : activeTab === 'assessment' ? 'Skill Signal' : activeTab}
-                </h2>
-                <div className="h-4 w-[1px] bg-white/10" />
-                <p className="text-[10px]  font-black text-white/30 uppercase tracking-[0.2em]">Prepzo Satellite .01</p>
+            <header className="sticky top-0 z-30 px-8 py-10 flex items-center justify-between pointer-events-none font-rubik">
+              <div className="flex items-center gap-8 pointer-events-auto">
+                <div className="flex flex-col">
+                  <h2 className="text-2xl font-[900] uppercase tracking-[0.3em] text-white italic leading-none">
+                    {activeTab === 'home' ? 'Cockpit' : activeTab === 'resume' ? 'Resume Lab' : activeTab === 'assessment' ? 'Skill Signal' : activeTab}
+                  </h2>
+                  <p className="text-[10px] font-[900] text-[#5ed29c] uppercase tracking-[0.4em] mt-2 italic opacity-60">Prepzo Satellite .01</p>
+                </div>
               </div>
               
-              <div className="flex items-center gap-4 pointer-events-auto">
+              <div className="flex items-center gap-6 pointer-events-auto">
                 <div className="text-right hidden sm:block">
-                  <p className="text-[12px]  font-[900] text-white uppercase tracking-widest leading-none">{user?.fullName}</p>
-                  <p className="text-[9px]  font-black text-white/20 uppercase tracking-[0.2em] mt-1 italic">{user?.targetRole || 'Software Engineer'}</p>
+                  <p className="text-sm font-[900] text-white uppercase tracking-[0.2em] leading-none">{user?.fullName}</p>
+                  <p className="text-[10px] font-[900] text-white/20 uppercase tracking-[0.3em] mt-2 italic">{user?.targetRole || 'Software Engineer'}</p>
                 </div>
-                <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center  font-[900] text-white text-[13px] uppercase">
+                <div className="w-14 h-14 rounded-2xl bg-[#5ed29c]/5 border border-[#5ed29c]/10 flex items-center justify-center font-[900] text-white text-lg uppercase shadow-xl shadow-[#5ed29c]/5 group hover:border-[#5ed29c]/30 transition-all cursor-pointer">
                   {user?.fullName?.charAt(0)}
                 </div>
               </div>
