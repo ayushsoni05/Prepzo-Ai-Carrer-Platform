@@ -207,10 +207,10 @@ const TimerDisplay = memo(({ seconds, label, className }: { seconds: number; lab
   const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   
   return (
-    <div className={cn("flex flex-col", className)}>
-      <span className="text-[8px] md:text-[9px] font-black text-white/20 uppercase tracking-[0.2em] italic">{label}</span>
+    <div className={cn("flex flex-col font-rubik", className)}>
+      <span className="text-[10px] font-[900] text-[#5ed29c] uppercase tracking-[0.4em] italic mb-1">{label}</span>
       <span className={cn(
-        "font-[900] text-xl md:text-3xl tracking-tighter italic leading-none transition-colors duration-300",
+        "font-[900] text-2xl md:text-5xl tracking-tighter italic leading-none transition-colors duration-300",
         seconds < 60 && label.includes('Expiry') ? "text-red-400" : "text-white"
       )}>
         {timeStr}
@@ -232,96 +232,116 @@ const QuestionArea = memo(({
   onNavigate: (idx: number) => void;
   questionIndex: number;
 }) => (
-  <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-white/5 overflow-hidden group">
-    <div className="flex items-center justify-between mb-8 md:mb-10">
-      <div className="flex items-center gap-3 md:gap-4">
-        <span className="text-2xl md:text-3xl grayscale group-hover:grayscale-0 transition-all">{currentSection.section.icon}</span>
+  <div className="relative bg-[#070b0a] backdrop-blur-3xl rounded-[60px] p-8 md:p-14 border border-white/5 overflow-hidden group font-rubik shadow-2xl">
+    {/* Console Accents */}
+    <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#5ed29c]/20 to-transparent" />
+    
+    <div className="flex items-center justify-between mb-12 md:mb-16">
+      <div className="flex items-center gap-4 md:gap-6">
+        <div className="w-16 h-16 rounded-[24px] bg-[#5ed29c]/5 border border-[#5ed29c]/10 flex items-center justify-center grayscale group-hover:grayscale-0 transition-all shadow-lg shadow-[#5ed29c]/5">
+            <span className="text-3xl md:text-4xl">{currentSection.section.icon}</span>
+        </div>
         <div className="flex flex-col">
-           <span className="text-[8px] md:text-[9px] font-black text-white/20 uppercase tracking-[0.3em] italic">Current Segment</span>
-           <span className="text-[12px] md:text-[14px] font-black text-white uppercase italic tracking-widest">{currentSection.section.name}</span>
+           <span className="text-[10px] md:text-[11px] font-[900] text-[#5ed29c] uppercase tracking-[0.4em] italic leading-none mb-2">Operational Module</span>
+           <span className="text-xl md:text-3xl font-[900] text-white uppercase italic tracking-tight">{currentSection.section.name}</span>
         </div>
       </div>
       <div className="text-right">
-        <span className="text-[8px] md:text-[9px] font-black text-white/20 uppercase tracking-[0.3em] italic">Signal Pointer</span>
-        <p className="text-[12px] md:text-[14px] font-black text-white uppercase">Q {questionIndex + 1} <span className="text-white/20">/ {currentSection.questions.length}</span></p>
+        <span className="text-[10px] md:text-[11px] font-[900] text-white/30 uppercase tracking-[0.4em] italic mb-2 block">Diagnostic Pointer</span>
+        <p className="text-xl md:text-3xl font-[900] text-white uppercase tracking-tighter">
+            PROBE <span className="text-[#5ed29c]">{questionIndex + 1}</span> 
+            <span className="text-white/10 ml-2 font-[400] italic">/ {currentSection.questions.length}</span>
+        </p>
       </div>
     </div>
 
-    <div className="w-full h-[2px] bg-white/5 rounded-full overflow-hidden mb-8 md:mb-12">
+    <div className="w-full h-[4px] bg-white/5 rounded-full overflow-hidden mb-12 md:mb-16">
       <motion.div 
-        className="h-full bg-white shadow-[0_0_20px_rgba(255,255,255,0.4)]"
+        className="h-full bg-[#5ed29c] shadow-[0_0_25px_rgba(94,210,156,0.6)]"
         initial={{ width: 0 }}
         animate={{ width: `${((questionIndex + 1) / currentSection.questions.length) * 100}%` }}
-        transition={{ type: "spring", stiffness: 50 }}
+        transition={{ type: "spring", stiffness: 40 }}
       />
     </div>
 
-    <div className="flex flex-wrap gap-4 mb-8">
+    <div className="flex flex-wrap gap-4 mb-12">
       {currentQuestion.companyAskedIn && (
-        <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
-          <Target size={14} className="text-white/40" />
-          <span className="text-[10px] font-black text-white/60 uppercase tracking-widest italic">
-            Asked at {currentQuestion.companyAskedIn}
+        <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-[#5ed29c]/5 border border-[#5ed29c]/10">
+          <Target size={16} className="text-[#5ed29c]" />
+          <span className="text-[11px] font-[900] text-[#5ed29c] uppercase tracking-widest italic">
+            VERIFIED AT {currentQuestion.companyAskedIn}
           </span>
         </div>
       )}
-       <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10">
-          <Award size={14} className="text-white/40" />
-          <span className="text-[10px] font-black text-white/60 uppercase tracking-widest italic">
-            Grade: {currentQuestion.difficulty}
+       <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 border border-white/10">
+          <Award size={16} className="text-white/40" />
+          <span className="text-[11px] font-[900] text-white/60 uppercase tracking-widest italic">
+            Complexity: {currentQuestion.difficulty}
           </span>
         </div>
     </div>
 
-    <h3 className="text-xl md:text-3xl font-black text-white uppercase tracking-tight leading-tight mb-8 md:mb-12 italic">
+    <h3 className="text-2xl md:text-5xl font-[900] text-white uppercase tracking-tighter leading-[1.1] mb-12 md:mb-20 italic">
       {currentQuestion.question}
     </h3>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-8 md:mb-12">
-      {currentQuestion.options.map((option, idx) => (
-        <button
-          key={idx}
-          onClick={() => onAnswer(currentQuestion.id, idx)}
-          className={`group/opt relative p-4 md:p-6 rounded-[20px] md:rounded-[24px] text-left transition-all duration-300 transform active:scale-[0.98] border ${
-            currentSection.answers[currentQuestion.id] === idx
-              ? 'bg-white border-white'
-              : 'bg-white/5 border-white/5 h-full hover:bg-white/10 hover:border-white/10'
-          }`}
-        >
-          <div className="flex items-center gap-4 md:gap-5">
-            <span className={`flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-[12px] md:rounded-[14px] text-[12px] md:text-[14px] font-[900] transition-colors ${
-              currentSection.answers[currentQuestion.id] === idx
-                ? 'bg-[#161a20] text-white'
-                : 'bg-white/5 text-white/20 group-hover/opt:text-white/60'
-            }`}>
-              {String.fromCharCode(65 + idx)}
-            </span>
-            <span className={`text-[13px] md:text-[15px] font-medium italic ${
-              currentSection.answers[currentQuestion.id] === idx ? 'text-[#161a20]' : 'text-white/60 group-hover/opt:text-white'
-            }`}>
-              {option}
-            </span>
-          </div>
-        </button>
-      ))}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-12 md:mb-20">
+      {currentQuestion.options.map((option, idx) => {
+        const isSelected = currentSection.answers[currentQuestion.id] === idx;
+        return (
+          <button
+            key={idx}
+            onClick={() => onAnswer(currentQuestion.id, idx)}
+            className={`group/opt relative p-6 md:p-8 rounded-[32px] text-left transition-all duration-300 transform active:scale-[0.98] border ${
+              isSelected
+                ? 'bg-[#5ed29c] border-[#5ed29c] shadow-2xl shadow-[#5ed29c]/20'
+                : 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/10 h-full'
+            }`}
+          >
+            <div className="flex items-center gap-6">
+              <span className={`flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-[16px] text-[14px] md:text-[16px] font-[900] transition-colors ${
+                isSelected
+                  ? 'bg-[#0a0c10] text-[#5ed29c]'
+                  : 'bg-white/5 text-white/20 group-hover/opt:text-white/60'
+              }`}>
+                {String.fromCharCode(65 + idx)}
+              </span>
+              <span className={`text-[15px] md:text-[18px] font-bold italic leading-tight ${
+                isSelected ? 'text-[#0a0c10]' : 'text-white/60 group-hover/opt:text-white'
+              }`}>
+                {option}
+              </span>
+            </div>
+            {isSelected && (
+              <div className="absolute right-8 top-1/2 -translate-y-1/2">
+                <CheckCircle size={24} className="text-[#0a0c10]" />
+              </div>
+            )}
+          </button>
+        );
+      })}
     </div>
 
-    <div className="flex flex-wrap gap-2 mb-8 md:mb-12 p-4 md:p-5 rounded-[24px] md:rounded-[28px] bg-white/5 border border-white/5 max-h-[140px] md:max-h-none overflow-y-auto">
-      {currentSection.questions.map((q: any, idx: number) => (
-        <button
-          key={q.id}
-          onClick={() => onNavigate(idx)}
-          className={`w-9 h-9 md:w-11 md:h-11 rounded-[12px] md:rounded-[14px] text-[10px] md:text-[12px] font-black transition-all duration-300 border ${
-            idx === questionIndex
-              ? 'bg-white text-[#161a20] border-white scale-110 shadow-[0_10px_25px_rgba(255,255,255,0.2)]'
-              : currentSection.answers[q.id] !== undefined
-              ? 'bg-white/20 text-white border-white/20'
-              : 'bg-white/5 text-white/10 border-transparent hover:border-white/10'
-          }`}
-        >
-          {idx + 1}
-        </button>
-      ))}
+    <div className="flex flex-wrap gap-2 md:gap-3 p-6 md:p-8 rounded-[40px] bg-white/5 border border-white/5 max-h-[180px] md:max-h-none overflow-y-auto backdrop-blur-md">
+      {currentSection.questions.map((q: any, idx: number) => {
+        const isCurrent = idx === questionIndex;
+        const isAnswered = currentSection.answers[q.id] !== undefined;
+        return (
+          <button
+            key={q.id}
+            onClick={() => onNavigate(idx)}
+            className={`w-10 h-10 md:w-14 md:h-14 rounded-[16px] md:rounded-[20px] text-[11px] md:text-[13px] font-[900] transition-all duration-300 border ${
+              isCurrent
+                ? 'bg-[#5ed29c] text-[#0a0c10] border-[#5ed29c] scale-110 shadow-2xl shadow-[#5ed29c]/30'
+                : isAnswered
+                ? 'bg-[#5ed29c]/20 text-[#5ed29c] border-[#5ed29c]/20'
+                : 'bg-white/5 text-white/10 border-transparent hover:border-white/10'
+            }`}
+          >
+            {idx + 1}
+          </button>
+        );
+      })}
     </div>
   </div>
 ));
