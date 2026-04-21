@@ -2,8 +2,6 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, 
-  Clock, 
-  CheckCircle2, 
   ChevronRight, 
   ChevronLeft,
   Search,
@@ -28,12 +26,12 @@ interface Question {
 }
 
 interface SkillCategory {
-  skillName: string;
+  skillName?: string;
+  fieldName?: string;
   questions: Question[];
 }
 
 export const InterviewPage = ({ onNavigate }: { onNavigate: (page: string) => void }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [timer, setTimer] = useState(90);
@@ -56,10 +54,11 @@ export const InterviewPage = ({ onNavigate }: { onNavigate: (page: string) => vo
     ...fieldSpecific
   };
 
-  const skillKeys = Object.keys(allSkills).filter(key => 
-    key.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    allSkills[key].skillName.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const skillKeys = Object.keys(allSkills).filter(key => {
+    const skill = allSkills[key];
+    const name = (skill.skillName || skill.fieldName || '').toLowerCase();
+    return key.toLowerCase().includes(searchQuery.toLowerCase()) || name.includes(searchQuery.toLowerCase());
+  });
 
   const currentSkillData = selectedSkill ? allSkills[selectedSkill] : null;
   const currentQuestion = currentSkillData ? currentSkillData.questions[currentQuestionIndex] : null;
@@ -179,7 +178,7 @@ export const InterviewPage = ({ onNavigate }: { onNavigate: (page: string) => vo
                     >
                       <div className="flex items-center justify-between">
                         <span className="text-[11px] font-black uppercase tracking-widest">
-                          {allSkills[key].skillName}
+                          {allSkills[key].skillName || allSkills[key].fieldName}
                         </span>
                         <ChevronRight size={14} className={`opacity-0 group-hover:opacity-100 ${selectedSkill === key ? 'opacity-100' : ''}`} />
                       </div>
