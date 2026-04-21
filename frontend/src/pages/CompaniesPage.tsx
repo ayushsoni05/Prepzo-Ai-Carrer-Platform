@@ -317,7 +317,7 @@ export function CompaniesPage() {
             <p className="text-white/30 font-rubik font-bold uppercase text-[13px] tracking-wide">Try re-calibrating your search</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             <AnimatePresence>
               {companies.map((company, idx) => (
                 <motion.div
@@ -387,7 +387,7 @@ function FeaturedCompanyCard({
 }) {
   return (
     <div
-      className="group relative min-w-[320px] bg-[#161a20]/40 border border-white/5 rounded-[32px] p-8 transition-all hover:bg-[#1c2128] hover:border-[#00ff9d]/30 cursor-pointer overflow-hidden shadow-2xl"
+      className="group relative min-w-[280px] bg-[#161a20]/40 border border-white/5 rounded-[28px] p-6 transition-all hover:bg-[#1c2128] hover:border-[#00ff9d]/30 cursor-pointer overflow-hidden shadow-2xl"
       onClick={onClick}
     >
       <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -444,7 +444,7 @@ function CompanyCard({
 }) {
   return (
     <div
-      className="group relative bg-[#161a20]/40 border border-white/5 rounded-[32px] p-8 transition-all hover:bg-[#1c2128] hover:border-white/20 hover:scale-[1.01] cursor-pointer shadow-2xl backdrop-blur-sm"
+      className="group relative bg-[#161a20]/40 border border-white/5 rounded-[28px] p-6 transition-all hover:bg-[#1c2128] hover:border-white/20 hover:scale-[1.01] cursor-pointer shadow-2xl backdrop-blur-sm"
       onClick={onClick}
     >
       <div className="absolute top-0 right-0 p-8 opacity-0 group-hover:opacity-100 transition-opacity">
