@@ -8,10 +8,7 @@ import {
   ShieldCheck,
   Sparkles,
   Target,
-  ChevronRight,
   CheckCircle2,
-  CircleDashed,
-  TrendingUp,
   Download,
   Zap,
   Award,
@@ -42,6 +39,7 @@ import { ResumeRenderer } from '@/components/resume/ResumeRenderer';
 import ThinkingLoader from '@/components/ui/loading';
 import allTemplates from '@/data/templates.json';
 import { Boxes } from '@/components/ui/background-boxes';
+import { QuestionBank } from '@/components/interview/QuestionBank';
 
 
 
@@ -201,8 +199,6 @@ export function Dashboard() {
   const activeTab = (dashboardTab as DashboardTab) || 'home';
   const readinessScore = user?.placementReadinessScore || 68.42;
   const atsScore = resumeAnalysis?.overallScore ?? user?.atsScore ?? 0;
-  const interviewScore = user?.interviewScore || 72.15;
-  const skillsScore = user?.skillsMatchedScore || 74.88;
 
   const skillBars = useMemo(() => {
     const technologies = user?.knownTechnologies?.slice(0, 4) || ['React', 'Node.js', 'System Design', 'Problem Solving'];
@@ -211,37 +207,6 @@ export function Dashboard() {
       level: Math.max(55, Math.min(94, readinessScore - 8 + index * 7.25)),
     }));
   }, [readinessScore, user?.knownTechnologies]);
-
-  const focusAreas = user?.skillGaps?.length ? user.skillGaps.slice(0, 4) : ['System design', 'Mock interviews', 'Resume positioning', 'SQL fluency'];
-  const strengths = user?.strengths?.length ? user.strengths.slice(0, 3) : ['Fast learner', 'Product mindset', 'Communication'];
-
-  const progressChecklist = useMemo(
-    () => [
-      { label: 'Profile completed', done: !!user?.isOnboarded },
-      { label: 'Resume uploaded', done: !!resumeInfo?.resumeUrl },
-      { label: 'ATS analyzed', done: !!resumeAnalysis },
-      { label: 'Assessment completed', done: !!user?.isAssessmentComplete },
-    ],
-    [resumeAnalysis, resumeInfo?.resumeUrl, user?.isAssessmentComplete, user?.isOnboarded]
-  );
-
-  const recentActivity = useMemo(
-    () => [
-      {
-        title: user?.isAssessmentComplete ? 'Assessment completed' : 'Assessment pending',
-        subtitle: user?.isAssessmentComplete ? 'Your score is recorded in dashboard analytics.' : 'Take your first test to unlock deeper recommendations.',
-      },
-      {
-        title: resumeAnalysis ? 'ATS analysis updated' : 'ATS analysis not started',
-        subtitle: resumeAnalysis ? `Latest ATS score: ${formatVal(resumeAnalysis.overallScore || atsScore)}%` : 'Run Resume Lab checker to generate keyword and fit insights.',
-      },
-      {
-        title: 'Placement workspace connected',
-        subtitle: 'Jobs, companies, applications, and network are available from the left panel.',
-      },
-    ],
-    [atsScore, resumeAnalysis, user?.isAssessmentComplete]
-  );
 
   const shellCards = [
     {
@@ -348,21 +313,24 @@ export function Dashboard() {
   const renderHome = () => (
     <div className="space-y-10 selection:bg-white selection:text-black">
       {/* Row 1: Welcome + Mentor, side by side, equal width */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-        <GlassCard className="rounded-[32px] md:rounded-[40px] p-6 md:p-10 h-full flex flex-col justify-between bg-[#161a20]/40 border-white/5 backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-8 opacity-5">
-            <Bot size={80} />
-          </div>
-          <div className="relative z-10">
-            <p className="text-[10px]  font-[900] uppercase tracking-[0.4em] text-white/30 mb-6 md:mb-8">Career Cockpit</p>
-            <h1 className="text-3xl md:text-5xl  font-[900] text-white uppercase tracking-tighter leading-[0.9] italic mb-6 md:mb-8">
-              Welcome back,<br/>
-              <span className="text-white/40">{user?.fullName?.split(' ')[0] || 'there'}.</span>
-            </h1>
-            <p className="max-w-xl text-[15px]  font-medium tracking-tight leading-relaxed text-white/50 mb-10">
-              Prepzo has synchronized your AI mentor, readiness scores, and placement signals into your personal command center.
-            </p>
-            <div className="flex flex-wrap gap-6">
+      <GlassCard className="rounded-[40px] p-8 md:p-12 mb-8 bg-[#161a20]/40 border-white/5 backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
+        <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
+          <Bot size={120} />
+        </div>
+        <div className="relative z-10">
+          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-500/60 mb-6">Career Cockpit</p>
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+            <div className="max-w-2xl">
+              <h1 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.9] italic mb-6">
+                Welcome back,<br/>
+                <span className="text-white/40">{user?.fullName?.split(' ')[0] || 'there'}.</span>
+              </h1>
+              <p className="text-[15px] font-medium tracking-tight leading-relaxed text-white/50">
+                Prepzo has synchronized your AI mentor, readiness scores, and placement signals into this command center. Your floating mentor stays available across pages with context-aware logic.
+              </p>
+            </div>
+            
+            <div className="flex flex-wrap gap-4">
               <button 
                 onClick={() => setDashboardTab('assessment')}
                 className="relative h-[55px] px-8 group active:scale-95 transition-transform"
@@ -370,59 +338,15 @@ export function Dashboard() {
                 <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                   <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
                 </svg>
-                <span className="relative z-10 flex items-center justify-center h-full text-[#161a20]  font-[800] text-sm uppercase tracking-widest gap-2">
+                <span className="relative z-10 flex items-center justify-center h-full text-[#161a20] font-black text-xs uppercase tracking-widest gap-2">
                   Continue Prep <ArrowRight size={16} />
                 </span>
               </button>
-              
-              <button 
-                onClick={() => setShowFullRecommendations(true)}
-                className="text-[12px] text-white  font-black uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity"
-              >
-                Open AI Career Recommendation
-              </button>
             </div>
           </div>
-        </GlassCard>
+        </div>
+      </GlassCard>
 
-        <GlassCard className="rounded-[32px] md:rounded-[40px] p-6 md:p-10 h-full flex flex-col justify-between bg-[#161a20]/40 border-white/5 backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-8 opacity-5">
-            <Sparkles size={80} />
-          </div>
-          <div className="relative z-10">
-            <p className="text-[10px]  font-[900] uppercase tracking-[0.4em] text-white/30 mb-6 md:mb-8">AI Mentor Signal</p>
-            <h2 className="text-2xl md:text-3xl  font-[900] text-white uppercase tracking-tight mb-6 md:mb-8 italic">Mentor Surface</h2>
-            <p className="text-[15px]  font-medium tracking-tight leading-relaxed text-white/50 mb-10">Your floating mentor stays available across pages with context-aware logic and role-based guidance.</p>
-            
-            <div className="grid grid-cols-1 gap-4">
-              {['Build system design roadmap', 'Coach me for frontend interview'].map((prompt) => (
-                <div key={prompt} className="bg-white/5 border border-white/5 rounded-2xl px-6 py-4 text-[13px]  font-bold text-white/40 uppercase tracking-widest hover:bg-white/10 transition-colors cursor-pointer">
-                  {prompt}
-                </div>
-              ))}
-            </div>
-          </div>
-        </GlassCard>
-      </div>
-
-      {/* Row 2: Metrics */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {[
-          { label: 'Readiness', value: readinessScore, icon: TrendingUp },
-          { label: 'ATS Fit', value: atsScore, icon: FileText },
-          { label: 'Interview', value: interviewScore, icon: Bot },
-          { label: 'Skill Match', value: skillsScore, icon: Sparkles },
-        ].map((metric) => (
-          <GlassCard key={metric.label} className="rounded-[32px] p-8 border-white/5 bg-[#161a20]/40 backdrop-blur-2xl">
-            <div className="flex justify-between items-start mb-10">
-              <metric.icon size={20} className="text-white/20" />
-              <span className="text-[9px] font-black uppercase tracking-[0.3em] text-code-green bg-code-green/10 px-2 py-0.5 rounded">Verified</span>
-            </div>
-            <p className="text-4xl  font-[900] text-white tracking-tighter leading-none mb-4">{formatVal(metric.value)}<span className="text-lg opacity-30 italic">%</span></p>
-            <p className="text-[10px]  font-black uppercase tracking-[0.2em] text-white/30">{metric.label} SIGNAL</p>
-          </GlassCard>
-        ))}
-      </div>
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
         <GlassCard className="rounded-2xl p-6 xl:col-span-12">
@@ -446,9 +370,13 @@ export function Dashboard() {
 
       <QuickInsightsWidget onViewFull={() => setShowFullRecommendations(true)} />
 
-      {/* Question Bank Series Placeholder - To be implemented next */}
-      <div id="question-bank-container" className="pointer-events-auto">
-        {/* We will inject the QuestionBank component here */}
+      {/* Question Bank Series */}
+      <div id="question-bank-container" className="pointer-events-auto mt-12">
+        <div className="mb-8">
+          <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 mb-2">Pre-Placement Prep</h2>
+          <h1 className="text-3xl font-black text-white uppercase tracking-tighter italic">Interview Question Bank</h1>
+        </div>
+        <QuestionBank />
       </div>
     </div>
   );
