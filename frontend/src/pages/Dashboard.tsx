@@ -26,8 +26,7 @@ import {
   Briefcase,
   ArrowUpRight
 } from 'lucide-react';
-import Sidebar from '@/components/navigation/Sidebar';
-import { MobileNav } from '@/components/navigation/MobileNav';
+import { type Job } from '@/api/jobs';
 import { showSuccess, showError, showInfo } from '@/utils/toastManager';
 import { jsPDF } from 'jspdf';
 import { GlassButton, GlassCard } from '@/components/ui/GlassCard';
@@ -37,7 +36,6 @@ import { SearchableDropdown } from '@/components/ui/SearchableDropdown';
 import { useAuthStore } from '@/store/authStore';
 import { useAppStore } from '@/store/appStore';
 import QuickInsightsWidget from '@/components/recommendations/QuickInsightsWidget';
-import AIRecommendationsPanel from '@/components/recommendations/AIRecommendationsPanel';
 import { ProctoredAssessment } from '@/components/assessment/ProctoredAssessment';
 import { uploadApi, type ResumeInfo } from '@/api/auth';
 import { ResumeRenderer } from '@/components/resume/ResumeRenderer';
@@ -112,7 +110,7 @@ const demoJDs = [
 ];
 
 export function Dashboard() {
-  const { user, updateUser, completeAssessmentAsync } = useAuthStore();
+  const { user, completeAssessmentAsync } = useAuthStore();
   const {
     dashboardTab,
     setDashboardTab,
@@ -124,7 +122,6 @@ export function Dashboard() {
     generatedResume,
     resumeGenerationLoading,
     generateResume,
-    showFullRecommendations,
     setShowFullRecommendations
   } = useAppStore();
   const [startAssessment, setStartAssessment] = useState<false | 'field' | 'skills'>(false);
@@ -137,7 +134,6 @@ export function Dashboard() {
   const [resumeWorkspace, setResumeWorkspace] = useState<'selection' | 'maker' | 'ats' | 'gallery'>('selection');
   const [opportunitiesWorkspace, setOpportunitiesWorkspace] = useState<'selection' | 'jobs' | 'companies' | 'applications' | 'network'>('selection');
   const [isResumeUploading, setIsResumeUploading] = useState(false);
-  const [newCompanyName, setNewCompanyName] = useState('');
   const [dashboardJobs, setDashboardJobs] = useState<Job[]>([]);
   const [dashboardJobsLoading, setDashboardJobsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -251,22 +247,22 @@ export function Dashboard() {
     {
       title: 'Jobs',
       description: 'Track role-matched openings with cleaner filters and calmer surfaces.',
-      action: () => setOpportunitiesWorkspace('jobs'),
+      action: () => window.location.hash = 'jobs',
     },
     {
       title: 'Companies',
       description: 'Company prep, hiring signals, and target lists in a premium workspace.',
-      action: () => setOpportunitiesWorkspace('companies'),
+      action: () => window.location.hash = 'companies',
     },
     {
       title: 'Applications',
       description: 'Review application status, momentum, and next actions in one view.',
-      action: () => setOpportunitiesWorkspace('applications'),
+      action: () => window.location.hash = 'applications',
     },
     {
       title: 'Network',
       description: 'Stay connected to peers, mentors, and warm opportunities.',
-      action: () => setOpportunitiesWorkspace('network'),
+      action: () => window.location.hash = 'network',
     },
   ];
 
@@ -1315,36 +1311,7 @@ export function Dashboard() {
     );
   };
 
-  const handleAddCompany = async () => {
-    if (!newCompanyName.trim()) return;
-    
-    const currentCompanies = user?.preferredCompanies || [];
-    if (currentCompanies.includes(newCompanyName.trim())) {
-      showInfo('Company already in your target list.');
-      return;
-    }
-
-    try {
-      await updateUser({
-        preferredCompanies: [...currentCompanies, newCompanyName.trim()]
-      });
-      setNewCompanyName('');
-      showSuccess(`${newCompanyName} added to target list.`);
-    } catch {
-      showError('Failed to update target companies.');
-    }
-  };
-
-  const handleRemoveCompany = async (name: string) => {
-    try {
-      await updateUser({
-        preferredCompanies: (user?.preferredCompanies || []).filter(c => c !== name)
-      });
-      showSuccess(`${name} removed from target list.`);
-    } catch {
-      showError('Failed to update target companies.');
-    }
-  };
+  // Target company handlers moved to dedicated Companies workspace.
 
   const renderOpportunities = () => {
     if (opportunitiesWorkspace === 'selection') {
@@ -1462,14 +1429,12 @@ export function Dashboard() {
                           {job.jobType?.replace('_', ' ')}
                         </div>
                       </div>
-                      <a 
-                        href={job.applicationLink} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
+                      <button 
+                        onClick={() => window.location.hash = 'jobs'}
                         className="text-[10px] font-black text-blue-400 uppercase tracking-widest hover:text-white transition-colors flex items-center gap-2"
                       >
                         Apply Now <ArrowUpRight size={12} />
-                      </a>
+                      </button>
                     </div>
                   </GlassCard>
                 ))}
@@ -1482,78 +1447,8 @@ export function Dashboard() {
           </div>
         )}
 
-        {opportunitiesWorkspace === 'companies' && (
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
-            <div className="lg:col-span-12">
-              <GlassCard className="rounded-[40px] p-10 md:p-16 bg-[#161a20]/60 border-white/5 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
-                
-                <p className="text-[11px]  font-[900] uppercase tracking-[0.5em] text-white/30 mb-8">Intelligence Layer</p>
-                <h3 className="text-4xl md:text-6xl  font-[900] text-white uppercase tracking-tighter mb-10 italic">
-                  Company <span className="text-emerald-400">Tracker.</span>
-                </h3>
-
-                <div className="max-w-2xl space-y-10">
-                  <div className="relative group">
-                    <input 
-                      type="text"
-                      value={newCompanyName}
-                      onChange={(e) => setNewCompanyName(e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && handleAddCompany()}
-                      placeholder="Enter target company name (e.g. Google, NVIDIA)..."
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white text-lg  font-bold placeholder:text-white/20 focus:outline-none focus:border-emerald-500/50 transition-all"
-                    />
-                    <button 
-                      onClick={handleAddCompany}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 h-12 px-8 bg-emerald-500 text-[#161a20]  font-black text-[11px] uppercase tracking-widest rounded-xl hover:bg-emerald-400 active:scale-95 transition-all"
-                    >
-                      Add Signal
-                    </button>
-                  </div>
-
-                  <div className="pt-10 border-t border-white/5">
-                    <p className="text-[10px]  font-black uppercase tracking-[0.3em] text-white/20 mb-8">Active Targets</p>
-                    <div className="flex flex-wrap gap-4">
-                      {user?.preferredCompanies && user.preferredCompanies.length > 0 ? (
-                        user.preferredCompanies.map((company) => (
-                          <div 
-                            key={company}
-                            className="group relative px-8 py-5 rounded-2xl bg-white/5 border border-white/5 hover:border-white/20 transition-all flex items-center gap-6"
-                          >
-                            <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
-                            <span className="text-lg  font-black text-white uppercase tracking-tighter italic">{company}</span>
-                            <button 
-                              onClick={() => handleRemoveCompany(company)}
-                              className="opacity-0 group-hover:opacity-100 p-2 hover:bg-red-500/20 rounded-lg text-red-400 transition-all"
-                            >
-                              <ArrowRight size={14} className="rotate-45" />
-                            </button>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="w-full py-20 text-center border-2 border-dashed border-white/5 rounded-3xl">
-                          <p className="text-[11px]  font-black text-white/20 uppercase tracking-widest italic">No companies tracked yet. Start monitoring common targets.</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </GlassCard>
-            </div>
-          </div>
-        )}
-
-        {['applications', 'network'].includes(opportunitiesWorkspace) && (
-          <div className="h-[600px] flex flex-col items-center justify-center text-center">
-            <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-10">
-               <Bot className="w-10 h-10 text-white/20 animate-pulse" />
-            </div>
-            <h3 className="text-3xl  font-[900] text-white uppercase tracking-tighter italic mb-4">Workspace <span className="text-white/40">Empty.</span></h3>
-            <p className="text-[13px]  font-medium text-white/30 uppercase tracking-widest max-w-sm mx-auto">
-              You haven't initiated any {opportunitiesWorkspace} signals yet. Your progress will appear here in real-time.
-            </p>
-          </div>
-        )}
+        {/* The sub-workspace views for companies, apps, and network are now handle by full pages. 
+            Keeping the 'jobs' lite view for quick dashboard check if needed, but it also has an 'Open Full Workspace' button. */}
       </div>
     );
   };
@@ -1669,34 +1564,9 @@ export function Dashboard() {
         <div className="absolute right-[-10%] bottom-[-10%] h-[600px] w-[600px] rounded-full bg-white/5 blur-[150px] opacity-20" />
       </div>
 
-      {/* Mobile Bottom Navigation */}
-      {!startAssessment && (
-        <MobileNav
-          active={activeTab}
-          onNavigate={(id: string) => {
-            if (id === 'mentor') setShowFullRecommendations(true);
-            else if (id === 'jobs') setDashboardTab('opportunities');
-            else setDashboardTab(id as DashboardTab);
-          }}
-          badgeMap={atsScore > 0 ? { jobs: atsScore } : {}}
-          lockedItems={!isFullyQualified ? ['overview', 'resume', 'jobs', 'settings'] : []}
-        />
-      )}
-
-      {/* Desktop Sidebar and Main Layout */}
       {!startAssessment ? (
-        <div className="hidden md:flex">
-          <Sidebar
-            active={activeTab}
-            onNavigate={(id: string) => {
-              if (id === 'mentor') setShowFullRecommendations(true);
-              else if (id === 'jobs') setDashboardTab('opportunities');
-              else setDashboardTab(id as DashboardTab);
-            }}
-            badgeMap={atsScore > 0 ? { jobs: atsScore } : {}}
-            lockedItems={!isFullyQualified ? ['overview', 'resume', 'opportunities', 'settings'] : []}
-          />
-          <main className="min-w-0 flex-1 h-screen overflow-y-auto overflow-x-hidden custom-scrollbar relative z-10 flex flex-col bg-slate-950">
+        <div className="flex w-full">
+          <main className="min-w-0 flex-1 min-h-screen relative z-10 flex flex-col bg-slate-950 overflow-x-hidden">
             <div className="absolute inset-0 w-full h-full bg-slate-950 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
             <Boxes />
 
@@ -1757,8 +1627,6 @@ export function Dashboard() {
         </div>
       )}
 
-      {/* AI Mentor Panel */}
-      {!startAssessment && showFullRecommendations && <AIRecommendationsPanel onClose={() => setShowFullRecommendations(false)} />}
     </div>
   );
 }

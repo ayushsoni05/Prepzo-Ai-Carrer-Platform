@@ -15,6 +15,8 @@ import { ApplicationsPage } from '@/pages/ApplicationsPage';
 import { NetworkPage } from '@/pages/NetworkPage';
 import TetrisDemo from '@/pages/TetrisDemo';
 import ThinkingLoader from '@/components/ui/loading';
+import Sidebar from '@/components/navigation/Sidebar';
+import { MobileNav } from '@/components/navigation/MobileNav';
 
 type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo';
 
@@ -31,7 +33,7 @@ export default function App() {
   const [authValidated, setAuthValidated] = useState(false);
   const initRef = useRef(false);
   const { isAuthenticated, user, fetchUser } = useAuthStore();
-  const { loadResumeAnalysisFromBackend, darkMode, setDashboardTab } = useAppStore();
+  const { loadResumeAnalysisFromBackend, darkMode } = useAppStore();
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
@@ -192,6 +194,19 @@ export default function App() {
     );
   }
 
+  // Map current page to sidebar active ID
+  const getSidebarActiveId = (page: Page) => {
+    if (page === 'dashboard') return 'overview';
+    if (['jobs', 'companies', 'applications', 'network'].includes(page)) return 'opportunities';
+    return page;
+  };
+
+  const isFieldComplete = user?.isFieldTestComplete;
+  const isSkillComplete = user?.isSkillTestComplete;
+  const isFullyQualified = isFieldComplete && isSkillComplete;
+
+  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network'].includes(currentPage);
+
   return (
     <div className="page-shell">
       <Toaster
@@ -223,13 +238,32 @@ export default function App() {
       {currentPage === 'landing' && <LandingPage onNavigate={handleNavigate} />}
       {currentPage === 'login' && <AuthPage mode="login" onNavigate={handleNavigate} />}
       {currentPage === 'signup' && <AuthPage mode="signup" onNavigate={handleNavigate} />}
-      {currentPage === 'dashboard' && <Dashboard />}
+      
+      {/* Workspace Pages wrapped in MainLayout */}
+      {isWorkspacePage && (
+        <div className="flex min-h-screen">
+          <Sidebar 
+            active={getSidebarActiveId(currentPage)} 
+            onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'overview' ? 'dashboard' : id)}
+            lockedItems={!isFullyQualified ? ['overview', 'resume', 'opportunities', 'settings'] : []}
+          />
+          <main className="flex-1">
+            {currentPage === 'dashboard' && <Dashboard />}
+            {currentPage === 'jobs' && <JobsPage />}
+            {currentPage === 'companies' && <CompaniesPage />}
+            {currentPage === 'applications' && <ApplicationsPage />}
+            {currentPage === 'network' && <NetworkPage />}
+          </main>
+          <MobileNav
+            active={getSidebarActiveId(currentPage)}
+            onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'overview' ? 'dashboard' : id)}
+            lockedItems={!isFullyQualified ? ['overview', 'resume', 'opportunities', 'settings'] : []}
+          />
+        </div>
+      )}
+
       {currentPage === 'admin' && <AdminPanel onNavigate={handleNavigate} />}
       {currentPage === 'onboarding' && <OnboardingPage onNavigate={handleNavigate} />}
-      {currentPage === 'jobs' && <JobsPage />}
-      {currentPage === 'companies' && <CompaniesPage />}
-      {currentPage === 'applications' && <ApplicationsPage />}
-      {currentPage === 'network' && <NetworkPage />}
       {currentPage === 'tetris-demo' && <TetrisDemo />}
       
       {/* Prepzo AI Mentor - Available on all authenticated pages (ChatGPT-style) */}
