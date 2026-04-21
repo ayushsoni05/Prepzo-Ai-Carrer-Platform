@@ -1421,7 +1421,7 @@ export function Dashboard() {
 
       {!startAssessment ? (
         <div className="flex w-full">
-          <main className="min-w-0 flex-1 h-screen relative z-10 flex flex-col bg-slate-950 overflow-y-auto overflow-x-hidden">
+          <main className="min-w-0 flex-1 relative z-10 flex flex-col bg-slate-950">
             <div className="absolute inset-0 w-full h-full bg-slate-950 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
             <Boxes />
 

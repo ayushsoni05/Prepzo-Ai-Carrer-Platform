@@ -253,7 +253,7 @@ export default function App() {
             onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
             lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
           />
-          <main className="flex-1">
+          <main className="flex-1 h-full overflow-y-auto overflow-x-hidden custom-scrollbar">
             {(currentPage === 'dashboard' || currentPage === 'resume' || currentPage === 'settings' || currentPage === 'assessment') && <Dashboard />}
             {currentPage === 'jobs' && <JobsPage />}
             {currentPage === 'companies' && <CompaniesPage />}
