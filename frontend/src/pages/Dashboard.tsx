@@ -27,7 +27,6 @@ import { type Job } from '@/api/jobs';
 import { showSuccess, showError, showInfo } from '@/utils/toastManager';
 import { jsPDF } from 'jspdf';
 import { GlassButton, GlassCard } from '@/components/ui/GlassCard';
-import ThemeToggle from '@/components/ui/ThemeToggle';
 import { CircularProgress, SkillBar } from '@/components/ui/CircularProgress';
 import { SearchableDropdown } from '@/components/ui/SearchableDropdown';
 import { useAuthStore } from '@/store/authStore';
@@ -40,6 +39,7 @@ import ThinkingLoader from '@/components/ui/loading';
 import allTemplates from '@/data/templates.json';
 import { Boxes } from '@/components/ui/background-boxes';
 import { QuestionBank } from '@/components/interview/QuestionBank';
+import { SettingsForm } from '@/components/profile/SettingsForm';
 
 
 
@@ -1307,39 +1307,8 @@ export function Dashboard() {
   };
 
   const renderSettings = () => (
-    <div className="grid grid-cols-1 gap-8 xl:grid-cols-12 selection:bg-white selection:text-black">
-      <GlassCard className="rounded-[32px] p-10 xl:col-span-5 bg-[#161a20]/60 border-white/5">
-        <p className="text-[11px]  font-[900] uppercase tracking-[0.4em] text-white/30 mb-8">Appearance</p>
-        <h2 className="text-3xl  font-[900] text-white uppercase tracking-tight mb-8 italic">Theme Signal</h2>
-        <p className="text-[15px]  font-medium tracking-tight leading-relaxed text-white/50 mb-10">Switch instantly between light and dark glass themes with smooth transitions across the entire platform.</p>
-        <div className="mt-8">
-          <ThemeToggle />
-        </div>
-      </GlassCard>
-
-      <GlassCard className="rounded-[32px] p-10 xl:col-span-7 bg-[#161a20]/60 border-white/5">
-        <div className="flex items-center gap-8 mb-10">
-          <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-2xl backdrop-blur-3xl">
-            <span className="text-3xl  font-[900] text-white">{user?.fullName?.charAt(0) || 'U'}</span>
-          </div>
-          <div>
-            <h3 className="text-2xl  font-[900] text-white uppercase tracking-tighter italic">{user?.fullName || 'Student'}</h3>
-            <p className="text-[11px]  font-black text-white/40 uppercase tracking-[0.3em] mt-2">{user?.targetRole || 'Software Engineer'}</p>
-          </div>
-        </div>
-        <p className="text-[10px]  font-[900] uppercase tracking-[0.3em] text-white/30 mb-8">Profile Summary</p>
-        <div className="grid gap-4 md:grid-cols-2">
-          {[
-            ['College', user?.collegeName || ''],
-            ['Degree', user?.degree || ''],
-          ].map(([label, value]) => (
-            <div key={label} className="bg-white/5 border border-white/5 rounded-2xl p-6">
-              <p className="text-[10px]  font-black uppercase tracking-[0.22em] text-white/20 mb-2">{label}</p>
-              <p className="text-[13px]  font-black text-white uppercase tracking-widest">{value || 'Not set'}</p>
-            </div>
-          ))}
-        </div>
-      </GlassCard>
+    <div className="pb-20">
+      <SettingsForm />
     </div>
   );
 
