@@ -242,10 +242,22 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
 
   const handleComplete = async () => {
     try {
-      await completeOnboardingAsync({
-        collegeName, degree, fieldOfStudy, yearOfStudy, cgpa,
-        targetRole, skillRatings, placementTimeline, expectedCtc, preferredCompanies,
-      });
+      const sanitizedData = {
+        collegeName: collegeName || '',
+        degree: degree || '',
+        fieldOfStudy: fieldOfStudy || '',
+        yearOfStudy: yearOfStudy || '',
+        cgpa: cgpa || '',
+        targetRole: targetRole || '',
+        skillRatings: skillRatings || {},
+        placementTimeline: placementTimeline || '',
+        expectedCtc: expectedCtc || '',
+        preferredCompanies: preferredCompanies || [],
+      };
+
+      console.log('Sending onboarding data:', sanitizedData);
+
+      await completeOnboardingAsync(sanitizedData);
       clearDraft();
       showSuccess('Onboarding verified');
       onNavigate('dashboard');

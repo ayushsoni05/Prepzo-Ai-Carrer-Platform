@@ -18,12 +18,12 @@ import ThinkingLoader from '@/components/ui/loading';
 import Sidebar from '@/components/navigation/Sidebar';
 import { MobileNav } from '@/components/navigation/MobileNav';
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings';
 
 // Get initial page from URL hash or default to 'landing'
 const getPageFromHash = (): Page => {
   const hash = window.location.hash.slice(1) as Page;
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings'];
   return validPages.includes(hash) ? hash : 'landing';
 };
 
@@ -47,7 +47,7 @@ export default function App() {
     
     const initializeAuth = async () => {
       // Only validate session if user is trying to access a protected page
-      const protectedPages = ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network'];
+      const protectedPages = ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
       // Safety check: if we think we're authenticated but have no token, sync state
@@ -160,6 +160,8 @@ export default function App() {
         'companies',
         'applications',
         'network',
+        'resume',
+        'settings',
       ].includes(currentPage)) {
         handleNavigate('landing');
       }
@@ -174,9 +176,11 @@ export default function App() {
     const newPage = page as Page;
 
     // Navigation logic
-    if (newPage === 'dashboard' && currentPage !== 'dashboard') {
-      // Removed: forced reset to 'assessment' tab. 
-      // Relying on persisted state in appStore.
+    if (['dashboard', 'resume', 'settings'].includes(newPage)) {
+      const { setDashboardTab } = useAppStore.getState();
+      if (newPage === 'resume') setDashboardTab('resume');
+      else if (newPage === 'settings') setDashboardTab('settings');
+      else if (newPage === 'dashboard') setDashboardTab('home');
     }
 
     setCurrentPage(newPage);
@@ -205,7 +209,7 @@ export default function App() {
   const isSkillComplete = user?.isSkillTestComplete;
   const isFullyQualified = isFieldComplete && isSkillComplete;
 
-  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network'].includes(currentPage);
+  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings'].includes(currentPage);
 
   return (
     <div className="page-shell">
@@ -248,7 +252,7 @@ export default function App() {
             lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
           />
           <main className="flex-1">
-            {currentPage === 'dashboard' && <Dashboard />}
+            {(currentPage === 'dashboard' || currentPage === 'resume' || currentPage === 'settings') && <Dashboard />}
             {currentPage === 'jobs' && <JobsPage />}
             {currentPage === 'companies' && <CompaniesPage />}
             {currentPage === 'applications' && <ApplicationsPage />}

@@ -196,7 +196,7 @@ export function Dashboard() {
     void loadJobs();
   }, [opportunitiesWorkspace]);
 
-  const activeTab = (dashboardTab as DashboardTab) || 'home';
+  const activeTab = (dashboardTab === 'overview' ? 'home' : (dashboardTab as DashboardTab)) || 'home';
   const readinessScore = user?.placementReadinessScore || 68.42;
   const atsScore = resumeAnalysis?.overallScore ?? user?.atsScore ?? 0;
 
@@ -1346,6 +1346,7 @@ export function Dashboard() {
   return (
     <div className="relative w-full min-h-screen bg-[#161a20]  text-white overflow-x-hidden selection:bg-white selection:text-black">
       <div className="fixed inset-0 bg-[#161a20] -z-50" />
+      
       {/* Glassmorphism dashboard lock overlay for new users */}
       {!isFullyQualified && !startAssessment && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-[40px]">
@@ -1412,6 +1413,7 @@ export function Dashboard() {
           </div>
         </div>
       )}
+
       <div className="pointer-events-none fixed inset-0 overflow-hidden z-0">
         <div className="absolute left-[-10%] top-[-10%] h-[500px] w-[500px] rounded-full bg-white/5 blur-[120px] opacity-20" />
         <div className="absolute right-[-10%] bottom-[-10%] h-[600px] w-[600px] rounded-full bg-white/5 blur-[150px] opacity-20" />
@@ -1443,7 +1445,7 @@ export function Dashboard() {
               </div>
             </header>
             
-            <div className="relative z-10 mx-auto w-full max-w-7xl space-y-12 px-6 pb-32 pointer-events-none">
+            <div className="relative z-10 mx-auto w-full max-w-7xl space-y-12 px-6 pb-32">
               {activeTab === 'home' && (
                 <div className="pointer-events-auto">
                     {renderHome()}
@@ -1479,7 +1481,6 @@ export function Dashboard() {
           </div>
         </div>
       )}
-
     </div>
   );
 }
