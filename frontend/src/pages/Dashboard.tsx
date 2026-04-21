@@ -312,77 +312,76 @@ export function Dashboard() {
   };
 
   const renderHome = () => (
-    <div className="space-y-12 selection:bg-white selection:text-black font-rubik">
+    <div className="max-w-5xl mx-auto space-y-6 selection:bg-white selection:text-black font-rubik">
       {/* Row 1: Welcome + Mentor */}
-      <GlassCard className="rounded-[60px] p-10 md:p-14 mb-8 bg-[#070b0a] border-white/5 backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
-        <div className="absolute top-0 right-0 p-16 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none transform group-hover:scale-110 duration-700">
-          <Bot size={180} />
+      <div className="rounded-[30px] p-6 md:p-8 mb-6 bg-black border border-[#5ed29c]/30 shadow-[0_0_40px_rgba(94,210,156,0.05)] relative overflow-hidden group">
+        <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity pointer-events-none transform group-hover:scale-110 duration-700">
+          <Bot size={120} />
         </div>
         <div className="relative z-10">
-          <p className="text-[11px] font-[900] uppercase tracking-[0.5em] text-[#5ed29c] mb-10">Career Cockpit</p>
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
-            <div className="max-w-3xl">
-              <h1 className="text-5xl md:text-8xl font-[900] text-white uppercase tracking-tighter leading-[0.8] italic mb-10">
+          <p className="text-[9px] font-[900] uppercase tracking-[0.4em] text-[#5ed29c] mb-4 opacity-70">Career Cockpit</p>
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+            <div className="max-w-xl">
+              <h1 className="text-3xl md:text-5xl font-[900] text-white uppercase tracking-tighter leading-[0.9] italic mb-6">
                 Welcome back,<br/>
-                <span className="text-white/30">{user?.fullName?.split(' ')[0] || 'there'}.</span>
+                <span className="text-white/20">{user?.fullName?.split(' ')[0] || 'there'}.</span>
               </h1>
-              <p className="text-[17px] font-medium tracking-tight leading-relaxed text-white/50 max-w-xl">
-                Prepzo has synchronized your AI mentor, readiness scores, and placement signals into this command center. Your floating mentor stays available across pages with context-aware logic.
+              <p className="text-[14px] font-medium tracking-tight leading-relaxed text-white/30 max-w-md italic">
+                Prepzo has synchronized your AI mentor and placement signals into this command center.
               </p>
             </div>
             
             <div className="flex flex-wrap gap-4">
               <button 
                 onClick={() => setDashboardTab('assessment')}
-                className="relative h-[65px] px-10 group active:scale-95 transition-transform"
+                className="relative h-[48px] px-8 group active:scale-95 transition-transform"
               >
-                <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                  <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
+                <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105 shadow-xl shadow-[#5ed29c]/10" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                  <path d="M0 0H184L174 65H10L0 0Z" fill="#5ed29c" />
                 </svg>
-                <span className="relative z-10 flex items-center justify-center h-full text-[#070b0a] font-[900] text-[13px] uppercase tracking-[0.2em] gap-3 italic">
-                  Continue Prep <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                <span className="relative z-10 flex items-center justify-center h-full text-black font-[900] text-[10px] uppercase tracking-[0.2em] gap-3 italic">
+                  Launch <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </span>
               </button>
             </div>
           </div>
         </div>
-      </GlassCard>
+      </div>
 
-      <div className="grid grid-cols-1 gap-8 xl:grid-cols-12">
-        <GlassCard className="rounded-[40px] p-10 bg-[#161a20]/40 border-white/5 xl:col-span-12 backdrop-blur-xl">
-          <div className="grid gap-12 md:grid-cols-2 items-center">
-            <div className="flex flex-col items-center justify-center gap-6">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
+        <div className="rounded-[24px] p-6 bg-[#0a0c10] border border-white/5 xl:col-span-12 shadow-2xl">
+          <div className="grid gap-8 md:grid-cols-2 items-center">
+            <div className="flex flex-col items-center justify-center gap-4">
               <CircularProgress value={readinessScore} label="Launch score" color="purple" />
-              <div className="px-4 py-2 bg-[#5ed29c]/10 border border-[#5ed29c]/20 rounded-full">
-                 <span className="text-[10px] font-[900] text-[#5ed29c] uppercase tracking-widest italic">Signal Calibration High</span>
+              <div className="px-3 py-1 bg-[#5ed29c]/5 border border-[#5ed29c]/10 rounded-full">
+                 <span className="text-[8px] font-[900] text-[#5ed29c] uppercase tracking-widest italic opacity-60">Signal Calibrated</span>
               </div>
             </div>
-            <div className="space-y-8">
+            <div className="space-y-6">
               <div>
-                <p className="text-[11px] font-[900] uppercase tracking-[0.4em] text-white/30 mb-2">Signals</p>
-                <h3 className="text-3xl font-[900] text-white uppercase italic tracking-tighter">Progress that feels tangible</h3>
+                <p className="text-[9px] font-[900] uppercase tracking-[0.3em] text-white/20 mb-1 italic">Signals</p>
+                <h3 className="text-xl font-[900] text-white uppercase italic tracking-tighter opacity-90">Progress Tracker</h3>
               </div>
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {skillBars.map((item, index) => (
                   <SkillBar key={item.skill} skill={item.skill} level={item.level} delay={index * 0.08} />
                 ))}
               </div>
             </div>
           </div>
-        </GlassCard>
+        </div>
       </div>
 
-      <div id="ai-insights" className="mt-12">
+      <div id="ai-insights" className="mt-6">
          <QuickInsightsWidget onViewFull={() => setShowFullRecommendations(true)} />
       </div>
 
-      {/* Question Bank Series */}
-      <div id="question-bank-container" className="pointer-events-auto mt-16 px-4">
-        <div className="mb-10 text-center md:text-left">
-          <h2 className="text-[11px] font-[900] uppercase tracking-[0.5em] text-[#5ed29c] mb-4 italic">Pre-Placement Prep</h2>
-          <h1 className="text-4xl md:text-6xl font-[900] text-white uppercase tracking-tighter italic">Interview <span className="text-white/20">Question Bank.</span></h1>
+      <div id="question-bank-container" className="pointer-events-auto mt-10">
+        <div className="mb-6 px-4">
+          <h2 className="text-[9px] font-[900] uppercase tracking-[0.4em] text-[#5ed29c] mb-2 italic opacity-60">Repository</h2>
+          <h1 className="text-2xl md:text-4xl font-[900] text-white uppercase tracking-tighter italic">Interview <span className="text-white/10">Library.</span></h1>
         </div>
-        <div className="p-2 border border-white/5 rounded-[40px] bg-white/[0.02]">
+        <div className="p-1 border border-white/5 rounded-[24px] bg-black shadow-2xl">
             <QuestionBank />
         </div>
       </div>
@@ -1081,102 +1080,99 @@ export function Dashboard() {
     const unlockDate = user?.assessmentUnlockDate ? new Date(user.assessmentUnlockDate) : null;
 
     return (
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 selection:bg-white selection:text-black font-rubik">
-        <GlassCard className="rounded-[60px] p-10 md:p-14 bg-[#070b0a] border-white/5 relative overflow-hidden group shadow-2xl">
-          <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#5ed29c]/20 to-transparent" />
+      <div className="max-w-4xl mx-auto grid grid-cols-1 gap-4 lg:grid-cols-2 selection:bg-white selection:text-black font-rubik">
+        <div className="rounded-[30px] p-6 md:p-8 bg-black border border-[#5ed29c]/20 relative overflow-hidden group shadow-2xl">
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#5ed29c]/30 to-transparent" />
           
-          <p className="text-[11px] font-[900] uppercase tracking-[0.5em] text-[#5ed29c] mb-10">Assessment Studio</p>
-          <div className="flex items-center gap-6 mb-10">
-            <h2 className="text-4xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic">Skill <span className="text-white/40">Signal.</span></h2>
+          <p className="text-[9px] font-[900] uppercase tracking-[0.4em] text-[#5ed29c] mb-6 opacity-60">Operational Studio</p>
+          <div className="flex items-center gap-3 mb-6">
+            <h2 className="text-2xl md:text-3xl font-[900] text-white uppercase tracking-tighter italic leading-none">Skill <span className="text-white/30">Signal.</span></h2>
             {isLocked && (
-              <span className="flex items-center gap-3 px-5 py-2 bg-amber-500/10 border border-amber-500/20 rounded-full text-[11px] font-[900] text-amber-500 uppercase tracking-widest italic animate-pulse">
-                <Lock size={14} /> LOCKED
+              <span className="flex items-center gap-2 px-2 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-[9px] font-[900] text-amber-500 uppercase tracking-widest italic animate-pulse">
+                <Lock size={10} /> LOCKED
               </span>
             )}
           </div>
           
           {isLocked ? (
-            <div className="mb-12">
-              <p className="text-[17px] font-medium tracking-tight leading-relaxed text-amber-500/60 mb-10 italic max-w-sm">
-                Strategic cool-down active. Your neural pathways are processing the recent assessment. You can retake the test starting {unlockDate?.toLocaleDateString()} at {unlockDate?.toLocaleTimeString()}.
+            <div className="mb-8">
+              <p className="text-[14px] font-medium tracking-tight leading-relaxed text-amber-500/30 mb-6 italic max-w-xs">
+                Terminals offline. Neural calibration in sync.
               </p>
-              <div className="inline-block p-8 bg-amber-500/5 border border-amber-500/10 rounded-[32px] backdrop-blur-md">
-                <p className="text-[11px] font-[900] text-amber-500/40 uppercase tracking-[0.4em] mb-3 italic">Available On</p>
-                <p className="text-3xl font-[900] text-white uppercase tracking-tighter">{unlockDate?.toLocaleDateString()}</p>
+              <div className="inline-block p-5 bg-amber-500/5 border border-amber-500/10 rounded-[24px]">
+                <p className="text-[9px] font-[900] text-amber-500/30 uppercase tracking-[0.3em] mb-2 italic">Sync</p>
+                <p className="text-xl font-[900] text-white uppercase tracking-tighter">{unlockDate?.toLocaleDateString()}</p>
               </div>
             </div>
           ) : (
-            <p className="text-[17px] font-medium tracking-tight leading-relaxed text-white/50 mb-12 max-w-md italic">
-               Launch your proctored assessment inside redesigned obsidian panels with smoother motion and legible progress cues.
+            <p className="text-[14px] font-medium tracking-tight leading-relaxed text-white/20 mb-8 max-w-sm italic">
+               Launch your proctored assessment in sharp obsidian matrix.
             </p>
           )}
 
-          <div className="flex flex-wrap items-center gap-10">
-            <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col sm:flex-row gap-3">
               <button 
                 onClick={() => !isLocked && setStartAssessment('field')}
                 disabled={isLocked}
-                className={`relative h-[65px] px-10 group active:scale-95 transition-transform ${isLocked ? 'opacity-40 cursor-not-allowed grayscale' : ''}`}
+                className={`relative h-[45px] px-6 group active:scale-95 transition-transform ${isLocked ? 'opacity-20 cursor-not-allowed grayscale' : ''}`}
               >
                 {!isLocked && (
                   <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                    <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
+                    <path d="M0 0H184L174 65H10L0 0Z" fill="#5ed29c" />
                   </svg>
                 )}
-                {isLocked && <div className="absolute inset-0 w-full h-full bg-white/5 border border-white/10 rounded-2xl" />}
-                <span className={`relative z-10 flex items-center justify-center h-full ${isLocked ? 'text-white/40' : 'text-[#070b0a]'} font-[900] text-[12px] uppercase tracking-[0.2em] gap-3 italic`}>
-                  {isFieldComplete ? 'Retake Stage 1' : 'Launch Field Test'} <ArrowRight size={18} />
+                {isLocked && <div className="absolute inset-0 w-full h-full bg-white/5 border border-white/10 rounded-lg" />}
+                <span className={`relative z-10 flex items-center justify-center h-full ${isLocked ? 'text-white/40' : 'text-black'} font-[900] text-[10px] uppercase tracking-[0.2em] gap-2 italic`}>
+                  {isFieldComplete ? 'Retake S1' : 'Launch S1'} <ArrowRight size={14} />
                 </span>
               </button>
               
               <button 
                 onClick={() => !isLocked && setStartAssessment('skills')}
                 disabled={isLocked || !isFieldComplete}
-                className={`relative h-[65px] px-10 group active:scale-95 border rounded-[10px] transition-all transform skew-x-[-15deg] ${isLocked || !isFieldComplete ? 'opacity-40 cursor-not-allowed grayscale bg-white/5 border-white/10' : 'bg-[#5ed29c]/10 border-[#5ed29c]/20 hover:bg-[#5ed29c]/20 text-[#5ed29c]'}`}
+                className={`relative h-[45px] px-6 group active:scale-95 border rounded-lg transition-all hover:bg-[#5ed29c]/10 ${isLocked || !isFieldComplete ? 'opacity-10 cursor-not-allowed grayscale bg-white/5 border-white/10' : 'bg-transparent border-[#5ed29c]/40 text-[#5ed29c]'}`}
               >
-                <span className={`relative z-10 flex items-center justify-center h-full transform skew-x-[15deg] font-[900] text-[12px] uppercase tracking-[0.2em] gap-3 italic`}>
-                  {isSkillComplete ? 'Retake Stage 2' : 'Launch Skills Test'} <ArrowRight size={18} />
+                <span className={`relative z-10 flex items-center justify-center h-full font-[900] text-[10px] uppercase tracking-[0.2em] gap-2 italic`}>
+                  {isSkillComplete ? 'Retake S2' : 'Launch S2'} <ArrowRight size={14} />
                 </span>
               </button>
-            </div>
           </div>
           
-          <div className="mt-14">
+          <div className="mt-8">
             <button 
               onClick={() => setShowFullRecommendations(true)}
-              className="group flex items-center gap-3 text-[12px] text-white font-[900] uppercase tracking-[0.3em] opacity-40 hover:opacity-100 transition-all italic"
+              className="group flex items-center gap-2 text-[9px] text-white font-[900] uppercase tracking-[0.2em] opacity-20 hover:opacity-100 transition-all italic"
             >
-              Review AI Recommendations <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              Analyze <ChevronRight size={10} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
-        </GlassCard>
+        </div>
 
 
-        <GlassCard className="rounded-[60px] p-10 md:p-14 bg-[#161a20]/60 border-white/5 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
-          <p className="text-[11px] font-[900] uppercase tracking-[0.5em] text-white/30 mb-12">Current Status</p>
-          <div className="grid gap-6 sm:grid-cols-2 mb-12">
-            <div className="bg-white/[0.03] border border-white/5 rounded-[32px] p-8 hover:bg-white/[0.05] transition-colors">
-              <p className="text-[11px] font-[900] uppercase tracking-[0.3em] text-[#5ed29c] mb-4 italic">Assessment Score</p>
-              <p className="text-6xl font-[900] text-white uppercase tracking-tighter italic">{formatVal(user?.testResults?.score || 0)}%</p>
+        <div className="rounded-[30px] p-6 md:p-8 bg-black border border-white/5 shadow-2xl relative overflow-hidden">
+          <p className="text-[9px] font-[900] uppercase tracking-[0.4em] text-white/10 mb-6 italic">Telemetry</p>
+          <div className="grid gap-3 sm:grid-cols-2 mb-8">
+            <div className="bg-white/[0.01] border border-white/5 rounded-[24px] p-5">
+              <p className="text-[8px] font-[900] uppercase tracking-[0.2em] text-[#5ed29c] mb-1 italic opacity-60">Score</p>
+              <p className="text-4xl font-[900] text-white uppercase tracking-tighter italic">{formatVal(user?.testResults?.score || 0)}%</p>
             </div>
-            <div className="bg-white/[0.03] border border-white/5 rounded-[32px] p-8 hover:bg-white/[0.05] transition-colors">
-              <p className="text-[11px] font-[900] uppercase tracking-[0.3em] text-white/20 mb-4 italic">Completion</p>
-              <p className="text-4xl font-[900] text-white uppercase tracking-tighter italic leading-none">{user?.isAssessmentComplete ? 'ACTIVE' : 'PENDING'}</p>
+            <div className="bg-white/[0.01] border border-white/5 rounded-[24px] p-5">
+              <p className="text-[8px] font-[900] uppercase tracking-[0.2em] text-white/5 mb-1 italic">State</p>
+              <p className="text-2xl font-[900] text-white uppercase tracking-tighter italic opacity-80">{user?.isAssessmentComplete ? 'ACTIVE' : 'READY'}</p>
             </div>
           </div>
           {user?.testResults?.sectionResults?.length ? (
-            <div className="space-y-6">
-               <p className="text-[11px] font-[900] uppercase tracking-[0.4em] text-white/30 mb-6 italic">Neural Map</p>
+            <div className="space-y-3">
               {user.testResults.sectionResults.map((section) => (
                 <SkillBar key={section.name} skill={section.name} level={section.score} />
               ))}
             </div>
           ) : (
-            <div className="py-20 text-center border border-dashed border-white/10 rounded-[40px]">
-               <p className="text-[13px] font-black italic text-white/20 uppercase tracking-[0.4em]">Initialize signals to unlock map.</p>
+            <div className="py-10 text-center border border-dashed border-white/5 rounded-[24px]">
+               <p className="text-[10px] font-black italic text-white/5 uppercase tracking-[0.3em]">Offline.</p>
             </div>
           )}
-        </GlassCard>
+        </div>
       </div>
     );
   };
@@ -1411,22 +1407,22 @@ export function Dashboard() {
             <div className="absolute inset-0 w-full h-full bg-slate-950 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
             <Boxes />
 
-            <header className="sticky top-0 z-30 px-8 py-10 flex items-center justify-between pointer-events-none font-rubik">
-              <div className="flex items-center gap-8 pointer-events-auto">
+            <header className="sticky top-0 z-30 px-6 py-6 flex items-center justify-between pointer-events-none font-rubik">
+              <div className="flex items-center gap-6 pointer-events-auto">
                 <div className="flex flex-col">
-                  <h2 className="text-2xl font-[900] uppercase tracking-[0.3em] text-white italic leading-none">
+                  <h2 className="text-xl font-[900] uppercase tracking-[0.2em] text-white italic leading-none">
                     {activeTab === 'home' ? 'Cockpit' : activeTab === 'resume' ? 'Resume Lab' : activeTab === 'assessment' ? 'Skill Signal' : activeTab}
                   </h2>
-                  <p className="text-[10px] font-[900] text-[#5ed29c] uppercase tracking-[0.4em] mt-2 italic opacity-60">Prepzo Satellite .01</p>
+                  <p className="text-[9px] font-[900] text-[#5ed29c] uppercase tracking-[0.3em] mt-1 italic opacity-40">Satellite .01</p>
                 </div>
               </div>
               
-              <div className="flex items-center gap-6 pointer-events-auto">
+              <div className="flex items-center gap-4 pointer-events-auto">
                 <div className="text-right hidden sm:block">
-                  <p className="text-sm font-[900] text-white uppercase tracking-[0.2em] leading-none">{user?.fullName}</p>
-                  <p className="text-[10px] font-[900] text-white/20 uppercase tracking-[0.3em] mt-2 italic">{user?.targetRole || 'Software Engineer'}</p>
+                  <p className="text-xs font-[900] text-white uppercase tracking-[0.1em] leading-none">{user?.fullName}</p>
+                  <p className="text-[9px] font-[900] text-white/20 uppercase tracking-[0.2em] mt-1 italic">{user?.targetRole || 'Engineer'}</p>
                 </div>
-                <div className="w-14 h-14 rounded-2xl bg-[#5ed29c]/5 border border-[#5ed29c]/10 flex items-center justify-center font-[900] text-white text-lg uppercase shadow-xl shadow-[#5ed29c]/5 group hover:border-[#5ed29c]/30 transition-all cursor-pointer">
+                <div className="w-10 h-10 rounded-xl bg-black border border-white/10 flex items-center justify-center font-[900] text-white text-xs uppercase shadow-lg shadow-[#5ed29c]/5">
                   {user?.fullName?.charAt(0)}
                 </div>
               </div>
