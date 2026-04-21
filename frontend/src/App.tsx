@@ -247,7 +247,7 @@ export default function App() {
       
       {/* Workspace Pages wrapped in MainLayout */}
       {isWorkspacePage && (
-        <div className="flex min-h-screen">
+        <div className="flex h-screen overflow-hidden bg-[#0a0c10]">
           <Sidebar 
             active={getSidebarActiveId(currentPage)} 
             onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
