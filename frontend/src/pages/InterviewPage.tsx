@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Bot, Sparkles, ArrowRight, Shield, ArrowLeft, FileText, Layout, Server, Layers, Database, Cloud, Briefcase } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Layout, Server, Layers, Database, Cloud, Briefcase } from 'lucide-react';
 import { Boxes } from '../components/ui/background-boxes';
 import { InterviewSession } from '../components/interview/InterviewSession';
 import { INTERVIEW_ROLES, InterviewRole } from '../data/interviewRoles';
