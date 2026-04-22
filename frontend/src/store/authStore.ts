@@ -20,6 +20,7 @@ export interface User {
   linkedin: string;
   github: string;
   resumeUrl?: string;
+  resumeText?: string;
   role: 'student' | 'admin' | 'superadmin';
   isOnboarded: boolean;
   isAssessmentComplete: boolean;

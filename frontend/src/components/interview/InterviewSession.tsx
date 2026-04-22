@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Bot, Mic, MicOff, Send, Sparkles, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { GlassCard, GlassButton } from '../ui/GlassCard';
 import { useSpeech } from '@/hooks/useSpeech';
-import { showError, showSuccess } from '@/utils/toastManager';
+import { showError } from '@/utils/toastManager';
 import axios from 'axios';
 
 interface InterviewSessionProps {
