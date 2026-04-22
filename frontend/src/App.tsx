@@ -17,13 +17,14 @@ import TetrisDemo from '@/pages/TetrisDemo';
 import ThinkingLoader from '@/components/ui/loading';
 import Sidebar from '@/components/navigation/Sidebar';
 import { MobileNav } from '@/components/navigation/MobileNav';
+import { InterviewPage } from '@/pages/InterviewPage';
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview';
 
 // Get initial page from URL hash or default to 'landing'
 const getPageFromHash = (): Page => {
   const hash = window.location.hash.slice(1) as Page;
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview'];
   return validPages.includes(hash) ? hash : 'landing';
 };
 
@@ -163,6 +164,7 @@ export default function App() {
         'resume',
         'settings',
         'assessment',
+        'ai-interview',
       ].includes(currentPage)) {
         handleNavigate('landing');
       }
@@ -211,7 +213,7 @@ export default function App() {
   const isSkillComplete = user?.isSkillTestComplete;
   const isFullyQualified = isFieldComplete && isSkillComplete;
 
-  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment'].includes(currentPage);
+  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'ai-interview'].includes(currentPage);
 
   return (
     <div className="page-shell">
@@ -259,6 +261,7 @@ export default function App() {
             {currentPage === 'companies' && <CompaniesPage />}
             {currentPage === 'applications' && <ApplicationsPage />}
             {currentPage === 'network' && <NetworkPage />}
+            {currentPage === 'ai-interview' && <InterviewPage />}
           </main>
           <MobileNav
             active={getSidebarActiveId(currentPage)}

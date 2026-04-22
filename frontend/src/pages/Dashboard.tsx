@@ -22,7 +22,8 @@ import {
   MapPin,
   Briefcase,
   ArrowUpRight,
-  ChevronRight
+  ChevronRight,
+  Mic
 } from 'lucide-react';
 import { type Job } from '@/api/jobs';
 import { showSuccess, showError, showInfo } from '@/utils/toastManager';
@@ -374,6 +375,60 @@ export function Dashboard() {
 
       <div id="ai-insights" className="mt-8">
          <QuickInsightsWidget onViewFull={() => setShowFullRecommendations(true)} />
+      </div>
+
+      {/* AI Mock Interview Entry Card */}
+      <div className="mt-10">
+        <div className="rounded-[40px] p-10 bg-gradient-to-br from-[#13171d] to-black border border-[#5ed29c]/30 shadow-2xl relative overflow-hidden group">
+          <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:opacity-20 transition-opacity duration-700 transform group-hover:scale-125">
+            <Bot size={240} className="text-[#5ed29c]" />
+          </div>
+          
+          <div className="relative z-10 grid md:grid-cols-2 gap-10 items-center">
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="px-3 py-1 bg-[#5ed29c]/10 border border-[#5ed29c]/20 rounded-full">
+                  <span className="text-[10px] font-black text-[#5ed29c] uppercase tracking-widest">Stage 3 Validation</span>
+                </div>
+                <div className="flex -space-x-2">
+                  <div className="w-6 h-6 rounded-full border-2 border-black bg-purple-500 flex items-center justify-center"><Mic size={10} className="text-white" /></div>
+                  <div className="w-6 h-6 rounded-full border-2 border-black bg-[#5ed29c] flex items-center justify-center"><Bot size={10} className="text-black" /></div>
+                </div>
+              </div>
+              
+              <h2 className="text-3xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic mb-6 leading-none">
+                AI Mock <span className="text-white/40">Interview.</span>
+              </h2>
+              
+              <p className="text-white/50 font-medium tracking-tight leading-relaxed max-w-md mb-8">
+                The most advanced interview simulation. AI will analyze your resume, ask spoken questions, and evaluate your responses in real-time using high-fidelity voice synthesis.
+              </p>
+              
+              <button 
+                onClick={() => window.location.hash = 'ai-interview'}
+                className="group/btn relative h-[55px] px-8 bg-[#5ed29c] rounded-2xl flex items-center gap-3 overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-xl shadow-[#5ed29c]/20"
+              >
+                <span className="relative z-10 text-black font-black uppercase tracking-widest text-xs">Launch Session</span>
+                <ArrowUpRight size={18} className="relative z-10 text-black group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+              </button>
+            </div>
+            
+            <div className="hidden md:grid grid-cols-2 gap-4">
+              {[
+                { icon: Shield, label: "Proctored", sub: "Integrity check" },
+                { icon: Brain, label: "Resume-Linked", sub: "Deep alignment" },
+                { icon: Zap, label: "Real-time", sub: "Instant feedback" },
+                { icon: Sparkles, label: "Voice-Sync", sub: "Speech API" }
+              ].map((feature, i) => (
+                <div key={i} className="p-5 rounded-3xl bg-white/5 border border-white/5 hover:border-[#5ed29c]/20 transition-colors group/feat">
+                  <feature.icon size={20} className="text-[#5ed29c] mb-3 group-hover/feat:scale-110 transition-transform" />
+                  <p className="text-[11px] font-black text-white uppercase tracking-wider mb-1">{feature.label}</p>
+                  <p className="text-[9px] font-bold text-white/30 uppercase tracking-widest italic">{feature.sub}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       <div id="question-bank-container" className="pointer-events-auto mt-10">

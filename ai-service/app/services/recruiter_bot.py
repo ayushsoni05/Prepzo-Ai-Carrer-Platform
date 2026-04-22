@@ -566,6 +566,12 @@ Provide feedback in JSON format with:
                 temperature=0.5
             )
             
+            # Clean up the result to ensure it's valid JSON
+            if "```json" in result:
+                result = result.split("```json")[1].split("```")[0].strip()
+            elif "```" in result:
+                result = result.split("```")[1].split("```")[0].strip()
+            
             try:
                 feedback = json.loads(result)
             except json.JSONDecodeError:
@@ -585,6 +591,82 @@ Provide feedback in JSON format with:
                 "strengths": ["Attempted to answer the question"],
                 "improvements": ["Practice more structured responses"],
                 "sample_answer": "Focus on specific examples and outcomes"
+            }
+
+    async def generate_resume_questions(
+        self,
+        resume_text: str,
+        target_role: str,
+        num_questions: int = 5
+    ) -> List[str]:
+        """Generate interview questions based on resume text"""
+        prompt = f"""
+Analyze this resume for the role of {target_role} and generate {num_questions} challenging interview questions.
+The questions should be a mix of:
+1. Experience-based (probing into projects or roles mentioned)
+2. Skill-based (testing mentioned technologies)
+3. Behavioral (related to their work history)
+
+Resume Text:
+{resume_text}
+
+Provide only a JSON list of {num_questions} strings.
+Example: ["Question 1", "Question 2", ...]
+"""
+        try:
+            result = await self.model_service.generate_response(
+                prompt=prompt,
+                max_tokens=500,
+                temperature=0.7
+            )
+            
+            if "```json" in result:
+                result = result.split("```json")[1].split("```")[0].strip()
+            elif "```" in result:
+                result = result.split("```")[1].split("```")[0].strip()
+                
+            questions = json.loads(result)
+            if isinstance(questions, list):
+                return questions[:num_questions]
+            return ["Tell me about your most significant project.", "How do you handle technical challenges?", "Why are you interested in this role?"]
+        except Exception as e:
+            logger.error(f"Error generating resume questions: {str(e)}")
+            return ["Tell me about your most significant project.", "How do you handle technical challenges?", "Why are you interested in this role?"]
+
+    async def resume_mock_interview(
+        self,
+        questions: List[str],
+        question_index: int,
+        user_response: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """Conduct mock interview based on pre-generated questions"""
+        
+        if question_index >= len(questions):
+            return {
+                "complete": True,
+                "message": "Interview complete! AI has analyzed your performance."
+            }
+            
+        if user_response:
+            feedback = await self._evaluate_response(
+                questions[question_index - 1],
+                user_response,
+                "technical/behavioral"
+            )
+            
+            return {
+                "complete": False,
+                "feedback": feedback,
+                "next_question": questions[question_index] if question_index < len(questions) else None,
+                "question_number": question_index + 1,
+                "total_questions": len(questions)
+            }
+        else:
+            return {
+                "complete": False,
+                "question": questions[question_index],
+                "question_number": question_index + 1,
+                "total_questions": len(questions)
             }
 
 

@@ -285,6 +285,62 @@ async def mock_interview(request: MockInterviewRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+class ResumeQuestionsRequest(BaseModel):
+    resume_text: str
+    target_role: str
+    num_questions: int = 5
+
+
+class ResumeMockInterviewRequest(BaseModel):
+    questions: List[str]
+    question_index: int
+    user_response: Optional[str] = None
+
+
+@router.post("/recruiter/resume-questions")
+async def get_resume_questions(request: ResumeQuestionsRequest):
+    """
+    Generate interview questions based on resume text
+    """
+    try:
+        questions = await recruiter_bot.generate_resume_questions(
+            resume_text=request.resume_text,
+            target_role=request.target_role,
+            num_questions=request.num_questions
+        )
+        
+        return {
+            "success": True,
+            "data": {
+                "questions": questions
+            }
+        }
+    except Exception as e:
+        logger.error(f"Error generating resume questions: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/recruiter/resume-mock-interview")
+async def resume_mock_interview(request: ResumeMockInterviewRequest):
+    """
+    Conduct mock interview based on resume questions
+    """
+    try:
+        result = await recruiter_bot.resume_mock_interview(
+            questions=request.questions,
+            question_index=request.question_index,
+            user_response=request.user_response
+        )
+        
+        return {
+            "success": True,
+            "data": result
+        }
+    except Exception as e:
+        logger.error(f"Error in resume mock interview: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/recruiter/companies")
 async def get_supported_companies():
     """

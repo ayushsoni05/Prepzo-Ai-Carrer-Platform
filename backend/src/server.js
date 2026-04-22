@@ -227,6 +227,8 @@ app.use('/api/ai-test', aiValidation.aiRequestContext(), aiTestRoutes);
 app.use('/api/resume', aiValidation.aiRequestContext(), resumeRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/admin/proctoring', adminProctoringRoutes);
+import interviewRoutes from './routes/interview.routes.js';
+app.use('/api/interview', interviewRoutes);
 
 // Placement ecosystem routes
 app.use('/api/companies', companyRoutes);

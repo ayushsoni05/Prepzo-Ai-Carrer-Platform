@@ -734,6 +734,46 @@ const validateAnswer = async (questionId, questionType, question, studentAnswer,
     }
 };
 
+/**
+ * Generate interview questions based on resume text
+ * @param {string} resumeText - The resume content
+ * @param {string} targetRole - Target role
+ * @param {number} numQuestions - Number of questions
+ */
+const getResumeInterviewQuestions = async (resumeText, targetRole, numQuestions = 5) => {
+    try {
+        const response = await aiClient.post('/recruiter/resume-questions', {
+            resume_text: resumeText,
+            target_role: targetRole,
+            num_questions: numQuestions
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Resume question generation failed:', error.message);
+        throw error;
+    }
+};
+
+/**
+ * Conduct mock interview based on resume questions
+ * @param {Array} questions - Pre-generated questions
+ * @param {number} questionIndex - Current question index
+ * @param {string} userResponse - User's answer
+ */
+const resumeMockInterview = async (questions, questionIndex, userResponse = null) => {
+    try {
+        const response = await aiClient.post('/recruiter/resume-mock-interview', {
+            questions,
+            question_index: questionIndex,
+            user_response: userResponse
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Resume mock interview failed:', error.message);
+        throw error;
+    }
+};
+
 export {
     // Service health
     isServiceAvailable,
