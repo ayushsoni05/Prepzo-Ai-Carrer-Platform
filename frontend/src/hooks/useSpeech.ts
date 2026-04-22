@@ -52,13 +52,24 @@ export const useSpeech = () => {
       setIsSpeaking(false);
       if (onEnd) onEnd();
     };
+    utterance.onerror = (e) => {
+      console.error('Speech error:', e);
+      setIsSpeaking(false);
+    };
 
-    // Try to find a good voice
-    const voices = window.speechSynthesis.getVoices();
-    const premiumVoice = voices.find(v => v.name.includes('Google') || v.name.includes('Natural')) || voices[0];
-    if (premiumVoice) utterance.voice = premiumVoice;
+    // Ensure voices are loaded
+    const speakText = () => {
+      const voices = window.speechSynthesis.getVoices();
+      const premiumVoice = voices.find(v => v.name.includes('Google') || v.name.includes('Natural')) || voices[0];
+      if (premiumVoice) utterance.voice = premiumVoice;
+      window.speechSynthesis.speak(utterance);
+    };
 
-    window.speechSynthesis.speak(utterance);
+    if (window.speechSynthesis.getVoices().length === 0) {
+      window.speechSynthesis.onvoiceschanged = speakText;
+    } else {
+      speakText();
+    }
   }, []);
 
   const startListening = useCallback(() => {

@@ -217,6 +217,7 @@ const startAIService = () => {
     console.log('🌐 Production Mode / Manual AI Start: Background loops and child processes bypassed for stability.');
   }
 })();
+app.use('/api/interview', aiValidation.aiRequestContext(), interviewRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/upload', uploadRoutes);
@@ -226,7 +227,7 @@ app.use('/api/ai', aiDashboardRoutes);
 app.use('/api/test', testRoutes);
 app.use('/api/ai-test', aiValidation.aiRequestContext(), aiTestRoutes);
 app.use('/api/resume', aiValidation.aiRequestContext(), resumeRoutes);
-app.use('/api/interview', aiValidation.aiRequestContext(), interviewRoutes);
+
 app.use('/api/admin', adminRoutes);
 app.use('/api/admin/proctoring', adminProctoringRoutes);
 

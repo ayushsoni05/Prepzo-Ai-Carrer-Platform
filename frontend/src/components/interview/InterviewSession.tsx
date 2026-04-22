@@ -26,21 +26,24 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete }
       setIsSessionLoading(true);
       const res = await api.post(`${apiBase}/start`);
       if (res.data.success) {
-        setQuestions(res.data.data.questions);
-        setCurrentQuestion(res.data.data.currentQuestion);
+        const qList = res.data.data.questions;
+        const firstQ = res.data.data.currentQuestion;
+        
+        setQuestions(qList);
+        setCurrentQuestion(firstQ);
         setCurrentQuestionIndex(0);
         
-        // Speak the first question
+        // Speak the first question immediately after launch (triggered by button click)
         setTimeout(() => {
-          speak(res.data.data.currentQuestion, () => {
-            // Automatically start listening after question is read
+          speak(firstQ, () => {
             startListening();
           });
-        }, 1000);
+        }, 500);
       }
-    } catch (error) {
-      showError('Failed to start interview session. Ensure your resume is uploaded.');
-      console.error(error);
+    } catch (error: any) {
+      const msg = error.response?.data?.message || 'Failed to start interview session. Ensure your resume is uploaded.';
+      showError(msg);
+      console.error('Interview launch error:', error);
     } finally {
       setIsSessionLoading(false);
     }
