@@ -1,4 +1,4 @@
-import aiService from '../services/aiService.js';
+import aiInterviewService from '../services/aiInterview.service.js';
 import User from '../models/User.model.js';
 
 /**
@@ -38,8 +38,8 @@ export const startInterview = async (req, res, next) => {
 
     const targetRole = user.targetRole || 'Software Engineer';
 
-    // Generate questions
-    const aiResponse = await aiService.getResumeInterviewQuestions(resumeText, targetRole);
+    // Generate questions using Groq
+    const aiResponse = await aiInterviewService.getResumeInterviewQuestions(resumeText, targetRole);
 
     if (!aiResponse.success) {
       return res.status(500).json({
@@ -50,8 +50,8 @@ export const startInterview = async (req, res, next) => {
 
     const questions = aiResponse.data.questions;
 
-    // Start the interview with the first question
-    const interviewSession = await aiService.resumeMockInterview(questions, 0);
+    // Start the interview with the first question using Groq
+    const interviewSession = await aiInterviewService.resumeMockInterview(questions, 0);
 
     res.status(200).json({
       success: true,
@@ -83,8 +83,8 @@ export const submitAnswer = async (req, res, next) => {
       });
     }
 
-    // Evaluate current answer and get next question
-    const aiResponse = await aiService.resumeMockInterview(questions, questionIndex + 1, answer);
+    // Evaluate current answer and get next question using Groq
+    const aiResponse = await aiInterviewService.resumeMockInterview(questions, questionIndex + 1, answer);
 
     if (!aiResponse.success) {
       return res.status(500).json({

@@ -1003,5 +1003,7 @@ export default {
     getRoleSkillRequirements,
     getActionVerbs,
     generateResume,
+    getResumeInterviewQuestions,
+    resumeMockInterview,
     aiClient
 };
