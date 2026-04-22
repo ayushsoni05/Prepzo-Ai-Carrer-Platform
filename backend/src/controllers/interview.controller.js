@@ -7,6 +7,8 @@ import Resume from '../models/Resume.model.js';
  * @route   POST /api/interview/start
  */
 export const startInterview = async (req, res, next) => {
+  console.log('--- START INTERVIEW REQUEST ---');
+  console.log('User ID:', req.user?._id);
   try {
     const user = await User.findById(req.user._id);
     if (!user) {

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Bot, Mic, MicOff, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { useSpeech } from '@/hooks/useSpeech';
 import { showError } from '@/utils/toastManager';
-import axios from 'axios';
+import api from '@/api/axios';
 
 interface InterviewSessionProps {
   onComplete: (results: any) => void;
@@ -19,12 +19,12 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete }
   const [answers, setAnswers] = useState<Array<{ question: string, answer: string, feedback: any }>>([]);
   const [sessionComplete, setSessionComplete] = useState(false);
 
-  const apiBase = '/api/interview';
+  const apiBase = '/interview';
 
   const fetchQuestions = useCallback(async () => {
     try {
       setIsSessionLoading(true);
-      const res = await axios.post(`${apiBase}/start`);
+      const res = await api.post(`${apiBase}/start`);
       if (res.data.success) {
         setQuestions(res.data.data.questions);
         setCurrentQuestion(res.data.data.currentQuestion);
@@ -60,7 +60,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete }
 
     setIsSubmitting(true);
     try {
-      const res = await axios.post(`${apiBase}/submit`, {
+      const res = await api.post(`${apiBase}/submit`, {
         questions,
         questionIndex: currentQuestionIndex,
         answer: transcript
