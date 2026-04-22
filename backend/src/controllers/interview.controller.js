@@ -1,6 +1,5 @@
 import aiService from '../services/aiService.js';
 import User from '../models/User.model.js';
-import Resume from '../models/Resume.model.js';
 
 /**
  * @desc    Start a new AI mock interview session based on resume
@@ -15,14 +14,19 @@ export const startInterview = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
-    // Get the user's latest resume analysis or text
-    const resume = await Resume.findOne({ userId: user._id }).sort({ createdAt: -1 });
-    let resumeText = '';
+    // Get the user's latest resume text from their profile
+    let resumeText = user.resumeText;
 
-    if (resume && resume.rawText) {
-      resumeText = resume.rawText;
-    } else if (user.resumeText) {
-      resumeText = user.resumeText;
+    if (!resumeText && user.resumeAnalysis) {
+      // Synthesize text from analysis if raw text is missing
+      const extracted = user.resumeAnalysis.extractedData;
+      if (extracted) {
+        resumeText = [
+          `Skills: ${(extracted.skills || []).join(', ')}`,
+          `Experience: ${(extracted.experience || []).map(e => `${e.role} at ${e.company}`).join('; ')}`,
+          `Education: ${(extracted.education || []).map(e => `${e.degree} from ${e.institution}`).join('; ')}`
+        ].join('\n');
+      }
     }
 
     if (!resumeText) {
