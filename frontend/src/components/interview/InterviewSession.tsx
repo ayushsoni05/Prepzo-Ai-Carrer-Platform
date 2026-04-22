@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Bot, Mic, MicOff, Send, Sparkles, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
-import { GlassCard, GlassButton } from '../ui/GlassCard';
+import { Bot, Mic, MicOff, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { useSpeech } from '@/hooks/useSpeech';
 import { showError } from '@/utils/toastManager';
 import axios from 'axios';
@@ -103,157 +102,179 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete }
 
   if (sessionComplete) {
     return (
-      <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
         <div className="text-center">
-          <div className="w-20 h-20 bg-[#5ed29c]/10 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="w-10 h-10 text-[#5ed29c]" />
+          <div className="w-24 h-24 bg-[#5ed29c]/10 rounded-[32px] flex items-center justify-center mx-auto mb-8 border border-[#5ed29c]/20 shadow-[0_0_50px_rgba(94,210,156,0.15)]">
+            <CheckCircle className="w-12 h-12 text-[#5ed29c]" />
           </div>
-          <h2 className="text-4xl font-black text-white uppercase tracking-tighter italic mb-4">Interview Complete</h2>
-          <p className="text-white/40 font-bold uppercase tracking-widest text-[10px]">Session signals synthesized successfully.</p>
+          <h2 className="text-5xl font-[900] text-white uppercase tracking-tighter italic mb-4 leading-none">Interview <span className="text-white/20">Complete.</span></h2>
+          <p className="text-[#5ed29c] font-black uppercase tracking-[0.4em] text-[10px] italic">Session signals synthesized successfully.</p>
         </div>
 
-        <div className="grid gap-6">
+        <div className="grid gap-8">
           {answers.map((item, i) => (
-            <GlassCard key={i} className="p-6 border-white/5 bg-white/5">
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center shrink-0 mt-1">
-                  <span className="text-[10px] font-black text-blue-400">{i + 1}</span>
+            <div key={i} className="p-10 rounded-[48px] border border-white/5 bg-[#161a20] shadow-2xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-8 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
+                 <Bot size={120} />
+              </div>
+              <div className="flex flex-col md:flex-row items-start gap-8 relative z-10">
+                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-[#5ed29c] font-black italic">
+                  {i + 1}
                 </div>
-                <div className="space-y-4 flex-1">
-                  <p className="text-white font-bold tracking-tight">{item.question}</p>
-                  <div className="p-4 rounded-2xl bg-black/40 border border-white/5">
-                    <p className="text-[10px] font-black text-white/20 uppercase tracking-widest mb-2">Your Response</p>
-                    <p className="text-white/60 text-sm italic">"{item.answer}"</p>
+                <div className="space-y-6 flex-1">
+                  <p className="text-xl text-white font-[900] tracking-tight italic leading-tight">{item.question}</p>
+                  
+                  <div className="p-6 rounded-[32px] bg-black/40 border border-white/5 italic">
+                    <p className="text-[10px] font-black text-[#5ed29c] uppercase tracking-widest mb-3">Your Response Signal</p>
+                    <p className="text-white/60 text-lg leading-relaxed">"{item.answer}"</p>
                   </div>
-                  <div className="grid md:grid-cols-2 gap-4">
-                     <div className="space-y-2">
-                        <p className="text-[9px] font-black text-[#5ed29c] uppercase tracking-widest">Strengths</p>
-                        <ul className="text-[11px] text-white/40 space-y-1 list-disc list-inside">
-                           {item.feedback.strengths.map((s: string, idx: number) => <li key={idx}>{s}</li>)}
+
+                  <div className="grid md:grid-cols-2 gap-8">
+                     <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                           <div className="w-1.5 h-1.5 rounded-full bg-[#5ed29c]" />
+                           <p className="text-[10px] font-black text-[#5ed29c] uppercase tracking-widest">Strengths Identified</p>
+                        </div>
+                        <ul className="text-[13px] text-white/40 space-y-2 font-bold italic">
+                           {item.feedback.strengths.map((s: string, idx: number) => <li key={idx} className="flex items-start gap-2"><span className="text-[#5ed29c]">•</span> {s}</li>)}
                         </ul>
                      </div>
-                     <div className="space-y-2">
-                        <p className="text-[9px] font-black text-orange-400 uppercase tracking-widest">Improvements</p>
-                        <ul className="text-[11px] text-white/40 space-y-1 list-disc list-inside">
-                           {item.feedback.improvements.map((s: string, idx: number) => <li key={idx}>{s}</li>)}
+                     <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                           <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                           <p className="text-[10px] font-black text-orange-400 uppercase tracking-widest">Optimization Needed</p>
+                        </div>
+                        <ul className="text-[13px] text-white/40 space-y-2 font-bold italic">
+                           {item.feedback.improvements.map((s: string, idx: number) => <li key={idx} className="flex items-start gap-2"><span className="text-orange-500">•</span> {s}</li>)}
                         </ul>
                      </div>
                   </div>
                 </div>
                 <div className="text-right">
-                   <div className="text-3xl font-black text-[#5ed29c] tracking-tighter italic">{item.feedback.score}<span className="text-xs opacity-20">/10</span></div>
+                   <div className="text-6xl font-[900] text-[#5ed29c] tracking-tighter italic leading-none">{item.feedback.score}<span className="text-lg opacity-20 ml-1">/10</span></div>
                 </div>
               </div>
-            </GlassCard>
+            </div>
           ))}
         </div>
         
-        <GlassButton 
+        <button 
           onClick={() => window.location.hash = 'dashboard'}
-          className="w-full py-5 bg-[#5ed29c]/20 border-[#5ed29c]/30 text-[#5ed29c] font-black uppercase tracking-widest"
+          className="group/btn relative w-full h-[70px] active:scale-95 transition-all mt-10"
         >
-          Return to Cockpit
-        </GlassButton>
+          <svg className="absolute inset-0 w-full h-full drop-shadow-xl" viewBox="0 0 800 70" preserveAspectRatio="none" fill="none">
+             <path d="M0 0H800L785 70H15L0 0Z" fill="#161a20" stroke="rgba(94, 210, 156, 0.3)" strokeWidth="1" />
+          </svg>
+          <span className="relative z-10 flex items-center justify-center h-full text-[#5ed29c] font-rubik font-[900] text-sm uppercase tracking-[0.4em] italic group-hover/btn:tracking-[0.5em] transition-all">
+             Return to Cockpit
+          </span>
+        </button>
       </div>
     );
   }
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-12">
       {/* Progress */}
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-4">
-           <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em]">Question {currentQuestionIndex + 1} of {questions.length}</p>
-           <div className="flex gap-1">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-6">
+           <p className="text-[11px] font-black text-white/20 uppercase tracking-[0.5em] italic">Signal {currentQuestionIndex + 1} <span className="opacity-40">OF</span> {questions.length}</p>
+           <div className="flex gap-2">
              {questions.map((_, i) => (
-               <div key={i} className={`h-1 w-8 rounded-full transition-all duration-500 ${i <= currentQuestionIndex ? 'bg-[#5ed29c]' : 'bg-white/5'}`} />
+               <div key={i} className={`h-1 w-10 rounded-full transition-all duration-700 ${i <= currentQuestionIndex ? 'bg-[#5ed29c]' : 'bg-white/5'}`} />
              ))}
            </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
            <div className={`w-2 h-2 rounded-full ${isSpeaking ? 'bg-blue-500 animate-pulse' : 'bg-white/10'}`} />
-           <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">{isSpeaking ? 'AI Speaking' : 'AI Ready'}</span>
+           <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em] italic">{isSpeaking ? 'AI Output Active' : 'AI Standby'}</span>
         </div>
       </div>
 
       {/* AI Character Card */}
-      <GlassCard className="p-10 border-[#5ed29c]/20 bg-gradient-to-br from-[#13171d] to-black relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-8 opacity-5">
-           <Bot size={120} />
+      <div className="p-12 md:p-16 rounded-[60px] border border-[#5ed29c]/20 bg-gradient-to-br from-[#13171d] to-black relative overflow-hidden shadow-2xl">
+        <div className="absolute top-0 right-0 p-12 opacity-[0.03] rotate-12">
+           <Bot size={280} className="text-[#5ed29c]" />
         </div>
         
-        <div className="relative z-10 flex flex-col md:flex-row items-center gap-10">
+        <div className="relative z-10 flex flex-col md:flex-row items-center gap-12">
            <div className="relative">
-              <div className={`w-32 h-32 rounded-full border-4 ${isSpeaking ? 'border-blue-500/50 shadow-[0_0_30px_rgba(59,130,246,0.5)]' : 'border-[#5ed29c]/20'} flex items-center justify-center bg-black transition-all duration-500`}>
-                 <Bot size={60} className={isSpeaking ? 'text-blue-500' : 'text-[#5ed29c]'} />
+              <div className={`w-40 h-40 rounded-[48px] border-4 ${isSpeaking ? 'border-blue-500/40 shadow-[0_0_50px_rgba(59,130,246,0.3)] scale-105' : 'border-[#5ed29c]/10'} flex items-center justify-center bg-black transition-all duration-700 overflow-hidden group`}>
+                 <Bot size={80} className={`transition-all duration-500 ${isSpeaking ? 'text-blue-500' : 'text-[#5ed29c] opacity-40'}`} />
+                 <div className="absolute inset-0 bg-gradient-to-t from-[#5ed29c]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
               {isSpeaking && (
-                <div className="absolute -inset-2 rounded-full border border-blue-500 animate-ping opacity-20" />
+                <div className="absolute -inset-4 rounded-[56px] border border-blue-500/20 animate-ping opacity-10" />
               )}
            </div>
            
-           <div className="flex-1 text-center md:text-left space-y-4">
-              <h3 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter italic leading-tight">
+           <div className="flex-1 text-center md:text-left space-y-6">
+              <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-full w-fit mx-auto md:mx-0">
+                 <span className="text-[9px] font-black text-white/30 uppercase tracking-widest italic">AI Core Interface</span>
+              </div>
+              <h3 className="text-3xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic leading-[1.1]">
                 {currentQuestion}
               </h3>
-              <p className="text-white/40 text-xs font-bold uppercase tracking-widest italic flex items-center justify-center md:justify-start gap-2">
-                 <Sparkles size={14} className="text-blue-400" /> Professional AI Recruiter
-              </p>
            </div>
         </div>
-      </GlassCard>
+      </div>
 
       {/* Input Section */}
-      <div className="space-y-6">
+      <div className="space-y-8">
         <div className="relative group">
            <textarea
              value={transcript}
              readOnly
-             placeholder={isListening ? "Listening to your response..." : "The AI is waiting for your response..."}
-             className={`w-full min-h-[180px] rounded-[32px] p-8 bg-white/5 border ${isListening ? 'border-[#5ed29c] shadow-[0_0_20px_rgba(94,210,156,0.1)]' : 'border-white/10'} text-white/60 font-medium text-lg focus:outline-none transition-all duration-500 italic`}
+             placeholder={isListening ? "Synthesizing your response signal..." : "Awaiting user input signal..."}
+             className={`w-full min-h-[240px] rounded-[48px] p-12 bg-[#161a20]/40 border ${isListening ? 'border-[#5ed29c] shadow-[0_0_40px_rgba(94,210,156,0.1)]' : 'border-white/5'} text-white/60 font-bold text-xl focus:outline-none transition-all duration-700 italic leading-relaxed backdrop-blur-xl`}
            />
-           <div className="absolute top-6 right-8 flex gap-3">
+           <div className="absolute top-8 right-12 flex gap-4">
               {isListening ? (
-                <div className="flex items-center gap-2 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full animate-pulse">
-                   <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                   <span className="text-[8px] font-black text-red-500 uppercase tracking-widest">Recording</span>
+                <div className="flex items-center gap-3 px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-full animate-pulse">
+                   <div className="w-2 h-2 rounded-full bg-red-500" />
+                   <span className="text-[10px] font-black text-red-500 uppercase tracking-widest italic">Live Recording</span>
                 </div>
               ) : (
-                <div className="flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
-                   <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">Awaiting Signal</span>
+                <div className="flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/10 rounded-full">
+                   <span className="text-[10px] font-black text-white/20 uppercase tracking-widest italic">Buffer Empty</span>
                 </div>
               )}
            </div>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-4">
-           <GlassButton
+        <div className="flex flex-col md:flex-row gap-6">
+           <button
              onClick={isListening ? stopListening : startListening}
              disabled={isSubmitting || isSpeaking}
-             className={`flex-1 h-[65px] rounded-2xl flex items-center justify-center gap-3 font-black uppercase tracking-widest ${isListening ? 'bg-red-500/20 border-red-500/30 text-red-500 shadow-lg shadow-red-500/10' : 'bg-blue-500/20 border-blue-500/30 text-blue-400'}`}
+             className={`flex-1 h-[80px] rounded-[32px] flex items-center justify-center gap-4 font-[900] uppercase tracking-[0.2em] italic transition-all duration-500 ${isListening ? 'bg-red-500/10 border border-red-500/30 text-red-500 shadow-2xl shadow-red-500/10' : 'bg-white/5 border border-white/10 text-white/40 hover:bg-white/10 hover:text-white'}`}
            >
-             {isListening ? <><MicOff size={20} /> Stop Listening</> : <><Mic size={20} /> Start Microphone</>}
-           </GlassButton>
+             {isListening ? <><MicOff size={24} /> Terminate Input</> : <><Mic size={24} /> Initiate Microphone</>}
+           </button>
            
-           <GlassButton
+           <button
              onClick={handleNext}
              disabled={isSubmitting || isListening || !transcript || isSpeaking}
-             className="flex-[2] h-[65px] rounded-2xl bg-[#5ed29c] text-black font-black uppercase tracking-widest flex items-center justify-center gap-3 hover:scale-[1.02] shadow-xl shadow-[#5ed29c]/10"
+             className="flex-[2] group/btn relative h-[80px] active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
            >
-             {isSubmitting ? (
-               <><Loader2 className="animate-spin" size={20} /> Syncing Response...</>
-             ) : (
-               <><Send size={20} /> {currentQuestionIndex === questions.length - 1 ? 'Finish Interview' : 'Next Question'}</>
-             )}
-           </GlassButton>
+              <svg className="absolute inset-0 w-full h-full drop-shadow-2xl transition-transform group-hover/btn:scale-[1.01]" viewBox="0 0 600 80" preserveAspectRatio="none" fill="none">
+                 <path d="M0 0H600L585 80H15L0 0Z" fill={isSubmitting ? "#161a20" : "#5ed29c"} />
+              </svg>
+              <span className={`relative z-10 flex items-center justify-center h-full font-rubik font-[900] text-lg uppercase tracking-[0.3em] italic ${isSubmitting ? 'text-white/40' : 'text-[#0a0c10]'}`}>
+                 {isSubmitting ? (
+                   <><Loader2 className="animate-spin mr-4" size={24} /> Syncing Response...</>
+                 ) : (
+                   <><Send size={24} className="mr-4" /> {currentQuestionIndex === questions.length - 1 ? 'Finalize Interview' : 'Transmit Response'}</>
+                 )}
+              </span>
+           </button>
         </div>
       </div>
       
-      {/* Tips */}
-      <div className="flex items-center justify-center gap-8 opacity-30 group-hover:opacity-60 transition-opacity">
-         <div className="flex items-center gap-2"><AlertCircle size={14} /> <span className="text-[9px] font-black uppercase tracking-widest">Ensure clear audio</span></div>
-         <div className="flex items-center gap-2"><CheckCircle size={14} /> <span className="text-[9px] font-black uppercase tracking-widest">Use STAR method</span></div>
-         <div className="flex items-center gap-2"><Bot size={14} /> <span className="text-[9px] font-black uppercase tracking-widest">AI will evaluate after each turn</span></div>
+      {/* Platform Protocol */}
+      <div className="flex items-center justify-center gap-12 opacity-10 group-hover:opacity-30 transition-all duration-700 pb-10">
+         <div className="flex items-center gap-3"><AlertCircle size={16} /> <span className="text-[10px] font-black uppercase tracking-[0.3em] italic">Acoustic Clarity Required</span></div>
+         <div className="flex items-center gap-3"><CheckCircle size={16} /> <span className="text-[10px] font-black uppercase tracking-[0.3em] italic">STAR Method Validation</span></div>
+         <div className="flex items-center gap-3"><Bot size={16} /> <span className="text-[10px] font-black uppercase tracking-[0.3em] italic">AI Logic Evaluation Active</span></div>
       </div>
     </div>
   );
