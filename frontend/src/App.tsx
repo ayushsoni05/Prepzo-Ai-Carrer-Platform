@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Toaster } from 'react-hot-toast';
 import { LandingPage } from '@/pages/LandingPage';
 import { AuthPage } from '@/pages/AuthPage';
@@ -86,6 +87,11 @@ export default function App() {
           window.location.hash = 'landing';
         }
         setAuthValidated(false);
+      } else if (['landing', 'login', 'signup'].includes(currentPage) && isAuthenticated && hasToken) {
+        // Authenticated user on public page - redirect to dashboard
+        setCurrentPage('dashboard');
+        window.location.hash = 'dashboard';
+        setAuthValidated(true);
       } else {
         // Not on protected page, no validation needed
         setAuthValidated(isAuthenticated && hasToken);
@@ -149,8 +155,6 @@ export default function App() {
   useEffect(() => {
     if (!isInitialized) return;
     
-    // If at root URL (no hash), always show landing page without redirect
-    
     if (!isAuthenticated) {
       // If not authenticated and on protected page, redirect to landing
       if ([
@@ -168,12 +172,13 @@ export default function App() {
       ].includes(currentPage)) {
         handleNavigate('landing');
       }
+    } else {
+      // If authenticated and on landing/login/signup, redirect to dashboard
+      if (['landing', 'login', 'signup'].includes(currentPage)) {
+        handleNavigate('dashboard');
+      }
     }
-    // If authenticated, do NOT redirect from signup/login/landing to dashboard
-    // Let user stay on signup/login/landing if they choose
-    // Only redirect if on protected page and not authenticated
-    // Dashboard navigation should be triggered after onboarding/signup, not automatically
-  }, [isInitialized, isAuthenticated, user, currentPage]);
+  }, [isInitialized, isAuthenticated, currentPage]);
 
   const handleNavigate = (page: string) => {
     const newPage = page as Page;
@@ -216,7 +221,7 @@ export default function App() {
   const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'ai-interview'].includes(currentPage);
 
   return (
-    <div className="page-shell">
+    <div className="page-shell overflow-x-hidden">
       <Toaster
         position="top-right"
         toastOptions={{
@@ -243,37 +248,48 @@ export default function App() {
         }}
       />
 
-      {currentPage === 'landing' && <LandingPage onNavigate={handleNavigate} />}
-      {currentPage === 'login' && <AuthPage mode="login" onNavigate={handleNavigate} />}
-      {currentPage === 'signup' && <AuthPage mode="signup" onNavigate={handleNavigate} />}
-      
-      {/* Workspace Pages wrapped in MainLayout */}
-      {isWorkspacePage && (
-        <div className="flex h-screen overflow-hidden bg-[#0a0c10]">
-          <Sidebar 
-            active={getSidebarActiveId(currentPage)} 
-            onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
-            lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
-          />
-          <main className="flex-1 h-full overflow-y-auto overflow-x-hidden custom-scrollbar">
-            {(currentPage === 'dashboard' || currentPage === 'resume' || currentPage === 'settings' || currentPage === 'assessment') && <Dashboard />}
-            {currentPage === 'jobs' && <JobsPage />}
-            {currentPage === 'companies' && <CompaniesPage />}
-            {currentPage === 'applications' && <ApplicationsPage />}
-            {currentPage === 'network' && <NetworkPage />}
-            {currentPage === 'ai-interview' && <InterviewPage />}
-          </main>
-          <MobileNav
-            active={getSidebarActiveId(currentPage)}
-            onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
-            lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
-          />
-        </div>
-      )}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentPage}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+          className="w-full h-full"
+        >
+          {currentPage === 'landing' && <LandingPage onNavigate={handleNavigate} />}
+          {currentPage === 'login' && <AuthPage mode="login" onNavigate={handleNavigate} />}
+          {currentPage === 'signup' && <AuthPage mode="signup" onNavigate={handleNavigate} />}
+          
+          {/* Workspace Pages wrapped in MainLayout */}
+          {isWorkspacePage && (
+            <div className="flex h-screen overflow-hidden bg-[#0a0c10] relative">
+              <Sidebar 
+                active={getSidebarActiveId(currentPage)} 
+                onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
+                lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
+              />
+              <main className="flex-1 h-full overflow-y-auto overflow-x-hidden custom-scrollbar pb-24 md:pb-0">
+                {(currentPage === 'dashboard' || currentPage === 'resume' || currentPage === 'settings' || currentPage === 'assessment') && <Dashboard />}
+                {currentPage === 'jobs' && <JobsPage />}
+                {currentPage === 'companies' && <CompaniesPage />}
+                {currentPage === 'applications' && <ApplicationsPage />}
+                {currentPage === 'network' && <NetworkPage />}
+                {currentPage === 'ai-interview' && <InterviewPage />}
+              </main>
+              <MobileNav
+                active={getSidebarActiveId(currentPage)}
+                onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
+                lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
+              />
+            </div>
+          )}
 
-      {currentPage === 'admin' && <AdminPanel onNavigate={handleNavigate} />}
-      {currentPage === 'onboarding' && <OnboardingPage onNavigate={handleNavigate} />}
-      {currentPage === 'tetris-demo' && <TetrisDemo />}
+          {currentPage === 'admin' && <AdminPanel onNavigate={handleNavigate} />}
+          {currentPage === 'onboarding' && <OnboardingPage onNavigate={handleNavigate} />}
+          {currentPage === 'tetris-demo' && <TetrisDemo />}
+        </motion.div>
+      </AnimatePresence>
       
       {/* Prepzo AI Mentor - Available on all authenticated pages (ChatGPT-style) */}
       {authValidated && isAuthenticated && ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network'].includes(currentPage) && (

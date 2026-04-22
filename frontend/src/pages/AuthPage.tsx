@@ -427,7 +427,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                   exit={{ opacity: 0, scale: 0.95 }}
                   className="w-full"
                 >
-                  <div className="bg-[#161a20] border border-white/10 rounded-[48px] p-8 md:p-10 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+                  <div className="bg-[#161a20] border border-white/10 rounded-[48px] p-8 md:p-10 shadow-2xl backdrop-blur-xl relative overflow-hidden auth-card">
                     <div className="absolute top-0 right-0 p-8 opacity-5">
                         <Sparkles size={80} />
                     </div>
@@ -527,7 +527,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                   exit={{ opacity: 0, scale: 0.95 }}
                   className="w-full h-full flex flex-col items-center"
                 >
-                  <div className="bg-[#161a20] border border-white/10 rounded-[48px] p-8 md:p-10 shadow-2xl backdrop-blur-xl relative overflow-hidden w-full max-w-xl">
+                  <div className="bg-[#161a20] border border-white/10 rounded-[48px] p-8 md:p-10 shadow-2xl backdrop-blur-xl relative overflow-hidden w-full max-w-xl auth-card">
                     <div className="absolute top-0 right-0 p-8 opacity-5">
                         <Sparkles size={80} />
                     </div>
