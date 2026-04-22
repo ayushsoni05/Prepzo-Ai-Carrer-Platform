@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Bot, Mic, MicOff, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { Bot, Mic, MicOff, Send, CheckCircle, AlertCircle, Loader2, Clock } from 'lucide-react';
 import { useSpeech } from '@/hooks/useSpeech';
 import { showError } from '@/utils/toastManager';
 import api from '@/api/axios';
@@ -20,8 +20,99 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [answers, setAnswers] = useState<Array<{ question: string, answer: string, feedback: any }>>([]);
   const [sessionComplete, setSessionComplete] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(90); // Max 90s per answer
+
+  const silenceTimerRef = useRef<any>(null);
+  const answerTimerRef = useRef<any>(null);
+  const timeLeftIntervalRef = useRef<any>(null);
 
   const apiBase = '/interview';
+
+  const clearTimers = useCallback(() => {
+    if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+    if (answerTimerRef.current) clearTimeout(answerTimerRef.current);
+    if (timeLeftIntervalRef.current) clearInterval(timeLeftIntervalRef.current);
+    silenceTimerRef.current = null;
+    answerTimerRef.current = null;
+    timeLeftIntervalRef.current = null;
+  }, []);
+
+  const handleNext = useCallback(async (autoSubmitAnswer?: string) => {
+    const finalAnswer = autoSubmitAnswer !== undefined ? autoSubmitAnswer : transcript;
+
+    // Only block if manually clicking and no answer
+    if (autoSubmitAnswer === undefined && !finalAnswer && !isListening) {
+      showError('Please provide an answer first.');
+      return;
+    }
+
+    if (isListening) stopListening();
+    clearTimers();
+
+    setIsSubmitting(true);
+    try {
+      const res = await api.post(`${apiBase}/submit`, {
+        questions,
+        questionIndex: currentQuestionIndex,
+        answer: finalAnswer || "No response provided."
+      });
+
+      if (res.data.success) {
+        const evaluation = res.data.data;
+        const newAnswers = [...answers, { question: currentQuestion, answer: finalAnswer || "No response.", feedback: evaluation }];
+        setAnswers(newAnswers);
+        
+        if (evaluation.is_complete) {
+          setSessionComplete(true);
+          onComplete(newAnswers);
+        } else {
+          const nextQ = evaluation.nextQuestion;
+          setCurrentQuestion(nextQ);
+          setCurrentQuestionIndex(prev => prev + 1);
+          
+          speak(nextQ, () => {
+            startListening();
+          });
+        }
+      }
+    } catch (error) {
+      showError('Failed to submit answer.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [transcript, isListening, questions, currentQuestionIndex, currentQuestion, answers, onComplete, speak, startListening, stopListening, clearTimers]);
+
+  // Silence and Answer Limit Logic
+  useEffect(() => {
+    if (isListening && !isSubmitting) {
+      setTimeLeft(90);
+      
+      // 10s silence detection (if transcript stays empty)
+      silenceTimerRef.current = setTimeout(() => {
+        if (!transcript) {
+          handleNext(""); // Move forward with empty answer
+        }
+      }, 10000);
+
+      // 90s max answer duration
+      answerTimerRef.current = setTimeout(() => {
+        handleNext(); // Move forward with whatever transcript is present
+      }, 90000);
+
+      timeLeftIntervalRef.current = setInterval(() => {
+        setTimeLeft(prev => Math.max(0, prev - 1));
+      }, 1000);
+    }
+    return () => clearTimers();
+  }, [isListening, isSubmitting, handleNext, clearTimers, transcript]);
+
+  // Reset silence timer when user starts speaking
+  useEffect(() => {
+    if (transcript && silenceTimerRef.current) {
+      clearTimeout(silenceTimerRef.current);
+      silenceTimerRef.current = null;
+    }
+  }, [transcript]);
 
   const fetchQuestions = useCallback(async () => {
     if (preFedQuestions && preFedQuestions.length > 0) {
@@ -30,7 +121,6 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
       setCurrentQuestionIndex(0);
       setIsSessionLoading(false);
       
-      // Speak the first question
       setTimeout(() => {
         speak(preFedQuestions[0], () => {
           startListening();
@@ -45,7 +135,6 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
       if (res.data.success) {
         const qList = res.data.data.questions;
         const firstQ = res.data.data.currentQuestion;
-        
         setQuestions(qList);
         setCurrentQuestion(firstQ);
         setCurrentQuestionIndex(0);
@@ -57,8 +146,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
         }, 500);
       }
     } catch (error: any) {
-      const msg = error.response?.data?.message || 'Failed to start interview session.';
-      showError(msg);
+      showError(error.response?.data?.message || 'Failed to start session.');
     } finally {
       setIsSessionLoading(false);
     }
@@ -67,46 +155,6 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
   useEffect(() => {
     fetchQuestions();
   }, []);
-
-  const handleNext = async () => {
-    if (!transcript && !isListening) {
-      showError('Please provide an answer first.');
-      return;
-    }
-
-    if (isListening) stopListening();
-
-    setIsSubmitting(true);
-    try {
-      const res = await api.post(`${apiBase}/submit`, {
-        questions,
-        questionIndex: currentQuestionIndex,
-        answer: transcript
-      });
-
-      if (res.data.success) {
-        const evaluation = res.data.data;
-        setAnswers([...answers, { question: currentQuestion, answer: transcript, feedback: evaluation }]);
-        
-        if (res.data.data.is_complete) {
-          setSessionComplete(true);
-          onComplete([...answers, { question: currentQuestion, answer: transcript, feedback: evaluation }]);
-        } else {
-          const nextQ = res.data.data.nextQuestion;
-          setCurrentQuestion(nextQ);
-          setCurrentQuestionIndex(prev => prev + 1);
-          
-          speak(nextQ, () => {
-            startListening();
-          });
-        }
-      }
-    } catch (error) {
-      showError('Failed to submit answer.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   if (isSessionLoading) {
     return (
@@ -119,7 +167,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
 
   if (sessionComplete) {
     return (
-      <div className="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+      <div className="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000 pb-20">
         <div className="text-center">
           <div className="w-24 h-24 bg-[#5ed29c]/10 rounded-[32px] flex items-center justify-center mx-auto mb-8 border border-[#5ed29c]/20 shadow-[0_0_50px_rgba(94,210,156,0.15)]">
             <CheckCircle className="w-12 h-12 text-[#5ed29c]" />
@@ -161,7 +209,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
                     </p>
                   </div>
                 </div>
-                <div className="text-right">
+                <div className="text-right shrink-0">
                    <div className="text-6xl font-[900] text-[#5ed29c] tracking-tighter italic leading-none">{item.feedback.score}<span className="text-lg opacity-20 ml-1">/10</span></div>
                 </div>
               </div>
@@ -186,7 +234,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
 
   return (
     <div className="space-y-12">
-      {/* Progress */}
+      {/* Progress & Timer */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-6">
            <p className="text-[11px] font-black text-white/20 uppercase tracking-[0.5em] italic">Signal {currentQuestionIndex + 1} <span className="opacity-40">OF</span> {questions.length}</p>
@@ -196,9 +244,18 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
              ))}
            </div>
         </div>
-        <div className="flex items-center gap-3">
-           <div className={`w-2 h-2 rounded-full ${isSpeaking ? 'bg-blue-500 animate-pulse' : 'bg-white/10'}`} />
-           <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em] italic">{isSpeaking ? 'AI Output Active' : 'AI Standby'}</span>
+        
+        <div className="flex items-center gap-6">
+           {isListening && (
+             <div className="flex items-center gap-3 px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-full">
+                <Clock size={14} className="text-red-500" />
+                <span className="text-[10px] font-black text-red-500 uppercase tracking-widest italic">{timeLeft}s remaining</span>
+             </div>
+           )}
+           <div className="flex items-center gap-3">
+              <div className={`w-2 h-2 rounded-full ${isSpeaking ? 'bg-blue-500 animate-pulse' : 'bg-white/10'}`} />
+              <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em] italic">{isSpeaking ? 'AI Output Active' : 'AI Standby'}</span>
+           </div>
         </div>
       </div>
 
@@ -236,7 +293,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
            <textarea
              value={transcript}
              readOnly
-             placeholder={isListening ? "Synthesizing your response signal..." : "Awaiting user input signal..."}
+             placeholder={isListening ? (transcript ? "Synthesizing your response signal..." : "Awaiting user voice signal (10s auto-skip)...") : "Awaiting user input signal..."}
              className={`w-full min-h-[240px] rounded-[48px] p-12 bg-[#161a20]/40 border ${isListening ? 'border-[#5ed29c] shadow-[0_0_40px_rgba(94,210,156,0.1)]' : 'border-white/5'} text-white/60 font-bold text-xl focus:outline-none transition-all duration-700 italic leading-relaxed backdrop-blur-xl`}
            />
            <div className="absolute top-8 right-12 flex gap-4">
@@ -263,7 +320,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
            </button>
            
            <button
-             onClick={handleNext}
+             onClick={() => handleNext()}
              disabled={isSubmitting || isListening || !transcript || isSpeaking}
              className="flex-[2] group/btn relative h-[80px] active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
            >

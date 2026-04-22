@@ -57,11 +57,19 @@ export const useSpeech = () => {
       setIsSpeaking(false);
     };
 
-    // Ensure voices are loaded
+    // Optimization for Clarity
+    utterance.rate = 0.9;  // Slightly slower for better comprehension
+    utterance.pitch = 1.0; // Natural pitch
+    utterance.volume = 1.0;
+
     const speakText = () => {
       const voices = window.speechSynthesis.getVoices();
-      const premiumVoice = voices.find(v => v.name.includes('Google') || v.name.includes('Natural')) || voices[0];
-      if (premiumVoice) utterance.voice = premiumVoice;
+      // Prioritize high-quality natural voices
+      const preferredVoice = voices.find(v => 
+        (v.name.includes('Natural') || v.name.includes('Google')) && v.lang.startsWith('en')
+      ) || voices.find(v => v.lang.startsWith('en')) || voices[0];
+      
+      if (preferredVoice) utterance.voice = preferredVoice;
       window.speechSynthesis.speak(utterance);
     };
 

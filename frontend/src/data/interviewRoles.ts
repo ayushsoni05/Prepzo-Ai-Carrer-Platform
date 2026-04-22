@@ -79,17 +79,45 @@ export const INTERVIEW_ROLES: InterviewRole[] = [
     ]
   },
   {
-    id: 'product',
-    title: 'Product Manager',
-    description: 'Strategy, Roadmap, and User-centric design.',
-    category: 'Management',
-    icon: 'Briefcase',
+    id: 'cybersecurity',
+    title: 'Cybersecurity Analyst',
+    description: 'Threat detection, network security, and incident response.',
+    category: 'Security',
+    icon: 'Shield',
     questions: [
-      "How do you prioritize features when you have limited resources and multiple stakeholders?",
-      "Describe a time you had to pivot a product strategy based on user feedback.",
-      "What metrics do you track to measure the success of a new feature?",
-      "How do you handle a situation where the engineering team and design team have conflicting priorities?",
-      "How do you define the Minimum Viable Product (MVP) for a new concept?"
+      "What is the difference between Symmetric and Asymmetric encryption?",
+      "Explain the concept of a Man-in-the-Middle (MitM) attack and how to prevent it.",
+      "What are the phases of an incident response plan?",
+      "Describe the difference between a vulnerability assessment and penetration testing.",
+      "How do you secure a web application against SQL injection attacks?"
+    ]
+  },
+  {
+    id: 'uiux',
+    title: 'UI/UX Designer',
+    description: 'User research, wireframing, and visual design systems.',
+    category: 'Design',
+    icon: 'Layout',
+    questions: [
+      "What is your process for conducting user research for a new product feature?",
+      "Explain the importance of accessibility in modern web design.",
+      "How do you handle feedback when a stakeholder disagrees with your design decision?",
+      "Describe the difference between UI and UX with an example.",
+      "What are design tokens and how do they benefit a design system?"
+    ]
+  },
+  {
+    id: 'communication',
+    title: 'IT Communication Expert',
+    description: 'Check your professional communication, tone, and logical flow.',
+    category: 'Soft Skills',
+    icon: 'Mic',
+    questions: [
+      "Tell me about yourself and your professional journey in 2 minutes.",
+      "How do you explain a complex technical concept to a non-technical stakeholder?",
+      "Describe a time you had a conflict with a team member. How did you resolve it?",
+      "What is your approach to giving and receiving constructive criticism?",
+      "Why should we hire you? Highlight your unique value proposition clearly."
     ]
   }
 ];
