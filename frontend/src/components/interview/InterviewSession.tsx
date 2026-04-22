@@ -6,15 +6,17 @@ import api from '@/api/axios';
 
 interface InterviewSessionProps {
   onComplete: (results: any) => void;
+  role?: string;
+  preFedQuestions?: string[];
 }
 
-export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete }) => {
+export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, role, preFedQuestions }) => {
   const { speak, startListening, stopListening, isListening, transcript, isSpeaking } = useSpeech();
   
-  const [questions, setQuestions] = useState<string[]>([]);
+  const [questions, setQuestions] = useState<string[]>(preFedQuestions || []);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [currentQuestion, setCurrentQuestion] = useState('');
-  const [isSessionLoading, setIsSessionLoading] = useState(true);
+  const [currentQuestion, setCurrentQuestion] = useState(preFedQuestions?.[0] || '');
+  const [isSessionLoading, setIsSessionLoading] = useState(!preFedQuestions);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [answers, setAnswers] = useState<Array<{ question: string, answer: string, feedback: any }>>([]);
   const [sessionComplete, setSessionComplete] = useState(false);
@@ -22,6 +24,21 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete }
   const apiBase = '/interview';
 
   const fetchQuestions = useCallback(async () => {
+    if (preFedQuestions && preFedQuestions.length > 0) {
+      setQuestions(preFedQuestions);
+      setCurrentQuestion(preFedQuestions[0]);
+      setCurrentQuestionIndex(0);
+      setIsSessionLoading(false);
+      
+      // Speak the first question
+      setTimeout(() => {
+        speak(preFedQuestions[0], () => {
+          startListening();
+        });
+      }, 1000);
+      return;
+    }
+
     try {
       setIsSessionLoading(true);
       const res = await api.post(`${apiBase}/start`);
@@ -33,7 +50,6 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete }
         setCurrentQuestion(firstQ);
         setCurrentQuestionIndex(0);
         
-        // Speak the first question immediately after launch (triggered by button click)
         setTimeout(() => {
           speak(firstQ, () => {
             startListening();
@@ -41,13 +57,12 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete }
         }, 500);
       }
     } catch (error: any) {
-      const msg = error.response?.data?.message || 'Failed to start interview session. Ensure your resume is uploaded.';
+      const msg = error.response?.data?.message || 'Failed to start interview session.';
       showError(msg);
-      console.error('Interview launch error:', error);
     } finally {
       setIsSessionLoading(false);
     }
-  }, [speak, startListening]);
+  }, [speak, startListening, preFedQuestions]);
 
   useEffect(() => {
     fetchQuestions();
@@ -70,18 +85,17 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete }
       });
 
       if (res.data.success) {
-        const feedback = res.data.data.feedback;
-        setAnswers([...answers, { question: currentQuestion, answer: transcript, feedback }]);
+        const evaluation = res.data.data;
+        setAnswers([...answers, { question: currentQuestion, answer: transcript, feedback: evaluation }]);
         
-        if (res.data.data.complete) {
+        if (res.data.data.is_complete) {
           setSessionComplete(true);
-          onComplete([...answers, { question: currentQuestion, answer: transcript, feedback }]);
+          onComplete([...answers, { question: currentQuestion, answer: transcript, feedback: evaluation }]);
         } else {
-          const nextQ = res.data.data.next_question;
+          const nextQ = res.data.data.nextQuestion;
           setCurrentQuestion(nextQ);
           setCurrentQuestionIndex(prev => prev + 1);
           
-          // Speak next question
           speak(nextQ, () => {
             startListening();
           });
@@ -98,7 +112,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete }
     return (
       <div className="flex flex-col items-center justify-center py-20 space-y-6">
         <Loader2 className="w-12 h-12 text-[#5ed29c] animate-spin" />
-        <p className="text-white/40 font-black uppercase tracking-[0.3em] text-xs">AI is analyzing resume & generating questions...</p>
+        <p className="text-white/40 font-black uppercase tracking-[0.3em] text-xs">Initializing {role || 'AI'} Mock Environment...</p>
       </div>
     );
   }
@@ -132,25 +146,19 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete }
                     <p className="text-white/60 text-lg leading-relaxed">"{item.answer}"</p>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-8">
-                     <div className="space-y-4">
-                        <div className="flex items-center gap-2">
-                           <div className="w-1.5 h-1.5 rounded-full bg-[#5ed29c]" />
-                           <p className="text-[10px] font-black text-[#5ed29c] uppercase tracking-widest">Strengths Identified</p>
-                        </div>
-                        <ul className="text-[13px] text-white/40 space-y-2 font-bold italic">
-                           {item.feedback.strengths.map((s: string, idx: number) => <li key={idx} className="flex items-start gap-2"><span className="text-[#5ed29c]">•</span> {s}</li>)}
-                        </ul>
-                     </div>
-                     <div className="space-y-4">
-                        <div className="flex items-center gap-2">
-                           <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
-                           <p className="text-[10px] font-black text-orange-400 uppercase tracking-widest">Optimization Needed</p>
-                        </div>
-                        <ul className="text-[13px] text-white/40 space-y-2 font-bold italic">
-                           {item.feedback.improvements.map((s: string, idx: number) => <li key={idx} className="flex items-start gap-2"><span className="text-orange-500">•</span> {s}</li>)}
-                        </ul>
-                     </div>
+                  <div className="p-6 rounded-[32px] bg-[#5ed29c]/5 border border-[#5ed29c]/10 italic">
+                    <p className="text-[10px] font-black text-[#5ed29c] uppercase tracking-widest mb-3">AI Recommendation (Ideal Answer)</p>
+                    <p className="text-white/60 text-lg leading-relaxed">{item.feedback.perfectAnswer}</p>
+                  </div>
+
+                  <div className="space-y-4 pt-4 border-t border-white/5">
+                    <div className="flex items-center gap-2">
+                       <div className="w-1.5 h-1.5 rounded-full bg-[#5ed29c]" />
+                       <p className="text-[10px] font-black text-[#5ed29c] uppercase tracking-widest">AI Feedback & Insights</p>
+                    </div>
+                    <p className="text-sm text-white/50 leading-relaxed font-bold italic">
+                      {item.feedback.feedback}
+                    </p>
                   </div>
                 </div>
                 <div className="text-right">
@@ -213,7 +221,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete }
            
            <div className="flex-1 text-center md:text-left space-y-6">
               <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-full w-fit mx-auto md:mx-0">
-                 <span className="text-[9px] font-black text-white/30 uppercase tracking-widest italic">AI Core Interface</span>
+                 <span className="text-[9px] font-black text-white/30 uppercase tracking-widest italic">{role || 'AI'} Core Interface</span>
               </div>
               <h3 className="text-3xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic leading-[1.1]">
                 {currentQuestion}

@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Bot, Sparkles, ArrowRight, Shield, ArrowLeft, FileText } from 'lucide-react';
+import { Bot, Sparkles, ArrowRight, Shield, ArrowLeft, FileText, Layout, Server, Layers, Database, Cloud, Briefcase } from 'lucide-react';
 import { Boxes } from '../components/ui/background-boxes';
 import { InterviewSession } from '../components/interview/InterviewSession';
-import { useAuthStore } from '@/store/authStore';
-import { useAppStore } from '@/store/appStore';
+import { INTERVIEW_ROLES, InterviewRole } from '../data/interviewRoles';
+
+const ICON_MAP: Record<string, any> = {
+  Layout, Server, Layers, Database, Cloud, Briefcase
+};
 
 export const InterviewPage: React.FC = () => {
   const [isStarted, setIsStarted] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(3600);
-  const { user } = useAuthStore();
-  const { resumeAnalysis } = useAppStore();
-
-  const hasResume = !!(resumeAnalysis || user?.resumeText);
+  const [selectedRole, setSelectedRole] = useState<InterviewRole | null>(null);
+  const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes for mock session
 
   useEffect(() => {
     let timer: any;
@@ -30,7 +30,7 @@ export const InterviewPage: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0c10]/50 to-[#0a0c10] pointer-events-none" />
       </div>
 
-      <div className="relative z-10 p-6 md:p-12 max-w-5xl mx-auto space-y-12 font-rubik">
+      <div className="relative z-10 p-6 md:p-12 max-w-7xl mx-auto space-y-12 font-rubik">
         {/* Navigation */}
         <button 
           onClick={() => window.location.hash = 'dashboard'}
@@ -66,72 +66,85 @@ export const InterviewPage: React.FC = () => {
         {/* Content */}
         <div className="relative">
           {!isStarted ? (
-            <div className="grid gap-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-              <div className="p-12 md:p-24 text-center rounded-[60px] border border-white/5 bg-[#161a20]/40 backdrop-blur-xl relative overflow-hidden group shadow-[0_0_100px_rgba(0,0,0,0.5)]">
-                <div className="absolute -right-20 -bottom-20 opacity-5 group-hover:opacity-10 transition-opacity duration-700 rotate-12">
-                   <Bot size={400} className="text-[#5ed29c]" />
-                </div>
-                
-                <div className="relative z-10 max-w-2xl mx-auto">
-                   <div className="w-24 h-24 bg-[#5ed29c]/10 rounded-[32px] flex items-center justify-center mx-auto mb-12 border border-[#5ed29c]/20 shadow-[0_0_50px_rgba(94,210,156,0.15)] group-hover:scale-110 transition-transform duration-500">
-                      <Sparkles size={40} className="text-[#5ed29c]" />
-                   </div>
-                   
-                   <h2 className="text-4xl md:text-6xl font-[900] text-white uppercase tracking-tighter mb-10 italic">Ready to Sync?</h2>
-                   
-                   <p className="text-xl text-white/40 mb-14 leading-relaxed font-medium tracking-tight italic">
-                     Prepzo's AI Recruiter will analyze your parsed resume data to generate a specific 5-question mock session. Ensure you are in a quiet environment.
-                   </p>
+            <div className="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+              <div className="text-center space-y-4">
+                <h2 className="text-3xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic">Select Your Domain</h2>
+                <p className="text-white/40 font-medium tracking-tight uppercase text-xs tracking-[0.3em]">Choose a specialization to start your simulated interview environment</p>
+              </div>
 
-                   {hasResume ? (
-                     <button 
-                        onClick={() => setIsStarted(true)}
-                        className="group/btn relative w-full h-[80px] active:scale-95 transition-all"
-                     >
-                        <svg className="absolute inset-0 w-full h-full drop-shadow-2xl transition-transform group-hover/btn:scale-[1.02]" viewBox="0 0 400 80" preserveAspectRatio="none" fill="none">
-                           <path d="M0 0H400L385 80H15L0 0Z" fill="#5ed29c" />
-                        </svg>
-                        <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10] font-rubik font-[900] text-xl uppercase tracking-[0.2em] italic">
-                           Launch AI Environment <ArrowRight className="ml-4 group-hover/btn:translate-x-2 transition-transform" />
-                        </span>
-                     </button>
-                   ) : (
-                     <div className="space-y-8 p-10 rounded-[40px] bg-red-500/5 border border-red-500/20 backdrop-blur-md">
-                        <div className="flex items-center justify-center gap-4 text-red-500">
-                           <Shield size={24} />
-                           <p className="font-[900] uppercase tracking-[0.4em] text-sm italic">Resume Signal Missing</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {INTERVIEW_ROLES.map((role) => {
+                  const Icon = ICON_MAP[role.icon] || Layout;
+                  const isSelected = selectedRole?.id === role.id;
+                  
+                  return (
+                    <div 
+                      key={role.id}
+                      onClick={() => setSelectedRole(role)}
+                      className={`
+                        group relative p-8 rounded-[40px] border transition-all duration-500 cursor-pointer overflow-hidden
+                        ${isSelected ? 'bg-[#5ed29c] border-[#5ed29c] shadow-[0_0_50px_rgba(94,210,156,0.2)]' : 'bg-[#161a20]/40 border-white/5 hover:border-[#5ed29c]/50 hover:bg-[#161a20]/60'}
+                      `}
+                    >
+                      <div className="relative z-10 flex flex-col h-full gap-6">
+                        <div className={`
+                          w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500
+                          ${isSelected ? 'bg-[#0a0c10] text-[#5ed29c]' : 'bg-[#5ed29c]/10 text-[#5ed29c] group-hover:scale-110'}
+                        `}>
+                          <Icon size={32} />
                         </div>
-                        <p className="text-white/40 text-lg italic tracking-tight">You need to upload and analyze your resume before the AI can generate personalized interview questions.</p>
-                        <button 
-                          onClick={() => window.location.hash = 'resume'}
-                          className="w-full py-5 rounded-2xl bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-xs hover:bg-white/10 transition-all"
-                        >
-                          <FileText size={18} className="inline mr-3" /> Go to Resume Lab
-                        </button>
-                     </div>
-                   )}
-                </div>
+
+                        <div className="space-y-2">
+                          <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${isSelected ? 'text-[#0a0c10]/60' : 'text-[#5ed29c]'}`}>
+                            {role.category}
+                          </span>
+                          <h3 className={`text-2xl font-[900] uppercase italic tracking-tighter ${isSelected ? 'text-[#0a0c10]' : 'text-white'}`}>
+                            {role.title}
+                          </h3>
+                        </div>
+
+                        <p className={`text-sm font-medium leading-relaxed ${isSelected ? 'text-[#0a0c10]/70' : 'text-white/40'}`}>
+                          {role.description}
+                        </p>
+
+                        <div className={`mt-auto pt-6 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] ${isSelected ? 'text-[#0a0c10]' : 'text-white/20'}`}>
+                          5 Questions • AI Verified
+                        </div>
+                      </div>
+
+                      {/* Geometric Decoration */}
+                      <div className={`
+                        absolute -right-10 -bottom-10 w-40 h-40 rounded-full blur-[80px] transition-opacity duration-700
+                        ${isSelected ? 'bg-[#0a0c10]/20 opacity-100' : 'bg-[#5ed29c]/5 opacity-0 group-hover:opacity-100'}
+                      `} />
+                    </div>
+                  );
+                })}
               </div>
 
-              <div className="grid md:grid-cols-3 gap-8">
-                 {[
-                   { title: "Voice Active", desc: "Speak naturally, AI listens", icon: Bot },
-                   { title: "Deep Analysis", desc: "Resume-specific probing", icon: Shield },
-                   { title: "STAR Evaluation", desc: "Metric-based scoring", icon: Sparkles }
-                 ].map((item, i) => (
-                   <div key={i} className="p-10 rounded-[48px] bg-[#161a20] border border-white/5 hover:border-[#5ed29c]/20 transition-all group/item shadow-xl">
-                      <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover/item:bg-[#5ed29c] group-hover/item:text-[#0a0c10] transition-all duration-500">
-                        <item.icon size={28} className="transition-transform group-hover/item:scale-110" />
-                      </div>
-                      <h4 className="text-xl font-[900] text-white uppercase tracking-tight mb-4 italic">{item.title}</h4>
-                      <p className="text-white/30 text-[15px] font-bold uppercase tracking-wide leading-relaxed italic">{item.desc}</p>
-                   </div>
-                 ))}
-              </div>
+              {selectedRole && (
+                <div className="flex justify-center pt-8">
+                  <button 
+                    onClick={() => setIsStarted(true)}
+                    className="group/btn relative w-full md:w-[400px] h-[80px] active:scale-95 transition-all"
+                  >
+                    <svg className="absolute inset-0 w-full h-full drop-shadow-2xl transition-transform group-hover/btn:scale-[1.02]" viewBox="0 0 400 80" preserveAspectRatio="none" fill="none">
+                       <path d="M0 0H400L385 80H15L0 0Z" fill="#5ed29c" />
+                    </svg>
+                    <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10] font-rubik font-[900] text-xl uppercase tracking-[0.2em] italic">
+                       Launch {selectedRole.title} <ArrowRight className="ml-4 group-hover/btn:translate-x-2 transition-transform" />
+                    </span>
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="animate-in fade-in zoom-in duration-700">
-               <InterviewSession onComplete={(results) => console.log('Interview Complete:', results)} />
+              <InterviewSession 
+                role={selectedRole?.title} 
+                preFedQuestions={selectedRole?.questions}
+                onComplete={() => setIsStarted(false)} 
+              />
             </div>
           )}
         </div>
