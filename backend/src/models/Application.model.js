@@ -58,7 +58,6 @@ const applicationSchema = new mongoose.Schema(
     // Resume & Cover Letter
     resumeUrl: {
       type: String,
-      required: [true, 'Resume is required'],
     },
     resumeVersion: String, // Track which resume version was used
     coverLetter: {
@@ -139,7 +138,7 @@ const applicationSchema = new mongoose.Schema(
     // Source Tracking
     source: {
       type: String,
-      enum: ['direct', 'ai_recommendation', 'search', 'company_page', 'referral', 'external'],
+      enum: ['direct', 'ai_recommendation', 'search', 'company_page', 'referral', 'external', 'platform'],
       default: 'direct',
     },
     referredBy: {

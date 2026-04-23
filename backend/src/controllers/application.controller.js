@@ -68,7 +68,7 @@ export const applyForJob = asyncHandler(async (req, res) => {
     company: job.company,
     coverLetter,
     answers,
-    resumeUrl: user.resumeUrl,
+    resumeUrl: user.resumeUrl || null,
     matchScore: {
       overall: overallScore,
       skillMatch: skillScore,

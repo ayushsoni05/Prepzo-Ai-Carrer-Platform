@@ -619,7 +619,8 @@ function JobDetailModal({
         onClose();
       }
     } catch (error: any) {
-      toast.error(error.message || 'Transmission Failed');
+      const msg = error?.response?.data?.message || error?.message || 'Transmission Failed';
+      toast.error(msg);
     } finally {
       setIsApplying(false);
     }
