@@ -122,7 +122,8 @@ export function Dashboard() {
     generatedResume,
     resumeGenerationLoading,
     generateResume,
-    setShowFullRecommendations
+    setShowFullRecommendations,
+    setGlobalLoading
   } = useAppStore();
   const [startAssessment, setStartAssessment] = useState<false | 'field' | 'skills'>(false);
   const [resumeTextInput, setResumeTextInput] = useState('');
