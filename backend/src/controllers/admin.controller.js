@@ -1,5 +1,6 @@
 import User from '../models/User.model.js';
 import TestSession from '../models/TestSession.model.js';
+import Notification from '../models/Notification.model.js';
 import { runSeeder } from '../utils/seeder.js';
 
 // @desc    Seed system data (Companies, Jobs)
@@ -42,10 +43,16 @@ export const getDashboardStats = async (req, res) => {
     today.setHours(0, 0, 0, 0);
     const todayRegistrations = await User.countDocuments({ createdAt: { $gte: today } });
     
-    // Get this week's registrations
     const weekAgo = new Date();
     weekAgo.setDate(weekAgo.getDate() - 7);
     const weekRegistrations = await User.countDocuments({ createdAt: { $gte: weekAgo } });
+    
+    // Get students active in last 24h
+    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const activeStudents24h = await User.countDocuments({ 
+      lastActivityAt: { $gte: twentyFourHoursAgo },
+      role: 'student'
+    });
     
     // Get average placement readiness score
     const users = await User.find({ placementReadinessScore: { $exists: true, $gt: 0 } });
@@ -68,6 +75,7 @@ export const getDashboardStats = async (req, res) => {
         assessmentCompleted,
         todayRegistrations,
         weekRegistrations,
+        active24h: activeStudents24h,
       },
       tests: {
         total: totalTests,
@@ -576,6 +584,48 @@ export const exportUsers = async (req, res) => {
     res.json({ users: userData });
   } catch (error) {
     console.error('Export users error:', error);
+    res.status(500).json({ message: error.message || 'Server error' });
+  }
+};
+
+// @desc    Send announcement to all users
+// @route   POST /api/admin/announcements
+// @access  Private/Admin
+export const sendAnnouncement = async (req, res) => {
+  try {
+    const { title, message, priority, targetRole } = req.body;
+
+    if (!title || !message) {
+      return res.status(400).json({ message: 'Title and message are required' });
+    }
+    
+    // Find users
+    const filter = {};
+    if (targetRole && targetRole !== 'all') filter.role = targetRole;
+    
+    const users = await User.find(filter).select('_id');
+    
+    if (users.length === 0) {
+      return res.status(404).json({ message: 'No users found for the given criteria' });
+    }
+
+    const notifications = users.map(user => ({
+      recipient: user._id,
+      type: 'system_announcement',
+      title,
+      message,
+      priority: priority || 'normal',
+      category: 'system'
+    }));
+    
+    await Notification.insertMany(notifications);
+    
+    res.json({ 
+      success: true, 
+      message: `Announcement sent to ${users.length} users successfully` 
+    });
+  } catch (error) {
+    console.error('Send announcement error:', error);
     res.status(500).json({ message: error.message || 'Server error' });
   }
 };

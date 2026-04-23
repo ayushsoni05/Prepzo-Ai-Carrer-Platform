@@ -31,10 +31,15 @@ import {
   ChevronLeft,
   ChevronRight,
   UserCheck,
-  ShieldAlert
+  ShieldAlert,
+  Briefcase,
+  CheckCircle,
+  Clock,
+  ExternalLink
 } from 'lucide-react';
 import { Boxes } from '@/components/ui/background-boxes';
 import { companiesApi, Company } from '@/api/companies';
+import { jobsApi, Job } from '@/api/jobs';
 
 interface AdminPanelProps {
   onNavigate: (page: string) => void;
@@ -45,6 +50,7 @@ const sidebarItems = [
   { icon: Users, label: 'Users', id: 'users' },
   { icon: FileText, label: 'Tests', id: 'tests' },
   { icon: Building2, label: 'Companies', id: 'companies' },
+  { icon: Briefcase, label: 'Jobs', id: 'jobs' },
   { icon: Shield, label: 'Proctor Logs', id: 'proctoring' },
   { icon: Bell, label: 'Announcements', id: 'announcements' },
   { icon: Settings, label: 'Settings', id: 'settings' },
@@ -436,10 +442,11 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
         {activeTab === 'dashboard' && (
           <div className="space-y-6 pointer-events-auto">
             {/* Stats cards */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
               {[
                 { label: 'Total Users', value: stats?.users.total || 0, sub: `${stats?.users.todayRegistrations || 0} today`, icon: Users, color: 'purple' },
-                { label: 'Tests Completed', value: stats?.tests.completed || 0, sub: `${stats?.tests.active || 0} active`, icon: FileText, color: 'blue' },
+                { label: 'Active (24h)', value: stats?.users.active24h || 0, sub: 'students', icon: UserCheck, color: 'indigo' },
+                { label: 'Tests Done', value: stats?.tests.completed || 0, sub: `${stats?.tests.active || 0} active`, icon: FileText, color: 'blue' },
                 { label: 'Avg. Score', value: `${stats?.performance.avgPlacementScore || 0}%`, sub: `${stats?.users.assessmentCompleted || 0} assessed`, icon: BarChart3, color: 'green' },
                 { label: 'Violations', value: stats?.performance.totalViolations || 0, sub: `${stats?.users.blocked || 0} blocked`, icon: AlertTriangle, color: 'red' },
               ].map((stat, index) => (
@@ -453,12 +460,14 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
                       stat.color === 'purple' ? 'bg-purple-500/20' :
                       stat.color === 'blue' ? 'bg-blue-500/20' :
-                      stat.color === 'green' ? 'bg-green-500/20' : 'bg-red-500/20'
+                      stat.color === 'green' ? 'bg-green-500/20' : 
+                      stat.color === 'indigo' ? 'bg-indigo-500/20' : 'bg-red-500/20'
                     }`}>
                       <stat.icon className={`w-6 h-6 ${
                         stat.color === 'purple' ? 'text-purple-400' :
                         stat.color === 'blue' ? 'text-blue-400' :
-                        stat.color === 'green' ? 'text-green-400' : 'text-red-400'
+                        stat.color === 'green' ? 'text-green-400' : 
+                        stat.color === 'indigo' ? 'text-indigo-400' : 'text-red-400'
                       }`} />
                     </div>
                   </div>
@@ -839,6 +848,10 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
           <AdminCompaniesTab />
         )}
 
+        {activeTab === 'jobs' && (
+          <AdminJobsTab />
+        )}
+
         {activeTab === 'proctoring' && (
           <div className="pointer-events-auto">
             <GlassCard>
@@ -910,40 +923,7 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
         )}
 
         {activeTab === 'announcements' && (
-          <div className="space-y-6 pointer-events-auto">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Announcements</h3>
-              <GlassButton variant="primary">
-                <Plus className="w-4 h-4 mr-2" />
-                New Announcement
-              </GlassButton>
-            </div>
-
-            <GlassCard>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Title</label>
-                  <input
-                    type="text"
-                    placeholder="Announcement title..."
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Message</label>
-                  <textarea
-                    placeholder="Write your announcement..."
-                    rows={4}
-                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-none"
-                  />
-                </div>
-                <div className="flex gap-4">
-                  <GlassButton variant="primary">Send to All</GlassButton>
-                  <GlassButton variant="secondary">Schedule</GlassButton>
-                </div>
-              </div>
-            </GlassCard>
-          </div>
+          <AdminAnnouncementsTab />
         )}
 
         {activeTab === 'settings' && (
@@ -1142,6 +1122,279 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
     </div>
   );
 };
+
+// ============ Admin Announcements Tab Component ============
+function AdminAnnouncementsTab() {
+  const [title, setTitle] = useState('');
+  const [message, setMessage] = useState('');
+  const [priority, setPriority] = useState<'low' | 'normal' | 'high' | 'urgent'>('normal');
+  const [targetRole, setTargetRole] = useState<'all' | 'student' | 'admin'>('all');
+  const [sending, setSending] = useState(false);
+
+  const handleSend = async () => {
+    if (!title.trim() || !message.trim()) {
+      toast.error('Please fill in both title and message');
+      return;
+    }
+
+    setSending(true);
+    try {
+      const res = await adminApi.sendAnnouncement({
+        title,
+        message,
+        priority,
+        targetRole
+      });
+      if (res.success) {
+        toast.success(res.message);
+        setTitle('');
+        setMessage('');
+      }
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Failed to send announcement');
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6 pointer-events-auto">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold">Broadcase Announcement</h3>
+        <GlassButton variant="ghost" size="sm" onClick={() => { setTitle(''); setMessage(''); }}>
+          <RefreshCw className="w-4 h-4 mr-2" /> Reset
+        </GlassButton>
+      </div>
+
+      <GlassCard>
+        <div className="space-y-6">
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Target Audience</label>
+              <select 
+                value={targetRole}
+                onChange={(e) => setTargetRole(e.target.value as any)}
+                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
+              >
+                <option value="all">All Users</option>
+                <option value="student">Students Only</option>
+                <option value="admin">Admins Only</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Priority Level</label>
+              <select 
+                value={priority}
+                onChange={(e) => setPriority(e.target.value as any)}
+                className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none"
+              >
+                <option value="low">Low</option>
+                <option value="normal">Normal</option>
+                <option value="high">High</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Announcement Title</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="e.g., Scheduled Maintenance"
+              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Message Body</label>
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Detailed message for the users..."
+              rows={5}
+              className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-none"
+            />
+          </div>
+
+          <div className="flex gap-4 pt-4">
+            <GlassButton 
+              variant="primary" 
+              className="flex-1"
+              onClick={handleSend}
+              disabled={sending}
+            >
+              <Bell className="w-4 h-4 mr-2" />
+              {sending ? 'Sending...' : 'Broadcast Now'}
+            </GlassButton>
+            <GlassButton variant="secondary" className="px-8">
+              Schedule for Later
+            </GlassButton>
+          </div>
+        </div>
+      </GlassCard>
+
+      <div className="mt-8">
+        <h4 className="font-semibold mb-4 flex items-center gap-2">
+          <Clock className="w-4 h-4" /> Recent Broadcasts
+        </h4>
+        <GlassCard className="text-center py-8">
+          <p className="text-gray-500 text-sm italic">History feature coming soon. Announcements are currently sent as system notifications.</p>
+        </GlassCard>
+      </div>
+    </div>
+  );
+}
+
+// ============ Admin Jobs Tab Component ============
+function AdminJobsTab() {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [filter, setFilter] = useState<{ status?: string, isApproved?: boolean }>({ isApproved: false });
+
+  const fetchJobs = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await jobsApi.getAllJobsAdmin(page, 12, filter.status, filter.isApproved);
+      if (res.success) {
+        setJobs(res.data.jobs);
+        setTotalPages(res.data.pagination.pages);
+      }
+    } catch {
+      toast.error('Failed to load jobs');
+    } finally {
+      setLoading(false);
+    }
+  }, [page, filter]);
+
+  useEffect(() => {
+    fetchJobs();
+  }, [fetchJobs]);
+
+  const handleApprove = async (id: string, isApproved: boolean) => {
+    try {
+      await jobsApi.approveJob(id, isApproved);
+      toast.success(isApproved ? 'Job approved!' : 'Job rejected');
+      fetchJobs();
+    } catch {
+      toast.error('Action failed');
+    }
+  };
+
+  return (
+    <div className="space-y-6 pointer-events-auto">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold">Job Moderation</h3>
+        <div className="flex gap-4">
+          <select 
+            value={filter.isApproved === undefined ? 'all' : filter.isApproved.toString()}
+            onChange={(e) => setFilter({ ...filter, isApproved: e.target.value === 'all' ? undefined : e.target.value === 'true' })}
+            className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none"
+          >
+            <option value="false">Pending Approval</option>
+            <option value="true">Approved</option>
+            <option value="all">All Jobs</option>
+          </select>
+          <GlassButton variant="secondary" size="sm" onClick={fetchJobs}>
+            <RefreshCw className="w-4 h-4 mr-2" /> Refresh
+          </GlassButton>
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-12">
+          <RefreshCw className="w-8 h-8 animate-spin text-purple-400" />
+        </div>
+      ) : jobs.length === 0 ? (
+        <GlassCard className="text-center py-12">
+          <Briefcase className="w-12 h-12 text-gray-500 mx-auto mb-3" />
+          <p className="text-gray-400">No jobs matching filters</p>
+        </GlassCard>
+      ) : (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {jobs.map((job) => (
+            <GlassCard key={job._id}>
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
+                  {job.company?.logo ? (
+                    <img src={job.company.logo} alt={job.company.name} className="w-full h-full object-contain" />
+                  ) : (
+                    <Building2 className="w-6 h-6 text-gray-500" />
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <h4 className="font-semibold truncate">{job.title}</h4>
+                  <p className="text-sm text-gray-400 truncate">{job.company?.name}</p>
+                </div>
+              </div>
+              
+              <div className="space-y-2 text-sm text-gray-400 mb-6">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  <span>Posted: {new Date(job.createdAt).toLocaleDateString()}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className={`w-4 h-4 ${job.isApproved ? 'text-green-400' : 'text-yellow-400'}`} />
+                  <span>Status: {job.isApproved ? 'Approved' : 'Pending'}</span>
+                </div>
+              </div>
+
+              <div className="flex gap-2">
+                {!job.isApproved ? (
+                  <GlassButton 
+                    variant="primary" 
+                    size="sm" 
+                    className="flex-1"
+                    onClick={() => handleApprove(job._id, true)}
+                  >
+                    Approve
+                  </GlassButton>
+                ) : (
+                  <GlassButton 
+                    variant="secondary" 
+                    size="sm" 
+                    className="flex-1"
+                    onClick={() => handleApprove(job._id, false)}
+                  >
+                    Revoke
+                  </GlassButton>
+                )}
+                <GlassButton variant="ghost" size="sm" onClick={() => window.open(`/jobs/${job._id}`, '_blank')}>
+                  <ExternalLink className="w-4 h-4" />
+                </GlassButton>
+              </div>
+            </GlassCard>
+          ))}
+        </div>
+      )}
+      
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-4 mt-8">
+          <GlassButton 
+            variant="ghost" 
+            size="sm" 
+            disabled={page === 1}
+            onClick={() => setPage(p => p - 1)}
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </GlassButton>
+          <span className="text-sm text-gray-400">Page {page} of {totalPages}</span>
+          <GlassButton 
+            variant="ghost" 
+            size="sm" 
+            disabled={page === totalPages}
+            onClick={() => setPage(p => p + 1)}
+          >
+            <ChevronRight className="w-4 h-4" />
+          </GlassButton>
+        </div>
+      )}
+    </div>
+  );
+}
 
 // ============ Admin Companies Tab Component ============
 const INDUSTRY_OPTIONS = [

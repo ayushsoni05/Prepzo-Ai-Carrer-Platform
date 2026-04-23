@@ -37,6 +37,7 @@ export interface Job {
   viewCount?: number;
   createdAt: string;
   isSaved?: boolean;
+  isApproved?: boolean;
 }
 
 export interface JobSearchParams {
@@ -177,10 +178,16 @@ export const jobsApi = {
   },
 
   // Admin: Get all jobs
-  getAllJobsAdmin: async (page = 1, limit = 20, status?: string) => {
+  getAllJobsAdmin: async (page = 1, limit = 20, status?: string, isApproved?: boolean) => {
     const response = await api.get('/jobs/admin/all', {
-      params: { page, limit, status },
+      params: { page, limit, status, isApproved },
     });
+    return response.data;
+  },
+  
+  // Admin: Approve job
+  approveJob: async (id: string, isApproved: boolean) => {
+    const response = await api.put(`/jobs/${id}/approve`, { isApproved });
     return response.data;
   },
 };

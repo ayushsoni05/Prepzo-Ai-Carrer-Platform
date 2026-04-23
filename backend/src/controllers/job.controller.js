@@ -545,6 +545,9 @@ export const getAllJobsAdmin = asyncHandler(async (req, res) => {
 
   const query = {};
   if (status) query.status = status;
+  if (req.query.isApproved !== undefined) {
+    query.isApproved = req.query.isApproved === 'true';
+  }
 
   const [jobs, total] = await Promise.all([
     Job.find(query)
@@ -567,5 +570,37 @@ export const getAllJobsAdmin = asyncHandler(async (req, res) => {
         pages: Math.ceil(total / parseInt(limit)),
       },
     },
+  });
+});
+
+/**
+ * @desc    Approve/Reject job
+ * @route   PUT /api/jobs/:id/approve
+ * @access  Admin
+ */
+export const approveJob = asyncHandler(async (req, res) => {
+  const { isApproved } = req.body;
+
+  const job = await Job.findById(req.params.id);
+
+  if (!job) {
+    res.status(404);
+    throw new Error('Job not found');
+  }
+
+  job.isApproved = isApproved;
+  if (isApproved) {
+    job.approvedBy = req.user._id;
+    job.approvedAt = new Date();
+  } else {
+    job.approvedBy = undefined;
+    job.approvedAt = undefined;
+  }
+
+  await job.save();
+
+  res.json({
+    success: true,
+    data: job,
   });
 });

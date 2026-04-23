@@ -288,6 +288,13 @@ export const protect = async (req, res, next) => {
     }
 
     req.user = user;
+    
+    // Update lastActivityAt if more than 5 minutes have passed since last update
+    const now = new Date();
+    if (!user.lastActivityAt || (now.getTime() - new Date(user.lastActivityAt).getTime()) > 5 * 60 * 1000) {
+      User.findByIdAndUpdate(user._id, { lastActivityAt: now }).exec();
+    }
+
     next();
   } catch (error) {
     if (error.name === 'TokenExpiredError') {

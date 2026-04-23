@@ -12,6 +12,7 @@ import {
   bulkUserAction,
   exportUsers,
   seedSystemData,
+  sendAnnouncement,
 } from '../controllers/admin.controller.js';
 import { protect, admin } from '../middleware/auth.middleware.js';
 
@@ -38,5 +39,8 @@ router.put('/users/:id/role', changeUserRole);
 // Tests and proctoring
 router.get('/tests', getAllTestSessions);
 router.get('/proctoring', getProctoringLogs);
+
+// Announcements
+router.post('/announcements', sendAnnouncement);
 
 export default router;

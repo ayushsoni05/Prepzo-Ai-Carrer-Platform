@@ -84,6 +84,7 @@ export interface DashboardStats {
     assessmentCompleted: number;
     todayRegistrations: number;
     weekRegistrations: number;
+    active24h: number;
   };
   tests: {
     total: number;
@@ -207,5 +208,15 @@ export const exportUsers = async (format: 'json' | 'csv' = 'json'): Promise<{ us
 
 export const seedSystemData = async (): Promise<{ success: boolean; message: string; data: any }> => {
   const response = await api.post('/admin/seed');
+  return response.data;
+};
+
+export const sendAnnouncement = async (data: {
+  title: string;
+  message: string;
+  priority?: 'low' | 'normal' | 'high' | 'urgent';
+  targetRole?: 'all' | 'student' | 'admin';
+}): Promise<{ success: boolean; message: string }> => {
+  const response = await api.post('/admin/announcements', data);
   return response.data;
 };

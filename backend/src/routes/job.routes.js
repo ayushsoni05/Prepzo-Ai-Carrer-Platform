@@ -20,6 +20,7 @@ import {
   updateJob,
   deleteJob,
   getAllJobsAdmin,
+  approveJob,
 } from '../controllers/job.controller.js';
 
 const router = express.Router();
@@ -45,6 +46,7 @@ router.put('/saved/:id', updateSavedJob);
 router.use(authorize('admin'));
 
 router.get('/admin/all', getAllJobsAdmin);
+router.put('/:id/approve', approveJob);
 router.post('/', createJob);
 router.put('/:id', updateJob);
 router.delete('/:id', deleteJob);
