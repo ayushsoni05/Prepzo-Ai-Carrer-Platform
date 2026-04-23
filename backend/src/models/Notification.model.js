@@ -32,12 +32,15 @@ const notificationSchema = new mongoose.Schema(
         // Job & Application
         'new_job_match',
         'job_recommendation',
+        'application_submitted',
         'application_received',
         'application_viewed',
         'application_shortlisted',
         'application_rejected',
+        'application_status_changed',
         'interview_scheduled',
         'offer_extended',
+        'offer_received',
         'job_deadline_reminder',
         'saved_job_deadline',
         
@@ -193,9 +196,9 @@ notificationSchema.index({ groupKey: 1 });
 // Pre-save to set category
 notificationSchema.pre('save', function (next) {
   if (!this.category) {
-    const jobTypes = ['new_job_match', 'job_recommendation', 'application_received', 'application_viewed', 
-                      'application_shortlisted', 'application_rejected', 'interview_scheduled', 
-                      'offer_extended', 'job_deadline_reminder', 'saved_job_deadline', 'company_new_job'];
+    const jobTypes = ['new_job_match', 'job_recommendation', 'application_submitted', 'application_received', 'application_viewed', 
+                      'application_shortlisted', 'application_rejected', 'application_status_changed', 'interview_scheduled', 
+                      'offer_extended', 'offer_received', 'job_deadline_reminder', 'saved_job_deadline', 'company_new_job'];
     const connectionTypes = ['connection_request', 'connection_accepted', 'company_followed'];
     const engagementTypes = ['post_like', 'post_comment', 'post_share', 'post_mention', 
                              'comment_like', 'comment_reply', 'profile_view', 'skill_endorsement'];
