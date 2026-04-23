@@ -15,10 +15,10 @@ import { CompaniesPage } from '@/pages/CompaniesPage';
 import { ApplicationsPage } from '@/pages/ApplicationsPage';
 import { NetworkPage } from '@/pages/NetworkPage';
 import TetrisDemo from '@/pages/TetrisDemo';
-import ThinkingLoader from '@/components/ui/loading';
 import Sidebar from '@/components/navigation/Sidebar';
 import { MobileNav } from '@/components/navigation/MobileNav';
 import { InterviewPage } from '@/pages/InterviewPage';
+import TetrisLoading from '@/components/ui/tetris-loader';
 
 type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview';
 
@@ -32,6 +32,7 @@ const getPageFromHash = (): Page => {
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>(getPageFromHash);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(false);
   const [authValidated, setAuthValidated] = useState(false);
   const initRef = useRef(false);
   const { isAuthenticated, user, fetchUser } = useAuthStore();
@@ -145,11 +146,18 @@ export default function App() {
   // Listen for browser back/forward navigation
   useEffect(() => {
     const handleHashChange = () => {
-      setCurrentPage(getPageFromHash());
+      const newPage = getPageFromHash();
+      if (newPage !== currentPage) {
+        setIsPageLoading(true);
+        setTimeout(() => {
+          setCurrentPage(newPage);
+          setTimeout(() => setIsPageLoading(false), 800);
+        }, 600);
+      }
     };
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
+  }, [currentPage]);
 
   // Redirect based on auth state after initialization
   useEffect(() => {
@@ -182,25 +190,37 @@ export default function App() {
 
   const handleNavigate = (page: string) => {
     const newPage = page as Page;
+    if (newPage === currentPage) return;
 
-    // Navigation logic
-    if (['dashboard', 'resume', 'settings', 'assessment'].includes(newPage)) {
-      const { setDashboardTab } = useAppStore.getState();
-      if (newPage === 'resume') setDashboardTab('resume');
-      else if (newPage === 'settings') setDashboardTab('settings');
-      else if (newPage === 'assessment') setDashboardTab('assessment');
-      else if (newPage === 'dashboard') setDashboardTab('home');
-    }
+    setIsPageLoading(true);
+    
+    // Artificial delay to show premium loader and ensure smooth transition
+    setTimeout(() => {
+      // Navigation logic
+      if (['dashboard', 'resume', 'settings', 'assessment'].includes(newPage)) {
+        const { setDashboardTab } = useAppStore.getState();
+        if (newPage === 'resume') setDashboardTab('resume');
+        else if (newPage === 'settings') setDashboardTab('settings');
+        else if (newPage === 'assessment') setDashboardTab('assessment');
+        else if (newPage === 'dashboard') setDashboardTab('home');
+      }
 
-    setCurrentPage(newPage);
-    window.location.hash = newPage;
+      setCurrentPage(newPage);
+      window.location.hash = newPage;
+      
+      // Delay before hiding loader to ensure new page starts mounting
+      setTimeout(() => {
+        setIsPageLoading(false);
+      }, 800);
+    }, 600);
   };
 
   // Show loading while initializing
   if (!isInitialized) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#0a0c10]">
-        <ThinkingLoader 
+        <TetrisLoading 
+          size="lg"
           loadingText="Synchronizing Environment" 
         />
       </div>
@@ -249,46 +269,59 @@ export default function App() {
       />
 
       <AnimatePresence mode="wait">
-        <motion.div
-          key={currentPage}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-          className="w-full h-full"
-        >
-          {currentPage === 'landing' && <LandingPage onNavigate={handleNavigate} />}
-          {currentPage === 'login' && <AuthPage mode="login" onNavigate={handleNavigate} />}
-          {currentPage === 'signup' && <AuthPage mode="signup" onNavigate={handleNavigate} />}
-          
-          {/* Workspace Pages wrapped in MainLayout */}
-          {isWorkspacePage && (
-            <div className="flex h-screen overflow-hidden bg-[#0a0c10] relative">
-              <Sidebar 
-                active={getSidebarActiveId(currentPage)} 
-                onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
-                lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
-              />
-              <main className="flex-1 h-full overflow-y-auto overflow-x-hidden custom-scrollbar pb-24 md:pb-0">
-                {(currentPage === 'dashboard' || currentPage === 'resume' || currentPage === 'settings' || currentPage === 'assessment') && <Dashboard />}
-                {currentPage === 'jobs' && <JobsPage />}
-                {currentPage === 'companies' && <CompaniesPage />}
-                {currentPage === 'applications' && <ApplicationsPage />}
-                {currentPage === 'network' && <NetworkPage />}
-                {currentPage === 'ai-interview' && <InterviewPage />}
-              </main>
-              <MobileNav
-                active={getSidebarActiveId(currentPage)}
-                onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
-                lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
-              />
-            </div>
-          )}
+        {isPageLoading ? (
+          <motion.div
+            key="page-loader"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-screen flex flex-col items-center justify-center bg-[#0a0c10] z-[100]"
+          >
+            <TetrisLoading size="lg" loadingText="Mapping Opportunity Grid..." />
+          </motion.div>
+        ) : (
+          <motion.div
+            key={currentPage}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+            className="w-full h-full"
+          >
+            {currentPage === 'landing' && <LandingPage onNavigate={handleNavigate} />}
+            {currentPage === 'login' && <AuthPage mode="login" onNavigate={handleNavigate} />}
+            {currentPage === 'signup' && <AuthPage mode="signup" onNavigate={handleNavigate} />}
+            
+            {/* Workspace Pages wrapped in MainLayout */}
+            {isWorkspacePage && (
+              <div className="flex h-screen overflow-hidden bg-[#0a0c10] relative">
+                <Sidebar 
+                  active={getSidebarActiveId(currentPage)} 
+                  onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
+                  lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
+                />
+                <main className="flex-1 h-full overflow-y-auto overflow-x-hidden custom-scrollbar pb-24 md:pb-0">
+                  {(currentPage === 'dashboard' || currentPage === 'resume' || currentPage === 'settings' || currentPage === 'assessment') && <Dashboard />}
+                  {currentPage === 'jobs' && <JobsPage />}
+                  {currentPage === 'companies' && <CompaniesPage />}
+                  {currentPage === 'applications' && <ApplicationsPage />}
+                  {currentPage === 'network' && <NetworkPage />}
+                  {currentPage === 'ai-interview' && <InterviewPage />}
+                </main>
+                <MobileNav
+                  active={getSidebarActiveId(currentPage)}
+                  onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
+                  lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
+                />
+              </div>
+            )}
 
-          {currentPage === 'admin' && <AdminPanel onNavigate={handleNavigate} />}
-          {currentPage === 'onboarding' && <OnboardingPage onNavigate={handleNavigate} />}
-          {currentPage === 'tetris-demo' && <TetrisDemo />}
-        </motion.div>
+            {currentPage === 'admin' && <AdminPanel onNavigate={handleNavigate} />}
+            {currentPage === 'onboarding' && <OnboardingPage onNavigate={handleNavigate} />}
+            {currentPage === 'tetris-demo' && <TetrisDemo />}
+          </motion.div>
+        )}
       </AnimatePresence>
       
       {/* Prepzo AI Mentor - Available on all authenticated pages (ChatGPT-style) */}
