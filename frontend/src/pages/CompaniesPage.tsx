@@ -399,7 +399,7 @@ function FeaturedCompanyCard({
 
       <div className="flex items-center gap-6 mb-6">
         <div className="w-16 h-16 bg-[#0a0c10] border border-white/10 rounded-[20px] flex items-center justify-center overflow-hidden p-2 group-hover:border-[#00ff9d]/20 transition-colors">
-          {company.logo ? (
+          {company?.logo ? (
             <img
               src={company.logo}
               alt={company.name}
@@ -410,8 +410,8 @@ function FeaturedCompanyCard({
           )}
         </div>
         <div>
-          <h3 className="text-xl font-rubik font-[900] text-white uppercase tracking-tight group-hover:text-[#00ff9d] transition-colors">{company.name}</h3>
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30">{company.industry}</p>
+          <h3 className="text-xl font-rubik font-[900] text-white uppercase tracking-tight group-hover:text-[#00ff9d] transition-colors">{company?.name}</h3>
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30">{company?.industry}</p>
         </div>
       </div>
       
@@ -456,7 +456,7 @@ function CompanyCard({
 
       <div className="flex items-start gap-6 mb-8">
         <div className="w-16 h-16 bg-[#161a20] border border-white/10 rounded-[24px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-2 group-hover:border-[#00ff9d]/30 transition-colors">
-          {company.logo ? (
+          {company?.logo ? (
             <img
               src={company.logo}
               alt={company.name}

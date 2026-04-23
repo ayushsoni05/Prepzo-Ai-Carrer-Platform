@@ -361,7 +361,7 @@ function ApplicationCard({
         <div className="flex flex-col md:flex-row gap-8 flex-1">
           {/* Company Logo - Premium Style */}
           <div className="w-20 h-20 bg-[#161a20] border border-white/10 rounded-[24px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-2 group-hover:border-[#00ff9d]/30 transition-colors">
-            {application.company.logo ? (
+            {application?.company?.logo ? (
               <img
                 src={application.company.logo}
                 alt={application.company.name}
@@ -389,7 +389,7 @@ function ApplicationCard({
             </h3>
             
             <div className="flex items-center gap-3 mb-6">
-               <p className="text-[15px] font-rubik font-bold text-white/50 tracking-tight">{application.company.name}</p>
+               <p className="text-[15px] font-rubik font-bold text-white/50 tracking-tight">{application?.company?.name}</p>
                <span className="w-1 h-1 rounded-full bg-white/10" />
                <p className="text-[14px] font-rubik font-bold text-white/30 tracking-tight flex items-center gap-2">
                  <MapPin size={14} />

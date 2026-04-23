@@ -179,8 +179,8 @@ export function JobsPage() {
           const recsRes = await jobsApi.getRecommendations(5);
           if (recsRes.success) {
             setRecommendations(recsRes.data.recommendations?.map((r: any) => ({
-              ...r.job,
-              matchScore: r.matchScore
+              ...r,
+              // Backend already has matchScore and job fields spread
             })) || []);
           }
         }
@@ -519,7 +519,7 @@ export function JobsPage() {
                             className="flex items-center gap-4 p-4 hover:bg-white/5 rounded-2xl transition-all cursor-pointer"
                           >
                             <div className="w-12 h-12 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center shrink-0">
-                              {company.logo ? (
+                              {company?.logo ? (
                                 <img src={company.logo} alt={company.name} className="w-full h-full object-cover" />
                               ) : (
                                 <Building2 size={24} className="text-white/10" />
@@ -664,7 +664,7 @@ function JobDetailModal({
 
           <div className="flex gap-6 items-center">
             <div className="w-20 h-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-              {job.company.logo ? (
+              {job?.company?.logo ? (
                 <img src={job.company.logo} alt={job.company.name} className="w-12 h-12 object-contain" />
               ) : (
                 <Building2 size={32} className="text-white/20" />
@@ -672,7 +672,7 @@ function JobDetailModal({
             </div>
             <div>
               <h2 className="text-3xl font-black text-white tracking-tighter mb-1">{job.title}</h2>
-              <p className="text-[#00ff9d] font-bold uppercase tracking-widest text-[14px]">{job.company.name}</p>
+              <p className="text-[#00ff9d] font-bold uppercase tracking-widest text-[14px]">{job?.company?.name}</p>
             </div>
           </div>
         </div>
@@ -816,7 +816,7 @@ function JobCard({
       <div className="flex flex-col md:flex-row items-start justify-between gap-8 relative z-10">
         <div className="flex flex-col md:flex-row gap-8 flex-1">
           <div className="w-20 h-20 bg-[#161a20] border border-white/10 rounded-[24px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-2 group-hover:border-[#00ff9d]/30 transition-colors">
-            {job.company.logo ? (
+            {job?.company?.logo ? (
               <img
                 src={job.company.logo}
                 alt={job.company.name}
@@ -847,7 +847,7 @@ function JobCard({
             </h3>
             
             <div className="flex items-center gap-3 mb-6">
-               <p className="text-[15px] font-rubik font-bold text-white/50 tracking-tight">{job.company.name}</p>
+               <p className="text-[15px] font-rubik font-bold text-white/50 tracking-tight">{job?.company?.name}</p>
                <span className="w-1 h-1 rounded-full bg-white/10" />
                <p className="text-[14px] font-rubik font-bold text-white/30 tracking-tight flex items-center gap-2">
                  <MapPin size={14} />
