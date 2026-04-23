@@ -147,18 +147,19 @@ export function Dashboard() {
   };
 
   useEffect(() => {
-    const loadResumeInfo = async () => {
+    const initializeDashboard = async () => {
       try {
-        const info = await uploadApi.getResumeInfo();
-        setResumeInfo(info);
-      } catch {
-        setResumeInfo(null);
+        await Promise.all([
+          uploadApi.getResumeInfo().then(setResumeInfo).catch(() => setResumeInfo(null)),
+          loadResumeAnalysisFromBackend()
+        ]);
+      } finally {
+        setGlobalLoading(false);
       }
     };
 
-    void loadResumeInfo();
-    void loadResumeAnalysisFromBackend();
-  }, []);
+    void initializeDashboard();
+  }, [loadResumeAnalysisFromBackend, setGlobalLoading]);
 
   useEffect(() => {
     setResumeRoleInput(user?.targetRole || '');

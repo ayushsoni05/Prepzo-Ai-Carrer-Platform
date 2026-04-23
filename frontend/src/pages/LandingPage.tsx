@@ -19,6 +19,7 @@ import { PrepzoHero } from '@/components/landing/PrepzoHero';
 import { PrepzoNavbar } from '@/components/landing/PrepzoNavbar';
 import { getPublicStats, PublicStats } from '@/api/public';
 import { useState } from 'react';
+import { useAppStore } from '@/store/appStore';
 import { Boxes } from '@/components/ui/background-boxes';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -220,18 +221,19 @@ const platformEdge = [
 export const LandingPage = ({ onNavigate }: LandingPageProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const [stats, setStats] = useState<PublicStats | null>(null);
+  const { setGlobalLoading } = useAppStore();
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const data = await getPublicStats();
         setStats(data);
-      } catch (error) {
-        console.error('Failed to fetch platform stats:', error);
+      } finally {
+        setGlobalLoading(false);
       }
     };
     fetchStats();
-  }, []);
+  }, [setGlobalLoading]);
 
   useEffect(() => {
     if (!rootRef.current) return;

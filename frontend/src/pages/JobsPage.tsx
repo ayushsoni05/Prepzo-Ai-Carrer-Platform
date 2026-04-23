@@ -37,6 +37,7 @@ export function JobsPage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { isAuthenticated, user } = useAuthStore();
+  const { setGlobalLoading } = useAppStore();
 
   // Navigation tabs
   const [activeTab, setActiveTab] = useState<'explore' | 'applied'>('explore');
@@ -134,8 +135,9 @@ export function JobsPage() {
       toast.error('Failed to load jobs');
     } finally {
       setLoading(false);
+      setGlobalLoading(false);
     }
-  }, [searchQuery, location, page, selectedFilters]);
+  }, [searchQuery, location, page, selectedFilters, setGlobalLoading]);
 
   // Load applied jobs
   const loadAppliedJobs = useCallback(async () => {
@@ -150,8 +152,9 @@ export function JobsPage() {
       console.error('Failed to load applied jobs:', error);
     } finally {
       setLoading(false);
+      setGlobalLoading(false);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, setGlobalLoading]);
 
   useEffect(() => {
     if (activeTab === 'explore') {

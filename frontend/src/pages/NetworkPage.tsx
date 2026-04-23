@@ -29,6 +29,7 @@ import {
 import { GlassCard, GlassButton } from '@/components/ui/GlassCard';
 import { Boxes } from '@/components/ui/background-boxes';
 import { useAuthStore } from '@/store/authStore';
+import { useAppStore } from '@/store/appStore';
 import { networkApi, Post, Connection, ConnectionSuggestion, UserSummary } from '@/api/network';
 import ThinkingLoader from '@/components/ui/loading';
 import toast from 'react-hot-toast';
@@ -36,6 +37,7 @@ import toast from 'react-hot-toast';
 export function NetworkPage() {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuthStore();
+  const { setGlobalLoading } = useAppStore();
 
   // State
   const [activeTab, setActiveTab] = useState<'feed' | 'connections' | 'requests'>('feed');
@@ -83,8 +85,9 @@ export function NetworkPage() {
       console.error('Failed to load feed:', error);
     } finally {
       setLoading(false);
+      setGlobalLoading(false);
     }
-  }, []);
+  }, [setGlobalLoading]);
 
   // Load connections
   const loadConnections = useCallback(async () => {

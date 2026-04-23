@@ -161,6 +161,9 @@ interface AppState {
   darkMode: boolean;
   currentPage: string;
   dashboardTab: string;
+  isGlobalLoading: boolean;
+  globalLoadingText: string;
+  setGlobalLoading: (loading: boolean, text?: string) => void;
   // Resume analysis - stored in backend, only cached locally
   resumeAnalysis: ResumeAnalysisPersist | null;
   atsHistory: AtsHistoryPoint[];
@@ -195,6 +198,8 @@ export const useAppStore = create<AppState>()(
       darkMode: true,
       currentPage: 'landing',
       dashboardTab: 'home',
+      isGlobalLoading: false,
+      globalLoadingText: 'Synchronizing neural grid...',
       showFullRecommendations: false,
       resumeAnalysis: null,
       atsHistory: [],
@@ -208,6 +213,10 @@ export const useAppStore = create<AppState>()(
       toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
       setCurrentPage: (page) => set({ currentPage: page }),
       setDashboardTab: (tab) => set({ dashboardTab: tab }),
+      setGlobalLoading: (loading, text) => set({ 
+        isGlobalLoading: loading, 
+        globalLoadingText: text || 'Synchronizing neural grid...' 
+      }),
       setShowFullRecommendations: (show) => set({ showFullRecommendations: show }),
       setResumeAnalysis: (analysis) => set({ resumeAnalysis: analysis }),
       setAnalysisStep: (step) => set({ analysisStep: step }),

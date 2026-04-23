@@ -15,10 +15,10 @@ import { CompaniesPage } from '@/pages/CompaniesPage';
 import { ApplicationsPage } from '@/pages/ApplicationsPage';
 import { NetworkPage } from '@/pages/NetworkPage';
 import TetrisDemo from '@/pages/TetrisDemo';
-import Sidebar from '@/components/navigation/Sidebar';
 import { MobileNav } from '@/components/navigation/MobileNav';
 import { InterviewPage } from '@/pages/InterviewPage';
-import TetrisLoading from '@/components/ui/tetris-loader';
+import ThinkingLoader from '@/components/ui/loading';
+import { Boxes } from '@/components/ui/background-boxes';
 
 type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview';
 
@@ -32,11 +32,10 @@ const getPageFromHash = (): Page => {
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>(getPageFromHash);
   const [isInitialized, setIsInitialized] = useState(false);
-  const [isPageLoading, setIsPageLoading] = useState(false);
   const [authValidated, setAuthValidated] = useState(false);
   const initRef = useRef(false);
   const { isAuthenticated, user, fetchUser } = useAuthStore();
-  const { loadResumeAnalysisFromBackend, darkMode } = useAppStore();
+  const { isGlobalLoading, globalLoadingText, setGlobalLoading, loadResumeAnalysisFromBackend, darkMode } = useAppStore();
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
@@ -148,16 +147,17 @@ export default function App() {
     const handleHashChange = () => {
       const newPage = getPageFromHash();
       if (newPage !== currentPage) {
-        setIsPageLoading(true);
+        setGlobalLoading(true, `Routing to ${newPage.replace('-', ' ')}...`);
         setTimeout(() => {
           setCurrentPage(newPage);
-          setTimeout(() => setIsPageLoading(false), 800);
-        }, 600);
+          // Safety timeout to hide loader if the new page doesn't signal readiness
+          setTimeout(() => setGlobalLoading(false), 2000);
+        }, 400);
       }
     };
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [currentPage]);
+  }, [currentPage, setGlobalLoading]);
 
   // Redirect based on auth state after initialization
   useEffect(() => {
@@ -192,7 +192,18 @@ export default function App() {
     const newPage = page as Page;
     if (newPage === currentPage) return;
 
-    setIsPageLoading(true);
+    const labels: Record<string, string> = {
+      dashboard: 'Syncing Workspace Node',
+      jobs: 'Scanning Opportunity Grid',
+      companies: 'Analyzing Market Pulse',
+      applications: 'Tracking Signal Streams',
+      network: 'Connecting Neural Links',
+      assessment: 'Evaluating Skill Vectors',
+      'ai-interview': 'Initializing AI Interrogator',
+      landing: 'Returning to Base',
+    };
+
+    setGlobalLoading(true, labels[newPage] || `Transmitting to ${newPage}...`);
     
     // Artificial delay to show premium loader and ensure smooth transition
     setTimeout(() => {
@@ -208,19 +219,20 @@ export default function App() {
       setCurrentPage(newPage);
       window.location.hash = newPage;
       
-      // Delay before hiding loader to ensure new page starts mounting
+      // We don't hide the loader here; we let the target page signal readiness
+      // But we add a safety timeout just in case
       setTimeout(() => {
-        setIsPageLoading(false);
-      }, 800);
-    }, 600);
+        setGlobalLoading(false);
+      }, 3000); 
+    }, 500);
   };
 
   // Show loading while initializing
   if (!isInitialized) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0a0c10]">
-        <TetrisLoading 
-          size="lg"
+      <div className="flex min-h-screen items-center justify-center bg-[#0a0c10] relative overflow-hidden">
+        <Boxes />
+        <ThinkingLoader 
           loadingText="Synchronizing Environment" 
         />
       </div>
@@ -269,16 +281,21 @@ export default function App() {
       />
 
       <AnimatePresence mode="wait">
-        {isPageLoading ? (
+        {isGlobalLoading ? (
           <motion.div
-            key="page-loader"
+            key="global-loader"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="w-full h-screen flex flex-col items-center justify-center bg-[#0a0c10] z-[100]"
+            transition={{ duration: 0.4 }}
+            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a0c10] bg-opacity-95 backdrop-blur-xl"
           >
-            <TetrisLoading size="lg" loadingText="Mapping Opportunity Grid..." />
+            {/* Grid background for premium feel */}
+            <div className="absolute inset-0 opacity-20 pointer-events-none">
+               <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]" />
+            </div>
+            
+            <ThinkingLoader loadingText={globalLoadingText} />
           </motion.div>
         ) : (
           <motion.div

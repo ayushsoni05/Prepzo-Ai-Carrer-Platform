@@ -28,6 +28,7 @@ import { GlassButton } from '@/components/ui/GlassCard';
 import { CircularProgress } from '@/components/ui/CircularProgress';
 import { Boxes } from '@/components/ui/background-boxes';
 import { useAuthStore } from '@/store/authStore';
+import { useAppStore } from '@/store/appStore';
 import { applicationsApi, Application, ApplicationStatus } from '@/api/applications';
 import ThinkingLoader from '@/components/ui/loading';
 import toast from 'react-hot-toast';
@@ -56,6 +57,7 @@ const statusConfig: Record<ApplicationStatus, {
 export function ApplicationsPage() {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuthStore();
+  const { setGlobalLoading } = useAppStore();
 
   // Applications state
   const [applications, setApplications] = useState<Application[]>([]);
@@ -97,8 +99,9 @@ export function ApplicationsPage() {
       toast.error('Failed to load applications');
     } finally {
       setLoading(false);
+      setGlobalLoading(false);
     }
-  }, [selectedStatus, page]);
+  }, [selectedStatus, page, setGlobalLoading]);
 
   useEffect(() => {
     if (isAuthenticated) {

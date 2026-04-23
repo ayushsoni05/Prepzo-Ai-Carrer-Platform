@@ -21,6 +21,7 @@ import {
 import { GlassCard, GlassButton } from '@/components/ui/GlassCard';
 import { Boxes } from '@/components/ui/background-boxes';
 import { useAuthStore } from '@/store/authStore';
+import { useAppStore } from '@/store/appStore';
 import { companiesApi, Company, CompanySearchParams } from '@/api/companies';
 import ThinkingLoader from '@/components/ui/loading';
 import toast from 'react-hot-toast';
@@ -29,6 +30,7 @@ export function CompaniesPage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { isAuthenticated } = useAuthStore();
+  const { setGlobalLoading } = useAppStore();
 
   // Search state
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
@@ -88,8 +90,9 @@ export function CompaniesPage() {
       toast.error('Failed to load companies');
     } finally {
       setLoading(false);
+      setGlobalLoading(false);
     }
-  }, [searchQuery, selectedIndustry, selectedCity, hiringOnly, page]);
+  }, [searchQuery, selectedIndustry, selectedCity, hiringOnly, page, setGlobalLoading]);
 
   useEffect(() => {
     loadCompanies();
