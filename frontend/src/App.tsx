@@ -281,63 +281,61 @@ export default function App() {
         }}
       />
 
-      <AnimatePresence mode="wait">
-        {isGlobalLoading ? (
+      {/* Page Content - always rendered */}
+      <div className="w-full h-full">
+        {currentPage === 'landing' && <LandingPage onNavigate={handleNavigate} />}
+        {currentPage === 'login' && <AuthPage mode="login" onNavigate={handleNavigate} />}
+        {currentPage === 'signup' && <AuthPage mode="signup" onNavigate={handleNavigate} />}
+        
+        {/* Workspace Pages wrapped in MainLayout */}
+        {isWorkspacePage && (
+          <div className="flex h-screen overflow-hidden bg-[#0a0c10] relative">
+            <Sidebar 
+              active={getSidebarActiveId(currentPage)} 
+              onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
+              lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
+            />
+            <main className="flex-1 h-full overflow-y-auto overflow-x-hidden custom-scrollbar pb-24 md:pb-0">
+              {(currentPage === 'dashboard' || currentPage === 'resume' || currentPage === 'settings' || currentPage === 'assessment') && <Dashboard />}
+              {currentPage === 'jobs' && <JobsPage />}
+              {currentPage === 'companies' && <CompaniesPage />}
+              {currentPage === 'applications' && <ApplicationsPage />}
+              {currentPage === 'network' && <NetworkPage />}
+              {currentPage === 'ai-interview' && <InterviewPage />}
+            </main>
+            <MobileNav
+              active={getSidebarActiveId(currentPage)}
+              onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
+              lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
+            />
+          </div>
+        )}
+
+        {currentPage === 'admin' && <AdminPanel onNavigate={handleNavigate} />}
+        {currentPage === 'onboarding' && <OnboardingPage onNavigate={handleNavigate} />}
+        {currentPage === 'tetris-demo' && <TetrisDemo />}
+      </div>
+
+      {/* Global Loading Overlay - rendered ON TOP of content, never blocks mounting */}
+      <AnimatePresence>
+        {isGlobalLoading && (
           <motion.div
             key="global-loader"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a0c10] bg-opacity-95 backdrop-blur-xl"
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a0c10]/98 backdrop-blur-2xl"
           >
-            {/* Grid background for premium feel */}
-            <div className="absolute inset-0 opacity-20 pointer-events-none">
-               <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]" />
+            {/* Animated grid background */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+              <div className="absolute inset-0 opacity-[0.08] bg-[linear-gradient(to_right,#80808020_1px,transparent_1px),linear-gradient(to_bottom,#80808020_1px,transparent_1px)] bg-[size:40px_40px]" />
+              {/* Radial glow behind loader */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-purple-500/5 blur-[120px]" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-emerald-500/5 blur-[80px]" />
             </div>
             
             <ThinkingLoader loadingText={globalLoadingText} />
-          </motion.div>
-        ) : (
-          <motion.div
-            key={currentPage}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-            className="w-full h-full"
-          >
-            {currentPage === 'landing' && <LandingPage onNavigate={handleNavigate} />}
-            {currentPage === 'login' && <AuthPage mode="login" onNavigate={handleNavigate} />}
-            {currentPage === 'signup' && <AuthPage mode="signup" onNavigate={handleNavigate} />}
-            
-            {/* Workspace Pages wrapped in MainLayout */}
-            {isWorkspacePage && (
-              <div className="flex h-screen overflow-hidden bg-[#0a0c10] relative">
-                <Sidebar 
-                  active={getSidebarActiveId(currentPage)} 
-                  onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
-                  lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
-                />
-                <main className="flex-1 h-full overflow-y-auto overflow-x-hidden custom-scrollbar pb-24 md:pb-0">
-                  {(currentPage === 'dashboard' || currentPage === 'resume' || currentPage === 'settings' || currentPage === 'assessment') && <Dashboard />}
-                  {currentPage === 'jobs' && <JobsPage />}
-                  {currentPage === 'companies' && <CompaniesPage />}
-                  {currentPage === 'applications' && <ApplicationsPage />}
-                  {currentPage === 'network' && <NetworkPage />}
-                  {currentPage === 'ai-interview' && <InterviewPage />}
-                </main>
-                <MobileNav
-                  active={getSidebarActiveId(currentPage)}
-                  onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
-                  lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
-                />
-              </div>
-            )}
-
-            {currentPage === 'admin' && <AdminPanel onNavigate={handleNavigate} />}
-            {currentPage === 'onboarding' && <OnboardingPage onNavigate={handleNavigate} />}
-            {currentPage === 'tetris-demo' && <TetrisDemo />}
           </motion.div>
         )}
       </AnimatePresence>
