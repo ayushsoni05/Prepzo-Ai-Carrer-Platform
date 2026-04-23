@@ -16,6 +16,7 @@ import { ApplicationsPage } from '@/pages/ApplicationsPage';
 import { NetworkPage } from '@/pages/NetworkPage';
 import TetrisDemo from '@/pages/TetrisDemo';
 import { MobileNav } from '@/components/navigation/MobileNav';
+import Sidebar from '@/components/navigation/Sidebar';
 import { InterviewPage } from '@/pages/InterviewPage';
 import ThinkingLoader from '@/components/ui/loading';
 import { Boxes } from '@/components/ui/background-boxes';
