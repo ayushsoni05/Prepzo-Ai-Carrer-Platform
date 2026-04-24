@@ -7,8 +7,8 @@ import {
 
 const router = express.Router();
 
-// All question bank routes require authentication
-router.use(protect);
+// All question bank routes are now public for better accessibility
+// router.use(protect);
 
 /**
  * @desc    Get all categories and sub-skills
