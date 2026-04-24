@@ -16,17 +16,18 @@ import { ApplicationsPage } from '@/pages/ApplicationsPage';
 import { NetworkPage } from '@/pages/NetworkPage';
 import TetrisDemo from '@/pages/TetrisDemo';
 import { MobileNav } from '@/components/navigation/MobileNav';
+import TailwindAwesomeDemo from '@/pages/TailwindAwesomeDemo';
 import Sidebar from '@/components/navigation/Sidebar';
 import { InterviewPage } from '@/pages/InterviewPage';
 import ThinkingLoader from '@/components/ui/loading';
-import { Boxes } from '@/components/ui/background-boxes';
+import { GridBeam } from '@/components/ui/background-grid-beam';
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome';
 
 // Get initial page from URL hash or default to 'landing'
 const getPageFromHash = (): Page => {
   const hash = window.location.hash.slice(1) as Page;
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome'];
   return validPages.includes(hash) ? hash : 'landing';
 };
 
@@ -232,7 +233,7 @@ export default function App() {
   if (!isInitialized) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#0a0c10] relative overflow-hidden">
-        <Boxes />
+        <GridBeam className="absolute inset-0" />
         <ThinkingLoader 
           loadingText="Synchronizing Environment" 
         />
@@ -314,6 +315,7 @@ export default function App() {
         {currentPage === 'admin' && <AdminPanel onNavigate={handleNavigate} />}
         {currentPage === 'onboarding' && <OnboardingPage onNavigate={handleNavigate} />}
         {currentPage === 'tetris-demo' && <TetrisDemo />}
+        {currentPage === 'tailwind-awesome' && <TailwindAwesomeDemo />}
       </div>
 
       {/* Global Loading Overlay - rendered ON TOP of content, never blocks mounting */}
@@ -328,12 +330,12 @@ export default function App() {
             className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a0c10]/98 backdrop-blur-2xl"
           >
             {/* Animated grid background */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-              <div className="absolute inset-0 opacity-[0.08] bg-[linear-gradient(to_right,#80808020_1px,transparent_1px),linear-gradient(to_bottom,#80808020_1px,transparent_1px)] bg-[size:40px_40px]" />
+            <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30">
+              <GridBeam className="absolute inset-0" />
+            </div>
               {/* Radial glow behind loader */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-purple-500/5 blur-[120px]" />
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-emerald-500/5 blur-[80px]" />
-            </div>
             
             <ThinkingLoader loadingText={globalLoadingText} />
           </motion.div>

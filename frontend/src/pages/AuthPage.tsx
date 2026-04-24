@@ -36,7 +36,7 @@ import {
   BookOpen,
   CalendarDays
 } from 'lucide-react';
-import { Boxes } from '@/components/ui/background-boxes';
+import { GridBeam } from '@/components/ui/background-grid-beam';
 
 // Password validation schema with 8 parameters
 const passwordSchema = z.string()
@@ -399,7 +399,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
   return (
     <div className="relative min-h-screen bg-[#161a20] overflow-hidden selection:bg-white selection:text-[#161a20]">
       <div className="absolute inset-0 w-full h-full bg-[#161a20] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-      <Boxes />
+      <GridBeam className="absolute inset-0" />
 
 
       {/* Back button */}
