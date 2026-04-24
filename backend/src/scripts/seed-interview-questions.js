@@ -19,7 +19,8 @@ const seedInterviewQuestions = async () => {
     if (!mongoUri) throw new Error('MONGODB_URI not found in .env');
 
     await mongoose.connect(mongoUri);
-    console.log('Connected to MongoDB');
+    console.log('Connected to MongoDB Database:', mongoose.connection.name);
+    console.log('Connected to Host:', mongoose.connection.host);
 
     // Clear existing interview questions
     await InterviewQuestion.deleteMany({});

@@ -43,6 +43,7 @@ export const QuestionBank: React.FC = () => {
         setCategories(data);
         setSelectedCategory('ALL');
         setSelectedSubSkill('');
+        console.log('States updated to ALL repositories.');
       } catch (err: any) {
         console.error('Failed to fetch categories:', err);
         setError('Failed to load categories. Please check your connection to the neural repository.');

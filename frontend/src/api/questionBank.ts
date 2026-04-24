@@ -17,7 +17,8 @@ export interface CategoryData {
 }
 
 export const getCategories = async (): Promise<CategoryData[]> => {
-  const response = await API.get('/question-bank/categories');
+  const response = await API.get(`/question-bank/categories?t=${Date.now()}`);
+  console.log('Full getCategories Response:', response);
   return response.data.data;
 };
 
@@ -27,6 +28,6 @@ export const getQuestions = async (params: {
   difficulty?: string;
   search?: string;
 }): Promise<InterviewQuestion[]> => {
-  const response = await API.get('/question-bank/questions', { params });
+  const response = await API.get(`/question-bank/questions?t=${Date.now()}`, { params });
   return response.data.data;
 };

@@ -7,7 +7,9 @@ import catchAsync from '../utils/catchAsync.js';
  * @access  Private
  */
 export const getCategories = catchAsync(async (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
   console.log('Fetching categories for question bank...');
+  console.log('Using collection:', InterviewQuestion.collection.name);
   console.time('getCategories');
   const categories = await InterviewQuestion.aggregate([
     {
@@ -23,12 +25,15 @@ export const getCategories = catchAsync(async (req, res) => {
         subSkills: 1
       }
     },
-    {
-      $sort: { category: 1 }
-    }
+    { $sort: { category: 1 } }
   ]);
   console.timeEnd('getCategories');
-  console.log(`Found ${categories.length} categories`);
+
+  console.log(`📊 Category Aggregation found ${categories.length} entries.`);
+  if (categories.length === 0) {
+    const totalDocs = await InterviewQuestion.countDocuments();
+    console.log(`❌ DB Collection check: ${totalDocs} total documents in InterviewQuestion.`);
+  }
 
   res.status(200).json({
     status: 'success',
@@ -42,6 +47,7 @@ export const getCategories = catchAsync(async (req, res) => {
  * @access  Private
  */
 export const getQuestions = catchAsync(async (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
   const { category, subSkill, difficulty, search } = req.query;
 
   const query = {};
@@ -69,7 +75,16 @@ export const getQuestions = catchAsync(async (req, res) => {
     ];
   }
 
+  console.log('🔍 Executing Question Query:', JSON.stringify(query, null, 2));
+
   const questions = await InterviewQuestion.find(query).sort({ createdAt: -1 });
+
+  console.log(`✅ Found ${questions.length} questions matching query.`);
+
+  if (questions.length === 0) {
+    const totalDocs = await InterviewQuestion.countDocuments();
+    console.log(`❌ Empty result. Collection check: ${totalDocs} total documents.`);
+  }
 
   res.status(200).json({
     status: 'success',
