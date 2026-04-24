@@ -6,7 +6,7 @@
   --font-plus-jakarta: "Plus Jakarta Sans", sans-serif;
   --font-instrument: "Instrument Serif", serif;
   --color-code-green: #5ed29c;
-  --color-code-dark: #070b0a;
+  --color-code-dark: #0a0c10;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -29,7 +29,7 @@
 
 [data-theme='dark'] {
   color-scheme: dark;
-  --bg:              #04050f;
+  --bg:              #0a0c10;
   --bg-elevated:     rgba(8, 10, 28, 0.78);
   --bg-soft:         rgba(12, 16, 40, 0.56);
   --panel:           rgba(255, 255, 255, 0.055);

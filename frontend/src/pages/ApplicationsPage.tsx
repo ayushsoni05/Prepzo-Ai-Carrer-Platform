@@ -141,7 +141,7 @@ export function ApplicationsPage() {
       <GridBeam className="absolute inset-0" />
 
       {/* Header / Hero Section */}
-      <div className="relative z-10 border-b border-white/5 bg-[#161a20]/30 backdrop-blur-3xl">
+      <div className="relative z-10 border-b border-white/5 bg-[#0a0c10]/30 backdrop-blur-3xl">
         <div className="max-w-7xl mx-auto px-6 py-12 md:py-20 text-left">
           <div className="flex items-center gap-4 text-[13px] font-rubik font-[900] uppercase tracking-[0.5em] text-white/40 mb-8">
             <TrendingUp size={20} strokeWidth={2.5} />
@@ -160,7 +160,7 @@ export function ApplicationsPage() {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <div className="bg-[#161a20] border border-white/5 p-6 rounded-[32px] min-w-[200px]">
+              <div className="bg-[#0a0c10] border border-white/5 p-6 rounded-[32px] min-w-[200px]">
                  <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-white/20 mb-2">
                     <Zap size={14} className="text-[#00ff9d]" />
                     Efficiency Rating
@@ -181,7 +181,7 @@ export function ApplicationsPage() {
         {/* Stats Overview - Premium Blocks */}
         {stats && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-            <div className="bg-[#161a20]/50 border border-white/5 p-10 rounded-[48px] backdrop-blur-xl group hover:border-[#00ff9d]/30 transition-all">
+            <div className="bg-[#0a0c10]/50 border border-white/5 p-10 rounded-[48px] backdrop-blur-xl group hover:border-[#00ff9d]/30 transition-all">
               <p className="text-6xl font-rubik font-[900] text-white tracking-tighter mb-4 italic group-hover:scale-110 transition-transform origin-left">{stats.totalApplications}</p>
               <div className="flex items-center gap-3">
                  <div className="w-2 h-2 rounded-full bg-white/20" />
@@ -189,7 +189,7 @@ export function ApplicationsPage() {
               </div>
             </div>
             
-            <div className="bg-[#161a20]/50 border border-white/5 p-10 rounded-[48px] backdrop-blur-xl group hover:border-[#00ff9d]/30 transition-all">
+            <div className="bg-[#0a0c10]/50 border border-white/5 p-10 rounded-[48px] backdrop-blur-xl group hover:border-[#00ff9d]/30 transition-all">
               <p className="text-6xl font-rubik font-[900] text-[#00ff9d] tracking-tighter mb-4 italic group-hover:scale-110 transition-transform origin-left">{stats.statusBreakdown['shortlisted'] || 0}</p>
               <div className="flex items-center gap-3">
                  <div className="w-2 h-2 rounded-full bg-[#00ff9d]" />
@@ -197,7 +197,7 @@ export function ApplicationsPage() {
               </div>
             </div>
             
-            <div className="bg-[#161a20]/50 border border-white/5 p-10 rounded-[48px] backdrop-blur-xl group hover:border-[#00ff9d]/30 transition-all">
+            <div className="bg-[#0a0c10]/50 border border-white/5 p-10 rounded-[48px] backdrop-blur-xl group hover:border-[#00ff9d]/30 transition-all">
               <p className="text-6xl font-rubik font-[900] text-white tracking-tighter mb-4 italic group-hover:scale-110 transition-transform origin-left">{stats.statusBreakdown['interview_scheduled'] || 0}</p>
               <div className="flex items-center gap-3">
                  <div className="w-2 h-2 rounded-full bg-purple-500" />
@@ -261,7 +261,7 @@ export function ApplicationsPage() {
             <ThinkingLoader loadingText="Retrieving History" />
           </div>
         ) : applications.length === 0 ? (
-          <div className="bg-[#161a20]/20 border border-white/5 rounded-[40px] p-24 text-center backdrop-blur-xl">
+          <div className="bg-[#0a0c10]/20 border border-white/5 rounded-[40px] p-24 text-center backdrop-blur-xl">
             <Briefcase className="w-16 h-16 text-white/10 mx-auto mb-8" />
             <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-4">
               {selectedStatus ? 'No history detected' : 'No activity logged'}
@@ -350,7 +350,7 @@ function ApplicationCard({
 
   return (
     <div
-      className="group relative bg-[#161a20]/40 border border-white/5 rounded-[32px] p-8 md:p-10 transition-all hover:bg-[#1c2128] hover:border-white/20 hover:scale-[1.01] cursor-pointer shadow-2xl backdrop-blur-sm overflow-hidden"
+      className="group relative bg-[#0a0c10]/40 border border-white/5 rounded-[32px] p-8 md:p-10 transition-all hover:bg-[#1c2128] hover:border-white/20 hover:scale-[1.01] cursor-pointer shadow-2xl backdrop-blur-sm overflow-hidden"
       onClick={onView}
     >
       <div className="absolute top-0 right-0 p-8 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -360,7 +360,7 @@ function ApplicationCard({
       <div className="flex flex-col md:flex-row items-start justify-between gap-8 relative z-10">
         <div className="flex flex-col md:flex-row gap-8 flex-1">
           {/* Company Logo - Premium Style */}
-          <div className="w-20 h-20 bg-[#161a20] border border-white/10 rounded-[24px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-2 group-hover:border-[#00ff9d]/30 transition-colors">
+          <div className="w-20 h-20 bg-[#0a0c10] border border-white/10 rounded-[24px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-2 group-hover:border-[#00ff9d]/30 transition-colors">
             {application?.company?.logo ? (
               <img
                 src={application.company.logo}

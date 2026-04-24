@@ -397,8 +397,8 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
   ];
 
   return (
-    <div className="relative min-h-screen bg-[#161a20] overflow-hidden selection:bg-white selection:text-[#161a20]">
-      <div className="absolute inset-0 w-full h-full bg-[#161a20] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+    <div className="relative min-h-screen bg-[#0a0c10] overflow-hidden selection:bg-white selection:text-[#0a0c10]">
+      <div className="absolute inset-0 w-full h-full bg-[#0a0c10] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
       <GridBeam className="absolute inset-0" />
 
 
@@ -427,7 +427,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                   exit={{ opacity: 0, scale: 0.95 }}
                   className="w-full"
                 >
-                  <div className="bg-[#161a20] border border-white/10 rounded-[48px] p-8 md:p-10 shadow-2xl backdrop-blur-xl relative overflow-hidden auth-card">
+                  <div className="bg-[#0a0c10] border border-white/10 rounded-[48px] p-8 md:p-10 shadow-2xl backdrop-blur-xl relative overflow-hidden auth-card">
                     <div className="absolute top-0 right-0 p-8 opacity-5">
                         <Sparkles size={80} />
                     </div>
@@ -501,7 +501,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                           <svg className="absolute inset-0 w-full h-full drop-shadow-xl transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
                           </svg>
-                          <span className="relative z-10 flex items-center justify-center h-full text-[#161a20]  font-[800] text-[18px] uppercase tracking-wide">
+                          <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10]  font-[800] text-[18px] uppercase tracking-wide">
                             Sign In
                           </span>
                         </button>
@@ -527,7 +527,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                   exit={{ opacity: 0, scale: 0.95 }}
                   className="w-full h-full flex flex-col items-center"
                 >
-                  <div className="bg-[#161a20] border border-white/10 rounded-[48px] p-8 md:p-10 shadow-2xl backdrop-blur-xl relative overflow-hidden w-full max-w-xl auth-card">
+                  <div className="bg-[#0a0c10] border border-white/10 rounded-[48px] p-8 md:p-10 shadow-2xl backdrop-blur-xl relative overflow-hidden w-full max-w-xl auth-card">
                     <div className="absolute top-0 right-0 p-8 opacity-5">
                         <Sparkles size={80} />
                     </div>
@@ -843,7 +843,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                               <svg className="absolute inset-0 w-full h-full drop-shadow-xl transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
                               </svg>
-                              <span className="relative z-10 flex items-center justify-center h-full text-[#161a20]  font-[800] text-[18px] uppercase tracking-wide">
+                              <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10]  font-[800] text-[18px] uppercase tracking-wide">
                                 Next
                               </span>
                             </button>
@@ -855,7 +855,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                               <svg className="absolute inset-0 w-full h-full drop-shadow-xl transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
                               </svg>
-                              <span className="relative z-10 flex items-center justify-center h-full text-[#161a20]  font-[800] text-[18px] uppercase tracking-wide text-center leading-tight">
+                              <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10]  font-[800] text-[18px] uppercase tracking-wide text-center leading-tight">
                                 Create Account
                               </span>
                             </button>

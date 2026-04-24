@@ -308,7 +308,7 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
   // Show auth error screen
   if (authError) {
     return (
-      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#0a0c10] text-white flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -344,8 +344,8 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white relative overflow-hidden">
-      <div className="absolute inset-0 w-full h-full bg-slate-950 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+    <div className="min-h-screen bg-[#0a0c10] text-white relative overflow-hidden">
+      <div className="absolute inset-0 w-full h-full bg-[#0a0c10] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
       <GridBeam className="absolute inset-0" />
 
       {/* FloatingElements removed for cleaner admin UI */}

@@ -246,7 +246,7 @@ export function JobsPage() {
       <GridBeam className="absolute inset-0" />
 
       {/* Header / Hero Section */}
-      <div className="relative z-10 border-b border-white/5 bg-[#161a20]/30 backdrop-blur-3xl">
+      <div className="relative z-10 border-b border-white/5 bg-[#0a0c10]/30 backdrop-blur-3xl">
         <div className="max-w-7xl mx-auto px-6 py-12 md:py-20 text-left">
           <div className="flex items-center gap-4 text-[13px] font-rubik font-[900] uppercase tracking-[0.5em] text-white/40 mb-8">
             <TrendingUp size={20} strokeWidth={2.5} />
@@ -266,7 +266,7 @@ export function JobsPage() {
             
             <div className="flex flex-col sm:flex-row gap-4">
               {isAuthenticated && (
-                <div className="flex bg-[#161a20]/50 p-1.5 rounded-[24px] border border-white/5 backdrop-blur-xl">
+                <div className="flex bg-[#0a0c10]/50 p-1.5 rounded-[24px] border border-white/5 backdrop-blur-xl">
                   <button
                     onClick={() => setActiveTab('explore')}
                     className={`px-8 py-3 rounded-[18px] text-[13px] font-black uppercase tracking-widest transition-all ${
@@ -379,7 +379,7 @@ export function JobsPage() {
                 <ThinkingLoader loadingText="Matching Opportunities" />
               </div>
             ) : (activeTab === 'explore' ? jobs.length : appliedJobs.length) === 0 ? (
-              <div className="bg-[#161a20]/20 border border-white/5 rounded-[40px] p-20 text-center backdrop-blur-xl">
+              <div className="bg-[#0a0c10]/20 border border-white/5 rounded-[40px] p-20 text-center backdrop-blur-xl">
                 <Briefcase className="w-16 h-16 text-white/10 mx-auto mb-8" />
                 <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-4">No nodes found</h3>
                 <p className="text-white/30 font-rubik font-bold uppercase text-[13px] tracking-wide">Try adjusting your signal filters</p>
@@ -456,7 +456,7 @@ export function JobsPage() {
           {/* Sidebar - Recommendations & Trending */}
           <div className="lg:col-span-4 space-y-8 order-1 lg:order-2">
             {/* Hiring Signal Container */}
-            <div className="bg-[#161a20] border border-white/5 rounded-[48px] p-10 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0a0c10] border border-white/5 rounded-[48px] p-10 shadow-2xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-6">
                 <div className="w-2 h-2 rounded-full bg-[#00ff9d] animate-pulse" />
               </div>
@@ -651,7 +651,7 @@ function JobDetailModal({
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="w-full max-w-4xl max-h-[90vh] bg-[#161a20] border border-white/10 rounded-[40px] overflow-hidden flex flex-col shadow-2xl"
+        className="w-full max-w-4xl max-h-[90vh] bg-[#0a0c10] border border-white/10 rounded-[40px] overflow-hidden flex flex-col shadow-2xl"
       >
         {/* Header */}
         <div className="p-8 border-b border-white/5 relative bg-gradient-to-r from-[#00ff9d]/5 to-transparent">
@@ -806,7 +806,7 @@ function JobCard({
 
   return (
     <div
-      className="group relative bg-[#161a20]/40 border border-white/5 rounded-[32px] p-8 md:p-10 transition-all hover:bg-[#1c2128] hover:border-white/20 hover:scale-[1.01] cursor-pointer shadow-2xl backdrop-blur-sm overflow-hidden"
+      className="group relative bg-[#0a0c10]/40 border border-white/5 rounded-[32px] p-8 md:p-10 transition-all hover:bg-[#1c2128] hover:border-white/20 hover:scale-[1.01] cursor-pointer shadow-2xl backdrop-blur-sm overflow-hidden"
       onClick={onClick}
     >
       <div className="absolute top-0 right-0 p-8 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -815,7 +815,7 @@ function JobCard({
 
       <div className="flex flex-col md:flex-row items-start justify-between gap-8 relative z-10">
         <div className="flex flex-col md:flex-row gap-8 flex-1">
-          <div className="w-20 h-20 bg-[#161a20] border border-white/10 rounded-[24px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-2 group-hover:border-[#00ff9d]/30 transition-colors">
+          <div className="w-20 h-20 bg-[#0a0c10] border border-white/10 rounded-[24px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-2 group-hover:border-[#00ff9d]/30 transition-colors">
             {job?.company?.logo ? (
               <img
                 src={job.company.logo}
@@ -931,7 +931,7 @@ function FiltersModal({
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: 20 }}
         onClick={(e) => e.stopPropagation()}
-        className="bg-[#161a20] border border-white/10 rounded-[48px] w-full max-w-xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl"
+        className="bg-[#0a0c10] border border-white/10 rounded-[48px] w-full max-w-xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl"
       >
         <div className="p-10 border-b border-white/5 flex items-center justify-between">
           <div>
@@ -1043,7 +1043,7 @@ function FiltersModal({
         </div>
 
         {/* Actions */}
-        <div className="p-10 border-t border-white/5 flex gap-4 bg-[#161a20]">
+        <div className="p-10 border-t border-white/5 flex gap-4 bg-[#0a0c10]">
           <button
             onClick={() => setLocalFilters({})}
             className="flex-1 px-8 py-5 rounded-[24px] bg-white/5 border border-white/5 text-[14px] font-black uppercase tracking-widest text-white/40 hover:bg-white/10 transition-all"

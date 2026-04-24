@@ -178,7 +178,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
 
         <div className="grid gap-8">
           {answers.map((item, i) => (
-            <div key={i} className="p-10 rounded-[48px] border border-white/5 bg-[#161a20] shadow-2xl relative overflow-hidden group">
+            <div key={i} className="p-10 rounded-[48px] border border-white/5 bg-[#0a0c10] shadow-2xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-8 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
                  <Bot size={120} />
               </div>
@@ -222,7 +222,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
           className="group/btn relative w-full h-[70px] active:scale-95 transition-all mt-10"
         >
           <svg className="absolute inset-0 w-full h-full drop-shadow-xl" viewBox="0 0 800 70" preserveAspectRatio="none" fill="none">
-             <path d="M0 0H800L785 70H15L0 0Z" fill="#161a20" stroke="rgba(94, 210, 156, 0.3)" strokeWidth="1" />
+             <path d="M0 0H800L785 70H15L0 0Z" fill="#0a0c10" stroke="rgba(94, 210, 156, 0.3)" strokeWidth="1" />
           </svg>
           <span className="relative z-10 flex items-center justify-center h-full text-[#5ed29c] font-rubik font-[900] text-sm uppercase tracking-[0.4em] italic group-hover/btn:tracking-[0.5em] transition-all">
              Return to Cockpit
@@ -294,7 +294,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
              value={transcript}
              readOnly
              placeholder={isListening ? (transcript ? "Synthesizing your response signal..." : "Awaiting user voice signal (10s auto-skip)...") : "Awaiting user input signal..."}
-             className={`w-full min-h-[240px] rounded-[48px] p-12 bg-[#161a20]/40 border ${isListening ? 'border-[#5ed29c] shadow-[0_0_40px_rgba(94,210,156,0.1)]' : 'border-white/5'} text-white/60 font-bold text-xl focus:outline-none transition-all duration-700 italic leading-relaxed backdrop-blur-xl`}
+             className={`w-full min-h-[240px] rounded-[48px] p-12 bg-[#0a0c10]/40 border ${isListening ? 'border-[#5ed29c] shadow-[0_0_40px_rgba(94,210,156,0.1)]' : 'border-white/5'} text-white/60 font-bold text-xl focus:outline-none transition-all duration-700 italic leading-relaxed backdrop-blur-xl`}
            />
            <div className="absolute top-8 right-12 flex gap-4">
               {isListening ? (
@@ -325,7 +325,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
              className="flex-[2] group/btn relative h-[80px] active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
            >
               <svg className="absolute inset-0 w-full h-full drop-shadow-2xl transition-transform group-hover/btn:scale-[1.01]" viewBox="0 0 600 80" preserveAspectRatio="none" fill="none">
-                 <path d="M0 0H600L585 80H15L0 0Z" fill={isSubmitting ? "#161a20" : "#5ed29c"} />
+                 <path d="M0 0H600L585 80H15L0 0Z" fill={isSubmitting ? "#0a0c10" : "#5ed29c"} />
               </svg>
               <span className={`relative z-10 flex items-center justify-center h-full font-rubik font-[900] text-lg uppercase tracking-[0.3em] italic ${isSubmitting ? 'text-white/40' : 'text-[#0a0c10]'}`}>
                  {isSubmitting ? (

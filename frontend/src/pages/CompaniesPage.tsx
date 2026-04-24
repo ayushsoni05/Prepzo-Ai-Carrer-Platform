@@ -164,7 +164,7 @@ export function CompaniesPage() {
       <GridBeam className="absolute inset-0" />
 
       {/* Header / Hero Section */}
-      <div className="relative z-10 border-b border-white/5 bg-[#161a20]/30 backdrop-blur-3xl">
+      <div className="relative z-10 border-b border-white/5 bg-[#0a0c10]/30 backdrop-blur-3xl">
         <div className="max-w-7xl mx-auto px-6 py-12 md:py-20 text-left">
           <div className="flex items-center gap-4 text-[13px] font-rubik font-[900] uppercase tracking-[0.5em] text-white/40 mb-8">
             <Building2 size={20} strokeWidth={2.5} />
@@ -217,9 +217,9 @@ export function CompaniesPage() {
                   }}
                   className="w-full h-full pl-6 pr-10 py-5 bg-transparent border-none text-white text-[15px] font-bold placeholder-white/20 focus:ring-0 transition-all font-rubik appearance-none cursor-pointer"
                 >
-                  <option value="" className="bg-[#161a20]">All Industries</option>
+                  <option value="" className="bg-[#0a0c10]">All Industries</option>
                   {industries.map((ind) => (
-                    <option key={ind} value={ind} className="bg-[#161a20]">
+                    <option key={ind} value={ind} className="bg-[#0a0c10]">
                       {ind}
                     </option>
                   ))}
@@ -272,7 +272,7 @@ export function CompaniesPage() {
                   ))}
                </div>
             </div>
-            <div className="lg:col-span-4 bg-[#161a20]/50 border border-white/5 rounded-[48px] p-10 backdrop-blur-xl">
+            <div className="lg:col-span-4 bg-[#0a0c10]/50 border border-white/5 rounded-[48px] p-10 backdrop-blur-xl">
                <div className="flex items-center gap-4 text-[11px] font-rubik font-[900] uppercase tracking-[0.4em] text-white/30 mb-8">
                   <TrendingUp size={18} />
                   Market Pulse
@@ -314,7 +314,7 @@ export function CompaniesPage() {
             <ThinkingLoader loadingText="Discovering Ecosystems" />
           </div>
         ) : companies.length === 0 ? (
-          <div className="bg-[#161a20]/20 border border-white/5 rounded-[40px] p-24 text-center backdrop-blur-xl">
+          <div className="bg-[#0a0c10]/20 border border-white/5 rounded-[40px] p-24 text-center backdrop-blur-xl">
             <Building2 className="w-16 h-16 text-white/10 mx-auto mb-8" />
             <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-4">No nodes mapped</h3>
             <p className="text-white/30 font-rubik font-bold uppercase text-[13px] tracking-wide">Try re-calibrating your search</p>
@@ -351,7 +351,7 @@ export function CompaniesPage() {
             >
               Previous Wave
             </button>
-            <div className="px-10 py-5 rounded-3xl bg-[#161a20] border border-white/5 flex items-center">
+            <div className="px-10 py-5 rounded-3xl bg-[#0a0c10] border border-white/5 flex items-center">
               <span className="text-[12px] font-black uppercase tracking-[0.2em] text-[#00ff9d]">
                 SECTOR {page} <span className="text-white/10 mx-3">/</span> {totalPages}
               </span>
@@ -390,7 +390,7 @@ function FeaturedCompanyCard({
 }) {
   return (
     <div
-      className="group relative min-w-[280px] bg-[#161a20]/40 border border-white/5 rounded-[28px] p-6 transition-all hover:bg-[#1c2128] hover:border-[#00ff9d]/30 cursor-pointer overflow-hidden shadow-2xl"
+      className="group relative min-w-[280px] bg-[#0a0c10]/40 border border-white/5 rounded-[28px] p-6 transition-all hover:bg-[#1c2128] hover:border-[#00ff9d]/30 cursor-pointer overflow-hidden shadow-2xl"
       onClick={onClick}
     >
       <div className="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -447,7 +447,7 @@ function CompanyCard({
 }) {
   return (
     <div
-      className="group relative bg-[#161a20]/40 border border-white/5 rounded-[28px] p-6 transition-all hover:bg-[#1c2128] hover:border-white/20 hover:scale-[1.01] cursor-pointer shadow-2xl backdrop-blur-sm"
+      className="group relative bg-[#0a0c10]/40 border border-white/5 rounded-[28px] p-6 transition-all hover:bg-[#1c2128] hover:border-white/20 hover:scale-[1.01] cursor-pointer shadow-2xl backdrop-blur-sm"
       onClick={onClick}
     >
       <div className="absolute top-0 right-0 p-8 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -455,7 +455,7 @@ function CompanyCard({
       </div>
 
       <div className="flex items-start gap-6 mb-8">
-        <div className="w-16 h-16 bg-[#161a20] border border-white/10 rounded-[24px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-2 group-hover:border-[#00ff9d]/30 transition-colors">
+        <div className="w-16 h-16 bg-[#0a0c10] border border-white/10 rounded-[24px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-2 group-hover:border-[#00ff9d]/30 transition-colors">
           {company?.logo ? (
             <img
               src={company.logo}
@@ -500,7 +500,7 @@ function CompanyCard({
         <div className="flex items-center gap-2">
            <div className="flex -space-x-2">
               {[1,2,3].map(i => (
-                <div key={i} className="w-6 h-6 rounded-full border-2 border-[#161a20] bg-white/5 flex items-center justify-center overflow-hidden">
+                <div key={i} className="w-6 h-6 rounded-full border-2 border-[#0a0c10] bg-white/5 flex items-center justify-center overflow-hidden">
                    <Users size={10} className="text-white/20" />
                 </div>
               ))}

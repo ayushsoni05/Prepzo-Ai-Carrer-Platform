@@ -54,7 +54,7 @@ export const InterviewPage: React.FC = () => {
           </div>
           
           <div className="flex gap-4">
-             <div className="px-8 py-6 rounded-[32px] bg-[#161a20] border border-white/5 backdrop-blur-3xl shadow-2xl">
+             <div className="px-8 py-6 rounded-[32px] bg-[#0a0c10] border border-white/5 backdrop-blur-3xl shadow-2xl">
                 <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] mb-2 text-center">Session Clock</p>
                 <p className="text-4xl font-[900] text-white tracking-tighter italic">
                   {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
@@ -83,7 +83,7 @@ export const InterviewPage: React.FC = () => {
                       onClick={() => setSelectedRole(role)}
                       className={`
                         group relative p-8 rounded-[40px] border transition-all duration-500 cursor-pointer overflow-hidden
-                        ${isSelected ? 'bg-[#5ed29c] border-[#5ed29c] shadow-[0_0_50px_rgba(94,210,156,0.2)]' : 'bg-[#161a20]/40 border-white/5 hover:border-[#5ed29c]/50 hover:bg-[#161a20]/60'}
+                        ${isSelected ? 'bg-[#5ed29c] border-[#5ed29c] shadow-[0_0_50px_rgba(94,210,156,0.2)]' : 'bg-[#0a0c10]/40 border-white/5 hover:border-[#5ed29c]/50 hover:bg-[#0a0c10]/60'}
                       `}
                     >
                       <div className="relative z-10 flex flex-col h-full gap-6">

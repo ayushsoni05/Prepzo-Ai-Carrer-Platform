@@ -32,6 +32,7 @@ export interface ChatResponse {
   success: boolean;
   sessionId: string;
   message: string;
+  status?: string;
   intent?: string;
   resources?: MentorResource[];
   suggestions?: string[];

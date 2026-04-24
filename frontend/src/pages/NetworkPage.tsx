@@ -224,7 +224,7 @@ export function NetworkPage() {
       <GridBeam className="absolute inset-0" />
 
       {/* Header / Hero Section */}
-      <div className="relative z-10 border-b border-white/5 bg-[#161a20]/30 backdrop-blur-3xl">
+      <div className="relative z-10 border-b border-white/5 bg-[#0a0c10]/30 backdrop-blur-3xl">
         <div className="max-w-7xl mx-auto px-6 py-12 md:py-20 text-left">
           <div className="flex items-center gap-4 text-[13px] font-rubik font-[900] uppercase tracking-[0.5em] text-white/40 mb-8">
             <Users size={20} strokeWidth={2.5} />
@@ -243,7 +243,7 @@ export function NetworkPage() {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex gap-2 p-1 bg-[#161a20] rounded-[24px] border border-white/5">
+              <div className="flex gap-2 p-1 bg-[#0a0c10] rounded-[24px] border border-white/5">
                 {(['feed', 'connections', 'requests'] as const).map((tab) => (
                   <button
                     key={tab}
@@ -270,11 +270,11 @@ export function NetworkPage() {
           {/* Sidebar - Hidden on mobile, shown in tabs/bottom */}
           <div className="hidden lg:block lg:col-span-1 space-y-6">
             {/* User Profile Overview */}
-            <div className="bg-[#161a20]/80 border border-white/5 rounded-[40px] p-8 backdrop-blur-xl relative overflow-hidden group">
+            <div className="bg-[#0a0c10]/80 border border-white/5 rounded-[40px] p-8 backdrop-blur-xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-6 opacity-40">
                  <Bot size={24} className="text-[#00ff9d]" />
               </div>
-              <div className="w-24 h-24 bg-[#161a20] border-4 border-white/5 rounded-[32px] mx-auto mb-6 flex items-center justify-center overflow-hidden shadow-2xl relative z-10">
+              <div className="w-24 h-24 bg-[#0a0c10] border-4 border-white/5 rounded-[32px] mx-auto mb-6 flex items-center justify-center overflow-hidden shadow-2xl relative z-10">
                 <span className="text-4xl font-rubik font-[900] text-white">
                   {user?.fullName?.charAt(0) || 'U'}
                 </span>
@@ -382,9 +382,9 @@ export function NetworkPage() {
             {activeTab === 'feed' && (
               <div className="space-y-6">
                 {/* Create Post - Premium Input Node */}
-                <div className="bg-[#161a20]/60 border border-white/5 rounded-[32px] p-8 backdrop-blur-xl mb-10 overflow-hidden relative">
+                <div className="bg-[#0a0c10]/60 border border-white/5 rounded-[32px] p-8 backdrop-blur-xl mb-10 overflow-hidden relative">
                    <div className="flex items-center gap-6">
-                      <div className="w-14 h-14 bg-[#161a20] border border-white/10 rounded-2xl flex items-center justify-center overflow-hidden shrink-0 shadow-xl">
+                      <div className="w-14 h-14 bg-[#0a0c10] border border-white/10 rounded-2xl flex items-center justify-center overflow-hidden shrink-0 shadow-xl">
                          <span className="text-xl font-rubik font-[900] text-white">{user?.fullName?.charAt(0)}</span>
                       </div>
                       <div 
@@ -416,7 +416,7 @@ export function NetworkPage() {
                     <ThinkingLoader loadingText="Mapping Nodes" />
                   </div>
                 ) : posts.length === 0 ? (
-                  <div className="bg-[#161a20]/20 border border-white/5 rounded-[40px] p-24 text-center backdrop-blur-xl">
+                  <div className="bg-[#0a0c10]/20 border border-white/5 rounded-[40px] p-24 text-center backdrop-blur-xl">
                     <MessageSquare className="w-16 h-16 text-white/10 mx-auto mb-8" />
                     <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-4">Quiet Spectrum</h3>
                     <p className="text-white/30 font-rubik font-bold uppercase text-[13px] tracking-wide">No signals detected in your immediate network</p>
@@ -548,7 +548,7 @@ export function NetworkPage() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-slate-900/95 border border-purple-500/30 rounded-2xl w-full max-w-lg"
+              className="bg-[#0a0c10]/95 border border-purple-500/30 rounded-2xl w-full max-w-lg"
             >
               <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
@@ -653,11 +653,11 @@ function PostCard({
   const [showComments, setShowComments] = useState(false);
 
   return (
-    <div className="group bg-[#161a20]/40 border border-white/5 rounded-[32px] p-8 md:p-10 transition-all hover:bg-[#1c2128] hover:border-white/10 shadow-2xl backdrop-blur-sm relative overflow-hidden mb-8">
+    <div className="group bg-[#0a0c10]/40 border border-white/5 rounded-[32px] p-8 md:p-10 transition-all hover:bg-[#1c2128] hover:border-white/10 shadow-2xl backdrop-blur-sm relative overflow-hidden mb-8">
       {/* Header */}
       <div className="flex items-start justify-between mb-8">
         <div className="flex items-center gap-5">
-          <div className="w-16 h-16 bg-[#161a20] border border-white/10 rounded-[22px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-1 group-hover:border-[#00ff9d]/30 transition-colors">
+          <div className="w-16 h-16 bg-[#0a0c10] border border-white/10 rounded-[22px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-1 group-hover:border-[#00ff9d]/30 transition-colors">
             {post.author.profileImage ? (
               <img
                 src={post.author.profileImage}
@@ -779,7 +779,7 @@ function PostCard({
           >
             <div className="mt-8 pt-8 border-t border-white/5">
               <div className="flex gap-4 items-center bg-white/5 rounded-2xl p-2 pr-6">
-                <div className="w-10 h-10 bg-[#161a20] border border-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 bg-[#0a0c10] border border-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
                    <span className="text-white font-black">Y</span>
                 </div>
                 <input

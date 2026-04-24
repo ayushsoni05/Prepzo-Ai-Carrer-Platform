@@ -1279,7 +1279,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
   if (testState.status === 'loading') {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] selection:bg-white selection:text-black">
-        <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[40px] p-20 border border-white/5 overflow-hidden text-center max-w-lg w-full flex flex-col items-center">
+        <div className="relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[40px] p-20 border border-white/5 overflow-hidden text-center max-w-lg w-full flex flex-col items-center">
           <ThinkingLoader 
             loadingText="Compiling Assessment Results" 
           />
@@ -1293,7 +1293,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
   if (testState.status === 'setup' && showInstructions) {
     return (
       <div className="space-y-10 selection:bg-white selection:text-black">
-        <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-white/5 overflow-hidden group">
+        <div className="relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-white/5 overflow-hidden group">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 mb-8 md:mb-12 text-center md:text-left">
             <div className="w-16 h-16 md:w-20 md:h-20 rounded-[24px] md:rounded-[28px] bg-white/5 border border-white/10 flex items-center justify-center group-hover:scale-105 transition-transform">
               <Target className="w-8 h-8 md:w-10 md:h-10 text-white/40" />
@@ -1338,7 +1338,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
           </div>
         </div>
 
-        <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-white/5 overflow-hidden">
+        <div className="relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-white/5 overflow-hidden">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 md:mb-10 gap-4">
             <h3 className="text-xl md:text-2xl  font-[900] text-white uppercase tracking-tighter italic flex items-center gap-4">
               <Shield className="w-6 h-6 md:w-8 md:h-8 text-white/10" /> Proctoring Integrity
@@ -1386,7 +1386,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
             </motion.button>
             <button 
               onClick={() => setShowInstructions(false)}
-              className="order-1 md:order-2 w-full md:w-auto bg-white text-[#161a20] px-8 md:px-10 py-4 md:py-5 rounded-[20px] md:rounded-[24px]  font-black uppercase tracking-[0.15em] md:tracking-[0.2em] italic text-[13px] md:text-[14px] hover:bg-white/90 transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(255,255,255,0.1)]"
+              className="order-1 md:order-2 w-full md:w-auto bg-white text-[#0a0c10] px-8 md:px-10 py-4 md:py-5 rounded-[20px] md:rounded-[24px]  font-black uppercase tracking-[0.15em] md:tracking-[0.2em] italic text-[13px] md:text-[14px] hover:bg-white/90 transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(255,255,255,0.1)]"
             >
               Initialize Diagnostic
             </button>
@@ -1400,7 +1400,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
   if (testState.status === 'setup' && !showInstructions) {
     return (
       <div className="space-y-10 selection:bg-white selection:text-black">
-        <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-white/5 overflow-hidden">
+        <div className="relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-white/5 overflow-hidden">
           <div className="text-center py-8 md:py-12">
             <div className="w-20 h-20 md:w-24 md:h-24 mx-auto mb-8 md:mb-10 rounded-[28px] md:rounded-[32px] bg-white/5 border border-white/10 flex items-center justify-center group">
               <Shield className="w-10 h-10 md:w-12 md:h-12 text-white/40 group-hover:scale-110 transition-transform" />
@@ -1437,7 +1437,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
                 </motion.button>
                 <button 
                   onClick={() => startTest(false)}
-                  className="bg-white text-[#161a20] px-12 py-5 rounded-[24px]  font-black uppercase tracking-[0.2em] italic text-[14px] hover:bg-white/90 transition-all hover:scale-105 active:scale-95 flex items-center gap-3 shadow-[0_20px_40px_rgba(255,255,255,0.1)]"
+                  className="bg-white text-[#0a0c10] px-12 py-5 rounded-[24px]  font-black uppercase tracking-[0.2em] italic text-[14px] hover:bg-white/90 transition-all hover:scale-105 active:scale-95 flex items-center gap-3 shadow-[0_20px_40px_rgba(255,255,255,0.1)]"
                 >
                   <Play className="w-5 h-5" /> Start Proctored Test
                 </button>
@@ -1463,7 +1463,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
   if (testState.status === 'terminated') {
     return (
       <div className="space-y-10 selection:bg-white selection:text-black">
-        <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[32px] md:rounded-[40px] p-8 md:p-12 border border-red-500/10 overflow-hidden text-center">
+        <div className="relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[32px] md:rounded-[40px] p-8 md:p-12 border border-red-500/10 overflow-hidden text-center">
           <div className="w-20 h-20 md:w-24 md:h-24 mx-auto mb-8 md:mb-10 rounded-[24px] md:rounded-[32px] bg-red-500/5 border border-red-500/10 flex items-center justify-center">
             <XCircle className="w-10 h-10 md:w-12 md:h-12 text-red-500/40" />
           </div>
@@ -1505,7 +1505,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
           />
         )}
         
-        <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[32px] md:rounded-[40px] p-8 md:p-12 border border-white/5 overflow-hidden text-center group">
+        <div className="relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[32px] md:rounded-[40px] p-8 md:p-12 border border-white/5 overflow-hidden text-center group">
           <div className="flex flex-col items-center">
             <motion.div 
               initial={{ scale: 0.8, opacity: 0 }} 
@@ -1539,7 +1539,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
           </div>
         </div>
 
-        <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[40px] p-12 border border-white/5 overflow-hidden">
+        <div className="relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[40px] p-12 border border-white/5 overflow-hidden">
           <div className="flex items-center justify-between mb-12">
             <h3 className="text-2xl  font-[900] text-white uppercase tracking-tighter italic flex items-center gap-4">
               <BookOpen className="w-8 h-8 text-white/10" /> Segment Analysis
@@ -1577,7 +1577,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[40px] p-10 border border-white/5">
+          <div className="relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[40px] p-10 border border-white/5">
             <h3 className="text-xl  font-[900] text-white uppercase tracking-widest italic flex items-center gap-4 mb-8">
               <TrendingUp className="w-6 h-6 text-white/20" /> Active Strengths
             </h3>
@@ -1591,7 +1591,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
             </div>
           </div>
 
-          <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[40px] p-10 border border-white/5">
+          <div className="relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[40px] p-10 border border-white/5">
             <h3 className="text-xl  font-[900] text-white uppercase tracking-widest italic flex items-center gap-4 mb-8">
               <TrendingDown className="w-6 h-6 text-white/20" /> Signal Gaps
             </h3>
@@ -1615,7 +1615,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
           </button>
           <button 
             onClick={() => onComplete(results.score)}
-            className="bg-white text-[#161a20] px-12 py-5 rounded-[24px]  font-black uppercase tracking-[0.2em] italic text-[14px] hover:bg-white/90 transition-all hover:scale-105 active:scale-95 flex items-center gap-3 shadow-[0_20px_40px_rgba(255,255,255,0.1)]"
+            className="bg-white text-[#0a0c10] px-12 py-5 rounded-[24px]  font-black uppercase tracking-[0.2em] italic text-[14px] hover:bg-white/90 transition-all hover:scale-105 active:scale-95 flex items-center gap-3 shadow-[0_20px_40px_rgba(255,255,255,0.1)]"
           >
             Access career dashboard <Award className="w-5 h-5" />
           </button>
@@ -1630,8 +1630,8 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
       <>
         {/* Full-Screen Blocking Warning Modal for Anti-Cheating */}
         {activeViolation && (
-          <div className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#161a20]/95 backdrop-blur-xl p-8 selection:bg-white selection:text-black">
-            <div className="bg-[#161a20] border border-red-500/30 rounded-[40px] p-12 max-w-xl text-center shadow-[0_0_100px_rgba(239,68,68,0.1)]">
+          <div className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#0a0c10]/95 backdrop-blur-xl p-8 selection:bg-white selection:text-black">
+            <div className="bg-[#0a0c10] border border-red-500/30 rounded-[40px] p-12 max-w-xl text-center shadow-[0_0_100px_rgba(239,68,68,0.1)]">
                <AlertTriangle className="w-20 h-20 text-red-500 mx-auto mb-8 animate-pulse opacity-40" />
                <p className="text-[11px]  font-[900] uppercase tracking-[0.5em] text-red-500/40 mb-2">Protocol Warning</p>
                <h2 className="text-4xl  font-[900] text-white uppercase tracking-tighter italic mb-6 leading-none">Integrity Violation</h2>
@@ -1648,7 +1648,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
                        document.documentElement.requestFullscreen().catch(() => {});
                      }
                   }}
-                  className="w-full bg-white text-[#161a20]  font-black py-6 rounded-[24px] text-[16px] uppercase tracking-[0.2em] italic transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_20px_40px_rgba(255,255,255,0.1)]"
+                  className="w-full bg-white text-[#0a0c10]  font-black py-6 rounded-[24px] text-[16px] uppercase tracking-[0.2em] italic transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_20px_40px_rgba(255,255,255,0.1)]"
                >
                  Acknowledge & Continue
                </button>
@@ -1679,7 +1679,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
         )}
 
         {/* Top bar with timer and warnings */}
-        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between p-4 md:p-6 rounded-[24px] md:rounded-[32px] bg-[#161a20]/80 backdrop-blur-3xl border border-white/5 sticky top-2 md:top-4 z-40 shadow-[0_20px_50px_rgba(0,0,0,0.3)] gap-4 md:gap-8">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between p-4 md:p-6 rounded-[24px] md:rounded-[32px] bg-[#0a0c10]/80 backdrop-blur-3xl border border-white/5 sticky top-2 md:top-4 z-40 shadow-[0_20px_50px_rgba(0,0,0,0.3)] gap-4 md:gap-8">
           <div className="flex items-center justify-between md:justify-start gap-4 md:gap-8">
             <div className="flex items-center gap-3 md:gap-4">
               <div className="p-2 md:p-3 bg-white/5 rounded-[14px] md:rounded-[18px]">
@@ -1752,7 +1752,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
                   handleNextQuestion();
                 }
               }}
-              className="order-1 md:order-2 w-full md:w-auto bg-white text-[#161a20] px-8 md:px-12 py-4 md:py-5 rounded-[18px] md:rounded-[22px]  font-black uppercase tracking-[0.1em] md:tracking-[0.2em] italic text-[13px] md:text-[14px] hover:bg-white/90 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3"
+              className="order-1 md:order-2 w-full md:w-auto bg-white text-[#0a0c10] px-8 md:px-12 py-4 md:py-5 rounded-[18px] md:rounded-[22px]  font-black uppercase tracking-[0.1em] md:tracking-[0.2em] italic text-[13px] md:text-[14px] hover:bg-white/90 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3"
             >
               {testState.currentQuestionIndex === currentSection.questions.length - 1 ? (
                 testState.currentSectionIndex === testState.sections.length - 1 ? (
@@ -1786,7 +1786,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
   // Fallback for any unhandled status
   return (
     <div className="space-y-6 flex flex-col items-center justify-center min-h-[60vh] selection:bg-white selection:text-black">
-      <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[40px] p-20 border border-white/5 overflow-hidden text-center max-w-lg w-full">
+      <div className="relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[40px] p-20 border border-white/5 overflow-hidden text-center max-w-lg w-full">
         <div className="w-24 h-24 mx-auto mb-10 rounded-[32px] bg-white/5 border border-white/10 flex items-center justify-center">
           <div className="w-8 h-8 bg-white rounded-full animate-pulse opacity-20" />
         </div>
@@ -1804,7 +1804,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-[#161a20] overflow-hidden selection:bg-white selection:text-black">
+    <div className="relative min-h-screen w-full bg-[#0a0c10] overflow-hidden selection:bg-white selection:text-black">
       {/* Background Educational Video - Cinematic Tech Abstract (Signal Layer) */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <video
@@ -1820,11 +1820,11 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
           />
         </video>
         {/* Subtle Multi-layered Ambient Glows - Signature Landing Style */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#161a20] via-transparent to-[#161a20]/40 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#161a20]/80 via-transparent to-[#161a20]/90 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#0a0c10] via-transparent to-[#0a0c10]/40 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0c10]/80 via-transparent to-[#0a0c10]/90 pointer-events-none" />
         <div className="absolute top-1/2 right-[-10%] -translate-y-1/2 w-[700px] h-[700px] bg-blue-500/10 blur-[130px] rounded-full pointer-events-none" />
         <div className="absolute inset-0 backdrop-blur-[1px] opacity-20 pointer-events-none" />
-        <div className="absolute inset-0 w-full h-full bg-[#161a20] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+        <div className="absolute inset-0 w-full h-full bg-[#0a0c10] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
         <GridBeam className="absolute inset-0" />
         <GridPattern
 

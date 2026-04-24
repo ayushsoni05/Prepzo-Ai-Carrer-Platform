@@ -53,7 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({ active, onNavigate, badgeMap, lockedI
             </div>
 
             {badgeMap?.[item.id] && !isLocked && (
-              <span className="absolute -top-1 -right-1 bg-white text-[#161a20] text-[8px] font-black px-1.5 py-0.5 rounded-full min-w-[16px] text-center shadow-lg">
+              <span className="absolute -top-1 -right-1 bg-white text-[#0a0c10] text-[8px] font-black px-1.5 py-0.5 rounded-full min-w-[16px] text-center shadow-lg">
                 {badgeMap[item.id]}
               </span>
             )}

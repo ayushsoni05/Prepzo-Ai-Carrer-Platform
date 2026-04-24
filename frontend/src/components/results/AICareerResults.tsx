@@ -33,7 +33,7 @@ const SectionScoreCard = ({ section, index }: {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: index * 0.05 }}
-      className={`relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[32px] p-8 border border-white/5 group overflow-hidden`}
+      className={`relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[32px] p-8 border border-white/5 group overflow-hidden`}
     >
       <div className="relative z-10">
         <div className="flex items-center justify-between mb-8">
@@ -65,7 +65,7 @@ const SectionScoreCard = ({ section, index }: {
 
 // AI Analysis Card
 const AIAnalysisCard = ({ analysis }: { analysis: AIRecommendationResult['analysis'] }) => (
-  <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-white/5 overflow-hidden">
+  <div className="relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-white/5 overflow-hidden">
     <div className="relative z-10">
       <div className="flex items-center justify-between gap-6 mb-8 md:mb-12">
         <div>
@@ -126,7 +126,7 @@ const CourseCard = ({ course, index }: { course: CourseRecommendation; index: nu
     transition={{ delay: index * 0.1 }}
     className="group relative bg-[#1c2128]/50 backdrop-blur-xl border border-white/5 rounded-[40px] overflow-hidden hover:border-white/20 transition-all duration-500 block h-full"
   >
-    <div className="relative h-48 overflow-hidden bg-[#161a20]">
+    <div className="relative h-48 overflow-hidden bg-[#0a0c10]">
       <img 
         src={course.thumbnail} 
         alt={course.title} 
@@ -135,7 +135,7 @@ const CourseCard = ({ course, index }: { course: CourseRecommendation; index: nu
           (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1498050108023-c524a983c605?auto=format&fit=crop&q=80&w=800';
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#161a20] via-[#161a20]/20 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0c10] via-[#0a0c10]/20 to-transparent" />
       <div className="absolute top-6 right-6">
         <div className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full border border-white/10">
           <span className="text-[10px]  font-black text-white uppercase tracking-widest">{course.level || course.difficulty}</span>
@@ -179,7 +179,7 @@ const YouTubeCard = ({ video, index }: { video: YouTubeRecommendation; index: nu
     transition={{ delay: index * 0.1 }}
     className="group relative bg-[#1c2128]/50 backdrop-blur-xl border border-white/5 rounded-[40px] overflow-hidden hover:border-white/20 transition-all duration-500 block h-full"
   >
-    <div className="relative h-48 overflow-hidden bg-[#161a20]">
+    <div className="relative h-48 overflow-hidden bg-[#0a0c10]">
       <img 
         src={video.thumbnailUrl || video.thumbnail} 
         alt={video.title || video.playlistTitle} 
@@ -188,7 +188,7 @@ const YouTubeCard = ({ video, index }: { video: YouTubeRecommendation; index: nu
           (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1461749280684-d676f03ef285?auto=format&fit=crop&q=80&w=800';
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#161a20] via-[#161a20]/20 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0c10] via-[#0a0c10]/20 to-transparent" />
       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         <div className="w-16 h-16 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/20">
           <Play fill="white" size={24} className="text-white ml-1" />
@@ -254,7 +254,7 @@ const ProjectCard = ({ project, index }: { project: ProjectRecommendation; index
     transition={{ delay: index * 0.1 }}
     className="group relative bg-[#1c2128]/50 backdrop-blur-xl border border-white/5 rounded-[40px] overflow-hidden hover:border-white/20 transition-all duration-500 h-full flex flex-col"
   >
-    <div className="relative h-48 overflow-hidden shrink-0 bg-[#161a20]">
+    <div className="relative h-48 overflow-hidden shrink-0 bg-[#0a0c10]">
       <img 
         src={project.thumbnailUrl || project.thumbnail} 
         alt={project.title} 
@@ -263,7 +263,7 @@ const ProjectCard = ({ project, index }: { project: ProjectRecommendation; index
           (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1558494947-a8bd2fd35897?auto=format&fit=crop&q=80&w=800';
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#161a20] via-[#161a20]/20 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0c10] via-[#0a0c10]/20 to-transparent" />
       <div className="absolute top-6 right-6">
         <div className="px-3 py-1 bg-blue-500/10 backdrop-blur-md rounded-full border border-blue-500/20">
           <span className="text-[10px]  font-black text-blue-400 uppercase tracking-widest">{project.difficulty || 'Intermediate'}</span>
@@ -301,7 +301,7 @@ const ProjectCard = ({ project, index }: { project: ProjectRecommendation; index
 
 // Improvement Prediction Card
 const ImprovementPredictionCard = ({ prediction }: { prediction: AIRecommendationResult['improvementPrediction'] }) => (
-  <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[32px] p-10 border border-white/5 overflow-hidden">
+  <div className="relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[32px] p-10 border border-white/5 overflow-hidden">
     <div className="relative z-10">
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 md:mb-12 gap-4">
         <div>
@@ -355,7 +355,7 @@ const StudyNoteCard = ({ note, index }: { note: any, index: number }) => (
     initial={{ opacity: 0, scale: 0.95 }}
     animate={{ opacity: 1, scale: 1 }}
     transition={{ delay: index * 0.05 }}
-    className={`relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[32px] p-6 border border-white/5 group overflow-hidden block hover:border-white/20 transition-all h-full`}
+    className={`relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[32px] p-6 border border-white/5 group overflow-hidden block hover:border-white/20 transition-all h-full`}
   >
     <div className="relative z-10">
        <div className="flex items-center justify-between mb-4">
@@ -388,7 +388,7 @@ const InterviewCard = ({ item, index }: { item: any, index: number }) => (
     initial={{ opacity: 0, scale: 0.95 }}
     animate={{ opacity: 1, scale: 1 }}
     transition={{ delay: index * 0.05 }}
-    className={`relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[32px] p-6 border border-white/5 group overflow-hidden block hover:border-white/20 transition-all h-full`}
+    className={`relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[32px] p-6 border border-white/5 group overflow-hidden block hover:border-white/20 transition-all h-full`}
   >
     <div className="relative z-10">
        <div className="flex items-center justify-between mb-4">
@@ -415,7 +415,7 @@ const PracticeCard = ({ platform, index }: { platform: any, index: number }) => 
     initial={{ opacity: 0, scale: 0.95 }}
     animate={{ opacity: 1, scale: 1 }}
     transition={{ delay: index * 0.05 }}
-    className={`relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[32px] p-6 border border-white/5 group overflow-hidden block hover:border-white/20 transition-all h-full`}
+    className={`relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[32px] p-6 border border-white/5 group overflow-hidden block hover:border-white/20 transition-all h-full`}
   >
     <div className="relative z-10">
        <div className="flex items-center justify-between mb-4">
@@ -436,7 +436,7 @@ const PracticeCard = ({ platform, index }: { platform: any, index: number }) => 
 
 
 const RoadmapSection = ({ roadmap }: { roadmap: AIRecommendationResult['learningPath'] }) => (
-  <div className="relative bg-[#161a20]/60 backdrop-blur-3xl rounded-[32px] p-10 border border-white/5 overflow-hidden">
+  <div className="relative bg-[#0a0c10]/60 backdrop-blur-3xl rounded-[32px] p-10 border border-white/5 overflow-hidden">
     <div className="flex items-center justify-between mb-10 md:mb-12">
         <div>
            <p className="text-[10px]  font-black text-white/20 uppercase tracking-[0.2em] mb-2">{roadmap.title}</p>
@@ -570,7 +570,7 @@ export default function AICareerResults({ recommendations }: AICareerResultsProp
   const hasSupplementalData = displayCerts.length > 0 || displayNotes.length > 0 || displayInterview.length > 0 || displayPractice.length > 0;
 
   return (
-    <div className="relative min-h-screen w-full bg-[#161a20] overflow-hidden selection:bg-white selection:text-black">
+    <div className="relative min-h-screen w-full bg-[#0a0c10] overflow-hidden selection:bg-white selection:text-black">
       {/* Background Placement Video - Cinematic Success Signals */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <video
@@ -586,8 +586,8 @@ export default function AICareerResults({ recommendations }: AICareerResultsProp
           />
         </video>
         {/* Subtle Ambient Depth Layers */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#161a20] via-transparent to-[#161a20]/40" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#161a20]/60 via-transparent to-[#161a20]/90" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#0a0c10] via-transparent to-[#0a0c10]/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0c10]/60 via-transparent to-[#0a0c10]/90" />
         <div className="absolute top-1/2 right-[-10%] -translate-y-1/2 w-[700px] h-[700px] bg-blue-500/10 blur-[130px] rounded-full pointer-events-none" />
         <div className="absolute inset-0 backdrop-blur-[1px] opacity-20" />
       </div>
@@ -642,7 +642,7 @@ export default function AICareerResults({ recommendations }: AICareerResultsProp
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {careerPaths.map((path: any, i: number) => (
 
-                <GlassCard key={i} className="rounded-[32px] p-8 bg-[#161a20]/60 border-white/5 relative overflow-hidden group">
+                <GlassCard key={i} className="rounded-[32px] p-8 bg-[#0a0c10]/60 border-white/5 relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                     <TrendingUp size={60} />
                   </div>

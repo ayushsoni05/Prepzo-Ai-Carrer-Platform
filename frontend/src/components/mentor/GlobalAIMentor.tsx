@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   Bot,
-  Loader2,
   Maximize2,
   MessageSquare,
   Minimize2,
@@ -173,7 +172,7 @@ export function GlobalAIMentor() {
             exit={{ opacity: 0, y: 16, scale: 0.98 }}
             className={`fixed z-[70] ${isExpanded ? 'inset-4' : 'bottom-24 right-4 h-[640px] w-[calc(100vw-2rem)] max-w-[440px]'}`}
           >
-            <div className="bg-[#161a20] border border-white/10 shadow-2xl backdrop-blur-xl flex h-full flex-col overflow-hidden rounded-[32px]">
+            <div className="bg-[#0a0c10] border border-white/10 shadow-2xl backdrop-blur-xl flex h-full flex-col overflow-hidden rounded-[32px]">
               <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
                 <div className="flex items-center gap-3">
                   <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-code-green/10 border border-code-green/20 text-code-green shadow-lg">
@@ -279,7 +278,7 @@ export function GlobalAIMentor() {
                   <button
                     type="button"
                     onClick={() => void sendMessage(inputValue)}
-                    className="flex h-11 w-11 items-center justify-center rounded-full bg-code-green text-[#161a20] shadow-lg disabled:opacity-50 transition-transform active:scale-95 flex-shrink-0"
+                    className="flex h-11 w-11 items-center justify-center rounded-full bg-code-green text-[#0a0c10] shadow-lg disabled:opacity-50 transition-transform active:scale-95 flex-shrink-0"
                     disabled={!inputValue.trim() || isLoading}
                   >
                     <Send className="h-4 w-4" />
@@ -296,7 +295,7 @@ export function GlobalAIMentor() {
         whileHover={{ scale: 1.04, y: -2 }}
         whileTap={{ scale: 0.97 }}
         onClick={() => setIsOpen((value) => !value)}
-        className="fixed bottom-5 right-4 z-[68] flex items-center gap-3 rounded-full bg-code-green px-4 py-3 text-[12px] uppercase font-[900] tracking-widest text-[#161a20] shadow-[0_0_30px_rgba(94,210,156,0.3)]"
+        className="fixed bottom-5 right-4 z-[68] flex items-center gap-3 rounded-full bg-code-green px-4 py-3 text-[12px] uppercase font-[900] tracking-widest text-[#0a0c10] shadow-[0_0_30px_rgba(94,210,156,0.3)]"
       >
         <MessageSquare className="h-5 w-5" />
         <span className="hidden sm:inline">Connect to AI</span>

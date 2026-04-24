@@ -273,7 +273,7 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
   return (
     <div className="min-h-screen bg-code-dark text-white selection:bg-code-green selection:text-code-dark overflow-hidden flex flex-col lg:flex-row">
       {/* ── Left Side: Storytelling / Hero Context ── */}
-      <div className="hidden lg:flex w-1/2 bg-[#161a20] relative items-center justify-center p-20 overflow-hidden border-r border-white/5">
+      <div className="hidden lg:flex w-1/2 bg-[#0a0c10] relative items-center justify-center p-20 overflow-hidden border-r border-white/5">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_20%,rgba(94,210,156,0.1),transparent_50%)]" />
           <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_80%_80%,rgba(56,189,248,0.1),transparent_50%)]" />
@@ -330,7 +330,7 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
         {/* Mobile Header */}
         <div className="lg:hidden flex items-center gap-3 mb-12">
             <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center">
-                <div className="w-5 h-5 bg-[#161a20] rotate-45" />
+                <div className="w-5 h-5 bg-[#0a0c10] rotate-45" />
             </div>
             <span className="text-white  font-[900] text-2xl uppercase tracking-tighter">Prepzo</span>
         </div>
@@ -419,7 +419,7 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
                           value={cgpa}
                           onChange={(e) => setCgpa(e.target.value)}
                           placeholder="e.g. 9.1"
-                          className="w-full h-[60px] px-6 rounded-[20px] bg-[#161a20] border border-white/5 text-white  font-bold placeholder-white/20 focus:outline-none focus:border-code-green transition-all shadow-inner"
+                          className="w-full h-[60px] px-6 rounded-[20px] bg-[#0a0c10] border border-white/5 text-white  font-bold placeholder-white/20 focus:outline-none focus:border-code-green transition-all shadow-inner"
                         />
                       </div>
                     </div>
@@ -555,7 +555,7 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
                         onClick={() => !resumeUrl && fileInputRef.current?.click()}
                         className={`
                             h-64 border-2 border-dashed rounded-[40px] flex flex-col items-center justify-center p-10 transition-all cursor-pointer group
-                            ${resumeUrl ? 'border-code-green/50 bg-code-green/5 cursor-default' : isDragOver ? 'border-code-green bg-code-green/10' : 'border-white/10 bg-[#161a20] hover:border-white/30'}
+                            ${resumeUrl ? 'border-code-green/50 bg-code-green/5 cursor-default' : isDragOver ? 'border-code-green bg-code-green/10' : 'border-white/10 bg-[#0a0c10] hover:border-white/30'}
                         `}
                     >
                         {isUploading ? (
@@ -565,7 +565,7 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
                         ) : resumeUrl ? (
                             <div className="flex flex-col items-center gap-6">
                                 <div className="w-16 h-16 rounded-full bg-code-green flex items-center justify-center shadow-[0_0_30px_rgba(94,210,156,0.3)]">
-                                    <CheckCircle size={32} className="text-[#161a20]" />
+                                    <CheckCircle size={32} className="text-[#0a0c10]" />
                                 </div>
                                 <div className="text-center">
                                     <p className="text-white font-[900] uppercase tracking-tighter text-lg">{resumeName || 'Resume.pdf'}</p>
@@ -599,7 +599,7 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
                       animate={{ scale: 1, opacity: 1 }}
                       className="w-24 h-24 rounded-[40px] bg-code-green flex items-center justify-center shadow-[0_0_80px_rgba(94,210,156,0.2)]"
                     >
-                      <CheckCircle size={48} className="text-[#161a20]" />
+                      <CheckCircle size={48} className="text-[#0a0c10]" />
                     </motion.div>
                     
                     <div className="space-y-4 text-center lg:text-left">
@@ -608,11 +608,11 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 w-full">
-                        <div className="bg-[#161a20] border border-white/5 p-6 rounded-[30px]">
+                        <div className="bg-[#0a0c10] border border-white/5 p-6 rounded-[30px]">
                             <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em] mb-2">Signal Integrity</p>
                             <p className="text-3xl  font-[900] text-white italic">100<span className="text-lg text-code-green">%</span></p>
                         </div>
-                        <div className="bg-[#161a20] border border-white/5 p-6 rounded-[30px]">
+                        <div className="bg-[#0a0c10] border border-white/5 p-6 rounded-[30px]">
                             <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em] mb-2">Mentor Access</p>
                             <p className="text-3xl  font-[900] text-white italic">ACTIVE</p>
                         </div>
@@ -642,7 +642,7 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
                 `}
             >
                 <div className="absolute inset-0 bg-white rounded-[24px] group-hover:scale-[1.02] transition-transform shadow-[0_20px_40px_rgba(255,255,255,0.1)]" />
-                <span className="relative z-10 flex items-center justify-center h-full text-[#161a20]  font-[900] text-xl uppercase tracking-tighter italic">
+                <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10]  font-[900] text-xl uppercase tracking-tighter italic">
                     {currentStep === 6 ? 'Access Dashboard' : 'Execute Next Step'}
                     <ArrowRight className="ml-2" size={20} strokeWidth={3} />
                 </span>

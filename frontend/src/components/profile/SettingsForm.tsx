@@ -167,7 +167,7 @@ export function SettingsForm() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Appearance Section */}
         <div className="lg:col-span-12">
-          <GlassCard className="p-8 rounded-[48px] border-white/5 bg-[#161a20]/40 flex flex-col md:flex-row items-center justify-between gap-6">
+          <GlassCard className="p-8 rounded-[48px] border-white/5 bg-[#0a0c10]/40 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-6">
                <div className="w-16 h-16 rounded-[24px] bg-white/5 border border-white/10 flex items-center justify-center">
                   <Globe className="text-white/40" size={28} />
@@ -186,7 +186,7 @@ export function SettingsForm() {
         {/* Left Column: Personal & Academic */}
         <div className="lg:col-span-7 space-y-8">
           {/* Personal Identity */}
-          <GlassCard className="p-10 rounded-[60px] border-white/5 bg-[#161a20]/40 backdrop-blur-3xl relative overflow-hidden">
+          <GlassCard className="p-10 rounded-[60px] border-white/5 bg-[#0a0c10]/40 backdrop-blur-3xl relative overflow-hidden">
             <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
                 <User size={120} strokeWidth={1} />
             </div>
@@ -251,7 +251,7 @@ export function SettingsForm() {
           </GlassCard>
 
           {/* Academic Node */}
-          <GlassCard className="p-10 rounded-[60px] border-white/5 bg-[#161a20]/40 relative overflow-hidden">
+          <GlassCard className="p-10 rounded-[60px] border-white/5 bg-[#0a0c10]/40 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
                 <GraduationCap size={120} strokeWidth={1} />
             </div>
@@ -321,7 +321,7 @@ export function SettingsForm() {
         {/* Right Column: Career & Resume */}
         <div className="lg:col-span-5 space-y-8">
           {/* Career Vector */}
-          <GlassCard className="p-10 rounded-[60px] border-white/5 bg-[#161a20]/40 relative overflow-hidden">
+          <GlassCard className="p-10 rounded-[60px] border-white/5 bg-[#0a0c10]/40 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
                 <Briefcase size={120} strokeWidth={1} />
             </div>
@@ -367,7 +367,7 @@ export function SettingsForm() {
           </GlassCard>
 
           {/* Resume Blueprint */}
-          <GlassCard className="p-10 rounded-[60px] border-white/5 bg-[#161a20]/40 relative overflow-hidden">
+          <GlassCard className="p-10 rounded-[60px] border-white/5 bg-[#0a0c10]/40 relative overflow-hidden">
              <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
                 <FileText size={120} strokeWidth={1} />
             </div>
@@ -436,7 +436,7 @@ export function SettingsForm() {
 
         {/* Bottom Full-Width: Skill Matrix */}
         <div className="lg:col-span-12">
-          <GlassCard className="p-10 md:p-16 rounded-[60px] border-white/5 bg-[#161a20]/40 relative overflow-hidden">
+          <GlassCard className="p-10 md:p-16 rounded-[60px] border-white/5 bg-[#0a0c10]/40 relative overflow-hidden">
              <div className="absolute top-0 right-0 p-16 opacity-5 pointer-events-none">
                 <Code size={200} strokeWidth={1} />
             </div>

@@ -464,7 +464,7 @@ export function Dashboard() {
 
           {/* AI RESUME MAKER CONTENT */}
           <div className="lg:col-span-12">
-            <GlassCard className="rounded-[40px] p-8 md:p-12 bg-[#161a20]/60 border-white/5 relative overflow-hidden group">
+            <GlassCard className="rounded-[40px] p-8 md:p-12 bg-[#0a0c10]/60 border-white/5 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity">
                 <Sparkles size={120} />
               </div>
@@ -558,7 +558,7 @@ export function Dashboard() {
                         className={`group relative h-48 rounded-3xl border transition-all duration-300 overflow-hidden flex flex-col items-center justify-center p-4 ${
                           templateInput === template.value 
                             ? 'border-indigo-500 bg-indigo-500/10 shadow-[0_0_30px_-5px_rgba(99,102,241,0.3)]' 
-                            : 'border-white/5 bg-[#161a20]/80 hover:bg-white/5 hover:border-white/20'
+                            : 'border-white/5 bg-[#0a0c10]/80 hover:bg-white/5 hover:border-white/20'
                         }`}
                       >
                         {/* Abstract mini-resume wireframe */}
@@ -615,7 +615,7 @@ export function Dashboard() {
                 {/* AI Output Card */}
                 <div className="relative group">
                   <div className="absolute -inset-0.5 bg-gradient-to-b from-indigo-500/20 to-transparent rounded-[32px] blur-sm opacity-50"></div>
-                  <GlassCard className="relative p-8 border-white/5 bg-[#161a20]/40 min-h-[600px] flex flex-col rounded-[32px] backdrop-blur-3xl">
+                  <GlassCard className="relative p-8 border-white/5 bg-[#0a0c10]/40 min-h-[600px] flex flex-col rounded-[32px] backdrop-blur-3xl">
                     <div className="flex items-center justify-between mb-8 border-b border-white/5 pb-6">
                       <div className="flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
@@ -723,7 +723,7 @@ export function Dashboard() {
 
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
             <div className="lg:col-span-8 space-y-8">
-              <GlassCard className="rounded-[40px] p-8 md:p-12 bg-[#161a20]/60 border-white/5 relative overflow-hidden">
+              <GlassCard className="rounded-[40px] p-8 md:p-12 bg-[#0a0c10]/60 border-white/5 relative overflow-hidden">
                 <div className="flex items-center gap-4 text-[10px]  font-[900] uppercase tracking-[0.4em] text-white/30 mb-8">
                   <FileText size={20} />
                   Deep Scan Engine
@@ -827,7 +827,7 @@ export function Dashboard() {
                 )))}
               </div>
               
-              <GlassCard className="rounded-[32px] p-8 bg-[#161a20]/60 border-white/5">
+              <GlassCard className="rounded-[32px] p-8 bg-[#0a0c10]/60 border-white/5">
                 <div className="flex items-center justify-between mb-8">
                   <p className="text-[10px]  font-[900] uppercase tracking-[0.3em] text-white/30">Keyword Delta</p>
                   <div className="flex items-center gap-2">
@@ -863,7 +863,7 @@ export function Dashboard() {
             </div>
 
             <div className="lg:col-span-4 space-y-8">
-              <GlassCard className="rounded-[32px] p-8 bg-[#161a20]/60 border-white/5">
+              <GlassCard className="rounded-[32px] p-8 bg-[#0a0c10]/60 border-white/5">
                 <p className="text-[10px]  font-[900] uppercase tracking-[0.5em] text-white/30 mb-8">Score History</p>
                 <div className="flex h-40 items-end gap-2 mb-6">
                   {atsTrend.map((point, i) => (
@@ -881,7 +881,7 @@ export function Dashboard() {
                 <p className="text-[11px]  font-medium italic text-white/30 text-center">Historical ATS movement across versions.</p>
               </GlassCard>
 
-              <GlassCard className="rounded-[32px] p-8 bg-[#161a20]/60 border-white/5">
+              <GlassCard className="rounded-[32px] p-8 bg-[#0a0c10]/60 border-white/5">
                   <p className="text-[10px]  font-[900] uppercase tracking-[0.5em] text-white/30 mb-8">AI Rewrite Delta</p>
                   <div className="space-y-4">
                     {rewriteLines.slice(0, 4).map((line, i) => (
@@ -895,7 +895,7 @@ export function Dashboard() {
                   </div>
               </GlassCard>
               
-              <GlassCard className="rounded-[32px] p-8 bg-[#161a20]/60 border-white/5">
+              <GlassCard className="rounded-[32px] p-8 bg-[#0a0c10]/60 border-white/5">
                   <p className="text-[10px]  font-[900] uppercase tracking-[0.5em] text-white/30 mb-8">Recruiter Sentiment</p>
                   <div className="space-y-4">
                     {recruiterSimulation?.strengths?.slice(0, 3).map((s, i) => (
@@ -1244,7 +1244,7 @@ export function Dashboard() {
             {shellCards.map((card, idx) => (
               <GlassCard 
                 key={card.title} 
-                className="rounded-[40px] p-10 bg-[#161a20]/40 border-white/5 flex flex-col justify-between group h-[400px] hover:bg-white/5 transition-all duration-700 relative overflow-hidden backdrop-blur-3xl"
+                className="rounded-[40px] p-10 bg-[#0a0c10]/40 border-white/5 flex flex-col justify-between group h-[400px] hover:bg-white/5 transition-all duration-700 relative overflow-hidden backdrop-blur-3xl"
               >
                 <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-700">
                   <Sparkles size={120} className="text-white" />
@@ -1383,8 +1383,8 @@ export function Dashboard() {
   );
 
   return (
-    <div className="relative w-full min-h-screen bg-[#161a20]  text-white overflow-x-hidden selection:bg-white selection:text-black">
-      <div className="fixed inset-0 bg-[#161a20] -z-50" />
+    <div className="relative w-full min-h-screen bg-[#0a0c10]  text-white overflow-x-hidden selection:bg-white selection:text-black">
+      <div className="fixed inset-0 bg-[#0a0c10] -z-50" />
       
       {/* Glassmorphism dashboard lock overlay for new users */}
       {!isFullyQualified && !startAssessment && (
@@ -1460,8 +1460,8 @@ export function Dashboard() {
 
       {!startAssessment ? (
         <div className="flex w-full">
-          <main className="min-w-0 flex-1 relative z-10 flex flex-col bg-slate-950">
-            <div className="absolute inset-0 w-full h-full bg-slate-950 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+          <main className="min-w-0 flex-1 relative z-10 flex flex-col bg-[#0a0c10]">
+            <div className="absolute inset-0 w-full h-full bg-[#0a0c10] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
             <GridBeam className="absolute inset-0" />
 
             <header className="sticky top-0 z-30 px-6 py-6 flex items-center justify-between pointer-events-none font-rubik">

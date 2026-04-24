@@ -38,7 +38,7 @@ export default function TetrisDemo() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Section 1: Assessment Loading */}
-          <GlassCard className="rounded-[40px] p-10 bg-[#161a20]/60 border-white/5 flex flex-col items-center justify-between min-h-[400px]">
+          <GlassCard className="rounded-[40px] p-10 bg-[#0a0c10]/60 border-white/5 flex flex-col items-center justify-between min-h-[400px]">
             <div className="text-center w-full">
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 mb-8 text-left">Signal Case: Assessment</p>
               <TetrisLoading 
@@ -54,7 +54,7 @@ export default function TetrisDemo() {
           </GlassCard>
 
           {/* Section 2: AI Mentor Thinking */}
-          <GlassCard className="rounded-[40px] p-10 bg-[#161a20]/60 border-white/5 flex flex-col items-center justify-between min-h-[400px]">
+          <GlassCard className="rounded-[40px] p-10 bg-[#0a0c10]/60 border-white/5 flex flex-col items-center justify-between min-h-[400px]">
             <div className="text-center w-full">
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 mb-8 text-left">Signal Case: AI Thinking</p>
               <div className="flex gap-4 items-start">
@@ -77,7 +77,7 @@ export default function TetrisDemo() {
           </GlassCard>
 
           {/* Section 3: Resume Processing */}
-          <GlassCard className="rounded-[40px] p-10 bg-[#161a20]/60 border-white/5 flex flex-col items-center justify-between min-h-[400px]">
+          <GlassCard className="rounded-[40px] p-10 bg-[#0a0c10]/60 border-white/5 flex flex-col items-center justify-between min-h-[400px]">
             <div className="text-center w-full">
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 mb-8 text-left">Signal Case: Resume Lab</p>
               <TetrisLoading 
@@ -93,7 +93,7 @@ export default function TetrisDemo() {
           </GlassCard>
 
           {/* Section 4: Small Inline Loaders */}
-          <GlassCard className="rounded-[40px] p-10 bg-[#161a20]/60 border-white/5 flex flex-col items-center justify-between min-h-[400px]">
+          <GlassCard className="rounded-[40px] p-10 bg-[#0a0c10]/60 border-white/5 flex flex-col items-center justify-between min-h-[400px]">
             <div className="text-center w-full">
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 mb-8 text-left">Signal Case: Tiny Inline</p>
               <div className="space-y-4">
