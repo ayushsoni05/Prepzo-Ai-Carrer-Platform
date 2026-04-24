@@ -19,7 +19,7 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import { GlassCard, GlassButton } from '@/components/ui/GlassCard';
-import { Boxes } from '@/components/ui/background-boxes';
+import { GridBeam } from '@/components/ui/background-grid-beam';
 import { useAuthStore } from '@/store/authStore';
 import { useAppStore } from '@/store/appStore';
 import { companiesApi, Company, CompanySearchParams } from '@/api/companies';
@@ -161,7 +161,7 @@ export function CompaniesPage() {
     <div className="min-h-screen bg-[#0a0c10] selection:bg-[#00ff9d] selection:text-[#0a0c10] overflow-x-hidden relative">
       {/* Background Effect */}
       <div className="absolute inset-0 w-full h-full bg-[#0a0c10] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-      <Boxes />
+      <GridBeam className="absolute inset-0" />
 
       {/* Header / Hero Section */}
       <div className="relative z-10 border-b border-white/5 bg-[#161a20]/30 backdrop-blur-3xl">

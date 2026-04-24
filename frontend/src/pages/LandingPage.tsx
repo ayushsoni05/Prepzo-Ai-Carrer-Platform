@@ -20,7 +20,7 @@ import { PrepzoNavbar } from '@/components/landing/PrepzoNavbar';
 import { getPublicStats, PublicStats } from '@/api/public';
 import { useState } from 'react';
 import { useAppStore } from '@/store/appStore';
-import { GridBeam } from '@/components/ui/background-grid-beam';
+import { Boxes } from '@/components/ui/background-boxes';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -263,7 +263,7 @@ export const LandingPage = ({ onNavigate }: LandingPageProps) => {
   return (
     <div ref={rootRef} className="min-h-screen bg-code-dark selection:bg-code-green selection:text-code-dark overflow-x-hidden relative">
       <div className="absolute inset-0 w-full h-full bg-[#0a0c10] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-      <GridBeam className="absolute inset-0" />
+      <Boxes />
 
       <PrepzoNavbar onNavigate={onNavigate} />
       

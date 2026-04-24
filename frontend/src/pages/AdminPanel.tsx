@@ -37,7 +37,7 @@ import {
   Clock,
   ExternalLink
 } from 'lucide-react';
-import { Boxes } from '@/components/ui/background-boxes';
+import { GridBeam } from '@/components/ui/background-grid-beam';
 import { companiesApi, Company } from '@/api/companies';
 import { jobsApi, Job } from '@/api/jobs';
 import AdminAuditTab from '@/components/admin/AdminAuditTab';
@@ -346,7 +346,7 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
   return (
     <div className="min-h-screen bg-slate-950 text-white relative overflow-hidden">
       <div className="absolute inset-0 w-full h-full bg-slate-950 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-      <Boxes />
+      <GridBeam className="absolute inset-0" />
 
       {/* FloatingElements removed for cleaner admin UI */}
 

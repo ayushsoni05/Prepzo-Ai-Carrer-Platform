@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, ArrowLeft, Layout, Server, Layers, Database, Cloud, Briefcase } from 'lucide-react';
-import { Boxes } from '../components/ui/background-boxes';
+import { GridBeam } from '../components/ui/background-grid-beam';
 import { InterviewSession } from '../components/interview/InterviewSession';
 import { INTERVIEW_ROLES, InterviewRole } from '../data/interviewRoles';
 
@@ -26,7 +26,7 @@ export const InterviewPage: React.FC = () => {
   return (
     <div className="relative min-h-screen w-full bg-[#0a0c10] overflow-hidden selection:bg-[#5ed29c] selection:text-[#0a0c10]">
       <div className="absolute inset-0 z-0">
-        <Boxes />
+        <GridBeam className="absolute inset-0" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0c10]/50 to-[#0a0c10] pointer-events-none" />
       </div>
 

@@ -39,7 +39,7 @@ import { uploadApi, type ResumeInfo } from '@/api/auth';
 import { ResumeRenderer } from '@/components/resume/ResumeRenderer';
 import ThinkingLoader from '@/components/ui/loading';
 import allTemplates from '@/data/templates.json';
-import { Boxes } from '@/components/ui/background-boxes';
+import { GridBeam } from '@/components/ui/background-grid-beam';
 import { QuestionBank } from '@/components/interview/QuestionBank';
 import { SettingsForm } from '@/components/profile/SettingsForm';
 
@@ -1462,7 +1462,7 @@ export function Dashboard() {
         <div className="flex w-full">
           <main className="min-w-0 flex-1 relative z-10 flex flex-col bg-slate-950">
             <div className="absolute inset-0 w-full h-full bg-slate-950 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-            <Boxes />
+            <GridBeam className="absolute inset-0" />
 
             <header className="sticky top-0 z-30 px-6 py-6 flex items-center justify-between pointer-events-none font-rubik">
               <div className="flex items-center gap-6 pointer-events-auto">

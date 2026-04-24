@@ -1,6 +1,6 @@
 import { showSuccess, showError, showInfo } from '@/utils/toastManager';
 import toast from 'react-hot-toast';
-import { Boxes } from '@/components/ui/background-boxes';
+import { GridBeam } from '@/components/ui/background-grid-beam';
 // --- Local definitions for missing types ---
 import { 
   TestAnalysisResult 
@@ -1825,7 +1825,7 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
         <div className="absolute top-1/2 right-[-10%] -translate-y-1/2 w-[700px] h-[700px] bg-blue-500/10 blur-[130px] rounded-full pointer-events-none" />
         <div className="absolute inset-0 backdrop-blur-[1px] opacity-20 pointer-events-none" />
         <div className="absolute inset-0 w-full h-full bg-[#161a20] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-        <Boxes />
+        <GridBeam className="absolute inset-0" />
         <GridPattern
 
           squares={[
