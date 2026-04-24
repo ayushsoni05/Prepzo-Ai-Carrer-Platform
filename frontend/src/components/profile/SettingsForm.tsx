@@ -17,7 +17,8 @@ import {
   Star,
   CalendarDays,
   Clock,
-  TrendingUp
+  TrendingUp,
+  LogOut
 } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { uploadApi } from '@/api/auth';
@@ -63,9 +64,20 @@ const SkillSlider = ({ skill, value, onChange }: SkillSliderProps) => (
 );
 
 export function SettingsForm() {
-  const { user, updateProfileAsync } = useAuthStore();
+  const { user, updateProfileAsync, logoutAsync } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  
+  const handleLogout = async () => {
+    if (window.confirm('Are you sure you want to terminate your current session?')) {
+      try {
+        await logoutAsync();
+        toast.success('Neural session terminated');
+      } catch (error) {
+        toast.error('Failed to terminate session');
+      }
+    }
+  };
   
   // Form State
   const [formData, setFormData] = useState({
@@ -133,14 +145,23 @@ export function SettingsForm() {
           <p className="text-[11px] font-[900] uppercase tracking-[0.4em] text-[#5ed29c] mb-4">Command Center</p>
           <h1 className="text-4xl md:text-8xl font-[900] text-white uppercase tracking-tighter italic leading-[0.85]">Settings <span className="text-white/20">Matrix</span></h1>
         </div>
-        <GlassButton 
-          onClick={handleSave} 
-          disabled={loading}
-          className="bg-[#5ed29c] text-[#0a0c10] px-10 py-5 rounded-[24px] flex items-center gap-3 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#5ed29c]/10"
-        >
-          {loading ? <ThinkingLoader /> : <Save size={20} />}
-          <span className="font-[900] uppercase tracking-widest text-[13px]">Sync Profile</span>
-        </GlassButton>
+        <div className="flex items-center gap-4">
+          <GlassButton 
+            onClick={handleLogout}
+            className="bg-red-500/10 text-red-500 border-red-500/20 px-8 py-5 rounded-[24px] flex items-center gap-3 hover:bg-red-500 hover:text-white transition-all shadow-xl shadow-red-500/10"
+          >
+            <LogOut size={20} />
+            <span className="font-[900] uppercase tracking-widest text-[13px]">Logout</span>
+          </GlassButton>
+          <GlassButton 
+            onClick={handleSave} 
+            disabled={loading}
+            className="bg-[#5ed29c] text-[#0a0c10] px-10 py-5 rounded-[24px] flex items-center gap-3 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#5ed29c]/10"
+          >
+            {loading ? <ThinkingLoader /> : <Save size={20} />}
+            <span className="font-[900] uppercase tracking-widest text-[13px]">Sync Profile</span>
+          </GlassButton>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
