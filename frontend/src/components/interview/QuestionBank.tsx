@@ -30,11 +30,23 @@ export const QuestionBank: React.FC = () => {
 
   const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [debouncedSearch, setDebouncedSearch] = useState(searchQuery);
+
+  // Debounce search query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   // Fetch categories on mount
   useEffect(() => {
     const fetchCategories = async () => {
       try {
+        setLoading(true);
+        setError(null);
         const data = await getCategories();
         setCategories(data);
         if (data.length > 0) {
@@ -42,9 +54,13 @@ export const QuestionBank: React.FC = () => {
           if (data[0].subSkills.length > 0) {
             setSelectedSubSkill(data[0].subSkills[0]);
           }
+        } else {
+          setLoading(false);
         }
-      } catch (error) {
-        console.error('Failed to fetch categories:', error);
+      } catch (err: any) {
+        console.error('Failed to fetch categories:', err);
+        setError('Failed to load categories. Please try again later.');
+        setLoading(false);
       }
     };
     fetchCategories();
@@ -55,23 +71,25 @@ export const QuestionBank: React.FC = () => {
     const fetchQuestions = async () => {
       if (!selectedCategory) return;
       setLoading(true);
+      setError(null);
       try {
         const data = await getQuestions({
           category: selectedCategory,
           subSkill: selectedSubSkill || undefined,
           difficulty: selectedLevel || undefined,
-          search: searchQuery || undefined
+          search: debouncedSearch || undefined
         });
         setQuestions(data);
         setCurrentQuestionIndex(0);
         setLoading(false);
-      } catch (error) {
-        console.error('Failed to fetch questions:', error);
+      } catch (err: any) {
+        console.error('Failed to fetch questions:', err);
+        setError('Failed to sync questions from the repository.');
         setLoading(false);
       }
     };
     fetchQuestions();
-  }, [selectedCategory, selectedSubSkill, selectedLevel, searchQuery]);
+  }, [selectedCategory, selectedSubSkill, selectedLevel, debouncedSearch]);
 
   const currentQuestion = questions[currentQuestionIndex];
 
@@ -116,12 +134,41 @@ export const QuestionBank: React.FC = () => {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  if (loading && questions.length === 0) {
+  if (loading && questions.length === 0 && categories.length === 0) {
     return (
-      <div className="p-12 text-center border border-white/5 bg-black rounded-[32px] font-rubik flex flex-col items-center justify-center">
-        <Sparkles className="animate-spin mb-6 text-[#5ed29c]" size={48} />
+      <div className="p-12 text-center border border-white/5 bg-black rounded-[32px] font-rubik flex flex-col items-center justify-center min-h-[400px]">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          className="mb-6 text-[#5ed29c]"
+        >
+          <Sparkles size={48} />
+        </motion.div>
         <h3 className="text-xl font-[900] text-white mb-2 uppercase tracking-widest italic">Syncing Repository...</h3>
         <p className="text-white/30 italic">Retrieving neural patterns from the main database.</p>
+        <div className="mt-8 w-48 h-1 bg-white/5 rounded-full overflow-hidden">
+          <motion.div 
+            className="h-full bg-[#5ed29c]"
+            animate={{ x: [-200, 200] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (error && questions.length === 0) {
+    return (
+      <div className="p-12 text-center border border-white/5 bg-black rounded-[32px] font-rubik flex flex-col items-center justify-center min-h-[400px]">
+        <AlertCircle className="mb-6 text-red-500/50" size={48} />
+        <h3 className="text-xl font-[900] text-white mb-2 uppercase tracking-widest italic">Connection Error</h3>
+        <p className="text-white/30 mb-8 italic">{error}</p>
+        <button 
+          onClick={() => window.location.reload()}
+          className="px-8 py-3 bg-red-500/20 text-red-500 border border-red-500/30 font-[900] text-[10px] uppercase tracking-widest rounded-xl hover:bg-red-500/30 transition-all italic"
+        >
+          Retry Connection
+        </button>
       </div>
     );
   }

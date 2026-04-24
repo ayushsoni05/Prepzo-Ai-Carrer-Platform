@@ -7,6 +7,8 @@ import catchAsync from '../utils/catchAsync.js';
  * @access  Private
  */
 export const getCategories = catchAsync(async (req, res) => {
+  console.log('Fetching categories for question bank...');
+  console.time('getCategories');
   const categories = await InterviewQuestion.aggregate([
     {
       $group: {
@@ -25,6 +27,8 @@ export const getCategories = catchAsync(async (req, res) => {
       $sort: { category: 1 }
     }
   ]);
+  console.timeEnd('getCategories');
+  console.log(`Found ${categories.length} categories`);
 
   res.status(200).json({
     status: 'success',
