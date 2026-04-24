@@ -630,3 +630,55 @@ export const sendAnnouncement = async (req, res) => {
     res.status(500).json({ message: error.message || 'Server error' });
   }
 };
+
+/**
+ * @desc    Get system audit logs
+ * @route   GET /api/admin/audit-logs
+ * @access  Private/Admin
+ */
+export const getAuditLogs = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+    const skip = (page - 1) * limit;
+    const action = req.query.action;
+    const userId = req.query.userId;
+
+    const filter = {};
+    if (action) filter.action = action;
+    if (userId) filter.userId = userId;
+
+    const logs = await AuditLog.find(filter)
+      .populate('userId', 'fullName email')
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    const total = await AuditLog.countDocuments(filter);
+
+    res.json({
+      logs: logs.map(l => ({
+        id: l._id,
+        user: l.userId ? {
+          id: l.userId._id,
+          name: l.userId.fullName,
+          email: l.userId.email,
+        } : null,
+        action: l.action,
+        description: l.description,
+        metadata: l.metadata,
+        ipAddress: l.ipAddress,
+        createdAt: l.createdAt,
+      })),
+      pagination: {
+        page,
+        limit,
+        total,
+        pages: Math.ceil(total / limit),
+      },
+    });
+  } catch (error) {
+    console.error('Get audit logs error:', error);
+    res.status(500).json({ message: error.message || 'Server error' });
+  }
+};
