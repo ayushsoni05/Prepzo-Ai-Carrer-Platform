@@ -12,10 +12,16 @@ dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 const checkStrings = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
-    console.log('Connected to DB');
+    console.log('Connected to DB:', mongoose.connection.host);
+    
+    const count = await InterviewQuestion.countDocuments();
+    console.log('Total Questions:', count);
     
     const sample = await InterviewQuestion.findOne();
-    console.log('Sample Document:', JSON.stringify(sample, null, 2));
+    if (sample) {
+      console.log('Sample Category:', sample.category);
+      console.log('Sample SubSkill:', sample.subSkill);
+    }
     
     const allCategories = await InterviewQuestion.distinct('category');
     console.log('Categories in DB:', JSON.stringify(allCategories));
