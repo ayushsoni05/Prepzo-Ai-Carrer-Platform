@@ -57,7 +57,10 @@ export interface TestSession {
   endTime?: string;
   createdAt: string;
 }
-
+export interface Violation {
+  type: string;
+  description: string;
+  severity: 'warning' | 'critical';
   timestamp: string;
 }
 
