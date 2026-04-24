@@ -58,10 +58,17 @@ export interface TestSession {
   createdAt: string;
 }
 export interface Violation {
+  id: string;
   type: string;
   description: string;
   severity: 'warning' | 'critical';
   timestamp: string;
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+  };
+  testField?: string;
 }
 
 export interface AuditLog {
