@@ -1,6 +1,7 @@
 import User from '../models/User.model.js';
 import TestSession from '../models/TestSession.model.js';
 import Notification from '../models/Notification.model.js';
+import AuditLog from '../models/AuditLog.model.js';
 import { runSeeder } from '../utils/seeder.js';
 
 // @desc    Seed system data (Companies, Jobs)

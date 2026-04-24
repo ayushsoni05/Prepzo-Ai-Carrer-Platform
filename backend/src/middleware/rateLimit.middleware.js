@@ -1,6 +1,10 @@
 import rateLimit from 'express-rate-limit';
+import { RedisStore } from 'rate-limit-redis';
 import { securityConfig } from '../config/security.config.js';
 import AuditLog from '../models/AuditLog.model.js';
+import redisService from '../services/redis.service.js';
+
+const redisClient = redisService.redisClient;
 
 /**
  * Create a rate limiter with optional audit logging
@@ -12,6 +16,12 @@ const createRateLimiter = (config, name = 'general') => {
   return rateLimit({
     windowMs: config.windowMs,
     max: config.max,
+    store: redisClient.isReady 
+      ? new RedisStore({
+          sendCommand: (...args) => redisClient.sendCommand(args),
+          prefix: `rl:${name}:`,
+        }) 
+      : undefined,
     message: {
       success: false,
       message: config.message,

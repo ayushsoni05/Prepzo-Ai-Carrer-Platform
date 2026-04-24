@@ -58,19 +58,29 @@ export interface TestSession {
   createdAt: string;
 }
 
-export interface Violation {
-  id: string;
-  testId: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-  } | null;
-  testField: string;
-  type: string;
-  description: string;
-  severity: 'warning' | 'critical';
   timestamp: string;
+}
+
+export interface AuditLog {
+  id: string;
+  userId?: {
+    id: string;
+    fullName: string;
+    email: string;
+    role: string;
+  };
+  userEmail: string;
+  action: string;
+  category: string;
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  status: 'success' | 'failure' | 'warning' | 'info';
+  description: string;
+  ipAddress: string;
+  userAgent: string;
+  method: string;
+  endpoint: string;
+  timestamp: string;
+  metadata?: any;
 }
 
 export interface DashboardStats {
@@ -218,5 +228,19 @@ export const sendAnnouncement = async (data: {
   targetRole?: 'all' | 'student' | 'admin';
 }): Promise<{ success: boolean; message: string }> => {
   const response = await api.post('/admin/announcements', data);
+  return response.data;
+};
+
+export const getAuditLogs = async (params?: {
+  page?: number;
+  limit?: number;
+  category?: string;
+  severity?: string;
+  action?: string;
+  search?: string;
+  startDate?: string;
+  endDate?: string;
+}): Promise<{ logs: AuditLog[]; pagination: Pagination }> => {
+  const response = await api.get('/admin/audit-logs', { params });
   return response.data;
 };

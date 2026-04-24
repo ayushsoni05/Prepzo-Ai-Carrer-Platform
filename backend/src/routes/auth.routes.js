@@ -12,6 +12,9 @@ import {
   resetPassword,
   changePassword,
   getSessions,
+  setupMFA,
+  verifyAndEnableMFA,
+  loginMFA,
 } from '../controllers/auth.controller.js';
 import { protect } from '../middleware/auth.middleware.js';
 import { authLimiter, registerLimiter, passwordResetLimiter, bruteForceProtection } from '../middleware/rateLimit.middleware.js';
@@ -38,5 +41,10 @@ router.post('/logout', protect, logout);
 router.post('/logout-all', protect, logoutAll);
 router.post('/change-password', protect, validate({ body: changePasswordSchema }), changePassword);
 router.get('/sessions', protect, getSessions);
+
+// MFA Routes
+router.post('/mfa/setup', protect, setupMFA);
+router.post('/mfa/verify', protect, verifyAndEnableMFA);
+router.post('/mfa/login', protect, loginMFA); // Needs protect because login returns partial token
 
 export default router;

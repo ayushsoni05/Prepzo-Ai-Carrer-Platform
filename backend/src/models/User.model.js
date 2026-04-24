@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import { encrypt, decrypt } from '../utils/encryption.js';
 
 const userSchema = new mongoose.Schema({
   // Basic Information (from signup)
@@ -451,6 +452,16 @@ const userSchema = new mongoose.Schema({
     select: false,
     default: null,
   },
+  twoFactorBackupCodes: {
+    type: [String],
+    select: false,
+    default: [],
+  },
+  twoFactorTempSecret: {
+    type: String,
+    select: false,
+    default: null,
+  },
 
   // Account Security
   isAccountLocked: {
@@ -565,6 +576,27 @@ userSchema.pre('save', async function(next) {
   this.passwordChangedAt = new Date();
   
   next();
+});
+
+// Encrypt sensitive fields before saving
+userSchema.pre('save', function(next) {
+  if (this.isModified('phone')) {
+    this.phone = encrypt(this.phone);
+  }
+  if (this.isModified('dateOfBirth')) {
+    this.dateOfBirth = encrypt(this.dateOfBirth);
+  }
+  next();
+});
+
+// Decrypt sensitive fields after loading
+userSchema.post('init', function(doc) {
+  if (doc.phone) {
+    doc.phone = decrypt(doc.phone);
+  }
+  if (doc.dateOfBirth) {
+    doc.dateOfBirth = decrypt(doc.dateOfBirth);
+  }
 });
 
 // Method to compare password

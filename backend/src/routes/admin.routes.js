@@ -13,6 +13,7 @@ import {
   exportUsers,
   seedSystemData,
   sendAnnouncement,
+  getAuditLogs,
 } from '../controllers/admin.controller.js';
 import { protect, admin } from '../middleware/auth.middleware.js';
 
@@ -42,5 +43,8 @@ router.get('/proctoring', getProctoringLogs);
 
 // Announcements
 router.post('/announcements', sendAnnouncement);
+
+// Audit Logs
+router.get('/audit-logs', getAuditLogs);
 
 export default router;

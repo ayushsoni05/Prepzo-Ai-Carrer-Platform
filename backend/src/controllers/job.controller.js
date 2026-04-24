@@ -10,6 +10,7 @@ import SavedJob from '../models/SavedJob.model.js';
 import Application from '../models/Application.model.js';
 import Notification from '../models/Notification.model.js';
 import User from '../models/User.model.js';
+import redisService from '../services/redis.service.js';
 
 /**
  * @desc    Search jobs with advanced filters
@@ -80,11 +81,24 @@ export const searchJobs = asyncHandler(async (req, res) => {
  * @access  Public
  */
 export const getJobById = asyncHandler(async (req, res) => {
-  const job = await Job.findById(req.params.id)
-    .populate('company', 'name logo industry headquarters description website ratings techStack benefits hiringProcess')
-    .populate('postedBy', 'fullName');
+  const cacheKey = `job:${req.params.id}`;
+  const cachedData = await redisService.getCache(cacheKey);
+  
+  let job;
+  if (cachedData) {
+    job = cachedData;
+  } else {
+    job = await Job.findById(req.params.id)
+      .populate('company', 'name logo industry headquarters description website ratings techStack benefits hiringProcess')
+      .populate('postedBy', 'fullName');
 
-  if (!job || (job.status !== 'active' && !req.user?.role === 'admin')) {
+    if (job) {
+      // Don't await caching, let it happen in background
+      redisService.setCache(cacheKey, job.toObject ? job.toObject() : job, 1800);
+    }
+  }
+
+  if (!job || (job.status !== 'active' && req.user?.role !== 'admin')) {
     res.status(404);
     throw new Error('Job not found');
   }

@@ -26,6 +26,7 @@ import networkRoutes from './routes/network.routes.js';
 import notificationRoutes from './routes/notification.routes.js';
 import publicRoutes from './routes/public.routes.js';
 import interviewRoutes from './routes/interview.routes.js';
+import questionBankRoutes from './routes/questionBank.routes.js';
 import { seeder } from './services/autonomousSeeder.service.js';
 import { errorHandler, notFound } from './middleware/error.middleware.js';
 import aiValidation from './middleware/aiValidation.middleware.js';
@@ -227,6 +228,7 @@ app.use('/api/ai', aiDashboardRoutes);
 app.use('/api/test', testRoutes);
 app.use('/api/ai-test', aiValidation.aiRequestContext(), aiTestRoutes);
 app.use('/api/resume', aiValidation.aiRequestContext(), resumeRoutes);
+app.use('/api/question-bank', questionBankRoutes);
 
 app.use('/api/admin', adminRoutes);
 app.use('/api/admin/proctoring', adminProctoringRoutes);

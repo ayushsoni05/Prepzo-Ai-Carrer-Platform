@@ -40,6 +40,7 @@ import {
 import { Boxes } from '@/components/ui/background-boxes';
 import { companiesApi, Company } from '@/api/companies';
 import { jobsApi, Job } from '@/api/jobs';
+import AdminAuditTab from '@/components/admin/AdminAuditTab';
 
 interface AdminPanelProps {
   onNavigate: (page: string) => void;
@@ -53,6 +54,7 @@ const sidebarItems = [
   { icon: Briefcase, label: 'Jobs', id: 'jobs' },
   { icon: Shield, label: 'Proctor Logs', id: 'proctoring' },
   { icon: Bell, label: 'Announcements', id: 'announcements' },
+  { icon: ShieldAlert, label: 'Security Logs', id: 'audit' },
   { icon: Settings, label: 'Settings', id: 'settings' },
 ];
 
@@ -855,75 +857,79 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
         {activeTab === 'proctoring' && (
           <div className="pointer-events-auto">
             <GlassCard>
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold">Proctoring Logs</h3>
-              <div className="flex items-center gap-4">
-                <select 
-                  value={severityFilter}
-                  onChange={(e) => {
-                    setSeverityFilter(e.target.value);
-                    fetchViolations();
-                  }}
-                  className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none"
-                >
-                  <option value="">All Severity</option>
-                  <option value="critical">Critical</option>
-                  <option value="warning">Warning</option>
-                </select>
-                <GlassButton variant="secondary" size="sm" onClick={fetchViolations}>
-                  <RefreshCw className="w-4 h-4 mr-2" />
-                  Refresh
-                </GlassButton>
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-semibold">Proctoring Logs</h3>
+                <div className="flex items-center gap-4">
+                  <select 
+                    value={severityFilter}
+                    onChange={(e) => {
+                      setSeverityFilter(e.target.value);
+                      fetchViolations();
+                    }}
+                    className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none"
+                  >
+                    <option value="">All Severity</option>
+                    <option value="critical">Critical</option>
+                    <option value="warning">Warning</option>
+                  </select>
+                  <GlassButton variant="secondary" size="sm" onClick={fetchViolations}>
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                    Refresh
+                  </GlassButton>
+                </div>
               </div>
-            </div>
 
-            <div className="space-y-3">
-              {violations.length === 0 ? (
-                <p className="text-center text-gray-500 py-8">No violations recorded</p>
-              ) : (
-                violations.map((v) => (
-                  <div key={v.id} className={`p-4 rounded-xl ${
-                    v.severity === 'critical' ? 'bg-red-500/10 border border-red-500/20' :
-                    'bg-yellow-500/10 border border-yellow-500/20'
-                  }`}>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                          v.severity === 'critical' ? 'bg-red-500/20' : 'bg-yellow-500/20'
-                        }`}>
-                          <AlertTriangle className={`w-5 h-5 ${
-                            v.severity === 'critical' ? 'text-red-400' : 'text-yellow-400'
-                          }`} />
+              <div className="space-y-3">
+                {violations.length === 0 ? (
+                  <p className="text-center text-gray-500 py-8">No violations recorded</p>
+                ) : (
+                  violations.map((v) => (
+                    <div key={v.id} className={`p-4 rounded-xl ${
+                      v.severity === 'critical' ? 'bg-red-500/10 border border-red-500/20' :
+                      'bg-yellow-500/10 border border-yellow-500/20'
+                    }`}>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                            v.severity === 'critical' ? 'bg-red-500/20' : 'bg-yellow-500/20'
+                          }`}>
+                            <AlertTriangle className={`w-5 h-5 ${
+                              v.severity === 'critical' ? 'text-red-400' : 'text-yellow-400'
+                            }`} />
+                          </div>
+                          <div>
+                            <p className="font-medium">{v.type.replace(/_/g, ' ').toUpperCase()}</p>
+                            <p className="text-sm text-gray-400">
+                              {v.user?.name || 'Unknown User'} • {v.testField}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">{v.description}</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-medium">{v.type.replace(/_/g, ' ').toUpperCase()}</p>
-                          <p className="text-sm text-gray-400">
-                            {v.user?.name || 'Unknown User'} • {v.testField}
-                          </p>
-                          <p className="text-xs text-gray-500 mt-1">{v.description}</p>
+                        <div className="text-right">
+                          <p className="text-sm text-gray-300 font-medium">{new Date(v.timestamp).toLocaleString()}</p>
+                          <GlassButton variant="ghost" size="sm" className="mt-2" onClick={() => handleViewUser(v.user?.id || '')}>
+                            View User
+                          </GlassButton>
                         </div>
-                      </div>
-                      <div className="text-right">
-                        <span className={`px-2 py-1 rounded-full text-xs ${
-                          v.severity === 'critical' ? 'bg-red-500/30 text-red-300' : 'bg-yellow-500/30 text-yellow-300'
-                        }`}>
-                          {v.severity}
-                        </span>
-                        <p className="text-sm text-gray-500 mt-2">
-                          {new Date(v.timestamp).toLocaleString()}
-                        </p>
                       </div>
                     </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </GlassCard>
+                  ))
+                )}
+              </div>
+            </GlassCard>
           </div>
         )}
 
         {activeTab === 'announcements' && (
-          <AdminAnnouncementsTab />
+          <div className="pointer-events-auto">
+            <AdminAnnouncementsTab />
+          </div>
+        )}
+
+        {activeTab === 'audit' && (
+          <div className="pointer-events-auto">
+            <AdminAuditTab />
+          </div>
         )}
 
         {activeTab === 'settings' && (

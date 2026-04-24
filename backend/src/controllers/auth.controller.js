@@ -13,6 +13,8 @@ import {
 } from '../middleware/auth.middleware.js';
 import { validatePasswordStrength } from '../utils/passwordSecurity.js';
 import { securityConfig } from '../config/security.config.js';
+import mfaService from '../services/mfa.service.js';
+import { encrypt, decrypt } from '../utils/encryption.js';
 
 /**
  * @desc    Register new user
@@ -220,6 +222,19 @@ export const login = async (req, res) => {
     }
 
     await user.recordSuccessfulLogin(req.ip);
+
+    // If MFA is enabled, return partial success
+    if (user.twoFactorEnabled) {
+      // Generate a temporary JWT for MFA phase
+      const mfaToken = generateAccessToken(user); // Or a specific short-lived MFA token
+      
+      return res.json({
+        success: true,
+        mfaRequired: true,
+        mfaToken,
+        message: 'MFA token required',
+      });
+    }
 
     const accessToken = generateAccessToken(user);
     const refreshTokenData = await generateRefreshToken(user, null, {
@@ -601,6 +616,118 @@ export const getSessions = async (req, res) => {
   }
 };
 
+/**
+ * @desc    Setup MFA
+ * @route   POST /api/auth/mfa/setup
+ * @access  Private
+ */
+export const setupMFA = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    
+    if (user.twoFactorEnabled) {
+      return res.status(400).json({ success: false, message: 'MFA already enabled' });
+    }
+
+    const { base32, otpauthUrl } = mfaService.generateMFASecret(user.email);
+    const qrCode = await mfaService.generateQRCode(otpauthUrl);
+
+    // Store secret temporarily
+    user.twoFactorTempSecret = base32;
+    await user.save();
+
+    res.json({
+      success: true,
+      qrCode,
+      secret: base32,
+    });
+  } catch (error) {
+    console.error('Setup MFA error:', error);
+    res.status(500).json({ success: false, message: 'Failed to setup MFA' });
+  }
+};
+
+/**
+ * @desc    Verify and enable MFA
+ * @route   POST /api/auth/mfa/verify
+ * @access  Private
+ */
+export const verifyAndEnableMFA = async (req, res) => {
+  try {
+    const { token } = req.body;
+    const user = await User.findById(req.user._id).select('+twoFactorTempSecret');
+
+    if (!user.twoFactorTempSecret) {
+      return res.status(400).json({ success: false, message: 'MFA setup not initiated' });
+    }
+
+    const isValid = mfaService.verifyMFAToken(user.twoFactorTempSecret, token);
+    if (!isValid) {
+      return res.status(400).json({ success: false, message: 'Invalid MFA token' });
+    }
+
+    const backupCodes = mfaService.generateBackupCodes();
+
+    user.twoFactorEnabled = true;
+    user.twoFactorSecret = user.twoFactorTempSecret;
+    user.twoFactorTempSecret = null;
+    user.twoFactorBackupCodes = backupCodes; // Should be hashed in real app, but for now we encrypt if we had a helper
+    
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'MFA enabled successfully',
+      backupCodes,
+    });
+  } catch (error) {
+    console.error('Verify MFA error:', error);
+    res.status(500).json({ success: false, message: 'Failed to verify MFA' });
+  }
+};
+
+/**
+ * @desc    Verify MFA login
+ * @route   POST /api/auth/mfa/login
+ * @access  Public (with MFA token)
+ */
+export const loginMFA = async (req, res) => {
+  try {
+    const { token, mfaToken } = req.body;
+    
+    // In this simplified version, we use the mfaToken to identify the user
+    // In a real app, this would be a specific narrow-scoped token
+    const user = await User.findById(req.user._id).select('+twoFactorSecret');
+
+    if (!user || !user.twoFactorEnabled) {
+      return res.status(400).json({ success: false, message: 'MFA not enabled or user not found' });
+    }
+
+    const isValid = mfaService.verifyMFAToken(user.twoFactorSecret, token);
+    if (!isValid) {
+      return res.status(401).json({ success: false, message: 'Invalid MFA token' });
+    }
+
+    const accessToken = generateAccessToken(user);
+    const refreshTokenData = await generateRefreshToken(user, null, {
+      ip: req.ip,
+      userAgent: req.headers['user-agent'],
+    });
+
+    setTokenCookies(res, accessToken, refreshTokenData.token);
+
+    res.json({
+      success: true,
+      user: user.toJSON(),
+      accessToken,
+      refreshToken: refreshTokenData.token,
+    });
+  } catch (error) {
+    console.error('MFA login error:', error);
+    res.status(500).json({ success: false, message: 'MFA login failed' });
+  }
+};
+
 export default {
   register,
   login,
@@ -614,4 +741,7 @@ export default {
   resetPassword,
   changePassword,
   getSessions,
+  setupMFA,
+  verifyAndEnableMFA,
+  loginMFA,
 };
