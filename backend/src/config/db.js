@@ -1,6 +1,49 @@
 import mongoose from 'mongoose';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let mongoServer = null;
+
+const seedInMemoryDB = async () => {
+  try {
+    const InterviewQuestion = (await import('../models/InterviewQuestion.model.js')).default;
+    const BANK_PATH = path.join(__dirname, '../../../question_bank.json');
+    
+    if (fs.existsSync(BANK_PATH)) {
+      console.log('🌱 Seeding in-memory database from question_bank.json...');
+      const data = JSON.parse(fs.readFileSync(BANK_PATH, 'utf8'));
+      const categories = data.question_bank.categories;
+      const questionsToInsert = [];
+
+      for (const [categoryName, subSkills] of Object.entries(categories)) {
+        for (const [subSkillName, questions] of Object.entries(subSkills)) {
+          for (const q of questions) {
+            questionsToInsert.push({
+              questionId: q.id,
+              category: categoryName,
+              subSkill: subSkillName,
+              question: q.question,
+              answer: q.answer,
+              difficulty: (q.difficulty || 'medium').toLowerCase(),
+              keywords: []
+            });
+          }
+        }
+      }
+
+      if (questionsToInsert.length > 0) {
+        await InterviewQuestion.insertMany(questionsToInsert);
+        console.log(`✅ Successfully seeded ${questionsToInsert.length} questions into in-memory DB.`);
+      }
+    }
+  } catch (err) {
+    console.warn('⚠️ Failed to seed in-memory DB:', err.message);
+  }
+};
 
 const connectDB = async () => {
   try {
@@ -31,6 +74,9 @@ const connectDB = async () => {
           
           await mongoose.connect(mongoUri);
           console.log(`✅ Connected to In-memory MongoDB`);
+          
+          // Seed the in-memory DB so it's not empty
+          await seedInMemoryDB();
           return;
         } catch (memError) {
           console.error(`❌ Failed to start In-memory MongoDB: ${memError.message}`);

@@ -9,16 +9,19 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
-const checkStrings = async () => {
+const checkCategory = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('Connected to DB');
     
-    const sample = await InterviewQuestion.findOne();
-    console.log('Sample Document:', JSON.stringify(sample, null, 2));
+    const category = 'Management & Business';
+    const subSkill = 'Business Strategy'; // Let's check a sub-skill
     
-    const allCategories = await InterviewQuestion.distinct('category');
-    console.log('Categories in DB:', JSON.stringify(allCategories));
+    const count = await InterviewQuestion.countDocuments({ category });
+    console.log(`Questions in ${category}: ${count}`);
+    
+    const questions = await InterviewQuestion.find({ category }).limit(5);
+    console.log('Sample questions:', JSON.stringify(questions, null, 2));
     
     process.exit(0);
   } catch (err) {
@@ -27,4 +30,4 @@ const checkStrings = async () => {
   }
 };
 
-checkStrings();
+checkCategory();
