@@ -54,8 +54,8 @@ if (!securityValidation.valid) {
   securityValidation.issues.forEach(issue => console.warn(`   - ${issue}`));
 }
 
-// Connect to MongoDB
-connectDB();
+// Connect to MongoDB and auto-seed if needed
+await connectDB();
 
 const app = express();
 
