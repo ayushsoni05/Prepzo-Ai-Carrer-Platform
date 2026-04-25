@@ -171,6 +171,7 @@ interface AppState {
   resumeAnalysisError: string | null;
   analysisStep: 'upload' | 'selectJob' | 'analyzing' | 'results';
   selectedJobId: string | null;
+  selectedNoteId: string | null;
   toggleDarkMode: () => void;
   setCurrentPage: (page: string) => void;
   setDashboardTab: (tab: string) => void;
@@ -179,6 +180,7 @@ interface AppState {
   setResumeAnalysis: (analysis: ResumeAnalysisPersist | null) => void;
   setAnalysisStep: (step: 'upload' | 'selectJob' | 'analyzing' | 'results') => void;
   setSelectedJobId: (jobId: string | null) => void;
+  setSelectedNoteId: (noteId: string | null) => void;
   resetResumeState: () => void;
   // New functions for backend integration
   loadResumeAnalysisFromBackend: () => Promise<void>;
@@ -207,6 +209,7 @@ export const useAppStore = create<AppState>()(
       resumeAnalysisError: null,
       analysisStep: 'upload',
       selectedJobId: null,
+      selectedNoteId: null,
       generatedResume: null,
       resumeGenerationLoading: false,
       resumeGenerationError: null,
@@ -221,6 +224,7 @@ export const useAppStore = create<AppState>()(
       setResumeAnalysis: (analysis) => set({ resumeAnalysis: analysis }),
       setAnalysisStep: (step) => set({ analysisStep: step }),
       setSelectedJobId: (jobId) => set({ selectedJobId: jobId }),
+      setSelectedNoteId: (noteId) => set({ selectedNoteId: noteId }),
       resetResumeState: () => set({ 
         resumeAnalysis: null, 
         atsHistory: [],

@@ -23,7 +23,10 @@ import {
   Briefcase,
   ArrowUpRight,
   ChevronRight,
-  Mic
+  Mic,
+  BookOpen,
+  Search,
+  Layers
 } from 'lucide-react';
 import { type Job } from '@/api/jobs';
 import { showSuccess, showError, showInfo } from '@/utils/toastManager';
@@ -424,6 +427,59 @@ export function Dashboard() {
               ].map((feature, i) => (
                 <div key={i} className="p-5 rounded-3xl bg-white/5 border border-white/5 hover:border-[#5ed29c]/20 transition-colors group/feat">
                   <feature.icon size={20} className="text-[#5ed29c] mb-3 group-hover/feat:scale-110 transition-transform" />
+                  <p className="text-[11px] font-black text-white uppercase tracking-wider mb-1">{feature.label}</p>
+                  <p className="text-[9px] font-bold text-white/30 uppercase tracking-widest italic">{feature.sub}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Study Notes Entry Card */}
+      <div className="mt-10">
+        <div 
+          onClick={() => { window.location.hash = 'notes'; }}
+          className="rounded-[40px] p-10 bg-gradient-to-br from-[#13171d] to-black border border-blue-500/30 shadow-2xl relative overflow-hidden group hover:border-blue-500/50 transition-colors cursor-pointer"
+        >
+          <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:opacity-20 transition-opacity duration-700 transform group-hover:scale-125">
+            <BookOpen size={240} className="text-blue-500" />
+          </div>
+          
+          <div className="relative z-10 grid md:grid-cols-2 gap-10 items-center pointer-events-none">
+            <div className="pointer-events-auto">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full">
+                  <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">Knowledge Base</span>
+                </div>
+              </div>
+              
+              <h2 className="text-3xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic mb-6 leading-none">
+                Study <span className="text-white/40">Notes.</span>
+              </h2>
+              
+              <p className="text-white/50 font-medium tracking-tight leading-relaxed max-w-md mb-8">
+                Access curated PDF study materials for all 26 technical and non-technical sub-skills. Download and prepare offline for your mock interviews.
+              </p>
+              
+              <button 
+                onClick={(e) => { e.stopPropagation(); window.location.hash = 'notes'; }}
+                className="group/btn relative h-[55px] px-8 bg-blue-500 rounded-2xl flex items-center gap-3 overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-xl shadow-blue-500/20"
+              >
+                <span className="relative z-10 text-white font-black uppercase tracking-widest text-xs">Open Library</span>
+                <ArrowUpRight size={18} className="relative z-10 text-white group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+              </button>
+            </div>
+            
+            <div className="hidden md:grid grid-cols-2 gap-4 pointer-events-auto">
+              {[
+                { icon: BookOpen, label: "26 Sub-skills", sub: "Comprehensive" },
+                { icon: Download, label: "Offline Mode", sub: "PDF Downloads" },
+                { icon: Search, label: "Searchable", sub: "Quick Access" },
+                { icon: Layers, label: "Categorized", sub: "Structured" }
+              ].map((feature, i) => (
+                <div key={i} className="p-5 rounded-3xl bg-white/5 border border-white/5 hover:border-blue-500/20 transition-colors group/feat">
+                  <feature.icon size={20} className="text-blue-500 mb-3 group-hover/feat:scale-110 transition-transform" />
                   <p className="text-[11px] font-black text-white uppercase tracking-wider mb-1">{feature.label}</p>
                   <p className="text-[9px] font-bold text-white/30 uppercase tracking-widest italic">{feature.sub}</p>
                 </div>

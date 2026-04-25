@@ -21,13 +21,15 @@ import Sidebar from '@/components/navigation/Sidebar';
 import { InterviewPage } from '@/pages/InterviewPage';
 import ThinkingLoader from '@/components/ui/loading';
 import { GridBeam } from '@/components/ui/background-grid-beam';
+import { NotesLibrary } from '@/pages/NotesLibrary';
+import { NoteDetail } from '@/pages/NoteDetail';
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail';
 
 // Get initial page from URL hash or default to 'landing'
 const getPageFromHash = (): Page => {
   const hash = window.location.hash.slice(1) as Page;
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail'];
   return validPages.includes(hash) ? hash : 'landing';
 };
 
@@ -51,7 +53,7 @@ export default function App() {
     
     const initializeAuth = async () => {
       // Only validate session if user is trying to access a protected page
-      const protectedPages = ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment'];
+      const protectedPages = ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'notes', 'note-detail'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
       // Safety check: if we think we're authenticated but have no token, sync state
@@ -179,6 +181,8 @@ export default function App() {
         'settings',
         'assessment',
         'ai-interview',
+        'notes',
+        'note-detail'
       ].includes(currentPage)) {
         handleNavigate('landing');
       }
@@ -252,7 +256,7 @@ export default function App() {
   const isSkillComplete = user?.isSkillTestComplete;
   const isFullyQualified = isFieldComplete && isSkillComplete;
 
-  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'ai-interview'].includes(currentPage);
+  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail'].includes(currentPage);
 
   return (
     <div className="page-shell overflow-x-hidden">
@@ -303,6 +307,8 @@ export default function App() {
               {currentPage === 'applications' && <ApplicationsPage />}
               {currentPage === 'network' && <NetworkPage />}
               {currentPage === 'ai-interview' && <InterviewPage />}
+              {currentPage === 'notes' && <NotesLibrary />}
+              {currentPage === 'note-detail' && <NoteDetail />}
             </main>
             <MobileNav
               active={getSidebarActiveId(currentPage)}

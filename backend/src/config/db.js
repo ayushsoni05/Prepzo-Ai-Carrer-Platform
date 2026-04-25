@@ -93,6 +93,63 @@ const autoSeedInterviewQuestions = async () => {
   }
 };
 
+/**
+ * Auto-seed study notes if the collection is empty.
+ */
+const autoSeedNotes = async () => {
+  try {
+    const Note = (await import('../models/Note.model.js')).default;
+    const existingCount = await Note.countDocuments();
+    
+    if (existingCount > 0) {
+      console.log(`📊 Study notes already present: ${existingCount} documents. Skipping seed.`);
+      return;
+    }
+
+    console.log('🌱 No study notes found. Auto-seeding from question_bank.json...');
+    const { v4: uuidv4 } = await import('uuid');
+    
+    const notesToInsert = [];
+    const NEW_BANK_PATH = path.join(__dirname, '../../../question_bank.json');
+    const DUMMY_PDF_URL = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
+
+    if (fs.existsSync(NEW_BANK_PATH)) {
+      const data = JSON.parse(fs.readFileSync(NEW_BANK_PATH, 'utf8'));
+      const categories = data.question_bank.categories;
+
+      for (const [categoryName, subSkills] of Object.entries(categories)) {
+        for (const subSkillName of Object.keys(subSkills)) {
+          for (let i = 1; i <= 3; i++) {
+            const difficulties = ['beginner', 'intermediate', 'advanced'];
+            const difficulty = difficulties[i - 1];
+            
+            notesToInsert.push({
+              noteId: uuidv4(),
+              title: `${subSkillName} - Comprehensive Guide Part ${i}`,
+              category: categoryName,
+              subSkill: subSkillName,
+              summary: `This is a comprehensive study guide covering the essential concepts, principles, and applications of ${subSkillName}. Perfect for ${difficulty} level students preparing for interviews.`,
+              content: DUMMY_PDF_URL,
+              difficulty: difficulty,
+              readTimeMinutes: Math.floor(Math.random() * 15) + 5,
+              tags: [subSkillName.toLowerCase().replace(/ /g, '-'), 'study-material', 'interview-prep', difficulty]
+            });
+          }
+        }
+      }
+    }
+
+    if (notesToInsert.length > 0) {
+      await Note.insertMany(notesToInsert);
+      console.log(`✅ Auto-seeded ${notesToInsert.length} study notes successfully!`);
+    } else {
+      console.warn('⚠️ No subskills found to generate notes for.');
+    }
+  } catch (err) {
+    console.warn('⚠️ Auto-seed study notes failed:', err.message);
+  }
+};
+
 const connectDB = async () => {
   try {
     let mongoUri = process.env.MONGODB_URI;
@@ -106,6 +163,7 @@ const connectDB = async () => {
         console.log(`✅ MongoDB Connected: ${mongoose.connection.host}`);
         // Auto-seed if empty
         await autoSeedInterviewQuestions();
+        await autoSeedNotes();
         return;
       } catch (localError) {
         console.warn(`⚠️ Connection to ${mongoUri.split('@')[1] || 'remote'} failed, starting in-memory server...`);
@@ -127,6 +185,7 @@ const connectDB = async () => {
           
           // Auto-seed the in-memory DB
           await autoSeedInterviewQuestions();
+          await autoSeedNotes();
           return;
         } catch (memError) {
           console.error(`❌ Failed to start In-memory MongoDB: ${memError.message}`);
@@ -139,6 +198,7 @@ const connectDB = async () => {
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     // Auto-seed if empty (critical for Render/production)
     await autoSeedInterviewQuestions();
+    await autoSeedNotes();
   } catch (error) {
     console.error(`❌ Critical MongoDB Connection Error: ${error.message}`);
     console.error(`NODE_ENV is ${process.env.NODE_ENV}`);
