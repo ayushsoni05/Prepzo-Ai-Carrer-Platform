@@ -3,22 +3,40 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const hasRedisUrl = !!process.env.REDIS_URL;
+const isProduction = process.env.NODE_ENV === 'production';
+
 const redisClient = createClient({
   url: process.env.REDIS_URL || 'redis://localhost:6379',
 });
 
-redisClient.on('error', (err) => console.error('Redis Client Error', err));
+// Suppress error logs if Redis is not critical (development without URL)
+redisClient.on('error', (err) => {
+  if (hasRedisUrl || isProduction) {
+    console.error('Redis Client Error:', err.message);
+  } else {
+    // Silent in dev unless it was explicitly configured
+    // This prevents the terminal from being flooded with ECONNREFUSED
+  }
+});
+
 redisClient.on('connect', () => console.log('✅ Redis Client Connected'));
 
-// Only connect if REDIS_URL is provided or in production
-if (process.env.REDIS_URL || process.env.NODE_ENV === 'production') {
+// Only attempt to connect if REDIS_URL is provided or in production
+if (hasRedisUrl || isProduction) {
   (async () => {
     try {
       await redisClient.connect();
     } catch (err) {
-      console.warn('⚠️ Could not connect to Redis. Falling back to memory storage.');
+      if (isProduction) {
+        console.warn('⚠️ Could not connect to Redis. Falling back to memory storage.');
+      } else {
+        console.log('ℹ️ Redis connection skipped (development fallback).');
+      }
     }
   })();
+} else {
+  console.log('ℹ️ Redis not configured. Using local memory for caching and rate limiting.');
 }
 
 /**

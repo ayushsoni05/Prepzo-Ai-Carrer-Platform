@@ -86,13 +86,17 @@ const seedInterviewQuestions = async () => {
     }
 
     if (questionsToInsert.length > 0) {
+      console.log(`📦 Final count to insert: ${questionsToInsert.length}`);
       await InterviewQuestion.insertMany(questionsToInsert);
-      console.log(`Successfully seeded ${questionsToInsert.length} interview questions`);
+      console.log(`✅ Successfully seeded ${questionsToInsert.length} unique interview questions`);
     } else {
-      console.log('No questions found to seed');
+      console.log('⚠️ No questions found to seed. Check your JSON files.');
     }
 
-    console.log('Seeding completed successfully!');
+    const finalCount = await InterviewQuestion.countDocuments();
+    console.log(`📊 Current total in database: ${finalCount}`);
+    
+    console.log('✨ Seeding completed successfully!');
     process.exit(0);
   } catch (error) {
     console.error('Seeding failed:', error);

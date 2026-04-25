@@ -29,9 +29,13 @@ export const getCategories = catchAsync(async (req, res) => {
   ]);
   const totalQuestions = await InterviewQuestion.countDocuments();
   console.timeEnd('getCategories');
-
   console.log(`📊 Category Aggregation found ${categories.length} entries. Total questions: ${totalQuestions}`);
-  if (categories.length === 0) {
+  
+  if (categories.length === 0 && totalQuestions > 0) {
+    console.warn('⚠️ Questions exist but aggregation returned no categories. Checking first 5 documents:');
+    const samples = await InterviewQuestion.find({}).limit(5);
+    samples.forEach((s, i) => console.log(`  Sample ${i+1}: ID=${s.questionId}, Cat=${s.category}, Skill=${s.subSkill}`));
+  } else if (categories.length === 0) {
     console.log(`❌ DB Collection check: ${totalQuestions} total documents in InterviewQuestion.`);
   }
 
