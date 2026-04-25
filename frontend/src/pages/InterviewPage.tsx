@@ -1,17 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, ArrowLeft, Layout, Server, Layers, Database, Cloud, Briefcase } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Layout, Server, Layers, Database, Cloud, Briefcase, Zap, Cpu } from 'lucide-react';
 import { GridBeam } from '../components/ui/background-grid-beam';
 import { InterviewSession } from '../components/interview/InterviewSession';
-import { INTERVIEW_ROLES, InterviewRole } from '../data/interviewRoles';
+import { getCategories, getQuestions } from '@/api/questionBank';
 
 const ICON_MAP: Record<string, any> = {
-  Layout, Server, Layers, Database, Cloud, Briefcase
+  'Computer Science & IT': Server,
+  'Technical Skills': Database,
+  'Management & Business': Briefcase,
+  'Mechanical & Civil': Layout,
+  'Electronics & Electrical': Zap,
+  'Field Specific': Cpu,
+  'Non-Technical Skills': Layers,
+  'Cross-Functional Skills': Cloud,
+  'Default': Briefcase
 };
 
 export const InterviewPage: React.FC = () => {
   const [isStarted, setIsStarted] = useState(false);
-  const [selectedRole, setSelectedRole] = useState<InterviewRole | null>(null);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<any>(null);
+  const [sessionQuestions, setSessionQuestions] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [launching, setLaunching] = useState(false);
   const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes for mock session
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const { data } = await getCategories();
+        setCategories(data);
+      } catch (err) {
+        console.error('Failed to load categories:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadCategories();
+  }, []);
 
   useEffect(() => {
     let timer: any;
@@ -72,67 +98,88 @@ export const InterviewPage: React.FC = () => {
                 <p className="text-white/40 font-medium tracking-tight uppercase text-xs tracking-[0.3em]">Choose a specialization to start your simulated interview environment</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {INTERVIEW_ROLES.map((role) => {
-                  const Icon = ICON_MAP[role.icon] || Layout;
-                  const isSelected = selectedRole?.id === role.id;
-                  
-                  return (
-                    <div 
-                      key={role.id}
-                      onClick={() => setSelectedRole(role)}
-                      className={`
-                        group relative p-8 rounded-[40px] border transition-all duration-500 cursor-pointer overflow-hidden
-                        ${isSelected ? 'bg-[#5ed29c] border-[#5ed29c] shadow-[0_0_50px_rgba(94,210,156,0.2)]' : 'bg-[#0a0c10]/40 border-white/5 hover:border-[#5ed29c]/50 hover:bg-[#0a0c10]/60'}
-                      `}
-                    >
-                      <div className="relative z-10 flex flex-col h-full gap-6">
+              {loading ? (
+                <div className="flex justify-center py-20">
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-[#5ed29c]" />
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {categories.map((cat) => {
+                    const Icon = ICON_MAP[cat.category] || ICON_MAP['Default'];
+                    const isSelected = selectedCategory?.category === cat.category;
+                    
+                    return (
+                      <div 
+                        key={cat.category}
+                        onClick={() => setSelectedCategory(cat)}
+                        className={`
+                          group relative p-8 rounded-[40px] border transition-all duration-500 cursor-pointer overflow-hidden
+                          ${isSelected ? 'bg-[#5ed29c] border-[#5ed29c] shadow-[0_0_50px_rgba(94,210,156,0.2)]' : 'bg-[#0a0c10]/40 border-white/5 hover:border-[#5ed29c]/50 hover:bg-[#0a0c10]/60'}
+                        `}
+                      >
+                        <div className="relative z-10 flex flex-col h-full gap-6">
+                          <div className={`
+                            w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500
+                            ${isSelected ? 'bg-[#0a0c10] text-[#5ed29c]' : 'bg-[#5ed29c]/10 text-[#5ed29c] group-hover:scale-110'}
+                          `}>
+                            <Icon size={32} />
+                          </div>
+
+                          <div className="space-y-2">
+                            <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${isSelected ? 'text-[#0a0c10]/60' : 'text-[#5ed29c]'}`}>
+                              REPOSITORY
+                            </span>
+                            <h3 className={`text-2xl font-[900] uppercase italic tracking-tighter ${isSelected ? 'text-[#0a0c10]' : 'text-white'}`}>
+                              {cat.category}
+                            </h3>
+                          </div>
+
+                          <p className={`text-sm font-medium leading-relaxed ${isSelected ? 'text-[#0a0c10]/70' : 'text-white/40'}`}>
+                            Focus on {cat.subSkills.slice(0, 3).join(', ')} and more.
+                          </p>
+
+                          <div className={`mt-auto pt-6 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] ${isSelected ? 'text-[#0a0c10]' : 'text-white/20'}`}>
+                            {cat.subSkills.length} Sub-skills • AI Verified
+                          </div>
+                        </div>
+
+                        {/* Geometric Decoration */}
                         <div className={`
-                          w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500
-                          ${isSelected ? 'bg-[#0a0c10] text-[#5ed29c]' : 'bg-[#5ed29c]/10 text-[#5ed29c] group-hover:scale-110'}
-                        `}>
-                          <Icon size={32} />
-                        </div>
-
-                        <div className="space-y-2">
-                          <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${isSelected ? 'text-[#0a0c10]/60' : 'text-[#5ed29c]'}`}>
-                            {role.category}
-                          </span>
-                          <h3 className={`text-2xl font-[900] uppercase italic tracking-tighter ${isSelected ? 'text-[#0a0c10]' : 'text-white'}`}>
-                            {role.title}
-                          </h3>
-                        </div>
-
-                        <p className={`text-sm font-medium leading-relaxed ${isSelected ? 'text-[#0a0c10]/70' : 'text-white/40'}`}>
-                          {role.description}
-                        </p>
-
-                        <div className={`mt-auto pt-6 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] ${isSelected ? 'text-[#0a0c10]' : 'text-white/20'}`}>
-                          5 Questions • AI Verified
-                        </div>
+                          absolute -right-10 -bottom-10 w-40 h-40 rounded-full blur-[80px] transition-opacity duration-700
+                          ${isSelected ? 'bg-[#0a0c10]/20 opacity-100' : 'bg-[#5ed29c]/5 opacity-0 group-hover:opacity-100'}
+                        `} />
                       </div>
+                    );
+                  })}
+                </div>
+              )}
 
-                      {/* Geometric Decoration */}
-                      <div className={`
-                        absolute -right-10 -bottom-10 w-40 h-40 rounded-full blur-[80px] transition-opacity duration-700
-                        ${isSelected ? 'bg-[#0a0c10]/20 opacity-100' : 'bg-[#5ed29c]/5 opacity-0 group-hover:opacity-100'}
-                      `} />
-                    </div>
-                  );
-                })}
-              </div>
-
-              {selectedRole && (
+              {selectedCategory && (
                 <div className="flex justify-center pt-8">
                   <button 
-                    onClick={() => setIsStarted(true)}
+                    disabled={launching}
+                    onClick={async () => {
+                      setLaunching(true);
+                      try {
+                        const questions = await getQuestions({ category: selectedCategory.category });
+                        // Randomly pick 5 questions for the session
+                        const shuffled = [...questions].sort(() => 0.5 - Math.random());
+                        const selected = shuffled.slice(0, 5).map(q => q.question);
+                        setSessionQuestions(selected);
+                        setIsStarted(true);
+                      } catch (err) {
+                        console.error('Failed to launch session:', err);
+                      } finally {
+                        setLaunching(false);
+                      }
+                    }}
                     className="group/btn relative w-full md:w-[400px] h-[80px] active:scale-95 transition-all"
                   >
                     <svg className="absolute inset-0 w-full h-full drop-shadow-2xl transition-transform group-hover/btn:scale-[1.02]" viewBox="0 0 400 80" preserveAspectRatio="none" fill="none">
                        <path d="M0 0H400L385 80H15L0 0Z" fill="#5ed29c" />
                     </svg>
                     <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10] font-rubik font-[900] text-xl uppercase tracking-[0.2em] italic">
-                       Launch {selectedRole.title} <ArrowRight className="ml-4 group-hover/btn:translate-x-2 transition-transform" />
+                       {launching ? 'Calibrating...' : <>Launch {selectedCategory.category} <ArrowRight className="ml-4 group-hover/btn:translate-x-2 transition-transform" /></>}
                     </span>
                   </button>
                 </div>
@@ -141,8 +188,8 @@ export const InterviewPage: React.FC = () => {
           ) : (
             <div className="animate-in fade-in zoom-in duration-700">
               <InterviewSession 
-                role={selectedRole?.title} 
-                preFedQuestions={selectedRole?.questions}
+                role={selectedCategory?.category} 
+                preFedQuestions={sessionQuestions}
                 onComplete={() => setIsStarted(false)} 
               />
             </div>
