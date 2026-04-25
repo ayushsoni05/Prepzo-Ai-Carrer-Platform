@@ -16,10 +16,13 @@ export interface CategoryData {
   subSkills: string[];
 }
 
-export const getCategories = async (): Promise<CategoryData[]> => {
+export const getCategories = async (): Promise<{ data: CategoryData[], totalQuestions: number }> => {
   const response = await API.get(`/question-bank/categories?t=${Date.now()}`);
   console.log('Full getCategories Response:', response);
-  return response.data.data;
+  return {
+    data: response.data.data,
+    totalQuestions: response.data.totalQuestions
+  };
 };
 
 export const getQuestions = async (params: {

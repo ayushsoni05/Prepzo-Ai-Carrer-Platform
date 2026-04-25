@@ -27,16 +27,17 @@ export const getCategories = catchAsync(async (req, res) => {
     },
     { $sort: { category: 1 } }
   ]);
+  const totalQuestions = await InterviewQuestion.countDocuments();
   console.timeEnd('getCategories');
 
-  console.log(`📊 Category Aggregation found ${categories.length} entries.`);
+  console.log(`📊 Category Aggregation found ${categories.length} entries. Total questions: ${totalQuestions}`);
   if (categories.length === 0) {
-    const totalDocs = await InterviewQuestion.countDocuments();
-    console.log(`❌ DB Collection check: ${totalDocs} total documents in InterviewQuestion.`);
+    console.log(`❌ DB Collection check: ${totalQuestions} total documents in InterviewQuestion.`);
   }
 
   res.status(200).json({
     status: 'success',
+    totalQuestions,
     data: categories
   });
 });

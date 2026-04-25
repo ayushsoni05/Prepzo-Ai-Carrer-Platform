@@ -18,6 +18,7 @@ import { getCategories, getQuestions, InterviewQuestion, CategoryData } from '@/
 
 export const QuestionBank: React.FC = () => {
   const [categories, setCategories] = useState<CategoryData[]>([]);
+  const [totalQuestionsCount, setTotalQuestionsCount] = useState<number>(0);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedSubSkill, setSelectedSubSkill] = useState<string>('');
   const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
@@ -38,9 +39,10 @@ export const QuestionBank: React.FC = () => {
         setLoading(true);
         setError(null);
         console.log('Fetching categories...');
-        const data = await getCategories();
+        const { data, totalQuestions } = await getCategories();
         console.log('Categories received:', data);
         setCategories(data);
+        setTotalQuestionsCount(totalQuestions);
         setSelectedCategory('ALL');
         setSelectedSubSkill('');
         console.log('States updated to ALL repositories.');
@@ -208,7 +210,7 @@ export const QuestionBank: React.FC = () => {
                           }}
                           className={`w-full px-8 py-3 text-left text-[10px] font-[900] uppercase tracking-widest italic transition-all hover:bg-[#5ed29c]/10 ${selectedCategory === 'ALL' ? 'text-[#5ed29c] bg-[#5ed29c]/5' : 'text-white/40'}`}
                         >
-                          ALL REPOSITORIES (872+ ITEMS)
+                          ALL REPOSITORIES ({totalQuestionsCount}+ ITEMS)
                         </button>
 
                         {categories.map(cat => (
