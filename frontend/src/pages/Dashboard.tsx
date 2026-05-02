@@ -26,11 +26,17 @@ import {
   Mic,
   BookOpen,
   Search,
-  Layers
+  Layers,
+  ListChecks,
+  Layout,
+  FileCode,
+  Check
 } from 'lucide-react';
 import { type Job } from '@/api/jobs';
 import { showSuccess, showError, showInfo } from '@/utils/toastManager';
 import { jsPDF } from 'jspdf';
+import { exportToDocx } from '@/utils/docxExporter';
+import { saveAs } from 'file-saver';
 import { GlassButton, GlassCard } from '@/components/ui/GlassCard';
 import { CircularProgress, SkillBar } from '@/components/ui/CircularProgress';
 import { SearchableDropdown } from '@/components/ui/SearchableDropdown';
@@ -571,7 +577,22 @@ export function Dashboard() {
                           className="flex-1 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center gap-2 hover:bg-white/10 transition-colors text-xs  font-bold text-white/60"
                         >
                           {isResumeUploading ? <ThinkingLoader /> : <Upload className="w-4 h-4" />}
-                          {resumeInfo?.resumeUrl ? 'Update Resume' : 'Upload Resume'}
+                          {resumeInfo?.resumeUrl ? 'Update' : 'Upload'}
+                        </button>
+                        <button 
+                          onClick={() => {
+                            const text = autofillResumeText();
+                            if (text) {
+                              setResumeTextInput(text);
+                              showSuccess('Profile data synchronized!');
+                            } else {
+                              showError('No profile data found. Upload a resume first.');
+                            }
+                          }}
+                          className="flex-1 bg-indigo-500/10 border border-indigo-500/20 rounded-xl flex items-center justify-center gap-2 hover:bg-indigo-500/20 transition-colors text-xs  font-bold text-indigo-400"
+                        >
+                          <Sparkles className="w-4 h-4" />
+                          Autofill
                         </button>
                         {resumeInfo?.resumeUrl && (
                           <div className="px-4 bg-code-green/10 border border-code-green/20 rounded-xl flex items-center justify-center text-code-green">
@@ -678,20 +699,33 @@ export function Dashboard() {
                         <h3 className="text-sm  font-black text-white/60 uppercase tracking-widest">Live Preview</h3>
                       </div>
                       {generatedResume && (
-                        <button
-                          onClick={() => {
-                             const doc = new jsPDF();
-                             doc.setFont('helvetica', 'normal');
-                             doc.setFontSize(10);
-                             const lines = doc.splitTextToSize(generatedResume.markdown, 180);
-                             doc.text(lines, 14, 20);
-                             doc.save(`${user?.fullName || 'Candidate'}_AI_Resume.pdf`);
-                          }}
-                          className="group/btn px-4 py-2 bg-indigo-500/10 border border-indigo-500/20 rounded-lg text-indigo-400 text-xs  font-black uppercase tracking-widest hover:bg-indigo-500/20 transition-all flex items-center gap-2"
-                        >
-                          <Download className="w-3.5 h-3.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                          Export PDF
-                        </button>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => {
+                               const doc = new jsPDF();
+                               doc.setFont('helvetica', 'normal');
+                               doc.setFontSize(10);
+                               const lines = doc.splitTextToSize(generatedResume.markdown, 180);
+                               doc.text(lines, 14, 20);
+                               doc.save(`${user?.fullName || 'Candidate'}_AI_Resume.pdf`);
+                            }}
+                            className="group/btn px-4 py-2 bg-indigo-500/10 border border-indigo-500/20 rounded-lg text-indigo-400 text-[10px] font-black uppercase tracking-widest hover:bg-indigo-500/20 transition-all flex items-center gap-2"
+                          >
+                            <Download className="w-3.5 h-3.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                            PDF
+                          </button>
+                          <button
+                            onClick={() => {
+                               if (generatedResume.resume_data) {
+                                 exportToDocx(generatedResume.resume_data, `${user?.fullName || 'Candidate'}_AI_Resume.docx`);
+                               }
+                            }}
+                            className="group/btn px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-lg text-blue-400 text-[10px] font-black uppercase tracking-widest hover:bg-blue-500/20 transition-all flex items-center gap-2"
+                          >
+                            <FileCode className="w-3.5 h-3.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                            WORD
+                          </button>
+                        </div>
                       )}
                     </div>
 
@@ -828,8 +862,25 @@ export function Dashboard() {
                       {resumeAnalysisLoading ? 'Analyzing Signal...' : 'Run Deep Scan'}
                     </GlassButton>
                     
-                    <GlassButton variant="secondary" onClick={() => fileInputRef.current?.click()} className="h-[55px] px-10 rounded-xl border-white/10">
-                      {isResumeUploading ? 'Uploading...' : 'Upload Existing Resume'}
+                    <GlassButton variant="secondary" onClick={() => fileInputRef.current?.click()} className="h-[55px] px-8 rounded-xl border-white/10 text-[10px]">
+                      {isResumeUploading ? 'Uploading...' : 'Upload'}
+                    </GlassButton>
+
+                    <GlassButton 
+                      variant="secondary" 
+                      onClick={() => {
+                        const text = autofillResumeText();
+                        if (text) {
+                          setResumeTextInput(text);
+                          showSuccess('Profile data synchronized!');
+                        } else {
+                          showError('No profile data found. Upload a resume first.');
+                        }
+                      }} 
+                      className="h-[55px] px-8 rounded-xl border-white/10 text-[10px] text-indigo-400"
+                    >
+                      <Sparkles className="w-4 h-4 mr-2" />
+                      Autofill
                     </GlassButton>
                     
                     {/* The ATS Optimization Generator Hook */}
@@ -882,6 +933,31 @@ export function Dashboard() {
                   </div>
                 )))}
               </div>
+
+              <GlassCard className="rounded-[32px] p-8 bg-[#0a0c10]/60 border-white/5">
+                <div className="flex items-center justify-between mb-8">
+                  <p className="text-[10px]  font-[900] uppercase tracking-[0.3em] text-white/30">Structural Integrity</p>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-indigo-500" />
+                    <span className="text-[9px] font-black uppercase text-indigo-400 tracking-widest">Parser Ready</span>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  {(resumeAnalysis?.sections || []).map(section => (
+                    <div key={section.name} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-1.5 h-1.5 rounded-full ${section.score >= 70 ? 'bg-code-green' : 'bg-amber-500'}`} />
+                        <span className="text-[10px] font-black uppercase text-white/60 tracking-wider">{section.name}</span>
+                      </div>
+                      <span className={`text-[10px] font-black ${section.score >= 70 ? 'text-code-green' : 'text-amber-500'}`}>{section.score}%</span>
+                    </div>
+                  ))}
+                  {(!resumeAnalysis?.sections || resumeAnalysis.sections.length === 0) && (
+                    <p className="col-span-2 text-center py-4 text-[10px] font-black text-white/10 uppercase tracking-widest italic">No sections detected yet.</p>
+                  )}
+                </div>
+              </GlassCard>
               
               <GlassCard className="rounded-[32px] p-8 bg-[#0a0c10]/60 border-white/5">
                 <div className="flex items-center justify-between mb-8">

@@ -192,6 +192,7 @@ interface AppState {
   resumeGenerationError: string | null;
   generateResume: (targetRole?: string, jobDescription?: string, templateStyle?: string) => Promise<void>;
   setGeneratedResume: (resume: { markdown: string; summary: string; tips: string[]; resume_data?: any } | null) => void;
+  autofillResumeText: () => string;
 }
 
 export const useAppStore = create<AppState>()(
@@ -352,6 +353,42 @@ export const useAppStore = create<AppState>()(
           });
           throw error;
         }
+      },
+
+      autofillResumeText: () => {
+        const { resumeAnalysis } = get();
+        if (!resumeAnalysis || !resumeAnalysis.extractedData) return '';
+        
+        const { extractedData } = resumeAnalysis;
+        const sections = [];
+
+        if (extractedData.experience?.length) {
+          sections.push('EXPERIENCE:');
+          extractedData.experience.forEach(exp => {
+            sections.push(`${exp.role} at ${exp.company} (${exp.duration})`);
+          });
+        }
+
+        if (extractedData.skills?.length) {
+          sections.push('\nSKILLS:');
+          sections.push(extractedData.skills.join(', '));
+        }
+
+        if (extractedData.education?.length) {
+          sections.push('\nEDUCATION:');
+          extractedData.education.forEach(edu => {
+            sections.push(`${edu.degree} from ${edu.institution} (${edu.year})`);
+          });
+        }
+
+        if (extractedData.projects?.length) {
+          sections.push('\nPROJECTS:');
+          extractedData.projects.forEach(proj => {
+            sections.push(`${proj.name}: ${proj.description} (${(proj.technologies || []).join(', ')})`);
+          });
+        }
+
+        return sections.join('\n');
       },
     }),
     {
