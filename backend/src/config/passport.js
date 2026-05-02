@@ -5,57 +5,59 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:5000/api/auth/google/callback',
-      proxy: true,
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      try {
-        const { id, displayName, emails, photos } = profile;
-        const email = emails[0].value;
-        const avatar = photos[0]?.value;
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:5000/api/auth/google/callback',
+        proxy: true,
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          const { id, displayName, emails, photos } = profile;
+          const email = emails[0].value;
+          const avatar = photos[0]?.value;
 
-        // 1. Check if user with this googleId exists
-        let user = await User.findOne({ googleId: id });
+          // 1. Check if user with this googleId exists
+          let user = await User.findOne({ googleId: id });
 
-        if (user) {
+          if (user) {
+            return done(null, user);
+          }
+
+          // 2. Check if user with this email exists (link account)
+          user = await User.findOne({ email: email.toLowerCase() });
+
+          if (user) {
+            user.googleId = id;
+            if (!user.avatar) user.avatar = avatar;
+            await user.save();
+            return done(null, user);
+          }
+
+          // 3. Create new user
+          user = await User.create({
+            fullName: displayName,
+            email: email.toLowerCase(),
+            googleId: id,
+            avatar: avatar,
+            isEmailVerified: true,
+            accountStatus: 'active',
+          });
+
           return done(null, user);
+        } catch (error) {
+          return done(error, null);
         }
-
-        // 2. Check if user with this email exists (link account)
-        user = await User.findOne({ email: email.toLowerCase() });
-
-        if (user) {
-          user.googleId = id;
-          if (!user.avatar) user.avatar = avatar;
-          await user.save();
-          return done(null, user);
-        }
-
-        // 3. Create new user
-        // Note: New Google users will have minimal data and need to complete onboarding
-        user = await User.create({
-          fullName: displayName,
-          email: email.toLowerCase(),
-          googleId: id,
-          avatar: avatar,
-          isEmailVerified: true,
-          accountStatus: 'active',
-          // Set placeholders for required fields if needed, 
-          // but our model now allows them to be optional for OAuth users
-        });
-
-        return done(null, user);
-      } catch (error) {
-        return done(error, null);
       }
-    }
-  )
-);
+    )
+  );
+} else {
+  console.warn('⚠️  Google OAuth credentials missing. Google Login will be disabled.');
+}
+
 
 // Serialize/Deserialize (not used for JWT but needed by passport)
 passport.serializeUser((user, done) => {
