@@ -112,38 +112,9 @@ const autoSeedNotes = async () => {
     const notesToInsert = [];
     const NEW_BANK_PATH = path.join(__dirname, '../../../question_bank.json');
 
-    const WIKI_PDF_MAP = {
-      "Data Structures & Algorithms": "Data_structure",
-      "Operating Systems": "Operating_system",
-      "Networking": "Computer_network",
-      "Computer Architecture": "Computer_architecture",
-      "Database Management & SQL": "Database",
-      "Object-Oriented Programming": "Object-oriented_programming",
-      "SDLC & Agile": "Software_development_process",
-      "Circuit Analysis": "Network_analysis_(electrical_circuits)",
-      "Digital Logic": "Digital_electronics",
-      "Microcontrollers & Embedded Systems": "Embedded_system",
-      "Signal Processing": "Signal_processing",
-      "Control Systems": "Control_theory",
-      "Thermodynamics": "Thermodynamics",
-      "Materials Science": "Materials_science",
-      "Fluid Mechanics": "Fluid_mechanics",
-      "Structural Analysis": "Structural_analysis",
-      "CAD Fundamentals": "Computer-aided_design",
-      "Quantitative Aptitude": "Aptitude",
-      "Logical Reasoning": "Logical_reasoning",
-      "Verbal Communication": "Verbal_communication",
-      "Data Interpretation": "Data_analysis",
-      "Financial Accounting": "Financial_accounting",
-      "Marketing": "Marketing",
-      "Operations & Supply Chain": "Supply_chain_management",
-      "Business Strategy": "Strategic_management",
-      "Corporate Ethics": "Business_ethics"
-    };
-
-    const getRealPdfUrl = (subSkillName) => {
-      const wikiTopic = WIKI_PDF_MAP[subSkillName] || encodeURIComponent(subSkillName.replace(/ /g, '_'));
-      return `https://en.wikipedia.org/api/rest_v1/page/pdf/${wikiTopic}`;
+    const generateNoteHTML = (skill, difficulty) => {
+      const levelLabel = difficulty === 'beginner' ? 'Introduction & Fundamentals' : difficulty === 'intermediate' ? 'Core Concepts & Applications' : 'Advanced Topics & Problem Solving';
+      return `<h1>${skill} — ${levelLabel}</h1><p>Comprehensive ${difficulty} level study notes for <strong>${skill}</strong>. These notes cover essential concepts, principles, and applications needed for interview preparation.</p><div class="key-concept"><h3>📚 What You Will Learn</h3><ul><li>Core definitions and terminology</li><li>Key principles and theorems</li><li>Problem-solving techniques</li><li>Interview-relevant concepts</li></ul></div><hr/><h2>Key Concepts</h2><p>This section covers the fundamental building blocks of ${skill} that every student must master.</p><div class="tip-box"><strong>💡 Study Tip:</strong> Focus on understanding the underlying principles rather than memorizing formulas. This will help you tackle unfamiliar problems in interviews.</div>`;
     };
 
     if (fs.existsSync(NEW_BANK_PATH)) {
@@ -152,20 +123,19 @@ const autoSeedNotes = async () => {
 
       for (const [categoryName, subSkills] of Object.entries(categories)) {
         for (const subSkillName of Object.keys(subSkills)) {
-          const pdfUrl = getRealPdfUrl(subSkillName);
           for (let i = 1; i <= 3; i++) {
             const difficulties = ['beginner', 'intermediate', 'advanced'];
             const difficulty = difficulties[i - 1];
             
             notesToInsert.push({
               noteId: uuidv4(),
-              title: `${subSkillName} - Comprehensive Guide Part ${i}`,
+              title: `${subSkillName} — ${difficulty === 'beginner' ? 'Fundamentals' : difficulty === 'intermediate' ? 'Core Concepts' : 'Advanced Guide'}`,
               category: categoryName,
               subSkill: subSkillName,
-              summary: `This is a comprehensive study guide covering the essential concepts, principles, and applications of ${subSkillName}. Perfect for ${difficulty} level students preparing for interviews.`,
-              content: pdfUrl,
+              summary: `${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} level study notes covering ${subSkillName}. Ideal for interview preparation.`,
+              content: generateNoteHTML(subSkillName, difficulty),
               difficulty: difficulty,
-              readTimeMinutes: Math.floor(Math.random() * 15) + 5,
+              readTimeMinutes: difficulty === 'beginner' ? 8 : difficulty === 'intermediate' ? 12 : 18,
               tags: [subSkillName.toLowerCase().replace(/ /g, '-'), 'study-material', 'interview-prep', difficulty]
             });
           }
