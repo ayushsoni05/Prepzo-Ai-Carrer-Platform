@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import { 
   ArrowLeft,
   Clock,
-  Download,
   AlertCircle,
-  FileText
+  FileText,
+  BookOpen
 } from 'lucide-react';
 import { getNoteById, Note } from '@/api/notes';
 import { useAppStore } from '@/store/appStore';
@@ -75,6 +75,8 @@ export const NoteDetail: React.FC = () => {
     );
   }
 
+  const isHtmlContent = note.content.trim().startsWith('<');
+
   return (
     <div className="w-full max-w-6xl mx-auto space-y-8 animate-in fade-in duration-700 font-rubik p-4 md:p-8">
       {/* Back Button */}
@@ -111,38 +113,39 @@ export const NoteDetail: React.FC = () => {
           {note.title}
         </h1>
 
-        <p className="text-lg text-white/50 italic leading-relaxed max-w-4xl mb-8">
+        <p className="text-lg text-white/50 italic leading-relaxed max-w-4xl">
           {note.summary}
         </p>
-
-        <a 
-          href={note.content} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          download
-          className="inline-flex items-center gap-3 px-8 py-4 bg-blue-400 text-black font-[900] text-[11px] uppercase tracking-widest rounded-xl hover:scale-105 transition-transform italic shadow-[0_0_20px_rgba(96,165,250,0.3)]"
-        >
-          <Download size={16} /> Download Full PDF
-        </a>
       </div>
 
-      {/* PDF Viewer Area */}
+      {/* Content Area */}
       <div className="bg-[#0a0c10] border border-white/5 rounded-[40px] p-4 md:p-8">
         <div className="flex items-center gap-3 mb-6 px-4">
-          <FileText className="text-blue-400" size={20} />
-          <h3 className="text-xl font-black text-white italic uppercase tracking-widest">Document Viewer</h3>
+          {isHtmlContent ? <BookOpen className="text-blue-400" size={20} /> : <FileText className="text-blue-400" size={20} />}
+          <h3 className="text-xl font-black text-white italic uppercase tracking-widest">
+            {isHtmlContent ? 'Study Notes' : 'Document Viewer'}
+          </h3>
         </div>
         
-        <div className="w-full rounded-2xl overflow-hidden border border-white/10 bg-black aspect-[1/1.4] md:aspect-[16/9]">
-          <iframe 
-            src={`https://docs.google.com/viewer?url=${encodeURIComponent(note.content)}&embedded=true`} 
-            className="w-full h-full border-0"
-            title="PDF Document Viewer"
+        {isHtmlContent ? (
+          <div 
+            className="note-content-render prose prose-invert max-w-none px-4 md:px-8 pb-8"
+            dangerouslySetInnerHTML={{ __html: note.content }}
           />
-        </div>
-        <p className="text-center text-[10px] text-white/30 italic uppercase tracking-widest mt-6">
-          Note: For the best reading experience, please download the PDF using the button above.
-        </p>
+        ) : (
+          <>
+            <div className="w-full rounded-2xl overflow-hidden border border-white/10 bg-black aspect-[1/1.4] md:aspect-[16/9]">
+              <iframe 
+                src={`https://docs.google.com/viewer?url=${encodeURIComponent(note.content)}&embedded=true`} 
+                className="w-full h-full border-0"
+                title="PDF Document Viewer"
+              />
+            </div>
+            <p className="text-center text-[10px] text-white/30 italic uppercase tracking-widest mt-6">
+              Note: For the best reading experience, please download the PDF using the button above.
+            </p>
+          </>
+        )}
       </div>
     </div>
   );
