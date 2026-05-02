@@ -75,61 +75,74 @@ export const NoteDetail: React.FC = () => {
     );
   }
 
-  const isHtmlContent = note.content.trim().startsWith('<');
+  const handleDownload = () => {
+    window.print();
+  };
+
+  const isHtmlContent = note.content.trim().startsWith('<') || note.content.includes('<h1') || note.content.includes('<div');
 
   return (
-    <div className="w-full max-w-6xl mx-auto space-y-8 animate-in fade-in duration-700 font-rubik p-4 md:p-8">
+    <div className="w-full max-w-6xl mx-auto space-y-8 animate-in fade-in duration-700 font-rubik p-4 md:p-8 print:p-0">
       {/* Back Button */}
-      <button 
-        onClick={() => {
-          setCurrentPage('notes');
-          window.location.hash = 'notes';
-        }}
-        className="inline-flex items-center gap-2 text-[10px] font-black text-white/40 uppercase tracking-widest italic hover:text-blue-400 transition-colors cursor-pointer bg-transparent border-none"
-      >
-        <ArrowLeft size={14} /> Back to Library
-      </button>
+      <div className="flex justify-between items-center print:hidden">
+        <button 
+          onClick={() => {
+            setCurrentPage('notes');
+            window.location.hash = 'notes';
+          }}
+          className="inline-flex items-center gap-2 text-[10px] font-black text-white/40 uppercase tracking-widest italic hover:text-blue-400 transition-colors cursor-pointer bg-transparent border-none"
+        >
+          <ArrowLeft size={14} /> Back to Library
+        </button>
+
+        <button 
+          onClick={handleDownload}
+          className="inline-flex items-center gap-2 px-6 py-2.5 bg-blue-400 text-black text-[10px] font-black uppercase tracking-widest italic rounded-xl hover:scale-105 transition-all cursor-pointer shadow-lg shadow-blue-400/20"
+        >
+          <FileText size={14} /> Download PDF
+        </button>
+      </div>
 
       {/* Header Info */}
-      <div className="bg-black border border-white/5 p-8 md:p-12 rounded-[40px] relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-400/30 to-transparent" />
+      <div className="bg-black border border-white/5 p-8 md:p-12 rounded-[40px] relative overflow-hidden print:border-none print:p-0 print:bg-white print:text-black">
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-400/30 to-transparent print:hidden" />
         
-        <div className="flex flex-wrap items-center gap-4 mb-6">
+        <div className="flex flex-wrap items-center gap-4 mb-6 print:hidden">
           <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-md border ${note.difficulty === 'advanced' ? 'text-red-400 border-red-400/20 bg-red-400/5' : note.difficulty === 'intermediate' ? 'text-yellow-400 border-yellow-400/20 bg-yellow-400/5' : 'text-blue-400 border-blue-400/20 bg-blue-400/5'}`}>
             {note.difficulty}
           </span>
           <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] bg-white/[0.02] px-3 py-1.5 rounded-md">
             {note.category}
           </span>
-          <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] bg-white/[0.02] px-3 py-1.5 rounded-md">
-            {note.subSkill}
+          <span className="text-[10px] font-black text-blue-400/40 uppercase tracking-[0.3em] bg-blue-400/5 px-3 py-1.5 rounded-md border border-blue-400/10">
+            Verified Content
           </span>
           <div className="flex items-center gap-1.5 text-[10px] font-black text-white/30 uppercase tracking-widest ml-auto">
             <Clock size={12} /> {note.readTimeMinutes} min read
           </div>
         </div>
 
-        <h1 className="text-3xl md:text-5xl font-[900] text-white italic tracking-tighter uppercase mb-6 leading-tight">
+        <h1 className="text-3xl md:text-5xl font-[900] text-white italic tracking-tighter uppercase mb-6 leading-tight print:text-black">
           {note.title}
         </h1>
 
-        <p className="text-lg text-white/50 italic leading-relaxed max-w-4xl">
+        <p className="text-lg text-white/50 italic leading-relaxed max-w-4xl print:text-gray-600">
           {note.summary}
         </p>
       </div>
 
       {/* Content Area */}
-      <div className="bg-[#0a0c10] border border-white/5 rounded-[40px] p-4 md:p-8">
-        <div className="flex items-center gap-3 mb-6 px-4">
+      <div className="bg-[#0a0c10] border border-white/5 rounded-[40px] p-4 md:p-8 print:bg-white print:border-none print:p-0">
+        <div className="flex items-center gap-3 mb-6 px-4 print:hidden">
           {isHtmlContent ? <BookOpen className="text-blue-400" size={20} /> : <FileText className="text-blue-400" size={20} />}
           <h3 className="text-xl font-black text-white italic uppercase tracking-widest">
-            {isHtmlContent ? 'Study Notes' : 'Document Viewer'}
+            {isHtmlContent ? 'Detailed Study Guide' : 'Document Viewer'}
           </h3>
         </div>
         
         {isHtmlContent ? (
           <div 
-            className="note-content-render prose prose-invert max-w-none px-4 md:px-8 pb-8"
+            className="note-content-render prose prose-invert max-w-none px-4 md:px-8 pb-8 print:text-black print:prose-black"
             dangerouslySetInnerHTML={{ __html: note.content }}
           />
         ) : (

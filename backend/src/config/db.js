@@ -101,12 +101,20 @@ const autoSeedNotes = async () => {
     const Note = (await import('../models/Note.model.js')).default;
     const existingCount = await Note.countDocuments();
     
-    if (existingCount > 0) {
+    // Check if we have old dummy data (titles containing "Comprehensive Guide Part")
+    const hasOldData = await Note.findOne({ title: /Comprehensive Guide Part/i });
+    
+    if (existingCount > 0 && !hasOldData) {
       console.log(`📊 Study notes already present: ${existingCount} documents. Skipping seed.`);
       return;
     }
 
-    console.log('🌱 No study notes found. Auto-seeding from question_bank.json...');
+    if (hasOldData) {
+      console.log('🧹 Old dummy notes detected. Clearing and re-seeding with real HTML content...');
+      await Note.deleteMany({});
+    } else {
+      console.log('🌱 No study notes found. Auto-seeding from question_bank.json...');
+    }
     const { v4: uuidv4 } = await import('uuid');
     
     const notesToInsert = [];

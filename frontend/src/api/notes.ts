@@ -39,6 +39,6 @@ export const getNotes = async (params: {
 };
 
 export const getNoteById = async (noteId: string): Promise<Note> => {
-  const response = await API.get(`/notes/${noteId}`);
+  const response = await API.get(`/notes/${noteId}?t=${Date.now()}`);
   return response.data.data;
 };

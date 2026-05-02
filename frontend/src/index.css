@@ -852,3 +852,26 @@ a, button, input, textarea, select, div, section, article, nav, header, footer, 
 .note-content-render .tip-box { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); border-radius: 12px; padding: 1rem 1.25rem; margin: 1rem 0; }
 .note-content-render .warning-box { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); border-radius: 12px; padding: 1rem 1.25rem; margin: 1rem 0; }
 .note-content-render .key-concept { background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.2); border-radius: 12px; padding: 1rem 1.25rem; margin: 1rem 0; }
+/* ═══════════════════════════════════════════════════════════
+   PRINT STYLES (for PDF generation)
+   ═══════════════════════════════════════════════════════════ */
+@media print {
+  body { background: white !important; color: black !important; }
+  .note-content-render { color: black !important; font-size: 11pt !important; }
+  .note-content-render h1, 
+  .note-content-render h2, 
+  .note-content-render h3 { color: black !important; page-break-after: avoid; }
+  .note-content-render blockquote, 
+  .note-content-render .tip-box, 
+  .note-content-render .key-concept { 
+    background: #f8fafc !important; 
+    border: 1px solid #e2e8f0 !important; 
+    color: black !important; 
+  }
+  .print\:hidden { display: none !important; }
+  .print\:border-none { border: none !important; }
+  .print\:p-0 { padding: 0 !important; }
+  .print\:text-black { color: black !important; }
+  .print\:prose-black { --tw-prose-body: black; --tw-prose-headings: black; }
+  @page { margin: 2cm; }
+}
