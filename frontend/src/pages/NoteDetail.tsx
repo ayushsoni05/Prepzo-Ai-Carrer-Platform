@@ -135,7 +135,7 @@ export const NoteDetail: React.FC = () => {
         
         <div className="w-full rounded-2xl overflow-hidden border border-white/10 bg-black aspect-[1/1.4] md:aspect-[16/9]">
           <iframe 
-            src={`${note.content}#toolbar=0`} 
+            src={`https://docs.google.com/viewer?url=${encodeURIComponent(note.content)}&embedded=true`} 
             className="w-full h-full border-0"
             title="PDF Document Viewer"
           />
