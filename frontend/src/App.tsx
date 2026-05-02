@@ -23,18 +23,20 @@ import ThinkingLoader from '@/components/ui/loading';
 import { GridBeam } from '@/components/ui/background-grid-beam';
 import { NotesLibrary } from '@/pages/NotesLibrary';
 import { NoteDetail } from '@/pages/NoteDetail';
+import { NotFound } from '@/components/ui/not-found-2';
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | '404';
 
 // Get initial page from URL hash or default to 'landing'
 const getPageFromHash = (): Page => {
-  const hash = window.location.hash.slice(1) as Page;
+  const hash = window.location.hash.slice(1);
+  if (!hash) return 'landing';
   const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail'];
-  return validPages.includes(hash) ? hash : 'landing';
+  return validPages.includes(hash as Page) ? (hash as Page) : '404';
 };
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<Page>(getPageFromHash);
+  const [currentPage, setCurrentPage] = useState<Page>(getPageFromHash());
   const [isInitialized, setIsInitialized] = useState(false);
   const [authValidated, setAuthValidated] = useState(false);
   const initRef = useRef(false);
@@ -152,6 +154,16 @@ export default function App() {
       const newPage = getPageFromHash();
       if (newPage !== currentPage) {
         setGlobalLoading(true, `Routing to ${newPage.replace('-', ' ')}...`);
+        
+        // Fix: Sync dashboard tab state when navigating via browser back/forward or manual hash change
+        if (['dashboard', 'resume', 'settings', 'assessment'].includes(newPage)) {
+          const { setDashboardTab } = useAppStore.getState();
+          if (newPage === 'resume') setDashboardTab('resume');
+          else if (newPage === 'settings') setDashboardTab('settings');
+          else if (newPage === 'assessment') setDashboardTab('assessment');
+          else if (newPage === 'dashboard') setDashboardTab('home');
+        }
+
         setTimeout(() => {
           setCurrentPage(newPage);
           // Safety timeout to hide loader if the new page doesn't signal readiness
@@ -322,6 +334,7 @@ export default function App() {
         {currentPage === 'onboarding' && <OnboardingPage onNavigate={handleNavigate} />}
         {currentPage === 'tetris-demo' && <TetrisDemo />}
         {currentPage === 'tailwind-awesome' && <TailwindAwesomeDemo />}
+        {currentPage === '404' && <NotFound onNavigate={handleNavigate} />}
       </div>
 
       {/* Global Loading Overlay - rendered ON TOP of content, never blocks mounting */}
