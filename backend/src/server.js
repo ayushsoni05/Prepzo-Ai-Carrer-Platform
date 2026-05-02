@@ -58,7 +58,13 @@ if (!securityValidation.valid) {
 // Connect to MongoDB and auto-seed if needed
 await connectDB();
 
+import './config/passport.js';
+import passport from 'passport';
+
 const app = express();
+
+// Initialize Passport
+app.use(passport.initialize());
 
 // Trust proxy (for getting real IP behind reverse proxy)
 if (process.env.NODE_ENV === 'production') {

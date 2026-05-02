@@ -20,7 +20,46 @@ import { protect } from '../middleware/auth.middleware.js';
 import { authLimiter, registerLimiter, passwordResetLimiter, bruteForceProtection } from '../middleware/rateLimit.middleware.js';
 import { validate, registerSchema, loginSchema, verifyOTPSchema, resendOTPSchema, forgotPasswordSchema, resetPasswordSchema, changePasswordSchema } from '../validators/schemas.js';
 
+import passport from 'passport';
+import { 
+  generateAccessToken, 
+  generateRefreshToken, 
+  setTokenCookies 
+} from '../middleware/auth.middleware.js';
+
 const router = express.Router();
+
+// Google OAuth Routes
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/google/callback', 
+  passport.authenticate('google', { session: false, failureRedirect: '/login' }),
+  async (req, res) => {
+    try {
+      const user = req.user;
+      
+      // Generate tokens
+      const accessToken = generateAccessToken(user);
+      const refreshTokenData = await generateRefreshToken(user, null, {
+        ip: req.ip,
+        userAgent: req.headers['user-agent'],
+      });
+
+      // Set cookies
+      setTokenCookies(res, accessToken, refreshTokenData.token);
+
+      // Redirect to frontend dashboard or onboarding
+      // In production, use the environment variable for frontend URL
+      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+      const redirectPath = user.isOnboarded ? '/dashboard' : '/onboarding';
+      
+      res.redirect(`${frontendUrl}${redirectPath}?token=${accessToken}`);
+    } catch (error) {
+      console.error('Google Auth Callback Error:', error);
+      res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/login?error=auth_failed`);
+    }
+  }
+);
 
 // Public routes with rate limiting
 router.post('/register', registerLimiter, validate({ body: registerSchema }), register);

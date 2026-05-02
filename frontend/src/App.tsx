@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { LandingPage } from '@/pages/LandingPage';
 import { AuthPage } from '@/pages/AuthPage';
 import { Dashboard } from '@/pages/Dashboard';
@@ -47,6 +47,43 @@ export default function App() {
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
     document.body.setAttribute('data-theme', darkMode ? 'dark' : 'light');
   }, [darkMode]);
+
+  // Handle social login token from URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    
+    if (token) {
+      localStorage.setItem('prepzo-token', token);
+      // Clean up the URL (remove token from query but keep hash)
+      window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+      
+      const reinitAuth = async () => {
+        try {
+          setGlobalLoading(true, 'Authenticating with Google...');
+          const validatedUser = await fetchUser();
+          if (validatedUser) {
+            toast.success(`Welcome back, ${validatedUser.fullName.split(' ')[0]}!`);
+            setAuthValidated(true);
+            
+            // Navigate based on state
+            if (validatedUser.role === 'admin') {
+              handleNavigate('admin');
+            } else if (!validatedUser.isOnboarded) {
+              handleNavigate('onboarding');
+            } else {
+              handleNavigate('dashboard');
+            }
+          }
+        } catch (error) {
+          toast.error('Google login failed. Please try again.');
+        } finally {
+          setGlobalLoading(false);
+        }
+      };
+      reinitAuth();
+    }
+  }, []);
 
   // Fetch user data on app initialization (with guard against React Strict Mode double-call)
   useEffect(() => {

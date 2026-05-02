@@ -18,21 +18,29 @@ const userSchema = new mongoose.Schema({
     trim: true,
     match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address'],
   },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true, // Allows multiple nulls
+  },
+  avatar: {
+    type: String,
+    default: '',
+  },
   phone: {
     type: String,
-    required: [true, 'Phone number is required'],
+    required: false, // Make optional for OAuth users
     trim: true,
   },
   dateOfBirth: {
     type: String,
-    required: [true, 'Date of birth is required'],
+    required: false, // Make optional for OAuth users
   },
   gender: {
     type: String,
-    required: [true, 'Gender is required'],
+    required: false, // Make optional for OAuth users
     enum: ['Male', 'Female', 'Non-binary', 'Prefer not to say', 'Other', 'male', 'female', 'non-binary', 'prefer not to say', 'other'],
     set: function(val) {
-      // Capitalize first letter for consistency
       if (val && typeof val === 'string') {
         return val.charAt(0).toUpperCase() + val.slice(1).toLowerCase();
       }
@@ -41,28 +49,28 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Password is required'],
+    required: false, // Make optional for OAuth users
     minlength: 8,
-    select: false, // Don't return password in queries by default
+    select: false,
   },
 
   // Education Information
   collegeName: {
     type: String,
-    required: [true, 'College name is required'],
+    required: false,
     trim: true,
   },
   degree: {
     type: String,
-    required: [true, 'Degree is required'],
+    required: false,
   },
   fieldOfStudy: {
     type: String,
-    required: [true, 'Field of study is required'],
+    required: false,
   },
   yearOfStudy: {
     type: String,
-    required: [true, 'Year of study is required'],
+    required: false,
   },
   cgpa: {
     type: String,
@@ -72,7 +80,7 @@ const userSchema = new mongoose.Schema({
   // Career Information
   targetRole: {
     type: String,
-    required: [true, 'Target role is required'],
+    required: false,
   },
   knownTechnologies: {
     type: [String],
