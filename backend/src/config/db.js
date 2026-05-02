@@ -111,7 +111,40 @@ const autoSeedNotes = async () => {
     
     const notesToInsert = [];
     const NEW_BANK_PATH = path.join(__dirname, '../../../question_bank.json');
-    const DUMMY_PDF_URL = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
+
+    const WIKI_PDF_MAP = {
+      "Data Structures & Algorithms": "Data_structure",
+      "Operating Systems": "Operating_system",
+      "Networking": "Computer_network",
+      "Computer Architecture": "Computer_architecture",
+      "Database Management & SQL": "Database",
+      "Object-Oriented Programming": "Object-oriented_programming",
+      "SDLC & Agile": "Software_development_process",
+      "Circuit Analysis": "Network_analysis_(electrical_circuits)",
+      "Digital Logic": "Digital_electronics",
+      "Microcontrollers & Embedded Systems": "Embedded_system",
+      "Signal Processing": "Signal_processing",
+      "Control Systems": "Control_theory",
+      "Thermodynamics": "Thermodynamics",
+      "Materials Science": "Materials_science",
+      "Fluid Mechanics": "Fluid_mechanics",
+      "Structural Analysis": "Structural_analysis",
+      "CAD Fundamentals": "Computer-aided_design",
+      "Quantitative Aptitude": "Aptitude",
+      "Logical Reasoning": "Logical_reasoning",
+      "Verbal Communication": "Verbal_communication",
+      "Data Interpretation": "Data_analysis",
+      "Financial Accounting": "Financial_accounting",
+      "Marketing": "Marketing",
+      "Operations & Supply Chain": "Supply_chain_management",
+      "Business Strategy": "Strategic_management",
+      "Corporate Ethics": "Business_ethics"
+    };
+
+    const getRealPdfUrl = (subSkillName) => {
+      const wikiTopic = WIKI_PDF_MAP[subSkillName] || encodeURIComponent(subSkillName.replace(/ /g, '_'));
+      return `https://en.wikipedia.org/api/rest_v1/page/pdf/${wikiTopic}`;
+    };
 
     if (fs.existsSync(NEW_BANK_PATH)) {
       const data = JSON.parse(fs.readFileSync(NEW_BANK_PATH, 'utf8'));
@@ -119,6 +152,7 @@ const autoSeedNotes = async () => {
 
       for (const [categoryName, subSkills] of Object.entries(categories)) {
         for (const subSkillName of Object.keys(subSkills)) {
+          const pdfUrl = getRealPdfUrl(subSkillName);
           for (let i = 1; i <= 3; i++) {
             const difficulties = ['beginner', 'intermediate', 'advanced'];
             const difficulty = difficulties[i - 1];
@@ -129,7 +163,7 @@ const autoSeedNotes = async () => {
               category: categoryName,
               subSkill: subSkillName,
               summary: `This is a comprehensive study guide covering the essential concepts, principles, and applications of ${subSkillName}. Perfect for ${difficulty} level students preparing for interviews.`,
-              content: DUMMY_PDF_URL,
+              content: pdfUrl,
               difficulty: difficulty,
               readTimeMinutes: Math.floor(Math.random() * 15) + 5,
               tags: [subSkillName.toLowerCase().replace(/ /g, '-'), 'study-material', 'interview-prep', difficulty]
