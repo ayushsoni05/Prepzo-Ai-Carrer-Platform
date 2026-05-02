@@ -98,15 +98,17 @@ app.use(cookieParser());
 // CORS configuration
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, curl, etc.) in development
-    if (!origin && process.env.NODE_ENV !== 'production') {
+    if (!origin) {
       return callback(null, true);
     }
     
-    if (securityConfig.cors.allowedOrigins.includes(origin) || (origin && origin.endsWith('.vercel.app'))) {
-      callback(null, true);
-    } else if (process.env.NODE_ENV !== 'production') {
-      // Allow any origin in development
+    const isAllowed = 
+      securityConfig.cors.allowedOrigins.includes(origin) || 
+      origin.endsWith('.vercel.app') || 
+      origin.endsWith('.onrender.com') ||
+      origin.includes('localhost');
+
+    if (isAllowed) {
       callback(null, true);
     } else {
       console.warn(`🛑 Blocked by CORS: ${origin}`);
