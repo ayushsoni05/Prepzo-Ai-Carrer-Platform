@@ -1,0 +1,293 @@
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import * as pdfjs from 'pdfjs-dist';
+import { Annotation } from '@/api/notes';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Highlighter, 
+  StickyNote, 
+  Trash2, 
+  ChevronLeft, 
+  ChevronRight,
+  ZoomIn,
+  ZoomOut,
+  Maximize,
+  Save,
+  Palette
+} from 'lucide-react';
+
+// Set up worker
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
+interface PdfViewerProps {
+  url: string;
+  noteId: string;
+  initialAnnotations: Annotation[];
+  onSave: (annotations: Annotation[]) => void;
+}
+
+export const PdfViewer: React.FC<PdfViewerProps> = ({ url, noteId, initialAnnotations, onSave }) => {
+  const [pdf, setPdf] = useState<any>(null);
+  const [numPages, setNumPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [scale, setScale] = useState(1.5);
+  const [annotations, setAnnotations] = useState<Annotation[]>(initialAnnotations);
+  const [activeTool, setActiveTool] = useState<'none' | 'highlight' | 'note'>('none');
+  const [activeColor, setActiveColor] = useState('#ffff00');
+  const [loading, setLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Load PDF
+  useEffect(() => {
+    const loadPdf = async () => {
+      try {
+        setLoading(true);
+        const loadingTask = pdfjs.getDocument(url);
+        const pdfDoc = await loadingTask.promise;
+        setPdf(pdfDoc);
+        setNumPages(pdfDoc.numPages);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error loading PDF:', err);
+        setLoading(false);
+      }
+    };
+    loadPdf();
+  }, [url]);
+
+  // Render Page
+  const renderPage = useCallback(async (pageNum: number, currentScale: number) => {
+    if (!pdf || !canvasRef.current || !containerRef.current) return;
+
+    const page = await pdf.getPage(pageNum);
+    const viewport = page.getViewport({ scale: currentScale });
+    
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    if (!context) return;
+    
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+
+    const renderContext = {
+      canvasContext: context,
+      viewport: viewport
+    };
+
+    await page.render(renderContext).promise;
+
+    // Render Text Layer for selection
+    const textContent = await page.getTextContent();
+    const textLayerDiv = document.createElement('div');
+    textLayerDiv.setAttribute('class', 'textLayer');
+    textLayerDiv.style.height = `${viewport.height}px`;
+    textLayerDiv.style.width = `${viewport.width}px`;
+    textLayerDiv.style.position = 'absolute';
+    textLayerDiv.style.top = '0';
+    textLayerDiv.style.left = '0';
+    textLayerDiv.style.opacity = '0.2'; // Keep it subtle but selectable
+    textLayerDiv.style.lineHeight = '1';
+    
+    // Remove old text layer if exists
+    const oldTextLayer = containerRef.current.querySelector('.textLayer');
+    if (oldTextLayer) oldTextLayer.remove();
+    
+    containerRef.current.appendChild(textLayerDiv);
+
+    pdfjs.renderTextLayer({
+      textContentSource: textContent,
+      container: textLayerDiv,
+      viewport: viewport,
+      textDivs: []
+    });
+  }, [pdf]);
+
+  useEffect(() => {
+    renderPage(currentPage, scale);
+  }, [currentPage, scale, renderPage]);
+
+  // Handle Text Selection for Highlights
+  const handleMouseUp = () => {
+    if (activeTool !== 'highlight') return;
+
+    const selection = window.getSelection();
+    if (!selection || selection.isCollapsed || selection.rangeCount === 0) return;
+
+    const range = selection.getRangeAt(0);
+    const rects = Array.from(range.getClientRects());
+    
+    if (rects.length === 0) return;
+
+    const containerRect = containerRef.current?.getBoundingClientRect();
+    if (!containerRect) return;
+
+    const newAnnotation: Annotation = {
+      id: Math.random().toString(36).substr(2, 9),
+      type: 'highlight',
+      pageNumber: currentPage,
+      color: activeColor,
+      rects: rects.map(r => ({
+        x1: r.left - containerRect.left,
+        y1: r.top - containerRect.top,
+        x2: r.right - containerRect.left,
+        y2: r.bottom - containerRect.top,
+        width: r.width,
+        height: r.height
+      })),
+      createdAt: new Date().toISOString()
+    };
+
+    setAnnotations(prev => [...prev, newAnnotation]);
+    selection.removeAllRanges();
+  };
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    await onSave(annotations);
+    setIsSaving(false);
+  };
+
+  const removeAnnotation = (id: string) => {
+    setAnnotations(prev => prev.filter(a => a.id !== id));
+  };
+
+  return (
+    <div className="flex flex-col h-full bg-[#0a0c10] rounded-[32px] border border-white/5 overflow-hidden">
+      {/* Toolbar */}
+      <div className="flex items-center justify-between px-6 py-4 bg-black/40 border-b border-white/5 backdrop-blur-xl">
+        <div className="flex items-center gap-4">
+          <div className="flex bg-white/5 rounded-xl p-1">
+            <button 
+              onClick={() => setActiveTool(activeTool === 'highlight' ? 'none' : 'highlight')}
+              className={`p-2 rounded-lg transition-all ${activeTool === 'highlight' ? 'bg-blue-400 text-black shadow-lg' : 'text-white/40 hover:text-white'}`}
+              title="Highlight Tool"
+            >
+              <Highlighter size={18} />
+            </button>
+            <button 
+              onClick={() => setActiveTool(activeTool === 'note' ? 'none' : 'note')}
+              className={`p-2 rounded-lg transition-all ${activeTool === 'note' ? 'bg-blue-400 text-black shadow-lg' : 'text-white/40 hover:text-white'}`}
+              title="Sticky Note Tool"
+            >
+              <StickyNote size={18} />
+            </button>
+          </div>
+
+          {activeTool !== 'none' && (
+            <div className="flex gap-2 animate-in slide-in-from-left-4 duration-300">
+              {['#ffff00', '#00ff00', '#ff00ff', '#00ffff'].map(color => (
+                <button 
+                  key={color}
+                  onClick={() => setActiveColor(color)}
+                  className={`w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 ${activeColor === color ? 'border-white' : 'border-transparent'}`}
+                  style={{ backgroundColor: color }}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl">
+            <button onClick={() => setCurrentPage(Math.max(1, currentPage - 1))} className="text-white/40 hover:text-white transition-colors">
+              <ChevronLeft size={18} />
+            </button>
+            <span className="text-[10px] font-black text-white/60 uppercase tracking-widest min-w-[80px] text-center">
+              Page {currentPage} / {numPages}
+            </span>
+            <button onClick={() => setCurrentPage(Math.min(numPages, currentPage + 1))} className="text-white/40 hover:text-white transition-colors">
+              <ChevronRight size={18} />
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button onClick={() => setScale(prev => Math.max(0.5, prev - 0.2))} className="p-2 text-white/40 hover:text-white transition-colors">
+              <ZoomOut size={18} />
+            </button>
+            <button onClick={() => setScale(prev => Math.min(3, prev + 0.2))} className="p-2 text-white/40 hover:text-white transition-colors">
+              <ZoomIn size={18} />
+            </button>
+          </div>
+
+          <button 
+            onClick={handleSave}
+            disabled={isSaving}
+            className={`flex items-center gap-2 px-6 py-2.5 bg-emerald-500 text-black text-[10px] font-black uppercase tracking-widest italic rounded-xl hover:scale-105 transition-all shadow-lg shadow-emerald-500/20 disabled:opacity-50`}
+          >
+            {isSaving ? <div className="w-3 h-3 border-2 border-black/30 border-t-black rounded-full animate-spin" /> : <Save size={14} />}
+            {isSaving ? 'SAVING...' : 'SAVE EDITS'}
+          </button>
+        </div>
+      </div>
+
+      {/* Main Viewer Area */}
+      <div className="flex-1 overflow-auto bg-[#07090c] p-12 custom-scrollbar relative" onMouseUp={handleMouseUp}>
+        <div ref={containerRef} className="relative mx-auto bg-white shadow-2xl transition-all duration-300" style={{ width: 'fit-content' }}>
+          {loading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-50">
+              <div className="w-12 h-12 border-4 border-blue-400/20 border-t-blue-400 rounded-full animate-spin" />
+            </div>
+          )}
+          
+          <canvas ref={canvasRef} className="block" />
+
+          {/* Annotation Layer */}
+          <div className="absolute inset-0 pointer-events-none">
+            {annotations.filter(a => a.pageNumber === currentPage).map(anno => (
+              <React.Fragment key={anno.id}>
+                {anno.rects.map((r, i) => (
+                  <div 
+                    key={i}
+                    className="absolute pointer-events-auto cursor-pointer group"
+                    style={{
+                      left: r.x1,
+                      top: r.y1,
+                      width: r.width,
+                      height: r.height,
+                      backgroundColor: `${anno.color}44`,
+                      borderBottom: `2px solid ${anno.color}`
+                    }}
+                  >
+                    <button 
+                      onClick={() => removeAnnotation(anno.id)}
+                      className="absolute -top-6 left-0 opacity-0 group-hover:opacity-100 transition-opacity bg-red-500 text-white p-1 rounded hover:scale-110"
+                    >
+                      <Trash2 size={12} />
+                    </button>
+                  </div>
+                ))}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+      </div>
+      
+      {/* Sidebar for Notes (Optional) */}
+      <div className="hidden lg:flex w-80 border-l border-white/5 bg-black/20 backdrop-blur-xl p-6 flex-col">
+        <h3 className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-6 italic">STUDY ANNOTATIONS</h3>
+        <div className="flex-1 overflow-y-auto space-y-4 custom-scrollbar">
+          {annotations.length === 0 ? (
+            <p className="text-[10px] text-white/10 italic text-center py-12">No highlights or notes yet. Select text to start studying.</p>
+          ) : (
+            annotations.map(anno => (
+              <div key={anno.id} className="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 transition-all group">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">Page {anno.pageNumber}</span>
+                  <button onClick={() => removeAnnotation(anno.id)} className="text-white/10 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all">
+                    <Trash2 size={12} />
+                  </button>
+                </div>
+                <div className="w-full h-1 rounded-full mb-3" style={{ backgroundColor: anno.color }} />
+                <p className="text-[10px] text-white/60 italic leading-relaxed">
+                  {anno.type === 'highlight' ? 'Text highlighted for review' : 'Personal study note'}
+                </p>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};

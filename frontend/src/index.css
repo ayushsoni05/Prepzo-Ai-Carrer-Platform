@@ -875,3 +875,40 @@ a, button, input, textarea, select, div, section, article, nav, header, footer, 
   .print\:prose-black { --tw-prose-body: black; --tw-prose-headings: black; }
   @page { margin: 2cm; }
 }
+
+/* -----------------------------------------------------------
+   PDF VIEWER STYLES
+----------------------------------------------------------- */
+.textLayer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  opacity: 0.2;
+  line-height: 1.0;
+  text-rendering: optimizeLegibility;
+}
+
+.textLayer span {
+  color: transparent;
+  position: absolute;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+}
+
+.textLayer ::selection {
+  background: rgba(0, 0, 255, 0.2);
+}
+
+.annotation-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.annotation-layer * {
+  pointer-events: auto;
+}

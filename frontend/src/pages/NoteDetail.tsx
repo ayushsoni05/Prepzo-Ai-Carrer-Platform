@@ -7,32 +7,51 @@ import {
   FileText,
   BookOpen
 } from 'lucide-react';
-import { getNoteById, Note } from '@/api/notes';
+import { getNoteById, Note, Annotation, getNoteAnnotations, saveNoteAnnotations } from '@/api/notes';
 import { useAppStore } from '@/store/appStore';
+import { PdfViewer } from '@/components/notes/PdfViewer';
+import { toast } from 'react-hot-toast';
 
 export const NoteDetail: React.FC = () => {
   const { selectedNoteId, setCurrentPage } = useAppStore();
   const noteId = selectedNoteId;
   const [note, setNote] = useState<Note | null>(null);
+  const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchNote = async () => {
+    const fetchNoteAndAnnotations = async () => {
       if (!noteId) return;
       try {
         setLoading(true);
-        const data = await getNoteById(noteId);
-        setNote(data);
+        const [noteData, annotationData] = await Promise.all([
+          getNoteById(noteId),
+          getNoteAnnotations(noteId)
+        ]);
+        setNote(noteData);
+        setAnnotations(annotationData || []);
       } catch (err) {
-        console.error('Failed to fetch note:', err);
+        console.error('Failed to fetch data:', err);
         setError('Failed to load study material.');
       } finally {
         setLoading(false);
       }
     };
-    fetchNote();
+    fetchNoteAndAnnotations();
   }, [noteId]);
+
+  const handleSaveAnnotations = async (newAnnotations: Annotation[]) => {
+    if (!noteId) return;
+    try {
+      const saved = await saveNoteAnnotations(noteId, newAnnotations);
+      setAnnotations(saved);
+      toast.success('Study progress saved!');
+    } catch (err) {
+      console.error('Failed to save annotations:', err);
+      toast.error('Failed to save progress.');
+    }
+  };
 
   if (loading) {
     return (
@@ -50,7 +69,7 @@ export const NoteDetail: React.FC = () => {
           />
         </div>
         <p className="text-blue-400 text-[10px] font-black uppercase tracking-[0.3em] animate-pulse italic">
-          Decrypting File...
+          Decrypting Study Grid...
         </p>
       </div>
     );
@@ -78,23 +97,10 @@ export const NoteDetail: React.FC = () => {
   const serverUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:5000';
   const pdfUrl = note.content.startsWith('http') ? note.content : `${serverUrl}${note.content}`;
 
-  const handleDownload = () => {
-    if (note.content.toLowerCase().endsWith('.pdf')) {
-      const link = document.createElement('a');
-      link.href = pdfUrl;
-      link.download = `${note.title}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
-      window.print();
-    }
-  };
-
   const isHtmlContent = note.content.trim().startsWith('<') || note.content.includes('<h1') || note.content.includes('<div');
 
   return (
-    <div className="w-full max-w-6xl mx-auto space-y-8 animate-in fade-in duration-700 font-rubik p-4 md:p-8 print:p-0">
+    <div className="w-full max-w-7xl mx-auto space-y-8 animate-in fade-in duration-700 font-rubik p-4 md:p-8 print:p-0">
       {/* Back Button */}
       <div className="flex justify-between items-center print:hidden">
         <button 
@@ -105,13 +111,6 @@ export const NoteDetail: React.FC = () => {
           className="inline-flex items-center gap-2 text-[10px] font-black text-white/40 uppercase tracking-widest italic hover:text-blue-400 transition-colors cursor-pointer bg-transparent border-none"
         >
           <ArrowLeft size={14} /> Back to Library
-        </button>
-
-        <button 
-          onClick={handleDownload}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-blue-400 text-black text-[10px] font-black uppercase tracking-widest italic rounded-xl hover:scale-105 transition-all cursor-pointer shadow-lg shadow-blue-400/20"
-        >
-          <FileText size={14} /> Download PDF
         </button>
       </div>
 
@@ -127,7 +126,7 @@ export const NoteDetail: React.FC = () => {
             {note.category}
           </span>
           <span className="text-[10px] font-black text-blue-400/40 uppercase tracking-[0.3em] bg-blue-400/5 px-3 py-1.5 rounded-md border border-blue-400/10">
-            Verified Content
+            Smart Study Active
           </span>
           <div className="flex items-center gap-1.5 text-[10px] font-black text-white/30 uppercase tracking-widest ml-auto">
             <Clock size={12} /> {note.readTimeMinutes} min read
@@ -144,32 +143,21 @@ export const NoteDetail: React.FC = () => {
       </div>
 
       {/* Content Area */}
-      <div className="bg-[#0a0c10] border border-white/5 rounded-[40px] p-4 md:p-8 print:bg-white print:border-none print:p-0">
-        <div className="flex items-center gap-3 mb-6 px-4 print:hidden">
-          {isHtmlContent ? <BookOpen className="text-blue-400" size={20} /> : <FileText className="text-blue-400" size={20} />}
-          <h3 className="text-xl font-black text-white italic uppercase tracking-widest">
-            {isHtmlContent ? 'Detailed Study Guide' : 'Document Viewer'}
-          </h3>
-        </div>
-        
+      <div className="h-[900px] w-full">
         {isHtmlContent ? (
-          <div 
-            className="note-content-render prose prose-invert max-w-none px-4 md:px-8 pb-8 print:text-black print:prose-black"
-            dangerouslySetInnerHTML={{ __html: note.content }}
-          />
+          <div className="bg-[#0a0c10] border border-white/5 rounded-[40px] p-8 h-full overflow-y-auto custom-scrollbar">
+            <div 
+              className="note-content-render prose prose-invert max-w-none px-4 md:px-8 pb-8 print:text-black print:prose-black"
+              dangerouslySetInnerHTML={{ __html: note.content }}
+            />
+          </div>
         ) : (
-          <>
-            <div className="w-full rounded-2xl overflow-hidden border border-white/10 bg-black aspect-[1/1.4] md:aspect-[16/9]">
-              <iframe 
-                src={pdfUrl} 
-                className="w-full h-full border-0"
-                title="PDF Document Viewer"
-              />
-            </div>
-            <p className="text-center text-[10px] text-white/30 italic uppercase tracking-widest mt-6">
-              Note: For the best reading experience, please download the PDF using the button above.
-            </p>
-          </>
+          <PdfViewer 
+            url={pdfUrl} 
+            noteId={note.noteId} 
+            initialAnnotations={annotations} 
+            onSave={handleSaveAnnotations}
+          />
         )}
       </div>
     </div>

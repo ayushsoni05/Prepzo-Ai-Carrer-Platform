@@ -20,6 +20,24 @@ export interface NoteCategoryData {
   totalNotes: number;
 }
 
+export interface Annotation {
+  id: string;
+  type: 'highlight' | 'note';
+  pageNumber: number;
+  rects: {
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+    width: number;
+    height: number;
+  }[];
+  color: string;
+  content?: string;
+  comment?: string;
+  createdAt?: string;
+}
+
 export const getNoteCategories = async (): Promise<{ data: NoteCategoryData[], totalNotes: number }> => {
   const response = await API.get(`/notes/categories?t=${Date.now()}`);
   return {
@@ -40,5 +58,15 @@ export const getNotes = async (params: {
 
 export const getNoteById = async (noteId: string): Promise<Note> => {
   const response = await API.get(`/notes/${noteId}?t=${Date.now()}`);
+  return response.data.data;
+};
+
+export const getNoteAnnotations = async (noteId: string): Promise<Annotation[]> => {
+  const response = await API.get(`/notes/${noteId}/annotations?t=${Date.now()}`);
+  return response.data.data;
+};
+
+export const saveNoteAnnotations = async (noteId: string, annotations: Annotation[]): Promise<Annotation[]> => {
+  const response = await API.post(`/notes/${noteId}/annotations`, { annotations });
   return response.data.data;
 };
