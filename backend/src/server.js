@@ -145,7 +145,7 @@ app.use(dynamicRateLimiter);
 app.use('/uploads', (req, res, next) => {
   // Add security headers for file downloads
   res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('Content-Disposition', 'attachment');
+  res.setHeader('Content-Disposition', 'inline');
   next();
 }, express.static(path.join(__dirname, '../uploads')));
 

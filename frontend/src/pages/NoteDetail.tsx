@@ -75,8 +75,20 @@ export const NoteDetail: React.FC = () => {
     );
   }
 
+  const serverUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:5000';
+  const pdfUrl = note.content.startsWith('http') ? note.content : `${serverUrl}${note.content}`;
+
   const handleDownload = () => {
-    window.print();
+    if (note.content.toLowerCase().endsWith('.pdf')) {
+      const link = document.createElement('a');
+      link.href = pdfUrl;
+      link.download = `${note.title}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      window.print();
+    }
   };
 
   const isHtmlContent = note.content.trim().startsWith('<') || note.content.includes('<h1') || note.content.includes('<div');
@@ -149,7 +161,7 @@ export const NoteDetail: React.FC = () => {
           <>
             <div className="w-full rounded-2xl overflow-hidden border border-white/10 bg-black aspect-[1/1.4] md:aspect-[16/9]">
               <iframe 
-                src={`https://docs.google.com/viewer?url=${encodeURIComponent(note.content)}&embedded=true`} 
+                src={pdfUrl} 
                 className="w-full h-full border-0"
                 title="PDF Document Viewer"
               />
