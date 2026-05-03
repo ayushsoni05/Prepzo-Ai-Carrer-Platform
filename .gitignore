@@ -72,6 +72,7 @@ backend/out.txt
 backend/out2.txt
 
 # Uploads and temporary data
+!uploads/Notes/
 uploads/
 backend/uploads/
 /data/
