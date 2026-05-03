@@ -506,7 +506,7 @@ export function Dashboard() {
           </button>
         </div>
         <div className="p-1 border border-white/5 rounded-[40px] bg-black shadow-2xl relative">
-            <QuestionBank limit={10} showFilters={false} showHeader={false} />
+            <QuestionBank limit={15} showFilters={true} showHeader={false} />
             
             <div className="p-8 border-t border-white/5 flex justify-center">
               <button 
@@ -517,7 +517,7 @@ export function Dashboard() {
                   <path d="M0 0H184L174 55H10L0 0Z" fill="#5ed29c" />
                 </svg>
                 <span className="relative z-10 flex items-center justify-center h-full text-[#070b0a] font-[900] text-[11px] uppercase tracking-[0.2em] gap-3 italic">
-                   Reveal All Questions <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                   Load More Questions <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </span>
               </button>
             </div>
