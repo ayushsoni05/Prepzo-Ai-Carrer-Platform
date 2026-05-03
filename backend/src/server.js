@@ -141,13 +141,13 @@ app.use('/api', generalLimiter);
 // Dynamic rate limiting
 app.use(dynamicRateLimiter);
 
-// Serve static files for uploaded resumes (with security)
+// Serve static files for uploaded resumes and study notes (from project root)
 app.use('/uploads', (req, res, next) => {
   // Add security headers for file downloads
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('Content-Disposition', 'inline');
   next();
-}, express.static(path.join(__dirname, '../uploads')));
+}, express.static(path.join(__dirname, '../../uploads')));
 
 // Health check route
 app.get('/api/health', (req, res) => {
