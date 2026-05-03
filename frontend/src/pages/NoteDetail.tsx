@@ -9,6 +9,7 @@ import { getNoteById, Note, Annotation, getNoteAnnotations, saveNoteAnnotations 
 import { useAppStore } from '@/store/appStore';
 import { PdfViewer } from '@/components/notes/PdfViewer';
 import { useAuthStore } from '@/store/authStore';
+import { toast } from 'react-hot-toast';
 
 export const NoteDetail: React.FC = () => {
   const { selectedNoteId, setCurrentPage } = useAppStore();
@@ -164,7 +165,6 @@ export const NoteDetail: React.FC = () => {
         ) : (
           <PdfViewer 
             url={pdfUrl} 
-            noteId={note.noteId} 
             initialAnnotations={annotations} 
             onSave={handleSaveAnnotations}
           />

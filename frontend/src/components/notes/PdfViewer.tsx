@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as pdfjs from 'pdfjs-dist';
 import { Annotation } from '@/api/notes';
-import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Highlighter, 
   StickyNote, 
@@ -10,9 +9,7 @@ import {
   ChevronRight,
   ZoomIn,
   ZoomOut,
-  Maximize,
-  Save,
-  Palette
+  Save
 } from 'lucide-react';
 
 // Configure PDF.js worker
@@ -20,12 +17,11 @@ pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.vers
 
 interface PdfViewerProps {
   url: string;
-  noteId: string;
   initialAnnotations: Annotation[];
   onSave: (annotations: Annotation[]) => void;
 }
 
-export const PdfViewer: React.FC<PdfViewerProps> = ({ url, noteId, initialAnnotations, onSave }) => {
+export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, onSave }) => {
   const [pdf, setPdf] = useState<any>(null);
   const [numPages, setNumPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
