@@ -3,9 +3,7 @@ import { motion } from 'framer-motion';
 import { 
   ArrowLeft,
   Clock,
-  AlertCircle,
-  FileText,
-  BookOpen
+  AlertCircle
 } from 'lucide-react';
 import { getNoteById, Note, Annotation, getNoteAnnotations, saveNoteAnnotations } from '@/api/notes';
 import { useAppStore } from '@/store/appStore';
