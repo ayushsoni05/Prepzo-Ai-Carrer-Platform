@@ -8,10 +8,11 @@ import {
 import { getNoteById, Note, Annotation, getNoteAnnotations, saveNoteAnnotations } from '@/api/notes';
 import { useAppStore } from '@/store/appStore';
 import { PdfViewer } from '@/components/notes/PdfViewer';
-import { toast } from 'react-hot-toast';
+import { useAuthStore } from '@/store/authStore';
 
 export const NoteDetail: React.FC = () => {
   const { selectedNoteId, setCurrentPage } = useAppStore();
+  const { isAuthenticated } = useAuthStore();
   const noteId = selectedNoteId;
   const [note, setNote] = useState<Note | null>(null);
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
@@ -25,22 +26,30 @@ export const NoteDetail: React.FC = () => {
         setLoading(true);
         const [noteData, annotationData] = await Promise.all([
           getNoteById(noteId),
-          getNoteAnnotations(noteId)
+          isAuthenticated ? getNoteAnnotations(noteId) : Promise.resolve([])
         ]);
         setNote(noteData);
         setAnnotations(annotationData || []);
-      } catch (err) {
+      } catch (err: any) {
         console.error('Failed to fetch data:', err);
-        setError('Failed to load study material.');
+        if (err.response?.status === 401) {
+          setError('Please log in to access study tools and progress.');
+        } else {
+          setError('Failed to load study material.');
+        }
       } finally {
         setLoading(false);
       }
     };
     fetchNoteAndAnnotations();
-  }, [noteId]);
+  }, [noteId, isAuthenticated]);
 
   const handleSaveAnnotations = async (newAnnotations: Annotation[]) => {
     if (!noteId) return;
+    if (!isAuthenticated) {
+      toast.error('Please log in to save your progress.');
+      return;
+    }
     try {
       const saved = await saveNoteAnnotations(noteId, newAnnotations);
       setAnnotations(saved);
@@ -77,7 +86,7 @@ export const NoteDetail: React.FC = () => {
     return (
       <div className="p-12 text-center border border-white/5 bg-black rounded-[32px] flex flex-col items-center justify-center min-h-[400px] max-w-4xl mx-auto mt-12">
         <AlertCircle className="mb-6 text-red-500/50" size={48} />
-        <h3 className="text-xl font-[900] text-white mb-2 uppercase tracking-widest italic">File Not Found</h3>
+        <h3 className="text-xl font-[900] text-white mb-2 uppercase tracking-widest italic">Access Restricted</h3>
         <p className="text-white/30 mb-8 italic text-sm">{error || "The requested study material does not exist or has been removed."}</p>
         <button 
           onClick={() => {
@@ -95,7 +104,10 @@ export const NoteDetail: React.FC = () => {
   const serverUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:5000';
   const pdfUrl = note.content.startsWith('http') ? note.content : `${serverUrl}${note.content}`;
 
-  const isHtmlContent = note.content.trim().startsWith('<') || note.content.includes('<h1') || note.content.includes('<div');
+  // Robust check for HTML content vs PDF path
+  const isHtmlContent = note.content.trim().startsWith('<') || 
+                        (note.content.includes('<h1') && note.content.includes('</h1>')) || 
+                        (note.content.includes('<div') && note.content.includes('</div>'));
 
   return (
     <div className="w-full max-w-7xl mx-auto space-y-8 animate-in fade-in duration-700 font-rubik p-4 md:p-8 print:p-0">
