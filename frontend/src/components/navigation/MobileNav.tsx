@@ -13,7 +13,6 @@ const navItems = [
   { label: 'Home', icon: Home, id: 'home' },
   { label: 'Resume', icon: FileText, id: 'resume' },
   { label: 'Assessment', icon: Brain, id: 'assessment' },
-  { label: 'Library', icon: Layout, id: 'question-bank' },
   { label: 'Jobs', icon: Briefcase, id: 'jobs' },
   { label: 'Settings', icon: Settings, id: 'settings' },
 ];
