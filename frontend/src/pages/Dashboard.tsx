@@ -496,12 +496,34 @@ export function Dashboard() {
       </div>
 
       <div id="question-bank-container" className="pointer-events-auto mt-10">
-        <div className="mb-6 px-4">
-          <h2 className="text-[10px] font-[900] uppercase tracking-[0.5em] text-[#5ed29c] mb-2 italic opacity-80">Repository</h2>
-          <h1 className="text-2xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic">Interview <span className="text-white/40">Library.</span></h1>
+        <div className="mb-6 px-4 flex items-end justify-between">
+          <div>
+            <h2 className="text-[10px] font-[900] uppercase tracking-[0.5em] text-[#5ed29c] mb-2 italic opacity-80">Repository</h2>
+            <h1 className="text-2xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic">Interview <span className="text-white/40">Library.</span></h1>
+          </div>
+          <button 
+            onClick={() => window.location.hash = 'question-bank'}
+            className="group flex items-center gap-2 text-[10px] font-black text-[#5ed29c] uppercase tracking-widest italic hover:opacity-80 transition-opacity pb-2"
+          >
+            Open Full Bank <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          </button>
         </div>
         <div className="p-1 border border-white/5 rounded-[40px] bg-black shadow-2xl relative">
-            <QuestionBank />
+            <QuestionBank limit={10} showFilters={false} showHeader={false} />
+            
+            <div className="p-8 border-t border-white/5 flex justify-center">
+              <button 
+                onClick={() => window.location.hash = 'question-bank'}
+                className="relative h-[55px] px-10 group active:scale-95 transition-transform"
+              >
+                <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105 shadow-2xl shadow-[#5ed29c]/10" viewBox="0 0 184 55" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                  <path d="M0 0H184L174 55H10L0 0Z" fill="#5ed29c" />
+                </svg>
+                <span className="relative z-10 flex items-center justify-center h-full text-[#070b0a] font-[900] text-[11px] uppercase tracking-[0.2em] gap-3 italic">
+                   Reveal All Questions <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </span>
+              </button>
+            </div>
         </div>
       </div>
     </div>

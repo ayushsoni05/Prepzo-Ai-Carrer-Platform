@@ -15,6 +15,7 @@ import { CompaniesPage } from '@/pages/CompaniesPage';
 import { ApplicationsPage } from '@/pages/ApplicationsPage';
 import { NetworkPage } from '@/pages/NetworkPage';
 import TetrisDemo from '@/pages/TetrisDemo';
+import { QuestionBankPage } from '@/pages/QuestionBankPage';
 import { MobileNav } from '@/components/navigation/MobileNav';
 import TailwindAwesomeDemo from '@/pages/TailwindAwesomeDemo';
 import Sidebar from '@/components/navigation/Sidebar';
@@ -25,13 +26,13 @@ import { NotesLibrary } from '@/pages/NotesLibrary';
 import { NoteDetail } from '@/pages/NoteDetail';
 import { NotFound } from '@/components/ui/not-found-2';
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | '404';
 
 // Get initial page from URL hash or default to 'landing'
 const getPageFromHash = (): Page => {
   const hash = window.location.hash.slice(1);
   if (!hash) return 'landing';
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank'];
   return validPages.includes(hash as Page) ? (hash as Page) : '404';
 };
 
@@ -92,7 +93,7 @@ export default function App() {
     
     const initializeAuth = async () => {
       // Only validate session if user is trying to access a protected page
-      const protectedPages = ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'notes', 'note-detail'];
+      const protectedPages = ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
       // Safety check: if we think we're authenticated but have no token, sync state
@@ -231,7 +232,8 @@ export default function App() {
         'assessment',
         'ai-interview',
         'notes',
-        'note-detail'
+        'note-detail',
+        'question-bank'
       ].includes(currentPage)) {
         handleNavigate('landing');
       }
@@ -305,7 +307,7 @@ export default function App() {
   const isSkillComplete = user?.isSkillTestComplete;
   const isFullyQualified = isFieldComplete && isSkillComplete;
 
-  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail'].includes(currentPage);
+  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail', 'question-bank'].includes(currentPage);
 
   return (
     <div className="page-shell overflow-x-hidden">
@@ -358,6 +360,7 @@ export default function App() {
               {currentPage === 'ai-interview' && <InterviewPage />}
               {currentPage === 'notes' && <NotesLibrary />}
               {currentPage === 'note-detail' && <NoteDetail />}
+              {currentPage === 'question-bank' && <QuestionBankPage />}
             </main>
             <MobileNav
               active={getSidebarActiveId(currentPage)}

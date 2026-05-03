@@ -30,6 +30,7 @@ export const getQuestions = async (params: {
   subSkill?: string;
   difficulty?: string;
   search?: string;
+  limit?: number;
 }): Promise<InterviewQuestion[]> => {
   const response = await API.get(`/question-bank/questions?t=${Date.now()}`, { params });
   return response.data.data;

@@ -53,7 +53,7 @@ export const getCategories = catchAsync(async (req, res) => {
  */
 export const getQuestions = catchAsync(async (req, res) => {
   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-  const { category, subSkill, difficulty, search } = req.query;
+  const { category, subSkill, difficulty, search, limit } = req.query;
 
   const query = {};
 
@@ -82,7 +82,13 @@ export const getQuestions = catchAsync(async (req, res) => {
 
   console.log('🔍 Executing Question Query:', JSON.stringify(query, null, 2));
 
-  const questions = await InterviewQuestion.find(query).sort({ createdAt: -1 });
+  let mongoQuery = InterviewQuestion.find(query).sort({ createdAt: -1 });
+  
+  if (limit) {
+    mongoQuery = mongoQuery.limit(parseInt(limit));
+  }
+
+  const questions = await mongoQuery;
 
   console.log(`✅ Found ${questions.length} questions matching query.`);
 

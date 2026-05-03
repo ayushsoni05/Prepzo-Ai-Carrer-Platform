@@ -16,7 +16,17 @@ import {
 } from 'lucide-react';
 import { getCategories, getQuestions, InterviewQuestion, CategoryData } from '@/api/questionBank';
 
-export const QuestionBank: React.FC = () => {
+interface QuestionBankProps {
+  limit?: number;
+  showFilters?: boolean;
+  showHeader?: boolean;
+}
+
+export const QuestionBank: React.FC<QuestionBankProps> = ({ 
+  limit, 
+  showFilters = true,
+  showHeader = true 
+}) => {
   const [categories, setCategories] = useState<CategoryData[]>([]);
   const [totalQuestionsCount, setTotalQuestionsCount] = useState<number>(0);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -30,7 +40,7 @@ export const QuestionBank: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [timeLeft, setTimeLeft] = useState(90);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [viewMode, setViewMode] = useState<'flashcard' | 'browse'>('browse');
+  const [viewMode, setViewMode] = useState<'flashcard' | 'browse'>(limit ? 'browse' : 'browse');
 
   // Fetch categories on mount
   useEffect(() => {
@@ -68,7 +78,8 @@ export const QuestionBank: React.FC = () => {
         category: categoryFilter || undefined,
         subSkill: selectedSubSkill || undefined,
         difficulty: selectedLevel || undefined,
-        search: searchQuery || undefined
+        search: searchQuery || undefined,
+        limit: limit
       });
       setQuestions(data || []);
       setCurrentQuestionIndex(0);
@@ -80,7 +91,7 @@ export const QuestionBank: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [selectedCategory, selectedSubSkill, selectedLevel, searchQuery, error]);
+  }, [selectedCategory, selectedSubSkill, selectedLevel, searchQuery, error, limit]);
 
   useEffect(() => {
     fetchQuestions();
@@ -131,34 +142,37 @@ export const QuestionBank: React.FC = () => {
   return (
     <div className="w-full space-y-8 animate-in fade-in duration-700 font-rubik">
       {/* Header with View Toggle */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <h2 className="text-4xl font-[900] text-white italic tracking-tighter uppercase mb-2">
-            INTERVIEW <span className="text-[#5ed29c]">LIBRARY.</span>
-          </h2>
-          <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.4em] italic">
-            {viewMode === 'flashcard' ? 'Neural Assessment Protocol Active' : 'Data Repository Browsing Mode'}
-          </p>
+      {showHeader && (
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <h2 className="text-4xl font-[900] text-white italic tracking-tighter uppercase mb-2">
+              INTERVIEW <span className="text-[#5ed29c]">LIBRARY.</span>
+            </h2>
+            <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.4em] italic">
+              {viewMode === 'flashcard' ? 'Neural Assessment Protocol Active' : 'Data Repository Browsing Mode'}
+            </p>
+          </div>
+          
+          <div className="flex bg-[#0a0c10] border border-white/5 p-1 rounded-xl">
+            <button 
+              onClick={() => setViewMode('flashcard')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'flashcard' ? 'bg-[#5ed29c] text-black shadow-lg shadow-[#5ed29c]/20' : 'text-white/40 hover:text-white/60'}`}
+            >
+              <LayoutGrid size={14} /> Flashcards
+            </button>
+            <button 
+              onClick={() => setViewMode('browse')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'browse' ? 'bg-[#5ed29c] text-black shadow-lg shadow-[#5ed29c]/20' : 'text-white/40 hover:text-white/60'}`}
+            >
+              <ListIcon size={14} /> Browse All
+            </button>
+          </div>
         </div>
-        
-        <div className="flex bg-[#0a0c10] border border-white/5 p-1 rounded-xl">
-          <button 
-            onClick={() => setViewMode('flashcard')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'flashcard' ? 'bg-[#5ed29c] text-black shadow-lg shadow-[#5ed29c]/20' : 'text-white/40 hover:text-white/60'}`}
-          >
-            <LayoutGrid size={14} /> Flashcards
-          </button>
-          <button 
-            onClick={() => setViewMode('browse')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${viewMode === 'browse' ? 'bg-[#5ed29c] text-black shadow-lg shadow-[#5ed29c]/20' : 'text-white/40 hover:text-white/60'}`}
-          >
-            <ListIcon size={14} /> Browse All
-          </button>
-        </div>
-      </div>
+      )}
 
       {/* Search and Filter Row */}
-      <div className="flex flex-col xl:flex-row gap-6 items-center justify-between">
+      {showFilters && (
+        <div className="flex flex-col xl:flex-row gap-6 items-center justify-between">
         <div className="relative w-full xl:w-96 group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-[#5ed29c] transition-colors" size={18} />
           <input 
@@ -258,7 +272,7 @@ export const QuestionBank: React.FC = () => {
             ))}
           </div>
         </div>
-      </div>
+      )}
 
       {/* Content Area */}
       <div className="min-h-[500px]">
