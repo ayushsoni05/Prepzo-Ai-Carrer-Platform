@@ -272,6 +272,7 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({
             ))}
           </div>
         </div>
+      </div>
       )}
 
       {/* Content Area */}

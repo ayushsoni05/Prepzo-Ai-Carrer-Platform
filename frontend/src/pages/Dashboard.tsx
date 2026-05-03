@@ -27,16 +27,12 @@ import {
   BookOpen,
   Search,
   Layers,
-  ListChecks,
-  Layout,
-  FileCode,
-  Check
+  FileCode
 } from 'lucide-react';
 import { type Job } from '@/api/jobs';
 import { showSuccess, showError, showInfo } from '@/utils/toastManager';
 import { jsPDF } from 'jspdf';
 import { exportToDocx } from '@/utils/docxExporter';
-import { saveAs } from 'file-saver';
 import { GlassButton, GlassCard } from '@/components/ui/GlassCard';
 import { CircularProgress, SkillBar } from '@/components/ui/CircularProgress';
 import { SearchableDropdown } from '@/components/ui/SearchableDropdown';
@@ -132,7 +128,8 @@ export function Dashboard() {
     resumeGenerationLoading,
     generateResume,
     setShowFullRecommendations,
-    setGlobalLoading
+    setGlobalLoading,
+    autofillResumeText
   } = useAppStore();
   const [startAssessment, setStartAssessment] = useState<false | 'field' | 'skills'>(false);
   const [resumeTextInput, setResumeTextInput] = useState('');
