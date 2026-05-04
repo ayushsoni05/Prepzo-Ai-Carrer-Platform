@@ -156,10 +156,14 @@ export function Dashboard() {
   useEffect(() => {
     const initializeDashboard = async () => {
       try {
-        await Promise.all([
-          uploadApi.getResumeInfo().then(setResumeInfo).catch(() => setResumeInfo(null)),
-          loadResumeAnalysisFromBackend()
-        ]);
+        // Only call protected endpoints if the user has a valid auth token
+        const token = localStorage.getItem('prepzo-token');
+        if (token && token !== 'null' && token !== 'undefined') {
+          await Promise.all([
+            uploadApi.getResumeInfo().then(setResumeInfo).catch(() => setResumeInfo(null)),
+            loadResumeAnalysisFromBackend()
+          ]);
+        }
       } finally {
         setGlobalLoading(false);
       }

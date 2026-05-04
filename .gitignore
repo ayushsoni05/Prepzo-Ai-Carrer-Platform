@@ -72,8 +72,9 @@ backend/out.txt
 backend/out2.txt
 
 # Uploads and temporary data
-!uploads/Notes/
-uploads/
+uploads/*
+!uploads/notes/
+!uploads/notes/**
 backend/uploads/
 /data/
 /ai-service/data/

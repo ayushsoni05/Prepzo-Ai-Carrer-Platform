@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import fs from 'fs';
 import dotenv from 'dotenv';
 import path from 'path';
 import cookieParser from 'cookie-parser';
@@ -141,13 +142,31 @@ app.use('/api', generalLimiter);
 // Dynamic rate limiting
 app.use(dynamicRateLimiter);
 
-// Serve static files for uploaded resumes and study notes (from project root)
+// Serve static files for uploaded resumes and study notes
+// Try multiple paths to handle different deployment environments (local dev vs Render)
+const uploadsPathFromSrc = path.join(__dirname, '../../uploads');
+const uploadsPathFromCwd = path.join(process.cwd(), '../uploads');
+const uploadsPathFromCwdDirect = path.join(process.cwd(), 'uploads');
+
+// Determine which uploads path actually exists
+let resolvedUploadsPath = uploadsPathFromSrc; // default
+if (fs.existsSync(uploadsPathFromSrc)) {
+  resolvedUploadsPath = uploadsPathFromSrc;
+} else if (fs.existsSync(uploadsPathFromCwd)) {
+  resolvedUploadsPath = uploadsPathFromCwd;
+} else if (fs.existsSync(uploadsPathFromCwdDirect)) {
+  resolvedUploadsPath = uploadsPathFromCwdDirect;
+}
+console.log(`📁 Serving static uploads from: ${resolvedUploadsPath} (exists: ${fs.existsSync(resolvedUploadsPath)})`);
+
 app.use('/uploads', (req, res, next) => {
   // Add security headers for file downloads
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('Content-Disposition', 'inline');
+  // Add CORS headers for PDF.js to load PDFs cross-origin
+  res.setHeader('Access-Control-Allow-Origin', '*');
   next();
-}, express.static(path.join(__dirname, '../../uploads')));
+}, express.static(resolvedUploadsPath));
 
 // Health check route
 app.get('/api/health', (req, res) => {

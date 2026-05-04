@@ -31,6 +31,7 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
   const [activeColor, setActiveColor] = useState('#ffff00');
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -40,13 +41,20 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
     const loadPdf = async () => {
       try {
         setLoading(true);
+        setLoadError(null);
         const loadingTask = pdfjs.getDocument(url);
         const pdfDoc = await loadingTask.promise;
         setPdf(pdfDoc);
         setNumPages(pdfDoc.numPages);
         setLoading(false);
-      } catch (err) {
+      } catch (err: any) {
         console.error('Error loading PDF:', err);
+        const errorMsg = err?.message || 'Unknown error';
+        if (errorMsg.includes('Missing PDF') || errorMsg.includes('404') || err?.name === 'MissingPDFException') {
+          setLoadError('This PDF study material is currently unavailable on the server. It may still be uploading or the server is being updated.');
+        } else {
+          setLoadError(`Failed to load PDF: ${errorMsg}`);
+        }
         setLoading(false);
       }
     };
@@ -151,7 +159,35 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
 
   return (
     <div className="flex flex-col h-full bg-[#0a0c10] rounded-[32px] border border-white/5 overflow-hidden">
-      {/* Toolbar */}
+      {/* Error State */}
+      {loadError && (
+        <div className="flex-1 flex flex-col items-center justify-center p-12 text-center">
+          <div className="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-6">
+            <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.072 16.5c-.77.833.192 2.5 1.732 2.5z" /></svg>
+          </div>
+          <h3 className="text-xl font-[900] text-white mb-3 uppercase tracking-widest italic">PDF Unavailable</h3>
+          <p className="text-white/40 mb-8 max-w-md italic text-sm leading-relaxed">{loadError}</p>
+          <div className="flex gap-4">
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-blue-500/20 transition-all"
+            >
+              Try Direct Link
+            </a>
+            <button
+              onClick={() => { window.location.hash = 'notes'; }}
+              className="px-6 py-3 bg-white/5 border border-white/10 text-white/60 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-white/10 transition-all"
+            >
+              Back to Library
+            </button>
+          </div>
+        </div>
+      )}
+      {/* Toolbar - only show when no error */}
+      {!loadError && (
+      <>
       <div className="flex items-center justify-between px-6 py-4 bg-black/40 border-b border-white/5 backdrop-blur-xl">
         <div className="flex items-center gap-4">
           <div className="flex bg-white/5 rounded-xl p-1">
@@ -284,6 +320,8 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
           )}
         </div>
       </div>
+      </>
+      )}
     </div>
   );
 };
