@@ -37,10 +37,14 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
   const [isSaving, setIsSaving] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
 
-  // Animation and custom cursor states
+  // Animation, cursor, and drawing states
   const [isFlipping, setIsFlipping] = useState(false);
   const [flipDirection, setFlipDirection] = useState<'next' | 'prev'>('next');
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [startPos, setStartPos] = useState({ x: 0, y: 0 });
+  const [currentRect, setCurrentRect] = useState<{x: number, y: number, w: number, h: number} | null>(null);
+  const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -130,40 +134,132 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
     renderPage(currentPage, scale);
   }, [currentPage, scale, renderPage]);
 
-  // Handle Text Selection for Highlights
-  const handleMouseUp = () => {
+  const handleMouseDown = (e: React.MouseEvent) => {
     if (activeTool !== 'highlight') return;
-
-    const selection = window.getSelection();
-    if (!selection || selection.isCollapsed || selection.rangeCount === 0) return;
-
-    const range = selection.getRangeAt(0);
-    const rects = Array.from(range.getClientRects());
-    
-    if (rects.length === 0) return;
-
     const canvasRect = canvasRef.current?.getBoundingClientRect();
     if (!canvasRect) return;
 
-    const newAnnotation: Annotation = {
-      id: Math.random().toString(36).substr(2, 9),
-      type: 'highlight',
-      pageNumber: currentPage,
-      color: activeColor,
-      rects: rects.map(r => ({
-        // Store unscaled, canvas-relative coordinates
-        x1: (r.left - canvasRect.left) / scale,
-        y1: (r.top - canvasRect.top) / scale,
-        x2: (r.right - canvasRect.left) / scale,
-        y2: (r.bottom - canvasRect.top) / scale,
-        width: r.width / scale,
-        height: r.height / scale
-      })),
-      createdAt: new Date().toISOString()
-    };
+    const isOverCanvas = 
+      e.clientX >= canvasRect.left && 
+      e.clientX <= canvasRect.right && 
+      e.clientY >= canvasRect.top && 
+      e.clientY <= canvasRect.bottom;
 
-    setAnnotations(prev => [...prev, newAnnotation]);
-    selection.removeAllRanges();
+    if (isOverCanvas) {
+      setIsDrawing(true);
+      setStartPos({ x: e.clientX, y: e.clientY });
+      setCurrentRect(null);
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDrawing && activeTool === 'highlight') {
+      const x = Math.min(e.clientX, startPos.x);
+      const y = Math.min(e.clientY, startPos.y);
+      const w = Math.abs(e.clientX - startPos.x);
+      const h = Math.abs(e.clientY - startPos.y);
+      // Only show rect if dragged a minimum distance
+      if (w > 5 || h > 5) {
+        setCurrentRect({ x, y, w, h });
+      }
+    }
+  };
+
+  // Handle Text Selection, Rect Drawing, or Note Placement
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (activeTool === 'none') return;
+
+    if (activeTool === 'note') {
+      const canvasRect = canvasRef.current?.getBoundingClientRect();
+      if (!canvasRect) return;
+
+      const newAnnotation: Annotation = {
+        id: Math.random().toString(36).substr(2, 9),
+        type: 'note',
+        pageNumber: currentPage,
+        color: activeColor,
+        rects: [{
+          x1: (e.clientX - canvasRect.left) / scale,
+          y1: (e.clientY - canvasRect.top) / scale,
+          x2: (e.clientX + 200 - canvasRect.left) / scale,
+          y2: (e.clientY + 100 - canvasRect.top) / scale,
+          width: 200 / scale,
+          height: 100 / scale
+        }],
+        content: '',
+        createdAt: new Date().toISOString()
+      };
+      setAnnotations(prev => [...prev, newAnnotation]);
+      setEditingNoteId(newAnnotation.id);
+      setIsDrawing(false);
+      setCurrentRect(null);
+      return;
+    }
+
+    if (activeTool !== 'highlight') {
+      setIsDrawing(false);
+      setCurrentRect(null);
+      return;
+    }
+
+    // 1. Try text selection highlight first
+    const selection = window.getSelection();
+    if (selection && !selection.isCollapsed && selection.rangeCount > 0 && selection.toString().trim() !== '') {
+      const range = selection.getRangeAt(0);
+      const rects = Array.from(range.getClientRects());
+      
+      if (rects.length > 0) {
+        const canvasRect = canvasRef.current?.getBoundingClientRect();
+        if (canvasRect) {
+          const newAnnotation: Annotation = {
+            id: Math.random().toString(36).substr(2, 9),
+            type: 'highlight',
+            pageNumber: currentPage,
+            color: activeColor,
+            rects: rects.map(r => ({
+              x1: (r.left - canvasRect.left) / scale,
+              y1: (r.top - canvasRect.top) / scale,
+              x2: (r.right - canvasRect.left) / scale,
+              y2: (r.bottom - canvasRect.top) / scale,
+              width: r.width / scale,
+              height: r.height / scale
+            })),
+            createdAt: new Date().toISOString()
+          };
+          setAnnotations(prev => [...prev, newAnnotation]);
+          selection.removeAllRanges();
+          setIsDrawing(false);
+          setCurrentRect(null);
+          return;
+        }
+      }
+    }
+
+    // 2. If no text was selected, fallback to rectangular drawing
+    if (isDrawing && currentRect) {
+      const canvasRect = canvasRef.current?.getBoundingClientRect();
+      if (canvasRect) {
+        const newAnnotation: Annotation = {
+          id: Math.random().toString(36).substr(2, 9),
+          type: 'highlight',
+          pageNumber: currentPage,
+          color: activeColor,
+          rects: [{
+            x1: (currentRect.x - canvasRect.left) / scale,
+            y1: (currentRect.y - canvasRect.top) / scale,
+            x2: (currentRect.x + currentRect.w - canvasRect.left) / scale,
+            y2: (currentRect.y + currentRect.h - canvasRect.top) / scale,
+            width: currentRect.w / scale,
+            height: currentRect.h / scale
+          }],
+          createdAt: new Date().toISOString()
+        };
+        setAnnotations(prev => [...prev, newAnnotation]);
+      }
+    }
+
+    setIsDrawing(false);
+    setCurrentRect(null);
   };
 
   const handleSave = async () => {
@@ -327,7 +423,10 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
         {/* Main Viewer Area */}
         <div 
           className={`flex-1 overflow-auto bg-[#07090c] p-6 md:p-12 custom-scrollbar relative ${activeTool === 'eraser' ? 'cursor-crosshair' : activeTool === 'highlight' ? 'cursor-none' : ''}`}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
         >
         <motion.div 
           ref={containerRef} 
@@ -368,15 +467,36 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
                       top: r.y1 * scale,
                       width: r.width * scale,
                       height: r.height * scale,
-                      backgroundColor: `${anno.color}44`,
-                      borderBottom: `2px solid ${anno.color}`
+                      backgroundColor: anno.type === 'note' ? `${anno.color}dd` : `${anno.color}44`,
+                      borderBottom: anno.type === 'highlight' ? `2px solid ${anno.color}` : 'none',
+                      borderRadius: anno.type === 'note' ? '8px' : '0',
+                      boxShadow: anno.type === 'note' ? '0 10px 30px rgba(0,0,0,0.3)' : 'none',
+                      padding: anno.type === 'note' ? '12px' : '0',
                     }}
                   >
+                    {anno.type === 'note' && (
+                      <div className="w-full h-full flex flex-col pointer-events-auto">
+                        <textarea
+                          autoFocus={editingNoteId === anno.id}
+                          value={anno.content}
+                          onChange={(e) => {
+                            const newContent = e.target.value;
+                            setAnnotations(prev => prev.map(a => a.id === anno.id ? { ...a, content: newContent } : a));
+                          }}
+                          onBlur={() => setEditingNoteId(null)}
+                          className="w-full h-full bg-transparent border-none outline-none text-black text-[10px] font-medium placeholder:text-black/30 resize-none"
+                          placeholder="Type your note here..."
+                        />
+                      </div>
+                    )}
                     <button 
-                      onClick={() => removeAnnotation(anno.id)}
-                      className="absolute -top-6 left-0 opacity-0 group-hover:opacity-100 transition-opacity bg-red-500 text-white p-1 rounded hover:scale-110"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeAnnotation(anno.id);
+                      }}
+                      className="absolute -top-3 -right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-red-500 text-white p-1 rounded-full hover:scale-110 shadow-lg"
                     >
-                      <Trash2 size={12} />
+                      <Trash2 size={10} />
                     </button>
                   </div>
                 ))}
@@ -388,10 +508,10 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
         {/* Custom Highlighter Cursor */}
         {activeTool === 'highlight' && (
           <motion.div
-            className="fixed pointer-events-none z-50 drop-shadow-2xl"
+            className="fixed top-0 left-0 pointer-events-none z-[100] drop-shadow-2xl"
             animate={{
-              x: mousePos.x - 4, // Offset slightly to align tip
-              y: mousePos.y - 24
+              x: mousePos.x, // Align exactly horizontally
+              y: mousePos.y - 24 // Offset slightly vertically so tip touches mouse
             }}
             transition={{
               type: "spring",
@@ -406,6 +526,21 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
               style={{ backgroundColor: activeColor }}
             />
           </motion.div>
+        )}
+
+        {/* Temporary Drawing Rect */}
+        {currentRect && (
+          <div 
+            className="fixed pointer-events-none z-[90] rounded-sm"
+            style={{
+              left: currentRect.x,
+              top: currentRect.y,
+              width: currentRect.w,
+              height: currentRect.h,
+              backgroundColor: `${activeColor}44`,
+              border: `1px dashed ${activeColor}`
+            }}
+          />
         )}
       </div>
       
