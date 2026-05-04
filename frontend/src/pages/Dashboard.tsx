@@ -27,7 +27,9 @@ import {
   BookOpen,
   Search,
   Layers,
-  FileCode
+  FileCode,
+  TrendingUp,
+  Code
 } from 'lucide-react';
 import { type Job } from '@/api/jobs';
 import { showSuccess, showError, showInfo } from '@/utils/toastManager';
@@ -325,68 +327,188 @@ export function Dashboard() {
   };
 
   const renderHome = () => (
-    <div className="max-w-6xl mx-auto space-y-10 selection:bg-white selection:text-black font-rubik">
-      {/* Row 1: Welcome + Mentor */}
-      <div className="rounded-[40px] p-10 md:p-12 mb-8 bg-black border border-[#5ed29c]/20 shadow-2xl relative overflow-hidden group">
-        <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none transform group-hover:scale-110 duration-700">
-          <Bot size={150} />
+    <div className="max-w-7xl mx-auto space-y-10 selection:bg-[#5ed29c] selection:text-black font-rubik pb-20">
+      {/* Row 1: Fancy Welcome Card */}
+      <div className="relative rounded-[40px] p-8 md:p-14 mb-8 bg-black border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden group">
+        {/* Background Grid Beam */}
+        <div className="absolute inset-0 z-0 opacity-20 group-hover:opacity-30 transition-opacity duration-1000">
+           <GridBeam className="w-full h-full" />
         </div>
+        
+        {/* Animated Background Glow */}
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#5ed29c]/10 blur-[100px] rounded-full animate-pulse" />
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-500/5 blur-[100px] rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
+
         <div className="relative z-10">
-          <p className="text-[10px] font-[900] uppercase tracking-[0.5em] text-[#5ed29c] mb-6">Career Cockpit</p>
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#5ed29c]" />
+            <p className="text-[10px] font-black uppercase tracking-[0.6em] text-[#5ed29c]">Career Command Center</p>
+          </div>
+
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-12">
             <div className="max-w-3xl">
-              <h1 className="text-4xl md:text-7xl font-[900] text-white uppercase tracking-tighter leading-[0.8] italic mb-8">
+              <h1 className="text-5xl md:text-8xl font-[900] text-white uppercase tracking-tighter leading-[0.75] italic mb-8">
                 Welcome back,<br/>
-                <span className="text-white/20">{user?.fullName?.split(' ')[0] || 'there'}.</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/10">{user?.fullName?.split(' ')[0] || 'there'}.</span>
               </h1>
-              <p className="text-[16px] font-medium tracking-tight leading-relaxed text-white/40 max-w-xl italic">
-                Prepzo has synchronized your AI mentor, readiness scores, and placement signals into this command center.
-              </p>
+              
+              <div className="flex flex-wrap items-center gap-6">
+                <p className="text-[16px] font-medium tracking-tight leading-relaxed text-white/40 max-w-md italic">
+                  Your AI mentor is standing by. All systems are calibrated for your next career jump.
+                </p>
+                <div className="h-10 w-px bg-white/10 hidden md:block" />
+                <div className="flex items-center gap-3">
+                  <div className="flex -space-x-2">
+                    {[1, 2, 3].map(i => (
+                      <div key={i} className="w-8 h-8 rounded-full border-2 border-black bg-white/5 flex items-center justify-center overflow-hidden">
+                        <img src={`https://i.pravatar.cc/150?u=${i + 10}`} alt="avatar" className="w-full h-full object-cover opacity-50" />
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest">+12 Peers active now</p>
+                </div>
+              </div>
             </div>
             
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col gap-6 items-center lg:items-end">
               <button 
                 onClick={() => setDashboardTab('assessment')}
-                className="relative h-[65px] px-10 group active:scale-95 transition-transform"
+                className="relative h-[75px] px-12 group active:scale-95 transition-transform"
               >
-                <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105 shadow-2xl shadow-[#5ed29c]/10" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105 shadow-2xl shadow-[#5ed29c]/20" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                   <path d="M0 0H184L174 65H10L0 0Z" fill="#5ed29c" />
                 </svg>
-                <span className="relative z-10 flex items-center justify-center h-full text-[#070b0a] font-[900] text-[12px] uppercase tracking-[0.2em] gap-3 italic">
-                   Continue Prep <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                <span className="relative z-10 flex items-center justify-center h-full text-[#070b0a] font-[900] text-[14px] uppercase tracking-[0.2em] gap-4 italic">
+                   System Launch <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
                 </span>
               </button>
+              
+              <div className="flex items-center gap-4 text-white/30 text-[10px] font-black uppercase tracking-widest">
+                <div className="flex items-center gap-1.5"><Zap size={12} className="text-amber-400" /> Daily Streak: 4</div>
+                <div className="w-1 h-1 rounded-full bg-white/20" />
+                <div className="flex items-center gap-1.5"><Award size={12} className="text-blue-400" /> Rank: Elite</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Row 2: Fancy Progress Tracker + Filling Space */}
       <div className="grid grid-cols-1 gap-8 xl:grid-cols-12">
-        <div className="rounded-[40px] p-10 bg-[#070b0a] border border-white/5 xl:col-span-12 shadow-2xl">
-          <div className="grid gap-12 md:grid-cols-2 items-center">
-            <div className="flex flex-col items-center justify-center gap-6">
-              <CircularProgress value={readinessScore} label="Launch score" color="purple" />
-              <div className="px-4 py-2 bg-[#5ed29c]/5 border border-[#5ed29c]/10 rounded-full">
-                 <span className="text-[10px] font-[900] text-[#5ed29c] uppercase tracking-widest italic opacity-60">Signal Calibrated High</span>
+        {/* Progress Tracker Card */}
+        <div className="rounded-[40px] p-10 bg-black/40 border border-white/5 xl:col-span-8 shadow-2xl relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 blur-[80px] rounded-full group-hover:bg-indigo-500/10 transition-colors duration-1000" />
+          
+          <div className="relative z-10 flex flex-col md:flex-row items-center gap-14">
+            <div className="flex flex-col items-center justify-center gap-8 min-w-[200px]">
+              <CircularProgress value={readinessScore} label="AI Readiness" color="purple" />
+              <div className="flex flex-col items-center gap-2">
+                <div className="px-5 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full flex items-center gap-2">
+                  <ShieldCheck size={14} className="text-purple-400" />
+                  <span className="text-[10px] font-black text-purple-400 uppercase tracking-[0.2em] italic">Validated Score</span>
+                </div>
+                <p className="text-[10px] font-bold text-white/20 uppercase">Last updated: 2h ago</p>
               </div>
             </div>
-            <div className="space-y-8">
-              <div>
-                <p className="text-[11px] font-[900] uppercase tracking-[0.4em] text-white/20 mb-2 italic">Signals</p>
-                <h3 className="text-3xl font-[900] text-white uppercase italic tracking-tighter">Progress Tracker</h3>
+
+            <div className="flex-1 w-full space-y-10">
+              <div className="flex items-end justify-between border-b border-white/5 pb-6">
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#5ed29c] mb-2 italic">Performance Matrix</p>
+                  <h3 className="text-4xl font-[900] text-white uppercase italic tracking-tighter">Skill Signals</h3>
+                </div>
+                <div className="text-right hidden sm:block">
+                  <p className="text-[10px] font-black text-white/20 uppercase tracking-widest">Global Percentile</p>
+                  <p className="text-2xl font-[900] text-white italic tracking-tighter">Top 4%</p>
+                </div>
               </div>
-              <div className="space-y-6">
+
+              <div className="grid gap-x-12 gap-y-8 sm:grid-cols-2">
                 {skillBars.map((item, index) => (
-                  <SkillBar key={item.skill} skill={item.skill} level={item.level} delay={index * 0.08} />
+                  <SkillBar key={item.skill} skill={item.skill} level={item.level} delay={index * 0.1} />
                 ))}
               </div>
             </div>
           </div>
         </div>
+
+        {/* Filling Space: Quick Engagement Widget */}
+        <div className="xl:col-span-4 space-y-8">
+          <div className="rounded-[40px] p-8 bg-[#0a0a0a] border border-white/5 shadow-2xl relative overflow-hidden group hover:border-[#5ed29c]/30 transition-colors duration-500 h-full">
+             <div className="absolute -bottom-10 -right-10 opacity-5 group-hover:opacity-10 transition-opacity">
+                <Sparkles size={160} className="text-[#5ed29c]" />
+             </div>
+             
+             <div className="relative z-10 space-y-6">
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 italic">AI Next Steps</p>
+                <h4 className="text-2xl font-[900] text-white uppercase italic tracking-tighter leading-none">Your Daily <span className="text-[#5ed29c]">Missions.</span></h4>
+                
+                <div className="space-y-4 pt-4">
+                  {[
+                    { label: "Update Resume keywords", sub: "Matches 82% of target jobs", done: false, icon: FileText },
+                    { label: "AI Interview Warmup", sub: "15 min spoken practice", done: true, icon: Mic },
+                    { label: "Skill Assessment: Node.js", sub: "Level up your backend signal", done: false, icon: Code }
+                  ].map((task, i) => (
+                    <div key={i} className={`p-4 rounded-3xl border transition-all ${task.done ? 'bg-[#5ed29c]/5 border-[#5ed29c]/20 opacity-50' : 'bg-white/5 border-white/5 hover:bg-white/10'}`}>
+                      <div className="flex items-center gap-4">
+                        <div className={`p-2 rounded-xl ${task.done ? 'bg-[#5ed29c]/20' : 'bg-white/5'}`}>
+                           {task.done ? <CheckCircle2 size={16} className="text-[#5ed29c]" /> : <task.icon size={16} className="text-white/40" />}
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-[11px] font-black text-white uppercase tracking-wider">{task.label}</p>
+                          <p className="text-[9px] font-bold text-white/30 uppercase tracking-widest italic">{task.sub}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <button className="w-full py-4 bg-white/5 hover:bg-white/10 rounded-2xl border border-white/5 transition-all text-[10px] font-black uppercase tracking-[0.2em] text-white/40 hover:text-white">
+                  View All Missions
+                </button>
+             </div>
+          </div>
+        </div>
       </div>
 
-      <div id="ai-insights" className="mt-8">
+      <div id="ai-insights" className="mt-12">
          <QuickInsightsWidget onViewFull={() => setShowFullRecommendations(true)} />
+      </div>
+
+      {/* Row 3: More fancy widgets to fill space */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+        <div className="p-8 rounded-[40px] bg-black border border-white/5 relative overflow-hidden group hover:bg-gradient-to-br hover:from-black hover:to-indigo-900/20 transition-all duration-700">
+          <div className="absolute top-0 right-0 p-8 opacity-10">
+            <Target size={40} className="text-indigo-400" />
+          </div>
+          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Target Role</p>
+          <h5 className="text-2xl font-[900] text-white uppercase italic tracking-tighter mb-4">{user?.targetRole || 'Not Set'}</h5>
+          <div className="flex items-center gap-2 text-[#5ed29c] text-[10px] font-black uppercase italic">
+            <TrendingUp size={12} /> Market Demand: High
+          </div>
+        </div>
+
+        <div className="p-8 rounded-[40px] bg-black border border-white/5 relative overflow-hidden group hover:bg-gradient-to-br hover:from-black hover:to-purple-900/20 transition-all duration-700">
+          <div className="absolute top-0 right-0 p-8 opacity-10">
+            <Activity size={40} className="text-purple-400" />
+          </div>
+          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Activity Score</p>
+          <h5 className="text-2xl font-[900] text-white uppercase italic tracking-tighter mb-4">92/100</h5>
+          <div className="flex items-center gap-2 text-purple-400 text-[10px] font-black uppercase italic">
+            <Sparkles size={12} /> Top 5% Globally
+          </div>
+        </div>
+
+        <div className="p-8 rounded-[40px] bg-black border border-white/5 relative overflow-hidden group hover:bg-gradient-to-br hover:from-black hover:to-emerald-900/20 transition-all duration-700">
+          <div className="absolute top-0 right-0 p-8 opacity-10">
+            <ShieldCheck size={40} className="text-[#5ed29c]" />
+          </div>
+          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Job Matches</p>
+          <h5 className="text-2xl font-[900] text-white uppercase italic tracking-tighter mb-4">24 New Found</h5>
+          <div className="flex items-center gap-2 text-[#5ed29c] text-[10px] font-black uppercase italic">
+            <ArrowRight size={12} /> Browse Opportunities
+          </div>
+        </div>
       </div>
 
       {/* AI Mock Interview Entry Card */}
