@@ -3,8 +3,7 @@ import { motion } from 'framer-motion';
 import { 
   ArrowLeft,
   Clock,
-  AlertCircle,
-  Maximize2
+  AlertCircle
 } from 'lucide-react';
 import { getNoteById, Note, Annotation, getNoteAnnotations, saveNoteAnnotations } from '@/api/notes';
 import { useAppStore } from '@/store/appStore';
@@ -164,30 +163,6 @@ export const NoteDetail: React.FC = () => {
         </p>
       </div>
 
-      {/* Main Action Area */}
-      {!isHtmlContent && (
-        <button
-          onClick={() => {
-            setCurrentPage('reader');
-            window.location.hash = `reader?id=${noteId}`;
-          }}
-          className="w-full relative overflow-hidden bg-gradient-to-r from-blue-500/20 to-blue-400/5 hover:from-blue-500/30 hover:to-blue-400/10 border border-blue-500/20 rounded-[40px] p-12 transition-all duration-500 group flex flex-col items-center justify-center cursor-pointer mb-8"
-        >
-          <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:32px_32px]" />
-          <div className="relative z-10 flex flex-col items-center gap-4">
-            <div className="w-20 h-20 rounded-full bg-blue-500/20 border-2 border-blue-400/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-              <Maximize2 size={32} className="text-blue-400" />
-            </div>
-            <h2 className="text-3xl font-[900] text-white italic tracking-tighter uppercase text-center">
-              Enter Pro Reading Mode
-            </h2>
-            <p className="text-blue-400/60 font-black text-[10px] uppercase tracking-[0.3em] text-center max-w-md">
-              Full screen • Advanced Highlighting • Interactive Annotations • Focus Mode
-            </p>
-          </div>
-        </button>
-      )}
-
       {/* Content Area */}
       <div className="h-[900px] w-full">
         {isHtmlContent ? (
@@ -202,6 +177,10 @@ export const NoteDetail: React.FC = () => {
             url={pdfUrl} 
             initialAnnotations={annotations} 
             onSave={handleSaveAnnotations}
+            onEnterReadingMode={() => {
+              setCurrentPage('reader');
+              window.location.hash = `reader?id=${noteId}`;
+            }}
           />
         )}
       </div>

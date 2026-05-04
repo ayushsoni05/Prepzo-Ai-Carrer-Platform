@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import * as pdfjs from 'pdfjs-dist';
 import { Annotation } from '@/api/notes';
-import { 
+import {
   Highlighter, 
   StickyNote, 
   Trash2, 
@@ -12,7 +12,7 @@ import {
   ZoomOut,
   Save,
   Eraser,
-  PenTool
+  Maximize2
 } from 'lucide-react';
 
 // Configure PDF.js worker
@@ -22,9 +22,10 @@ interface PdfViewerProps {
   url: string;
   initialAnnotations: Annotation[];
   onSave: (annotations: Annotation[]) => void;
+  onEnterReadingMode?: () => void;
 }
 
-export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, onSave }) => {
+export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, onSave, onEnterReadingMode }) => {
   const [pdf, setPdf] = useState<any>(null);
   const [numPages, setNumPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -109,7 +110,6 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
     textLayerDiv.style.position = 'absolute';
     textLayerDiv.style.top = '0';
     textLayerDiv.style.left = '0';
-    textLayerDiv.style.opacity = '0.2'; // Keep it subtle but selectable
     textLayerDiv.style.lineHeight = '1';
     
     // Remove old text layer if exists
@@ -190,6 +190,27 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
 
   return (
     <div className="flex flex-col h-full bg-[#0a0c10] rounded-[32px] border border-white/5 overflow-hidden">
+      <style>{`
+        .textLayer {
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          overflow: hidden;
+          line-height: 1.0;
+        }
+        .textLayer > span {
+          color: transparent;
+          position: absolute;
+          white-space: pre;
+          cursor: text;
+          transform-origin: 0% 0%;
+        }
+        .textLayer ::selection {
+          background: rgba(0, 0, 255, 0.2);
+        }
+      `}</style>
       {/* Error State */}
       {loadError && (
         <div className="flex-1 flex flex-col items-center justify-center p-12 text-center">
@@ -279,6 +300,15 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
             <button onClick={() => setScale(prev => Math.min(3, prev + 0.2))} className="p-2 text-white/40 hover:text-white transition-colors">
               <ZoomIn size={18} />
             </button>
+            {onEnterReadingMode && (
+              <button 
+                onClick={onEnterReadingMode} 
+                className="p-2 ml-2 text-blue-400/80 hover:text-blue-400 bg-blue-500/10 rounded-lg hover:bg-blue-500/20 transition-all"
+                title="Enter Reading Mode"
+              >
+                <Maximize2 size={16} />
+              </button>
+            )}
           </div>
 
           <button 
@@ -368,7 +398,7 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
               mass: 0.1
             }}
           >
-            <PenTool size={24} color={activeColor} strokeWidth={2.5} />
+            <Highlighter size={24} color={activeColor} strokeWidth={2.5} />
             <div 
               className="absolute top-full left-1/2 -translate-x-1/2 w-4 h-4 rounded-full mt-1 opacity-50 blur-[2px]"
               style={{ backgroundColor: activeColor }}
