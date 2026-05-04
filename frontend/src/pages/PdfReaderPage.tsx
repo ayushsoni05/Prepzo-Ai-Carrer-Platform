@@ -97,10 +97,16 @@ export const PdfReaderPage: React.FC = () => {
           <h3 className="text-xl font-[900] text-white mb-2 uppercase tracking-widest italic">Access Restricted</h3>
           <p className="text-white/30 mb-8 italic text-sm">{error || "The requested study material does not exist."}</p>
           <button 
-            onClick={() => window.close()}
+            onClick={() => {
+              if (window.history.length > 1) {
+                window.history.back();
+              } else {
+                window.location.hash = 'notes';
+              }
+            }}
             className="px-8 py-3 bg-white/5 text-white border border-white/10 font-[900] text-[10px] uppercase tracking-widest rounded-xl hover:bg-white/10 transition-all italic cursor-pointer"
           >
-            Close Tab
+            Go Back
           </button>
         </div>
       </div>
@@ -128,15 +134,21 @@ export const PdfReaderPage: React.FC = () => {
           </span>
         </div>
         <button 
-          onClick={() => window.close()}
+          onClick={() => {
+            if (window.history.length > 1) {
+              window.history.back();
+            } else {
+              window.location.hash = `note-detail?id=${noteId}`;
+            }
+          }}
           className="text-[10px] font-black text-white/40 uppercase tracking-widest italic hover:text-white transition-colors bg-transparent border-none cursor-pointer"
         >
-          Close
+          Exit Reading Mode
         </button>
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 w-full overflow-hidden p-2 md:p-6">
+      <div className="flex-1 w-full overflow-hidden">
         {isHtmlContent ? (
           <div className="bg-[#0a0c10] border border-white/5 rounded-[24px] p-8 h-full overflow-y-auto custom-scrollbar">
             <div 
