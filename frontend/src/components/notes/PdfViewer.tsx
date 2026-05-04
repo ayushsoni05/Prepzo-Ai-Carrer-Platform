@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import * as pdfjs from 'pdfjs-dist';
 import { Annotation } from '@/api/notes';
 import { 
@@ -10,7 +11,8 @@ import {
   ZoomIn,
   ZoomOut,
   Save,
-  Eraser
+  Eraser,
+  PenTool
 } from 'lucide-react';
 
 // Configure PDF.js worker
@@ -34,8 +36,22 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
   const [isSaving, setIsSaving] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
 
+  // Animation and custom cursor states
+  const [isFlipping, setIsFlipping] = useState(false);
+  const [flipDirection, setFlipDirection] = useState<'next' | 'prev'>('next');
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Track mouse for custom highlighter pen cursor
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   // Load PDF
   useEffect(() => {
@@ -82,6 +98,7 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
     };
 
     await page.render(renderContext).promise;
+    setIsFlipping(false); // Reset flip animation after render
 
     // Render Text Layer for selection
     const textContent = await page.getTextContent();
@@ -159,6 +176,18 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
     setAnnotations(prev => prev.filter(a => a.id !== id));
   };
 
+  const handlePageTurn = (direction: 'next' | 'prev') => {
+    if (direction === 'next' && currentPage >= numPages) return;
+    if (direction === 'prev' && currentPage <= 1) return;
+    
+    setFlipDirection(direction);
+    setIsFlipping(true);
+    
+    setTimeout(() => {
+      setCurrentPage(prev => direction === 'next' ? prev + 1 : prev - 1);
+    }, 150); // Change page halfway through flip
+  };
+
   return (
     <div className="flex flex-col h-full bg-[#0a0c10] rounded-[32px] border border-white/5 overflow-hidden">
       {/* Error State */}
@@ -232,13 +261,13 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
 
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl">
-            <button onClick={() => setCurrentPage(Math.max(1, currentPage - 1))} className="text-white/40 hover:text-white transition-colors">
+            <button onClick={() => handlePageTurn('prev')} className="text-white/40 hover:text-white transition-colors">
               <ChevronLeft size={18} />
             </button>
             <span className="text-[10px] font-black text-white/60 uppercase tracking-widest min-w-[80px] text-center">
               Page {currentPage} / {numPages}
             </span>
-            <button onClick={() => setCurrentPage(Math.min(numPages, currentPage + 1))} className="text-white/40 hover:text-white transition-colors">
+            <button onClick={() => handlePageTurn('next')} className="text-white/40 hover:text-white transition-colors">
               <ChevronRight size={18} />
             </button>
           </div>
@@ -265,10 +294,20 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
 
       {/* Main Viewer Area */}
       <div 
-        className={`flex-1 overflow-auto bg-[#07090c] p-12 custom-scrollbar relative ${activeTool === 'eraser' ? 'cursor-crosshair' : ''}`}
+        className={`flex-1 overflow-auto bg-[#07090c] p-12 custom-scrollbar relative ${activeTool === 'eraser' ? 'cursor-crosshair' : activeTool === 'highlight' ? 'cursor-none' : ''}`}
         onMouseUp={handleMouseUp}
       >
-        <div ref={containerRef} className="relative mx-auto bg-white shadow-2xl transition-all duration-300" style={{ width: 'fit-content' }}>
+        <motion.div 
+          ref={containerRef} 
+          className="relative mx-auto bg-white shadow-2xl transition-all duration-300 transform-gpu" 
+          style={{ width: 'fit-content' }}
+          animate={{
+            rotateY: isFlipping ? (flipDirection === 'next' ? -90 : 90) : 0,
+            opacity: isFlipping ? 0.3 : 1,
+            scale: isFlipping ? 0.95 : 1
+          }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+        >
           {loading && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-50">
               <div className="w-12 h-12 border-4 border-blue-400/20 border-t-blue-400 rounded-full animate-spin" />
@@ -312,7 +351,30 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
               </React.Fragment>
             ))}
           </div>
-        </div>
+        </motion.div>
+
+        {/* Custom Highlighter Cursor */}
+        {activeTool === 'highlight' && (
+          <motion.div
+            className="fixed pointer-events-none z-50 drop-shadow-lg mix-blend-difference"
+            animate={{
+              x: mousePos.x - 4, // Offset slightly to align tip
+              y: mousePos.y - 24
+            }}
+            transition={{
+              type: "spring",
+              damping: 30,
+              stiffness: 400,
+              mass: 0.1
+            }}
+          >
+            <PenTool size={24} color={activeColor} strokeWidth={2.5} />
+            <div 
+              className="absolute top-full left-1/2 -translate-x-1/2 w-4 h-4 rounded-full mt-1 opacity-50 blur-[2px]"
+              style={{ backgroundColor: activeColor }}
+            />
+          </motion.div>
+        )}
       </div>
       
       {/* Sidebar for Notes (Optional) */}
