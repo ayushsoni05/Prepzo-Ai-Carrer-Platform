@@ -322,11 +322,13 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
         </div>
       </div>
 
-      {/* Main Viewer Area */}
-      <div 
-        className={`flex-1 overflow-auto bg-[#07090c] p-12 custom-scrollbar relative ${activeTool === 'eraser' ? 'cursor-crosshair' : activeTool === 'highlight' ? 'cursor-none' : ''}`}
-        onMouseUp={handleMouseUp}
-      >
+      {/* Content Wrapper for Row Layout */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Main Viewer Area */}
+        <div 
+          className={`flex-1 overflow-auto bg-[#07090c] p-6 md:p-12 custom-scrollbar relative ${activeTool === 'eraser' ? 'cursor-crosshair' : activeTool === 'highlight' ? 'cursor-none' : ''}`}
+          onMouseUp={handleMouseUp}
+        >
         <motion.div 
           ref={containerRef} 
           className="relative mx-auto bg-white shadow-2xl transition-all duration-300 transform-gpu" 
@@ -386,7 +388,7 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
         {/* Custom Highlighter Cursor */}
         {activeTool === 'highlight' && (
           <motion.div
-            className="fixed pointer-events-none z-50 drop-shadow-lg mix-blend-difference"
+            className="fixed pointer-events-none z-50 drop-shadow-2xl"
             animate={{
               x: mousePos.x - 4, // Offset slightly to align tip
               y: mousePos.y - 24
@@ -430,6 +432,7 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
             ))
           )}
         </div>
+      </div>
       </div>
       </>
       )}
