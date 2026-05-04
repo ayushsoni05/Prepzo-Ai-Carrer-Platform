@@ -9,7 +9,8 @@ import {
   ChevronRight,
   ZoomIn,
   ZoomOut,
-  Save
+  Save,
+  Eraser
 } from 'lucide-react';
 
 // Configure PDF.js worker
@@ -27,7 +28,7 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
   const [currentPage, setCurrentPage] = useState(1);
   const [scale, setScale] = useState(1.5);
   const [annotations, setAnnotations] = useState<Annotation[]>(initialAnnotations);
-  const [activeTool, setActiveTool] = useState<'none' | 'highlight' | 'note'>('none');
+  const [activeTool, setActiveTool] = useState<'none' | 'highlight' | 'note' | 'eraser'>('none');
   const [activeColor, setActiveColor] = useState('#ffff00');
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -124,8 +125,8 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
     
     if (rects.length === 0) return;
 
-    const containerRect = containerRef.current?.getBoundingClientRect();
-    if (!containerRect) return;
+    const canvasRect = canvasRef.current?.getBoundingClientRect();
+    if (!canvasRect) return;
 
     const newAnnotation: Annotation = {
       id: Math.random().toString(36).substr(2, 9),
@@ -133,12 +134,13 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
       pageNumber: currentPage,
       color: activeColor,
       rects: rects.map(r => ({
-        x1: r.left - containerRect.left,
-        y1: r.top - containerRect.top,
-        x2: r.right - containerRect.left,
-        y2: r.bottom - containerRect.top,
-        width: r.width,
-        height: r.height
+        // Store unscaled, canvas-relative coordinates
+        x1: (r.left - canvasRect.left) / scale,
+        y1: (r.top - canvasRect.top) / scale,
+        x2: (r.right - canvasRect.left) / scale,
+        y2: (r.bottom - canvasRect.top) / scale,
+        width: r.width / scale,
+        height: r.height / scale
       })),
       createdAt: new Date().toISOString()
     };
@@ -199,6 +201,13 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
               <Highlighter size={18} />
             </button>
             <button 
+              onClick={() => setActiveTool(activeTool === 'eraser' ? 'none' : 'eraser')}
+              className={`p-2 rounded-lg transition-all ${activeTool === 'eraser' ? 'bg-red-400 text-black shadow-lg' : 'text-white/40 hover:text-white'}`}
+              title="Eraser Tool"
+            >
+              <Eraser size={18} />
+            </button>
+            <button 
               onClick={() => setActiveTool(activeTool === 'note' ? 'none' : 'note')}
               className={`p-2 rounded-lg transition-all ${activeTool === 'note' ? 'bg-blue-400 text-black shadow-lg' : 'text-white/40 hover:text-white'}`}
               title="Sticky Note Tool"
@@ -255,7 +264,10 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
       </div>
 
       {/* Main Viewer Area */}
-      <div className="flex-1 overflow-auto bg-[#07090c] p-12 custom-scrollbar relative" onMouseUp={handleMouseUp}>
+      <div 
+        className={`flex-1 overflow-auto bg-[#07090c] p-12 custom-scrollbar relative ${activeTool === 'eraser' ? 'cursor-crosshair' : ''}`}
+        onMouseUp={handleMouseUp}
+      >
         <div ref={containerRef} className="relative mx-auto bg-white shadow-2xl transition-all duration-300" style={{ width: 'fit-content' }}>
           {loading && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/50 z-50">
@@ -272,12 +284,19 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
                 {anno.rects.map((r, i) => (
                   <div 
                     key={i}
-                    className="absolute pointer-events-auto cursor-pointer group"
+                    onClick={(e) => {
+                      if (activeTool === 'eraser') {
+                        e.stopPropagation();
+                        removeAnnotation(anno.id);
+                      }
+                    }}
+                    className={`absolute pointer-events-auto ${activeTool === 'eraser' ? 'cursor-crosshair hover:bg-red-500/20' : 'cursor-pointer'} group`}
                     style={{
-                      left: r.x1,
-                      top: r.y1,
-                      width: r.width,
-                      height: r.height,
+                      // Re-scale coordinates for display
+                      left: r.x1 * scale,
+                      top: r.y1 * scale,
+                      width: r.width * scale,
+                      height: r.height * scale,
                       backgroundColor: `${anno.color}44`,
                       borderBottom: `2px solid ${anno.color}`
                     }}

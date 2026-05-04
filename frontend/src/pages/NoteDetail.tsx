@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { 
   ArrowLeft,
   Clock,
-  AlertCircle
+  AlertCircle,
+  Maximize2
 } from 'lucide-react';
 import { getNoteById, Note, Annotation, getNoteAnnotations, saveNoteAnnotations } from '@/api/notes';
 import { useAppStore } from '@/store/appStore';
@@ -122,6 +123,15 @@ export const NoteDetail: React.FC = () => {
           className="inline-flex items-center gap-2 text-[10px] font-black text-white/40 uppercase tracking-widest italic hover:text-blue-400 transition-colors cursor-pointer bg-transparent border-none"
         >
           <ArrowLeft size={14} /> Back to Library
+        </button>
+
+        <button 
+          onClick={() => {
+            window.open(`/#reader?id=${noteId}`, '_blank');
+          }}
+          className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-blue-500/20 transition-all cursor-pointer"
+        >
+          <Maximize2 size={14} /> Reading Mode
         </button>
       </div>
 

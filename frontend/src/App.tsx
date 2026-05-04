@@ -25,15 +25,18 @@ import { GridBeam } from '@/components/ui/background-grid-beam';
 import { NotesLibrary } from '@/pages/NotesLibrary';
 import { NoteDetail } from '@/pages/NoteDetail';
 import { NotFound } from '@/components/ui/not-found-2';
+import { PdfReaderPage } from '@/pages/PdfReaderPage';
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | '404';
 
 // Get initial page from URL hash or default to 'landing'
 const getPageFromHash = (): Page => {
   const hash = window.location.hash.slice(1);
   if (!hash) return 'landing';
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank'];
-  return validPages.includes(hash as Page) ? (hash as Page) : '404';
+  // Allow parameters in hash like #reader?id=123
+  const pageName = hash.split('?')[0];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader'];
+  return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 
 export default function App() {
@@ -93,7 +96,7 @@ export default function App() {
     
     const initializeAuth = async () => {
       // Only validate session if user is trying to access a protected page
-      const protectedPages = ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank'];
+      const protectedPages = ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
       // Safety check: if we think we're authenticated but have no token, sync state
@@ -233,7 +236,8 @@ export default function App() {
         'ai-interview',
         'notes',
         'note-detail',
-        'question-bank'
+        'question-bank',
+        'reader'
       ].includes(currentPage)) {
         handleNavigate('landing');
       }
@@ -374,6 +378,7 @@ export default function App() {
         {currentPage === 'onboarding' && <OnboardingPage onNavigate={handleNavigate} />}
         {currentPage === 'tetris-demo' && <TetrisDemo />}
         {currentPage === 'tailwind-awesome' && <TailwindAwesomeDemo />}
+        {currentPage === 'reader' && <PdfReaderPage />}
         {currentPage === '404' && <NotFound onNavigate={handleNavigate} />}
       </div>
 
