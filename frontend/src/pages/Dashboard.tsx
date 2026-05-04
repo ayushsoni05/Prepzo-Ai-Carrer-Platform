@@ -255,11 +255,49 @@ export function Dashboard() {
   const interviewSuccess = resumeAnalysis?.interviewSuccess;
   const scoreSimulation = resumeAnalysis?.scoreSimulation;
   const rewriteLines = resumeAnalysis?.resumeRewrite?.beforeAfterPairs || resumeAnalysis?.improvedLines || [];
-  const atsTrend = (atsHistory || []).slice(0, 8).reverse();
-
   const isFieldComplete = !!user?.isFieldTestComplete;
   const isSkillComplete = !!user?.isSkillTestComplete;
   const isFullyQualified = isFieldComplete && isSkillComplete;
+  const atsTrend = (atsHistory || []).slice(0, 8).reverse();
+
+  // Calculate real metrics for "fancy things"
+  const dailyStreak = useMemo(() => {
+    if (!atsHistory || atsHistory.length === 0) return 1;
+    // Simple logic: count unique days in history
+    const days = new Set(atsHistory.map(h => new Date(h.analyzedAt).toDateString()));
+    return Math.max(1, days.size);
+  }, [atsHistory]);
+
+  const activityScore = useMemo(() => {
+    const base = readinessScore * 0.8;
+    const momentum = Math.min(20, (atsHistory?.length || 0) * 2);
+    return Math.min(100, Math.round(base + momentum));
+  }, [readinessScore, atsHistory]);
+
+  const globalPercentile = ranking?.percentile || Math.round(readinessScore / 1.1);
+
+  const missions = useMemo(() => {
+    const baseMissions = [
+      { label: "AI Interview Warmup", sub: "15 min spoken practice", done: !!user?.interviewScore, icon: Mic, type: 'interview' },
+    ];
+
+    if (resumeAnalysis?.improvementPlan) {
+      const planMissions = resumeAnalysis.improvementPlan.slice(0, 2).map(plan => ({
+        label: plan.action,
+        sub: `Impact: ${plan.impact} | ${plan.timeToComplete}`,
+        done: false,
+        icon: Sparkles,
+        type: 'improvement'
+      }));
+      return [...planMissions, ...baseMissions];
+    }
+
+    return [
+      { label: "Update Resume keywords", sub: "Matches target job signals", done: false, icon: FileText, type: 'resume' },
+      ...baseMissions,
+      { label: "Complete Skill Assessment", sub: "Level up your signal", done: isSkillComplete, icon: Code, type: 'assessment' }
+    ];
+  }, [resumeAnalysis, user, isSkillComplete]);
 
   // Force assessment tab if not qualified
   useEffect(() => {
@@ -384,9 +422,9 @@ export function Dashboard() {
               </button>
               
               <div className="flex items-center gap-4 text-white/30 text-[10px] font-black uppercase tracking-widest">
-                <div className="flex items-center gap-1.5"><Zap size={12} className="text-amber-400" /> Daily Streak: 4</div>
+                <div className="flex items-center gap-1.5"><Zap size={12} className="text-amber-400" /> Daily Streak: {dailyStreak}</div>
                 <div className="w-1 h-1 rounded-full bg-white/20" />
-                <div className="flex items-center gap-1.5"><Award size={12} className="text-blue-400" /> Rank: Elite</div>
+                <div className="flex items-center gap-1.5"><Award size={12} className="text-blue-400" /> Rank: {readinessScore > 80 ? 'Elite' : readinessScore > 60 ? 'Pro' : 'Rising'}</div>
               </div>
             </div>
           </div>
@@ -407,7 +445,7 @@ export function Dashboard() {
                   <ShieldCheck size={14} className="text-purple-400" />
                   <span className="text-[10px] font-black text-purple-400 uppercase tracking-[0.2em] italic">Validated Score</span>
                 </div>
-                <p className="text-[10px] font-bold text-white/20 uppercase">Last updated: 2h ago</p>
+                <p className="text-[10px] font-bold text-white/20 uppercase">Last updated: {resumeAnalysis?.analyzedAt ? new Date(resumeAnalysis.analyzedAt).toLocaleDateString() : 'Just now'}</p>
               </div>
             </div>
 
@@ -419,7 +457,7 @@ export function Dashboard() {
                 </div>
                 <div className="text-right hidden sm:block">
                   <p className="text-[10px] font-black text-white/20 uppercase tracking-widest">Global Percentile</p>
-                  <p className="text-2xl font-[900] text-white italic tracking-tighter">Top 4%</p>
+                  <p className="text-2xl font-[900] text-white italic tracking-tighter">Top {100 - globalPercentile}%</p>
                 </div>
               </div>
 
@@ -444,18 +482,14 @@ export function Dashboard() {
                 <h4 className="text-2xl font-[900] text-white uppercase italic tracking-tighter leading-none">Your Daily <span className="text-[#5ed29c]">Missions.</span></h4>
                 
                 <div className="space-y-4 pt-4">
-                  {[
-                    { label: "Update Resume keywords", sub: "Matches 82% of target jobs", done: false, icon: FileText },
-                    { label: "AI Interview Warmup", sub: "15 min spoken practice", done: true, icon: Mic },
-                    { label: "Skill Assessment: Node.js", sub: "Level up your backend signal", done: false, icon: Code }
-                  ].map((task, i) => (
+                  {missions.map((task, i) => (
                     <div key={i} className={`p-4 rounded-3xl border transition-all ${task.done ? 'bg-[#5ed29c]/5 border-[#5ed29c]/20 opacity-50' : 'bg-white/5 border-white/5 hover:bg-white/10'}`}>
                       <div className="flex items-center gap-4">
                         <div className={`p-2 rounded-xl ${task.done ? 'bg-[#5ed29c]/20' : 'bg-white/5'}`}>
                            {task.done ? <CheckCircle2 size={16} className="text-[#5ed29c]" /> : <task.icon size={16} className="text-white/40" />}
                         </div>
                         <div className="flex-1">
-                          <p className="text-[11px] font-black text-white uppercase tracking-wider">{task.label}</p>
+                          <p className="text-[11px] font-black text-white uppercase tracking-wider line-clamp-1">{task.label}</p>
                           <p className="text-[9px] font-bold text-white/30 uppercase tracking-widest italic">{task.sub}</p>
                         </div>
                       </div>
@@ -463,11 +497,48 @@ export function Dashboard() {
                   ))}
                 </div>
 
-                <button className="w-full py-4 bg-white/5 hover:bg-white/10 rounded-2xl border border-white/5 transition-all text-[10px] font-black uppercase tracking-[0.2em] text-white/40 hover:text-white">
+                <button 
+                  onClick={() => setShowFullRecommendations(true)}
+                  className="w-full py-4 bg-white/5 hover:bg-white/10 rounded-2xl border border-white/5 transition-all text-[10px] font-black uppercase tracking-[0.2em] text-white/40 hover:text-white"
+                >
                   View All Missions
                 </button>
              </div>
           </div>
+
+          {/* New Fancy Thing: Career Roadmap Preview */}
+          {resumeAnalysis?.careerRoadmap?.milestones?.length ? (
+            <div className="rounded-[40px] p-8 bg-black border border-white/5 shadow-2xl relative overflow-hidden group">
+               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-[40px] rounded-full" />
+               <div className="relative z-10 space-y-6">
+                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-400/60 italic">Strategic Roadmap</p>
+                  <h4 className="text-xl font-[900] text-white uppercase italic tracking-tighter leading-none">Your Path to <span className="text-blue-400">Success.</span></h4>
+                  
+                  <div className="space-y-6 relative before:absolute before:left-2 before:top-2 before:bottom-2 before:w-px before:bg-white/5">
+                    {resumeAnalysis.careerRoadmap.milestones.slice(0, 3).map((ms, i) => (
+                      <div key={i} className="relative pl-8 group/ms">
+                        <div className="absolute left-0 top-1 w-4 h-4 rounded-full border-2 border-white/10 bg-black flex items-center justify-center group-hover/ms:border-blue-400 transition-colors">
+                           <div className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover/ms:bg-blue-400" />
+                        </div>
+                        <p className="text-[9px] font-black text-blue-400 uppercase tracking-[0.2em] mb-1">{ms.week}</p>
+                        <p className="text-[11px] font-bold text-white tracking-tight leading-tight">{ms.goal}</p>
+                        <p className="text-[9px] font-bold text-white/20 uppercase tracking-widest mt-1 italic">{ms.output}</p>
+                      </div>
+                    ))}
+                  </div>
+               </div>
+            </div>
+          ) : (
+             <div className="rounded-[40px] p-8 bg-black border border-white/5 shadow-2xl flex flex-col items-center justify-center text-center gap-4 py-12">
+                <div className="p-4 bg-white/5 rounded-full">
+                   <Target size={32} className="text-white/20" />
+                </div>
+                <div>
+                   <p className="text-[11px] font-black text-white/40 uppercase tracking-widest italic">Roadmap Locked</p>
+                   <p className="text-[9px] font-bold text-white/20 uppercase tracking-widest mt-1">Complete AI Analysis to generate path</p>
+                </div>
+             </div>
+          )}
         </div>
       </div>
 
@@ -482,9 +553,9 @@ export function Dashboard() {
             <Target size={40} className="text-indigo-400" />
           </div>
           <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Target Role</p>
-          <h5 className="text-2xl font-[900] text-white uppercase italic tracking-tighter mb-4">{user?.targetRole || 'Not Set'}</h5>
+          <h5 className="text-2xl font-[900] text-white uppercase italic tracking-tighter mb-4">{user?.targetRole || resumeAnalysis?.roleContext?.targetRole || 'Not Set'}</h5>
           <div className="flex items-center gap-2 text-[#5ed29c] text-[10px] font-black uppercase italic">
-            <TrendingUp size={12} /> Market Demand: High
+            <TrendingUp size={12} /> Market Demand: {readinessScore > 70 ? 'High' : 'Stable'}
           </div>
         </div>
 
@@ -493,9 +564,9 @@ export function Dashboard() {
             <Activity size={40} className="text-purple-400" />
           </div>
           <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Activity Score</p>
-          <h5 className="text-2xl font-[900] text-white uppercase italic tracking-tighter mb-4">92/100</h5>
+          <h5 className="text-2xl font-[900] text-white uppercase italic tracking-tighter mb-4">{activityScore}/100</h5>
           <div className="flex items-center gap-2 text-purple-400 text-[10px] font-black uppercase italic">
-            <Sparkles size={12} /> Top 5% Globally
+            <Sparkles size={12} /> Top {100 - globalPercentile}% Globally
           </div>
         </div>
 
@@ -504,7 +575,7 @@ export function Dashboard() {
             <ShieldCheck size={40} className="text-[#5ed29c]" />
           </div>
           <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Job Matches</p>
-          <h5 className="text-2xl font-[900] text-white uppercase italic tracking-tighter mb-4">24 New Found</h5>
+          <h5 className="text-2xl font-[900] text-white uppercase italic tracking-tighter mb-4">{dashboardJobs.length > 0 ? `${dashboardJobs.length} Matches` : 'Analyzing Jobs...'}</h5>
           <div className="flex items-center gap-2 text-[#5ed29c] text-[10px] font-black uppercase italic">
             <ArrowRight size={12} /> Browse Opportunities
           </div>

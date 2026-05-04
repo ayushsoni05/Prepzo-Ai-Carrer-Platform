@@ -197,7 +197,7 @@ interface AppState {
 
 export const useAppStore = create<AppState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       darkMode: true,
       currentPage: 'landing',
       dashboardTab: 'home',
