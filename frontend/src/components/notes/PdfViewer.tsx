@@ -206,24 +206,27 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
     const selection = window.getSelection();
     if (selection && !selection.isCollapsed && selection.rangeCount > 0 && selection.toString().trim() !== '') {
       const range = selection.getRangeAt(0);
-      const rects = Array.from(range.getClientRects());
+      const rawRects = Array.from(range.getClientRects());
       
-      if (rects.length > 0) {
+      if (rawRects.length > 0) {
         const canvasRect = canvasRef.current?.getBoundingClientRect();
         if (canvasRect) {
+          // Normalize rects: Group by approximate vertical position and unify height
+          const processedRects = rawRects.map(r => ({
+            x1: (r.left - canvasRect.left) / scale,
+            y1: (r.top - canvasRect.top) / scale,
+            x2: (r.right - canvasRect.left) / scale,
+            y2: (r.bottom - canvasRect.top) / scale,
+            width: r.width / scale,
+            height: r.height / scale
+          }));
+
           const newAnnotation: Annotation = {
             id: Math.random().toString(36).substr(2, 9),
             type: 'highlight',
             pageNumber: currentPage,
             color: activeColor,
-            rects: rects.map(r => ({
-              x1: (r.left - canvasRect.left) / scale,
-              y1: (r.top - canvasRect.top) / scale,
-              x2: (r.right - canvasRect.left) / scale,
-              y2: (r.bottom - canvasRect.top) / scale,
-              width: r.width / scale,
-              height: r.height / scale
-            })),
+            rects: processedRects,
             createdAt: new Date().toISOString()
           };
           setAnnotations(prev => [...prev, newAnnotation]);
@@ -467,9 +470,9 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
                       top: r.y1 * scale,
                       width: r.width * scale,
                       height: r.height * scale,
-                      backgroundColor: anno.type === 'note' ? `${anno.color}dd` : `${anno.color}44`,
-                      borderBottom: anno.type === 'highlight' ? `2px solid ${anno.color}` : 'none',
-                      borderRadius: anno.type === 'note' ? '8px' : '0',
+                      backgroundColor: anno.type === 'note' ? `${anno.color}dd` : `${anno.color}88`,
+                      mixBlendMode: anno.type === 'highlight' ? 'multiply' : 'normal',
+                      borderRadius: anno.type === 'note' ? '8px' : '2px',
                       boxShadow: anno.type === 'note' ? '0 10px 30px rgba(0,0,0,0.3)' : 'none',
                       padding: anno.type === 'note' ? '12px' : '0',
                     }}
