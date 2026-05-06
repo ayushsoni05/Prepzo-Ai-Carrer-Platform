@@ -223,6 +223,19 @@ export const authApi = {
     const response = await api.post<{ success: boolean; message: string }>('/auth/change-password', { currentPassword, newPassword });
     return response.data;
   },
+  
+  loginWithPhone: async (idToken: string): Promise<AuthResponse> => {
+    const response = await api.post<AuthResponse>('/auth/login-phone', { idToken });
+    const token = response.data.accessToken || response.data.token;
+    if (token) {
+      localStorage.setItem('prepzo-token', token);
+    }
+    const refreshToken = response.data.refreshToken;
+    if (refreshToken) {
+      localStorage.setItem('prepzo-refresh-token', refreshToken);
+    }
+    return response.data;
+  },
 };
 
 // User API functions

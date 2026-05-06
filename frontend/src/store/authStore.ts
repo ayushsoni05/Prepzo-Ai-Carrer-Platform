@@ -106,6 +106,7 @@ interface AuthState {
   changePasswordAsync: (currentPassword: string, newPassword: string) => Promise<void>;
   completeAssessmentAsync: (data: AssessmentData) => Promise<User>;
   updateProfileAsync: (data: Partial<User>) => Promise<User>;
+  loginWithPhoneAsync: (idToken: string) => Promise<User>;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -301,6 +302,20 @@ export const useAuthStore = create<AuthState>()(
         } catch (error: unknown) {
           const message = error instanceof Error ? error.message : 
             (error as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Profile update failed';
+          set({ isLoading: false, error: message });
+          throw error;
+        }
+      },
+
+      loginWithPhoneAsync: async (idToken) => {
+        set({ isLoading: true, error: null });
+        try {
+          const response = await authApi.loginWithPhone(idToken);
+          set({ user: response.user, isAuthenticated: true, isLoading: false });
+          return response.user;
+        } catch (error: unknown) {
+          const message = error instanceof Error ? error.message : 
+            (error as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Phone login failed';
           set({ isLoading: false, error: message });
           throw error;
         }

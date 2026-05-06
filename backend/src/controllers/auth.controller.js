@@ -15,6 +15,7 @@ import { validatePasswordStrength } from '../utils/passwordSecurity.js';
 import { securityConfig } from '../config/security.config.js';
 import mfaService from '../services/mfa.service.js';
 import { encrypt, decrypt } from '../utils/encryption.js';
+import admin from '../config/firebase.js';
 
 /**
  * @desc    Register new user
@@ -728,6 +729,94 @@ export const loginMFA = async (req, res) => {
   }
 };
 
+/**
+ * @desc    Login/Register with Phone (Firebase)
+ * @route   POST /api/auth/login-phone
+ * @access  Public
+ */
+export const loginPhone = async (req, res) => {
+  try {
+    const { idToken } = req.body;
+
+    if (!idToken) {
+      return res.status(400).json({ success: false, message: 'ID Token required' });
+    }
+
+    // Verify token with Firebase
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const phoneNumber = decodedToken.phone_number;
+
+    if (!phoneNumber) {
+      return res.status(400).json({ success: false, message: 'Invalid token: No phone number found' });
+    }
+
+    // Extract 10 digits (strip country code)
+    const phone = phoneNumber.replace(/\D/g, '').slice(-10);
+
+    // Find user by phone
+    let user = await User.findOne({ phone });
+
+    if (!user) {
+      // Create new user if not exists (Registration via Phone)
+      user = await User.create({
+        phone,
+        email: `${phone}@prepzo.temp`, // Placeholder email
+        fullName: 'New Student',
+        isEmailVerified: false,
+        accountStatus: 'pending_onboarding',
+        isOnboarded: false,
+      });
+      
+      await AuditLog.log({
+        userId: user._id,
+        userEmail: user.email,
+        action: 'register_phone',
+        category: 'authentication',
+        severity: 'low',
+        status: 'success',
+        description: 'User registered via phone OTP',
+        ipAddress: req.ip,
+        userAgent: req.headers['user-agent'],
+      });
+    } else {
+      await user.recordSuccessfulLogin(req.ip);
+      
+      await AuditLog.log({
+        userId: user._id,
+        userEmail: user.email,
+        action: 'login_phone_success',
+        category: 'authentication',
+        severity: 'low',
+        status: 'success',
+        description: 'User logged in via phone OTP',
+        ipAddress: req.ip,
+        userAgent: req.headers['user-agent'],
+      });
+    }
+
+    const accessToken = generateAccessToken(user);
+    const refreshTokenData = await generateRefreshToken(user, null, {
+      ip: req.ip,
+      userAgent: req.headers['user-agent'],
+    });
+
+    setTokenCookies(res, accessToken, refreshTokenData.token);
+
+    res.json({
+      success: true,
+      user: user.toJSON(),
+      accessToken,
+      refreshToken: refreshTokenData.token,
+    });
+  } catch (error) {
+    console.error('Phone login error:', error);
+    res.status(401).json({
+      success: false,
+      message: 'Authentication failed: ' + error.message,
+    });
+  }
+};
+
 export default {
   register,
   login,
@@ -744,4 +833,5 @@ export default {
   setupMFA,
   verifyAndEnableMFA,
   loginMFA,
+  loginPhone,
 };

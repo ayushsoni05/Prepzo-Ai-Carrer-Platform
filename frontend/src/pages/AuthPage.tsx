@@ -37,6 +37,8 @@ import {
   CalendarDays
 } from 'lucide-react';
 import { GridBeam } from '@/components/ui/background-grid-beam';
+import { auth, setupRecaptcha } from '@/lib/firebase';
+import { signInWithPhoneNumber } from 'firebase/auth';
 
 // Password validation schema with 8 parameters
 const passwordSchema = z.string()
@@ -164,8 +166,14 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
       return false;
     }
   });
+  
+  const [loginMethod, setLoginMethod] = useState<'password' | 'phone'>('password');
+  const [otpSent, setOtpSent] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [otp, setOtp] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
 
-  const { login, registerAsync, loginAsync } = useAuthStore();
+  const { login, registerAsync, loginAsync, loginWithPhoneAsync } = useAuthStore();
   const {} = useAppStore(); // Removed unused darkMode
 
   // Handle URL parameters (errors from Google Auth)
@@ -405,6 +413,63 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
     }
   };
 
+  const handleSendOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!phoneNumber || phoneNumber.length < 10) {
+      toast.error('Please enter a valid 10-digit phone number');
+      return;
+    }
+
+    try {
+      setIsVerifying(true);
+      const verifier = setupRecaptcha('recaptcha-container');
+      const formattedPhone = `+91${phoneNumber}`; // Default to India
+      const confirmation = await signInWithPhoneNumber(auth, formattedPhone, verifier);
+      window.confirmationResult = confirmation;
+      setOtpSent(true);
+      toast.success('OTP sent successfully!');
+    } catch (error: any) {
+      console.error('OTP Error:', error);
+      toast.error(error.message || 'Failed to send OTP. Please check your number.');
+      if (window.recaptchaVerifier) {
+        window.recaptchaVerifier.clear();
+      }
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!otp || otp.length < 6) {
+      toast.error('Please enter the 6-digit code');
+      return;
+    }
+
+    try {
+      setIsVerifying(true);
+      const result = await window.confirmationResult.confirm(otp);
+      const idToken = await result.user.getIdToken();
+      
+      // Send token to our backend
+      const user = await loginWithPhoneAsync(idToken);
+      toast.success('Welcome back!');
+      
+      if (user.role === 'admin') {
+        onNavigate('admin');
+      } else if (!user.isOnboarded) {
+        onNavigate('onboarding');
+      } else {
+        onNavigate('dashboard');
+      }
+    } catch (error: any) {
+      console.error('Verification Error:', error);
+      toast.error(error.message || 'Invalid OTP. Please try again.');
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+
   const signupSteps = [
     { title: 'Personal Info', fields: ['fullName', 'email', 'phone', 'dateOfBirth', 'gender'] },
     { title: 'Education', fields: ['collegeName', 'degree', 'fieldOfStudy', 'yearOfStudy'] },
@@ -453,7 +518,10 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                       <p className="mt-4 text-[12px] text-white/30 font-bold uppercase tracking-[0.3em]">Sign in to the educational signal</p>
                     </div>
 
-                    <form onSubmit={handleLoginSubmit(onLogin)} className="space-y-6">
+                    <div id="recaptcha-container"></div>
+
+                    {loginMethod === 'password' ? (
+                      <form onSubmit={handleLoginSubmit(onLogin)} className="space-y-6">
                       <div className="space-y-5">
                         <div className="relative">
                           <Mail className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
@@ -521,8 +589,16 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                             Sign In
                           </span>
                         </button>
+                        
+                        <button 
+                          type="button"
+                          onClick={() => setLoginMethod('phone')}
+                          className="text-[10px] text-white/40 font-bold uppercase tracking-[0.2em] hover:text-white transition-colors mt-2"
+                        >
+                          OR SIGN IN WITH PHONE OTP
+                        </button>
 
-                        <div className="flex items-center gap-4 w-full max-w-[280px]">
+                        <div className="flex items-center gap-4 w-full max-w-[280px] mt-2">
                           <div className="h-px flex-1 bg-white/10"></div>
                           <span className="text-[10px] text-white/20 font-bold uppercase tracking-widest">OR</span>
                           <div className="h-px flex-1 bg-white/10"></div>
@@ -543,6 +619,87 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                         </button>
                       </div>
                     </form>
+                    ) : (
+                      <div className="space-y-6">
+                         {!otpSent ? (
+                           <form onSubmit={handleSendOtp} className="space-y-6">
+                              <div className="relative">
+                                <Phone className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
+                                <input
+                                  type="tel"
+                                  placeholder="MOBILE NUMBER"
+                                  value={phoneNumber}
+                                  onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                                  className="w-full bg-white/5 border border-white/5 focus:border-white/20 rounded-2xl py-4 pl-14 pr-5 text-white placeholder-white/20 font-bold text-[13px] tracking-widest outline-none transition-all"
+                                  required
+                                />
+                              </div>
+                              <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest text-center">We will send a 6-digit code via SMS</p>
+                              
+                              <div className="flex flex-col items-center gap-4">
+                                <button 
+                                  type="submit"
+                                  disabled={isVerifying}
+                                  className="relative w-[184px] h-[65px] group active:scale-95 transition-transform disabled:opacity-50"
+                                >
+                                  <svg className="absolute inset-0 w-full h-full drop-shadow-xl transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
+                                  </svg>
+                                  <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10]  font-[800] text-[18px] uppercase tracking-wide">
+                                    {isVerifying ? 'Sending...' : 'Get OTP'}
+                                  </span>
+                                </button>
+                                
+                                <button 
+                                  type="button"
+                                  onClick={() => setLoginMethod('password')}
+                                  className="text-[10px] text-white/40 font-bold uppercase tracking-[0.2em] hover:text-white transition-colors"
+                                >
+                                  BACK TO PASSWORD LOGIN
+                                </button>
+                              </div>
+                           </form>
+                         ) : (
+                           <form onSubmit={handleVerifyOtp} className="space-y-6">
+                              <div className="relative">
+                                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
+                                <input
+                                  type="text"
+                                  placeholder="ENTER 6-DIGIT OTP"
+                                  value={otp}
+                                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                                  className="w-full bg-white/5 border border-white/5 focus:border-white/20 rounded-2xl py-4 pl-14 pr-5 text-white placeholder-white/20 font-bold text-[13px] tracking-widest outline-none transition-all text-center tracking-[1em]"
+                                  maxLength={6}
+                                  required
+                                />
+                              </div>
+                              
+                              <div className="flex flex-col items-center gap-4">
+                                <button 
+                                  type="submit"
+                                  disabled={isVerifying}
+                                  className="relative w-[184px] h-[65px] group active:scale-95 transition-transform disabled:opacity-50"
+                                >
+                                  <svg className="absolute inset-0 w-full h-full drop-shadow-xl transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
+                                  </svg>
+                                  <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10]  font-[800] text-[18px] uppercase tracking-wide">
+                                    {isVerifying ? 'Verifying...' : 'Verify'}
+                                  </span>
+                                </button>
+                                
+                                <button 
+                                  type="button"
+                                  onClick={() => setOtpSent(false)}
+                                  className="text-[10px] text-white/40 font-bold uppercase tracking-[0.2em] hover:text-white transition-colors"
+                                >
+                                  CHANGE PHONE NUMBER
+                                </button>
+                              </div>
+                           </form>
+                         )}
+                      </div>
+                    )}
 
                     <div className="mt-12 text-center">
                       <p className="text-[10px] text-white/20 font-bold uppercase tracking-[0.3em] mb-4">New to the signal?</p>

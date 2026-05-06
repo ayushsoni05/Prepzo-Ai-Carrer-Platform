@@ -15,6 +15,7 @@ import {
   setupMFA,
   verifyAndEnableMFA,
   loginMFA,
+  loginPhone,
 } from '../controllers/auth.controller.js';
 import { protect } from '../middleware/auth.middleware.js';
 import { authLimiter, registerLimiter, passwordResetLimiter, bruteForceProtection } from '../middleware/rateLimit.middleware.js';
@@ -64,6 +65,7 @@ router.get('/google/callback',
 // Public routes with rate limiting
 router.post('/register', registerLimiter, validate({ body: registerSchema }), register);
 router.post('/login', authLimiter, bruteForceProtection, validate({ body: loginSchema }), login);
+router.post('/login-phone', authLimiter, bruteForceProtection, loginPhone);
 router.post('/refresh', refresh);
 
 // Email verification
