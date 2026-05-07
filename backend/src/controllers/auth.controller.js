@@ -17,7 +17,6 @@ import mfaService from '../services/mfa.service.js';
 import { encrypt, decrypt } from '../utils/encryption.js';
 import admin from '../config/firebase.js';
 import { sendEmailOTP } from '../services/email.service.js';
-import OTP from '../models/OTP.model.js';
 
 /**
  * @desc    Register new user
