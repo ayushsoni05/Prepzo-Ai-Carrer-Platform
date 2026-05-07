@@ -913,7 +913,7 @@ export const verifyEmailOTP = async (req, res) => {
         email,
         fullName: 'New Student',
         isEmailVerified: true,
-        accountStatus: 'pending_onboarding',
+        accountStatus: 'active', // Valid enum value
         isOnboarded: false,
       });
     } else {
