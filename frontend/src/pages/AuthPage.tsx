@@ -713,7 +713,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                                     disabled={resendTimer > 0 || isVerifying}
                                     className="text-[10px] text-white/40 font-bold uppercase tracking-[0.2em] hover:text-white transition-colors disabled:opacity-50 disabled:hover:text-white/40"
                                   >
-                                    {resendTimer > 0 ? \`RESEND OTP IN \${resendTimer}S\` : 'RESEND OTP'}
+                                    {resendTimer > 0 ? `RESEND OTP IN ${resendTimer}S` : 'RESEND OTP'}
                                   </button>
                                   
                                   <div className="w-px h-3 bg-white/10"></div>
