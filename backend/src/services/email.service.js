@@ -3,62 +3,19 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 /**
- * Helper to encode an email into base64url format required by Gmail API
- */
-const createRawEmail = (to, subject, html) => {
-  const from = `"Prepzo AI" <${process.env.GMAIL_USER}>`;
-  const message = [
-    `From: ${from}`,
-    `To: ${to}`,
-    `Subject: ${subject}`,
-    `Content-Type: text/html; charset=utf-8`,
-    `MIME-Version: 1.0`,
-    '',
-    html
-  ].join('\r\n');
-
-  return Buffer.from(message)
-    .toString('base64')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '');
-};
-
-/**
- * Get a fresh Access Token using the Refresh Token
- */
-const getAccessToken = async () => {
-  const response = await fetch('https://oauth2.googleapis.com/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      client_id: process.env.GMAIL_CLIENT_ID,
-      client_secret: process.env.GMAIL_CLIENT_SECRET,
-      refresh_token: process.env.GMAIL_REFRESH_TOKEN,
-      grant_type: 'refresh_token',
-    }),
-  });
-
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.error_description || 'Failed to refresh Google access token');
-  }
-  return data.access_token;
-};
-
-/**
- * Send OTP via Email (Gmail REST API over HTTP)
+ * Send OTP via Email (Brevo REST API over HTTP)
  * @param {string} email - Recipient email address
  * @param {string} otp - 6-digit one-time password
  * @param {string} name - Student name (optional)
  */
 export const sendEmailOTP = async (email, otp, name = 'Student') => {
   try {
-    if (!process.env.GMAIL_USER || !process.env.GMAIL_CLIENT_ID || !process.env.GMAIL_REFRESH_TOKEN) {
-      console.error('[Gmail API] Missing GMAIL OAuth2 env vars.');
-      return { success: false, error: 'Email OAuth2 configuration missing on server.' };
+    if (!process.env.BREVO_API_KEY) {
+      console.error('[Brevo API] Missing BREVO_API_KEY env var.');
+      return { success: false, error: 'Email configuration missing on server.' };
     }
 
+    const senderEmail = process.env.EMAIL_FROM || 'prepzo.admin@gmail.com';
     const subject = `Your Prepzo AI Verification Code: ${otp}`;
     const html = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eaeaea; border-radius: 10px;">
@@ -84,31 +41,30 @@ export const sendEmailOTP = async (email, otp, name = 'Student') => {
       </div>
     `;
 
-    // 1. Get Access Token
-    const accessToken = await getAccessToken();
-
-    // 2. Create raw base64 email
-    const rawEmail = createRawEmail(email, subject, html);
-
-    // 3. Send via Gmail REST API
-    const response = await fetch('https://gmail.googleapis.com/upload/gmail/v1/users/me/messages/send', {
+    // Send via Brevo API
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
+        'api-key': process.env.BREVO_API_KEY,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ raw: rawEmail }),
+      body: JSON.stringify({
+        sender: { name: 'Prepzo AI', email: senderEmail },
+        to: [{ email: email, name: name }],
+        subject: subject,
+        htmlContent: html,
+      }),
     });
 
     const data = await response.json();
     if (!response.ok) {
-      throw new Error(data.error?.message || 'Failed to send email via Gmail API');
+      throw new Error(data.message || 'Failed to send email via Brevo API');
     }
 
-    console.log('[Gmail API] OTP email sent successfully to:', email, 'MessageId:', data.id);
+    console.log('[Brevo API] OTP email sent successfully to:', email, 'MessageId:', data.messageId);
     return { success: true, data };
   } catch (err) {
-    console.error('[Gmail API] Error details:', err.message);
+    console.error('[Brevo API] Error details:', err.message);
     return { success: false, error: err.message };
   }
 };
