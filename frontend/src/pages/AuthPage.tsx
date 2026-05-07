@@ -170,6 +170,15 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
   const [otpEmail, setOtpEmail] = useState('');
   const [otp, setOtp] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
+  const [resendTimer, setResendTimer] = useState(0);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (resendTimer > 0) {
+      interval = setInterval(() => setResendTimer((prev) => prev - 1), 1000);
+    }
+    return () => clearInterval(interval);
+  }, [resendTimer]);
 
   const { login, registerAsync, loginAsync, sendOTPAsync, verifyOTPAsync } = useAuthStore();
   const {} = useAppStore(); // Removed unused darkMode
@@ -422,12 +431,31 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
       setIsVerifying(true);
       await sendOTPAsync(otpEmail);
       setOtpSent(true);
+      setResendTimer(60);
       toast.success('Verification code sent to your email!');
     } catch (error: any) {
       console.error('OTP Error:', error);
       toast.error(error.response?.data?.message || 'Failed to send code. Please try again.');
     } finally {
       setIsVerifying(false);
+    }
+  };
+
+  const handleOtpChange = (index: number, value: string) => {
+    if (!/^\d*$/.test(value)) return;
+    const newOtp = otp.split('');
+    newOtp[index] = value;
+    const updatedOtp = newOtp.join('');
+    setOtp(updatedOtp);
+    // Auto focus next input logic
+    if (value && index < 5) {
+      document.getElementById(`otp-${index + 1}`)?.focus();
+    }
+  };
+
+  const handleOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+      document.getElementById(`otp-${index - 1}`)?.focus();
     }
   };
 
@@ -647,40 +675,57 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                            </form>
                          ) : (
                            <form onSubmit={handleVerifyOtp} className="space-y-6">
-                              <div className="relative">
-                                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
-                                <input
-                                  type="text"
-                                  placeholder="ENTER 6-DIGIT OTP"
-                                  value={otp}
-                                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                                  className="w-full bg-white/5 border border-white/5 focus:border-white/20 rounded-2xl py-4 pl-14 pr-5 text-white placeholder-white/20 font-bold text-[13px] tracking-widest outline-none transition-all text-center tracking-[1em]"
-                                  maxLength={6}
-                                  required
-                                />
+                              <div className="flex justify-center gap-2 sm:gap-4 mb-8">
+                                {Array.from({ length: 6 }).map((_, idx) => (
+                                  <input
+                                    key={idx}
+                                    id={`otp-${idx}`}
+                                    type="password"
+                                    maxLength={1}
+                                    value={otp[idx] || ''}
+                                    onChange={(e) => handleOtpChange(idx, e.target.value)}
+                                    onKeyDown={(e) => handleOtpKeyDown(idx, e)}
+                                    className="w-12 h-14 bg-white/5 border border-white/10 focus:border-white/40 focus:bg-white/10 rounded-xl text-center text-xl text-white font-bold outline-none transition-all placeholder-white/20"
+                                    placeholder="*"
+                                    required={idx === 0}
+                                  />
+                                ))}
                               </div>
                               
                               <div className="flex flex-col items-center gap-4">
                                 <button 
                                   type="submit"
-                                  disabled={isVerifying}
+                                  disabled={isVerifying || otp.length < 6}
                                   className="relative w-[184px] h-[65px] group active:scale-95 transition-transform disabled:opacity-50"
                                 >
                                   <svg className="absolute inset-0 w-full h-full drop-shadow-xl transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
                                   </svg>
-                                  <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10]  font-[800] text-[18px] uppercase tracking-wide">
+                                  <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10] font-[800] text-[18px] uppercase tracking-wide">
                                     {isVerifying ? 'Verifying...' : 'Verify'}
                                   </span>
                                 </button>
                                 
-                                <button 
-                                  type="button"
-                                  onClick={() => setOtpSent(false)}
-                                  className="text-[10px] text-white/40 font-bold uppercase tracking-[0.2em] hover:text-white transition-colors"
-                                >
-                                  CHANGE EMAIL ADDRESS
-                                </button>
+                                <div className="flex items-center gap-6 mt-2">
+                                  <button 
+                                    type="button"
+                                    onClick={handleSendOtp}
+                                    disabled={resendTimer > 0 || isVerifying}
+                                    className="text-[10px] text-white/40 font-bold uppercase tracking-[0.2em] hover:text-white transition-colors disabled:opacity-50 disabled:hover:text-white/40"
+                                  >
+                                    {resendTimer > 0 ? \`RESEND OTP IN \${resendTimer}S\` : 'RESEND OTP'}
+                                  </button>
+                                  
+                                  <div className="w-px h-3 bg-white/10"></div>
+                                  
+                                  <button 
+                                    type="button"
+                                    onClick={() => setOtpSent(false)}
+                                    className="text-[10px] text-white/40 font-bold uppercase tracking-[0.2em] hover:text-white transition-colors"
+                                  >
+                                    CHANGE EMAIL
+                                  </button>
+                                </div>
                               </div>
                            </form>
                          )}

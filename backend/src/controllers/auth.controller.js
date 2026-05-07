@@ -935,8 +935,12 @@ export const verifyEmailOTP = async (req, res) => {
       refreshToken: refreshTokenData.token,
     });
   } catch (error) {
-    console.error('Verify OTP error:', error);
-    res.status(500).json({ success: false, message: 'Server error during verification' });
+    console.error('Verify OTP error details:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error during verification. Please try again.',
+      debug: error.message
+    });
   }
 };
 
