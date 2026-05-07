@@ -852,9 +852,15 @@ export const requestEmailOTP = async (req, res) => {
       userAgent: req.headers['user-agent'],
     });
 
-    // Find user to get name
+    // Find user to verify they exist
     const user = await User.findOne({ email });
-    const name = user ? user.fullName : 'Student';
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'Account not found. Please sign up first.',
+      });
+    }
+    const name = user.fullName;
 
     // Send email
     const emailResult = await sendEmailOTP(email, otp, name);
@@ -904,21 +910,17 @@ export const verifyEmailOTP = async (req, res) => {
       });
     }
 
-    // Find or create user
+    // Find user
     let user = await User.findOne({ email });
 
     if (!user) {
-      // Create new user (Registration via Email OTP)
-      user = await User.create({
-        email,
-        fullName: 'New Student',
-        isEmailVerified: true,
-        accountStatus: 'active', // Valid enum value
-        isOnboarded: false,
+      return res.status(404).json({
+        success: false,
+        message: 'Account not found. Please sign up first.',
       });
-    } else {
-      await user.recordSuccessfulLogin(req.ip);
     }
+
+    await user.recordSuccessfulLogin(req.ip);
 
     const accessToken = generateAccessToken(user);
     const refreshTokenData = await generateRefreshToken(user, null, {

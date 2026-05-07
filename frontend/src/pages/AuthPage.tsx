@@ -343,7 +343,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
 
   const onLogin = async (data: LoginFormData) => {
     // Check for admin login first (demo mode)
-    if (data.email === 'admin@prepzo.com' && data.password === 'Admin@123') {
+    if (data.email === 'prepzo.admin@gmail.com' && data.password === 'Admin@123') {
       login({
         id: 'admin-1',
         fullName: 'Admin User',
