@@ -5,11 +5,16 @@ dotenv.config();
 
 // Create reusable transporter object using the default SMTP transport
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true, // Use SSL
   auth: {
     user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASS,
+    pass: process.env.GMAIL_APP_PASS?.replace(/"/g, '').trim(), // Remove any quotes or accidental spaces
   },
+  tls: {
+    rejectUnauthorized: false // Helps with some hosting providers
+  }
 });
 
 /**
@@ -20,6 +25,12 @@ const transporter = nodemailer.createTransport({
  */
 export const sendEmailOTP = async (email, otp, name = 'Student') => {
   try {
+    // Validate config before sending
+    if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASS) {
+      console.error('[Gmail SMTP] Missing configuration. Check GMAIL_USER and GMAIL_APP_PASS env vars.');
+      return { success: false, error: 'Email configuration missing on server.' };
+    }
+
     const mailOptions = {
       from: `"Prepzo AI" <${process.env.GMAIL_USER}>`,
       to: email,
@@ -53,7 +64,12 @@ export const sendEmailOTP = async (email, otp, name = 'Student') => {
     console.log('[Gmail SMTP] OTP email sent successfully to:', email, 'MessageId:', info.messageId);
     return { success: true, data: info };
   } catch (err) {
-    console.error('[Gmail SMTP] Error sending email:', err);
+    console.error('[Gmail SMTP] Error details:', {
+      message: err.message,
+      code: err.code,
+      command: err.command,
+      response: err.response
+    });
     return { success: false, error: err.message };
   }
 };
