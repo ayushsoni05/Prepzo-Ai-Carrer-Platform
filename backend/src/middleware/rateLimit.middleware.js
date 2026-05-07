@@ -16,7 +16,7 @@ const createRateLimiter = (config, name = 'general') => {
   return rateLimit({
     windowMs: config.windowMs,
     max: config.max,
-    store: redisClient.isReady 
+    store: redisClient?.isReady 
       ? new RedisStore({
           sendCommand: (...args) => redisClient.sendCommand(args),
           prefix: `rl:${name}:`,
