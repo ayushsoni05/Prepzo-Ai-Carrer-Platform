@@ -831,6 +831,11 @@ export const requestEmailOTP = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Email required' });
     }
 
+    // Log env check for debugging
+    console.log('[OTP] GMAIL_USER set:', !!process.env.GMAIL_USER);
+    console.log('[OTP] GMAIL_APP_PASS set:', !!process.env.GMAIL_APP_PASS);
+    console.log('[OTP] OTP_SALT set:', !!process.env.OTP_SALT);
+
     // Check if cooldown is active
     const cooldown = await OTP.canResendOTP(email, 'login_verification');
     if (!cooldown.canResend) {
@@ -859,6 +864,7 @@ export const requestEmailOTP = async (req, res) => {
       return res.status(500).json({
         success: false,
         message: 'Failed to send verification code. Please try again later.',
+        debug: emailResult.error || 'Unknown email error',
       });
     }
 
@@ -869,7 +875,11 @@ export const requestEmailOTP = async (req, res) => {
     });
   } catch (error) {
     console.error('Request OTP error:', error);
-    res.status(500).json({ success: false, message: 'Server error during OTP request' });
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error during OTP request',
+      debug: error.message,
+    });
   }
 };
 
