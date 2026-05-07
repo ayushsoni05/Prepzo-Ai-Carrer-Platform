@@ -16,6 +16,8 @@ import { securityConfig } from '../config/security.config.js';
 import mfaService from '../services/mfa.service.js';
 import { encrypt, decrypt } from '../utils/encryption.js';
 import admin from '../config/firebase.js';
+import { sendEmailOTP } from '../services/email.service.js';
+import OTP from '../models/OTP.model.js';
 
 /**
  * @desc    Register new user
@@ -817,6 +819,119 @@ export const loginPhone = async (req, res) => {
   }
 };
 
+/**
+ * @desc    Request Email OTP
+ * @route   POST /api/auth/send-otp
+ * @access  Public
+ */
+export const requestEmailOTP = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email required' });
+    }
+
+    // Check if cooldown is active
+    const cooldown = await OTP.canResendOTP(email, 'login_verification');
+    if (!cooldown.canResend) {
+      return res.status(429).json({
+        success: false,
+        message: `Please wait ${cooldown.waitTime}s before requesting another code.`,
+      });
+    }
+
+    // Generate and save OTP
+    const { otp, expiresAt } = await OTP.createOTP({
+      email,
+      type: 'login_verification',
+      ip: req.ip,
+      userAgent: req.headers['user-agent'],
+    });
+
+    // Find user to get name
+    const user = await User.findOne({ email });
+    const name = user ? user.fullName : 'Student';
+
+    // Send email
+    const emailResult = await sendEmailOTP(email, otp, name);
+
+    if (!emailResult.success) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to send verification code. Please try again later.',
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Verification code sent to your email.',
+      expiresAt,
+    });
+  } catch (error) {
+    console.error('Request OTP error:', error);
+    res.status(500).json({ success: false, message: 'Server error during OTP request' });
+  }
+};
+
+/**
+ * @desc    Verify Email OTP and Login
+ * @route   POST /api/auth/verify-otp
+ * @access  Public
+ */
+export const verifyEmailOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+      return res.status(400).json({ success: false, message: 'Email and code are required' });
+    }
+
+    const verification = await OTP.verifyOTP(email, otp, 'login_verification');
+
+    if (!verification.valid) {
+      return res.status(401).json({
+        success: false,
+        message: verification.reason,
+      });
+    }
+
+    // Find or create user
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // Create new user (Registration via Email OTP)
+      user = await User.create({
+        email,
+        fullName: 'New Student',
+        isEmailVerified: true,
+        accountStatus: 'pending_onboarding',
+        isOnboarded: false,
+      });
+    } else {
+      await user.recordSuccessfulLogin(req.ip);
+    }
+
+    const accessToken = generateAccessToken(user);
+    const refreshTokenData = await generateRefreshToken(user, null, {
+      ip: req.ip,
+      userAgent: req.headers['user-agent'],
+    });
+
+    setTokenCookies(res, accessToken, refreshTokenData.token);
+
+    res.json({
+      success: true,
+      user: user.toJSON(),
+      accessToken,
+      refreshToken: refreshTokenData.token,
+    });
+  } catch (error) {
+    console.error('Verify OTP error:', error);
+    res.status(500).json({ success: false, message: 'Server error during verification' });
+  }
+};
+
 export default {
   register,
   login,
@@ -834,4 +949,6 @@ export default {
   verifyAndEnableMFA,
   loginMFA,
   loginPhone,
+  requestEmailOTP,
+  verifyEmailOTP,
 };

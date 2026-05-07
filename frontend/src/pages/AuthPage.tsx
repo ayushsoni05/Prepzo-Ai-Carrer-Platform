@@ -37,8 +37,6 @@ import {
   CalendarDays
 } from 'lucide-react';
 import { GridBeam } from '@/components/ui/background-grid-beam';
-import { auth, setupRecaptcha } from '@/lib/firebase';
-import { signInWithPhoneNumber } from 'firebase/auth';
 
 // Password validation schema with 8 parameters
 const passwordSchema = z.string()
@@ -167,13 +165,13 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
     }
   });
   
-  const [loginMethod, setLoginMethod] = useState<'password' | 'phone'>('password');
+  const [loginMethod, setLoginMethod] = useState<'password' | 'otp'>('password');
   const [otpSent, setOtpSent] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [otpEmail, setOtpEmail] = useState('');
   const [otp, setOtp] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
 
-  const { login, registerAsync, loginAsync, loginWithPhoneAsync } = useAuthStore();
+  const { login, registerAsync, loginAsync, sendOTPAsync, verifyOTPAsync } = useAuthStore();
   const {} = useAppStore(); // Removed unused darkMode
 
   // Handle URL parameters (errors from Google Auth)
@@ -415,25 +413,19 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
 
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!phoneNumber || phoneNumber.length < 10) {
-      toast.error('Please enter a valid 10-digit phone number');
+    if (!otpEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(otpEmail)) {
+      toast.error('Please enter a valid email address');
       return;
     }
 
     try {
       setIsVerifying(true);
-      const verifier = setupRecaptcha('recaptcha-container');
-      const formattedPhone = `+91${phoneNumber}`; // Default to India
-      const confirmation = await signInWithPhoneNumber(auth, formattedPhone, verifier);
-      window.confirmationResult = confirmation;
+      await sendOTPAsync(otpEmail);
       setOtpSent(true);
-      toast.success('OTP sent successfully!');
+      toast.success('Verification code sent to your email!');
     } catch (error: any) {
       console.error('OTP Error:', error);
-      toast.error(error.message || 'Failed to send OTP. Please check your number.');
-      if (window.recaptchaVerifier) {
-        window.recaptchaVerifier.clear();
-      }
+      toast.error(error.response?.data?.message || 'Failed to send code. Please try again.');
     } finally {
       setIsVerifying(false);
     }
@@ -448,11 +440,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
 
     try {
       setIsVerifying(true);
-      const result = await window.confirmationResult.confirm(otp);
-      const idToken = await result.user.getIdToken();
-      
-      // Send token to our backend
-      const user = await loginWithPhoneAsync(idToken);
+      const user = await verifyOTPAsync(otpEmail, otp);
       toast.success('Welcome back!');
       
       if (user.role === 'admin') {
@@ -464,7 +452,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
       }
     } catch (error: any) {
       console.error('Verification Error:', error);
-      toast.error(error.message || 'Invalid OTP. Please try again.');
+      toast.error(error.response?.data?.message || 'Invalid code. Please try again.');
     } finally {
       setIsVerifying(false);
     }
@@ -513,12 +501,10 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                         <Sparkles size={80} />
                     </div>
                     
-                    <div className="text-center mb-12">
-                      <h1 className="text-4xl md:text-5xl  font-[900] text-white uppercase tracking-tighter italic">Welcome Back</h1>
-                      <p className="mt-4 text-[12px] text-white/30 font-bold uppercase tracking-[0.3em]">Sign in to the educational signal</p>
-                    </div>
-
-                    <div id="recaptcha-container"></div>
+                      <div className="text-center mb-12">
+                        <h1 className="text-4xl md:text-5xl  font-[900] text-white uppercase tracking-tighter italic">Welcome Back</h1>
+                        <p className="mt-4 text-[12px] text-white/30 font-bold uppercase tracking-[0.3em]">Sign in to the educational signal</p>
+                      </div>
 
                     {loginMethod === 'password' ? (
                       <form onSubmit={handleLoginSubmit(onLogin)} className="space-y-6">
@@ -592,10 +578,10 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                         
                         <button 
                           type="button"
-                          onClick={() => setLoginMethod('phone')}
+                          onClick={() => setLoginMethod('otp')}
                           className="text-[10px] text-white/40 font-bold uppercase tracking-[0.2em] hover:text-white transition-colors mt-2"
                         >
-                          OR SIGN IN WITH PHONE OTP
+                          OR SIGN IN WITH EMAIL OTP
                         </button>
 
                         <div className="flex items-center gap-4 w-full max-w-[280px] mt-2">
@@ -624,17 +610,17 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                          {!otpSent ? (
                            <form onSubmit={handleSendOtp} className="space-y-6">
                               <div className="relative">
-                                <Phone className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
+                                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
                                 <input
-                                  type="tel"
-                                  placeholder="MOBILE NUMBER"
-                                  value={phoneNumber}
-                                  onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                                  type="email"
+                                  placeholder="EMAIL ADDRESS"
+                                  value={otpEmail}
+                                  onChange={(e) => setOtpEmail(e.target.value.toLowerCase())}
                                   className="w-full bg-white/5 border border-white/5 focus:border-white/20 rounded-2xl py-4 pl-14 pr-5 text-white placeholder-white/20 font-bold text-[13px] tracking-widest outline-none transition-all"
                                   required
                                 />
                               </div>
-                              <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest text-center">We will send a 6-digit code via SMS</p>
+                              <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest text-center">We will send a 6-digit code to your email</p>
                               
                               <div className="flex flex-col items-center gap-4">
                                 <button 
@@ -693,7 +679,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                                   onClick={() => setOtpSent(false)}
                                   className="text-[10px] text-white/40 font-bold uppercase tracking-[0.2em] hover:text-white transition-colors"
                                 >
-                                  CHANGE PHONE NUMBER
+                                  CHANGE EMAIL ADDRESS
                                 </button>
                               </div>
                            </form>

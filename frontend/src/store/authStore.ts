@@ -107,6 +107,8 @@ interface AuthState {
   completeAssessmentAsync: (data: AssessmentData) => Promise<User>;
   updateProfileAsync: (data: Partial<User>) => Promise<User>;
   loginWithPhoneAsync: (idToken: string) => Promise<User>;
+  sendOTPAsync: (email: string) => Promise<void>;
+  verifyOTPAsync: (email: string, otp: string) => Promise<User>;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -316,6 +318,33 @@ export const useAuthStore = create<AuthState>()(
         } catch (error: unknown) {
           const message = error instanceof Error ? error.message : 
             (error as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Phone login failed';
+          set({ isLoading: false, error: message });
+          throw error;
+        }
+      },
+
+      sendOTPAsync: async (email) => {
+        set({ isLoading: true, error: null });
+        try {
+          await authApi.sendOTP(email);
+          set({ isLoading: false });
+        } catch (error: unknown) {
+          const message = error instanceof Error ? error.message : 
+            (error as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Failed to send code';
+          set({ isLoading: false, error: message });
+          throw error;
+        }
+      },
+
+      verifyOTPAsync: async (email, otp) => {
+        set({ isLoading: true, error: null });
+        try {
+          const response = await authApi.verifyOTP(email, otp);
+          set({ user: response.user, isAuthenticated: true, isLoading: false });
+          return response.user;
+        } catch (error: unknown) {
+          const message = error instanceof Error ? error.message : 
+            (error as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Verification failed';
           set({ isLoading: false, error: message });
           throw error;
         }

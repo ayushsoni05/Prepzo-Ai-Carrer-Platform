@@ -236,6 +236,24 @@ export const authApi = {
     }
     return response.data;
   },
+
+  sendOTP: async (email: string): Promise<{ success: boolean; message: string }> => {
+    const response = await api.post<{ success: boolean; message: string }>('/auth/send-otp', { email });
+    return response.data;
+  },
+
+  verifyOTP: async (email: string, otp: string): Promise<AuthResponse> => {
+    const response = await api.post<AuthResponse>('/auth/verify-otp', { email, otp });
+    const token = response.data.accessToken || response.data.token;
+    if (token) {
+      localStorage.setItem('prepzo-token', token);
+    }
+    const refreshToken = response.data.refreshToken;
+    if (refreshToken) {
+      localStorage.setItem('prepzo-refresh-token', refreshToken);
+    }
+    return response.data;
+  },
 };
 
 // User API functions
