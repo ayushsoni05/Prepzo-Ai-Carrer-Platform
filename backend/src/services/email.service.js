@@ -1,20 +1,24 @@
 import nodemailer from 'nodemailer';
+import dns from 'dns';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Create reusable transporter object using the default SMTP transport
+// Force Node.js to use IPv4 (Render free tier doesn't support IPv6)
+dns.setDefaultResultOrder('ipv4first');
+
+// Create reusable transporter object using Gmail SMTP
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
-  port: 465,
-  secure: true, // Use SSL
+  port: 587,
+  secure: false, // Use STARTTLS on port 587
   auth: {
     user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASS?.replace(/"/g, '').trim(), // Remove any quotes or accidental spaces
+    pass: process.env.GMAIL_APP_PASS?.replace(/"/g, '').trim(),
   },
   tls: {
-    rejectUnauthorized: false // Helps with some hosting providers
-  }
+    rejectUnauthorized: false,
+  },
 });
 
 /**
@@ -25,9 +29,8 @@ const transporter = nodemailer.createTransport({
  */
 export const sendEmailOTP = async (email, otp, name = 'Student') => {
   try {
-    // Validate config before sending
     if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASS) {
-      console.error('[Gmail SMTP] Missing configuration. Check GMAIL_USER and GMAIL_APP_PASS env vars.');
+      console.error('[Gmail SMTP] Missing GMAIL_USER or GMAIL_APP_PASS env vars.');
       return { success: false, error: 'Email configuration missing on server.' };
     }
 
