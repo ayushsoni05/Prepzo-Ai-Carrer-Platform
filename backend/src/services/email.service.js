@@ -4,14 +4,25 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Force Node.js to use IPv4 (Render free tier doesn't support IPv6)
-dns.setDefaultResultOrder('ipv4first');
+// Force ALL DNS lookups to resolve IPv4 first (Render free tier blocks IPv6)
+const _originalLookup = dns.lookup;
+dns.lookup = function (hostname, options, callback) {
+  if (typeof options === 'function') {
+    callback = options;
+    options = { family: 4 };
+  } else if (typeof options === 'number') {
+    options = { family: 4 };
+  } else {
+    options = Object.assign({}, options, { family: 4 });
+  }
+  return _originalLookup.call(this, hostname, options, callback);
+};
 
 // Create reusable transporter object using Gmail SMTP
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 587,
-  secure: false, // Use STARTTLS on port 587
+  secure: false,
   auth: {
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_APP_PASS?.replace(/"/g, '').trim(),

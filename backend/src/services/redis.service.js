@@ -4,39 +4,28 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const hasRedisUrl = !!process.env.REDIS_URL;
-const isProduction = process.env.NODE_ENV === 'production';
 
-const redisClient = createClient({
-  url: process.env.REDIS_URL || 'redis://localhost:6379',
-});
+const redisClient = hasRedisUrl
+  ? createClient({ url: process.env.REDIS_URL })
+  : null;
 
-// Suppress error logs if Redis is not critical (development without URL)
-redisClient.on('error', (err) => {
-  if (hasRedisUrl || isProduction) {
-    console.error('Redis Client Error:', err.message);
-  } else {
-    // Silent in dev unless it was explicitly configured
-    // This prevents the terminal from being flooded with ECONNREFUSED
-  }
-});
+if (redisClient) {
+  // Only attach listeners if Redis is configured
+  redisClient.on('error', () => {
+    // Silently ignore Redis errors - app works fine without it
+  });
 
-redisClient.on('connect', () => console.log('✅ Redis Client Connected'));
+  redisClient.on('connect', () => console.log('✅ Redis Client Connected'));
 
-// Only attempt to connect if REDIS_URL is provided or in production
-if (hasRedisUrl || isProduction) {
   (async () => {
     try {
       await redisClient.connect();
     } catch (err) {
-      if (isProduction) {
-        console.warn('⚠️ Could not connect to Redis. Falling back to memory storage.');
-      } else {
-        console.log('ℹ️ Redis connection skipped (development fallback).');
-      }
+      console.warn('⚠️ Redis connection failed. Using in-memory fallback.');
     }
   })();
 } else {
-  console.log('ℹ️ Redis not configured. Using local memory for caching and rate limiting.');
+  console.log('ℹ️ Redis not configured. Using in-memory fallback.');
 }
 
 /**
@@ -46,13 +35,12 @@ if (hasRedisUrl || isProduction) {
  * @param {number} ttl - Time to live in seconds
  */
 export const setCache = async (key, value, ttl = 3600) => {
-  if (!redisClient.isReady) return null;
+  if (!redisClient || !redisClient.isReady) return null;
   try {
     const stringValue = JSON.stringify(value);
     await redisClient.setEx(key, ttl, stringValue);
     return true;
   } catch (error) {
-    console.error('Redis Set Error:', error);
     return false;
   }
 };
@@ -62,12 +50,11 @@ export const setCache = async (key, value, ttl = 3600) => {
  * @param {string} key - Cache key
  */
 export const getCache = async (key) => {
-  if (!redisClient.isReady) return null;
+  if (!redisClient || !redisClient.isReady) return null;
   try {
     const value = await redisClient.get(key);
     return value ? JSON.parse(value) : null;
   } catch (error) {
-    console.error('Redis Get Error:', error);
     return null;
   }
 };
@@ -77,12 +64,11 @@ export const getCache = async (key) => {
  * @param {string} key - Cache key
  */
 export const deleteCache = async (key) => {
-  if (!redisClient.isReady) return null;
+  if (!redisClient || !redisClient.isReady) return null;
   try {
     await redisClient.del(key);
     return true;
   } catch (error) {
-    console.error('Redis Delete Error:', error);
     return false;
   }
 };
