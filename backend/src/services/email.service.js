@@ -1,20 +1,27 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Create reusable transporter object using the default SMTP transport
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASS,
+  },
+});
 
 /**
- * Send OTP via Email (Resend)
+ * Send OTP via Email (Gmail SMTP)
  * @param {string} email - Recipient email address
  * @param {string} otp - 6-digit one-time password
  * @param {string} name - Student name (optional)
  */
 export const sendEmailOTP = async (email, otp, name = 'Student') => {
   try {
-    const { data, error } = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'Prepzo AI <onboarding@resend.dev>',
+    const mailOptions = {
+      from: `"Prepzo AI" <${process.env.GMAIL_USER}>`,
       to: email,
       subject: `Your Prepzo AI Verification Code: ${otp}`,
       html: `
@@ -40,17 +47,13 @@ export const sendEmailOTP = async (email, otp, name = 'Student') => {
           </div>
         </div>
       `,
-    });
+    };
 
-    if (error) {
-      console.error('[Resend] Error sending email:', error);
-      return { success: false, error };
-    }
-
-    console.log('[Resend] OTP email sent successfully to:', email);
-    return { success: true, data };
+    const info = await transporter.sendMail(mailOptions);
+    console.log('[Gmail SMTP] OTP email sent successfully to:', email, 'MessageId:', info.messageId);
+    return { success: true, data: info };
   } catch (err) {
-    console.error('[Resend] Unexpected error:', err);
+    console.error('[Gmail SMTP] Error sending email:', err);
     return { success: false, error: err.message };
   }
 };
