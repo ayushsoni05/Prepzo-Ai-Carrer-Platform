@@ -833,7 +833,8 @@ export const requestEmailOTP = async (req, res) => {
 
     // Log env check for debugging
     console.log('[OTP] GMAIL_USER set:', !!process.env.GMAIL_USER);
-    console.log('[OTP] GMAIL_APP_PASS set:', !!process.env.GMAIL_APP_PASS);
+    console.log('[OTP] GMAIL_CLIENT_ID set:', !!process.env.GMAIL_CLIENT_ID);
+    console.log('[OTP] GMAIL_REFRESH_TOKEN set:', !!process.env.GMAIL_REFRESH_TOKEN);
     console.log('[OTP] OTP_SALT set:', !!process.env.OTP_SALT);
 
     // Check if cooldown is active
