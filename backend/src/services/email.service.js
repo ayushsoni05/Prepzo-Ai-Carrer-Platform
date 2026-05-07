@@ -18,19 +18,17 @@ dns.lookup = function (hostname, options, callback) {
   return _originalLookup.call(this, hostname, options, callback);
 };
 
-// Create reusable transporter object using Gmail SMTP
+// Create reusable transporter object using Gmail API (OAuth2)
+// This uses HTTP (port 443) under the hood, bypassing Render's SMTP port block!
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
+  service: 'gmail',
   auth: {
+    type: 'OAuth2',
     user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASS?.replace(/"/g, '').trim(),
+    clientId: process.env.GMAIL_CLIENT_ID,
+    clientSecret: process.env.GMAIL_CLIENT_SECRET,
+    refreshToken: process.env.GMAIL_REFRESH_TOKEN,
   },
-  tls: {
-    rejectUnauthorized: false,
-  },
-  family: 4, // Force IPv4 to prevent Render ENETUNREACH on IPv6
 });
 
 /**
@@ -41,9 +39,9 @@ const transporter = nodemailer.createTransport({
  */
 export const sendEmailOTP = async (email, otp, name = 'Student') => {
   try {
-    if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASS) {
-      console.error('[Gmail SMTP] Missing GMAIL_USER or GMAIL_APP_PASS env vars.');
-      return { success: false, error: 'Email configuration missing on server.' };
+    if (!process.env.GMAIL_USER || !process.env.GMAIL_CLIENT_ID || !process.env.GMAIL_REFRESH_TOKEN) {
+      console.error('[Gmail SMTP] Missing GMAIL OAuth2 env vars.');
+      return { success: false, error: 'Email OAuth2 configuration missing on server.' };
     }
 
     const mailOptions = {
