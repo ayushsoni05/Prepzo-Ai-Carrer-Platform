@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster, resolveValue } from 'react-hot-toast';
 import { LandingPage } from '@/pages/LandingPage';
 import { AuthPage } from '@/pages/AuthPage';
 import { Dashboard } from '@/pages/Dashboard';
@@ -315,31 +315,52 @@ export default function App() {
 
   return (
     <div className="page-shell overflow-x-hidden">
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: 'var(--panel-strong)',
-            color: 'var(--text)',
-            border: '1px solid var(--panel-border)',
-            backdropFilter: 'blur(18px)',
-            boxShadow: 'var(--shadow)',
-          },
-          success: {
-            iconTheme: {
-              primary: '#10B981',
-              secondary: '#fff',
-            },
-          },
-          error: {
-            iconTheme: {
-              primary: '#EF4444',
-              secondary: '#fff',
-            },
-          },
-        }}
-      />
+      <Toaster position="top-right">
+        {(t) => (
+          <div
+            className={`
+              ${t.visible ? 'animate-enter opacity-100 translate-y-0 scale-100' : 'animate-leave opacity-0 -translate-y-4 scale-95'}
+              flex items-center justify-between max-w-sm w-full shadow-2xl bg-[#0a0c10] border border-white/10 min-h-[48px] rounded-lg pointer-events-auto transition-all duration-300 overflow-hidden relative group
+            `}
+          >
+            {/* left accent bar */}
+            <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${t.type === 'error' ? 'bg-red-500' : t.type === 'success' ? 'bg-emerald-500' : 'bg-blue-500'}`} />
+
+            {/* icon + text */}
+            <div className="flex flex-1 items-center px-4 py-3 pl-6">
+              {t.type === 'success' ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="text-emerald-500 shrink-0">
+                  <path d="M11.95 16.5h.1" style={{ fill: "none", stroke: "currentColor", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.95 }} />
+                  <path d="M3 12a9 9 0 0 1 9-9h0a9 9 0 0 1 9 9h0a9 9 0 0 1-9 9h0a9 9 0 0 1-9-9m9 0V7" style={{ fill: "none", stroke: "currentColor", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 1.5 }} />
+                </svg>
+              ) : t.type === 'error' ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-red-500 shrink-0">
+                   <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-blue-500 shrink-0">
+                   <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+              )}
+              <p className="text-[13px] font-medium text-white/90 ml-3 tracking-wide break-words">
+                {resolveValue(t.message, t)}
+              </p>
+            </div>
+
+            {/* close button */}
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              type="button"
+              aria-label="close"
+              className="active:scale-90 transition-all p-3 text-white/40 hover:text-white shrink-0 outline-none"
+            >
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
+        )}
+      </Toaster>
 
       {/* Page Content - always rendered */}
       <div className="w-full h-full">
