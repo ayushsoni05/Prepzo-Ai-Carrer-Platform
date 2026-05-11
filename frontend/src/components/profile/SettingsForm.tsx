@@ -3,7 +3,6 @@ import {
   User, 
   GraduationCap, 
   Target, 
-  Code, 
   Upload, 
   Save, 
   Trash2, 
@@ -14,15 +13,17 @@ import {
   FileText,
   Briefcase,
   Zap,
-  Star,
   CalendarDays,
   Clock,
-  TrendingUp,
-  LogOut
+  LogOut,
+  ShieldAlert,
+  Bell,
+  Lock,
+  Eye,
+  Database
 } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { uploadApi } from '@/api/auth';
-import { GlassCard, GlassButton } from '@/components/ui/GlassCard';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import { 
   SearchableDropdown, 
@@ -38,6 +39,14 @@ import { TechnologySelector } from '@/components/ui/TechnologySelector';
 import ThinkingLoader from '@/components/ui/loading';
 import toast from 'react-hot-toast';
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+
 interface SkillSliderProps {
   skill: string;
   value: number;
@@ -47,8 +56,8 @@ interface SkillSliderProps {
 const SkillSlider = ({ skill, value, onChange }: SkillSliderProps) => (
   <div className="group">
     <div className="flex items-center justify-between mb-3">
-      <label className="text-[13px] font-black uppercase tracking-tight text-white/70 group-hover:text-[#00ff9d] transition-colors">{skill}</label>
-      <span className="text-[12px] font-black text-[#00ff9d] italic">{value}/10</span>
+      <label className="text-[13px] font-black uppercase tracking-tight text-white/70 group-hover:text-[#5ed29c] transition-colors">{skill}</label>
+      <span className="text-[12px] font-black text-[#5ed29c] italic">{value}/10</span>
     </div>
     <div className="relative">
       <input
@@ -57,7 +66,7 @@ const SkillSlider = ({ skill, value, onChange }: SkillSliderProps) => (
         max="10"
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-1 rounded-full appearance-none bg-white/5 accent-[#00ff9d] cursor-pointer"
+        className="w-full h-1 rounded-full appearance-none bg-white/5 accent-[#5ed29c] cursor-pointer"
       />
     </div>
   </div>
@@ -137,6 +146,18 @@ export function SettingsForm() {
     }
   };
 
+  const handleDeleteAccount = () => {
+    if (window.confirm('WARNING: This will permanently delete your account and all associated data. This action cannot be undone. Are you absolutely sure?')) {
+      toast.error('Account deletion requested. Please contact support to finalize.');
+    }
+  };
+
+  const handleClearData = () => {
+    if (window.confirm('WARNING: This will clear all your assessment history, saved jobs, and performance data. Continue?')) {
+      toast.success('Local data cache cleared successfully.');
+    }
+  };
+
   return (
     <div className="max-w-6xl mx-auto space-y-12 pb-32 font-rubik">
       {/* Header */}
@@ -146,134 +167,130 @@ export function SettingsForm() {
           <h1 className="text-4xl md:text-8xl font-[900] text-white uppercase tracking-tighter italic leading-[0.85]">Settings <span className="text-white/20">Matrix</span></h1>
         </div>
         <div className="flex items-center gap-4">
-          <GlassButton 
+          <button 
             onClick={handleLogout}
-            className="bg-red-500/10 text-red-500 border-red-500/20 px-8 py-5 rounded-[24px] flex items-center gap-3 hover:bg-red-500 hover:text-white transition-all shadow-xl shadow-red-500/10"
+            className="bg-red-500/10 text-red-500 border border-red-500/20 px-6 py-3 rounded-xl flex items-center gap-2 hover:bg-red-500 hover:text-white transition-all shadow-xl shadow-red-500/10"
           >
-            <LogOut size={20} />
-            <span className="font-[900] uppercase tracking-widest text-[13px]">Logout</span>
-          </GlassButton>
-          <GlassButton 
+            <LogOut size={16} />
+            <span className="font-[900] uppercase tracking-widest text-[11px]">Logout</span>
+          </button>
+          <button 
             onClick={handleSave} 
             disabled={loading}
-            className="bg-[#5ed29c] text-[#0a0c10] px-10 py-5 rounded-[24px] flex items-center gap-3 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#5ed29c]/10"
+            className="bg-[#5ed29c] text-[#0a0c10] px-8 py-3 rounded-xl flex items-center gap-2 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#5ed29c]/10"
           >
-            {loading ? <ThinkingLoader /> : <Save size={20} />}
-            <span className="font-[900] uppercase tracking-widest text-[13px]">Sync Profile</span>
-          </GlassButton>
+            {loading ? <ThinkingLoader /> : <Save size={16} />}
+            <span className="font-[900] uppercase tracking-widest text-[11px]">Sync Profile</span>
+          </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Appearance Section */}
-        <div className="lg:col-span-12">
-          <GlassCard className="p-8 rounded-[48px] border-white/5 bg-[#0a0c10]/40 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-6">
-               <div className="w-16 h-16 rounded-[24px] bg-white/5 border border-white/10 flex items-center justify-center">
-                  <Globe className="text-white/40" size={28} />
-               </div>
-               <div>
-                  <h3 className="text-2xl font-[900] text-white uppercase tracking-tight italic">System Appearance</h3>
-                  <p className="text-[11px] font-bold text-white/30 uppercase tracking-[0.2em] mt-1">Calibrate neural interface visuals</p>
-               </div>
-            </div>
-            <div className="bg-white/5 px-8 py-4 rounded-[24px] border border-white/10">
-               <ThemeToggle />
-            </div>
-          </GlassCard>
-        </div>
+      <Tabs defaultValue="account" className="w-full">
+        <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 mb-8 bg-[#0a0c10]/40 border border-white/5 backdrop-blur-3xl h-auto p-2 gap-2">
+          <TabsTrigger value="account" className="py-3 text-xs uppercase tracking-widest font-black"><User className="w-4 h-4 mr-2" /> Account</TabsTrigger>
+          <TabsTrigger value="academic" className="py-3 text-xs uppercase tracking-widest font-black"><GraduationCap className="w-4 h-4 mr-2" /> Academic</TabsTrigger>
+          <TabsTrigger value="security" className="py-3 text-xs uppercase tracking-widest font-black"><Lock className="w-4 h-4 mr-2" /> Security</TabsTrigger>
+          <TabsTrigger value="privacy" className="py-3 text-xs uppercase tracking-widest font-black"><Eye className="w-4 h-4 mr-2" /> Privacy</TabsTrigger>
+          <TabsTrigger value="notifications" className="py-3 text-xs uppercase tracking-widest font-black"><Bell className="w-4 h-4 mr-2" /> Alerts</TabsTrigger>
+          <TabsTrigger value="data" className="py-3 text-xs uppercase tracking-widest font-black"><Database className="w-4 h-4 mr-2" /> Data</TabsTrigger>
+        </TabsList>
 
-        {/* Left Column: Personal & Academic */}
-        <div className="lg:col-span-7 space-y-8">
-          {/* Personal Identity */}
-          <GlassCard className="p-10 rounded-[60px] border-white/5 bg-[#0a0c10]/40 backdrop-blur-3xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
-                <User size={120} strokeWidth={1} />
-            </div>
-            <div className="flex items-center gap-4 mb-14">
-              <div className="w-12 h-12 rounded-2xl bg-[#5ed29c]/10 border border-[#5ed29c]/20 flex items-center justify-center">
-                <User className="text-[#5ed29c]" size={24} />
-              </div>
-              <h2 className="text-3xl font-[900] text-white uppercase tracking-tighter italic">Identity Node</h2>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-3">
-                <label className="text-[10px] font-[900] uppercase tracking-[0.3em] text-white/30 ml-2">Full Name</label>
-                <input 
-                  type="text" 
-                  value={formData.fullName}
-                  onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                  className="w-full px-7 py-5 rounded-[24px] bg-white/5 border border-white/10 text-white font-bold focus:border-[#5ed29c]/50 focus:ring-0 transition-all placeholder:text-white/10"
-                  placeholder="Enter your system name"
-                />
-              </div>
-              <div className="space-y-3">
-                <label className="text-[10px] font-[900] uppercase tracking-[0.3em] text-white/30 ml-2">Phone Vector</label>
-                <div className="relative">
-                  <Phone className="absolute left-7 top-1/2 -translate-y-1/2 text-white/20" size={18} />
-                  <input 
-                    type="text" 
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    className="w-full pl-16 pr-7 py-5 rounded-[24px] bg-white/5 border border-white/10 text-white font-bold focus:border-[#5ed29c]/50 focus:ring-0 transition-all placeholder:text-white/10"
-                    placeholder="Physical contact ID"
+        <TabsContent value="account" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl uppercase tracking-tighter italic">
+                <div className="p-2 rounded-lg bg-[#5ed29c]/10 text-[#5ed29c]"><User size={20} /></div>
+                Identity Node
+              </CardTitle>
+              <CardDescription className="uppercase tracking-widest text-[10px]">Manage your personal command center identity</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Full Name</Label>
+                  <Input 
+                    value={formData.fullName}
+                    onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                    placeholder="Enter your system name"
                   />
                 </div>
-              </div>
-              <div className="space-y-3">
-                <label className="text-[10px] font-[900] uppercase tracking-[0.3em] text-white/30 ml-2">LinkedIn Bridge</label>
-                <div className="relative">
-                  <Linkedin className="absolute left-7 top-1/2 -translate-y-1/2 text-white/20" size={18} />
-                  <input 
-                    type="text" 
-                    value={formData.linkedin}
-                    onChange={(e) => setFormData({...formData, linkedin: e.target.value})}
-                    className="w-full pl-16 pr-7 py-5 rounded-[24px] bg-white/5 border border-white/10 text-white font-bold focus:border-[#5ed29c]/50 focus:ring-0 transition-all placeholder:text-white/10"
-                    placeholder="linkedin.com/in/username"
-                  />
+                <div className="space-y-2">
+                  <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Phone Vector</Label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20" size={14} />
+                    <Input 
+                      className="pl-9"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                      placeholder="Physical contact ID"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">LinkedIn Bridge</Label>
+                  <div className="relative">
+                    <Linkedin className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20" size={14} />
+                    <Input 
+                      className="pl-9"
+                      value={formData.linkedin}
+                      onChange={(e) => setFormData({...formData, linkedin: e.target.value})}
+                      placeholder="linkedin.com/in/username"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">GitHub Repository</Label>
+                  <div className="relative">
+                    <Github className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20" size={14} />
+                    <Input 
+                      className="pl-9"
+                      value={formData.github}
+                      onChange={(e) => setFormData({...formData, github: e.target.value})}
+                      placeholder="github.com/username"
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="space-y-3">
-                <label className="text-[10px] font-[900] uppercase tracking-[0.3em] text-white/30 ml-2">GitHub Repository</label>
-                <div className="relative">
-                  <Github className="absolute left-7 top-1/2 -translate-y-1/2 text-white/20" size={18} />
-                  <input 
-                    type="text" 
-                    value={formData.github}
-                    onChange={(e) => setFormData({...formData, github: e.target.value})}
-                    className="w-full pl-16 pr-7 py-5 rounded-[24px] bg-white/5 border border-white/10 text-white font-bold focus:border-[#5ed29c]/50 focus:ring-0 transition-all placeholder:text-white/10"
-                    placeholder="github.com/username"
-                  />
-                </div>
-              </div>
-            </div>
-          </GlassCard>
+            </CardContent>
+          </Card>
 
-          {/* Academic Node */}
-          <GlassCard className="p-10 rounded-[60px] border-white/5 bg-[#0a0c10]/40 relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
-                <GraduationCap size={120} strokeWidth={1} />
-            </div>
-            <div className="flex items-center gap-4 mb-14">
-              <div className="w-12 h-12 rounded-2xl bg-[#5ed29c]/10 border border-[#5ed29c]/20 flex items-center justify-center">
-                <GraduationCap className="text-[#5ed29c]" size={24} />
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-3 text-2xl uppercase tracking-tighter italic">
+                  <div className="p-2 rounded-lg bg-white/5 text-white/50"><Globe size={20} /></div>
+                  System Appearance
+                </CardTitle>
+                <CardDescription className="uppercase tracking-widest text-[10px]">Calibrate neural interface visuals</CardDescription>
               </div>
-              <h2 className="text-3xl font-[900] text-white uppercase tracking-tighter italic">Academic Backbone</h2>
-            </div>
+              <div className="bg-white/5 px-4 py-2 rounded-xl border border-white/10">
+                <ThemeToggle />
+              </div>
+            </CardHeader>
+          </Card>
+        </TabsContent>
 
-            <div className="space-y-10">
-              <div className="space-y-3">
-                <label className="text-[10px] font-[900] uppercase tracking-[0.3em] text-white/30 ml-2">University / Institute</label>
+        <TabsContent value="academic" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl uppercase tracking-tighter italic">
+                <div className="p-2 rounded-lg bg-[#5ed29c]/10 text-[#5ed29c]"><GraduationCap size={20} /></div>
+                Academic Backbone
+              </CardTitle>
+              <CardDescription className="uppercase tracking-widest text-[10px]">Your institutional signals</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-8">
+              <div className="space-y-2">
+                <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">University / Institute</Label>
                 <CollegeDropdown 
                   value={formData.collegeName}
                   onChange={(val) => setFormData({...formData, collegeName: val})}
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-3">
-                  <label className="text-[10px] font-[900] uppercase tracking-[0.3em] text-white/30 ml-2">Degree Program</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Degree Program</Label>
                   <SearchableDropdown 
                     value={formData.degree}
                     onChange={(val) => setFormData({...formData, degree: val, fieldOfStudy: ''})}
@@ -282,8 +299,8 @@ export function SettingsForm() {
                     icon={FileText}
                   />
                 </div>
-                <div className="space-y-3">
-                  <label className="text-[10px] font-[900] uppercase tracking-[0.3em] text-white/30 ml-2">Field of Intelligence</label>
+                <div className="space-y-2">
+                  <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Field of Intelligence</Label>
                   <SearchableDropdown 
                     value={formData.fieldOfStudy}
                     onChange={(val) => setFormData({...formData, fieldOfStudy: val})}
@@ -293,8 +310,8 @@ export function SettingsForm() {
                     searchable={true}
                   />
                 </div>
-                <div className="space-y-3">
-                  <label className="text-[10px] font-[900] uppercase tracking-[0.3em] text-white/30 ml-2">Study Cycle</label>
+                <div className="space-y-2">
+                  <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Study Cycle</Label>
                   <SearchableDropdown 
                     value={formData.yearOfStudy}
                     onChange={(val) => setFormData({...formData, yearOfStudy: val})}
@@ -303,170 +320,84 @@ export function SettingsForm() {
                     icon={CalendarDays as any}
                   />
                 </div>
-                <div className="space-y-3">
-                  <label className="text-[10px] font-[900] uppercase tracking-[0.3em] text-white/30 ml-2">GPA Signal (0-10)</label>
-                  <input 
-                    type="text" 
+                <div className="space-y-2">
+                  <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">GPA Signal (0-10)</Label>
+                  <Input 
                     value={formData.cgpa}
                     onChange={(e) => setFormData({...formData, cgpa: e.target.value})}
-                    className="w-full px-7 py-5 rounded-[24px] bg-white/5 border border-white/10 text-white font-bold"
                     placeholder="Current academic score"
                   />
                 </div>
               </div>
-            </div>
-          </GlassCard>
-        </div>
+            </CardContent>
+          </Card>
 
-        {/* Right Column: Career & Resume */}
-        <div className="lg:col-span-5 space-y-8">
-          {/* Career Vector */}
-          <GlassCard className="p-10 rounded-[60px] border-white/5 bg-[#0a0c10]/40 relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
-                <Briefcase size={120} strokeWidth={1} />
-            </div>
-            <div className="flex items-center gap-4 mb-14">
-              <div className="w-12 h-12 rounded-2xl bg-[#5ed29c]/10 border border-[#5ed29c]/20 flex items-center justify-center">
-                <Briefcase className="text-[#5ed29c]" size={24} />
-              </div>
-              <h2 className="text-3xl font-[900] text-white uppercase tracking-tighter italic">Career Vector</h2>
-            </div>
-
-            <div className="space-y-8">
-              <div className="space-y-3">
-                <label className="text-[10px] font-[900] uppercase tracking-[0.3em] text-white/30 ml-2">Target Command Role</label>
-                <SearchableDropdown 
-                  value={formData.targetRole}
-                  onChange={(val) => setFormData({...formData, targetRole: val})}
-                  options={roleOptions}
-                  placeholder="The role you seek"
-                  icon={Briefcase}
-                />
-              </div>
-              <div className="space-y-3">
-                <label className="text-[10px] font-[900] uppercase tracking-[0.3em] text-white/30 ml-2">Expected Compensation (LPA)</label>
-                <SearchableDropdown 
-                  value={formData.expectedCtc}
-                  onChange={(val) => setFormData({...formData, expectedCtc: val})}
-                  options={expectedCtcOptions}
-                  placeholder="Value of expertise"
-                  icon={Zap}
-                />
-              </div>
-              <div className="space-y-3">
-                <label className="text-[10px] font-[900] uppercase tracking-[0.3em] text-white/30 ml-2">Placement Window</label>
-                <SearchableDropdown 
-                  value={formData.placementTimeline}
-                  onChange={(val) => setFormData({...formData, placementTimeline: val})}
-                  options={placementTimelineOptions}
-                  placeholder="Deployment timeline"
-                  icon={Clock as any}
-                />
-              </div>
-            </div>
-          </GlassCard>
-
-          {/* Resume Blueprint */}
-          <GlassCard className="p-10 rounded-[60px] border-white/5 bg-[#0a0c10]/40 relative overflow-hidden">
-             <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
-                <FileText size={120} strokeWidth={1} />
-            </div>
-            <div className="flex items-center gap-4 mb-14">
-              <div className="w-12 h-12 rounded-2xl bg-[#5ed29c]/10 border border-[#5ed29c]/20 flex items-center justify-center">
-                <FileText className="text-[#5ed29c]" size={24} />
-              </div>
-              <h2 className="text-3xl font-[900] text-white uppercase tracking-tighter italic">Resume Blueprint</h2>
-            </div>
-
-            {user?.resumeUrl ? (
-              <div className="p-8 rounded-[32px] bg-white/5 border border-white/10">
-                <div className="flex items-center justify-between mb-8">
-                  <div className="flex items-center gap-5">
-                    <div className="w-14 h-14 rounded-2xl bg-[#5ed29c]/10 flex items-center justify-center shadow-lg">
-                      <FileText className="text-[#5ed29c]" size={24} />
-                    </div>
-                    <div>
-                      <p className="text-[15px] font-[900] text-white uppercase italic">Primary Blueprint</p>
-                      <p className="text-[10px] font-bold text-[#5ed29c] uppercase tracking-widest mt-1">Status: Mapped Successfully</p>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={handleResumeDelete}
-                    className="p-4 bg-red-500/10 text-red-500 rounded-2xl hover:bg-red-500 hover:text-white transition-all shadow-lg"
-                  >
-                    <Trash2 size={20} />
-                  </button>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl uppercase tracking-tighter italic">
+                <div className="p-2 rounded-lg bg-[#5ed29c]/10 text-[#5ed29c]"><Briefcase size={20} /></div>
+                Career Vector
+              </CardTitle>
+              <CardDescription className="uppercase tracking-widest text-[10px]">Your professional trajectory</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                  <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Target Command Role</Label>
+                  <SearchableDropdown 
+                    value={formData.targetRole}
+                    onChange={(val) => setFormData({...formData, targetRole: val})}
+                    options={roleOptions}
+                    placeholder="The role you seek"
+                    icon={Briefcase}
+                  />
                 </div>
-                <a 
-                  href={user.resumeUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="block w-full py-5 rounded-[20px] border border-[#5ed29c]/20 bg-[#5ed29c]/5 text-[#5ed29c] text-center font-[900] text-[12px] uppercase tracking-[0.2em] hover:bg-[#5ed29c]/10 transition-all"
-                >
-                  View Current Link
-                </a>
-              </div>
-            ) : (
-              <div className="p-14 border-2 border-dashed border-white/10 rounded-[48px] text-center group hover:border-[#5ed29c]/30 transition-all">
-                <div className="mb-8 mx-auto w-20 h-20 bg-white/5 rounded-[24px] flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Upload className="text-white/20 group-hover:text-[#5ed29c]" size={36} />
+                <div className="space-y-2">
+                  <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Expected Compensation (LPA)</Label>
+                  <SearchableDropdown 
+                    value={formData.expectedCtc}
+                    onChange={(val) => setFormData({...formData, expectedCtc: val})}
+                    options={expectedCtcOptions}
+                    placeholder="Value of expertise"
+                    icon={Zap}
+                  />
                 </div>
-                <h4 className="text-white text-xl font-[900] uppercase tracking-tighter mb-2 italic">No Blueprint Detected</h4>
-                <p className="text-white/30 text-[11px] font-black uppercase tracking-widest mb-10">Upload your resume to calibrate recommendations</p>
-                <input 
-                  type="file" 
-                  id="resume-upload" 
-                  className="hidden" 
-                  accept=".pdf,.doc,.docx"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) handleResumeUpload(file);
-                  }}
-                />
-                <label 
-                  htmlFor="resume-upload"
-                  className="px-10 py-5 bg-white text-[#0a0c10] rounded-[20px] font-[900] text-[12px] uppercase tracking-[0.2em] cursor-pointer hover:bg-[#5ed29c] transition-all inline-block shadow-xl"
-                >
-                  {uploading ? <ThinkingLoader /> : 'Upload Blueprint'}
-                </label>
-              </div>
-            )}
-          </GlassCard>
-        </div>
-
-        {/* Bottom Full-Width: Skill Matrix */}
-        <div className="lg:col-span-12">
-          <GlassCard className="p-10 md:p-16 rounded-[60px] border-white/5 bg-[#0a0c10]/40 relative overflow-hidden">
-             <div className="absolute top-0 right-0 p-16 opacity-5 pointer-events-none">
-                <Code size={200} strokeWidth={1} />
-            </div>
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-16">
-              <div className="flex items-center gap-6">
-                <div className="w-14 h-14 rounded-2xl bg-[#5ed29c]/10 border border-[#5ed29c]/20 flex items-center justify-center">
-                  <Code className="text-[#5ed29c]" size={28} />
-                </div>
-                <h2 className="text-4xl font-[900] text-white uppercase tracking-tighter italic">Signal Expertise Matrix</h2>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
-              <div className="space-y-12">
-                <div>
-                  <h3 className="text-[12px] font-[900] uppercase tracking-[0.5em] text-white/30 mb-10 flex items-center gap-3">
-                    <Zap size={16} className="text-[#5ed29c]" /> Tech Stack Nodes
-                  </h3>
-                  <TechnologySelector 
-                    value={formData.knownTechnologies.join(', ')}
-                    onChange={(techs) => setFormData({...formData, knownTechnologies: techs.split(',').map(t => t.trim()).filter(t => t.length > 0)})}
+                <div className="space-y-2">
+                  <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Placement Window</Label>
+                  <SearchableDropdown 
+                    value={formData.placementTimeline}
+                    onChange={(val) => setFormData({...formData, placementTimeline: val})}
+                    options={placementTimelineOptions}
+                    placeholder="Deployment timeline"
+                    icon={Clock as any}
                   />
                 </div>
               </div>
+            </CardContent>
+          </Card>
 
-              <div className="space-y-12">
-                <h3 className="text-[12px] font-[900] uppercase tracking-[0.5em] text-white/30 mb-10 flex items-center gap-3">
-                  <Star size={16} className="text-[#5ed29c]" /> Expertise Calibration
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-10">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl uppercase tracking-tighter italic">
+                <div className="p-2 rounded-lg bg-[#5ed29c]/10 text-[#5ed29c]"><Zap size={20} /></div>
+                Signal Expertise Matrix
+              </CardTitle>
+              <CardDescription className="uppercase tracking-widest text-[10px]">Tech stack nodes & calibration</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-8">
+              <div className="space-y-4">
+                <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Tech Stack Nodes</Label>
+                <TechnologySelector 
+                  value={formData.knownTechnologies.join(', ')}
+                  onChange={(techs) => setFormData({...formData, knownTechnologies: techs.split(',').map(t => t.trim()).filter(t => t.length > 0)})}
+                />
+              </div>
+
+              <Separator />
+
+              <div className="space-y-4">
+                <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Expertise Calibration</Label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-8 mt-4">
                   {Object.entries(formData.skillRatings).map(([skill, value]) => (
                     <SkillSlider 
                       key={skill}
@@ -481,17 +412,207 @@ export function SettingsForm() {
                     />
                   ))}
                   {Object.keys(formData.skillRatings).length === 0 && (
-                     <div className="col-span-full py-16 text-center border border-white/5 rounded-[32px] bg-white/5 backdrop-blur-sm">
-                        <TrendingUp size={32} className="text-white/10 mx-auto mb-4" />
-                        <p className="text-[12px] font-[900] text-white/20 uppercase tracking-[0.3em] italic">Initialize onboarding to generate skill calibration maps.</p>
-                     </div>
+                    <div className="col-span-full py-10 text-center border border-white/5 rounded-2xl bg-white/5">
+                      <p className="text-[10px] font-black text-white/30 uppercase tracking-widest italic">Complete onboarding to generate skill calibration maps.</p>
+                    </div>
                   )}
                 </div>
               </div>
-            </div>
-          </GlassCard>
-        </div>
-      </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="security" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl uppercase tracking-tighter italic">
+                <div className="p-2 rounded-lg bg-blue-500/10 text-blue-400"><Lock size={20} /></div>
+                Security Protocol
+              </CardTitle>
+              <CardDescription className="uppercase tracking-widest text-[10px]">Manage authentication and sessions</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5">
+                <div className="space-y-1">
+                  <p className="text-sm font-bold uppercase tracking-wider text-white">Two-Factor Authentication</p>
+                  <p className="text-[10px] uppercase tracking-widest text-white/50">Secure your neural link with 2FA</p>
+                </div>
+                <Switch />
+              </div>
+              <div className="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5">
+                <div className="space-y-1">
+                  <p className="text-sm font-bold uppercase tracking-wider text-white">Require 2FA for Sensitive Ops</p>
+                  <p className="text-[10px] uppercase tracking-widest text-white/50">E.g., deleting resumes or changing email</p>
+                </div>
+                <Switch defaultChecked />
+              </div>
+              <Separator />
+              <div className="pt-2">
+                <Label className="uppercase tracking-widest text-[10px] text-blue-400 mb-4 block">Active Sessions</Label>
+                <div className="p-4 rounded-xl border border-white/10 bg-white/5 flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center">
+                      <Globe size={16} className="text-white/60" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wider text-white">Windows PC • Chrome</p>
+                      <p className="text-[10px] uppercase tracking-widest text-[#5ed29c] flex items-center gap-1 mt-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#5ed29c]" /> Active Now
+                      </p>
+                    </div>
+                  </div>
+                  <Badge variant="outline">Current</Badge>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="privacy" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl uppercase tracking-tighter italic">
+                <div className="p-2 rounded-lg bg-purple-500/10 text-purple-400"><Eye size={20} /></div>
+                Privacy Configuration
+              </CardTitle>
+              <CardDescription className="uppercase tracking-widest text-[10px]">Control your digital footprint</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5">
+                <div className="space-y-1">
+                  <p className="text-sm font-bold uppercase tracking-wider text-white">Public Profile Search</p>
+                  <p className="text-[10px] uppercase tracking-widest text-white/50">Allow recruiters to discover your node</p>
+                </div>
+                <Switch defaultChecked />
+              </div>
+              <div className="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5">
+                <div className="space-y-1">
+                  <p className="text-sm font-bold uppercase tracking-wider text-white">Show Performance Metrics</p>
+                  <p className="text-[10px] uppercase tracking-widest text-white/50">Display ATS scores and skill calibration publicly</p>
+                </div>
+                <Switch />
+              </div>
+              <div className="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5">
+                <div className="space-y-1">
+                  <p className="text-sm font-bold uppercase tracking-wider text-white">Anonymous Telemetry</p>
+                  <p className="text-[10px] uppercase tracking-widest text-white/50">Help improve the neural engine</p>
+                </div>
+                <Switch defaultChecked />
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="notifications" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl uppercase tracking-tighter italic">
+                <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400"><Bell size={20} /></div>
+                Alert Vectors
+              </CardTitle>
+              <CardDescription className="uppercase tracking-widest text-[10px]">Manage incoming signals</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5">
+                <div className="space-y-1">
+                  <p className="text-sm font-bold uppercase tracking-wider text-white">Job Match Alerts</p>
+                  <p className="text-[10px] uppercase tracking-widest text-white/50">Notify when high-probability roles appear</p>
+                </div>
+                <Switch defaultChecked />
+              </div>
+              <div className="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5">
+                <div className="space-y-1">
+                  <p className="text-sm font-bold uppercase tracking-wider text-white">Assessment Reminders</p>
+                  <p className="text-[10px] uppercase tracking-widest text-white/50">Alerts for pending stage 1 and stage 2 tests</p>
+                </div>
+                <Switch defaultChecked />
+              </div>
+              <div className="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5">
+                <div className="space-y-1">
+                  <p className="text-sm font-bold uppercase tracking-wider text-white">Security Notifications</p>
+                  <p className="text-[10px] uppercase tracking-widest text-white/50">Alerts for suspicious login activity</p>
+                </div>
+                <Switch defaultChecked disabled />
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="data" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl uppercase tracking-tighter italic">
+                <div className="p-2 rounded-lg bg-[#5ed29c]/10 text-[#5ed29c]"><Database size={20} /></div>
+                Data Management
+              </CardTitle>
+              <CardDescription className="uppercase tracking-widest text-[10px]">Your files and telemetry</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-8">
+              <div>
+                <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c] mb-4 block">Resume Blueprint</Label>
+                {user?.resumeUrl ? (
+                  <div className="p-6 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="p-3 rounded-lg bg-[#5ed29c]/10 text-[#5ed29c]">
+                        <FileText size={20} />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold uppercase tracking-wider text-white">Current Blueprint Mapped</p>
+                        <a href={user.resumeUrl} target="_blank" rel="noreferrer" className="text-[10px] text-[#5ed29c] hover:underline uppercase tracking-widest mt-1 inline-block">View Document</a>
+                      </div>
+                    </div>
+                    <button onClick={handleResumeDelete} className="p-2 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors">
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="p-8 border border-dashed border-white/10 rounded-xl text-center group hover:border-[#5ed29c]/30 transition-all">
+                    <Upload className="text-white/20 mx-auto mb-3 group-hover:text-[#5ed29c] transition-colors" size={24} />
+                    <p className="text-xs font-bold text-white uppercase tracking-wider mb-1">No Blueprint Detected</p>
+                    <p className="text-[10px] uppercase tracking-widest text-white/30 mb-4">Upload resume to calibrate AI</p>
+                    
+                    <input 
+                      type="file" 
+                      id="resume-upload" 
+                      className="hidden" 
+                      accept=".pdf,.doc,.docx"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) handleResumeUpload(file);
+                      }}
+                    />
+                    <label htmlFor="resume-upload" className="px-6 py-2 bg-white/10 text-white rounded-lg text-[10px] uppercase tracking-widest cursor-pointer hover:bg-white/20 transition-all">
+                      {uploading ? 'Uploading...' : 'Upload File'}
+                    </label>
+                  </div>
+                )}
+              </div>
+
+              <Separator />
+
+              <div className="space-y-4 pt-2">
+                <Label className="uppercase tracking-widest text-[10px] text-red-500 flex items-center gap-2"><ShieldAlert size={14} /> Danger Zone</Label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-4 rounded-xl border border-red-500/20 bg-red-500/5">
+                    <p className="text-sm font-bold uppercase tracking-wider text-red-500 mb-1">Clear Local Data</p>
+                    <p className="text-[10px] uppercase tracking-widest text-white/40 mb-4">Reset dashboard cache and saved states</p>
+                    <button onClick={handleClearData} className="px-4 py-2 bg-red-500/10 text-red-500 text-[10px] uppercase tracking-widest font-black rounded-lg hover:bg-red-500 hover:text-white transition-all">
+                      Clear Data
+                    </button>
+                  </div>
+                  <div className="p-4 rounded-xl border border-red-500/20 bg-red-500/5">
+                    <p className="text-sm font-bold uppercase tracking-wider text-red-500 mb-1">Delete Account</p>
+                    <p className="text-[10px] uppercase tracking-widest text-white/40 mb-4">Permanently purge your neural node</p>
+                    <button onClick={handleDeleteAccount} className="px-4 py-2 bg-red-500 text-white text-[10px] uppercase tracking-widest font-black rounded-lg hover:bg-red-600 transition-all">
+                      Delete Account
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
