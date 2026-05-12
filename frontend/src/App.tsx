@@ -17,6 +17,7 @@ import { NetworkPage } from '@/pages/NetworkPage';
 import TetrisDemo from '@/pages/TetrisDemo';
 import { QuestionBankPage } from '@/pages/QuestionBankPage';
 import { MobileNav } from '@/components/navigation/MobileNav';
+import { MobileHeader } from '@/components/navigation/MobileHeader';
 import TailwindAwesomeDemo from '@/pages/TailwindAwesomeDemo';
 import Sidebar from '@/components/navigation/Sidebar';
 import { InterviewPage } from '@/pages/InterviewPage';
@@ -371,7 +372,14 @@ export default function App() {
               onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
               lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
             />
-            <main className="flex-1 h-full overflow-y-auto overflow-x-hidden custom-scrollbar pb-24 md:pb-0">
+            <main className="flex-1 h-full overflow-y-auto overflow-x-hidden custom-scrollbar pb-24 md:pb-0 pt-16 md:pt-0">
+              <MobileHeader 
+                user={user || undefined}
+                onLogout={() => {
+                  useAuthStore.getState().logout();
+                  handleNavigate('landing');
+                }}
+              />
               {(currentPage === 'dashboard' || currentPage === 'resume' || currentPage === 'settings' || currentPage === 'assessment') && <Dashboard />}
               {currentPage === 'jobs' && <JobsPage />}
               {currentPage === 'companies' && <CompaniesPage />}

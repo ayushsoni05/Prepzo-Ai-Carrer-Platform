@@ -106,6 +106,18 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-y: none;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+button, nav, .sidebar-item, .nav-item, img {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+@media (max-width: 768px) {
+  *::-webkit-scrollbar { display: none !important; }
+  * { scrollbar-width: none !important; }
 }
 
 #root { min-height: 100vh; }
@@ -163,13 +175,25 @@ a, button, .glass-panel, .apple-card, .glass-button, .glass-input, .glass-textar
   
   /* Cap border radius on mobile for cleaner look */
   .rounded-\[48px\], .rounded-\[80px\], .rounded-\[40px\] {
-    border-radius: 28px !important;
+    border-radius: 24px !important;
+  }
+
+  /* Optimize touch targets */
+  button, .clickable {
+    min-height: 44px;
+    min-width: 44px;
   }
 
   /* Full screen menus on mobile */
   .auth-card {
-    padding: 1.5rem !important;
-    border-radius: 32px !important;
+    padding: 1.25rem !important;
+    border-radius: 24px !important;
+  }
+  
+  /* Tighter spacing for mobile app feel */
+  .section-spacing {
+    margin-top: 3rem !important;
+    margin-bottom: 3rem !important;
   }
 }
 

@@ -81,7 +81,7 @@ export const PrepzoNavbar = ({ onNavigate }: PrepzoNavbarProps) => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-[100] bg-code-dark flex flex-col p-8"
+            className="fixed inset-0 z-[100] bg-code-dark flex flex-col p-8 pt-[max(2rem,env(safe-area-inset-top))]"
           >
             <div className="flex justify-between items-center mb-24">
                  <div className="flex items-center gap-4">

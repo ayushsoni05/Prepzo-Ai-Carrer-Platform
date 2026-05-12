@@ -20,7 +20,7 @@ export const PrepzoHero = ({ onNavigate }: PrepzoHeroProps) => {
       opacityMax={0.5}
       background="#070b0a"
     >
-      <div className="relative z-20 max-w-[1400px] mx-auto px-6 md:px-12 pt-40 md:pt-64 pb-64 flex flex-col items-start justify-start min-h-screen">
+      <div className="relative z-20 max-w-[1400px] mx-auto px-6 md:px-12 pt-32 md:pt-64 pb-32 md:pb-64 flex flex-col items-start justify-start min-h-screen">
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}

@@ -280,7 +280,7 @@ export const LandingPage = ({ onNavigate }: LandingPageProps) => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1 + i * 0.1, duration: 0.8, ease: 'easeOut' }}
-                        className="bg-[#161a20] border border-white/5 backdrop-blur-3xl flex flex-col justify-between rounded-[40px] px-10 py-9 hover:border-white/30 transition-all group shadow-2xl relative overflow-hidden"
+                        className="bg-[#161a20] border border-white/5 backdrop-blur-3xl flex flex-col justify-between rounded-[40px] px-6 py-7 md:px-10 md:py-9 hover:border-white/30 transition-all group shadow-2xl relative overflow-hidden"
                     >
                         <m.icon className="h-7 w-7 text-white mb-8 group-hover:scale-110 transition-transform" />
                         <p className="text-5xl font-rubik font-[900] text-white tracking-tighter leading-none mb-4">{m.value}</p>
@@ -307,7 +307,7 @@ export const LandingPage = ({ onNavigate }: LandingPageProps) => {
                     <feature.icon size={24} strokeWidth={2.5} />
                     {feature.eyebrow}
                   </div>
-                  <h2 className="text-4xl md:text-7xl font-rubik font-[900] leading-[0.95] tracking-tighter text-white uppercase mb-8 md:mb-10">
+                  <h2 className="text-4xl md:text-7xl font-rubik font-[900] leading-[0.9] md:leading-[0.95] tracking-tighter text-white uppercase mb-6 md:mb-10">
                     {feature.title}
                   </h2>
                   <p className="text-[19px] md:text-[21px] leading-relaxed text-white/50 mb-14 max-w-xl font-rubik font-medium tracking-tight">
@@ -356,9 +356,9 @@ export const LandingPage = ({ onNavigate }: LandingPageProps) => {
 
         {/* ── Platform Edge Bento ──────────────────────────── */}
         <section className="mx-auto mt-40 max-w-7xl px-6" id="roadmap">
-          <div className="mb-20 md:mb-28 text-center px-4">
+          <div className="mb-12 md:mb-28 text-center px-4">
             <p className="text-[10px] md:text-[11px] font-rubik font-[900] uppercase tracking-[0.5em] text-white/40 mb-6 md:mb-8">VERIFIED EDGE</p>
-            <h2 className="text-4xl md:text-9xl font-rubik font-[900] tracking-tighter text-white uppercase leading-[0.8]">
+            <h2 className="text-4xl md:text-9xl font-rubik font-[900] tracking-tighter text-white uppercase leading-[0.85] md:leading-[0.8]">
               Built different.<br />
               <span className="text-white/40">Proven different.</span>
             </h2>
