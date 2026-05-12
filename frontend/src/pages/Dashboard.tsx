@@ -119,7 +119,7 @@ const demoJDs = [
 ];
 
 export function Dashboard() {
-  const { user, completeAssessmentAsync } = useAuthStore();
+  const { user, completeAssessmentAsync, logout } = useAuthStore();
   const {
     dashboardTab,
     setDashboardTab,
@@ -1744,6 +1744,7 @@ export function Dashboard() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             onClick={() => {
+              logout();
               window.location.hash = 'landing';
             }}
             className="fixed left-8 top-8 z-[110] inline-flex items-center gap-4 text-white/60 hover:text-white transition-all uppercase font-bold tracking-widest text-[11px]"
