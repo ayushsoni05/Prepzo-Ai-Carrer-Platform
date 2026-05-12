@@ -55,7 +55,7 @@ router.get('/google/callback',
       // Redirect to frontend dashboard or onboarding
       // In production, use the environment variable for frontend URL
       const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
-      const redirectPath = user.isOnboarded ? '/dashboard' : '/onboarding';
+      const redirectPath = '/dashboard';
       
       res.redirect(`${frontendUrl}${redirectPath}?token=${accessToken}`);
     } catch (error) {

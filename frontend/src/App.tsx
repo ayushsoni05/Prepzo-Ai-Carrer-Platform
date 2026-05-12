@@ -71,13 +71,7 @@ export default function App() {
             setAuthValidated(true);
             
             // Navigate based on state
-            if (validatedUser.role === 'admin') {
-              handleNavigate('admin');
-            } else if (!validatedUser.isOnboarded) {
-              handleNavigate('onboarding');
-            } else {
-              handleNavigate('dashboard');
-            }
+            handleNavigate('dashboard');
           }
         } catch (error) {
           toast.error('Google login failed. Please try again.');

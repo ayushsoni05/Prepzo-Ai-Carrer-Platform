@@ -302,8 +302,6 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
       setSignupOtpVerifying(true);
       await authApi.verifySignupOTP(email, signupOtp);
       setIsEmailVerified(true);
-      setEmailVerificationStep(false);
-      setStep(2);
       toast.success('Email verified! Continue filling your details.');
     } catch (error: any) {
       toast.error(error.response?.data?.message || 'Invalid or expired code. Try again.');
@@ -394,7 +392,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
       localStorage.removeItem('prepzo-signup-draft');
       localStorage.removeItem('prepzo-signup-step');
       toast.success('Account created successfully!');
-      onNavigate('onboarding');
+      onNavigate('dashboard');
     } catch (error: unknown) {
       // Check if it's a validation/conflict error vs network error
       const axiosError = error as { response?: { status?: number; data?: { message?: string; code?: string; errors?: string[] } } };
@@ -466,13 +464,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
       toast.success('Welcome back!');
       
       // Navigate based on user state
-      if (user.role === 'admin') {
-        onNavigate('admin');
-      } else if (!user.isOnboarded) {
-        onNavigate('onboarding');
-      } else {
-        onNavigate('dashboard');
-      }
+      onNavigate('dashboard');
     } catch (error: unknown) {
       // Check if it's an authentication error (401) vs network/server error
       const axiosError = error as { response?: { status?: number; data?: { message?: string } } };
@@ -550,13 +542,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
       const user = await verifyOTPAsync(otpEmail, otp);
       toast.success('Welcome back!');
       
-      if (user.role === 'admin') {
-        onNavigate('admin');
-      } else if (!user.isOnboarded) {
-        onNavigate('onboarding');
-      } else {
-        onNavigate('dashboard');
-      }
+      onNavigate('dashboard');
     } catch (error: any) {
       console.error('Verification Error:', error);
       toast.error(error.response?.data?.message || 'Invalid code. Please try again.');
@@ -870,6 +856,26 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                             exit={{ opacity: 0, x: -20 }}
                             className="space-y-5"
                           >
+                            <button
+                              type="button"
+                              onClick={handleGoogleLogin}
+                              className="w-full flex items-center justify-center gap-3 bg-white/5 border border-white/10 hover:bg-white/10 rounded-2xl py-4 text-white font-bold text-[11px] tracking-widest transition-all"
+                            >
+                              <svg className="w-4 h-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z" fill="#EA4335"/>
+                              </svg>
+                              SIGN UP WITH GOOGLE
+                            </button>
+
+                            <div className="flex items-center gap-4 py-2">
+                              <div className="h-px flex-1 bg-white/10"></div>
+                              <span className="text-[10px] text-white/20 font-bold uppercase tracking-widest">OR</span>
+                              <div className="h-px flex-1 bg-white/10"></div>
+                            </div>
+
                             <div className="relative">
                               <User className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
                               <input
@@ -880,20 +886,75 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                             </div>
                             {signupErrors.fullName && <p className="text-[10px] text-red-500 font-bold uppercase tracking-widest ml-2">{signupErrors.fullName.message}</p>}
 
-                            <div className="relative">
-                              <Mail className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
-                              <input
-                                {...registerSignup('email')}
-                                type="email"
-                                placeholder="EMAIL ADDRESS"
-                                onChange={(e) => {
-                                  e.target.value = e.target.value.toLowerCase();
-                                  registerSignup('email').onChange(e);
-                                }}
-                                className="w-full bg-white/5 border border-white/5 focus:border-white/20 rounded-2xl py-4 pl-14 pr-5 text-white placeholder-white/20 font-bold text-[13px] tracking-widest outline-none transition-all"
-                              />
+                            <div className="flex gap-3">
+                              <div className="relative flex-1">
+                                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
+                                <input
+                                  {...registerSignup('email')}
+                                  type="email"
+                                  placeholder="EMAIL ADDRESS"
+                                  onChange={(e) => {
+                                    e.target.value = e.target.value.toLowerCase();
+                                    registerSignup('email').onChange(e);
+                                  }}
+                                  className="w-full bg-white/5 border border-white/5 focus:border-white/20 rounded-2xl py-4 pl-14 pr-5 text-white placeholder-white/20 font-bold text-[13px] tracking-widest outline-none transition-all"
+                                />
+                              </div>
+                              <button
+                                type="button"
+                                onClick={handleSendSignupOtp}
+                                disabled={signupOtpVerifying || isEmailVerified}
+                                className={`px-6 rounded-2xl font-bold text-[11px] tracking-widest transition-all ${isEmailVerified ? 'bg-emerald-500/20 text-emerald-500 border border-emerald-500/20' : 'bg-white text-[#0a0c10] hover:bg-white/90 disabled:opacity-50'}`}
+                              >
+                                {signupOtpVerifying ? <Loader2 className="w-4 h-4 animate-spin" /> : isEmailVerified ? 'VERIFIED' : 'VERIFY'}
+                              </button>
                             </div>
                             {signupErrors.email && <p className="text-[10px] text-red-500 font-bold uppercase tracking-widest ml-2">{signupErrors.email.message}</p>}
+
+                            {/* Integrated OTP Section */}
+                            {signupOtpSent && !isEmailVerified && (
+                              <motion.div 
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="space-y-4 pt-2"
+                              >
+                                <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest ml-2">Enter 6-digit verification code</p>
+                                <div className="flex justify-between gap-2">
+                                  {Array.from({ length: 6 }).map((_, idx) => (
+                                    <input
+                                      key={idx}
+                                      id={`signup-otp-${idx}`}
+                                      type="password"
+                                      maxLength={1}
+                                      value={signupOtp[idx] || ''}
+                                      onChange={(e) => handleSignupOtpChange(idx, e.target.value)}
+                                      onKeyDown={(e) => handleSignupOtpKeyDown(idx, e)}
+                                      className="w-full h-12 bg-white/5 border border-white/10 focus:border-white/40 focus:bg-white/10 rounded-xl text-center text-lg text-white font-bold outline-none transition-all placeholder-white/20"
+                                      placeholder="*"
+                                    />
+                                  ))}
+                                </div>
+                                <div className="flex justify-between items-center px-2">
+                                  <button
+                                    type="button"
+                                    onClick={handleVerifySignupOtp}
+                                    disabled={signupOtpVerifying || signupOtp.length < 6}
+                                    className="text-[10px] text-white font-black uppercase tracking-widest hover:text-white/80 transition-all flex items-center gap-2"
+                                  >
+                                    {signupOtpVerifying ? <Loader2 className="w-3 h-3 animate-spin" /> : <ShieldCheck className="w-3 h-3" />}
+                                    CONFIRM CODE
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={handleSendSignupOtp}
+                                    disabled={signupResendTimer > 0 || signupOtpVerifying}
+                                    className="text-[10px] text-white/30 font-bold uppercase tracking-widest hover:text-white transition-all disabled:opacity-30"
+                                  >
+                                    {signupResendTimer > 0 ? `RESEND IN ${signupResendTimer}S` : 'RESEND CODE'}
+                                  </button>
+                                </div>
+                              </motion.div>
+                            )}
 
                             <div className="relative">
                               <Phone className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20" />
@@ -902,7 +963,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                                 placeholder="PHONE NUMBER"
                                 maxLength={10}
                                 onInput={(e) => {
-                                  e.currentTarget.value = e.currentTarget.value.replace(/\\D/g, '').slice(0, 10);
+                                  e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '').slice(0, 10);
                                 }}
                                 className="w-full bg-white/5 border border-white/5 focus:border-white/20 rounded-2xl py-4 pl-14 pr-5 text-white placeholder-white/20 font-bold text-[13px] tracking-widest outline-none transition-all"
                               />
@@ -934,26 +995,6 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                                 />
                               )}
                             />
-
-                            <div className="flex items-center gap-4 py-2">
-                              <div className="h-px flex-1 bg-white/10"></div>
-                              <span className="text-[10px] text-white/20 font-bold uppercase tracking-widest">OR</span>
-                              <div className="h-px flex-1 bg-white/10"></div>
-                            </div>
-
-                            <button
-                              type="button"
-                              onClick={handleGoogleLogin}
-                              className="w-full flex items-center justify-center gap-3 bg-white/5 border border-white/10 hover:bg-white/10 rounded-2xl py-4 text-white font-bold text-[11px] tracking-widest transition-all"
-                            >
-                              <svg className="w-4 h-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z" fill="#EA4335"/>
-                              </svg>
-                              SIGN UP WITH GOOGLE
-                            </button>
                           </motion.div>
                         )}
 
@@ -1155,114 +1196,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                         )}
                       </AnimatePresence>
 
-                      {/* ── Email Verification Sub-Step ─────────────────────────── */}
-                      <AnimatePresence mode="wait">
-                        {emailVerificationStep && (
-                          <motion.div
-                            key="email-verify"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                            className="space-y-6"
-                          >
-                            {/* Email display */}
-                            <div className="flex items-center gap-4 px-6 py-4 rounded-2xl bg-white/5 border border-white/10">
-                              <Mail className="w-4 h-4 text-white/30 shrink-0" />
-                              <span className="text-[13px] text-white/60 font-bold tracking-widest">{watch('email')}</span>
-                            </div>
-
-                            <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest text-center">
-                              {signupOtpSent 
-                                ? 'Enter the 6-digit code sent to your email'
-                                : 'Click below to receive a verification code'
-                              }
-                            </p>
-
-                            {!signupOtpSent ? (
-                              <div className="flex flex-col items-center gap-4">
-                                <button
-                                  type="button"
-                                  onClick={handleSendSignupOtp}
-                                  disabled={signupOtpVerifying}
-                                  className="relative w-[220px] h-[65px] group active:scale-95 transition-transform disabled:opacity-50"
-                                >
-                                  <svg className="absolute inset-0 w-full h-full drop-shadow-xl transition-transform group-hover:scale-105" viewBox="0 0 220 65" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0 0H220L205 65H15L0 0Z" fill="white" />
-                                  </svg>
-                                  <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10] font-[800] text-[15px] uppercase tracking-wide gap-2">
-                                    {signupOtpVerifying ? <><Loader2 className="w-4 h-4 animate-spin" /> Sending...</> : <><Mail className="w-4 h-4" /> Send Code</>}
-                                  </span>
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => setEmailVerificationStep(false)}
-                                  className="text-[10px] text-white/30 font-bold uppercase tracking-[0.2em] hover:text-white transition-colors"
-                                >
-                                  ← Back to Step 1
-                                </button>
-                              </div>
-                            ) : (
-                              <div className="space-y-6">
-                                {/* OTP inputs */}
-                                <div className="flex justify-center gap-2 sm:gap-3">
-                                  {Array.from({ length: 6 }).map((_, idx) => (
-                                    <input
-                                      key={idx}
-                                      id={`signup-otp-${idx}`}
-                                      type="password"
-                                      maxLength={1}
-                                      value={signupOtp[idx] || ''}
-                                      onChange={(e) => handleSignupOtpChange(idx, e.target.value)}
-                                      onKeyDown={(e) => handleSignupOtpKeyDown(idx, e)}
-                                      className="w-11 h-14 bg-white/5 border border-white/10 focus:border-white/40 focus:bg-white/10 rounded-xl text-center text-xl text-white font-bold outline-none transition-all placeholder-white/20"
-                                      placeholder="*"
-                                      required={idx === 0}
-                                    />
-                                  ))}
-                                </div>
-
-                                <div className="flex flex-col items-center gap-4">
-                                  <button
-                                    type="button"
-                                    onClick={handleVerifySignupOtp}
-                                    disabled={signupOtpVerifying || signupOtp.length < 6}
-                                    className="relative w-[220px] h-[65px] group active:scale-95 transition-transform disabled:opacity-50"
-                                  >
-                                    <svg className="absolute inset-0 w-full h-full drop-shadow-xl transition-transform group-hover:scale-105" viewBox="0 0 220 65" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <path d="M0 0H220L205 65H15L0 0Z" fill="white" />
-                                    </svg>
-                                    <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10] font-[800] text-[15px] uppercase tracking-wide gap-2">
-                                      {signupOtpVerifying 
-                                        ? <><Loader2 className="w-4 h-4 animate-spin" /> Verifying...</>
-                                        : <><ShieldCheck className="w-4 h-4" /> Verify Email</>
-                                      }
-                                    </span>
-                                  </button>
-
-                                  <div className="flex items-center gap-6">
-                                    <button
-                                      type="button"
-                                      onClick={handleSendSignupOtp}
-                                      disabled={signupResendTimer > 0 || signupOtpVerifying}
-                                      className="text-[10px] text-white/30 font-bold uppercase tracking-[0.2em] hover:text-white transition-colors disabled:opacity-40"
-                                    >
-                                      {signupResendTimer > 0 ? `Resend in ${signupResendTimer}s` : 'Resend Code'}
-                                    </button>
-                                    <div className="w-px h-3 bg-white/10" />
-                                    <button
-                                      type="button"
-                                      onClick={() => { setSignupOtpSent(false); setSignupOtp(''); }}
-                                      className="text-[10px] text-white/30 font-bold uppercase tracking-[0.2em] hover:text-white transition-colors"
-                                    >
-                                      Change Email
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                      {/* Legacy Email Verification Step Removed - Now Integrated into Step 1 */}
 
                       <div className="flex gap-6 pt-10">
                         {step > 1 && !emailVerificationStep && (
