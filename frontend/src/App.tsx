@@ -242,8 +242,9 @@ export default function App() {
         handleNavigate('landing');
       }
     } else {
-      // If authenticated and on landing/login/signup, redirect to dashboard
-      if (['landing', 'login', 'signup'].includes(currentPage)) {
+      // If authenticated and on login/signup, redirect to dashboard
+      // Note: We allow landing page for authenticated users so they can use "Back to Landing"
+      if (['login', 'signup'].includes(currentPage)) {
         handleNavigate('dashboard');
       }
     }

@@ -1,8 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
+import { motion, AnimatePresence as FramerAnimatePresence } from 'framer-motion';
 
 import {
   Activity,
   ArrowRight,
+  ArrowLeft,
   Bot,
   FileText,
   ShieldCheck,
@@ -1737,6 +1739,19 @@ export function Dashboard() {
       {/* Glassmorphism dashboard lock overlay for new users */}
       {!isFullyQualified && !startAssessment && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-[40px]">
+          {/* Back button */}
+          <motion.button
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            onClick={() => {
+              window.location.hash = 'landing';
+            }}
+            className="fixed left-8 top-8 z-[110] inline-flex items-center gap-4 text-white/60 hover:text-white transition-all uppercase font-bold tracking-widest text-[11px]"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Landing
+          </motion.button>
+
           <div className="max-w-xl w-full mx-4">
              <div className="glass-panel rounded-[40px] p-12 text-center border border-white/10 shadow-2xl bg-white/5 relative overflow-hidden">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[200px] h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
