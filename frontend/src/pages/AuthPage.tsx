@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,6 +12,7 @@ import {
   targetRoleOptions,
   getFieldsOfStudyByDegree
 } from '@/components/ui/SearchableDropdown';
+import { authApi } from '@/api/auth';
 import { TechnologySelector } from '@/components/ui/TechnologySelector';
 import { useAuthStore } from '@/store/authStore';
 import { useAppStore } from '@/store/appStore';
@@ -34,7 +35,9 @@ import {
   Users,
   GraduationCap,
   BookOpen,
-  CalendarDays
+  CalendarDays,
+  ShieldCheck,
+  Loader2
 } from 'lucide-react';
 import { GridBeam } from '@/components/ui/background-grid-beam';
 
@@ -172,6 +175,14 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
   const [isVerifying, setIsVerifying] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
 
+  // Signup email verification state
+  const [emailVerificationStep, setEmailVerificationStep] = useState(false); // true = show OTP sub-step
+  const [signupOtpSent, setSignupOtpSent] = useState(false);
+  const [signupOtp, setSignupOtp] = useState('');
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [signupOtpVerifying, setSignupOtpVerifying] = useState(false);
+  const [signupResendTimer, setSignupResendTimer] = useState(0);
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (resendTimer > 0) {
@@ -180,7 +191,14 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
     return () => clearInterval(interval);
   }, [resendTimer]);
 
-  const { login, registerAsync, loginAsync, sendOTPAsync, verifyOTPAsync } = useAuthStore();
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (signupResendTimer > 0) {
+      interval = setInterval(() => setSignupResendTimer((prev) => prev - 1), 1000);
+    }
+    return () => clearInterval(interval);
+  }, [signupResendTimer]);
+
   const {} = useAppStore(); // Removed unused darkMode
 
   // Handle URL parameters (errors from Google Auth)
@@ -246,9 +264,70 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
     },
   });
 
+  const { login, registerAsync, loginAsync, sendOTPAsync, verifyOTPAsync } = useAuthStore();
+
   const password = watch('password') || '';
   const fullName = watch('fullName') || '';
   const selectedDegree = watch('degree') || '';
+
+  // Handlers for signup email verification (defined after useForm so watch is available)
+  const handleSendSignupOtp = useCallback(async () => {
+    const email = watch('email');
+    const name = watch('fullName');
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast.error('Please enter a valid email address in Step 1 first');
+      return;
+    }
+    try {
+      setSignupOtpVerifying(true);
+      await authApi.sendSignupOTP(email, name || 'Student');
+      setSignupOtpSent(true);
+      setSignupResendTimer(60);
+      toast.success('Verification code sent to your email!');
+    } catch (error: any) {
+      const msg = error.response?.data?.message || 'Failed to send verification code';
+      toast.error(msg);
+    } finally {
+      setSignupOtpVerifying(false);
+    }
+  }, [watch]);
+
+  const handleVerifySignupOtp = useCallback(async () => {
+    const email = watch('email');
+    if (!signupOtp || signupOtp.length < 6) {
+      toast.error('Please enter the full 6-digit code');
+      return;
+    }
+    try {
+      setSignupOtpVerifying(true);
+      await authApi.verifySignupOTP(email, signupOtp);
+      setIsEmailVerified(true);
+      setEmailVerificationStep(false);
+      setStep(2);
+      toast.success('Email verified! Continue filling your details.');
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Invalid or expired code. Try again.');
+    } finally {
+      setSignupOtpVerifying(false);
+    }
+  }, [signupOtp, watch]);
+
+  const handleSignupOtpChange = (index: number, value: string) => {
+    if (!/^\d*$/.test(value)) return;
+    const newOtp = signupOtp.split('');
+    newOtp[index] = value;
+    const updated = newOtp.join('');
+    setSignupOtp(updated);
+    if (value && index < 5) {
+      document.getElementById(`signup-otp-${index + 1}`)?.focus();
+    }
+  };
+
+  const handleSignupOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Backspace' && !signupOtp[index] && index > 0) {
+      document.getElementById(`signup-otp-${index - 1}`)?.focus();
+    }
+  };
 
   // Get dynamic field of study options based on selected degree
   const currentFieldOptions = getFieldsOfStudyByDegree(selectedDegree);
@@ -758,15 +837,25 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
 
                     <div className="text-center mb-10">
                       <h1 className="text-4xl md:text-5xl  font-[900] text-white uppercase tracking-tighter italic">Create Account</h1>
-                      <p className="mt-4 text-[12px] text-white/30 font-bold uppercase tracking-[0.3em]">Step {step} — {signupSteps[step - 1].title}</p>
+                      <p className="mt-4 text-[12px] text-white/30 font-bold uppercase tracking-[0.3em]">
+                        {emailVerificationStep 
+                          ? 'Verify Your Email — Check Inbox'
+                          : `Step ${step} — ${signupSteps[step - 1].title}`
+                        }
+                      </p>
                     </div>
 
-                    {/* Progress dots */}
+                    {/* Progress dots — 4 steps + email verification */}
                     <div className="flex justify-center gap-3 mb-12">
-                      {signupSteps.map((_, index) => (
+                      {/* Step 1 dot */}
+                      <div className={`h-1.5 rounded-full transition-all duration-500 ${!emailVerificationStep && step >= 1 || emailVerificationStep ? 'w-8 bg-white' : 'w-4 bg-white/10'}`} />
+                      {/* Email verify dot */}
+                      <div className={`h-1.5 rounded-full transition-all duration-500 ${emailVerificationStep ? 'w-8 bg-white animate-pulse' : isEmailVerified ? 'w-8 bg-white' : 'w-4 bg-white/10'}`} />
+                      {/* Steps 2-4 dots */}
+                      {signupSteps.slice(1).map((_, index) => (
                         <div
-                          key={index}
-                          className={`h-1.5 rounded-full transition-all duration-500 ${index < step ? 'w-8 bg-white' : 'w-4 bg-white/10'}`}
+                          key={index + 1}
+                          className={`h-1.5 rounded-full transition-all duration-500 ${step > index + 1 ? 'w-8 bg-white' : 'w-4 bg-white/10'}`}
                         />
                       ))}
                     </div>
@@ -1066,8 +1155,117 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                         )}
                       </AnimatePresence>
 
+                      {/* ── Email Verification Sub-Step ─────────────────────────── */}
+                      <AnimatePresence mode="wait">
+                        {emailVerificationStep && (
+                          <motion.div
+                            key="email-verify"
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                            className="space-y-6"
+                          >
+                            {/* Email display */}
+                            <div className="flex items-center gap-4 px-6 py-4 rounded-2xl bg-white/5 border border-white/10">
+                              <Mail className="w-4 h-4 text-white/30 shrink-0" />
+                              <span className="text-[13px] text-white/60 font-bold tracking-widest">{watch('email')}</span>
+                            </div>
+
+                            <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest text-center">
+                              {signupOtpSent 
+                                ? 'Enter the 6-digit code sent to your email'
+                                : 'Click below to receive a verification code'
+                              }
+                            </p>
+
+                            {!signupOtpSent ? (
+                              <div className="flex flex-col items-center gap-4">
+                                <button
+                                  type="button"
+                                  onClick={handleSendSignupOtp}
+                                  disabled={signupOtpVerifying}
+                                  className="relative w-[220px] h-[65px] group active:scale-95 transition-transform disabled:opacity-50"
+                                >
+                                  <svg className="absolute inset-0 w-full h-full drop-shadow-xl transition-transform group-hover:scale-105" viewBox="0 0 220 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 0H220L205 65H15L0 0Z" fill="white" />
+                                  </svg>
+                                  <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10] font-[800] text-[15px] uppercase tracking-wide gap-2">
+                                    {signupOtpVerifying ? <><Loader2 className="w-4 h-4 animate-spin" /> Sending...</> : <><Mail className="w-4 h-4" /> Send Code</>}
+                                  </span>
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setEmailVerificationStep(false)}
+                                  className="text-[10px] text-white/30 font-bold uppercase tracking-[0.2em] hover:text-white transition-colors"
+                                >
+                                  ← Back to Step 1
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="space-y-6">
+                                {/* OTP inputs */}
+                                <div className="flex justify-center gap-2 sm:gap-3">
+                                  {Array.from({ length: 6 }).map((_, idx) => (
+                                    <input
+                                      key={idx}
+                                      id={`signup-otp-${idx}`}
+                                      type="password"
+                                      maxLength={1}
+                                      value={signupOtp[idx] || ''}
+                                      onChange={(e) => handleSignupOtpChange(idx, e.target.value)}
+                                      onKeyDown={(e) => handleSignupOtpKeyDown(idx, e)}
+                                      className="w-11 h-14 bg-white/5 border border-white/10 focus:border-white/40 focus:bg-white/10 rounded-xl text-center text-xl text-white font-bold outline-none transition-all placeholder-white/20"
+                                      placeholder="*"
+                                      required={idx === 0}
+                                    />
+                                  ))}
+                                </div>
+
+                                <div className="flex flex-col items-center gap-4">
+                                  <button
+                                    type="button"
+                                    onClick={handleVerifySignupOtp}
+                                    disabled={signupOtpVerifying || signupOtp.length < 6}
+                                    className="relative w-[220px] h-[65px] group active:scale-95 transition-transform disabled:opacity-50"
+                                  >
+                                    <svg className="absolute inset-0 w-full h-full drop-shadow-xl transition-transform group-hover:scale-105" viewBox="0 0 220 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M0 0H220L205 65H15L0 0Z" fill="white" />
+                                    </svg>
+                                    <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10] font-[800] text-[15px] uppercase tracking-wide gap-2">
+                                      {signupOtpVerifying 
+                                        ? <><Loader2 className="w-4 h-4 animate-spin" /> Verifying...</>
+                                        : <><ShieldCheck className="w-4 h-4" /> Verify Email</>
+                                      }
+                                    </span>
+                                  </button>
+
+                                  <div className="flex items-center gap-6">
+                                    <button
+                                      type="button"
+                                      onClick={handleSendSignupOtp}
+                                      disabled={signupResendTimer > 0 || signupOtpVerifying}
+                                      className="text-[10px] text-white/30 font-bold uppercase tracking-[0.2em] hover:text-white transition-colors disabled:opacity-40"
+                                    >
+                                      {signupResendTimer > 0 ? `Resend in ${signupResendTimer}s` : 'Resend Code'}
+                                    </button>
+                                    <div className="w-px h-3 bg-white/10" />
+                                    <button
+                                      type="button"
+                                      onClick={() => { setSignupOtpSent(false); setSignupOtp(''); }}
+                                      className="text-[10px] text-white/30 font-bold uppercase tracking-[0.2em] hover:text-white transition-colors"
+                                    >
+                                      Change Email
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
                       <div className="flex gap-6 pt-10">
-                        {step > 1 && (
+                        {step > 1 && !emailVerificationStep && (
                           <button
                             type="button"
                             className="flex-1 text-[11px]  font-[900] text-white/40 uppercase tracking-[0.2em] hover:text-white transition-colors"
@@ -1077,18 +1275,33 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                           </button>
                         )}
                         
+                        {!emailVerificationStep && (
                         <div className="flex-1 flex justify-center">
                           {step < signupSteps.length ? (
                             <button 
                               type="button"
-                              onClick={() => setStep(step + 1)}
+                              onClick={() => {
+                                if (step === 1) {
+                                  // Require email verification before proceeding
+                                  if (isEmailVerified) {
+                                    setStep(2);
+                                  } else {
+                                    setEmailVerificationStep(true);
+                                    if (!signupOtpSent) {
+                                      handleSendSignupOtp();
+                                    }
+                                  }
+                                } else {
+                                  setStep(step + 1);
+                                }
+                              }}
                               className="relative w-[184px] h-[65px] group active:scale-95 transition-transform"
                             >
                               <svg className="absolute inset-0 w-full h-full drop-shadow-xl transition-transform group-hover:scale-105" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M0 0H184L174 65H10L0 0Z" fill="white" />
                               </svg>
                               <span className="relative z-10 flex items-center justify-center h-full text-[#0a0c10]  font-[800] text-[18px] uppercase tracking-wide">
-                                Next
+                                {step === 1 && !isEmailVerified ? 'Verify Email' : 'Next'}
                               </span>
                             </button>
                           ) : (
@@ -1105,6 +1318,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                             </button>
                           )}
                         </div>
+                        )}
                       </div>
                     </form>
 

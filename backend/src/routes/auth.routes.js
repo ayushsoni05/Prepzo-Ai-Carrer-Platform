@@ -17,6 +17,8 @@ import {
   loginMFA,
   requestEmailOTP,
   verifyEmailOTP,
+  sendSignupEmailOTP,
+  verifySignupEmailOTP,
 } from '../controllers/auth.controller.js';
 import { protect } from '../middleware/auth.middleware.js';
 import { authLimiter, registerLimiter, passwordResetLimiter, bruteForceProtection } from '../middleware/rateLimit.middleware.js';
@@ -68,6 +70,8 @@ router.post('/register', registerLimiter, validate({ body: registerSchema }), re
 router.post('/login', authLimiter, bruteForceProtection, validate({ body: loginSchema }), login);
 router.post('/send-otp', authLimiter, requestEmailOTP);
 router.post('/verify-otp', authLimiter, verifyEmailOTP);
+router.post('/send-signup-otp', authLimiter, sendSignupEmailOTP);
+router.post('/verify-signup-otp', authLimiter, verifySignupEmailOTP);
 router.post('/refresh', refresh);
 
 // Email verification

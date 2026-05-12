@@ -1710,6 +1710,21 @@ export const ProctoredAssessment = ({ testMode, onComplete, onBack }: ProctoredA
                 </div>
               </div>
             )}
+            {/* Back / Exit button — always visible during active test */}
+            <button
+              onClick={async () => {
+                const confirmed = window.confirm(
+                  'Are you sure you want to exit the assessment?\n\nYour progress will NOT be saved and you may need to retake the test.'
+                );
+                if (confirmed) {
+                  await handleBack();
+                }
+              }}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 text-[10px] font-black text-white/30 uppercase tracking-widest hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400 transition-all"
+              title="Exit Assessment"
+            >
+              <ChevronLeft className="w-3 h-3" /> Exit
+            </button>
           </div>
         </div>
 

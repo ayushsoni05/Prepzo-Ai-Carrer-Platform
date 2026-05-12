@@ -254,6 +254,17 @@ export const authApi = {
     }
     return response.data;
   },
+
+  // Pre-registration email verification (doesn't require existing account)
+  sendSignupOTP: async (email: string, name?: string): Promise<{ success: boolean; message: string }> => {
+    const response = await api.post<{ success: boolean; message: string }>('/auth/send-signup-otp', { email, name });
+    return response.data;
+  },
+
+  verifySignupOTP: async (email: string, otp: string): Promise<{ success: boolean; message: string }> => {
+    const response = await api.post<{ success: boolean; message: string }>('/auth/verify-signup-otp', { email, otp });
+    return response.data;
+  },
 };
 
 // User API functions

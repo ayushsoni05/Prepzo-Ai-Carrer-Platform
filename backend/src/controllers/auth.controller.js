@@ -946,6 +946,91 @@ export const verifyEmailOTP = async (req, res) => {
   }
 };
 
+/**
+ * @desc    Send OTP for signup email verification (pre-registration)
+ * @route   POST /api/auth/send-signup-otp
+ * @access  Public
+ */
+export const sendSignupEmailOTP = async (req, res) => {
+  try {
+    const { email, name = 'Student' } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email is required' });
+    }
+
+    // Check if email is already registered
+    const existingUser = await User.findOne({ email: email.toLowerCase() });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: 'An account with this email already exists. Please login instead.',
+        code: 'EMAIL_EXISTS',
+      });
+    }
+
+    // Check cooldown
+    const cooldown = await OTP.canResendOTP(email, 'signup_verification');
+    if (!cooldown.canResend) {
+      return res.status(429).json({
+        success: false,
+        message: `Please wait ${cooldown.waitTime}s before requesting another code.`,
+      });
+    }
+
+    // Generate OTP
+    const { otp, expiresAt } = await OTP.createOTP({
+      email: email.toLowerCase(),
+      type: 'signup_verification',
+      expiryMinutes: 10,
+      ip: req.ip,
+      userAgent: req.headers['user-agent'],
+    });
+
+    console.log(`[DEV] Signup verification OTP for ${email}: ${otp}`);
+
+    // Send email
+    const emailResult = await sendEmailOTP(email, otp, name);
+    if (!emailResult.success) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to send verification code. Please try again.',
+        debug: emailResult.error,
+      });
+    }
+
+    res.json({ success: true, message: 'Verification code sent to your email.', expiresAt });
+  } catch (error) {
+    console.error('Send signup OTP error:', error);
+    res.status(500).json({ success: false, message: 'Server error during OTP send' });
+  }
+};
+
+/**
+ * @desc    Verify signup email OTP (pre-registration check only)
+ * @route   POST /api/auth/verify-signup-otp
+ * @access  Public
+ */
+export const verifySignupEmailOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+      return res.status(400).json({ success: false, message: 'Email and OTP are required' });
+    }
+
+    const result = await OTP.verifyOTP(email.toLowerCase(), otp, 'signup_verification');
+    if (!result.valid) {
+      return res.status(400).json({ success: false, message: result.reason || 'Invalid or expired code' });
+    }
+
+    res.json({ success: true, message: 'Email verified successfully. You may now complete your registration.' });
+  } catch (error) {
+    console.error('Verify signup OTP error:', error);
+    res.status(500).json({ success: false, message: 'Server error during verification' });
+  }
+};
+
 export default {
   register,
   login,
@@ -965,4 +1050,6 @@ export default {
   loginPhone,
   requestEmailOTP,
   verifyEmailOTP,
+  sendSignupEmailOTP,
+  verifySignupEmailOTP,
 };
