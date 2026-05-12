@@ -138,27 +138,24 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
   const [yearOfStudy, setYearOfStudy] = useState(draft?.yearOfStudy || user?.yearOfStudy || '');
   const [cgpa, setCgpa] = useState(draft?.cgpa || user?.cgpa || '');
   
-  const currentMappedField = getMappedField(fieldOfStudy);
-  const coreSkills = fieldSkillsMap[currentMappedField] || fieldSkillsMap['Computer Science'];
+  const onboardingSoftSkills = ['Communication'];
   
   const [skillRatings, setSkillRatings] = useState<Record<string, number>>(() => {
     if (draft?.skillRatings && Object.keys(draft.skillRatings).length > 0) return draft.skillRatings;
     const ratings: Record<string, number> = {};
-    coreSkills.forEach(skill => { ratings[skill] = 5; });
-    softSkills.forEach(skill => { ratings[skill] = 5; });
+    onboardingSoftSkills.forEach(skill => { ratings[skill] = 5; });
     user?.knownTechnologies?.forEach(tech => { ratings[tech] = 5; });
     return ratings;
   });
 
-  // Keep skill ratings in sync when coreSkills changes based on field
+  // Keep skill ratings in sync
   useEffect(() => {
     setSkillRatings(prev => {
       const newRatings = { ...prev };
-      coreSkills.forEach(skill => { if (newRatings[skill] === undefined) newRatings[skill] = 5; });
-      softSkills.forEach(skill => { if (newRatings[skill] === undefined) newRatings[skill] = 5; });
+      onboardingSoftSkills.forEach(skill => { if (newRatings[skill] === undefined) newRatings[skill] = 5; });
       return newRatings;
     });
-  }, [fieldOfStudy]);
+  }, []);
   
   const [targetRole, setTargetRole] = useState(draft?.targetRole || user?.targetRole || '');
   const [placementTimeline, setPlacementTimeline] = useState(draft?.placementTimeline || user?.placementTimeline || '');
@@ -432,34 +429,26 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
                          <p className="text-white/40 text-sm font-medium tracking-tight italic">Drag the signal sliders to calibrate your technical baseline.</p>
                          
                          <div className="space-y-10">
+                            {/* Technical Skills Section */}
                             <div className="space-y-6">
-                                <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-code-green/60">Core {currentMappedField} Signals</h4>
-                                {coreSkills.map(skill => (
-                                    <SkillSlider 
-                                        key={skill} 
-                                        skill={skill}
-                                        value={skillRatings[skill] || 5}
-                                        onChange={(val) => setSkillRatings(prev => ({ ...prev, [skill]: val }))}
-                                    />
-                                ))}
-                            </div>
-
-                            <div className="space-y-6">
-                                <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-purple-400/60">Additional Niche Skills</h4>
+                                <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-purple-400/60">My Technical Signals</h4>
                                 <TechnologySelector 
-                                    value={Object.keys(skillRatings).filter(s => !coreSkills.includes(s) && !softSkills.includes(s)).join(', ')}
+                                    value={Object.keys(skillRatings).filter(s => !onboardingSoftSkills.includes(s) && !softSkills.includes(s)).join(', ')}
                                     onChange={(val) => {
                                       const newTechs = val.split(',').map(t => t.trim()).filter(t => t.length > 0);
                                       setSkillRatings(prev => {
                                         const next = { ...prev };
-                                        newTechs.forEach(t => { if (next[t] === undefined) next[t] = 5; });
-                                        return next;
+                                        // Keep only existing techs that are in newTechs OR are soft skills
+                                        const final: Record<string, number> = {};
+                                        onboardingSoftSkills.forEach(s => { final[s] = next[s] || 5; });
+                                        newTechs.forEach(t => { final[t] = next[t] || 5; });
+                                        return final;
                                       });
                                     }}
                                 />
                                 <div className="grid grid-cols-1 gap-4 mt-4">
                                   {Object.keys(skillRatings)
-                                    .filter(s => !coreSkills.includes(s) && !softSkills.includes(s))
+                                    .filter(s => !onboardingSoftSkills.includes(s) && !softSkills.includes(s))
                                     .map(skill => (
                                      <SkillSlider 
                                          key={skill} 
@@ -471,12 +460,13 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
                                 </div>
                             </div>
 
+                            {/* Soft Skills Section - Only Communication */}
                             <div className="space-y-6">
-                                <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-blue-400/60">Professional Soft Signals</h4>
-                                {softSkills.map(skill => (
+                                <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-blue-400/60">Communication Signals</h4>
+                                {onboardingSoftSkills.map(skill => (
                                     <SkillSlider 
                                         key={skill} 
-                                        skill={skill}
+                                        skill={skill === 'Communication' ? 'Communication Skills' : skill}
                                         value={skillRatings[skill] || 5}
                                         onChange={(val) => setSkillRatings(prev => ({ ...prev, [skill]: val }))}
                                     />
