@@ -455,7 +455,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
     
     try {
       // Try to login via API
-      const user = await loginAsync({
+      await loginAsync({
         email: data.email,
         password: data.password,
         rememberMe: rememberMe,
@@ -539,7 +539,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
 
     try {
       setIsVerifying(true);
-      const user = await verifyOTPAsync(otpEmail, otp);
+      await verifyOTPAsync(otpEmail, otp);
       toast.success('Welcome back!');
       
       onNavigate('dashboard');
