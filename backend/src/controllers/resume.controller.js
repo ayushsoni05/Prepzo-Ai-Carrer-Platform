@@ -16,6 +16,7 @@ import { getTemplateById } from '../data/latexTemplates.js';
 import { writeFileSync, existsSync, mkdirSync } from 'fs';
 import path from 'path';
 import { exec } from 'child_process';
+import OpenAI from 'openai';
 
 const buildResumeAnalysisPayload = (aiAnalysis, role, advancedReport = {}) => ({
   overallScore: advancedReport.overallScore || aiAnalysis.overall_score || aiAnalysis.ats_score || 0,
@@ -747,14 +748,7 @@ export const generateLatexResume = asyncHandler(async (req, res) => {
     throw new Error('LaTeX template not found');
   }
 
-  try {
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
-      generationConfig: { responseMimeType: 'application/json' }
-    });
-
-    let prompt = `
+  let prompt = `
 You are an expert LaTeX developer and career assistant.
 Your task is to take a professional LaTeX resume template and populate it with the user's profile information.
 
@@ -765,8 +759,8 @@ LaTeX Template:
 ${template.source}
 `;
 
-    if (jobDescription && jobDescription.trim()) {
-      prompt += `
+  if (jobDescription && jobDescription.trim()) {
+    prompt += `
 Job Description to tailor against:
 ${jobDescription.trim()}
 
@@ -781,8 +775,8 @@ Instructions:
      "tips": ["Tip 1", "Tip 2"]
    }
 `;
-    } else {
-      prompt += `
+  } else {
+    prompt += `
 Instructions:
 1. Populate the template with the user's information.
 2. Optimize the content to be highly professional and general high-ATS compliant.
@@ -794,25 +788,98 @@ Instructions:
      "tips": ["Tip 1", "Tip 2"]
    }
 `;
-    }
-
-    const response = await model.generateContent(prompt);
-    const text = response.response.text();
-    const result = JSON.parse(text);
-
-    res.status(200).json({
-      success: true,
-      message: 'LaTeX resume generated',
-      data: {
-        latex: result.latex || '',
-        tips: result.tips || []
-      }
-    });
-  } catch (error) {
-    console.error('LaTeX generation error:', error);
-    res.status(500);
-    throw new Error(`LaTeX generation failed: ${error.message}`);
   }
+
+  let result = null;
+  let usedFallback = false;
+  let generationError = null;
+
+  // 1. Try Gemini first (if API key is valid and not a placeholder)
+  const geminiKey = process.env.GEMINI_API_KEY;
+  const isGeminiPlaceholder = !geminiKey || geminiKey === 'your-gemini-api-key' || geminiKey.trim() === '';
+
+  if (!isGeminiPlaceholder) {
+    try {
+      console.log('[generateLatex] Attempting generation with Gemini...');
+      const genAI = new GoogleGenerativeAI(geminiKey);
+      const model = genAI.getGenerativeModel({
+        model: 'gemini-1.5-flash',
+        generationConfig: { responseMimeType: 'application/json' }
+      });
+
+      const response = await model.generateContent(prompt);
+      const text = response.response.text();
+      result = JSON.parse(text);
+      console.log('[generateLatex] Gemini generation succeeded');
+    } catch (error) {
+      console.error('[generateLatex] Gemini generation failed:', error.message);
+      generationError = error;
+    }
+  } else {
+    console.log('[generateLatex] Gemini API key is missing or placeholder. Skipping to fallback.');
+  }
+
+  // 2. Fallback to Groq / OpenAI if Gemini failed or was skipped
+  if (!result) {
+    const groqKey = process.env.GROQ_API_KEY;
+    const openaiKey = process.env.OPENAI_API_KEY;
+    const isGroqAvailable = groqKey && groqKey !== 'your-groq-api-key' && groqKey.trim() !== '';
+    const isOpenaiAvailable = openaiKey && openaiKey !== 'sk-your-openai-api-key' && openaiKey.trim() !== '';
+
+    if (isGroqAvailable) {
+      try {
+        console.log('[generateLatex] Attempting fallback generation with Groq (llama-3.3-70b-versatile)...');
+        const groq = new OpenAI({
+          apiKey: groqKey,
+          baseURL: 'https://api.groq.com/openai/v1',
+        });
+        const completion = await groq.chat.completions.create({
+          messages: [{ role: "user", content: prompt }],
+          model: "llama-3.3-70b-versatile",
+          response_format: { type: "json_object" },
+          temperature: 0.7,
+        });
+        result = JSON.parse(completion.choices[0].message.content);
+        usedFallback = true;
+        console.log('[generateLatex] Groq fallback generation succeeded');
+      } catch (fallbackError) {
+        console.error('[generateLatex] Groq fallback failed:', fallbackError.message);
+        generationError = fallbackError;
+      }
+    } else if (isOpenaiAvailable) {
+      try {
+        console.log('[generateLatex] Attempting fallback generation with OpenAI (gpt-4o-mini)...');
+        const openai = new OpenAI({ apiKey: openaiKey });
+        const completion = await openai.chat.completions.create({
+          messages: [{ role: "user", content: prompt }],
+          model: "gpt-4o-mini",
+          response_format: { type: "json_object" },
+          temperature: 0.7,
+        });
+        result = JSON.parse(completion.choices[0].message.content);
+        usedFallback = true;
+        console.log('[generateLatex] OpenAI fallback generation succeeded');
+      } catch (fallbackError) {
+        console.error('[generateLatex] OpenAI fallback failed:', fallbackError.message);
+        generationError = fallbackError;
+      }
+    }
+  }
+
+  // 3. If everything failed, throw the last error
+  if (!result) {
+    res.status(500);
+    throw new Error(`LaTeX generation failed: ${generationError ? generationError.message : 'No valid AI provider API key found'}`);
+  }
+
+  res.status(200).json({
+    success: true,
+    message: usedFallback ? 'LaTeX resume generated (fallback provider)' : 'LaTeX resume generated',
+    data: {
+      latex: result.latex || '',
+      tips: result.tips || []
+    }
+  });
 });
 
 /**
