@@ -12,7 +12,10 @@ import { latexTemplates, getTemplateById, defaultTemplateId, type LaTeXTemplate 
 import { SearchableDropdown } from '@/components/ui/SearchableDropdown';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { showSuccess, showError, showInfo } from '@/utils/toastManager';
-
+import CodeMirror from '@uiw/react-codemirror';
+import { stex } from '@codemirror/legacy-modes/mode/stex';
+import { StreamLanguage } from '@codemirror/language';
+import { oneDark } from '@codemirror/theme-one-dark';
 const roleOptions = [
   { value: 'Backend Developer', label: 'Backend Developer', color: 'from-green-500 to-teal-500' },
   { value: 'Frontend Developer', label: 'Frontend Developer', color: 'from-cyan-500 to-blue-500' },
@@ -321,18 +324,41 @@ export function LaTeXResumeBuilder() {
               </div>
             </div>
             {/* Code area */}
-            <div className="flex-1 relative">
-              <textarea
-                ref={editorRef}
+            <div className="flex-1 relative overflow-auto custom-scrollbar" style={{ minHeight: '600px' }}>
+              <CodeMirror
                 value={latexSource}
-                onChange={(e) => handleSourceChange(e.target.value)}
-                className="w-full h-full min-h-[600px] bg-transparent text-[13px] text-emerald-300/90 font-mono p-5 resize-none outline-none custom-scrollbar leading-relaxed"
-                style={{ tabSize: 2, caretColor: '#5ed29c' }}
-                spellCheck={false}
-                placeholder="% Paste or write your LaTeX code here..."
+                height="100%"
+                theme={oneDark}
+                extensions={[StreamLanguage.define(stex)]}
+                onChange={(val) => handleSourceChange(val)}
+                className="text-[13px] font-mono h-full"
+                basicSetup={{
+                  lineNumbers: true,
+                  highlightActiveLineGutter: true,
+                  highlightSpecialChars: true,
+                  history: true,
+                  foldGutter: true,
+                  drawSelection: true,
+                  dropCursor: true,
+                  allowMultipleSelections: true,
+                  indentOnInput: true,
+                  syntaxHighlighting: true,
+                  bracketMatching: true,
+                  closeBrackets: true,
+                  autocompletion: true,
+                  rectangularSelection: true,
+                  crosshairCursor: true,
+                  highlightActiveLine: true,
+                  highlightSelectionMatches: true,
+                  closeBracketsKeymap: true,
+                  defaultKeymap: true,
+                  searchKeymap: true,
+                  historyKeymap: true,
+                  foldKeymap: true,
+                  completionKeymap: true,
+                  lintKeymap: true,
+                }}
               />
-              {/* Line numbers overlay effect */}
-              <div className="absolute top-0 left-0 w-10 h-full bg-gradient-to-r from-black/30 to-transparent pointer-events-none" />
             </div>
           </div>
         </div>
