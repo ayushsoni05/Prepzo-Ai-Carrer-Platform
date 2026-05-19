@@ -1,6 +1,7 @@
 import helmet from 'helmet';
 import crypto from 'crypto';
 import { securityConfig } from '../config/security.config.js';
+import AuditLog from '../models/AuditLog.model.js';
 
 /**
  * Configure Helmet with enterprise security headers
@@ -99,7 +100,6 @@ export const csrfProtection = (req, res, next) => {
   const hashedHeaderToken = hashCSRFToken(headerToken);
   if (cookieToken !== hashedHeaderToken) {
     // Log CSRF violation
-    const AuditLog = require('../models/AuditLog.model.js').default;
     AuditLog.log({
       userId: req.user?._id || null,
       action: 'csrf_violation',
@@ -216,7 +216,7 @@ export const noSQLInjectionPrevention = (req, res, next) => {
 
     if (typeof obj === 'string') {
       // Exempt certain common fields that might contain technical chars or currency
-      const exemptFields = ['careerGoals', 'targetRole', 'message', 'text', 'code', 'bio', 'description', 'prompt', 'question', 'explanation'];
+      const exemptFields = ['careerGoals', 'targetRole', 'message', 'text', 'code', 'bio', 'description', 'prompt', 'question', 'explanation', 'latexSource', 'latex'];
       const fieldName = path.split('.').pop();
       
       if (exemptFields.includes(fieldName)) {
@@ -263,7 +263,6 @@ export const noSQLInjectionPrevention = (req, res, next) => {
     const injection = bodyCheck.found ? bodyCheck : (queryCheck.found ? queryCheck : paramsCheck);
     
     // Log injection attempt
-    const AuditLog = require('../models/AuditLog.model.js').default;
     AuditLog.log({
       userId: req.user?._id || null,
       action: 'injection_attempt',
