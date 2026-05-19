@@ -262,8 +262,8 @@ export function LaTeXResumeBuilder() {
     setWizardError(null);
     setWizardLoadingText('Generating ATS-optimized LaTeX source...');
     try {
-      // 1. Generate LaTeX
-      const genRes = await generateLatexResume(wizardTemplate, wizardRole, wizardJd);
+      // 1. Generate LaTeX — pass freshly extracted data so backend doesn't rely on stale DB
+      const genRes = await generateLatexResume(wizardTemplate, wizardRole, wizardJd, extractedDetails || undefined);
       if (!genRes.success || !genRes.data.latex) {
         throw new Error('AI generation failed to return LaTeX code.');
       }
@@ -283,20 +283,6 @@ export function LaTeXResumeBuilder() {
         setWizardSuccessPdf(compileRes.data.pdf);
         setWizardStep(5);
         showSuccess('Resume generated and compiled successfully!');
-        
-        // Auto download PDF
-        const byteChars = atob(compileRes.data.pdf);
-        const byteArr = new Uint8Array(byteChars.length);
-        for (let i = 0; i < byteChars.length; i++) byteArr[i] = byteChars.charCodeAt(i);
-        const blob = new Blob([byteArr], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${user?.fullName || 'Resume'}_ATS_Optimized.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
       } else {
         throw new Error('LaTeX compilation failed.');
       }
@@ -737,37 +723,76 @@ export function LaTeXResumeBuilder() {
                           <CheckCircle2 className="w-5 h-5 shrink-0" />
                           <div className="text-left">
                             <p className="text-xs font-black uppercase tracking-wider">Parsing Complete!</p>
-                            <p className="text-[10px] text-white/50 uppercase tracking-widest">AI successfully extracted details from your resume</p>
+                            <p className="text-[10px] text-white/50 uppercase tracking-widest">AI successfully extracted details from your resume. Verify below before continuing.</p>
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3 pt-2 text-[11px] font-semibold text-white/70 text-left">
+                        {/* Comprehensive Extracted Data Display */}
+                        <div className="space-y-3 pt-2 text-left max-h-[320px] overflow-y-auto custom-scrollbar pr-1">
+                          {/* Education */}
                           <div className="bg-white/5 p-3 rounded-xl border border-white/5">
-                            <p className="text-[9px] text-white/30 uppercase tracking-widest mb-1">Education</p>
-                            <p className="text-white font-bold">{extractedDetails.education?.length || 0} Entries Found</p>
-                            {extractedDetails.education?.slice(0, 1).map((edu: any, idx: number) => (
-                              <p key={idx} className="text-[9px] text-white/40 truncate mt-1">{edu.degree || edu.institution}</p>
-                            ))}
+                            <p className="text-[9px] text-emerald-400/70 uppercase tracking-widest mb-2 font-black">Education ({extractedDetails.education?.length || 0})</p>
+                            {extractedDetails.education?.length > 0 ? extractedDetails.education.map((edu: any, idx: number) => (
+                              <div key={idx} className="mb-2 last:mb-0">
+                                <p className="text-[11px] text-white font-bold">{edu.degree || edu.qualification}{edu.fieldOfStudy ? ` in ${edu.fieldOfStudy}` : ''}</p>
+                                <p className="text-[10px] text-white/50">{edu.institution || edu.school}{edu.location ? ` — ${edu.location}` : ''}</p>
+                                {(edu.gpa || edu.cgpa || edu.startDate || edu.endDate) && (
+                                  <p className="text-[9px] text-white/30">{edu.gpa || edu.cgpa ? `GPA: ${edu.gpa || edu.cgpa}` : ''}{edu.startDate || edu.endDate ? ` | ${edu.startDate || ''} – ${edu.endDate || 'Present'}` : ''}</p>
+                                )}
+                              </div>
+                            )) : <p className="text-[10px] text-white/30 italic">No education data found</p>}
                           </div>
+
+                          {/* Experience */}
                           <div className="bg-white/5 p-3 rounded-xl border border-white/5">
-                            <p className="text-[9px] text-white/30 uppercase tracking-widest mb-1">Work Experience</p>
-                            <p className="text-white font-bold">{extractedDetails.experience?.length || 0} Entries Found</p>
-                            {extractedDetails.experience?.slice(0, 1).map((exp: any, idx: number) => (
-                              <p key={idx} className="text-[9px] text-white/40 truncate mt-1">{exp.title || exp.role} at {exp.company}</p>
-                            ))}
+                            <p className="text-[9px] text-indigo-400/70 uppercase tracking-widest mb-2 font-black">Work Experience ({extractedDetails.experience?.length || 0})</p>
+                            {extractedDetails.experience?.length > 0 ? extractedDetails.experience.map((exp: any, idx: number) => (
+                              <div key={idx} className="mb-2 last:mb-0">
+                                <p className="text-[11px] text-white font-bold">{exp.title || exp.role || exp.position} {exp.company ? `at ${exp.company}` : ''}</p>
+                                <p className="text-[10px] text-white/50">{exp.location || ''}{exp.startDate || exp.endDate ? ` | ${exp.startDate || ''} – ${exp.endDate || 'Present'}` : ''}</p>
+                                {Array.isArray(exp.description) && exp.description.slice(0, 3).map((bullet: string, bi: number) => (
+                                  <p key={bi} className="text-[9px] text-white/40 pl-3 mt-0.5">• {bullet}</p>
+                                ))}
+                                {typeof exp.description === 'string' && <p className="text-[9px] text-white/40 pl-3 mt-0.5">• {exp.description}</p>}
+                              </div>
+                            )) : <p className="text-[10px] text-white/30 italic">No experience data found</p>}
                           </div>
+
+                          {/* Projects */}
                           <div className="bg-white/5 p-3 rounded-xl border border-white/5">
-                            <p className="text-[9px] text-white/30 uppercase tracking-widest mb-1">Projects</p>
-                            <p className="text-white font-bold">{extractedDetails.projects?.length || 0} Entries Found</p>
-                            {extractedDetails.projects?.slice(0, 1).map((proj: any, idx: number) => (
-                              <p key={idx} className="text-[9px] text-white/40 truncate mt-1">{proj.name}</p>
-                            ))}
+                            <p className="text-[9px] text-purple-400/70 uppercase tracking-widest mb-2 font-black">Projects ({extractedDetails.projects?.length || 0})</p>
+                            {extractedDetails.projects?.length > 0 ? extractedDetails.projects.map((proj: any, idx: number) => (
+                              <div key={idx} className="mb-2 last:mb-0">
+                                <p className="text-[11px] text-white font-bold">{proj.name || proj.title}{proj.technologies ? ` — ${Array.isArray(proj.technologies) ? proj.technologies.join(', ') : proj.technologies}` : ''}</p>
+                                {Array.isArray(proj.description) && proj.description.slice(0, 2).map((bullet: string, bi: number) => (
+                                  <p key={bi} className="text-[9px] text-white/40 pl-3 mt-0.5">• {bullet}</p>
+                                ))}
+                                {typeof proj.description === 'string' && <p className="text-[9px] text-white/40 pl-3 mt-0.5">• {proj.description}</p>}
+                              </div>
+                            )) : <p className="text-[10px] text-white/30 italic">No project data found</p>}
                           </div>
+
+                          {/* Skills */}
                           <div className="bg-white/5 p-3 rounded-xl border border-white/5">
-                            <p className="text-[9px] text-white/30 uppercase tracking-widest mb-1">Skills</p>
-                            <p className="text-white font-bold">{extractedDetails.skills?.length || 0} Skills Found</p>
-                            <p className="text-[9px] text-white/40 truncate mt-1">{extractedDetails.skills?.slice(0, 4).join(', ')}</p>
+                            <p className="text-[9px] text-amber-400/70 uppercase tracking-widest mb-2 font-black">Skills ({extractedDetails.skills?.length || 0})</p>
+                            {extractedDetails.skills?.length > 0 ? (
+                              <div className="flex flex-wrap gap-1.5">
+                                {extractedDetails.skills.map((skill: string, idx: number) => (
+                                  <span key={idx} className="text-[9px] bg-white/10 border border-white/5 text-white/70 px-2 py-0.5 rounded-md font-medium">{skill}</span>
+                                ))}
+                              </div>
+                            ) : <p className="text-[10px] text-white/30 italic">No skills data found</p>}
                           </div>
+
+                          {/* Certifications (if any) */}
+                          {extractedDetails.certifications?.length > 0 && (
+                            <div className="bg-white/5 p-3 rounded-xl border border-white/5">
+                              <p className="text-[9px] text-teal-400/70 uppercase tracking-widest mb-2 font-black">Certifications ({extractedDetails.certifications.length})</p>
+                              {extractedDetails.certifications.map((cert: any, idx: number) => (
+                                <p key={idx} className="text-[10px] text-white/60">• {typeof cert === 'string' ? cert : cert.name || cert.title}</p>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </div>
                       
@@ -1018,19 +1043,29 @@ export function LaTeXResumeBuilder() {
               )}
 
               {wizardStep === 5 && (
-                <div className="flex flex-col items-center justify-center text-center py-6 space-y-6">
-                  <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-400 animate-bounce">
-                    <Check className="w-8 h-8" />
-                  </div>
-                  <div className="space-y-2 max-w-md">
-                    <p className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.2em]">Generation Complete</p>
-                    <h5 className="text-xl font-black text-white uppercase tracking-tight">Your High-ATS Resume is Ready!</h5>
-                    <p className="text-xs text-white/55 leading-relaxed">
-                      We have extracted details, optimized them matching the JD, injected high-ATS keywords, and successfully compiled the LaTeX source.
-                    </p>
+                <div className="flex flex-col items-center justify-center text-center py-6 space-y-5">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-400">
+                      <Check className="w-5 h-5" />
+                    </div>
+                    <div className="text-left">
+                      <p className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.2em]">Generation Complete</p>
+                      <p className="text-sm font-black text-white uppercase tracking-tight">Your High-ATS Resume is Ready!</p>
+                    </div>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-3 w-full max-w-xs pt-4">
+                  {/* PDF Preview */}
+                  {wizardSuccessPdf && (
+                    <div className="w-full rounded-2xl border border-white/10 overflow-hidden bg-white" style={{ height: 340 }}>
+                      <iframe
+                        src={`data:application/pdf;base64,${wizardSuccessPdf}`}
+                        className="w-full h-full"
+                        title="Resume Preview"
+                      />
+                    </div>
+                  )}
+
+                  <div className="flex flex-col sm:flex-row gap-3 w-full max-w-sm">
                     <button
                       onClick={() => {
                         if (wizardSuccessPdf) {

@@ -44,16 +44,19 @@ export const compileLatex = async (
 
 /**
  * Ask the AI to populate a LaTeX template with the user's profile data.
+ * @param extractedData - Freshly parsed resume data from the analyze step (optional but recommended).
  */
 export const generateLatexResume = async (
   templateId: string,
   targetRole: string,
-  jobDescription?: string
+  jobDescription?: string,
+  extractedData?: Record<string, unknown>
 ): Promise<GenerateLatexResponse> => {
   const response = await axiosInstance.post('/resume/generate-latex', {
     templateId,
     targetRole,
     jobDescription,
+    extractedData,
   });
   return response.data;
 };

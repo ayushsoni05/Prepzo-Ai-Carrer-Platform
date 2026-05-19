@@ -711,7 +711,7 @@ export const compileLatex = asyncHandler(async (req, res) => {
  */
 export const generateLatexResume = asyncHandler(async (req, res) => {
   const userId = req.user._id;
-  const { templateId, targetRole, jobDescription } = req.body;
+  const { templateId, targetRole, jobDescription, extractedData } = req.body;
 
   const user = await User.findById(userId);
   if (!user) {
@@ -719,26 +719,30 @@ export const generateLatexResume = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 
-  // Build user profile for AI
+  // Merge fresh extracted data (from frontend parsing) with stored user data
+  const parsed = extractedData || user.resumeAnalysis?.extractedData || {};
+
+  // Build user profile for AI — prioritize freshly parsed data
   const userProfile = {
-    fullName: user.fullName || 'John Doe',
-    email: user.email || '',
-    phone: user.phone || '',
-    linkedin: user.linkedin || '',
-    github: user.github || '',
-    location: '',
-    degree: user.degree || '',
-    fieldOfStudy: user.fieldOfStudy || '',
-    collegeName: user.collegeName || '',
-    yearOfStudy: user.yearOfStudy || '',
-    cgpa: user.cgpa || '',
-    skills: user.knownTechnologies || [],
+    fullName: parsed.name || parsed.fullName || user.fullName || 'John Doe',
+    email: parsed.email || user.email || '',
+    phone: parsed.phone || user.phone || '',
+    linkedin: parsed.linkedin || user.linkedin || '',
+    github: parsed.github || user.github || '',
+    location: parsed.location || '',
+    degree: parsed.degree || user.degree || '',
+    fieldOfStudy: parsed.fieldOfStudy || user.fieldOfStudy || '',
+    collegeName: parsed.collegeName || parsed.institution || user.collegeName || '',
+    yearOfStudy: parsed.yearOfStudy || user.yearOfStudy || '',
+    cgpa: parsed.cgpa || parsed.gpa || user.cgpa || '',
+    skills: parsed.skills || user.knownTechnologies || [],
     targetRole: targetRole || user.targetRole || 'Software Engineer',
-    experience: user.resumeAnalysis?.extractedData?.experience || [],
-    projects: user.resumeAnalysis?.extractedData?.projects || [],
-    education: user.resumeAnalysis?.extractedData?.education || [],
-    certifications: user.resumeAnalysis?.extractedData?.certifications || [],
-    achievements: user.resumeAnalysis?.extractedData?.achievements || [],
+    experience: parsed.experience || [],
+    projects: parsed.projects || [],
+    education: parsed.education || [],
+    certifications: parsed.certifications || [],
+    achievements: parsed.achievements || [],
+    summary: parsed.summary || parsed.objective || '',
     resumeText: user.resumeText || ''
   };
 
@@ -954,7 +958,9 @@ Instructions:
         skillsItems = `\\textbf{Languages/Technologies}{: JavaScript, TypeScript, Node.js, Python, React, MongoDB, Git}`;
       }
 
-      const summaryText = `Results-oriented ${escapeLatex(userProfile.targetRole)} with a strong foundation in modern software engineering principles. Dedicated to writing clean, maintainable, and efficient code to solve complex real-world problems.`;
+      const summaryText = userProfile.summary
+        ? escapeLatex(userProfile.summary)
+        : `Results-oriented ${escapeLatex(userProfile.targetRole)} with a strong foundation in modern software engineering principles. Dedicated to writing clean, maintainable, and efficient code to solve complex real-world problems.`;
 
       // Fill in placeholders
       let latexSource = template.source
