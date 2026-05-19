@@ -36,7 +36,6 @@ import {
 import { type Job } from '@/api/jobs';
 import { showSuccess, showError, showInfo } from '@/utils/toastManager';
 import { jsPDF } from 'jspdf';
-import { exportToDocx } from '@/utils/docxExporter';
 import { GlassButton, GlassCard } from '@/components/ui/GlassCard';
 import { CircularProgress, SkillBar } from '@/components/ui/CircularProgress';
 import { SearchableDropdown } from '@/components/ui/SearchableDropdown';
@@ -45,9 +44,8 @@ import { useAppStore } from '@/store/appStore';
 import QuickInsightsWidget from '@/components/recommendations/QuickInsightsWidget';
 import { ProctoredAssessment } from '@/components/assessment/ProctoredAssessment';
 import { uploadApi, type ResumeInfo } from '@/api/auth';
-import { ResumeRenderer } from '@/components/resume/ResumeRenderer';
+import { LaTeXResumeBuilder } from '@/components/resume/LaTeXResumeBuilder';
 import ThinkingLoader from '@/components/ui/loading';
-import allTemplates from '@/data/templates.json';
 import { GridBeam } from '@/components/ui/background-grid-beam';
 import { QuestionBank } from '@/components/interview/QuestionBank';
 import { SettingsForm } from '@/components/profile/SettingsForm';
