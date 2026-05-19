@@ -11,6 +11,8 @@ import aiService from '../services/aiService.js';
 import { compileLatexToPdf, isPdflatexAvailable } from '../services/latexCompiler.service.js';
 import { extractResumeTextFromStoredFile } from '../services/resumeTextExtractor.service.js';
 import { buildAdvancedResumeReport } from '../services/resumeReport.service.js';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import { getTemplateById } from '../data/latexTemplates.js';
 
 const buildResumeAnalysisPayload = (aiAnalysis, role, advancedReport = {}) => ({
   overallScore: advancedReport.overallScore || aiAnalysis.overall_score || aiAnalysis.ats_score || 0,
@@ -676,12 +678,6 @@ export const compileLatex = asyncHandler(async (req, res) => {
     throw new Error('LaTeX source is required');
   }
 
-  // Check if pdflatex is installed
-  const available = await isPdflatexAvailable();
-  if (!available) {
-    res.status(503);
-    throw new Error('LaTeX compiler (pdflatex) is not installed on this server. Please install texlive-base.');
-  }
 
   try {
     const result = await compileLatexToPdf(latexSource);
@@ -742,19 +738,49 @@ export const generateLatexResume = asyncHandler(async (req, res) => {
     resumeText: user.resumeText || ''
   };
 
+  const template = getTemplateById(templateId || 'jakes-resume');
+  if (!template) {
+    res.status(404);
+    throw new Error('LaTeX template not found');
+  }
+
   try {
-    const result = await aiService.generateLatexResume(
-      userProfile,
-      templateId || 'jakes-resume',
-      targetRole || user.targetRole || 'Software Engineer',
-      jobDescription
-    );
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-1.5-flash',
+      generationConfig: { responseMimeType: 'application/json' }
+    });
+
+    const prompt = `
+You are an expert LaTeX developer and career assistant.
+Your task is to take a professional LaTeX resume template and populate it with the user's profile information.
+
+User Profile:
+${JSON.stringify(userProfile)}
+
+LaTeX Template:
+${template.source}
+
+Instructions:
+1. Populate the template with the user's information.
+2. Keep the LaTeX formatting, commands, styling, and package imports exactly as defined in the template.
+3. Escape any LaTeX special characters in the user's profile text (e.g. & to \\&, % to \\%, _ to \\_, etc.) to prevent compilation errors.
+4. Output JSON format containing:
+   {
+     "latex": "your compiled LaTeX source code as a single string",
+     "tips": ["Tip 1", "Tip 2"]
+   }
+`;
+
+    const response = await model.generateContent(prompt);
+    const text = response.response.text();
+    const result = JSON.parse(text);
 
     res.status(200).json({
       success: true,
       message: 'LaTeX resume generated',
       data: {
-        latex: result.latex || result,
+        latex: result.latex || '',
         tips: result.tips || []
       }
     });
