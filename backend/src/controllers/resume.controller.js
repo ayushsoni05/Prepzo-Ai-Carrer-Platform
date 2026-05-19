@@ -8,6 +8,7 @@
 import { asyncHandler } from '../middleware/error.middleware.js';
 import User from '../models/User.model.js';
 import aiService from '../services/aiService.js';
+import { compileLatexToPdf, isPdflatexAvailable } from '../services/latexCompiler.service.js';
 import { extractResumeTextFromStoredFile } from '../services/resumeTextExtractor.service.js';
 import { buildAdvancedResumeReport } from '../services/resumeReport.service.js';
 
@@ -657,3 +658,146 @@ export const generateResume = asyncHandler(async (req, res) => {
     throw new Error(`Resume generation failed: ${error.message}`);
   }
 });
+
+// =====================================================
+// LATEX RESUME BUILDER CONTROLLERS
+// =====================================================
+
+/**
+ * @desc    Compile LaTeX source to PDF
+ * @route   POST /api/resume/compile-latex
+ * @access  Private
+ */
+export const compileLatex = asyncHandler(async (req, res) => {
+  const { latexSource } = req.body;
+
+  if (!latexSource || !latexSource.trim()) {
+    res.status(400);
+    throw new Error('LaTeX source is required');
+  }
+
+  // Check if pdflatex is installed
+  const available = await isPdflatexAvailable();
+  if (!available) {
+    res.status(503);
+    throw new Error('LaTeX compiler (pdflatex) is not installed on this server. Please install texlive-base.');
+  }
+
+  try {
+    const result = await compileLatexToPdf(latexSource);
+
+    // Update last compiled timestamp
+    await User.findByIdAndUpdate(req.user._id, { latexLastCompiledAt: new Date() });
+
+    res.status(200).json({
+      success: true,
+      message: 'LaTeX compiled successfully',
+      data: result
+    });
+  } catch (error) {
+    console.error('LaTeX compilation error:', error.message);
+    res.status(422).json({
+      success: false,
+      message: 'LaTeX compilation failed',
+      data: { log: error.message }
+    });
+  }
+});
+
+/**
+ * @desc    Generate LaTeX resume using AI
+ * @route   POST /api/resume/generate-latex
+ * @access  Private
+ */
+export const generateLatexResume = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const { templateId, targetRole, jobDescription } = req.body;
+
+  const user = await User.findById(userId);
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  // Build user profile for AI
+  const userProfile = {
+    fullName: user.fullName || 'John Doe',
+    email: user.email || '',
+    phone: user.phone || '',
+    linkedin: user.linkedin || '',
+    github: user.github || '',
+    location: '',
+    degree: user.degree || '',
+    fieldOfStudy: user.fieldOfStudy || '',
+    collegeName: user.collegeName || '',
+    yearOfStudy: user.yearOfStudy || '',
+    cgpa: user.cgpa || '',
+    skills: user.knownTechnologies || [],
+    targetRole: targetRole || user.targetRole || 'Software Engineer',
+    experience: user.resumeAnalysis?.extractedData?.experience || [],
+    projects: user.resumeAnalysis?.extractedData?.projects || [],
+    education: user.resumeAnalysis?.extractedData?.education || [],
+    certifications: user.resumeAnalysis?.extractedData?.certifications || [],
+    achievements: user.resumeAnalysis?.extractedData?.achievements || [],
+    resumeText: user.resumeText || ''
+  };
+
+  try {
+    const result = await aiService.generateLatexResume(
+      userProfile,
+      templateId || 'jakes-resume',
+      targetRole || user.targetRole || 'Software Engineer',
+      jobDescription
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'LaTeX resume generated',
+      data: {
+        latex: result.latex || result,
+        tips: result.tips || []
+      }
+    });
+  } catch (error) {
+    console.error('LaTeX generation error:', error);
+    res.status(500);
+    throw new Error(`LaTeX generation failed: ${error.message}`);
+  }
+});
+
+/**
+ * @desc    Save LaTeX source to user profile
+ * @route   PUT /api/resume/latex-source
+ * @access  Private
+ */
+export const saveLatexSource = asyncHandler(async (req, res) => {
+  const { latexSource, templateId } = req.body;
+
+  await User.findByIdAndUpdate(req.user._id, {
+    latexResumeSource: latexSource || '',
+    latexTemplateId: templateId || ''
+  });
+
+  res.status(200).json({
+    success: true,
+    message: 'LaTeX source saved'
+  });
+});
+
+/**
+ * @desc    Get saved LaTeX source
+ * @route   GET /api/resume/latex-source
+ * @access  Private
+ */
+export const getLatexSource = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id).select('latexResumeSource latexTemplateId');
+
+  res.status(200).json({
+    success: true,
+    data: {
+      latexSource: user?.latexResumeSource || '',
+      templateId: user?.latexTemplateId || ''
+    }
+  });
+});
+

@@ -17,7 +17,11 @@ import {
   getActionVerbs,
   reanalyzeResume,
   clearAnalysis,
-  generateResume
+  generateResume,
+  compileLatex,
+  generateLatexResume,
+  saveLatexSource,
+  getLatexSource
 } from '../controllers/resume.controller.js';
 
 const router = express.Router();
@@ -115,5 +119,33 @@ router.get('/skills/:role', protect, getRoleSkills);
  * GET /api/resume/action-verbs
  */
 router.get('/action-verbs', protect, getActionVerbs);
+
+// =====================================================
+// LATEX RESUME BUILDER ENDPOINTS
+// =====================================================
+
+/**
+ * Compile LaTeX source to PDF
+ * POST /api/resume/compile-latex
+ */
+router.post('/compile-latex', protect, ...lightAIMiddleware, compileLatex);
+
+/**
+ * Generate LaTeX resume with AI
+ * POST /api/resume/generate-latex
+ */
+router.post('/generate-latex', protect, ...lightAIMiddleware, generateLatexResume);
+
+/**
+ * Save LaTeX source to user profile
+ * PUT /api/resume/latex-source
+ */
+router.put('/latex-source', protect, saveLatexSource);
+
+/**
+ * Get saved LaTeX source from user profile
+ * GET /api/resume/latex-source
+ */
+router.get('/latex-source', protect, getLatexSource);
 
 export default router;

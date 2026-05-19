@@ -132,6 +132,20 @@ const userSchema = new mongoose.Schema({
     default: null,
   },
 
+  // LaTeX Resume Data
+  latexResumeSource: {
+    type: String,
+    default: '',
+  },
+  latexTemplateId: {
+    type: String,
+    default: '',
+  },
+  latexLastCompiledAt: {
+    type: Date,
+    default: null,
+  },
+
   // Platform Data
   role: {
     type: String,

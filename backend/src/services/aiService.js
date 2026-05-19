@@ -823,6 +823,13 @@ export {
     getSectionsForStream,
     validateAnswer,
     
+    // Resume Interview
+    getResumeInterviewQuestions,
+    resumeMockInterview,
+
+    // LaTeX Resume
+    generateLatexResume,
+    
     // Raw client for custom requests
     aiClient
 };
@@ -930,6 +937,28 @@ const generateResume = async (userProfile, targetRole = 'Software Engineer', job
 };
 
 /**
+ * Generate LaTeX resume by asking AI to populate a LaTeX template with user data
+ * @param {Object} userProfile - User profile data
+ * @param {string} templateId - ID of the LaTeX template
+ * @param {string} targetRole - Target role
+ * @param {string} jobDescription - Optional job description
+ */
+const generateLatexResume = async (userProfile, templateId = 'jakes-resume', targetRole = 'Software Engineer', jobDescription = null) => {
+    try {
+        const response = await aiClient.post('/api/resume/generate-latex', {
+            user_profile: userProfile,
+            template_id: templateId,
+            target_role: targetRole,
+            job_description: jobDescription
+        });
+        return response.data;
+    } catch (error) {
+        console.error('LaTeX resume generation failed:', error.message);
+        throw error;
+    }
+};
+
+/**
  * Get role-specific skill requirements
  * @param {string} role - Target role
  */
@@ -1003,6 +1032,7 @@ export default {
     getRoleSkillRequirements,
     getActionVerbs,
     generateResume,
+    generateLatexResume,
     getResumeInterviewQuestions,
     resumeMockInterview,
     aiClient
