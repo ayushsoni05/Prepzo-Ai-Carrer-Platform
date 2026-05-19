@@ -21,14 +21,17 @@ const COMPILE_TIMEOUT = 30000; // 30 seconds
  * @returns {Promise<{ pdf: string, log: string }>} pdf is base64-encoded
  */
 export const compileLatexToPdf = async (latexSource) => {
+  // Sanitize any remaining unreplaced template placeholders to avoid LaTeX syntax crashes (e.g. underscores in {{EDUCATION_ITEMS}} outside math mode)
+  const sanitizedSource = (latexSource || '').replace(/\{{2,3}[A-Z_]+\}{2,3}/g, '');
+
   const isAvailable = await isPdflatexAvailable();
 
   if (isAvailable) {
     console.log('[latexCompiler] pdflatex detected locally. Compiling on-machine...');
-    return compileLocal(latexSource);
+    return compileLocal(sanitizedSource);
   } else {
     console.log('[latexCompiler] pdflatex not found. Compiling via texlive.net cloud API...');
-    return compileCloudFallback(latexSource);
+    return compileCloudFallback(sanitizedSource);
   }
 };
 

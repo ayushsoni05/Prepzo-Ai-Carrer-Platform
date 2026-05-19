@@ -25,6 +25,81 @@ const roleOptions = [
   { value: 'Machine Learning Engineer', label: 'Machine Learning Engineer', color: 'from-pink-500 to-rose-500' },
 ];
 
+const prePopulateTemplate = (source: string, templateId: string, user: any): string => {
+  if (!source) return '';
+
+  const clean = (val?: string) => {
+    if (!val) return '';
+    // Escape standard LaTeX special characters
+    return val
+      .replace(/\\/g, '\\\\')
+      .replace(/&/g, '\\&')
+      .replace(/%/g, '\\%')
+      .replace(/\$/g, '\\$')
+      .replace(/#/g, '\\#')
+      .replace(/_/g, '\\_')
+      .replace(/[{}]/g, '\\$&');
+  };
+
+  const name = clean(user?.fullName) || 'John Doe';
+  const email = clean(user?.email) || 'john.doe@example.com';
+  const phone = clean(user?.phone) || '123-456-7890';
+  const linkedin = clean(user?.linkedin) || 'johndoe';
+  const github = clean(user?.github) || 'johndoe';
+  const location = clean(user?.location) || 'City, State';
+  const summary = clean(user?.resumeAnalysis?.extractedData?.summary) || 'A motivated professional.';
+
+  let educationItems = '';
+  let experienceItems = '';
+  let projectItems = '';
+  let skillsItems = '';
+
+  if (templateId === 'jakes-resume') {
+    educationItems = '\\resumeSubheading{University}{Location}{Degree}{Date}';
+    experienceItems = '\\resumeSubheading{Company}{Location}{Role}{Date}';
+    projectItems = '\\resumeProjectHeading{Project}{Date}';
+    skillsItems = '\\textbf{Skills}: JavaScript, Node.js, React';
+  } else if (templateId === 'clean-ats') {
+    educationItems = '\\textbf{University} \\hfill Date \\\\ Degree \\hfill GPA: 4.0 \\\\';
+    experienceItems = '\\textbf{Company} \\hfill Date \\\\ Role \\hfill Location \\\\';
+    projectItems = '\\textbf{Project} \\hfill Date \\\\ A cool web application \\\\';
+    skillsItems = '\\textbf{Skills}: JavaScript, Node.js, React';
+  } else if (templateId === 'modern-two-col') {
+    educationItems = '\\textbf{University} \\\\ Degree \\\\';
+    experienceItems = '\\textbf{Company} \\\\ Role \\\\';
+    projectItems = '\\textbf{Project} \\\\ A cool web application \\\\';
+    skillsItems = 'JavaScript, Node.js, React';
+  } else if (templateId === 'academic-cv') {
+    educationItems = '\\textbf{University} \\hfill Date \\\\ Degree \\\\';
+    experienceItems = '\\textbf{Company} \\hfill Date \\\\ Role \\\\';
+    projectItems = '\\textbf{Project} \\hfill Date \\\\ A cool web application \\\\';
+    skillsItems = 'JavaScript, Node.js, React';
+  } else if (templateId === 'deedy-cv') {
+    educationItems = '\\textbf{University} \\\\ Degree \\\\';
+    experienceItems = '\\textbf{Company} \\\\ Role \\\\';
+    projectItems = '\\textbf{Project} \\\\ A cool web application \\\\';
+    skillsItems = 'JavaScript, Node.js, React';
+  } else {
+    educationItems = '\\textbf{University} \\hfill Date \\\\ Degree \\\\';
+    experienceItems = '\\textbf{Company} \\hfill Date \\\\ Role \\\\';
+    projectItems = '\\textbf{Project} \\hfill Date \\\\ A cool web application \\\\';
+    skillsItems = 'JavaScript, Node.js, React';
+  }
+
+  return source
+    .replaceAll('{{NAME}}', name)
+    .replaceAll('{{EMAIL}}', email)
+    .replaceAll('{{PHONE}}', phone)
+    .replaceAll('{{LINKEDIN}}', linkedin)
+    .replaceAll('{{GITHUB}}', github)
+    .replaceAll('{{LOCATION}}', location)
+    .replaceAll('{{SUMMARY}}', summary)
+    .replaceAll('{{EDUCATION_ITEMS}}', educationItems)
+    .replaceAll('{{EXPERIENCE_ITEMS}}', experienceItems)
+    .replaceAll('{{PROJECT_ITEMS}}', projectItems)
+    .replaceAll('{{SKILLS_ITEMS}}', skillsItems);
+};
+
 export function LaTeXResumeBuilder() {
   const { user } = useAuthStore();
   const { setDashboardTab } = useAppStore();
@@ -58,10 +133,10 @@ export function LaTeXResumeBuilder() {
       } catch { /* no saved source */ }
       // Default: load first template
       const t = getTemplateById(defaultTemplateId);
-      if (t) setLatexSource(t.source);
+      if (t) setLatexSource(prePopulateTemplate(t.source, defaultTemplateId, user));
     };
     loadSaved();
-  }, []);
+  }, [user]);
 
   // Compile LaTeX
   const handleCompile = useCallback(async (source?: string) => {
@@ -120,7 +195,7 @@ export function LaTeXResumeBuilder() {
     setSelectedTemplate(id);
     const t = getTemplateById(id);
     if (t) {
-      setLatexSource(t.source);
+      setLatexSource(prePopulateTemplate(t.source, id, user));
       setHasUnsaved(true);
       setPdfBase64(null);
     }
