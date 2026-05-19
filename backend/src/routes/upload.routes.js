@@ -9,6 +9,7 @@ import { uploadLimiter } from '../middleware/rateLimit.middleware.js';
 import { securityConfig } from '../config/security.config.js';
 import AuditLog from '../models/AuditLog.model.js';
 import User from '../models/User.model.js';
+import { extractResumeTextFromStoredFile } from '../services/resumeTextExtractor.service.js';
 
 const router = express.Router();
 
@@ -221,6 +222,16 @@ router.post('/resume', protect, uploadLimiter, (req, res, next) => {
     user.resumeUrl = resumeUrl;
     user.resumeOriginalName = req.file.originalname;
     user.resumeUploadedAt = new Date();
+    
+    // Immediately extract and store text since Render filesystem is ephemeral
+    try {
+      const extractedText = await extractResumeTextFromStoredFile(resumeUrl, req.file.originalname);
+      user.resumeText = extractedText;
+    } catch (extractionError) {
+      console.warn('Could not extract text during upload:', extractionError);
+      // We don't fail the upload, but log the warning. The user might need to paste text manually.
+    }
+
     await user.save();
 
     // Log successful upload
