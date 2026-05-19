@@ -792,9 +792,10 @@ Instructions:
 
   let result = null;
   let usedFallback = false;
-  let generationError = null;
+  let usedFailsafe = false;
+  const errors = [];
 
-  // 1. Try Gemini first (if API key is valid and not a placeholder)
+  // 1. Try Gemini
   const geminiKey = process.env.GEMINI_API_KEY;
   const isGeminiPlaceholder = !geminiKey || geminiKey === 'your-gemini-api-key' || geminiKey.trim() === '';
 
@@ -813,18 +814,17 @@ Instructions:
       console.log('[generateLatex] Gemini generation succeeded');
     } catch (error) {
       console.error('[generateLatex] Gemini generation failed:', error.message);
-      generationError = error;
+      errors.push(`Gemini Error: ${error.message}`);
     }
   } else {
-    console.log('[generateLatex] Gemini API key is missing or placeholder. Skipping to fallback.');
+    console.log('[generateLatex] Gemini API key is missing or placeholder. Skipping.');
+    errors.push('Gemini: API key missing/placeholder');
   }
 
-  // 2. Fallback to Groq / OpenAI if Gemini failed or was skipped
+  // 2. Try Groq (Independent from Gemini status)
   if (!result) {
     const groqKey = process.env.GROQ_API_KEY;
-    const openaiKey = process.env.OPENAI_API_KEY;
     const isGroqAvailable = groqKey && groqKey !== 'your-groq-api-key' && groqKey.trim() !== '';
-    const isOpenaiAvailable = openaiKey && openaiKey !== 'sk-your-openai-api-key' && openaiKey.trim() !== '';
 
     if (isGroqAvailable) {
       try {
@@ -842,11 +842,22 @@ Instructions:
         result = JSON.parse(completion.choices[0].message.content);
         usedFallback = true;
         console.log('[generateLatex] Groq fallback generation succeeded');
-      } catch (fallbackError) {
-        console.error('[generateLatex] Groq fallback failed:', fallbackError.message);
-        generationError = fallbackError;
+      } catch (error) {
+        console.error('[generateLatex] Groq fallback failed:', error.message);
+        errors.push(`Groq Error: ${error.message}`);
       }
-    } else if (isOpenaiAvailable) {
+    } else {
+      console.log('[generateLatex] Groq API key is missing or placeholder. Skipping.');
+      errors.push('Groq: API key missing/placeholder');
+    }
+  }
+
+  // 3. Try OpenAI (Independent from Gemini/Groq status)
+  if (!result) {
+    const openaiKey = process.env.OPENAI_API_KEY;
+    const isOpenaiAvailable = openaiKey && openaiKey !== 'sk-your-openai-api-key' && openaiKey.trim() !== '';
+
+    if (isOpenaiAvailable) {
       try {
         console.log('[generateLatex] Attempting fallback generation with OpenAI (gpt-4o-mini)...');
         const openai = new OpenAI({ apiKey: openaiKey });
@@ -859,22 +870,127 @@ Instructions:
         result = JSON.parse(completion.choices[0].message.content);
         usedFallback = true;
         console.log('[generateLatex] OpenAI fallback generation succeeded');
-      } catch (fallbackError) {
-        console.error('[generateLatex] OpenAI fallback failed:', fallbackError.message);
-        generationError = fallbackError;
+      } catch (error) {
+        console.error('[generateLatex] OpenAI fallback failed:', error.message);
+        errors.push(`OpenAI Error: ${error.message}`);
       }
+    } else {
+      console.log('[generateLatex] OpenAI API key is missing or placeholder. Skipping.');
+      errors.push('OpenAI: API key missing/placeholder');
     }
   }
 
-  // 3. If everything failed, throw the last error
+  // 4. Try Local Failsafe Template Engine if all AI providers failed
   if (!result) {
-    res.status(500);
-    throw new Error(`LaTeX generation failed: ${generationError ? generationError.message : 'No valid AI provider API key found'}`);
+    try {
+      console.log('[generateLatex] All AI providers failed. Using local Failsafe Template Engine...');
+      
+      const escapeLatex = (str) => {
+        if (typeof str !== 'string') return '';
+        return str
+          .replace(/\\/g, '\\\\')
+          .replace(/&/g, '\\&')
+          .replace(/%/g, '\\%')
+          .replace(/\$/g, '\\$')
+          .replace(/#/g, '\\#')
+          .replace(/_/g, '\\_')
+          .replace(/\{/g, '\\{')
+          .replace(/\}/g, '\\}')
+          .replace(/~/g, '\\textasciitilde{}')
+          .replace(/\^/g, '\\textasciicircum{}');
+      };
+
+      const cleanName = escapeLatex(userProfile.fullName);
+      const cleanEmail = escapeLatex(userProfile.email);
+      const cleanPhone = escapeLatex(userProfile.phone);
+      const cleanLinkedin = escapeLatex(userProfile.linkedin);
+      const cleanGithub = escapeLatex(userProfile.github);
+      const cleanLocation = escapeLatex(userProfile.location || 'San Francisco, CA');
+      
+      // Formatting education
+      let educationItems = '';
+      if (userProfile.education && userProfile.education.length > 0) {
+        userProfile.education.forEach(edu => {
+          educationItems += `  \\resumeSubheading\n    {${escapeLatex(edu.institution || edu.school || 'University')}}{${escapeLatex(edu.location || '')}}\n    {${escapeLatex(edu.degree || 'Degree')}${edu.fieldOfStudy ? ' in ' + escapeLatex(edu.fieldOfStudy) : ''}}{${escapeLatex(edu.startDate || '')} -- ${escapeLatex(edu.endDate || 'Present')}}\n`;
+        });
+      } else {
+        educationItems = `  \\resumeSubheading\n    {${escapeLatex(userProfile.collegeName || 'University Name')}}{}\n    {${escapeLatex(userProfile.degree || 'Bachelor of Science')} ${userProfile.fieldOfStudy ? 'in ' + escapeLatex(userProfile.fieldOfStudy) : ''}}{${escapeLatex(userProfile.yearOfStudy || '')}}\n`;
+      }
+
+      // Formatting experience
+      let experienceItems = '';
+      if (userProfile.experience && userProfile.experience.length > 0) {
+        userProfile.experience.forEach(exp => {
+          const bulletsList = Array.isArray(exp.description) ? exp.description : [exp.description].filter(Boolean);
+          const bullets = bulletsList
+            .map(bullet => `      \\resumeItem{${escapeLatex(bullet)}}`)
+            .join('\n');
+          experienceItems += `  \\resumeSubheading\n    {${escapeLatex(exp.company || 'Company')}}{${escapeLatex(exp.location || '')}}\n    {${escapeLatex(exp.position || 'Software Engineer')}}{${escapeLatex(exp.startDate || '')} -- ${escapeLatex(exp.endDate || 'Present')}}\n    \\resumeItemListStart\n${bullets || '      \\resumeItem{Contributed to development and deployment of projects.}'}\n    \\resumeItemListEnd\n`;
+        });
+      } else {
+        experienceItems = `  \\resumeSubheading\n    {Software Engineering Internship}{}\n    {Junior Developer}{Present}\n    \\resumeItemListStart\n      \\resumeItem{Developed, tested and optimized responsive web applications.}\n      \\resumeItem{Collaborated with teammates to build custom RESTful APIs and databases.}\n    \\resumeItemListEnd\n`;
+      }
+
+      // Formatting projects
+      let projectItems = '';
+      if (userProfile.projects && userProfile.projects.length > 0) {
+        userProfile.projects.forEach(proj => {
+          const bulletsList = Array.isArray(proj.description) ? proj.description : [proj.description].filter(Boolean);
+          const bullets = bulletsList
+            .map(bullet => `      \\resumeItem{${escapeLatex(bullet)}}`)
+            .join('\n');
+          const techString = Array.isArray(proj.technologies) ? proj.technologies.join(', ') : (proj.technologies || '');
+          projectItems += `  \\resumeProjectHeading\n    {\\textbf{${escapeLatex(proj.title || 'Project')}} $|$ \\emph{${escapeLatex(techString || 'React, Node.js')}}}{${escapeLatex(proj.date || '')}}\n    \\resumeItemListStart\n${bullets || '      \\resumeItem{Built and deployed the application, improving performance.}'}\n    \\resumeItemListEnd\n`;
+        });
+      } else {
+        projectItems = `  \\resumeProjectHeading\n    {\\textbf{Portfolio Website} $|$ \\emph{React, Tailwind CSS}}{}\n    \\resumeItemListStart\n      \\resumeItem{Designed and developed a personal portfolio site to showcase projects.}\n    \\resumeItemListEnd\n`;
+      }
+
+      // Formatting skills
+      let skillsItems = '';
+      if (userProfile.skills && userProfile.skills.length > 0) {
+        skillsItems = `\\textbf{Languages/Technologies}{: ${escapeLatex(userProfile.skills.join(', '))}}`;
+      } else {
+        skillsItems = `\\textbf{Languages/Technologies}{: JavaScript, TypeScript, Node.js, Python, React, MongoDB, Git}`;
+      }
+
+      const summaryText = `Results-oriented ${escapeLatex(userProfile.targetRole)} with a strong foundation in modern software engineering principles. Dedicated to writing clean, maintainable, and efficient code to solve complex real-world problems.`;
+
+      // Fill in placeholders
+      let latexSource = template.source
+        .replace(/\{\{NAME\}\}/g, cleanName)
+        .replace(/\{\{EMAIL\}\}/g, cleanEmail)
+        .replace(/\{\{PHONE\}\}/g, cleanPhone)
+        .replace(/\{\{LINKEDIN\}\}/g, cleanLinkedin)
+        .replace(/\{\{GITHUB\}\}/g, cleanGithub)
+        .replace(/\{\{LOCATION\}\}/g, cleanLocation)
+        .replace(/\{\{SUMMARY\}\}/g, summaryText)
+        .replace(/\{\{EDUCATION_ITEMS\}\}/g, educationItems)
+        .replace(/\{\{EXPERIENCE_ITEMS\}\}/g, experienceItems)
+        .replace(/\{\{PROJECT_ITEMS\}\}/g, projectItems)
+        .replace(/\{\{SKILLS_ITEMS\}\}/g, skillsItems);
+
+      result = {
+        latex: latexSource,
+        tips: [
+          "Note: All AI provider API keys failed or were invalid. This resume was compiled using the local failsafe template engine.",
+          `AI Provider Errors: ${errors.join(' | ')}`
+        ]
+      };
+      usedFailsafe = true;
+      console.log('[generateLatex] Local Failsafe generation succeeded');
+    } catch (failsafeError) {
+      console.error('[generateLatex] Failsafe generation failed:', failsafeError.message);
+      res.status(500);
+      throw new Error(`LaTeX generation failed. AI Errors: ${errors.join(' | ')}. Failsafe Error: ${failsafeError.message}`);
+    }
   }
 
   res.status(200).json({
     success: true,
-    message: usedFallback ? 'LaTeX resume generated (fallback provider)' : 'LaTeX resume generated',
+    message: usedFailsafe 
+      ? 'LaTeX resume generated (local failsafe engine)'
+      : (usedFallback ? 'LaTeX resume generated (fallback provider)' : 'LaTeX resume generated'),
     data: {
       latex: result.latex || '',
       tips: result.tips || []
