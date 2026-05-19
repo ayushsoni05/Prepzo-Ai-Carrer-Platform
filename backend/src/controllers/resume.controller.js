@@ -13,6 +13,9 @@ import { extractResumeTextFromStoredFile } from '../services/resumeTextExtractor
 import { buildAdvancedResumeReport } from '../services/resumeReport.service.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { getTemplateById } from '../data/latexTemplates.js';
+import { writeFileSync, existsSync, mkdirSync } from 'fs';
+import path from 'path';
+import { exec } from 'child_process';
 
 const buildResumeAnalysisPayload = (aiAnalysis, role, advancedReport = {}) => ({
   overallScore: advancedReport.overallScore || aiAnalysis.overall_score || aiAnalysis.ats_score || 0,
@@ -751,7 +754,7 @@ export const generateLatexResume = asyncHandler(async (req, res) => {
       generationConfig: { responseMimeType: 'application/json' }
     });
 
-    const prompt = `
+    let prompt = `
 You are an expert LaTeX developer and career assistant.
 Your task is to take a professional LaTeX resume template and populate it with the user's profile information.
 
@@ -760,17 +763,38 @@ ${JSON.stringify(userProfile)}
 
 LaTeX Template:
 ${template.source}
+`;
+
+    if (jobDescription && jobDescription.trim()) {
+      prompt += `
+Job Description to tailor against:
+${jobDescription.trim()}
 
 Instructions:
 1. Populate the template with the user's information.
-2. Keep the LaTeX formatting, commands, styling, and package imports exactly as defined in the template.
-3. Escape any LaTeX special characters in the user's profile text (e.g. & to \\&, % to \\%, _ to \\_, etc.) to prevent compilation errors.
-4. Output JSON format containing:
+2. Tailor and optimize the professional summary, experience bullet points, and skills to highlight keywords and requirements from the Job Description to maximize ATS match score.
+3. Keep the LaTeX formatting, commands, styling, and package imports exactly as defined in the template.
+4. Escape any LaTeX special characters in the user's profile text (e.g. & to \\&, % to \\%, _ to \\_, etc.) to prevent compilation errors.
+5. Output JSON format containing:
    {
      "latex": "your compiled LaTeX source code as a single string",
      "tips": ["Tip 1", "Tip 2"]
    }
 `;
+    } else {
+      prompt += `
+Instructions:
+1. Populate the template with the user's information.
+2. Optimize the content to be highly professional and general high-ATS compliant.
+3. Keep the LaTeX formatting, commands, styling, and package imports exactly as defined in the template.
+4. Escape any LaTeX special characters in the user's profile text (e.g. & to \\&, % to \\%, _ to \\_, etc.) to prevent compilation errors.
+5. Output JSON format containing:
+   {
+     "latex": "your compiled LaTeX source code as a single string",
+     "tips": ["Tip 1", "Tip 2"]
+   }
+`;
+    }
 
     const response = await model.generateContent(prompt);
     const text = response.response.text();
@@ -803,6 +827,32 @@ export const saveLatexSource = asyncHandler(async (req, res) => {
     latexResumeSource: latexSource || '',
     latexTemplateId: templateId || ''
   });
+
+  // Commit the LaTeX resume to the repository
+  try {
+    const userId = req.user._id.toString();
+    const resumesDir = path.join(process.cwd(), 'uploads', 'resumes');
+    
+    // Ensure uploads/resumes directory exists
+    if (!existsSync(resumesDir)) {
+      mkdirSync(resumesDir, { recursive: true });
+    }
+    
+    const texPath = path.join(resumesDir, `resume_${userId}.tex`);
+    writeFileSync(texPath, latexSource || '', 'utf-8');
+
+    // Run git commands: git add and git commit
+    const cmd = `git add "${texPath}" && git commit -m "Auto-commit: saved LaTeX resume for user ${userId}"`;
+    exec(cmd, { cwd: process.cwd() }, (gitErr, stdout, stderr) => {
+      if (gitErr) {
+        console.error('[gitCommit] git commit failed:', gitErr.message);
+      } else {
+        console.log('[gitCommit] git commit succeeded:', stdout);
+      }
+    });
+  } catch (err) {
+    console.error('[gitCommit] Error writing or committing LaTeX file:', err.message);
+  }
 
   res.status(200).json({
     success: true,
