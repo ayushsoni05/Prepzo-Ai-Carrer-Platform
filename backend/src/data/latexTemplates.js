@@ -308,7 +308,9 @@ const deedyCv = {
 \usepackage{fontenc}
 
 \definecolor{primary}{HTML}{2D3748}
+\definecolor{PRIMARY}{HTML}{2D3748}
 \definecolor{accent}{HTML}{E53E3E}
+\definecolor{ACCENT}{HTML}{E53E3E}
 
 \pagestyle{empty}
 

@@ -128,7 +128,7 @@ const compileCloudFallback = async (latexSource) => {
     if (!pdfBase64.startsWith('JVBERi')) {
       // Decode response to see if it's an error log
       const responseText = pdfBuffer.toString('utf-8');
-      throw new Error(`Cloud LaTeX compilation failed:\n\n${responseText.slice(0, 1500)}`);
+      throw new Error(`Cloud LaTeX compilation failed:\n\n${responseText.slice(-3000)}`);
     }
 
     return {
@@ -138,7 +138,7 @@ const compileCloudFallback = async (latexSource) => {
   } catch (err) {
     if (err.response && err.response.data) {
       const responseText = Buffer.from(err.response.data).toString('utf-8');
-      throw new Error(`Cloud LaTeX compilation failed:\n\n${responseText.slice(0, 1500)}`);
+      throw new Error(`Cloud LaTeX compilation failed:\n\n${responseText.slice(-3000)}`);
     }
     throw new Error(`Cloud LaTeX compilation error: ${err.message}`);
   }
