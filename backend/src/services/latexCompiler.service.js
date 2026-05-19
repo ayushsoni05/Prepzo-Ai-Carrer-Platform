@@ -11,6 +11,8 @@ import { randomUUID } from 'crypto';
 import os from 'os';
 import axios from 'axios';
 
+import FormData from 'form-data';
+
 const COMPILE_TIMEOUT = 30000; // 30 seconds
 
 /**
@@ -106,33 +108,15 @@ const compileLocal = async (latexSource) => {
  * Compile LaTeX using texlive.net cloud API fallback
  */
 const compileCloudFallback = async (latexSource) => {
-  const boundary = '----WebKitFormBoundary7MA4YWxkTrZu0gW';
-  const body = [
-    '--' + boundary,
-    'Content-Disposition: form-data; name="filecontents[]"',
-    '',
-    latexSource,
-    '--' + boundary,
-    'Content-Disposition: form-data; name="filename[]"',
-    '',
-    'document.tex',
-    '--' + boundary,
-    'Content-Disposition: form-data; name="engine"',
-    '',
-    'pdflatex',
-    '--' + boundary,
-    'Content-Disposition: form-data; name="return"',
-    '',
-    'pdf',
-    '--' + boundary + '--',
-    ''
-  ].join('\r\n');
+  const form = new FormData();
+  form.append('filecontents[]', latexSource);
+  form.append('filename[]', 'document.tex');
+  form.append('engine', 'pdflatex');
+  form.append('return', 'pdf');
 
   try {
-    const res = await axios.post('https://texlive.net/cgi-bin/latexcgi', body, {
-      headers: {
-        'Content-Type': 'multipart/form-data; boundary=' + boundary
-      },
+    const res = await axios.post('https://texlive.net/cgi-bin/latexcgi', form, {
+      headers: form.getHeaders(),
       responseType: 'arraybuffer',
       timeout: COMPILE_TIMEOUT
     });
