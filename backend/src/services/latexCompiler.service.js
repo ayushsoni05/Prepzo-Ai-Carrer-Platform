@@ -136,6 +136,10 @@ const compileCloudFallback = async (latexSource) => {
       log: 'Successfully compiled using texlive.net cloud fallback service.'
     };
   } catch (err) {
+    if (err.response && err.response.data) {
+      const responseText = Buffer.from(err.response.data).toString('utf-8');
+      throw new Error(`Cloud LaTeX compilation failed:\n\n${responseText.slice(0, 1500)}`);
+    }
     throw new Error(`Cloud LaTeX compilation error: ${err.message}`);
   }
 };

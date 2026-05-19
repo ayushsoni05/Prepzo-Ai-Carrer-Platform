@@ -143,7 +143,7 @@ const cleanAts = {
 \addtolength{\topmargin}{-0.5in}
 \addtolength{\textheight}{1in}
 
-\titleformat{\section}{\large\bfseries\scshape}{}{0em}{}[\titrule]
+\titleformat{\section}{\large\bfseries\scshape}{}{0em}{}[\titlerule]
 \titlespacing*{\section}{0pt}{6pt}{4pt}
 
 \begin{document}
@@ -312,7 +312,7 @@ const deedyCv = {
 
 \pagestyle{empty}
 
-\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titrule]
+\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titlerule]
 \titlespacing*{\section}{0pt}{6pt}{4pt}
 
 \setlength{\columnsep}{1.5em}
