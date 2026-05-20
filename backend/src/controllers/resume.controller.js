@@ -968,7 +968,7 @@ Instructions:
           const bullets = bulletsList
             .map(bullet => `      \\resumeItem{${escapeLatex(bullet)}}`)
             .join('\n');
-          experienceItems += `  \\resumeSubheading\n    {${escapeLatex(exp.company || 'Company')}}{${escapeLatex(exp.location || '')}}\n    {${escapeLatex(exp.position || 'Software Engineer')}}{${escapeLatex(exp.startDate || '')} -- ${escapeLatex(exp.endDate || 'Present')}}\n    \\resumeItemListStart\n${bullets || '      \\resumeItem{Contributed to development and deployment of projects.}'}\n    \\resumeItemListEnd\n`;
+          experienceItems += `  \\resumeSubheading\n    {${escapeLatex(exp.company || 'Company')}}{${escapeLatex(exp.location || '')}}\n    {${escapeLatex(exp.position || exp.role || 'Software Engineer')}}{${escapeLatex(exp.startDate || '')} -- ${escapeLatex(exp.endDate || 'Present')}}\n    \\resumeItemListStart\n${bullets || '      \\resumeItem{Contributed to development and deployment of projects.}'}\n    \\resumeItemListEnd\n`;
         });
       } else {
         experienceItems = `  \\resumeSubheading\n    {Software Engineering Internship}{}\n    {Junior Developer}{Present}\n    \\resumeItemListStart\n      \\resumeItem{Developed, tested and optimized responsive web applications.}\n      \\resumeItem{Collaborated with teammates to build custom RESTful APIs and databases.}\n    \\resumeItemListEnd\n`;
@@ -983,7 +983,7 @@ Instructions:
             .map(bullet => `      \\resumeItem{${escapeLatex(bullet)}}`)
             .join('\n');
           const techString = Array.isArray(proj.technologies) ? proj.technologies.join(', ') : (proj.technologies || '');
-          projectItems += `  \\resumeProjectHeading\n    {\\textbf{${escapeLatex(proj.title || 'Project')}} $|$ \\emph{${escapeLatex(techString || 'React, Node.js')}}}{${escapeLatex(proj.date || '')}}\n    \\resumeItemListStart\n${bullets || '      \\resumeItem{Built and deployed the application, improving performance.}'}\n    \\resumeItemListEnd\n`;
+          projectItems += `  \\resumeProjectHeading\n    {\\textbf{${escapeLatex(proj.title || proj.name || 'Project')}} $|$ \\emph{${escapeLatex(techString || 'React, Node.js')}}}{${escapeLatex(proj.date || '')}}\n    \\resumeItemListStart\n${bullets || '      \\resumeItem{Built and deployed the application, improving performance.}'}\n    \\resumeItemListEnd\n`;
         });
       } else {
         projectItems = `  \\resumeProjectHeading\n    {\\textbf{Portfolio Website} $|$ \\emph{React, Tailwind CSS}}{}\n    \\resumeItemListStart\n      \\resumeItem{Designed and developed a personal portfolio site to showcase projects.}\n    \\resumeItemListEnd\n`;

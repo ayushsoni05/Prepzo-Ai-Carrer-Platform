@@ -310,20 +310,94 @@ class ResumeAnalyzer:
             if tech.lower() in resume_text.lower() and tech not in [s.lower() for s in data["skills"]]:
                 data["skills"].append(tech.title())
         
+        # Extract experience
+        experience_pattern = r'(?:experience|work history|employment|professional experience)[:\s]*\n((?:.*\n)*?)(?=\n[A-Z]|\Z)'
+        experience_match = re.search(experience_pattern, resume_text, re.IGNORECASE)
+        if experience_match:
+            exp_lines = experience_match.group(1).split('\n')
+            current_exp = None
+            for line in exp_lines:
+                line = line.strip()
+                if not line:
+                    continue
+                is_bullet = line.startswith(('•', '-', '*')) or re.match(r'^\d+\.\s', line)
+                clean_line = re.sub(r'^[•\-\*\d\.\s·]+', '', line).strip()
+                if not clean_line:
+                    continue
+                
+                if is_bullet or len(line) >= 60:
+                    if not current_exp:
+                        current_exp = {"company": "Company", "role": "Software Engineer", "startDate": "", "endDate": "", "location": "", "description": "", "highlights": []}
+                    current_exp["highlights"].append(clean_line)
+                else:
+                    if current_exp:
+                        data["experience"].append(current_exp)
+                    
+                    company = clean_line
+                    role = "Software Engineer"
+                    if '@' in clean_line:
+                        parts = clean_line.split('@')
+                        role = parts[0].strip()
+                        company = parts[1].strip()
+                    elif '|' in clean_line:
+                        parts = clean_line.split('|')
+                        company = parts[0].strip()
+                        role = parts[1].strip()
+                    elif '-' in clean_line and not re.search(r'\b(?:19|20)\d{2}\b', clean_line):
+                        parts = clean_line.split('-')
+                        company = parts[0].strip()
+                        role = parts[1].strip()
+                    
+                    current_exp = {
+                        "company": company,
+                        "role": role,
+                        "startDate": "",
+                        "endDate": "",
+                        "location": "",
+                        "description": "",
+                        "highlights": []
+                    }
+            if current_exp:
+                data["experience"].append(current_exp)
+
         # Extract projects
         projects_pattern = r'(?:projects?|personal projects?|academic projects?)[:\s]*\n((?:.*\n)*?)(?=\n[A-Z]|\Z)'
         projects_match = re.search(projects_pattern, resume_text, re.IGNORECASE)
         if projects_match:
             project_lines = projects_match.group(1).split('\n')
-            current_project = {}
+            current_project = None
             for line in project_lines:
                 line = line.strip()
-                if line and not line.startswith(('•', '-', '*')):
+                if not line:
+                    continue
+                is_bullet = line.startswith(('•', '-', '*')) or re.match(r'^\d+\.\s', line)
+                clean_line = re.sub(r'^[•\-\*\d\.\s·]+', '', line).strip()
+                if not clean_line:
+                    continue
+                
+                if is_bullet or len(line) >= 60:
+                    if not current_project:
+                        current_project = {"name": "Project", "description": "", "technologies": [], "highlights": []}
+                    current_project["highlights"].append(clean_line)
+                else:
                     if current_project:
                         data["projects"].append(current_project)
-                    current_project = {"name": line, "description": "", "technologies": [], "highlights": []}
-                elif line and current_project:
-                    current_project["highlights"].append(line.lstrip('•-* '))
+                    
+                    techs = []
+                    if '|' in clean_line:
+                        parts = clean_line.split('|')
+                        title = parts[0].strip()
+                        tech_part = parts[1].strip()
+                        techs = [t.strip() for t in re.split(r'[,/]', tech_part)]
+                    elif ':' in clean_line:
+                        parts = clean_line.split(':')
+                        title = parts[0].strip()
+                        tech_part = parts[1].strip()
+                        techs = [t.strip() for t in re.split(r'[,/]', tech_part)]
+                    else:
+                        title = clean_line
+                    
+                    current_project = {"name": title, "description": "", "technologies": techs, "highlights": []}
             if current_project:
                 data["projects"].append(current_project)
         

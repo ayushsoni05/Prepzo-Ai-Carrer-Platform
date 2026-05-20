@@ -302,69 +302,93 @@ export const extractLocalFallback = (resumeText) => {
         });
       }
     } else if (currentSection === 'experience') {
-      let expBlocks = [];
-      let currentBlock = [];
+      let currentExp = null;
       sectionContent.forEach(line => {
-        if (line.startsWith('•') || line.startsWith('-') || line.startsWith('*')) {
-          currentBlock.push(line.replace(/^[•\-\*\s]+/, '').trim());
-        } else {
-          if (currentBlock.length > 0) {
-            expBlocks.push(currentBlock);
-            currentBlock = [];
-          }
-          currentBlock.push(line);
-        }
-      });
-      if (currentBlock.length > 0) {
-        expBlocks.push(currentBlock);
-      }
+        const isBullet = line.startsWith('•') || line.startsWith('-') || line.startsWith('*') || /^\d+\.\s/.test(line);
+        const cleanLine = line.replace(/^[•\-\*\d\.\s·]+/, '').trim();
+        if (!cleanLine) return;
 
-      expBlocks.forEach(block => {
-        if (block.length > 0) {
-          const role = block[0];
-          const desc = block.slice(1).filter(l => l.length > 5);
-          result.experience.push({
-            company: 'Company',
-            role: role || 'Role',
+        if (isBullet || line.length >= 60) {
+          if (!currentExp) {
+            currentExp = { company: 'Company', role: 'Software Engineer', startDate: '', endDate: '', location: '', description: [], highlights: [] };
+          }
+          currentExp.description.push(cleanLine);
+          currentExp.highlights.push(cleanLine);
+        } else {
+          if (currentExp) {
+            result.experience.push(currentExp);
+          }
+          let company = cleanLine;
+          let role = 'Software Engineer';
+          if (cleanLine.includes('@')) {
+            const parts = cleanLine.split('@');
+            role = parts[0].trim();
+            company = parts[1].trim();
+          } else if (cleanLine.includes('|')) {
+            const parts = cleanLine.split('|');
+            company = parts[0].trim();
+            role = parts[1].trim();
+          } else if (cleanLine.includes('-') && !/\b(19|20)\d{2}\b/.test(cleanLine)) {
+            const parts = cleanLine.split('-');
+            company = parts[0].trim();
+            role = parts[1].trim();
+          }
+          currentExp = {
+            company,
+            role,
             startDate: '',
             endDate: '',
             location: '',
-            description: desc,
-            highlights: desc
-          });
+            description: [],
+            highlights: []
+          };
         }
       });
-    } else if (currentSection === 'projects') {
-      let currentBlock = [];
-      let projBlocks = [];
-      sectionContent.forEach(line => {
-        if (line.startsWith('•') || line.startsWith('-') || line.startsWith('*')) {
-          currentBlock.push(line.replace(/^[•\-\*\s]+/, '').trim());
-        } else {
-          if (currentBlock.length > 0) {
-            projBlocks.push(currentBlock);
-            currentBlock = [];
-          }
-          currentBlock.push(line);
-        }
-      });
-      if (currentBlock.length > 0) {
-        projBlocks.push(currentBlock);
+      if (currentExp) {
+        result.experience.push(currentExp);
       }
+    } else if (currentSection === 'projects') {
+      let currentProj = null;
+      sectionContent.forEach(line => {
+        const isBullet = line.startsWith('•') || line.startsWith('-') || line.startsWith('*') || /^\d+\.\s/.test(line);
+        const cleanLine = line.replace(/^[•\-\*\d\.\s·]+/, '').trim();
+        if (!cleanLine) return;
 
-      projBlocks.forEach(block => {
-        if (block.length > 0) {
-          const name = block[0];
-          const desc = block.slice(1).filter(l => l.length > 5);
-          result.projects.push({
-            name: name || 'Project Name',
-            description: desc,
-            technologies: [],
-            highlights: desc,
+        if (isBullet || line.length >= 60) {
+          if (!currentProj) {
+            currentProj = { name: 'Project', description: [], technologies: [], highlights: [], link: '' };
+          }
+          currentProj.description.push(cleanLine);
+          currentProj.highlights.push(cleanLine);
+        } else {
+          if (currentProj) {
+            result.projects.push(currentProj);
+          }
+          let name = cleanLine;
+          let technologies = [];
+          if (cleanLine.includes('|')) {
+            const parts = cleanLine.split('|');
+            name = parts[0].trim();
+            const techPart = parts[1].trim();
+            technologies = techPart.split(/[,/]/).map(t => t.trim()).filter(Boolean);
+          } else if (cleanLine.includes(':')) {
+            const parts = cleanLine.split(':');
+            name = parts[0].trim();
+            const techPart = parts[1].trim();
+            technologies = techPart.split(/[,/]/).map(t => t.trim()).filter(Boolean);
+          }
+          currentProj = {
+            name,
+            description: [],
+            technologies,
+            highlights: [],
             link: ''
-          });
+          };
         }
       });
+      if (currentProj) {
+        result.projects.push(currentProj);
+      }
     }
     sectionContent = [];
   };
