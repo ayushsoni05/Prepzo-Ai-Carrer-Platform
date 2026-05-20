@@ -797,9 +797,9 @@ LaTeX Template:
 ${template.source}
 
 CRITICAL LATEX INTEGRITY RULES:
-1. You MUST NOT modify, simplify, or delete any macro definitions, packages, or settings in the LaTeX preamble (such as \\resumeSubheading, \\resumeItem, \\resumeProjectHeading, \\resumeSubHeadingListStart, \\resumeSubHeadingListEnd, \\resumeItemListStart, \\resumeItemListEnd, etc.). Copy them EXACTLY as they are from the template.
-2. If you use a macro in the document body (e.g. \\resumeSubheading, \\resumeItem, etc.), its definition MUST exist in the preamble.
-3. Keep the document structure, spacing, fonts, margins, packages, and custom commands exactly matching the template. Only fill and optimize the content inside the sections.
+1. You MUST NOT modify, simplify, or delete any macro definitions, packages, settings, or color definitions in the LaTeX preamble (such as \\definecolor{primary}{...}, \\definecolor{accent}{...}, \\definecolor{PRIMARY}{...}, \\definecolor{ACCENT}{...}, \\resumeSubheading, \\resumeItem, \\resumeProjectHeading, \\resumeSubHeadingListStart, \\resumeSubHeadingListEnd, \\resumeItemListStart, \\resumeItemListEnd, etc.). Copy them EXACTLY as they are from the template.
+2. If you use a macro or color in the document body (e.g. \\resumeSubheading, \\resumeItem, primary, accent, etc.), its definition MUST exist in the preamble.
+3. Keep the document structure, spacing, fonts, margins, packages, colors, and custom commands exactly matching the template. Only fill and optimize the content inside the sections.
 `;
 
   if (jobDescription && jobDescription.trim()) {
