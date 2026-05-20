@@ -795,6 +795,11 @@ ${JSON.stringify(userProfile)}
 
 LaTeX Template:
 ${template.source}
+
+CRITICAL LATEX INTEGRITY RULES:
+1. You MUST NOT modify, simplify, or delete any macro definitions, packages, or settings in the LaTeX preamble (such as \\resumeSubheading, \\resumeItem, \\resumeProjectHeading, \\resumeSubHeadingListStart, \\resumeSubHeadingListEnd, \\resumeItemListStart, \\resumeItemListEnd, etc.). Copy them EXACTLY as they are from the template.
+2. If you use a macro in the document body (e.g. \\resumeSubheading, \\resumeItem, etc.), its definition MUST exist in the preamble.
+3. Keep the document structure, spacing, fonts, margins, packages, and custom commands exactly matching the template. Only fill and optimize the content inside the sections.
 `;
 
   if (jobDescription && jobDescription.trim()) {
@@ -805,7 +810,7 @@ ${jobDescription.trim()}
 Instructions:
 1. Populate the template with the user's information.
 2. Tailor and optimize the professional summary, experience bullet points, and skills to highlight keywords and requirements from the Job Description to maximize ATS match score.
-3. Keep the LaTeX formatting, commands, styling, and package imports exactly as defined in the template.
+3. Keep the LaTeX formatting, commands, styling, and package imports exactly as defined in the template (do not omit or alter the preamble).
 4. Escape any LaTeX special characters in the user's profile text (e.g. & to \\&, % to \\%, _ to \\_, etc.) to prevent compilation errors.
 5. Output JSON format containing:
    {
@@ -818,7 +823,7 @@ Instructions:
 Instructions:
 1. Populate the template with the user's information.
 2. Optimize the content to be highly professional and general high-ATS compliant.
-3. Keep the LaTeX formatting, commands, styling, and package imports exactly as defined in the template.
+3. Keep the LaTeX formatting, commands, styling, and package imports exactly as defined in the template (do not omit or alter the preamble).
 4. Escape any LaTeX special characters in the user's profile text (e.g. & to \\&, % to \\%, _ to \\_, etc.) to prevent compilation errors.
 5. Output JSON format containing:
    {
