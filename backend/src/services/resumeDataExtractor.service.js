@@ -135,7 +135,8 @@ Only return the JSON response. Do not include markdown code block formatting (li
   }
 
   if (!responseText) {
-    return getEmptySchema();
+    console.warn('[resumeDataExtractor] Both Gemini and Groq failed or are unconfigured. Calling local rule-based fallback parser.');
+    return extractLocalFallback(resumeText);
   }
 
   try {
@@ -207,8 +208,204 @@ Only return the JSON response. Do not include markdown code block formatting (li
     return result;
   } catch (error) {
     console.error('[resumeDataExtractor] Extraction error:', error);
-    return getEmptySchema();
+    return extractLocalFallback(resumeText);
   }
+};
+
+export const extractLocalFallback = (resumeText) => {
+  const lines = (resumeText || '').split('\n').map(l => l.trim()).filter(Boolean);
+  const result = {
+    name: '',
+    email: '',
+    phone: '',
+    linkedin: '',
+    github: '',
+    summary: '',
+    education: [],
+    experience: [],
+    projects: [],
+    skills: [],
+    certifications: []
+  };
+
+  if (lines.length === 0) return result;
+
+  // 1. Name is typically the first line
+  result.name = lines[0].replace(/[^a-zA-Z\s.-]/g, '').trim();
+  if (result.name.length > 50 || result.name.split(' ').length > 4) {
+    result.name = ''; // Reset if it doesn't look like a name
+  }
+
+  // 2. Extract email, phone, links
+  const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+  const phoneRegex = /(?:\+?\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}/g;
+  const linkedinRegex = /linkedin\.com\/in\/[a-zA-Z0-9_-]+/i;
+  const githubRegex = /github\.com\/[a-zA-Z0-9_-]+/i;
+
+  const emailMatch = resumeText.match(emailRegex);
+  if (emailMatch) result.email = emailMatch[0];
+
+  const phoneMatch = resumeText.match(phoneRegex);
+  if (phoneMatch) result.phone = phoneMatch[0];
+
+  const linkedinMatch = resumeText.match(linkedinRegex);
+  if (linkedinMatch) result.linkedin = 'https://' + linkedinMatch[0];
+
+  const githubMatch = resumeText.match(githubRegex);
+  if (githubMatch) result.github = 'https://' + githubMatch[0];
+
+  // 3. Extract skills
+  const COMMON_SKILLS = [
+    'JavaScript', 'TypeScript', 'Python', 'Java', 'C\\+\\+', 'C#', 'Go', 'Rust', 'Ruby', 'PHP', 'Swift', 'Kotlin',
+    'HTML', 'CSS', 'Sass', 'React', 'Angular', 'Vue', 'Next.js', 'Nuxt.js', 'Node.js', 'Express', 'Django', 'Flask',
+    'Spring Boot', 'ASP.NET', 'Laravel', 'MongoDB', 'PostgreSQL', 'MySQL', 'SQLite', 'Redis', 'Firebase', 'Supabase',
+    'Docker', 'Kubernetes', 'AWS', 'Azure', 'GCP', 'Git', 'GitHub', 'CI/CD', 'Jenkins', 'REST API', 'GraphQL',
+    'Machine Learning', 'Deep Learning', 'Data Structures', 'Algorithms', 'System Design'
+  ];
+  const foundSkills = new Set();
+  COMMON_SKILLS.forEach(skillPattern => {
+    const regex = new RegExp(`\\b${skillPattern}\\b`, 'i');
+    if (regex.test(resumeText)) {
+      foundSkills.add(skillPattern.replace('\\+', '+'));
+    }
+  });
+  result.skills = Array.from(foundSkills);
+
+  // 4. Section parsing
+  let currentSection = '';
+  let sectionContent = [];
+
+  const flushSection = () => {
+    if (!currentSection || sectionContent.length === 0) return;
+
+    if (currentSection === 'education') {
+      const degreeRegex = /(B\.?Tech|M\.?Tech|B\.?S|M\.?S|Bachelor|Master|Ph\.?D|Graduate|Degree)/i;
+      let degree = '';
+      let institution = '';
+      sectionContent.forEach(line => {
+        const dMatch = line.match(degreeRegex);
+        if (dMatch && !degree) {
+          degree = line;
+        } else if (!institution && line.length > 5 && !line.includes('GPA') && !line.includes('CGPA')) {
+          institution = line;
+        }
+      });
+      if (degree || institution) {
+        result.education.push({
+          degree: degree || 'Degree',
+          fieldOfStudy: '',
+          institution: institution || 'Institution',
+          location: '',
+          gpa: '',
+          startDate: '',
+          endDate: ''
+        });
+      }
+    } else if (currentSection === 'experience') {
+      let expBlocks = [];
+      let currentBlock = [];
+      sectionContent.forEach(line => {
+        if (line.startsWith('•') || line.startsWith('-') || line.startsWith('*')) {
+          currentBlock.push(line.replace(/^[•\-\*\s]+/, '').trim());
+        } else {
+          if (currentBlock.length > 0) {
+            expBlocks.push(currentBlock);
+            currentBlock = [];
+          }
+          currentBlock.push(line);
+        }
+      });
+      if (currentBlock.length > 0) {
+        expBlocks.push(currentBlock);
+      }
+
+      expBlocks.forEach(block => {
+        if (block.length > 0) {
+          const role = block[0];
+          const desc = block.slice(1).filter(l => l.length > 5);
+          result.experience.push({
+            company: 'Company',
+            role: role || 'Role',
+            startDate: '',
+            endDate: '',
+            location: '',
+            description: desc,
+            highlights: desc
+          });
+        }
+      });
+    } else if (currentSection === 'projects') {
+      let currentBlock = [];
+      let projBlocks = [];
+      sectionContent.forEach(line => {
+        if (line.startsWith('•') || line.startsWith('-') || line.startsWith('*')) {
+          currentBlock.push(line.replace(/^[•\-\*\s]+/, '').trim());
+        } else {
+          if (currentBlock.length > 0) {
+            projBlocks.push(currentBlock);
+            currentBlock = [];
+          }
+          currentBlock.push(line);
+        }
+      });
+      if (currentBlock.length > 0) {
+        projBlocks.push(currentBlock);
+      }
+
+      projBlocks.forEach(block => {
+        if (block.length > 0) {
+          const name = block[0];
+          const desc = block.slice(1).filter(l => l.length > 5);
+          result.projects.push({
+            name: name || 'Project Name',
+            description: desc,
+            technologies: [],
+            highlights: desc,
+            link: ''
+          });
+        }
+      });
+    }
+    sectionContent = [];
+  };
+
+  lines.forEach(line => {
+    const lowerLine = line.toLowerCase();
+    if (lowerLine.includes('education') || lowerLine.includes('academic')) {
+      flushSection();
+      currentSection = 'education';
+    } else if (lowerLine.includes('experience') || lowerLine.includes('work history') || lowerLine.includes('employment')) {
+      flushSection();
+      currentSection = 'experience';
+    } else if (lowerLine.includes('projects') || lowerLine.includes('personal projects')) {
+      flushSection();
+      currentSection = 'projects';
+    } else if (lowerLine.includes('skills') || lowerLine.includes('technologies') || lowerLine.includes('certifications')) {
+      flushSection();
+      currentSection = 'other';
+    } else if (currentSection) {
+      sectionContent.push(line);
+    }
+  });
+  flushSection();
+
+  // If no sections were parsed but we have lines, populate a default experience to show they have parsed info
+  if (result.experience.length === 0 && result.education.length === 0 && result.projects.length === 0) {
+    const descLines = lines.slice(1, 10).filter(l => l.length > 10 && !l.includes('@'));
+    if (descLines.length > 0) {
+      result.experience.push({
+        company: 'Resume Import',
+        role: 'Candidate Profile Details',
+        startDate: '',
+        endDate: '',
+        location: '',
+        description: descLines,
+        highlights: descLines
+      });
+    }
+  }
+
+  return result;
 };
 
 const getEmptySchema = () => ({
