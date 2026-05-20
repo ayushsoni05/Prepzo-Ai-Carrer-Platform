@@ -1001,8 +1001,54 @@ Instructions:
         ? escapeLatex(userProfile.summary)
         : `Results-oriented ${escapeLatex(userProfile.targetRole)} with a strong foundation in modern software engineering principles. Dedicated to writing clean, maintainable, and efficient code to solve complex real-world problems.`;
 
+      // Define failsafe custom macros to prevent undefined control sequence errors in other templates
+      const customMacros = `
+% Failsafe custom command definitions
+\\providecommand{\\resumeItem}[1]{\\item\\small{#1 \\vspace{-2pt}}}
+\\providecommand{\\resumeSubheading}[4]{
+  \\vspace{-2pt}\\item
+    \\begin{tabular*}{0.97\\textwidth}[t]{l@{\\extracolsep{\\fill}}r}
+      \\textbf{#1} & #2 \\\\
+      \\textit{\\small#3} & \\textit{\\small #4} \\\\
+    \\end{tabular*}\\vspace{-7pt}
+}
+\\providecommand{\\resumeProjectHeading}[2]{
+    \\item
+    \\begin{tabular*}{0.97\\textwidth}{l@{\\extracolsep{\\fill}}r}
+      \\small#1 & #2 \\\\
+    \\end{tabular*}\\vspace{-7pt}
+}
+\\providecommand{\\resumeSubItem}[1]{\\resumeItem{#1}\\vspace{-4pt}}
+\\providecommand{\\resumeSubHeadingListStart}{\\begin{itemize}[leftmargin=0.15in, label={}]}
+\\providecommand{\\resumeSubHeadingListEnd}{\\end{itemize}}
+\\providecommand{\\resumeItemListStart}{\\begin{itemize}}
+\\providecommand{\\resumeItemListEnd}{\\end{itemize}\\vspace{-5pt}}
+`;
+
+      let latexSource = template.source;
+      if (!latexSource.includes('\\begin{document}')) {
+        latexSource = template.source || '';
+      }
+      latexSource = latexSource.replace('\\begin{document}', customMacros + '\n\\begin{document}');
+
+      const wrapInListIfNeeded = (source, placeholder, itemsContent) => {
+        if (source.includes(`\\resumeSubHeadingListStart\n${placeholder}`) || 
+            source.includes(`\\resumeSubHeadingListStart\r\n${placeholder}`) ||
+            source.includes(`\\resumeSubHeadingListStart\n  ${placeholder}`) ||
+            source.includes(`\\resumeSubHeadingListStart\r\n  ${placeholder}`) ||
+            source.includes(`\\resumeSubHeadingListStart${placeholder}`) ||
+            source.includes(`\\resumeSubHeadingListStart ${placeholder}`)) {
+          return itemsContent;
+        }
+        return `\\resumeSubHeadingListStart\n${itemsContent}\\resumeSubHeadingListEnd`;
+      };
+
+      const finalEdu = wrapInListIfNeeded(latexSource, '{{EDUCATION_ITEMS}}', educationItems);
+      const finalExp = wrapInListIfNeeded(latexSource, '{{EXPERIENCE_ITEMS}}', experienceItems);
+      const finalProj = wrapInListIfNeeded(latexSource, '{{PROJECT_ITEMS}}', projectItems);
+
       // Fill in placeholders
-      let latexSource = template.source
+      latexSource = latexSource
         .replace(/\{\{NAME\}\}/g, cleanName)
         .replace(/\{\{EMAIL\}\}/g, cleanEmail)
         .replace(/\{\{PHONE\}\}/g, cleanPhone)
@@ -1010,9 +1056,9 @@ Instructions:
         .replace(/\{\{GITHUB\}\}/g, cleanGithub)
         .replace(/\{\{LOCATION\}\}/g, cleanLocation)
         .replace(/\{\{SUMMARY\}\}/g, summaryText)
-        .replace(/\{\{EDUCATION_ITEMS\}\}/g, educationItems)
-        .replace(/\{\{EXPERIENCE_ITEMS\}\}/g, experienceItems)
-        .replace(/\{\{PROJECT_ITEMS\}\}/g, projectItems)
+        .replace(/\{\{EDUCATION_ITEMS\}\}/g, finalEdu)
+        .replace(/\{\{EXPERIENCE_ITEMS\}\}/g, finalExp)
+        .replace(/\{\{PROJECT_ITEMS\}\}/g, finalProj)
         .replace(/\{\{SKILLS_ITEMS\}\}/g, skillsItems);
 
       result = {
