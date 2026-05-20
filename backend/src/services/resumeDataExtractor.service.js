@@ -107,24 +107,44 @@ Only return the JSON response. Do not include markdown code block formatting (li
       }));
     }
     if (result.experience) {
-      result.experience = result.experience.map(exp => ({
-        company: exp.company || '',
-        role: exp.role || '',
-        startDate: exp.startDate || '',
-        endDate: exp.endDate || '',
-        location: exp.location || '',
-        description: exp.description || '',
-        highlights: Array.isArray(exp.highlights) ? exp.highlights.filter(Boolean) : []
-      }));
+      result.experience = result.experience.map(exp => {
+        let bullets = [];
+        if (Array.isArray(exp.highlights) && exp.highlights.length > 0) {
+          bullets = exp.highlights;
+        } else if (Array.isArray(exp.description)) {
+          bullets = exp.description;
+        } else if (typeof exp.description === 'string' && exp.description.trim()) {
+          bullets = exp.description.split('\n').map(l => l.replace(/^[•\-\*\s]+/, '').trim()).filter(Boolean);
+        }
+        return {
+          company: exp.company || '',
+          role: exp.role || exp.title || '',
+          startDate: exp.startDate || '',
+          endDate: exp.endDate || '',
+          location: exp.location || '',
+          description: bullets.filter(Boolean),
+          highlights: bullets.filter(Boolean)
+        };
+      });
     }
     if (result.projects) {
-      result.projects = result.projects.map(proj => ({
-        name: proj.name || '',
-        description: proj.description || '',
-        technologies: Array.isArray(proj.technologies) ? proj.technologies.filter(Boolean) : [],
-        highlights: Array.isArray(proj.highlights) ? proj.highlights.filter(Boolean) : [],
-        link: proj.link || ''
-      }));
+      result.projects = result.projects.map(proj => {
+        let bullets = [];
+        if (Array.isArray(proj.highlights) && proj.highlights.length > 0) {
+          bullets = proj.highlights;
+        } else if (Array.isArray(proj.description)) {
+          bullets = proj.description;
+        } else if (typeof proj.description === 'string' && proj.description.trim()) {
+          bullets = proj.description.split('\n').map(l => l.replace(/^[•\-\*\s]+/, '').trim()).filter(Boolean);
+        }
+        return {
+          name: proj.name || proj.title || '',
+          description: bullets.filter(Boolean),
+          technologies: Array.isArray(proj.technologies) ? proj.technologies.filter(Boolean) : [],
+          highlights: bullets.filter(Boolean),
+          link: proj.link || ''
+        };
+      });
     }
     if (result.skills) {
       result.skills = Array.isArray(result.skills) ? result.skills.filter(Boolean) : [];

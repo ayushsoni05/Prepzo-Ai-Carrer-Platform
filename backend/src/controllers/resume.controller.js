@@ -41,6 +41,13 @@ const buildResumeAnalysisPayload = (aiAnalysis, role, advancedReport = {}) => ({
   strengthsSummary: aiAnalysis.strengths || [],
   weaknessesSummary: aiAnalysis.weaknesses || [],
   extractedData: {
+    name: aiAnalysis.extracted_data?.name || '',
+    email: aiAnalysis.extracted_data?.email || '',
+    phone: aiAnalysis.extracted_data?.phone || '',
+    linkedin: aiAnalysis.extracted_data?.linkedin || '',
+    github: aiAnalysis.extracted_data?.github || '',
+    summary: aiAnalysis.extracted_data?.summary || '',
+    location: aiAnalysis.extracted_data?.location || '',
     skills: aiAnalysis.extracted_data?.skills || [],
     experience: aiAnalysis.extracted_data?.experience || [],
     education: aiAnalysis.extracted_data?.education || [],

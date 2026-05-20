@@ -303,29 +303,7 @@ const userSchema = new mongoose.Schema({
     weaknessesSummary: [{ type: String }],
     
     // Extracted Data from Resume
-    extractedData: {
-      skills: [{ type: String }],
-      experience: [{ 
-        title: { type: String },
-        company: { type: String },
-        duration: { type: String },
-        highlights: [{ type: String }]
-      }],
-      education: [{
-        degree: { type: String },
-        institution: { type: String },
-        year: { type: String },
-        gpa: { type: String }
-      }],
-      projects: [{
-        name: { type: String },
-        description: { type: String },
-        technologies: [{ type: String }],
-        highlights: [{ type: String }]
-      }],
-      certifications: [{ type: String }],
-      achievements: [{ type: String }]
-    },
+    extractedData: { type: mongoose.Schema.Types.Mixed, default: {} },
     
     // Analysis Metadata
     analyzedAt: { type: Date },
