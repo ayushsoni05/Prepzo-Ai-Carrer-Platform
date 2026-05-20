@@ -139,9 +139,23 @@ export const analyzeResume = asyncHandler(async (req, res) => {
       extractResumeDataWithAI(normalizedResumeText)
     ]);
 
-    // Override regex-based extracted_data with our perfect LLM-parsed data
+    // Override regex-based extracted_data with our perfect LLM-parsed data if it has valid details
     if (aiAnalysis) {
-      aiAnalysis.extracted_data = aiExtractedData;
+      const hasDetails = (data) => {
+        if (!data) return false;
+        const numSkills = data.skills?.length || 0;
+        const numExp = data.experience?.length || 0;
+        const numEdu = data.education?.length || 0;
+        const numProj = data.projects?.length || 0;
+        return (numSkills + numExp + numEdu + numProj) > 0;
+      };
+
+      if (hasDetails(aiExtractedData)) {
+        console.log('[resume.controller] LLM extraction succeeded with details. Overriding Python service extracted_data.');
+        aiAnalysis.extracted_data = aiExtractedData;
+      } else {
+        console.warn('[resume.controller] LLM extraction returned 0 details. Retaining Python service extracted_data.');
+      }
     }
 
     const advancedReport = buildAdvancedResumeReport({

@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import OpenAI from 'openai';
 
 /**
  * Extract structured resume data from raw text using Gemini 1.5 Flash.
@@ -9,10 +10,8 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
  */
 export const extractResumeDataWithAI = async (resumeText) => {
   const geminiKey = process.env.GEMINI_API_KEY;
-  if (!geminiKey || geminiKey === 'your-gemini-api-key' || geminiKey.trim() === '') {
-    console.warn('[resumeDataExtractor] GEMINI_API_KEY is missing. Falling back to empty structure.');
-    return getEmptySchema();
-  }
+  const isGeminiAvailable = geminiKey && geminiKey !== 'your-gemini-api-key' && geminiKey.trim() !== '';
+  let responseText = null;
 
   const prompt = `
 You are an expert ATS (Applicant Tracking System) parser. Your task is to extract all structured details from the raw resume text provided.
@@ -83,15 +82,63 @@ You must return a JSON object that adheres strictly to the following schema:
 Only return the JSON response. Do not include markdown code block formatting (like \`\`\`json).
 `;
 
-  try {
-    const genAI = new GoogleGenerativeAI(geminiKey);
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
-      generationConfig: { responseMimeType: 'application/json' }
-    });
+  if (isGeminiAvailable) {
+    try {
+      console.log('[resumeDataExtractor] Attempting extraction with Gemini...');
+      const genAI = new GoogleGenerativeAI(geminiKey);
+      const model = genAI.getGenerativeModel({
+        model: 'gemini-1.5-flash',
+        generationConfig: { responseMimeType: 'application/json' }
+      });
+      const response = await model.generateContent(prompt);
+      responseText = response.response.text();
+      console.log('[resumeDataExtractor] Gemini extraction succeeded');
+    } catch (geminiError) {
+      console.error('[resumeDataExtractor] Gemini extraction failed:', geminiError.message);
+    }
+  }
 
-    const response = await model.generateContent(prompt);
-    const responseText = response.response.text();
+  // Fallback to Groq if Gemini failed or is not available
+  if (!responseText) {
+    const groqKey = process.env.GROQ_API_KEY;
+    const isGroqAvailable = groqKey && groqKey !== 'your-groq-api-key' && groqKey.trim() !== '';
+
+    if (isGroqAvailable) {
+      try {
+        console.log('[resumeDataExtractor] Attempting fallback extraction with Groq (llama-3.3-70b-versatile)...');
+        const groq = new OpenAI({
+          apiKey: groqKey,
+          baseURL: 'https://api.groq.com/openai/v1',
+        });
+        const completion = await groq.chat.completions.create({
+          model: 'llama-3.3-70b-versatile',
+          messages: [
+            {
+              role: 'system',
+              content: 'You are an expert ATS parser. You must analyze the text and output a JSON object matching the requested schema strictly. Do not output anything else but valid JSON.'
+            },
+            {
+              role: 'user',
+              content: prompt
+            }
+          ],
+          response_format: { type: 'json_object' }
+        });
+        responseText = completion.choices[0]?.message?.content;
+        console.log('[resumeDataExtractor] Groq extraction succeeded');
+      } catch (groqError) {
+        console.error('[resumeDataExtractor] Groq extraction failed:', groqError.message);
+      }
+    } else {
+      console.warn('[resumeDataExtractor] No valid GEMINI_API_KEY or GROQ_API_KEY available.');
+    }
+  }
+
+  if (!responseText) {
+    return getEmptySchema();
+  }
+
+  try {
     const result = JSON.parse(responseText);
     
     // Clean up lists if any elements are null/undefined

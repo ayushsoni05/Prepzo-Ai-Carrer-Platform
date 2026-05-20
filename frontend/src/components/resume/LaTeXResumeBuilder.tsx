@@ -619,7 +619,7 @@ export function LaTeXResumeBuilder() {
       </div>
       {/* AI Resume Wizard Modal */}
       {showWizard && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -633,7 +633,7 @@ export function LaTeXResumeBuilder() {
                 </div>
                 <div>
                   <h4 className="text-lg font-black uppercase tracking-wider text-white">AI Resume Builder</h4>
-                  <p className="text-xs text-white/40 uppercase tracking-widest italic">Create high-ATS LaTeX resume in 5 steps</p>
+                  <p className="text-xs text-white/40 uppercase tracking-widest italic">Create high-ATS LaTeX resume in 3 steps</p>
                 </div>
               </div>
               {wizardStep !== 4 && (
