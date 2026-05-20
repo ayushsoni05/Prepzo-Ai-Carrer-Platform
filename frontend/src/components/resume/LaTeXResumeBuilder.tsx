@@ -128,9 +128,9 @@ export function LaTeXResumeBuilder() {
   const [wizardTemplate, setWizardTemplate] = useState(selectedTemplate);
   const [wizardLoadingText, setWizardLoadingText] = useState('');
   const [wizardError, setWizardError] = useState<string | null>(null);
-  const [wizardSuccessPdf, setWizardSuccessPdf] = useState<string | null>(null);
   const [isParsing, setIsParsing] = useState(false);
   const [extractedDetails, setExtractedDetails] = useState<any>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
   const [hasExistingResume, setHasExistingResume] = useState(false);
   const [existingResumeName, setExistingResumeName] = useState<string | null>(null);
   const [useExisting, setUseExisting] = useState(false);
@@ -161,7 +161,6 @@ export function LaTeXResumeBuilder() {
       setExtractedDetails(null);
       setUseExisting(false);
       setWizardError(null);
-      setWizardSuccessPdf(null);
     }
   }, [showWizard]);
 
@@ -223,7 +222,6 @@ export function LaTeXResumeBuilder() {
     setWizardTemplate(selectedTemplate);
     setWizardLoadingText('');
     setWizardError(null);
-    setWizardSuccessPdf(null);
     setShowWizard(true);
   };
 
@@ -256,9 +254,9 @@ export function LaTeXResumeBuilder() {
     }
   };
 
-  // Run AI LaTeX Generation & Compilation (Step 3 -> Step 4 -> Step 5)
+  // Run AI LaTeX Generation & Compilation (Step 3 -> Workspace Editor)
   const handleGenerateResume = async () => {
-    setWizardStep(4);
+    setIsGenerating(true);
     setWizardError(null);
     setWizardLoadingText('Generating ATS-optimized LaTeX source...');
     try {
@@ -274,23 +272,19 @@ export function LaTeXResumeBuilder() {
       setTargetRole(wizardRole);
       setHasUnsaved(true);
 
-      // 2. Compile LaTeX to PDF
-      setWizardLoadingText('Compiling LaTeX source to PDF...');
-      const compileRes = await compileLatex(genRes.data.latex);
-      if (compileRes.success && compileRes.data.pdf) {
-        setPdfBase64(compileRes.data.pdf);
-        setCompilationLog(compileRes.data.log || '');
-        setWizardSuccessPdf(compileRes.data.pdf);
-        setWizardStep(5);
-        showSuccess('Resume generated and compiled successfully!');
-      } else {
-        throw new Error('LaTeX compilation failed.');
-      }
+      // Close the wizard modal directly
+      setShowWizard(false);
+
+      // 2. Trigger LaTeX compile in workspace so user sees live preview
+      handleCompile(genRes.data.latex);
+      
+      showSuccess('Resume code generated and filled into editor!');
     } catch (err: any) {
       console.error('Wizard generation error:', err);
       const errMsg = err.response?.data?.message || err.message || 'An error occurred during AI generation.';
       setWizardError(errMsg);
-      setWizardStep(3); // Return to step 3 on error so they can retry
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -657,9 +651,7 @@ export function LaTeXResumeBuilder() {
               {[
                 { step: 1, label: 'Upload' },
                 { step: 2, label: 'JD & Role' },
-                { step: 3, label: 'Template' },
-                { step: 4, label: 'Generating' },
-                { step: 5, label: 'Ready' }
+                { step: 3, label: 'Template' }
               ].map((s) => (
                 <div
                   key={s.step}
@@ -971,133 +963,75 @@ export function LaTeXResumeBuilder() {
               )}
 
               {wizardStep === 3 && (
-                <div className="space-y-4">
-                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">Step 3: Select Resume Template</p>
-                  
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[300px] overflow-y-auto custom-scrollbar p-1">
-                    {latexTemplates.map((t) => (
+                isGenerating ? (
+                  <div className="flex flex-col items-center justify-center text-center py-8 space-y-6">
+                    <div className="relative flex items-center justify-center">
+                      <div className="w-20 h-20 rounded-full border border-indigo-500/20 animate-ping absolute" />
+                      <div className="w-16 h-16 rounded-full border border-indigo-500/40 animate-pulse absolute" />
+                      <div className="w-12 h-12 bg-indigo-500/10 border border-indigo-500/30 rounded-xl flex items-center justify-center relative z-10">
+                        <Loader2 className="w-6 h-6 text-indigo-400 animate-spin" />
+                      </div>
+                    </div>
+                    <div className="space-y-2 max-w-sm">
+                      <p className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em]">AI Generation Active</p>
+                      <p className="text-sm font-bold text-white leading-relaxed">{wizardLoadingText}</p>
+                      <p className="text-[10px] text-white/30 uppercase tracking-widest">Please don't close this window, this may take a moment...</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">Step 3: Select Resume Template</p>
+                    
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[300px] overflow-y-auto custom-scrollbar p-1">
+                      {latexTemplates.map((t) => (
+                        <button
+                          key={t.id}
+                          onClick={() => setWizardTemplate(t.id)}
+                          className={`group relative rounded-2xl border transition-all duration-300 overflow-hidden flex flex-col items-center justify-center p-4 h-32 ${
+                            wizardTemplate === t.id
+                              ? 'border-indigo-500 bg-indigo-500/10 shadow-[0_0_20px_-5px_rgba(99,102,241,0.3)]'
+                              : 'border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20'
+                          }`}
+                        >
+                          {/* Mini wireframe */}
+                          <div className={`w-10 h-14 rounded-md mb-3 flex flex-col gap-0.5 p-1 transition-all ${
+                            wizardTemplate === t.id
+                              ? 'border border-white/40 scale-105 shadow-md' : 'border border-white/10'
+                          }`} style={{ borderColor: wizardTemplate === t.id ? t.accent : undefined }}>
+                            <div className="h-1 rounded-sm w-full" style={{ background: t.accent, opacity: 0.8 }} />
+                            <div className="h-0.5 rounded-sm w-2/3 bg-white/30" />
+                            <div className="h-0.5 rounded-sm w-full bg-white/20" />
+                            <div className="h-0.5 rounded-sm w-5/6 bg-white/15" />
+                          </div>
+                          <p className={`text-[8px] font-black uppercase tracking-widest text-center leading-relaxed ${wizardTemplate === t.id ? 'text-indigo-300' : 'text-white/50'}`}>
+                            {t.name}
+                          </p>
+                          {t.badge && (
+                            <span className="absolute top-1 right-1 text-[6px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full"
+                              style={{ background: `${t.accent}20`, color: t.accent }}>
+                              {t.badge}
+                            </span>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="flex justify-between pt-4">
                       <button
-                        key={t.id}
-                        onClick={() => setWizardTemplate(t.id)}
-                        className={`group relative rounded-2xl border transition-all duration-300 overflow-hidden flex flex-col items-center justify-center p-4 h-32 ${
-                          wizardTemplate === t.id
-                            ? 'border-indigo-500 bg-indigo-500/10 shadow-[0_0_20px_-5px_rgba(99,102,241,0.3)]'
-                            : 'border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20'
-                        }`}
+                        onClick={() => setWizardStep(2)}
+                        className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-black uppercase tracking-widest text-[10px] rounded-xl transition-all"
                       >
-                        {/* Mini wireframe */}
-                        <div className={`w-10 h-14 rounded-md mb-3 flex flex-col gap-0.5 p-1 transition-all ${
-                          wizardTemplate === t.id
-                            ? 'border border-white/40 scale-105 shadow-md' : 'border border-white/10'
-                        }`} style={{ borderColor: wizardTemplate === t.id ? t.accent : undefined }}>
-                          <div className="h-1 rounded-sm w-full" style={{ background: t.accent, opacity: 0.8 }} />
-                          <div className="h-0.5 rounded-sm w-2/3 bg-white/30" />
-                          <div className="h-0.5 rounded-sm w-full bg-white/20" />
-                          <div className="h-0.5 rounded-sm w-5/6 bg-white/15" />
-                        </div>
-                        <p className={`text-[8px] font-black uppercase tracking-widest text-center leading-relaxed ${wizardTemplate === t.id ? 'text-indigo-300' : 'text-white/50'}`}>
-                          {t.name}
-                        </p>
-                        {t.badge && (
-                          <span className="absolute top-1 right-1 text-[6px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full"
-                            style={{ background: `${t.accent}20`, color: t.accent }}>
-                            {t.badge}
-                          </span>
-                        )}
+                        Back
                       </button>
-                    ))}
-                  </div>
-
-                  <div className="flex justify-between pt-4">
-                    <button
-                      onClick={() => setWizardStep(2)}
-                      className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-black uppercase tracking-widest text-[10px] rounded-xl transition-all"
-                    >
-                      Back
-                    </button>
-                    <button
-                      onClick={handleGenerateResume}
-                      className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black uppercase tracking-widest text-[10px] rounded-xl transition-all flex items-center gap-2"
-                    >
-                      <Sparkles className="w-4 h-4 animate-pulse" /> Generate Resume
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {wizardStep === 4 && (
-                <div className="flex flex-col items-center justify-center text-center py-8 space-y-6">
-                  <div className="relative flex items-center justify-center">
-                    <div className="w-20 h-20 rounded-full border border-indigo-500/20 animate-ping absolute" />
-                    <div className="w-16 h-16 rounded-full border border-indigo-500/40 animate-pulse absolute" />
-                    <div className="w-12 h-12 bg-indigo-500/10 border border-indigo-500/30 rounded-xl flex items-center justify-center relative z-10">
-                      <Loader2 className="w-6 h-6 text-indigo-400 animate-spin" />
+                      <button
+                        onClick={handleGenerateResume}
+                        className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black uppercase tracking-widest text-[10px] rounded-xl transition-all flex items-center gap-2"
+                      >
+                        <Sparkles className="w-4 h-4 animate-pulse" /> Generate Resume
+                      </button>
                     </div>
                   </div>
-                  <div className="space-y-2 max-w-sm">
-                    <p className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em]">AI Generation Active</p>
-                    <p className="text-sm font-bold text-white leading-relaxed">{wizardLoadingText}</p>
-                    <p className="text-[10px] text-white/30 uppercase tracking-widest">Please don't close this window, this may take a moment...</p>
-                  </div>
-                </div>
-              )}
-
-              {wizardStep === 5 && (
-                <div className="flex flex-col items-center justify-center text-center py-6 space-y-5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-400">
-                      <Check className="w-5 h-5" />
-                    </div>
-                    <div className="text-left">
-                      <p className="text-[10px] font-black text-emerald-400 uppercase tracking-[0.2em]">Generation Complete</p>
-                      <p className="text-sm font-black text-white uppercase tracking-tight">Your High-ATS Resume is Ready!</p>
-                    </div>
-                  </div>
-
-                  {/* PDF Preview */}
-                  {wizardSuccessPdf && (
-                    <div className="w-full rounded-2xl border border-white/10 overflow-hidden bg-white" style={{ height: 340 }}>
-                      <iframe
-                        src={`data:application/pdf;base64,${wizardSuccessPdf}`}
-                        className="w-full h-full"
-                        title="Resume Preview"
-                      />
-                    </div>
-                  )}
-
-                  <div className="flex flex-col sm:flex-row gap-3 w-full max-w-sm">
-                    <button
-                      onClick={() => {
-                        if (wizardSuccessPdf) {
-                          const byteChars = atob(wizardSuccessPdf);
-                          const byteArr = new Uint8Array(byteChars.length);
-                          for (let i = 0; i < byteChars.length; i++) byteArr[i] = byteChars.charCodeAt(i);
-                          const blob = new Blob([byteArr], { type: 'application/pdf' });
-                          const url = URL.createObjectURL(blob);
-                          const a = document.createElement('a');
-                          a.href = url;
-                          a.download = `${user?.fullName || 'Resume'}_ATS_Optimized.pdf`;
-                          document.body.appendChild(a);
-                          a.click();
-                          document.body.removeChild(a);
-                          URL.revokeObjectURL(url);
-                        }
-                      }}
-                      className="flex-1 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black uppercase tracking-widest text-[10px] rounded-xl transition-all flex items-center justify-center gap-2"
-                    >
-                      <Download className="w-4 h-4" /> Download PDF
-                    </button>
-                    <button
-                      onClick={() => {
-                        setShowWizard(false);
-                        handleCompile(latexSource);
-                      }}
-                      className="flex-1 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-black uppercase tracking-widest text-[10px] rounded-xl transition-all flex items-center justify-center gap-2"
-                    >
-                      <Code className="w-4 h-4" /> Open in Editor
-                    </button>
-                  </div>
-                </div>
+                )
               )}
             </div>
           </motion.div>

@@ -11,6 +11,7 @@ import aiService from '../services/aiService.js';
 import { compileLatexToPdf, isPdflatexAvailable } from '../services/latexCompiler.service.js';
 import { extractResumeTextFromStoredFile } from '../services/resumeTextExtractor.service.js';
 import { buildAdvancedResumeReport } from '../services/resumeReport.service.js';
+import { extractResumeDataWithAI } from '../services/resumeDataExtractor.service.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { getTemplateById } from '../data/latexTemplates.js';
 import { writeFileSync, existsSync, mkdirSync } from 'fs';
@@ -125,8 +126,17 @@ export const analyzeResume = asyncHandler(async (req, res) => {
   }
 
   try {
-    // Call AI service for comprehensive analysis
-    const aiAnalysis = await aiService.analyzeResume(normalizedResumeText, role);
+    // Run AI service analysis and robust LLM extraction in parallel
+    const [aiAnalysis, aiExtractedData] = await Promise.all([
+      aiService.analyzeResume(normalizedResumeText, role),
+      extractResumeDataWithAI(normalizedResumeText)
+    ]);
+
+    // Override regex-based extracted_data with our perfect LLM-parsed data
+    if (aiAnalysis) {
+      aiAnalysis.extracted_data = aiExtractedData;
+    }
+
     const advancedReport = buildAdvancedResumeReport({
       aiAnalysis,
       resumeText: normalizedResumeText,
