@@ -100,7 +100,7 @@ export const analyzeResume = asyncHandler(async (req, res) => {
   }
 
   const role = targetRole || user.targetRole || 'Software Engineer';
-  let normalizedResumeText = (resumeText || '').trim();
+  let normalizedResumeText = (resumeText || user.resumeText || '').trim();
 
   if (!normalizedResumeText) {
     if (!user.resumeUrl) {
@@ -110,6 +110,9 @@ export const analyzeResume = asyncHandler(async (req, res) => {
 
     try {
       normalizedResumeText = await extractResumeTextFromStoredFile(user.resumeUrl, user.resumeOriginalName);
+      // Save it so we don't have to read from disk again
+      user.resumeText = normalizedResumeText;
+      await user.save();
     } catch (extractError) {
       res.status(400);
       throw new Error(extractError.message || 'Could not extract text from uploaded resume');
