@@ -785,8 +785,15 @@ export const generateLatexResume = asyncHandler(async (req, res) => {
     cleanedProjects = parsed.projects.map(proj => {
       const highlights = Array.isArray(proj.highlights) ? proj.highlights : (Array.isArray(proj.description) ? proj.description : []);
       const { cleanedBullets, technologies } = cleanProjectBulletsAndExtractTechs(highlights, proj.technologies);
+      
+      let projLink = (proj.link || '').trim();
+      if (projLink && !/^https?:\/\//i.test(projLink)) {
+        projLink = 'https://' + projLink;
+      }
+
       return {
         ...proj,
+        link: projLink,
         description: cleanedBullets,
         highlights: cleanedBullets,
         technologies: technologies
@@ -862,17 +869,14 @@ CRITICAL LATEX INTEGRITY & COMPILATION RULES:
 
 ATS SCORE MAXIMIZATION (90+ ATS SCORE TARGET):
 1. Keep the layout standard, single-column, and highly readable.
-2. Bullet Points: Write impact-driven, professional bullet points for the Experience and Projects sections.
-   - Start EVERY single bullet point with a strong, active verb (e.g. "Spearheaded", "Optimized", "Architected", "Engineered", "Pioneered", "Designed").
-   - Quantify achievements: Introduce metrics, numbers, percentages, time-savings, or scale to every bullet point where possible (e.g. "improving system reliability by 24%", "saving 8 hours of manual overhead per week", "managing data ingestion pipeline of 10M+ events/day").
-   - Do NOT list or repeat the technologies used inside the project description highlights or bullet points. The technologies will be displayed separately on the project name/header line. Keep project bullets focused purely on actions, metrics, and achievements.
+2. STRICT WORDING PRESERVATION (CRITICAL): You MUST preserve the exact wording of the candidate's professional summary, experience bullet points/descriptions, and project bullet points/descriptions. Do NOT rewrite, paraphrase, summarize, or alter their wording in any way. Simply format them properly in LaTeX (escaping LaTeX characters) and list them. Do NOT generate new descriptions or verbs if they are already provided.
 3. Skills: Group/categorize skills cleanly using standard industry keywords matching the target role.
 4. No Placeholders: Eliminate all template symbols like {{NAME}}, {{EMAIL}}, etc. Replace them with the actual data.
 5. STRICT ONE-PAGE FIT & LAYOUT DENSITY (CRITICAL):
    - The entire compiled LaTeX document MUST fit on exactly one page. Spilling over to a second page or leaving excessive blank space is a major failure.
-   - Adjust Content Density Dynamically:
-     * DENSE PROFILE (Many Experiences/Projects/Achievements): If the user has a lot of content, restrict the Experience and Projects sections to 2-3 entries each. For each entry, write exactly 2 short, high-impact bullet points (maximum 1.25 lines each). Keep the summary to exactly 2 lines. Use tight vertical spacings (e.g., small vspace adjustments) to ensure it fits perfectly on one page without overlap or spillover.
-     * SPARSE PROFILE / STUDENT PROFILE (Few Experiences/Projects/Achievements): If the user has very little content, write slightly richer bullet points (3-4 bullet points per Experience/Project entry, up to 1.5 lines each). Expand the summary/objective to 3 lines (about 35-40 words). Ensure that you include certifications or achievements (like contests, extra-curriculars) inline or as a dedicated section to fill the page gracefully. Use rubber spacings to distribute whitespace evenly.
+   - Adjust Content Density Dynamically (Spacing-focused): To make the resume fit on one page, do NOT rewrite the content. Instead, adjust LaTeX vertical spacing controls (e.g., \vspace{...}, \itemsep, \parsep).
+     * DENSE PROFILE (Many Experiences/Projects/Achievements): Use compact spacing settings, reduce margins slightly (e.g. geometry margins 0.4in to 0.5in), or output only the first 2-3 most relevant experience/project entries with up to 3 bullets each to ensure it fits perfectly.
+     * SPARSE PROFILE / STUDENT PROFILE (Few Experiences/Projects/Achievements): Use standard spacing (e.g., margins 0.5in to 0.75in), include all available sections (Achievements, Extra-Curriculars, Certifications) to fill the page beautifully without leaving large empty blocks, and let LaTeX distribute rubber spacings evenly.
    - Spacing: Do NOT add manual hardcoded line breaks (e.g., \\\\ \\\\) or massive vspaces. Use LaTeX's rubber lengths (e.g., \\vspace{... plus ... minus ...}) and item spacing macros defined in the template preamble to let the LaTeX compiler distribute spaces dynamically.
 6. LINK & SOCIAL MEDIA INTEGRATION (CRITICAL):
    - LinkedIn username: ${cleanLinkedinUsername(userProfile.linkedin)}
@@ -884,6 +888,8 @@ ATS SCORE MAXIMIZATION (90+ ATS SCORE TARGET):
 8. ACHIEVEMENTS & EXTRA-CURRICULARS:
    - The user's achievements and extra-curricular activities are: ${JSON.stringify(userProfile.achievements || [])}.
    - If achievements are present in the profile, you MUST create a section named "Achievements & Extra-Curriculars" (or append them to "Certifications" to save space) in the LaTeX code, formatting them as bullet points or a compact list.
+9. PROJECT LINKS:
+   - If a project has a link (GitHub repo, demo link, etc.), you MUST render the project name as a clickable hyperlink using \href{URL}{\underline{Project Name}} (e.g., \href{https://github.com/username/project}{\underline{Project Name}}) inside the project title heading. Never discard project links.
 `;
 
   if (jobDescription && jobDescription.trim()) {
@@ -1068,7 +1074,14 @@ Instructions:
             .map(bullet => `      \\resumeItem{${escapeLatex(bullet)}}`)
             .join('\n');
           const techString = Array.isArray(proj.technologies) ? proj.technologies.join(', ') : (proj.technologies || '');
-          projectItems += `  \\resumeProjectHeading\n    {\\textbf{${escapeLatex(proj.title || proj.name || 'Project')}} $|$ \\emph{${escapeLatex(techString || 'React, Node.js')}}}{${escapeLatex(proj.date || '')}}\n    \\resumeItemListStart\n${bullets || '      \\resumeItem{Built and deployed the application, improving performance.}'}\n    \\resumeItemListEnd\n`;
+          const projName = proj.title || proj.name || 'Project';
+          let cleanLink = (proj.link || '').trim();
+          if (cleanLink && !/^https?:\/\//i.test(cleanLink)) {
+            cleanLink = 'https://' + cleanLink;
+          }
+          const escapedLink = cleanLink ? escapeLatex(cleanLink) : '';
+          const displayProjName = escapedLink ? `\\href{${escapedLink}}{\\underline{${escapeLatex(projName)}}}` : escapeLatex(projName);
+          projectItems += `  \\resumeProjectHeading\n    {\\textbf{${displayProjName}} $|$ \\emph{${escapeLatex(techString || 'React, Node.js')}}}{${escapeLatex(proj.date || '')}}\n    \\resumeItemListStart\n${bullets || '      \\resumeItem{Built and deployed the application, improving performance.}'}\n    \\resumeItemListEnd\n`;
         });
       } else {
         projectItems = `  \\resumeProjectHeading\n    {\\textbf{Portfolio Website} $|$ \\emph{React, Tailwind CSS}}{}\n    \\resumeItemListStart\n      \\resumeItem{Designed and developed a personal portfolio site to showcase projects.}\n    \\resumeItemListEnd\n`;

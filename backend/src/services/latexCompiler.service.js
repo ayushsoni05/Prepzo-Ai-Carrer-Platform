@@ -22,7 +22,35 @@ const COMPILE_TIMEOUT = 30000; // 30 seconds
  */
 export const compileLatexToPdf = async (latexSource) => {
   // Sanitize any remaining unreplaced template placeholders to avoid LaTeX syntax crashes (e.g. underscores in {{EDUCATION_ITEMS}} outside math mode)
-  const sanitizedSource = (latexSource || '').replace(/\{{2,3}[A-Z_]+\}{2,3}/g, '');
+  let sanitizedSource = (latexSource || '').replace(/\{{2,3}[A-Z_]+\}{2,3}/g, '');
+
+  // Inject robust color setups and custom commands to prevent compiler crashes on undefined colors/macros
+  const beginDocRegex = /\\begin\s*\{\s*document\s*\}/i;
+  if (beginDocRegex.test(sanitizedSource)) {
+    const fallbackColorSetup = `
+% --- BEGIN FALLBACK COLOR AND MACRO SETUP ---
+\\makeatletter
+\\@ifpackageloaded{xcolor}{}{
+  \\@ifpackageloaded{color}{}{
+    \\usepackage{xcolor}
+  }
+}
+\\makeatother
+\\providecommand{\\providecolor}[3]{\\definecolor{#1}{#2}{#3}}
+\\providecolor{slate}{HTML}{334155}
+\\providecolor{SLATE}{HTML}{334155}
+\\providecolor{navy}{HTML}{1E3A5F}
+\\providecolor{NAVY}{HTML}{1E3A5F}
+\\providecolor{primary}{HTML}{2D3748}
+\\providecolor{PRIMARY}{HTML}{2D3748}
+\\providecolor{accent}{HTML}{3B82F6}
+\\providecolor{ACCENT}{HTML}{3B82F6}
+\\providecolor{heading}{HTML}{003366}
+\\providecolor{HEADING}{HTML}{003366}
+% --- END FALLBACK COLOR AND MACRO SETUP ---
+`;
+    sanitizedSource = sanitizedSource.replace(beginDocRegex, (match) => fallbackColorSetup + '\n' + match);
+  }
 
   const isAvailable = await isPdflatexAvailable();
 

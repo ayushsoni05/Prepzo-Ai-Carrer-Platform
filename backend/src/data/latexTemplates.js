@@ -183,6 +183,7 @@ const modernTwoColumn = {
 \usepackage{fancyhdr}
 
 \definecolor{accent}{HTML}{6C63FF}
+\definecolor{ACCENT}{HTML}{6C63FF}
 \pagestyle{empty}
 
 \titleformat{\section}{\color{accent}\large\bfseries\scshape}{}{0em}{}[\color{accent}\titlerule \vspace{3pt plus 1.5pt minus 1.5pt}]
@@ -242,6 +243,7 @@ const academicCv = {
 \usepackage{xcolor}
 
 \definecolor{heading}{HTML}{003366}
+\definecolor{HEADING}{HTML}{003366}
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
@@ -367,6 +369,7 @@ const executiveCv = {
 \usepackage{xcolor}
 
 \definecolor{navy}{HTML}{1E3A5F}
+\definecolor{NAVY}{HTML}{1E3A5F}
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
@@ -424,7 +427,9 @@ const techCompact = {
 \usepackage{fancyhdr}
 
 \definecolor{primary}{HTML}{1E293B}
+\definecolor{PRIMARY}{HTML}{1E293B}
 \definecolor{accent}{HTML}{3B82F6}
+\definecolor{ACCENT}{HTML}{3B82F6}
 
 \pagestyle{empty}
 \setlist[itemize]{itemsep=3pt plus 2pt minus 1.5pt,parsep=1.5pt plus 1pt minus 1pt,topsep=2pt plus 1pt minus 1pt,leftmargin=0.15in}
@@ -507,6 +512,7 @@ const corporateExecutive = {
 \usepackage{fancyhdr}
 
 \definecolor{slate}{HTML}{334155}
+\definecolor{SLATE}{HTML}{334155}
 \pagestyle{empty}
 \setlist[itemize]{itemsep=3pt plus 2pt minus 1.5pt,parsep=1.5pt plus 1pt minus 1pt,topsep=2pt plus 1pt minus 1pt,leftmargin=0.15in}
 
@@ -590,7 +596,9 @@ const techModern = {
 \renewcommand{\familydefault}{\sfdefault}
 
 \definecolor{primary}{HTML}{0F172A}
+\definecolor{PRIMARY}{HTML}{0F172A}
 \definecolor{accent}{HTML}{2563EB}
+\definecolor{ACCENT}{HTML}{2563EB}
 
 \pagestyle{empty}
 \setlist[itemize]{itemsep=3pt plus 2pt minus 1.5pt,parsep=1.5pt plus 1pt minus 1pt,topsep=2pt plus 1pt minus 1pt,leftmargin=0.15in}
@@ -674,7 +682,9 @@ const creativeCompact = {
 \usepackage{palatino}
 
 \definecolor{primary}{HTML}{1E293B}
+\definecolor{PRIMARY}{HTML}{1E293B}
 \definecolor{accent}{HTML}{DB2777}
+\definecolor{ACCENT}{HTML}{DB2777}
 
 \pagestyle{empty}
 \setlist[itemize]{itemsep=3pt plus 2pt minus 1.5pt,parsep=1.5pt plus 1pt minus 1pt,topsep=2pt plus 1pt minus 1pt,leftmargin=0.15in}
@@ -757,7 +767,9 @@ const financeConsultant = {
 \usepackage{fancyhdr}
 
 \definecolor{navy}{HTML}{0F172A}
+\definecolor{NAVY}{HTML}{0F172A}
 \definecolor{accent}{HTML}{475569}
+\definecolor{ACCENT}{HTML}{475569}
 
 \pagestyle{empty}
 \setlist[itemize]{itemsep=3pt plus 2pt minus 1.5pt,parsep=1.5pt plus 1pt minus 1pt,topsep=2pt plus 1pt minus 1pt,leftmargin=0.15in}

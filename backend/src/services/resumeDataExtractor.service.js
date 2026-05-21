@@ -53,7 +53,7 @@ export const extractResumeDataWithAI = async (resumeText) => {
 
   const prompt = `
 You are an expert ATS (Applicant Tracking System) parser. Your task is to extract all structured details from the raw resume text provided.
-Extract as much information as possible. Do not paraphrase or shorten bullet points; capture the exact meaning and details.
+Extract as much information as possible. Do not paraphrase, shorten, or rewrite summary/objective statements or description bullet points; capture the EXACT original wording, sentences, and details.
 
 Raw Resume Text:
 """
@@ -126,6 +126,8 @@ CRITICAL RULES FOR STRUCTURAL CLEANLINESS:
 3. Clean all text to be free of raw formatting chars (like bullet characters •, -, * at the beginning of parsed fields).
 4. If a field is not found in the resume, use an empty string or empty array as specified in the schema.
 5. DO NOT include lists of technologies/tools (e.g. 'React, Node.js, AWS') as separate highlights or bullet points in either 'projects.highlights' or 'experience.highlights'. Filter them out entirely from highlights and ensure they are only placed in 'technologies' or 'skills' array. Highlights should strictly represent action-oriented statements (achievements, tasks, metrics).
+6. EXACT WORDING PRESERVATION: You MUST capture the EXACT original wording of the professional summary and all description bullet points for both projects and experience. Do NOT rewrite, paraphrase, simplify, or shorten them.
+7. PROJECT LINKS: If a project title or its bullet points contain a URL or link (e.g., a GitHub URL or demo link), extract it into the "link" field. Remove the link from the project "name" field, but keep it intact inside the description/bullet point text.
 
 Only return the JSON response. Do not include markdown code block formatting (like \`\`\`json).
 `;
@@ -769,34 +771,37 @@ export const extractLocalFallback = (resumeText) => {
       if (currentExp) {
         result.experience.push(currentExp);
       }
-
     } else if (currentSection === 'projects') {
       let currentProj = null;
       sectionContent.forEach(line => {
         const isBullet = line.startsWith('•') || line.startsWith('-') || line.startsWith('*') || line.startsWith('–') || line.startsWith('—') || line.startsWith('·') || /^\d+\.\s/.test(line);
-        const cleanLine = line.replace(/^[•\-\*\–\—\·\d\.\s]+/, '').trim();
+        let cleanLine = line.replace(/^[•\-\*\–\—\·\d\.\s]+/, '').trim();
         if (!cleanLine) return;
 
         const isTimeline = /(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b|(?:19|20)\d{2}\b/i.test(cleanLine) && cleanLine.length < 40;
         const isTechList = isPureTechList(cleanLine);
-        const isLink = cleanLine.toLowerCase().includes('github.com') || cleanLine.toLowerCase().includes('http');
+
+        // Scan for links on this line
+        const linkMatch = cleanLine.match(/(?:https?:\/\/|www\.)[^\s\)]+|github\.com\/[a-zA-Z0-9_\-\.\/]+/i);
+        let extractedLink = '';
+        if (linkMatch) {
+          extractedLink = linkMatch[0].trim();
+        }
 
         if (isBullet || !isNewProjectStart(cleanLine, currentProj)) {
           if (!currentProj) {
             currentProj = { name: 'Project', description: [], technologies: [], highlights: [], link: '' };
           }
           
+          if (extractedLink && !currentProj.link) {
+            currentProj.link = extractedLink;
+          }
+
           if (isTechList) {
-            const techs = cleanLine.split(/[,/|–-]/).map(t => t.trim()).filter(t => t.length > 1 && t.length < 25);
+            const techs = cleanLine.split(/[,/–-]/).map(t => t.trim()).filter(t => t.length > 1 && t.length < 25);
             currentProj.technologies = [...new Set([...currentProj.technologies, ...techs])];
-          } else if (isLink) {
-            const linkMatch = cleanLine.match(/https?:\/\/[^\s]+|github\.com\/[^\s]+/i);
-            if (linkMatch) {
-              currentProj.link = linkMatch[0];
-            }
-          } else if (isTimeline) {
-            // Keep date info if needed
           } else {
+            // Keep the exact original line wording for descriptions (don't strip link to avoid incomplete sentences)
             if (currentProj.description.length > 0 && !isBullet && !line.startsWith(' ') && !/^[A-Z]/.test(cleanLine)) {
               const lastIdx = currentProj.description.length - 1;
               currentProj.description[lastIdx] += ' ' + cleanLine;
@@ -812,15 +817,28 @@ export const extractLocalFallback = (resumeText) => {
             currentProj = null;
           }
 
-          let name = cleanLine;
+          // Clean link out of project title line to avoid splitting issues or cluttered title
+          let nameLine = cleanLine;
+          let projLink = '';
+          if (extractedLink) {
+            projLink = extractedLink;
+            nameLine = nameLine.replace(extractedLink, '')
+              .replace(/\(\s*\)/g, '')
+              .replace(/\[\s*\]/g, '')
+              .replace(/^[•\-\*\–\—\·\s|:,\/()\[\]]+|[•\-\*\–\—\·\s|:,\/()\[\]]+$/g, '')
+              .replace(/\s+/g, ' ')
+              .trim();
+          }
+
+          let name = nameLine;
           let technologies = [];
-          if (cleanLine.includes('|')) {
-            const parts = cleanLine.split('|');
+          if (nameLine.includes('|')) {
+            const parts = nameLine.split('|');
             name = parts[0].trim();
             const techPart = parts[1].trim();
             technologies = techPart.split(/[,/]/).map(t => t.trim()).filter(Boolean);
-          } else if (cleanLine.includes(':')) {
-            const parts = cleanLine.split(':');
+          } else if (nameLine.includes(':')) {
+            const parts = nameLine.split(':');
             name = parts[0].trim();
             const techPart = parts[1].trim();
             technologies = techPart.split(/[,/]/).map(t => t.trim()).filter(Boolean);
@@ -831,7 +849,7 @@ export const extractLocalFallback = (resumeText) => {
             description: [],
             technologies,
             highlights: [],
-            link: ''
+            link: projLink
           };
         }
       });
