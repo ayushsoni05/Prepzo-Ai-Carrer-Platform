@@ -874,7 +874,7 @@ ATS SCORE MAXIMIZATION (90+ ATS SCORE TARGET):
 4. No Placeholders: Eliminate all template symbols like {{NAME}}, {{EMAIL}}, etc. Replace them with the actual data.
 5. STRICT ONE-PAGE FIT & LAYOUT DENSITY (CRITICAL):
    - The entire compiled LaTeX document MUST fit on exactly one page. Spilling over to a second page or leaving excessive blank space is a major failure.
-   - Adjust Content Density Dynamically (Spacing-focused): To make the resume fit on one page, do NOT rewrite the content. Instead, adjust LaTeX vertical spacing controls (e.g., \vspace{...}, \itemsep, \parsep).
+   - Adjust Content Density Dynamically (Spacing-focused): To make the resume fit on one page, do NOT rewrite the content. Instead, adjust LaTeX vertical spacing controls (e.g., \\vspace{...}, \\itemsep, \\parsep).
      * DENSE PROFILE (Many Experiences/Projects/Achievements): Use compact spacing settings, reduce margins slightly (e.g. geometry margins 0.4in to 0.5in), or output only the first 2-3 most relevant experience/project entries with up to 3 bullets each to ensure it fits perfectly.
      * SPARSE PROFILE / STUDENT PROFILE (Few Experiences/Projects/Achievements): Use standard spacing (e.g., margins 0.5in to 0.75in), include all available sections (Achievements, Extra-Curriculars, Certifications) to fill the page beautifully without leaving large empty blocks, and let LaTeX distribute rubber spacings evenly.
    - Spacing: Do NOT add manual hardcoded line breaks (e.g., \\\\ \\\\) or massive vspaces. Use LaTeX's rubber lengths (e.g., \\vspace{... plus ... minus ...}) and item spacing macros defined in the template preamble to let the LaTeX compiler distribute spaces dynamically.
@@ -889,7 +889,7 @@ ATS SCORE MAXIMIZATION (90+ ATS SCORE TARGET):
    - The user's achievements and extra-curricular activities are: ${JSON.stringify(userProfile.achievements || [])}.
    - If achievements are present in the profile, you MUST create a section named "Achievements & Extra-Curriculars" (or append them to "Certifications" to save space) in the LaTeX code, formatting them as bullet points or a compact list.
 9. PROJECT LINKS:
-   - If a project has a link (GitHub repo, demo link, etc.), you MUST render the project name as a clickable hyperlink using \href{URL}{\underline{Project Name}} (e.g., \href{https://github.com/username/project}{\underline{Project Name}}) inside the project title heading. Never discard project links.
+   - If a project has a link (GitHub repo, demo link, etc.), you MUST render the project name as a clickable hyperlink using \\href{URL}{\\underline{Project Name}} (e.g., \\href{https://github.com/username/project}{\\underline{Project Name}}) inside the project title heading. Never discard project links.
 `;
 
   if (jobDescription && jobDescription.trim()) {
