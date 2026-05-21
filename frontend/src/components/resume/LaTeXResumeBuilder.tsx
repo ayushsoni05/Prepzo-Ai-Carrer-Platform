@@ -104,10 +104,11 @@ const prePopulateTemplate = (source: string, templateId: string, user: any): str
 
 export function LaTeXResumeBuilder() {
   const { user } = useAuthStore();
-  const { setDashboardTab } = useAppStore();
+  const { resumeAnalysis, setDashboardTab } = useAppStore();
 
   // State
   const [latexSource, setLatexSource] = useState('');
+  const [isTemplateLoading, setIsTemplateLoading] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState(defaultTemplateId);
   const [targetRole, setTargetRole] = useState(user?.targetRole || 'Software Engineer');
   const [pdfBase64, setPdfBase64] = useState<string | null>(null);
@@ -135,6 +136,29 @@ export function LaTeXResumeBuilder() {
   const [existingResumeName, setExistingResumeName] = useState<string | null>(null);
   const [useExisting, setUseExisting] = useState(false);
   const compileTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const hasLoadedInitial = useRef(false);
+
+  // Compile LaTeX
+  const handleCompile = useCallback(async (source?: string) => {
+    const src = source || latexSource;
+    if (!src.trim()) { showError('No LaTeX source to compile'); return; }
+    setIsCompiling(true);
+    setCompilationError(null);
+    try {
+      const res = await compileLatex(src);
+      if (res.success && res.data.pdf) {
+        setPdfBase64(res.data.pdf);
+        setCompilationLog(res.data.log || '');
+        setCompilationError(null);
+      }
+    } catch (err: any) {
+      const msg = err.response?.data?.message || err.message || 'Compilation failed';
+      setCompilationError(msg);
+      setCompilationLog(err.response?.data?.data?.log || '');
+    } finally {
+      setIsCompiling(false);
+    }
+  }, [latexSource]);
 
   // Check for existing resume when wizard is opened
   useEffect(() => {
@@ -166,43 +190,54 @@ export function LaTeXResumeBuilder() {
 
   // Load saved source on mount
   useEffect(() => {
+    if (hasLoadedInitial.current) return;
+
     const loadSaved = async () => {
       try {
         const res = await getLatexSource();
         if (res.success && res.data.latexSource) {
           setLatexSource(res.data.latexSource);
           setSelectedTemplate(res.data.templateId || defaultTemplateId);
+          hasLoadedInitial.current = true;
+          handleCompile(res.data.latexSource);
           return;
         }
       } catch { /* no saved source */ }
-      // Default: load first template
+
+      // If no saved source on disk/DB, check if we have parsed resume details to populate
+      const dataToUse = resumeAnalysis?.extractedData;
+      if (dataToUse && (
+        (dataToUse.education && dataToUse.education.length > 0) ||
+        (dataToUse.experience && dataToUse.experience.length > 0) ||
+        (dataToUse.projects && dataToUse.projects.length > 0) ||
+        (dataToUse.skills && dataToUse.skills.length > 0)
+      )) {
+        setIsTemplateLoading(true);
+        try {
+          const genRes = await generateLatexResume(defaultTemplateId, targetRole, undefined, dataToUse);
+          if (genRes.success && genRes.data.latex) {
+            setLatexSource(genRes.data.latex);
+            setSelectedTemplate(defaultTemplateId);
+            hasLoadedInitial.current = true;
+            handleCompile(genRes.data.latex);
+            return;
+          }
+        } catch (err) {
+          console.error('Failed to pre-populate default template on mount:', err);
+        } finally {
+          setIsTemplateLoading(false);
+        }
+      }
+
+      // Default: load first template with placeholder data
       const t = getTemplateById(defaultTemplateId);
-      if (t) setLatexSource(prePopulateTemplate(t.source, defaultTemplateId, user));
+      if (t) {
+        setLatexSource(prePopulateTemplate(t.source, defaultTemplateId, user));
+        hasLoadedInitial.current = true;
+      }
     };
     loadSaved();
-  }, [user]);
-
-  // Compile LaTeX
-  const handleCompile = useCallback(async (source?: string) => {
-    const src = source || latexSource;
-    if (!src.trim()) { showError('No LaTeX source to compile'); return; }
-    setIsCompiling(true);
-    setCompilationError(null);
-    try {
-      const res = await compileLatex(src);
-      if (res.success && res.data.pdf) {
-        setPdfBase64(res.data.pdf);
-        setCompilationLog(res.data.log || '');
-        setCompilationError(null);
-      }
-    } catch (err: any) {
-      const msg = err.response?.data?.message || err.message || 'Compilation failed';
-      setCompilationError(msg);
-      setCompilationLog(err.response?.data?.data?.log || '');
-    } finally {
-      setIsCompiling(false);
-    }
-  }, [latexSource]);
+  }, [user, resumeAnalysis, handleCompile, targetRole]);
 
   // Auto-compile on source change (debounced 2s)
   const handleSourceChange = (val: string) => {
@@ -289,14 +324,51 @@ export function LaTeXResumeBuilder() {
   };
 
   // Load template
-  const handleSelectTemplate = (id: string) => {
+  const handleSelectTemplate = async (id: string) => {
+    // If the user has made manual edits and hasn't saved, warn them
+    if (hasUnsaved) {
+      const confirmChange = window.confirm(
+        'You have unsaved changes in the editor. Changing the template will regenerate the LaTeX source and overwrite your manual changes. Do you want to proceed?'
+      );
+      if (!confirmChange) return;
+    }
+
     setSelectedTemplate(id);
     const t = getTemplateById(id);
-    if (t) {
-      setLatexSource(prePopulateTemplate(t.source, id, user));
-      setHasUnsaved(true);
-      setPdfBase64(null);
+    if (!t) return;
+
+    const dataToUse = extractedDetails || resumeAnalysis?.extractedData;
+
+    // Check if we have actual extracted profile details to populate
+    if (dataToUse && (
+      (dataToUse.education && dataToUse.education.length > 0) ||
+      (dataToUse.experience && dataToUse.experience.length > 0) ||
+      (dataToUse.projects && dataToUse.projects.length > 0) ||
+      (dataToUse.skills && dataToUse.skills.length > 0)
+    )) {
+      setIsTemplateLoading(true);
+      try {
+        const genRes = await generateLatexResume(id, targetRole, undefined, dataToUse);
+        if (genRes.success && genRes.data.latex) {
+          setLatexSource(genRes.data.latex);
+          setHasUnsaved(true);
+          // Auto-compile new LaTeX source so the preview panel matches
+          handleCompile(genRes.data.latex);
+          showSuccess(`Switched to ${t.name} template!`);
+          return;
+        }
+      } catch (err: any) {
+        console.error('Failed to populate template via backend:', err);
+        showError('Could not populate template details automatically. Falling back to default format.');
+      } finally {
+        setIsTemplateLoading(false);
+      }
     }
+
+    // Default fallback (client-side pre-population with empty/default items)
+    setLatexSource(prePopulateTemplate(t.source, id, user));
+    setHasUnsaved(true);
+    setPdfBase64(null);
   };
 
   // Save
@@ -497,6 +569,12 @@ export function LaTeXResumeBuilder() {
             </div>
             {/* Code area */}
             <div className="flex-1 relative overflow-auto custom-scrollbar" style={{ minHeight: '600px' }}>
+              {isTemplateLoading && (
+                <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center gap-3">
+                  <Loader2 className="w-8 h-8 text-indigo-500 animate-spin" />
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/70">Updating Editor...</p>
+                </div>
+              )}
               <CodeMirror
                 value={latexSource}
                 height="100%"
@@ -560,6 +638,12 @@ export function LaTeXResumeBuilder() {
 
             {/* Content */}
             <div className="flex-1 relative min-h-[600px]">
+              {isTemplateLoading && (
+                <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center gap-3">
+                  <Loader2 className="w-8 h-8 text-[#5ed29c] animate-spin" />
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/70">Recompiling Preview...</p>
+                </div>
+              )}
               {showLog ? (
                 <div className="p-4 h-full overflow-auto custom-scrollbar">
                   <pre className="text-[11px] font-mono text-white/40 whitespace-pre-wrap">{compilationLog || 'No compilation log yet.'}</pre>
