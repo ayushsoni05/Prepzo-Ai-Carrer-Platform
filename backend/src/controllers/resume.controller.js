@@ -1013,6 +1013,41 @@ Instructions:
         skillsItems = `\\textbf{Languages/Technologies}{: JavaScript, TypeScript, Node.js, Python, React, MongoDB, Git}`;
       }
 
+      // Formatting certifications
+      let certificationsItems = '';
+      if (userProfile.certifications && userProfile.certifications.length > 0) {
+        let certList = '';
+        userProfile.certifications.forEach(cert => {
+          const certName = cert.name || '';
+          const certIssuer = cert.issuer || '';
+          const certDate = cert.date || '';
+          if (certName) {
+            let label = `\\textbf{${escapeLatex(certName)}}`;
+            if (certIssuer) {
+              label += ` $|$ \\emph{${escapeLatex(certIssuer)}}`;
+            }
+            certList += `    \\resumeProjectHeading\n      {${label}}{${escapeLatex(certDate)}}\n`;
+          }
+        });
+        if (certList) {
+          certificationsItems = `\n\\section{Certifications}\n  \\resumeSubHeadingListStart\n${certList}  \\resumeSubHeadingListEnd\n`;
+        }
+      }
+
+      // Formatting achievements
+      let achievementsItems = '';
+      if (userProfile.achievements && userProfile.achievements.length > 0) {
+        let achList = '';
+        userProfile.achievements.forEach(ach => {
+          if (ach.trim()) {
+            achList += `    \\resumeItem{${escapeLatex(ach.trim())}}\n`;
+          }
+        });
+        if (achList) {
+          achievementsItems = `\n\\section{Achievements \\& Extra-Curriculars}\n  \\resumeItemListStart\n${achList}  \\resumeItemListEnd\n`;
+        }
+      }
+
       const summaryText = userProfile.summary
         ? escapeLatex(userProfile.summary)
         : `Results-oriented ${escapeLatex(userProfile.targetRole)} with a strong foundation in modern software engineering principles. Dedicated to writing clean, maintainable, and efficient code to solve complex real-world problems.`;
@@ -1076,6 +1111,15 @@ Instructions:
         .replace(/\{\{EXPERIENCE_ITEMS\}\}/g, finalExp)
         .replace(/\{\{PROJECT_ITEMS\}\}/g, finalProj)
         .replace(/\{\{SKILLS_ITEMS\}\}/g, skillsItems);
+
+      // Append certifications and achievements before end of document
+      let sectionsToAppend = '';
+      if (certificationsItems) sectionsToAppend += certificationsItems;
+      if (achievementsItems) sectionsToAppend += achievementsItems;
+
+      if (sectionsToAppend) {
+        latexSource = latexSource.replace('\\end{document}', sectionsToAppend + '\n\\end{document}');
+      }
 
       result = {
         latex: latexSource,
