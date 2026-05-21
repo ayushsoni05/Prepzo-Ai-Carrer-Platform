@@ -20,20 +20,18 @@ export interface LaTeXTemplate {
   source: string;
 }
 
-// ---------------------------------------------------------------------------
-// 1. Jake's Resume  –  the #1 ATS-friendly LaTeX template on Overleaf
-// ---------------------------------------------------------------------------
+// 1. Jake's Resume
 const jakesResume: LaTeXTemplate = {
   id: 'jakes-resume',
   name: "Jake's ATS Resume",
-  description: 'The most popular ATS-optimised LaTeX resume. Clean single-column layout with no graphics.',
+  description: 'The most popular ATS-optimised LaTeX resume. Clean single-column layout with tight spacing for a single page fit.',
   badge: 'Most Popular',
   accent: '#6366f1',
   source: String.raw`%-------------------------
 % Resume in LaTeX
 % Based on Jake's Resume template
 %-------------------------
-\documentclass[letterpaper,11pt]{article}
+\documentclass[letterpaper,10pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{latexsym}
 \usepackage[empty]{fullpage}
@@ -50,11 +48,11 @@ const jakesResume: LaTeXTemplate = {
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
-\addtolength{\oddsidemargin}{-0.5in}
-\addtolength{\evensidemargin}{-0.5in}
-\addtolength{\textwidth}{1in}
-\addtolength{\topmargin}{-.5in}
-\addtolength{\textheight}{1.0in}
+\addtolength{\oddsidemargin}{-0.65in}
+\addtolength{\evensidemargin}{-0.65in}
+\addtolength{\textwidth}{1.3in}
+\addtolength{\topmargin}{-.65in}
+\addtolength{\textheight}{1.3in}
 
 \urlstyle{same}
 \raggedbottom
@@ -62,29 +60,30 @@ const jakesResume: LaTeXTemplate = {
 \setlength{\tabcolsep}{0in}
 
 \titleformat{\section}{
-  \vspace{-4pt}\scshape\raggedright\large
-}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+  \vspace{-10pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titrule \vspace{-7pt}]
 
 \newcommand{\resumeItem}[1]{\item\small{#1 \vspace{-2pt}}}
 \newcommand{\resumeSubheading}[4]{
-  \vspace{-2pt}\item
+  \vspace{-3pt}\item
     \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-7pt}
+    \end{tabular*}\vspace{-8pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
-    \item
+    \vspace{-3pt}\item
     \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
       \small#1 & #2 \\
-    \end{tabular*}\vspace{-7pt}
+    \end{tabular*}\vspace{-8pt}
 }
 \newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
 \renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}, nosep]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[nosep, topsep=0pt, partopsep=0pt, parsep=0pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-6pt}}
+\setlist[itemize]{nosep}
 
 \begin{document}
 
@@ -121,7 +120,7 @@ const jakesResume: LaTeXTemplate = {
 
 %-----------TECHNICAL SKILLS-----------
 \section{Technical Skills}
- \begin{itemize}[leftmargin=0.15in, label={}]
+ \begin{itemize}[leftmargin=0.15in, label={}, nosep]
     \small{\item{
 {{SKILLS_ITEMS}}
     }}
@@ -131,16 +130,14 @@ const jakesResume: LaTeXTemplate = {
 `,
 };
 
-// ---------------------------------------------------------------------------
-// 2. Clean ATS  –  ultra-minimal single-column
-// ---------------------------------------------------------------------------
+// 2. Clean ATS
 const cleanAts: LaTeXTemplate = {
   id: 'clean-ats',
   name: 'Clean ATS Minimal',
-  description: 'Ultra-clean, single-column layout designed to pass every ATS system.',
+  description: 'Ultra-clean, single-column layout designed to pass every ATS system and fit on one page.',
   badge: 'ATS Safe',
   accent: '#10b981',
-  source: String.raw`\documentclass[a4paper,11pt]{article}
+  source: String.raw`\documentclass[a4paper,10pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[empty]{fullpage}
 \usepackage{titlesec}
@@ -152,19 +149,20 @@ const cleanAts: LaTeXTemplate = {
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
 
-\addtolength{\oddsidemargin}{-0.5in}
-\addtolength{\evensidemargin}{-0.5in}
-\addtolength{\textwidth}{1in}
-\addtolength{\topmargin}{-0.5in}
-\addtolength{\textheight}{1in}
+\addtolength{\oddsidemargin}{-0.65in}
+\addtolength{\evensidemargin}{-0.65in}
+\addtolength{\textwidth}{1.3in}
+\addtolength{\topmargin}{-0.65in}
+\addtolength{\textheight}{1.3in}
 
-\titleformat{\section}{\large\bfseries\scshape}{}{0em}{}[\titlerule]
-\titlespacing*{\section}{0pt}{6pt}{4pt}
+\titleformat{\section}{\large\bfseries\scshape}{}{0em}{}[\titrule \vspace{-3pt}]
+\titlespacing*{\section}{0pt}{4pt}{2pt}
+\setlist[itemize]{nosep}
 
 \begin{document}
 
 \begin{center}
-  {\LARGE\bfseries {{NAME}}} \\[4pt]
+  {\LARGE\bfseries {{NAME}}} \\[3pt]
   {{EMAIL}} \quad $\cdot$ \quad {{PHONE}} \quad $\cdot$ \quad {{LOCATION}} \\
   \href{https://linkedin.com/in/{{LINKEDIN}}}{linkedin.com/in/{{LINKEDIN}}}
   \quad $\cdot$ \quad
@@ -190,18 +188,16 @@ const cleanAts: LaTeXTemplate = {
 `,
 };
 
-// ---------------------------------------------------------------------------
-// 3. Modern Two-Column  –  inspired by AltaCV
-// ---------------------------------------------------------------------------
+// 3. Modern Two-Column
 const modernTwoColumn: LaTeXTemplate = {
   id: 'modern-two-col',
   name: 'Modern Two-Column',
-  description: 'Modern two-column layout with colour accent sidebar. Inspired by AltaCV.',
+  description: 'Modern two-column layout with colour accent sidebar. Highly compact for single page layout.',
   badge: 'Modern',
   accent: '#8b5cf6',
-  source: String.raw`\documentclass[10pt,a4paper]{article}
+  source: String.raw`\documentclass[9pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=0.6in]{geometry}
+\usepackage[margin=0.45in]{geometry}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
@@ -212,19 +208,20 @@ const modernTwoColumn: LaTeXTemplate = {
 \definecolor{accent}{HTML}{6C63FF}
 \pagestyle{empty}
 
-\titleformat{\section}{\color{accent}\large\bfseries\scshape}{}{0em}{}[\color{accent}\titlerule]
-\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titleformat{\section}{\color{accent}\large\bfseries\scshape}{}{0em}{}[\color{accent}\titrule \vspace{-3pt}]
+\titlespacing*{\section}{0pt}{4pt}{2pt}
+\setlist[itemize]{nosep}
 
 \begin{document}
 
 \begin{center}
-  {\Huge\bfseries\color{accent} {{NAME}}} \\[6pt]
+  {\Huge\bfseries\color{accent} {{NAME}}} \\[4pt]
   \small {{EMAIL}} \enspace|\enspace {{PHONE}} \enspace|\enspace {{LOCATION}} \\[2pt]
   \href{https://linkedin.com/in/{{LINKEDIN}}}{LinkedIn} \enspace|\enspace
   \href{https://github.com/{{GITHUB}}}{GitHub}
 \end{center}
 
-\vspace{4pt}
+\vspace{2pt}
 
 \begin{multicols}{2}
 
@@ -251,18 +248,16 @@ const modernTwoColumn: LaTeXTemplate = {
 `,
 };
 
-// ---------------------------------------------------------------------------
-// 4. Academic CV  –  formal serif style
-// ---------------------------------------------------------------------------
+// 4. Academic CV
 const academicCv: LaTeXTemplate = {
   id: 'academic-cv',
   name: 'Academic CV',
-  description: 'Formal serif layout suitable for academic and research positions.',
+  description: 'Formal serif layout suitable for academic and research positions, optimized for single page.',
   badge: 'Academic',
   accent: '#0369a1',
-  source: String.raw`\documentclass[11pt,a4paper]{article}
+  source: String.raw`\documentclass[10pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=0.75in]{geometry}
+\usepackage[margin=0.45in]{geometry}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
@@ -273,22 +268,23 @@ const academicCv: LaTeXTemplate = {
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
-\fancyfoot[C]{\thepage}
+\fancyfoot[C]{\footnotesize\thepage}
 
-\titleformat{\section}{\color{heading}\large\bfseries}{}{0em}{}[\color{heading}\titlerule]
-\titlespacing*{\section}{0pt}{10pt}{6pt}
+\titleformat{\section}{\color{heading}\large\bfseries}{}{0em}{}[\color{heading}\titrule \vspace{-3pt}]
+\titlespacing*{\section}{0pt}{4pt}{2pt}
+\setlist[itemize]{nosep}
 
 \begin{document}
 
 \begin{center}
-  {\LARGE\bfseries\color{heading} {{NAME}}} \\[6pt]
+  {\LARGE\bfseries\color{heading} {{NAME}}} \\[4pt]
   \small {{EMAIL}} \quad|\quad {{PHONE}} \quad|\quad {{LOCATION}} \\[2pt]
   \href{https://linkedin.com/in/{{LINKEDIN}}}{LinkedIn}
   \quad|\quad
   \href{https://github.com/{{GITHUB}}}{GitHub}
 \end{center}
 
-\vspace{6pt}
+\vspace{2pt}
 
 \section{Research Summary}
 {{SUMMARY}}
@@ -309,18 +305,16 @@ const academicCv: LaTeXTemplate = {
 `,
 };
 
-// ---------------------------------------------------------------------------
-// 5. Deedy CV  –  tech / startup focused
-// ---------------------------------------------------------------------------
+// 5. Deedy CV
 const deedyCv: LaTeXTemplate = {
   id: 'deedy-cv',
   name: 'Deedy Tech CV',
-  description: 'Compact, information-dense layout favoured in tech and startup circles.',
+  description: 'Compact, information-dense layout favoured in tech and startup circles, strict 1-page fit.',
   badge: 'Tech',
   accent: '#ec4899',
-  source: String.raw`\documentclass[a4paper,10pt]{article}
+  source: String.raw`\documentclass[a4paper,9pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=0.5in]{geometry}
+\usepackage[margin=0.45in]{geometry}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
@@ -329,19 +323,22 @@ const deedyCv: LaTeXTemplate = {
 \usepackage{fontenc}
 
 \definecolor{primary}{HTML}{2D3748}
+\definecolor{PRIMARY}{HTML}{2D3748}
 \definecolor{accent}{HTML}{E53E3E}
+\definecolor{ACCENT}{HTML}{E53E3E}
 
 \pagestyle{empty}
 
-\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titlerule]
-\titlespacing*{\section}{0pt}{6pt}{4pt}
+\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titrule \vspace{-3pt}]
+\titlespacing*{\section}{0pt}{4pt}{2pt}
 
 \setlength{\columnsep}{1.5em}
+\setlist[itemize]{nosep}
 
 \begin{document}
 
 \begin{center}
-  {\huge\bfseries\color{primary} {{NAME}}} \\[4pt]
+  {\huge\bfseries\color{primary} {{NAME}}} \\[3pt]
   \footnotesize
   \href{mailto:{{EMAIL}}}{{{EMAIL}}} $\cdot$
   {{PHONE}} $\cdot$
@@ -349,7 +346,7 @@ const deedyCv: LaTeXTemplate = {
   \href{https://github.com/{{GITHUB}}}{GitHub}
 \end{center}
 
-\vspace{2pt}
+\vspace{1pt}
 
 \section{Summary}
 \small {{SUMMARY}}
@@ -376,18 +373,16 @@ const deedyCv: LaTeXTemplate = {
 `,
 };
 
-// ---------------------------------------------------------------------------
-// 6. Executive  –  classic professional
-// ---------------------------------------------------------------------------
+// 6. Executive
 const executiveCv: LaTeXTemplate = {
   id: 'executive',
   name: 'Executive Professional',
-  description: 'Classic professional layout with elegant spacing and serif headings.',
+  description: 'Classic professional layout with elegant spacing and serif headings, optimized to stay in one page.',
   badge: 'Professional',
   accent: '#7c3aed',
-  source: String.raw`\documentclass[11pt,letterpaper]{article}
+  source: String.raw`\documentclass[10pt,letterpaper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=0.75in]{geometry}
+\usepackage[margin=0.45in]{geometry}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
@@ -400,19 +395,20 @@ const executiveCv: LaTeXTemplate = {
 \renewcommand{\headrulewidth}{0pt}
 \fancyfoot[C]{\footnotesize Page \thepage}
 
-\titleformat{\section}{\color{navy}\Large\scshape}{}{0em}{}[\color{navy}\rule{\linewidth}{0.8pt}]
-\titlespacing*{\section}{0pt}{12pt}{6pt}
+\titleformat{\section}{\color{navy}\large\scshape}{}{0em}{}[\color{navy}\rule{\linewidth}{0.6pt}]
+\titlespacing*{\section}{0pt}{4pt}{2pt}
+\setlist[itemize]{nosep}
 
 \begin{document}
 
 \begin{center}
-  {\fontsize{28}{34}\selectfont\bfseries\color{navy} {{NAME}}} \\[8pt]
+  {\fontsize{24}{28}\selectfont\bfseries\color{navy} {{NAME}}} \\[4pt]
   \normalsize
-  {{EMAIL}} \enspace$\diamond$\enspace {{PHONE}} \enspace$\diamond$\enspace {{LOCATION}} \\[3pt]
+  {{EMAIL}} \enspace$\diamond$\enspace {{PHONE}} \enspace$\diamond$\enspace {{LOCATION}} \\[2pt]
   \href{https://linkedin.com/in/{{LINKEDIN}}}{linkedin.com/in/{{LINKEDIN}}}
 \end{center}
 
-\vspace{8pt}
+\vspace{2pt}
 
 \section{Executive Summary}
 {{SUMMARY}}
@@ -433,9 +429,422 @@ const executiveCv: LaTeXTemplate = {
 `,
 };
 
-// ---------------------------------------------------------------------------
-// Exports
-// ---------------------------------------------------------------------------
+// 7. Tech Compact
+const techCompact: LaTeXTemplate = {
+  id: 'tech-compact',
+  name: 'Tech Developer Compact',
+  description: 'Ultra-dense developer-focused layout using a tight margin design. Absolutely fits on one page.',
+  badge: 'Tech',
+  accent: '#3b82f6',
+  source: String.raw`\documentclass[9pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.4in]{geometry}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{fancyhdr}
+
+\definecolor{primary}{HTML}{1E293B}
+\definecolor{accent}{HTML}{3B82F6}
+
+\pagestyle{empty}
+\setlist[itemize]{nosep,topsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=0.15in}
+
+\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titrule \vspace{-3pt}]
+\titlespacing*{\section}{0pt}{4pt}{2pt}
+
+\newcommand{\resumeItem}[1]{\item\small{#1}}
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \small #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+\newcommand{\resumeProjectHeading}[2]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \small #2 \\
+    \end{tabular*}\vspace{-5pt}
+}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+
+\begin{document}
+
+\begin{center}
+  {\Huge\bfseries\color{primary} {{NAME}}} \\[2pt]
+  \small {{PHONE}} $\cdot$ \href{mailto:{{EMAIL}}}{{{EMAIL}}} $\cdot$ {{LOCATION}} \\
+  \href{https://linkedin.com/in/{{LINKEDIN}}}{linkedin.com/in/{{LINKEDIN}}} $\cdot$ \href{https://github.com/{{GITHUB}}}{github.com/{{GITHUB}}}
+\end{center}
+
+\vspace{-8pt}
+
+\section{Summary}
+\small {{SUMMARY}}
+
+\section{Education}
+  \resumeSubHeadingListStart
+{{EDUCATION_ITEMS}}
+  \resumeSubHeadingListEnd
+
+\section{Experience}
+  \resumeSubHeadingListStart
+{{EXPERIENCE_ITEMS}}
+  \resumeSubHeadingListEnd
+
+\section{Projects}
+  \resumeSubHeadingListStart
+{{PROJECT_ITEMS}}
+  \resumeSubHeadingListEnd
+
+\section{Technical Skills}
+\begin{itemize}[label={}, leftmargin=0.15in]
+  \small{\item{
+{{SKILLS_ITEMS}}
+  }}
+\end{itemize}
+
+\end{document}
+`,
+};
+
+// 8. Corporate Executive
+const corporateExecutive: LaTeXTemplate = {
+  id: 'corporate-executive',
+  name: 'Corporate Executive',
+  description: 'Polished corporate/business template optimized for operations, management, sales, and non-tech profiles.',
+  badge: 'Corporate',
+  accent: '#475569',
+  source: String.raw`\documentclass[10pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.45in]{geometry}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+
+\definecolor{slate}{HTML}{334155}
+\pagestyle{empty}
+\setlist[itemize]{nosep,topsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=0.15in}
+
+\titleformat{\section}{\color{slate}\large\bfseries\uppercase}{}{0em}{}[\color{slate}\titrule \vspace{-3pt}]
+\titlespacing*{\section}{0pt}{4pt}{2pt}
+
+\newcommand{\resumeItem}[1]{\item\small{#1}}
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \small #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+\newcommand{\resumeProjectHeading}[2]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \small #2 \\
+    \end{tabular*}\vspace{-5pt}
+}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+
+\begin{document}
+
+\begin{center}
+  {\Huge\bfseries\color{slate} {{NAME}}} \\[2pt]
+  \small {{PHONE}} $\cdot$ \href{mailto:{{EMAIL}}}{{{EMAIL}}} $\cdot$ {{LOCATION}} \\
+  \href{https://linkedin.com/in/{{LINKEDIN}}}{linkedin.com/in/{{LINKEDIN}}}
+\end{center}
+
+\vspace{-8pt}
+
+\section{Professional Summary}
+\small {{SUMMARY}}
+
+\section{Core Expertise \& Skills}
+\begin{itemize}[label={}, leftmargin=0.15in]
+  \small{\item{
+{{SKILLS_ITEMS}}
+  }}
+\end{itemize}
+
+\section{Professional Experience}
+  \resumeSubHeadingListStart
+{{EXPERIENCE_ITEMS}}
+  \resumeSubHeadingListEnd
+
+\section{Education}
+  \resumeSubHeadingListStart
+{{EDUCATION_ITEMS}}
+  \resumeSubHeadingListEnd
+
+\section{Key Achievements}
+  \resumeSubHeadingListStart
+{{PROJECT_ITEMS}}
+  \resumeSubHeadingListEnd
+
+\end{document}
+`,
+};
+
+// 9. Tech Modern Minimalist
+const techModern: LaTeXTemplate = {
+  id: 'tech-modern',
+  name: 'Tech Modern Minimalist',
+  description: 'Clean sans-serif modern layout with tight spacing, optimized for single page software engineering profiles.',
+  badge: 'Tech',
+  accent: '#2563eb',
+  source: String.raw`\documentclass[9pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.4in]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\definecolor{primary}{HTML}{0F172A}
+\definecolor{accent}{HTML}{2563EB}
+
+\pagestyle{empty}
+\setlist[itemize]{nosep,topsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=0.15in}
+
+\titleformat{\section}{\color{primary}\large\bfseries}{}{0em}{}[\color{accent}\titrule \vspace{-3pt}]
+\titlespacing*{\section}{0pt}{4pt}{2pt}
+
+\newcommand{\resumeItem}[1]{\item\small{#1}}
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{\color{primary}#1} & \small #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+\newcommand{\resumeProjectHeading}[2]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
+      \textbf{\small#1} & \small #2 \\
+    \end{tabular*}\vspace{-5pt}
+}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+
+\begin{document}
+
+\begin{center}
+  {\Huge\bfseries\color{primary} {{NAME}}} \\[2pt]
+  \small {{PHONE}} $\cdot$ \href{mailto:{{EMAIL}}}{{{EMAIL}}} $\cdot$ {{LOCATION}} \\
+  \href{https://linkedin.com/in/{{LINKEDIN}}}{linkedin.com/in/{{LINKEDIN}}} $\cdot$ \href{https://github.com/{{GITHUB}}}{github.com/{{GITHUB}}}
+\end{center}
+
+\vspace{-8pt}
+
+\section{Summary}
+\small {{SUMMARY}}
+
+\section{Experience}
+  \resumeSubHeadingListStart
+{{EXPERIENCE_ITEMS}}
+  \resumeSubHeadingListEnd
+
+\section{Projects}
+  \resumeSubHeadingListStart
+{{PROJECT_ITEMS}}
+  \resumeSubHeadingListEnd
+
+\section{Education}
+  \resumeSubHeadingListStart
+{{EDUCATION_ITEMS}}
+  \resumeSubHeadingListEnd
+
+\section{Skills}
+\begin{itemize}[label={}, leftmargin=0.15in]
+  \small{\item{
+{{SKILLS_ITEMS}}
+  }}
+\end{itemize}
+
+\end{document}
+`,
+};
+
+// 10. Creative Marketing Compact
+const creativeCompact: LaTeXTemplate = {
+  id: 'creative-compact',
+  name: 'Creative Marketing Compact',
+  description: 'Elegant layout mixing Palatino serif headings with sans-serif body text, designed for marketing, product management, and creative roles.',
+  badge: 'Creative',
+  accent: '#db2777',
+  source: String.raw`\documentclass[9pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.42in]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{palatino}
+
+\definecolor{primary}{HTML}{1E293B}
+\definecolor{accent}{HTML}{DB2777}
+
+\pagestyle{empty}
+\setlist[itemize]{nosep,topsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=0.15in}
+
+\titleformat{\section}{\color{primary}\large\fontfamily{ppl}\selectfont\bfseries}{}{0em}{}[\color{accent}\titrule \vspace{-3pt}]
+\titlespacing*{\section}{0pt}{5pt}{3pt}
+
+\newcommand{\resumeItem}[1]{\item\small{#1}}
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \small #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+\newcommand{\resumeProjectHeading}[2]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
+      \textbf{\small#1} & \small #2 \\
+    \end{tabular*}\vspace{-5pt}
+}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+
+\begin{document}
+
+\begin{center}
+  {\Huge\fontfamily{ppl}\selectfont\bfseries\color{primary} {{NAME}}} \\[2pt]
+  \small {{PHONE}} $\cdot$ \href{mailto:{{EMAIL}}}{{{EMAIL}}} $\cdot$ {{LOCATION}} \\
+  \href{https://linkedin.com/in/{{LINKEDIN}}}{linkedin.com/in/{{LINKEDIN}}} $\cdot$ \href{https://github.com/{{GITHUB}}}{github.com/{{GITHUB}}}
+\end{center}
+
+\vspace{-8pt}
+
+\section{Creative Profile}
+\small {{SUMMARY}}
+
+\section{Core Skills}
+\begin{itemize}[label={}, leftmargin=0.15in]
+  \small{\item{
+{{SKILLS_ITEMS}}
+  }}
+\end{itemize}
+
+\section{Experience}
+  \resumeSubHeadingListStart
+{{EXPERIENCE_ITEMS}}
+  \resumeSubHeadingListEnd
+
+\section{Education}
+  \resumeSubHeadingListStart
+{{EDUCATION_ITEMS}}
+  \resumeSubHeadingListEnd
+
+\section{Key Achievements \& Projects}
+  \resumeSubHeadingListStart
+{{PROJECT_ITEMS}}
+  \resumeSubHeadingListEnd
+
+\end{document}
+`,
+};
+
+// 11. Finance & Consulting Premium
+const financeConsultant: LaTeXTemplate = {
+  id: 'finance-consultant',
+  name: 'Finance & Consulting Premium',
+  description: 'Traditional professional layout with dual-line header and elegant formatting, perfect for finance, consulting, and business roles.',
+  badge: 'Corporate',
+  accent: '#475569',
+  source: String.raw`\documentclass[10pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.45in]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+
+\definecolor{navy}{HTML}{0F172A}
+\definecolor{accent}{HTML}{475569}
+
+\pagestyle{empty}
+\setlist[itemize]{nosep,topsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=0.15in}
+
+\titleformat{\section}{\color{navy}\large\bfseries\uppercase}{}{0em}{}[\color{navy}\rule{\linewidth}{0.8pt} \vspace{-3pt}]
+\titlespacing*{\section}{0pt}{4pt}{2pt}
+
+\newcommand{\resumeItem}[1]{\item\small{#1}}
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \small #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+\newcommand{\resumeProjectHeading}[2]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
+      \textbf{\small#1} & \small #2 \\
+    \end{tabular*}\vspace{-5pt}
+}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+
+\begin{document}
+
+\begin{center}
+  {\Huge\scshape\color{navy} {{NAME}}} \\[2pt]
+  \small {{PHONE}} $\cdot$ \href{mailto:{{EMAIL}}}{{{EMAIL}}} $\cdot$ {{LOCATION}} \\
+  \href{https://linkedin.com/in/{{LINKEDIN}}}{linkedin.com/in/{{LINKEDIN}}}
+\end{center}
+
+\vspace{-8pt}
+
+\section{Executive Profile}
+\small {{SUMMARY}}
+
+\section{Core Skills \& Expertise}
+\begin{itemize}[label={}, leftmargin=0.15in]
+  \small{\item{
+{{SKILLS_ITEMS}}
+  }}
+\end{itemize}
+
+\section{Professional Experience}
+  \resumeSubHeadingListStart
+{{EXPERIENCE_ITEMS}}
+  \resumeSubHeadingListEnd
+
+\section{Education}
+  \resumeSubHeadingListStart
+{{EDUCATION_ITEMS}}
+  \resumeSubHeadingListEnd
+
+\section{Projects \& Leadership}
+  \resumeSubHeadingListStart
+{{PROJECT_ITEMS}}
+  \resumeSubHeadingListEnd
+
+\end{document}
+`,
+};
 
 export const latexTemplates: LaTeXTemplate[] = [
   jakesResume,
@@ -444,6 +853,11 @@ export const latexTemplates: LaTeXTemplate[] = [
   academicCv,
   deedyCv,
   executiveCv,
+  techCompact,
+  corporateExecutive,
+  techModern,
+  creativeCompact,
+  financeConsultant,
 ];
 
 export const getTemplateById = (id: string): LaTeXTemplate | undefined =>

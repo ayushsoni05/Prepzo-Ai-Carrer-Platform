@@ -817,6 +817,13 @@ ATS SCORE MAXIMIZATION (90+ ATS SCORE TARGET):
    - Quantify achievements: Introduce metrics, numbers, percentages, time-savings, or scale to every bullet point where possible (e.g. "improving system reliability by 24%", "saving 8 hours of manual overhead per week", "managing data ingestion pipeline of 10M+ events/day").
 3. Skills: Group/categorize skills cleanly using standard industry keywords matching the target role.
 4. No Placeholders: Eliminate all template symbols like {{NAME}}, {{EMAIL}}, etc. Replace them with the actual data.
+5. STRICT ONE-PAGE FIT REQUIREMENT (CRITICAL):
+   - The entire compiled LaTeX document MUST fit on exactly one page. Spilling over to a second page is a complete failure.
+   - Summary/Objective: Keep it under 2-3 lines (maximum 35 words).
+   - Experience & Projects: Max 2-3 experiences and max 2 key projects. For each entry, write at most 2-3 concise, high-impact bullet points. Keep each bullet point to a maximum of 1.5 lines.
+   - Skills: Keep lists compact and grouped.
+   - Certifications & Achievements: Limit them to a single concise section with at most 2-3 items, or present them inline to save vertical space.
+   - Do NOT add unnecessary whitespace, large line spacing, or extra empty lines.
 `;
 
   if (jobDescription && jobDescription.trim()) {
@@ -967,21 +974,22 @@ Instructions:
       const cleanGithub = escapeLatex(userProfile.github);
       const cleanLocation = escapeLatex(userProfile.location || 'San Francisco, CA');
       
-      // Formatting education
+      // Formatting education - limit to top 2 to ensure 1-page fit
       let educationItems = '';
       if (userProfile.education && userProfile.education.length > 0) {
-        userProfile.education.forEach(edu => {
+        userProfile.education.slice(0, 2).forEach(edu => {
           educationItems += `  \\resumeSubheading\n    {${escapeLatex(edu.institution || edu.school || 'University')}}{${escapeLatex(edu.location || '')}}\n    {${escapeLatex(edu.degree || 'Degree')}${edu.fieldOfStudy ? ' in ' + escapeLatex(edu.fieldOfStudy) : ''}}{${escapeLatex(edu.startDate || '')} -- ${escapeLatex(edu.endDate || 'Present')}}\n`;
         });
       } else {
         educationItems = `  \\resumeSubheading\n    {${escapeLatex(userProfile.collegeName || 'University Name')}}{}\n    {${escapeLatex(userProfile.degree || 'Bachelor of Science')} ${userProfile.fieldOfStudy ? 'in ' + escapeLatex(userProfile.fieldOfStudy) : ''}}{${escapeLatex(userProfile.yearOfStudy || '')}}\n`;
       }
 
-      // Formatting experience
+      // Formatting experience - limit to top 3 entries, max 2 bullets each
       let experienceItems = '';
       if (userProfile.experience && userProfile.experience.length > 0) {
-        userProfile.experience.forEach(exp => {
-          const bulletsList = Array.isArray(exp.description) ? exp.description : [exp.description].filter(Boolean);
+        userProfile.experience.slice(0, 3).forEach(exp => {
+          const rawBullets = Array.isArray(exp.description) ? exp.description : [exp.description].filter(Boolean);
+          const bulletsList = rawBullets.slice(0, 2);
           const bullets = bulletsList
             .map(bullet => `      \\resumeItem{${escapeLatex(bullet)}}`)
             .join('\n');
@@ -991,11 +999,12 @@ Instructions:
         experienceItems = `  \\resumeSubheading\n    {Software Engineering Internship}{}\n    {Junior Developer}{Present}\n    \\resumeItemListStart\n      \\resumeItem{Developed, tested and optimized responsive web applications.}\n      \\resumeItem{Collaborated with teammates to build custom RESTful APIs and databases.}\n    \\resumeItemListEnd\n`;
       }
 
-      // Formatting projects
+      // Formatting projects - limit to top 3 entries, max 2 bullets each
       let projectItems = '';
       if (userProfile.projects && userProfile.projects.length > 0) {
-        userProfile.projects.forEach(proj => {
-          const bulletsList = Array.isArray(proj.description) ? proj.description : [proj.description].filter(Boolean);
+        userProfile.projects.slice(0, 3).forEach(proj => {
+          const rawBullets = Array.isArray(proj.description) ? proj.description : [proj.description].filter(Boolean);
+          const bulletsList = rawBullets.slice(0, 2);
           const bullets = bulletsList
             .map(bullet => `      \\resumeItem{${escapeLatex(bullet)}}`)
             .join('\n');
@@ -1014,11 +1023,11 @@ Instructions:
         skillsItems = `\\textbf{Languages/Technologies}{: JavaScript, TypeScript, Node.js, Python, React, MongoDB, Git}`;
       }
 
-      // Formatting certifications
+      // Formatting certifications - limit to top 3
       let certificationsItems = '';
       if (userProfile.certifications && userProfile.certifications.length > 0) {
         let certList = '';
-        userProfile.certifications.forEach(cert => {
+        userProfile.certifications.slice(0, 3).forEach(cert => {
           const certName = cert.name || '';
           const certIssuer = cert.issuer || '';
           const certDate = cert.date || '';
@@ -1035,11 +1044,11 @@ Instructions:
         }
       }
 
-      // Formatting achievements
+      // Formatting achievements - limit to top 3
       let achievementsItems = '';
       if (userProfile.achievements && userProfile.achievements.length > 0) {
         let achList = '';
-        userProfile.achievements.forEach(ach => {
+        userProfile.achievements.slice(0, 3).forEach(ach => {
           if (ach.trim()) {
             achList += `    \\resumeItem{${escapeLatex(ach.trim())}}\n`;
           }
