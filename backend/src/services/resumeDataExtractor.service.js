@@ -2,6 +2,34 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import OpenAI from 'openai';
 
 /**
+ * Utility to clean markdown format blocks and other non-JSON noise from LLM responses.
+ */
+export const cleanJSONString = (str) => {
+  if (typeof str !== 'string') return '';
+  let cleaned = str.replace(/```json/gi, '').replace(/```/g, '').trim();
+  const startIdx = cleaned.indexOf('{');
+  const endIdx = cleaned.lastIndexOf('}');
+  if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
+    cleaned = cleaned.substring(startIdx, endIdx + 1);
+  }
+  return cleaned;
+};
+
+/**
+ * Post-parsing safety utility to strip date ranges and timeline formats from name/company fields.
+ */
+export const cleanTimelineAndSkillsFromName = (name) => {
+  if (typeof name !== 'string') return '';
+  let cleaned = name;
+  // Regex to match typical date ranges (e.g., "Jun 2025 – Dec 2025", "2025", "Jan 2023 - Present")
+  const dateRegex = /\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?|\b\d{4})\b[\s\-\–\—\/\(\)]*(?:Present|\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?|\b\d{4})\b)?/gi;
+  cleaned = cleaned.replace(dateRegex, '');
+  // Clean up any double spaces or dangling dividers
+  cleaned = cleaned.replace(/^[\s\-\–\—\|,\(\)•\·\*\+]+|[\s\-\–\—\|,\(\)•\·\*\+]+$/g, '').trim();
+  return cleaned || name;
+};
+
+/**
  * Extract structured resume data from raw text using Gemini 1.5 Flash.
  * Returns a JSON structure matching the frontend schema.
  * 
@@ -57,7 +85,7 @@ You must return a JSON object that adheres strictly to the following schema:
   ],
   "projects": [
     {
-      "name": "Project name",
+      "name": "Project name (e.g. Portfolio Website, E-commerce App). DO NOT append dates, links, or technologies here.",
       "description": "Detailed project description",
       "technologies": ["List of technologies/languages/frameworks used, e.g. React, Node.js"],
       "highlights": [
@@ -78,6 +106,12 @@ You must return a JSON object that adheres strictly to the following schema:
     }
   ]
 }
+
+CRITICAL RULES FOR STRUCTURAL CLEANLINESS:
+1. DO NOT append dates, timeline ranges, technologies, or links into the "name" of the project or "company"/"role" of the experience. Keep them strictly in their respective fields (e.g. "startDate", "endDate", "technologies", "link").
+2. Capture all bullet points. Do not omit details or summarize multiple items into a single string.
+3. Clean all text to be free of raw formatting chars (like bullet characters •, -, * at the beginning of parsed fields).
+4. If a field is not found in the resume, use an empty string or empty array as specified in the schema.
 
 Only return the JSON response. Do not include markdown code block formatting (like \`\`\`json).
 `;
@@ -140,7 +174,8 @@ Only return the JSON response. Do not include markdown code block formatting (li
   }
 
   try {
-    const result = JSON.parse(responseText);
+    const cleanedText = cleanJSONString(responseText);
+    const result = JSON.parse(cleanedText);
     
     // Clean up lists if any elements are null/undefined
     if (result.education) {
@@ -165,8 +200,8 @@ Only return the JSON response. Do not include markdown code block formatting (li
           bullets = exp.description.split('\n').map(l => l.replace(/^[•\-\*\s]+/, '').trim()).filter(Boolean);
         }
         return {
-          company: exp.company || '',
-          role: exp.role || exp.title || '',
+          company: cleanTimelineAndSkillsFromName(exp.company || ''),
+          role: cleanTimelineAndSkillsFromName(exp.role || exp.title || ''),
           startDate: exp.startDate || '',
           endDate: exp.endDate || '',
           location: exp.location || '',
@@ -186,7 +221,7 @@ Only return the JSON response. Do not include markdown code block formatting (li
           bullets = proj.description.split('\n').map(l => l.replace(/^[•\-\*\s]+/, '').trim()).filter(Boolean);
         }
         return {
-          name: proj.name || proj.title || '',
+          name: cleanTimelineAndSkillsFromName(proj.name || proj.title || ''),
           description: bullets.filter(Boolean),
           technologies: Array.isArray(proj.technologies) ? proj.technologies.filter(Boolean) : [],
           highlights: bullets.filter(Boolean),

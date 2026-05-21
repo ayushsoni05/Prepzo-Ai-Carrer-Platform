@@ -11,7 +11,7 @@ import aiService from '../services/aiService.js';
 import { compileLatexToPdf, isPdflatexAvailable } from '../services/latexCompiler.service.js';
 import { extractResumeTextFromStoredFile } from '../services/resumeTextExtractor.service.js';
 import { buildAdvancedResumeReport } from '../services/resumeReport.service.js';
-import { extractResumeDataWithAI } from '../services/resumeDataExtractor.service.js';
+import { extractResumeDataWithAI, cleanJSONString } from '../services/resumeDataExtractor.service.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { getTemplateById } from '../data/latexTemplates.js';
 import { writeFileSync, existsSync, mkdirSync } from 'fs';
@@ -796,10 +796,26 @@ ${JSON.stringify(userProfile)}
 LaTeX Template:
 ${template.source}
 
-CRITICAL LATEX INTEGRITY RULES:
+CRITICAL LATEX INTEGRITY & COMPILATION RULES:
 1. You MUST NOT modify, simplify, or delete any macro definitions, packages, settings, or color definitions in the LaTeX preamble (such as \\definecolor{primary}{...}, \\definecolor{accent}{...}, \\definecolor{PRIMARY}{...}, \\definecolor{ACCENT}{...}, \\resumeSubheading, \\resumeItem, \\resumeProjectHeading, \\resumeSubHeadingListStart, \\resumeSubHeadingListEnd, \\resumeItemListStart, \\resumeItemListEnd, etc.). Copy them EXACTLY as they are from the template.
 2. If you use a macro or color in the document body (e.g. \\resumeSubheading, \\resumeItem, primary, accent, etc.), its definition MUST exist in the preamble.
 3. Keep the document structure, spacing, fonts, margins, packages, colors, and custom commands exactly matching the template. Only fill and optimize the content inside the sections.
+4. Escaping special LaTeX characters in the user's profile text is MANDATORY. Ensure that:
+   - All unescaped ampersands "&" are replaced with "\\&"
+   - All percent signs "%" are replaced with "\\%"
+   - All underscores "_" are replaced with "\\_"
+   - All dollar signs "$" are replaced with "\\$"
+   - All hash signs "#" are replaced with "\\#"
+   - All curly braces "{" and "}" are replaced with "\\{" and "\\}"
+   - Do NOT double-escape characters if they are already escaped in the template code.
+
+ATS SCORE MAXIMIZATION (90+ ATS SCORE TARGET):
+1. Keep the layout standard, single-column, and highly readable.
+2. Bullet Points: Write impact-driven, professional bullet points for the Experience and Projects sections.
+   - Start EVERY single bullet point with a strong, active verb (e.g. "Spearheaded", "Optimized", "Architected", "Engineered", "Pioneered", "Designed").
+   - Quantify achievements: Introduce metrics, numbers, percentages, time-savings, or scale to every bullet point where possible (e.g. "improving system reliability by 24%", "saving 8 hours of manual overhead per week", "managing data ingestion pipeline of 10M+ events/day").
+3. Skills: Group/categorize skills cleanly using standard industry keywords matching the target role.
+4. No Placeholders: Eliminate all template symbols like {{NAME}}, {{EMAIL}}, etc. Replace them with the actual data.
 `;
 
   if (jobDescription && jobDescription.trim()) {
@@ -853,7 +869,7 @@ Instructions:
 
       const response = await model.generateContent(prompt);
       const text = response.response.text();
-      result = JSON.parse(text);
+      result = JSON.parse(cleanJSONString(text));
       console.log('[generateLatex] Gemini generation succeeded');
     } catch (error) {
       console.error('[generateLatex] Gemini generation failed:', error.message);
@@ -882,7 +898,7 @@ Instructions:
           response_format: { type: "json_object" },
           temperature: 0.7,
         });
-        result = JSON.parse(completion.choices[0].message.content);
+        result = JSON.parse(cleanJSONString(completion.choices[0].message.content));
         usedFallback = true;
         console.log('[generateLatex] Groq fallback generation succeeded');
       } catch (error) {
@@ -910,7 +926,7 @@ Instructions:
           response_format: { type: "json_object" },
           temperature: 0.7,
         });
-        result = JSON.parse(completion.choices[0].message.content);
+        result = JSON.parse(cleanJSONString(completion.choices[0].message.content));
         usedFallback = true;
         console.log('[generateLatex] OpenAI fallback generation succeeded');
       } catch (error) {
