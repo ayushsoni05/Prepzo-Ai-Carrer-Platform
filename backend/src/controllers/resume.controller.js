@@ -52,7 +52,8 @@ const buildResumeAnalysisPayload = (aiAnalysis, role, advancedReport = {}) => ({
     experience: aiAnalysis.extracted_data?.experience || [],
     education: aiAnalysis.extracted_data?.education || [],
     projects: aiAnalysis.extracted_data?.projects || [],
-    certifications: aiAnalysis.extracted_data?.certifications || []
+    certifications: aiAnalysis.extracted_data?.certifications || [],
+    achievements: aiAnalysis.extracted_data?.achievements || []
   },
   analyzedAt: new Date(),
   analyzerVersion: '2.0.0',
