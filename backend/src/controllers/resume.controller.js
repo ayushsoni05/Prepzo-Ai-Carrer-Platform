@@ -1065,25 +1065,25 @@ Instructions:
       // Define failsafe custom macros to prevent undefined control sequence errors in other templates
       const customMacros = `
 % Failsafe custom command definitions
-\\providecommand{\\resumeItem}[1]{\\item\\small{#1 \\vspace{-2pt}}}
+\\providecommand{\\resumeItem}[1]{\\item\\small{#1 \\vspace{-1pt}}}
 \\providecommand{\\resumeSubheading}[4]{
-  \\vspace{-2pt}\\item
+  \\item
     \\begin{tabular*}{0.97\\textwidth}[t]{l@{\\extracolsep{\\fill}}r}
       \\textbf{#1} & #2 \\\\
       \\textit{\\small#3} & \\textit{\\small #4} \\\\
-    \\end{tabular*}\\vspace{-7pt}
+    \\end{tabular*}\\vspace{-3pt}
 }
 \\providecommand{\\resumeProjectHeading}[2]{
-    \\item
-    \\begin{tabular*}{0.97\\textwidth}{l@{\\extracolsep{\\fill}}r}
-      \\small#1 & #2 \\\\
-    \\end{tabular*}\\vspace{-7pt}
+  \\item
+    \\begin{tabular*}{0.97\\textwidth}[t]{l@{\\extracolsep{\\fill}}r}
+      \\parbox[t]{0.83\\textwidth}{\\small#1} & #2 \\\\
+    \\end{tabular*}\\vspace{-3pt}
 }
-\\providecommand{\\resumeSubItem}[1]{\\resumeItem{#1}\\vspace{-4pt}}
-\\providecommand{\\resumeSubHeadingListStart}{\\begin{itemize}[leftmargin=0.15in, label={}]}
+\\providecommand{\\resumeSubItem}[1]{\\resumeItem{#1}\\vspace{-2pt}}
+\\providecommand{\\resumeSubHeadingListStart}{\\begin{itemize}[leftmargin=0.15in, label={}, nosep]}
 \\providecommand{\\resumeSubHeadingListEnd}{\\end{itemize}}
-\\providecommand{\\resumeItemListStart}{\\begin{itemize}}
-\\providecommand{\\resumeItemListEnd}{\\end{itemize}\\vspace{-5pt}}
+\\providecommand{\\resumeItemListStart}{\\begin{itemize}[nosep, topsep=0pt, partopsep=0pt, parsep=0pt]}
+\\providecommand{\\resumeItemListEnd}{\\end{itemize}\\vspace{-2pt}}
 `;
 
       let latexSource = template.source;

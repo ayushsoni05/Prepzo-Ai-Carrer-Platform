@@ -61,28 +61,28 @@ const jakesResume: LaTeXTemplate = {
 
 \titleformat{\section}{
   \vspace{-10pt}\scshape\raggedright\large
-}{}{0em}{}[\color{black}\titrule \vspace{-7pt}]
+}{}{0em}{}[\color{black}\titlerule \vspace{-7pt}]
 
-\newcommand{\resumeItem}[1]{\item\small{#1 \vspace{-2pt}}}
+\newcommand{\resumeItem}[1]{\item\small{#1 \vspace{-1pt}}}
 \newcommand{\resumeSubheading}[4]{
-  \vspace{-3pt}\item
+  \item
     \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-8pt}
+    \end{tabular*}\vspace{-3pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
-    \vspace{-3pt}\item
-    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
-      \small#1 & #2 \\
-    \end{tabular*}\vspace{-8pt}
+  \item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \parbox[t]{0.83\textwidth}{\small#1} & #2 \\
+    \end{tabular*}\vspace{-3pt}
 }
-\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-2pt}}
 \renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}, nosep]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
 \newcommand{\resumeItemListStart}{\begin{itemize}[nosep, topsep=0pt, partopsep=0pt, parsep=0pt]}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-6pt}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-2pt}}
 \setlist[itemize]{nosep}
 
 \begin{document}
@@ -155,7 +155,7 @@ const cleanAts: LaTeXTemplate = {
 \addtolength{\topmargin}{-0.65in}
 \addtolength{\textheight}{1.3in}
 
-\titleformat{\section}{\large\bfseries\scshape}{}{0em}{}[\titrule \vspace{-3pt}]
+\titleformat{\section}{\large\bfseries\scshape}{}{0em}{}[\titlerule \vspace{-3pt}]
 \titlespacing*{\section}{0pt}{4pt}{2pt}
 \setlist[itemize]{nosep}
 
@@ -208,7 +208,7 @@ const modernTwoColumn: LaTeXTemplate = {
 \definecolor{accent}{HTML}{6C63FF}
 \pagestyle{empty}
 
-\titleformat{\section}{\color{accent}\large\bfseries\scshape}{}{0em}{}[\color{accent}\titrule \vspace{-3pt}]
+\titleformat{\section}{\color{accent}\large\bfseries\scshape}{}{0em}{}[\color{accent}\titlerule \vspace{-3pt}]
 \titlespacing*{\section}{0pt}{4pt}{2pt}
 \setlist[itemize]{nosep}
 
@@ -270,7 +270,7 @@ const academicCv: LaTeXTemplate = {
 \renewcommand{\headrulewidth}{0pt}
 \fancyfoot[C]{\footnotesize\thepage}
 
-\titleformat{\section}{\color{heading}\large\bfseries}{}{0em}{}[\color{heading}\titrule \vspace{-3pt}]
+\titleformat{\section}{\color{heading}\large\bfseries}{}{0em}{}[\color{heading}\titlerule \vspace{-3pt}]
 \titlespacing*{\section}{0pt}{4pt}{2pt}
 \setlist[itemize]{nosep}
 
@@ -329,7 +329,7 @@ const deedyCv: LaTeXTemplate = {
 
 \pagestyle{empty}
 
-\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titrule \vspace{-3pt}]
+\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titlerule \vspace{-3pt}]
 \titlespacing*{\section}{0pt}{4pt}{2pt}
 
 \setlength{\columnsep}{1.5em}
@@ -452,27 +452,27 @@ const techCompact: LaTeXTemplate = {
 \pagestyle{empty}
 \setlist[itemize]{nosep,topsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=0.15in}
 
-\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titrule \vspace{-3pt}]
+\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titlerule \vspace{-3pt}]
 \titlespacing*{\section}{0pt}{4pt}{2pt}
 
 \newcommand{\resumeItem}[1]{\item\small{#1}}
 \newcommand{\resumeSubheading}[4]{
-  \vspace{-2pt}\item
+  \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & \small #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-5pt}
+    \end{tabular*}\vspace{-3pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
-  \vspace{-2pt}\item
-    \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
-      \small#1 & \small #2 \\
-    \end{tabular*}\vspace{-5pt}
+  \item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \parbox[t]{0.83\textwidth}{\small#1} & \small #2 \\
+    \end{tabular*}\vspace{-3pt}
 }
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
 \newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-2pt}}
 
 \begin{document}
 
@@ -533,27 +533,27 @@ const corporateExecutive: LaTeXTemplate = {
 \pagestyle{empty}
 \setlist[itemize]{nosep,topsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=0.15in}
 
-\titleformat{\section}{\color{slate}\large\bfseries\uppercase}{}{0em}{}[\color{slate}\titrule \vspace{-3pt}]
+\titleformat{\section}{\color{slate}\large\bfseries\uppercase}{}{0em}{}[\color{slate}\titlerule \vspace{-3pt}]
 \titlespacing*{\section}{0pt}{4pt}{2pt}
 
 \newcommand{\resumeItem}[1]{\item\small{#1}}
 \newcommand{\resumeSubheading}[4]{
-  \vspace{-2pt}\item
+  \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & \small #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-5pt}
+    \end{tabular*}\vspace{-3pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
-  \vspace{-2pt}\item
-    \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
-      \small#1 & \small #2 \\
-    \end{tabular*}\vspace{-5pt}
+  \item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \parbox[t]{0.83\textwidth}{\small#1} & \small #2 \\
+    \end{tabular*}\vspace{-3pt}
 }
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
 \newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-2pt}}
 
 \begin{document}
 
@@ -618,27 +618,27 @@ const techModern: LaTeXTemplate = {
 \pagestyle{empty}
 \setlist[itemize]{nosep,topsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=0.15in}
 
-\titleformat{\section}{\color{primary}\large\bfseries}{}{0em}{}[\color{accent}\titrule \vspace{-3pt}]
+\titleformat{\section}{\color{primary}\large\bfseries}{}{0em}{}[\color{accent}\titlerule \vspace{-3pt}]
 \titlespacing*{\section}{0pt}{4pt}{2pt}
 
 \newcommand{\resumeItem}[1]{\item\small{#1}}
 \newcommand{\resumeSubheading}[4]{
-  \vspace{-2pt}\item
+  \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{\color{primary}#1} & \small #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-5pt}
+    \end{tabular*}\vspace{-3pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
-  \vspace{-2pt}\item
-    \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
-      \textbf{\small#1} & \small #2 \\
-    \end{tabular*}\vspace{-5pt}
+  \item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \parbox[t]{0.83\textwidth}{\textbf{\small#1}} & \small #2 \\
+    \end{tabular*}\vspace{-3pt}
 }
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
 \newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-2pt}}
 
 \begin{document}
 
@@ -702,27 +702,27 @@ const creativeCompact: LaTeXTemplate = {
 \pagestyle{empty}
 \setlist[itemize]{nosep,topsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=0.15in}
 
-\titleformat{\section}{\color{primary}\large\fontfamily{ppl}\selectfont\bfseries}{}{0em}{}[\color{accent}\titrule \vspace{-3pt}]
+\titleformat{\section}{\color{primary}\large\fontfamily{ppl}\selectfont\bfseries}{}{0em}{}[\color{accent}\titlerule \vspace{-3pt}]
 \titlespacing*{\section}{0pt}{5pt}{3pt}
 
 \newcommand{\resumeItem}[1]{\item\small{#1}}
 \newcommand{\resumeSubheading}[4]{
-  \vspace{-2pt}\item
+  \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & \small #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-5pt}
+    \end{tabular*}\vspace{-3pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
-  \vspace{-2pt}\item
-    \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
-      \textbf{\small#1} & \small #2 \\
-    \end{tabular*}\vspace{-5pt}
+  \item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \parbox[t]{0.83\textwidth}{\textbf{\small#1}} & \small #2 \\
+    \end{tabular*}\vspace{-3pt}
 }
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
 \newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-2pt}}
 
 \begin{document}
 
@@ -790,22 +790,22 @@ const financeConsultant: LaTeXTemplate = {
 
 \newcommand{\resumeItem}[1]{\item\small{#1}}
 \newcommand{\resumeSubheading}[4]{
-  \vspace{-2pt}\item
+  \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & \small #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-5pt}
+    \end{tabular*}\vspace{-3pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
-  \vspace{-2pt}\item
-    \begin{tabular*}{0.98\textwidth}{l@{\extracolsep{\fill}}r}
-      \textbf{\small#1} & \small #2 \\
-    \end{tabular*}\vspace{-5pt}
+  \item
+    \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \parbox[t]{0.83\textwidth}{\textbf{\small#1}} & \small #2 \\
+    \end{tabular*}\vspace{-3pt}
 }
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
 \newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-3pt}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-2pt}}
 
 \begin{document}
 
