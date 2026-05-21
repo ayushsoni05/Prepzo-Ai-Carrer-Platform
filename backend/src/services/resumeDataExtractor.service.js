@@ -39,6 +39,14 @@ export const cleanTimelineAndSkillsFromName = (name) => {
   return cleaned || name;
 };
 
+export const cleanLeadingBullets = (line) => {
+  if (typeof line !== 'string') return '';
+  return line
+    .replace(/^[•\-\*\–\—\·\s]+/, '')
+    .replace(/^(?:\d+\.(?:\s|$)+|\d+\)(?:\s|$)+)/, '')
+    .trim();
+};
+
 /**
  * Extract structured resume data from raw text using Gemini 1.5 Flash.
  * Returns a JSON structure matching the frontend schema.
@@ -321,62 +329,30 @@ export const isPureTechList = (line) => {
   const trimmed = (line || '').trim();
   if (!trimmed) return false;
 
-  // If it starts with an action verb, it's not a pure tech list
-  const ACTION_VERBS = /^(?:engineered|designed|integrated|developed|implemented|optimized|built|trained|led|completed|created|spearheaded|architected|pioneered|managed|formulated|automated|collaborated|conducted|established|improved|enhanced|contributed|delivered|tested|used|worked|focused|achieved|resolved|increased|decreased|secured|solved|managed|deployed|maintained|monitored)/i;
-  // Strip starting bullet chars
-  const cleanLine = trimmed.replace(/^[•\-\*\–\—\·\d\.\s]+/, '').trim();
-  if (ACTION_VERBS.test(cleanLine)) return false;
+  const TECH_REG = /\b(?:react(?:\.js)?|angular|vue(?:\.js)?|svelte|next\.js|nuxt\.js|node(?:\.js)?|express(?:\.js)?|koa|django|flask|fastapi|spring\s*boot|laravel|asp\.net|rails|ruby\s*on\s*rails|mongodb|postgres(?:ql)?|mysql|sqlite|redis|cassandra|dynamodb|firebase|supabase|oracle|mssql|docker|kubernetes|k8s|aws|gcp|azure|heroku|vercel|netlify|digital\s*ocean|html(?:5)?|css(?:3)?|javascript|js|typescript|ts|python|java|c\+\+|c\#|go|golang|rust|ruby|php|swift|kotlin|scala|perl|bash|shell|git|github|gitlab|rest\s*apis?|restful|graphql|grpc|socket\.io|jwt|oauth|redux|mobx|recoil|tailwind|bootstrap|material\-ui|mui|chakra|sass|less|webpack|vite|babel|gulp|jest|mocha|cypress|selenium|playwright|jenkins|travis|circleci|github\s*actions|tensorflow|pytorch|keras|scikit\-learn|numpy|pandas|opencv|mediapipe|nltk|spacy|hugging\s*face|transformers|nlp|llm|gan|cnn|rnn|lstm|bert|gpt|gemini|openai|s3|ec2|lambda|serverless|microservices|ci\/cd|dsa|oop|dbms)\b/i;
 
-  // Check if it has sentence indicators
-  const words = cleanLine.split(/\s+/);
-  const sentenceIndicators = ['the', 'and', 'for', 'with', 'by', 'of', 'in', 'to', 'from', 'on', 'at', 'a', 'an', 'using', 'through', 'about', 'as', 'over'];
-  let indicatorCount = 0;
-  words.forEach(w => {
-    if (sentenceIndicators.includes(w.toLowerCase())) {
-      indicatorCount++;
-    }
-  });
+  const NON_TECH_PROJECT_WORDS = /\b(?:platform|system|application|app|website|portal|software|tool|dashboard|extension|game|detector|classifier|generator|engine|management|tracker|detection|control|gaming|commerce|executive|professional|experience|project|internship|student|education|university|college|role|engineer|developer|designer|manager|analyst|lead|architect|intern|specialist|consultant|programmer|tester|administrator|exec|executive|director|vp|head|building|scaling|developing|implementing|managing|predict(?:or|ion)?|recommend(?:er|ation)?|solve(?:r)?|recognition|analysis|learning|smart|automatic|smart|intelligent|helper|utility|portfolio|blog)\b/i;
 
-  // If there are many sentence indicators, it's likely a description, not a pure tech list
-  if (indicatorCount > 2 || (words.length > 8 && indicatorCount > 1)) {
-    return false;
-  }
+  const ACTION_VERB_OR_DESC_WORD = /\b(?:engineered|designed|integrated|developed|implemented|optimized|built|trained|led|completed|created|spearheaded|architected|pioneered|managed|formulated|automated|collaborated|conducted|established|improved|enhanced|contributed|delivered|utilizing|using|translating|achieving|reducing|processing|securing|solving|leading|completing|facial|classification|prediction|webcam|hyperparameter|tuning|augmentation|inference|grayscale|normalization|listings|checkout|validation|handling|modeling|uptime)\b/i;
 
-  // Split by common delimiters: comma, pipe, slash, semicolon, or "and"
-  const parts = cleanLine.split(/[,/|;]|\s+and\s+|\s*&\s*/i).map(p => p.trim()).filter(Boolean);
-  
-  // If it's a single item, check if it's a known tech stack keyword
-  if (parts.length === 1) {
-    const singleWord = parts[0].toLowerCase();
-    const knownTech = [
-      'javascript', 'typescript', 'python', 'java', 'c++', 'c#', 'go', 'rust', 'ruby', 'php', 'swift', 'kotlin',
-      'html', 'css', 'sass', 'react', 'react.js', 'angular', 'vue', 'vue.js', 'next.js', 'node.js', 'node', 'express', 'express.js', 'django', 'flask',
-      'mongodb', 'postgresql', 'mysql', 'sqlite', 'redis', 'firebase', 'supabase', 'docker', 'kubernetes', 'aws', 'git', 'github', 'rest api', 'graphql',
-      'jwt', 'apis', 'rest apis', 'computer vision', 'opencv', 'mediapipe', 'numpy', 'scipy', 'pandas', 'scikit-learn', 'deep learning', 'machine learning',
-      'tensorflow', 'keras', 'pytorch', 'gcp', 'azure', 'ci/cd', 'jenkins', 'html5', 'css3', 'tailwind', 'tailwind css', 'bootstrap', 'material ui', 'mui'
-    ];
-    return knownTech.includes(singleWord);
-  }
+  const cleanLine = cleanLeadingBullets(trimmed).replace(/[\-–—\s]+$/, '').trim();
+  if (!cleanLine) return false;
 
-  // If there are multiple parts, and most parts are short (1-3 words) and start with capital letters or are known tech keywords
-  const avgWordCount = parts.reduce((acc, p) => acc + p.split(/\s+/).length, 0) / parts.length;
-  if (avgWordCount > 3) return false; // parts are too long to be just technologies
+  // If it contains action verbs or key descriptive words, it's not a pure tech list
+  if (ACTION_VERB_OR_DESC_WORD.test(cleanLine)) return false;
 
-  // Check how many parts start with a capital letter or are numbers/acronyms or known technologies
-  const capitalizedOrTechCount = parts.filter(p => {
-    const pClean = p.replace(/[^a-zA-Z0-9\+\#\-\.]/g, '').trim();
-    if (!pClean) return false;
-    // Starts with uppercase or is all uppercase or has numbers/special chars like ++, #
-    const isCapitalized = /^[A-Z0-9]/.test(pClean) || pClean.toUpperCase() === pClean;
-    const isKnown = [
-      'react', 'nodejs', 'express', 'mongodb', 'mysql', 'postgres', 'postgresql', 'redis', 'aws', 'gcp', 'azure', 'docker', 'k8s', 'kubernetes',
-      'rest', 'api', 'apis', 'jwt', 'html', 'css', 'js', 'ts', 'git', 'github', 'cv', 'opencv', 'cnn', 'rnn', 'lstm', 'svm', 'dsa', 'oop', 'os', 'dbms'
-    ].includes(pClean.toLowerCase());
-    return isCapitalized || isKnown;
-  }).length;
+  // If it contains non-tech project words, it's not a pure tech list
+  if (NON_TECH_PROJECT_WORDS.test(cleanLine)) return false;
 
-  // If 75% or more of the parts fit this description, it's a technology list!
-  return capitalizedOrTechCount >= parts.length * 0.75;
+  // Split by common delimiters and spaces to check density
+  const words = cleanLine.split(/[\s,;|/\\()]+/).filter(Boolean);
+  if (words.length === 0) return false;
+
+  // Count how many words match the tech keywords regex
+  const techWordCount = words.filter(w => TECH_REG.test(w)).length;
+  const ratio = techWordCount / words.length;
+
+  return ratio >= 0.5;
 };
 
 export const isLikelyProjectTitle = (line) => {
@@ -426,9 +402,11 @@ const cleanDatesFromText = (text) => {
 };
 
 const isNewProjectStart = (cleanLine, currentProj) => {
-  const clean = cleanLine.replace(/^[•\-\*\–\—\·\d\.\s]+/, '').trim();
+  const clean = cleanLeadingBullets(cleanLine);
+  if (isPureTechList(clean)) return false;
   if (!isLikelyProjectTitle(clean)) return false;
   if (/^(repo|github|link|http|url|demo|website|source)/i.test(clean)) return false;
+  if (/(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b|(?:19|20)\d{2}\b/i.test(clean) && clean.length < 40) return false;
   
   const ACTION_VERBS = /^(?:engineered|designed|integrated|developed|implemented|optimized|built|trained|led|completed|created|spearheaded|architected|pioneered|managed|formulated|automated|collaborated|conducted|established|improved|enhanced|formulated|contributed|delivered)/i;
   if (ACTION_VERBS.test(clean)) return false;
@@ -673,7 +651,7 @@ export const extractLocalFallback = (resumeText) => {
       let currentExp = null;
       sectionContent.forEach(line => {
         const isBullet = line.startsWith('•') || line.startsWith('-') || line.startsWith('*') || line.startsWith('–') || line.startsWith('—') || line.startsWith('·') || /^\d+\.\s/.test(line);
-        const cleanLine = line.replace(/^[•\-\*\–\—\·\d\.\s]+/, '').trim();
+        const cleanLine = cleanLeadingBullets(line);
         if (!cleanLine) return;
 
         const isTimeline = /(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b|(?:19|20)\d{2}\b/i.test(cleanLine) && cleanLine.length < 40;
@@ -775,10 +753,12 @@ export const extractLocalFallback = (resumeText) => {
       let currentProj = null;
       sectionContent.forEach(line => {
         const isBullet = line.startsWith('•') || line.startsWith('-') || line.startsWith('*') || line.startsWith('–') || line.startsWith('—') || line.startsWith('·') || /^\d+\.\s/.test(line);
-        let cleanLine = line.replace(/^[•\-\*\–\—\·\d\.\s]+/, '').trim();
+        let cleanLine = cleanLeadingBullets(line);
         if (!cleanLine) return;
 
-        const isTimeline = /(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b|(?:19|20)\d{2}\b/i.test(cleanLine) && cleanLine.length < 40;
+        const dateRegex = /(?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-zA-Z]*[\s,.]*\d{4})|\b(?:19|20)\d{2}\b|\bPresent\b/gi;
+        const dateMatch = cleanLine.match(dateRegex);
+        const isTimeline = dateMatch && cleanLine.length < 40;
         const isTechList = isPureTechList(cleanLine);
 
         // Scan for links on this line
@@ -788,9 +768,16 @@ export const extractLocalFallback = (resumeText) => {
           extractedLink = linkMatch[0].trim();
         }
 
+        if (isTimeline) {
+          if (currentProj) {
+            currentProj.date = cleanLine;
+          }
+          return; // Skip adding it to description/highlights
+        }
+
         if (isBullet || !isNewProjectStart(cleanLine, currentProj)) {
           if (!currentProj) {
-            currentProj = { name: 'Project', description: [], technologies: [], highlights: [], link: '' };
+            currentProj = { name: 'Project', description: [], technologies: [], highlights: [], link: '', date: '' };
           }
           
           if (extractedLink && !currentProj.link) {
@@ -830,6 +817,17 @@ export const extractLocalFallback = (resumeText) => {
               .trim();
           }
 
+          // Extract date/timeline from nameLine if any
+          let projDate = '';
+          const titleDateMatches = nameLine.match(dateRegex);
+          if (titleDateMatches && titleDateMatches.length > 0) {
+            projDate = titleDateMatches.join(' – ');
+            nameLine = nameLine.replace(dateRegex, '')
+              .replace(/^[•\-\*\–\—\·\s|:,\/()\[\]\–\-]+|[•\-\*\–\—\·\s|:,\/()\[\]\–\-]+$/g, '')
+              .replace(/\s+/g, ' ')
+              .trim();
+          }
+
           let name = nameLine;
           let technologies = [];
           if (nameLine.includes('|')) {
@@ -849,7 +847,8 @@ export const extractLocalFallback = (resumeText) => {
             description: [],
             technologies,
             highlights: [],
-            link: projLink
+            link: projLink,
+            date: projDate
           };
         }
       });

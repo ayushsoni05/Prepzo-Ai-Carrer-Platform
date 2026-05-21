@@ -278,157 +278,757 @@ class ResumeAnalyzer:
         return "Software Engineer"  # Default
     
     def _extract_resume_data(self, resume_text: str) -> Dict[str, Any]:
-        """Extract structured data from resume text"""
-        data = {
-            "skills": [],
-            "experience": [],
+        """Extract structured data from resume text using state machine parser (matches JS extractLocalFallback)"""
+        
+        def clean_leading_bullets(line: str) -> str:
+            if not isinstance(line, str):
+                return ''
+            cleaned = re.sub(r'^[•\-\*\–\—\·\s]+', '', line)
+            cleaned = re.sub(r'^(?:\d+\.(?:\s|$)+|\d+\)(?:\s|$)+)', '', cleaned)
+            return cleaned.strip()
+
+        def is_pure_tech_list(line: str) -> bool:
+            trimmed = line.strip()
+            if not trimmed:
+                return False
+
+            TECH_REG = re.compile(
+                r'\b(?:react(?:\.js)?|angular|vue(?:\.js)?|svelte|next\.js|nuxt\.js|node(?:\.js)?|express(?:\.js)?|koa|django|flask|fastapi|spring\s*boot|laravel|asp\.net|rails|ruby\s*on\s*rails|mongodb|postgres(?:ql)?|mysql|sqlite|redis|cassandra|dynamodb|firebase|supabase|oracle|mssql|docker|kubernetes|k8s|aws|gcp|azure|heroku|vercel|netlify|digital\s*ocean|html(?:5)?|css(?:3)?|javascript|js|typescript|ts|python|java|c\+\+|c\#|go|golang|rust|ruby|php|swift|kotlin|scala|perl|bash|shell|git|github|gitlab|rest\s*apis?|restful|graphql|grpc|socket\.io|jwt|oauth|redux|mobx|recoil|tailwind|bootstrap|material\-ui|mui|chakra|sass|less|webpack|vite|babel|gulp|jest|mocha|cypress|selenium|playwright|jenkins|travis|circleci|github\s*actions|tensorflow|pytorch|keras|scikit\-learn|numpy|pandas|opencv|mediapipe|nltk|spacy|hugging\s*face|transformers|nlp|llm|gan|cnn|rnn|lstm|bert|gpt|gemini|openai|s3|ec2|lambda|serverless|microservices|ci\/cd|dsa|oop|dbms)\b',
+                re.IGNORECASE
+            )
+
+            NON_TECH_PROJECT_WORDS = re.compile(
+                r'\b(?:platform|system|application|app|website|portal|software|tool|dashboard|extension|game|detector|classifier|generator|engine|management|tracker|detection|control|gaming|commerce|executive|professional|experience|project|internship|student|education|university|college|role|engineer|developer|designer|manager|analyst|lead|architect|intern|specialist|consultant|programmer|tester|administrator|exec|executive|director|vp|head|building|scaling|developing|implementing|managing|predict(?:or|ion)?|recommend(?:er|ation)?|solve(?:r)?|recognition|analysis|learning|smart|automatic|intelligent|helper|utility|portfolio|blog)\b',
+                re.IGNORECASE
+            )
+
+            ACTION_VERB_OR_DESC_WORD = re.compile(
+                r'\b(?:engineered|designed|integrated|developed|implemented|optimized|built|trained|led|completed|created|spearheaded|architected|pioneered|managed|formulated|automated|collaborated|conducted|established|improved|enhanced|contributed|delivered|utilizing|using|translating|achieving|reducing|processing|securing|solving|leading|completing|facial|classification|prediction|webcam|hyperparameter|tuning|augmentation|inference|grayscale|normalization|listings|checkout|validation|handling|modeling|uptime)\b',
+                re.IGNORECASE
+            )
+
+            clean_line = clean_leading_bullets(trimmed)
+            clean_line = re.sub(r'[\-–—\s]+$', '', clean_line).strip()
+            if not clean_line:
+                return False
+
+            if ACTION_VERB_OR_DESC_WORD.search(clean_line):
+                return False
+            if NON_TECH_PROJECT_WORDS.search(clean_line):
+                return False
+
+            words = [w for w in re.split(r'[\s,;|/\\()]+', clean_line) if w]
+            if not words:
+                return False
+
+            tech_word_count = sum(1 for w in words if TECH_REG.search(w))
+            ratio = tech_word_count / len(words)
+            return ratio >= 0.5
+
+        def is_likely_project_title(line: str) -> bool:
+            trimmed = line.strip()
+            if not trimmed:
+                return False
+            if trimmed[0].islower():
+                return False
+            if trimmed[0] in ['%', '&', '+', '/']:
+                return False
+            words = trimmed.split()
+            if len(words) <= 1:
+                return False
+            if trimmed[-1] in ['%', ',', '.']:
+                return False
+            if re.match(r'^\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|20\d\d)\b', trimmed, re.IGNORECASE) and len(trimmed) < 30:
+                return False
+            return True
+
+        def is_likely_experience_title(line: str) -> bool:
+            return is_likely_project_title(line)
+
+        def extract_dates_from_text(text: str) -> Dict[str, str]:
+            date_regex = re.compile(
+                r'(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b|(?:19|20)\d{2}\b',
+                re.IGNORECASE
+            )
+            dates = date_regex.findall(text)
+            start_date = ''
+            end_date = ''
+            if dates:
+                start_date = dates[0]
+                if len(dates) > 1:
+                    end_date = dates[1]
+                    if 'expected' in text.lower() and 'expected' not in end_date.lower():
+                        end_date += ' (Expected)'
+                elif 'present' in text.lower():
+                    end_date = 'Present'
+                elif 'expected' in text.lower():
+                    end_date = dates[0] + ' (Expected)'
+            return {"startDate": start_date, "endDate": end_date}
+
+        def clean_dates_from_text(text: str) -> str:
+            if not isinstance(text, str):
+                return ''
+            cleaned = re.sub(
+                r'(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b|(?:19|20)\d{2}\b',
+                '',
+                text,
+                flags=re.IGNORECASE
+            )
+            cleaned = re.sub(r'\bexpected\b', '', cleaned, flags=re.IGNORECASE)
+            cleaned = re.sub(r'[\s\-\–\—\|,\(\)•\·\*\+]+', ' ', cleaned)
+            cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+            return cleaned
+
+        def clean_timeline_and_skills_from_name_python(name: str) -> str:
+            if not isinstance(name, str):
+                return ''
+            cleaned = name
+            parenthesized_date_regex = re.compile(
+                r'\([\s\-\–\—a-zA-Z0-9\/\.]*(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|Present|20\d\d)\b[\s\-\–\—a-zA-Z0-9\/\.]*\)',
+                re.IGNORECASE
+            )
+            cleaned = parenthesized_date_regex.sub('', cleaned)
+
+            month_regex = re.compile(
+                r'(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b\s*\d{0,4}',
+                re.IGNORECASE
+            )
+            cleaned = month_regex.sub('', cleaned)
+
+            present_or_year_regex = re.compile(r'\b(?:Present)\b|(?:19|20)\d{2}\b', re.IGNORECASE)
+            cleaned = present_or_year_regex.sub('', cleaned)
+
+            cleaned = re.sub(r'^[\s\-\–\—\|,\(\)•\·\*\+]+|[\s\-\–\—\|,\(\)•\·\*\+]+$', '', cleaned)
+            cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+            return cleaned if cleaned else name
+
+        def is_new_project_start(clean_line: str, current_proj: Optional[Dict]) -> bool:
+            clean = clean_leading_bullets(clean_line)
+            if is_pure_tech_list(clean):
+                return False
+            if not is_likely_project_title(clean):
+                return False
+            if re.match(r'^(?:repo|github|link|http|url|demo|website|source)', clean, re.IGNORECASE):
+                return False
+            if re.search(r'(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b|(?:19|20)\d{2}\b', clean, re.IGNORECASE) and len(clean) < 40:
+                return False
+            
+            ACTION_VERBS = re.compile(
+                r'^(?:engineered|designed|integrated|developed|implemented|optimized|built|trained|led|completed|created|spearheaded|architected|pioneered|managed|formulated|automated|collaborated|conducted|established|improved|enhanced|formulated|contributed|delivered)',
+                re.IGNORECASE
+            )
+            if ACTION_VERBS.match(clean):
+                return False
+
+            if not current_proj:
+                return True
+                
+            if len(current_proj.get("description", [])) == 0 and len(current_proj.get("highlights", [])) == 0:
+                return False
+                
+            if '|' in clean or '–' in clean or (' - ' in clean and not re.search(r'(?:19|20)\d{2}\b', clean)) or ':' in clean:
+                divider = '|' if '|' in clean else (':' if ':' in clean else '–')
+                first_part = clean.split(divider)[0].strip()
+                if len(first_part.split()) <= 8:
+                    return True
+                    
+            words = clean.split()
+            is_short_title = len(words) >= 1 and len(words) <= 8 and clean[0].isupper()
+            return is_short_title
+
+        def clean_project_bullets_and_extract_techs(bullets: List[str], existing_techs: List[str]):
+            merged_techs = set(existing_techs or [])
+            cleaned_bullets = []
+            tech_header_regex = re.compile(
+                r'^(?:technologies|tech\s+stack|tools\s+used|technologies\s+used|built\s+with|stack|tech)\s*[:\-–—\s]+',
+                re.IGNORECASE
+            )
+
+            for bullet in bullets:
+                trimmed = bullet.strip()
+                if not trimmed:
+                    continue
+
+                if tech_header_regex.match(trimmed):
+                    tech_part = tech_header_regex.sub('', trimmed)
+                    parts = [t.strip() for t in re.split(r'[,/|;]|\s+and\s+|\s*&\s*', tech_part, flags=re.IGNORECASE) if t.strip()]
+                    for t in parts:
+                        clean_t = re.sub(r'\b(?:and|etc)\b', '', t, flags=re.IGNORECASE).strip()
+                        if clean_t:
+                            merged_techs.add(clean_t)
+                    continue
+
+                if is_pure_tech_list(trimmed):
+                    parts = [t.strip() for t in re.split(r'[,/|;]|\s+and\s+|\s*&\s*', trimmed, flags=re.IGNORECASE) if t.strip()]
+                    for t in parts:
+                        clean_t = re.sub(r'\b(?:and|etc)\b', '', t, flags=re.IGNORECASE).strip()
+                        if clean_t:
+                            merged_techs.add(clean_t)
+                    continue
+
+                cleaned_bullets.append(bullet)
+
+            return {
+                "cleanedBullets": cleaned_bullets,
+                "technologies": list(merged_techs)
+            }
+
+        def is_section_header(line: str) -> Optional[str]:
+            clean = line.strip()
+            if not clean:
+                return None
+            if len(clean) > 50:
+                return None
+            if clean[0] in ['•', '-', '*', '–', '—', '·']:
+                return None
+            if ',' in clean:
+                return None
+            if clean.endswith('.'):
+                return None
+            if ':' in clean and len(clean.split(':', 1)[1].strip()) > 3:
+                return None
+            if clean[0].islower():
+                return None
+
+            lower = clean.lower()
+
+            if re.match(r'^(?:education|academic|academics|qualifications|schooling)(?:\s+\&\s+\w+)?$', lower) or \
+               re.match(r'^(?:academic\s+)?qualifications$', lower):
+                return 'education'
+            if re.match(r'^(?:experience|employment|work\s+history|career|professional\s+background|professional\s+experience|work\s+experience)(?:\s+\&\s+\w+)?$', lower):
+                return 'experience'
+            if re.match(r'^(?:projects|personal\s+projects|academic\s+projects|key\s+projects|featured\s+projects)(?:\s+\&\s+\w+)?$', lower):
+                return 'projects'
+            if re.match(r'^(?:skills|technologies|tech\s+stack|technical\s+skills|technical\s+expertise|skills\s+\&\s+expertise|languages|programming\s+languages)$', lower):
+                return 'skills'
+            if re.match(r'^(?:certifications|courses|licenses|credentials|certified)(?:\s+\&\s+\w+)?$', lower):
+                return 'certifications'
+            if re.match(r'^(?:achievements|awards|extracurriculars?|extra-curriculars?|leadership|interests|publications|co-curriculars?|activities|honors|volunteer|volunteering)(?:\s+\&\s+[\w\-]+)*$', lower) or \
+               'achievements' in lower or 'extracurricular' in lower or 'activities' in lower or 'awards' in lower or 'leadership' in lower:
+                if 'solving' in lower or 'team' in lower or 'workshop' in lower or 'dsa' in lower or 'contest' in lower or 'participants' in lower:
+                    return None
+                return 'achievements'
+            if re.match(r'^(?:professional\s+|career\s+|executive\s+)?(?:summary|objective|profile|about\s+me)$', lower):
+                return 'summary'
+
+            return None
+
+        # ---------------------------------------------
+        # Real Start of Method
+        # ---------------------------------------------
+        lines = [l.strip() for l in resume_text.split('\n') if l.strip()]
+        
+        result = {
+            "name": "",
+            "email": "",
+            "phone": "",
+            "linkedin": "",
+            "github": "",
+            "summary": "",
             "education": [],
+            "experience": [],
             "projects": [],
+            "skills": [],
             "certifications": [],
             "achievements": []
         }
         
-        # Extract skills (look for skills section or common skill patterns)
-        skills_pattern = r'(?:skills|technologies|tech stack|tools)[:\s]*([^\n]+(?:\n(?![A-Z]).*)*)'
-        skills_match = re.search(skills_pattern, resume_text, re.IGNORECASE)
-        if skills_match:
-            skills_text = skills_match.group(1)
-            # Split by common delimiters
-            skills = re.split(r'[,|•·\n]', skills_text)
-            data["skills"] = [s.strip() for s in skills if s.strip() and len(s.strip()) > 1]
-        
-        # Also extract technologies mentioned throughout
-        tech_keywords = [
-            "python", "java", "javascript", "typescript", "c++", "c#", "ruby", "go", "rust", "php",
-            "react", "angular", "vue", "node.js", "express", "django", "flask", "spring", "rails",
-            "sql", "mongodb", "postgresql", "mysql", "redis", "elasticsearch",
-            "aws", "azure", "gcp", "docker", "kubernetes", "jenkins", "git",
-            "tensorflow", "pytorch", "pandas", "numpy", "scikit-learn",
-            "html", "css", "sass", "webpack", "graphql", "rest api"
-        ]
-        for tech in tech_keywords:
-            if tech.lower() in resume_text.lower() and tech not in [s.lower() for s in data["skills"]]:
-                data["skills"].append(tech.title())
-        
-        # Extract experience
-        experience_pattern = r'(?:experience|work history|employment|professional experience)[:\s]*\n((?:.*\n)*?)(?=\n[A-Z]|\Z)'
-        experience_match = re.search(experience_pattern, resume_text, re.IGNORECASE)
-        if experience_match:
-            exp_lines = experience_match.group(1).split('\n')
-            current_exp = None
-            for line in exp_lines:
-                line = line.strip()
-                if not line:
-                    continue
-                is_bullet = line.startswith(('•', '-', '*')) or re.match(r'^\d+\.\s', line)
-                clean_line = re.sub(r'^[•\-\*\d\.\s·]+', '', line).strip()
-                if not clean_line:
-                    continue
-                
-                if is_bullet or len(line) >= 60:
-                    if not current_exp:
-                        current_exp = {"company": "Company", "role": "Software Engineer", "startDate": "", "endDate": "", "location": "", "description": "", "highlights": []}
-                    current_exp["highlights"].append(clean_line)
-                else:
-                    if current_exp:
-                        data["experience"].append(current_exp)
-                    
-                    company = clean_line
-                    role = "Software Engineer"
-                    if '@' in clean_line:
-                        parts = clean_line.split('@')
-                        role = parts[0].strip()
-                        company = parts[1].strip()
-                    elif '|' in clean_line:
-                        parts = clean_line.split('|')
-                        company = parts[0].strip()
-                        role = parts[1].strip()
-                    elif '-' in clean_line and not re.search(r'\b(?:19|20)\d{2}\b', clean_line):
-                        parts = clean_line.split('-')
-                        company = parts[0].strip()
-                        role = parts[1].strip()
-                    
-                    current_exp = {
-                        "company": company,
-                        "role": role,
-                        "startDate": "",
-                        "endDate": "",
-                        "location": "",
-                        "description": "",
-                        "highlights": []
-                    }
-            if current_exp:
-                data["experience"].append(current_exp)
+        if not lines:
+            return result
+            
+        first_line = re.sub(r'[^a-zA-Z\s.-]', '', lines[0]).strip()
+        if len(first_line) <= 50 and len(first_line.split()) <= 4:
+            result["name"] = first_line
 
-        # Extract projects
-        projects_pattern = r'(?:projects?|personal projects?|academic projects?)[:\s]*\n((?:.*\n)*?)(?=\n[A-Z]|\Z)'
-        projects_match = re.search(projects_pattern, resume_text, re.IGNORECASE)
-        if projects_match:
-            project_lines = projects_match.group(1).split('\n')
-            current_project = None
-            for line in project_lines:
-                line = line.strip()
-                if not line:
-                    continue
-                is_bullet = line.startswith(('•', '-', '*')) or re.match(r'^\d+\.\s', line)
-                clean_line = re.sub(r'^[•\-\*\d\.\s·]+', '', line).strip()
-                if not clean_line:
-                    continue
+        email_regex = re.compile(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}')
+        phone_regex = re.compile(r'(?:\+?\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}')
+        linkedin_regex = re.compile(r'linkedin\.com/in/[a-zA-Z0-9_-]+', re.IGNORECASE)
+        github_regex = re.compile(r'github\.com/[a-zA-Z0-9_-]+', re.IGNORECASE)
+
+        email_match = email_regex.search(resume_text)
+        if email_match:
+            result["email"] = email_match.group(0)
+
+        phone_match = phone_regex.search(resume_text)
+        if phone_match:
+            result["phone"] = phone_match.group(0)
+
+        linkedin_match = linkedin_regex.search(resume_text)
+        if linkedin_match:
+            result["linkedin"] = 'https://' + linkedin_match.group(0)
+
+        github_match = github_regex.search(resume_text)
+        if github_match:
+            result["github"] = 'https://' + github_match.group(0)
+
+        found_skills = set()
+        COMMON_SKILLS = [
+            'JavaScript', 'TypeScript', 'Python', 'Java', 'C++', 'C#', 'Go', 'Rust', 'Ruby', 'PHP', 'Swift', 'Kotlin',
+            'HTML', 'CSS', 'Sass', 'React', 'Angular', 'Vue', 'Next.js', 'Nuxt.js', 'Node.js', 'Express', 'Django', 'Flask',
+            'Spring Boot', 'ASP.NET', 'Laravel', 'MongoDB', 'PostgreSQL', 'MySQL', 'SQLite', 'Redis', 'Firebase', 'Supabase',
+            'Docker', 'Kubernetes', 'AWS', 'Azure', 'GCP', 'Git', 'GitHub', 'CI/CD', 'Jenkins', 'REST API', 'GraphQL',
+            'Machine Learning', 'Deep Learning', 'Data Structures', 'Algorithms', 'System Design'
+        ]
+        for skill_pattern in COMMON_SKILLS:
+            pattern_esc = re.escape(skill_pattern)
+            regex = re.compile(r'\b' + pattern_esc + r'\b', re.IGNORECASE)
+            if regex.search(resume_text):
+                found_skills.add(skill_pattern)
+
+        current_section = None
+        section_content = []
+        pre_header_lines = []
+
+        def flush_section():
+            nonlocal current_section, section_content
+            if not current_section or not section_content:
+                return
+
+            if current_section == 'education':
+                education_entries = []
+                current_edu = None
                 
-                if is_bullet or len(line) >= 60:
-                    if not current_project:
-                        current_project = {"name": "Project", "description": "", "technologies": [], "highlights": []}
-                    current_project["highlights"].append(clean_line)
-                else:
-                    if current_project:
-                        data["projects"].append(current_project)
+                for line in section_content:
+                    clean_line = re.sub(r'^[•\-\*\–\—\·\s]+', '', line).strip()
+                    if not clean_line:
+                        continue
                     
-                    techs = []
-                    if '|' in clean_line:
-                        parts = clean_line.split('|')
-                        title = parts[0].strip()
-                        tech_part = parts[1].strip()
-                        techs = [t.strip() for t in re.split(r'[,/]', tech_part)]
-                    elif ':' in clean_line:
-                        parts = clean_line.split(':')
-                        title = parts[0].strip()
-                        tech_part = parts[1].strip()
-                        techs = [t.strip() for t in re.split(r'[,/]', tech_part)]
+                    date_info = extract_dates_from_text(clean_line)
+                    
+                    gpa = ''
+                    gpa_regex = re.compile(r'\b(?:c?gpa|gpa|score)\b\s*[:\-–—\s]*\s*(\d+(?:\.\d+)?(?:\s*[\/\-–—]\s*\d+(?:\.\d+)?)?)', re.IGNORECASE)
+                    gpa_match = gpa_regex.search(clean_line)
+                    if gpa_match:
+                        gpa = gpa_match.group(1).strip()
+                        clean_line = clean_line.replace(gpa_match.group(0), '').strip()
                     else:
-                        title = clean_line
+                        standalone_gpa_regex = re.compile(r'\b\d+(?:\.\d+)?\s*/\s*\d+(?:\.\d+)?\b')
+                        standalone_gpa_match = standalone_gpa_regex.search(clean_line)
+                        if standalone_gpa_match:
+                            gpa = standalone_gpa_match.group(0).strip()
+                            clean_line = clean_line.replace(standalone_gpa_match.group(0), '').strip()
+
+                    location = ''
+                    loc_match = re.search(r'\b(Baddi|Himachal Pradesh|Didwana|Rajasthan|India|Delhi|Baddi,\s*Himachal Pradesh|Didwana,\s*Rajasthan)\b', clean_line, re.IGNORECASE)
+                    if loc_match:
+                        idx = clean_line.lower().find(loc_match.group(0).lower())
+                        location = re.sub(r'^[\s,\|-]+', '', clean_line[idx:]).strip()
+                        clean_line = re.sub(r'[\s,\|-]+$', '', clean_line[:idx]).strip()
+
+                    clean_line = clean_dates_from_text(clean_line)
+                    clean_line = re.sub(r'^[\s,\|-]+|[\s,\|-]+$', '', clean_line).strip()
                     
-                    current_project = {"name": title, "description": "", "technologies": techs, "highlights": []}
-            if current_project:
-                data["projects"].append(current_project)
-        
-        # Extract education
-        education_pattern = r'(?:education|academic)[:\s]*\n((?:.*\n)*?)(?=\n[A-Z]|\Z)'
-        education_match = re.search(education_pattern, resume_text, re.IGNORECASE)
-        if education_match:
-            edu_text = education_match.group(1)
-            # Look for degree patterns
-            degree_patterns = [
-                r'(B\.?Tech|B\.?E\.?|Bachelor|M\.?Tech|M\.?S\.?|Master|Ph\.?D\.?)[^\n]*',
-                r'(Computer Science|Information Technology|Software Engineering|Data Science)[^\n]*'
-            ]
-            for pattern in degree_patterns:
-                matches = re.findall(pattern, edu_text, re.IGNORECASE)
-                for match in matches:
-                    data["education"].append({
-                        "degree": match if isinstance(match, str) else match[0],
-                        "institution": "",
-                        "year": "",
-                        "gpa": ""
-                    })
-        
-        # Extract certifications
-        cert_pattern = r'(?:certifications?|certificates?)[:\s]*\n?((?:.*\n)*?)(?=\n[A-Z]|\Z)'
-        cert_match = re.search(cert_pattern, resume_text, re.IGNORECASE)
-        if cert_match:
-            cert_lines = cert_match.group(1).split('\n')
-            data["certifications"] = [line.strip().lstrip('•-* ') for line in cert_lines if line.strip()]
-        
-        return data
+                    if not clean_line:
+                        continue
+
+                    is_degree = bool(re.search(
+                        r'\b(?:B\.?Tech|B\.?E\.?|B\.?Sc|B\.?A|B\.?B\.?A|M\.?Tech|M\.?E\.?|M\.?S|M\.?Sc|M\.?A|Bachelor|Master|Ph\.?D|Graduate|Postgraduate|Secondary|Senior Secondary|High School|Matriculation|CBSE|RBSE|ICSE|Diploma|Class XII|Class X|10th|12th)\b',
+                        clean_line,
+                        re.IGNORECASE
+                    ))
+                    is_institution = bool(re.search(
+                        r'\b(?:School|University|College|Institute|Academy|Vidhyalaya|Vidyalaya|Public School|EduSystem)\b',
+                        clean_line,
+                        re.IGNORECASE
+                    ))
+
+                    has_inst = current_edu and current_edu.get("institution") and current_edu["institution"] != 'Institution'
+                    has_deg = current_edu and current_edu.get("degree") and current_edu["degree"] != 'Degree'
+
+                    should_start_new = (not current_edu) or (is_institution and has_inst) or (is_degree and has_deg) or (has_inst and has_deg)
+
+                    if should_start_new:
+                        if current_edu:
+                            education_entries.append(current_edu)
+                        current_edu = {
+                            "degree": 'Degree',
+                            "fieldOfStudy": '',
+                            "institution": 'Institution',
+                            "location": '',
+                            "gpa": '',
+                            "startDate": '',
+                            "endDate": '',
+                            "year": ''
+                        }
+
+                    current_has_inst = current_edu and current_edu.get("institution") and current_edu["institution"] != 'Institution'
+                    current_has_deg = current_edu and current_edu.get("degree") and current_edu["degree"] != 'Degree'
+
+                    if is_degree:
+                        current_edu["degree"] = clean_line
+                    elif is_institution:
+                        current_edu["institution"] = clean_line
+                    else:
+                        if not current_has_inst:
+                            current_edu["institution"] = clean_line
+                        elif not current_has_deg:
+                            current_edu["degree"] = clean_line
+                        elif not current_edu.get("fieldOfStudy"):
+                            current_edu["fieldOfStudy"] = clean_line
+
+                    if location:
+                        current_edu["location"] = location
+                    if gpa:
+                        current_edu["gpa"] = gpa
+                    if date_info["startDate"]:
+                        current_edu["startDate"] = date_info["startDate"]
+                        current_edu["endDate"] = date_info["endDate"]
+                        current_edu["year"] = date_info["endDate"] if date_info["endDate"] else date_info["startDate"]
+
+                if current_edu:
+                    education_entries.append(current_edu)
+
+                cleaned_edus = []
+                for edu in education_entries:
+                    if edu["degree"] == 'Degree':
+                        edu["degree"] = ''
+                    if edu["institution"] == 'Institution':
+                        edu["institution"] = ''
+                    if edu["degree"] or edu["institution"]:
+                        cleaned_edus.append(edu)
+                result["education"] = cleaned_edus
+
+            elif current_section == 'skills':
+                for line in section_content:
+                    clean_line = re.sub(r'^[a-zA-Z\s&/\\|():\-\–\—]+:', '', line).strip()
+                    parts = re.split(r'[,;|•·\*\t]|\s{2,}', clean_line)
+                    for part in parts:
+                        skill = re.sub(r'^[•\-\*\–\—\·\s]+', '', part).strip()
+                        if skill and (len(skill) > 1 or skill.lower() in ['c', 'r']) and len(skill) < 40 and not re.search(r'(?:19|20)\d{2}\b', skill):
+                            found_skills.add(skill)
+
+            elif current_section == 'experience':
+                current_exp = None
+                for line in section_content:
+                    is_bullet = line.startswith(('•', '-', '*', '–', '—', '·')) or bool(re.match(r'^\d+\.\s', line))
+                    clean_line = clean_leading_bullets(line)
+                    if not clean_line:
+                        continue
+
+                    is_timeline = bool(re.search(r'(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b|(?:19|20)\d{2}\b', clean_line, re.IGNORECASE)) and len(clean_line) < 40
+                    is_tech_list = is_pure_tech_list(clean_line)
+
+                    if is_bullet or (len(line) >= 60 and not is_likely_experience_title(clean_line)):
+                        if not current_exp:
+                            current_exp = {
+                                "company": 'Company',
+                                "role": 'Software Engineer',
+                                "startDate": '',
+                                "endDate": '',
+                                "location": '',
+                                "description": [],
+                                "highlights": []
+                            }
+                        if len(current_exp["description"]) > 0 and not is_bullet and not line.startswith(' ') and not clean_line[0].isupper():
+                            current_exp["description"][-1] += ' ' + clean_line
+                            current_exp["highlights"][-1] += ' ' + clean_line
+                        else:
+                            current_exp["description"].append(clean_line)
+                            current_exp["highlights"].append(clean_line)
+                    elif is_timeline or is_tech_list:
+                        if not current_exp:
+                            current_exp = {
+                                "company": 'Company',
+                                "role": 'Software Engineer',
+                                "startDate": '',
+                                "endDate": '',
+                                "location": '',
+                                "description": [],
+                                "highlights": []
+                            }
+                        if is_timeline:
+                            dates = re.findall(r'(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b|(?:19|20)\d{2}\b', clean_line, re.IGNORECASE)
+                            if dates:
+                                current_exp["startDate"] = dates[0]
+                                if len(dates) > 1:
+                                    current_exp["endDate"] = dates[1]
+                                elif 'present' in clean_line.lower():
+                                    current_exp["endDate"] = 'Present'
+                    elif is_likely_experience_title(clean_line) and not is_pure_tech_list(clean_line):
+                        if current_exp and (len(current_exp["highlights"]) > 0 or current_exp["company"] != 'Company'):
+                            result["experience"].append(current_exp)
+                            current_exp = None
+
+                        company = clean_line
+                        role = 'Software Engineer'
+                        if '@' in clean_line:
+                            parts = clean_line.split('@', 1)
+                            role = parts[0].strip()
+                            company = parts[1].strip()
+                        elif '|' in clean_line:
+                            parts = clean_line.split('|', 1)
+                            company = parts[0].strip()
+                            role = parts[1].strip()
+                        elif '–' in clean_line:
+                            parts = clean_line.split('–', 1)
+                            company = parts[0].strip()
+                            role = parts[1].strip()
+                        elif '-' in clean_line and not re.search(r'(?:19|20)\d{2}\b', clean_line):
+                            parts = clean_line.split('-', 1)
+                            company = parts[0].strip()
+                            role = parts[1].strip()
+
+                        company_clean = clean_timeline_and_skills_from_name_python(company)
+                        role_clean = clean_timeline_and_skills_from_name_python(role)
+                        role_keywords = re.compile(r'\b(?:engineer|developer|designer|manager|analyst|lead|architect|intern|specialist|consultant|programmer|tester|administrator|exec|executive|director|vp|head)\b', re.IGNORECASE)
+                        if role_keywords.search(company_clean) and not role_keywords.search(role_clean):
+                            company_clean, role_clean = role_clean, company_clean
+
+                        current_exp = {
+                            "company": company_clean,
+                            "role": role_clean,
+                            "startDate": '',
+                            "endDate": '',
+                            "location": '',
+                            "description": [],
+                            "highlights": []
+                        }
+                    else:
+                        if current_exp:
+                            if len(current_exp["description"]) > 0:
+                                current_exp["description"][-1] += ' ' + clean_line
+                                current_exp["highlights"][-1] += ' ' + clean_line
+                            else:
+                                current_exp["description"].append(clean_line)
+                                current_exp["highlights"].append(clean_line)
+
+                if current_exp:
+                    result["experience"].append(current_exp)
+
+            elif current_section == 'projects':
+                current_proj = None
+                for line in section_content:
+                    is_bullet = line.startswith(('•', '-', '*', '–', '—', '·')) or bool(re.match(r'^\d+\.\s', line))
+                    clean_line = clean_leading_bullets(line)
+                    if not clean_line:
+                        continue
+
+                    date_regex = re.compile(
+                        r'(?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-zA-Z]*[\s,.]*\d{4})|\b(?:19|20)\d{2}\b|\bPresent\b',
+                        re.IGNORECASE
+                    )
+                    date_match = date_regex.findall(clean_line)
+                    is_timeline = bool(date_match) and len(clean_line) < 40
+                    is_tech_list = is_pure_tech_list(clean_line)
+
+                    link_match = re.search(r'(?:https?://|www\.)[^\s\)]+|github\.com/[a-zA-Z0-9_\-\./]+', clean_line, re.IGNORECASE)
+                    extracted_link = link_match.group(0).strip() if link_match else ''
+
+                    if is_timeline:
+                        if current_proj:
+                            current_proj["date"] = clean_line
+                        continue
+
+                    if is_bullet or not is_new_project_start(clean_line, current_proj):
+                        if not current_proj:
+                            current_proj = {
+                                "name": 'Project',
+                                "description": [],
+                                "technologies": [],
+                                "highlights": [],
+                                "link": '',
+                                "date": ''
+                            }
+                        if extracted_link and not current_proj.get("link"):
+                            current_proj["link"] = extracted_link
+
+                        if is_tech_list:
+                            techs = [t.strip() for t in re.split(r'[,/–-]', clean_line) if t.strip()]
+                            techs = [t for t in techs if len(t) > 1 and len(t) < 25]
+                            current_proj["technologies"] = list(set(current_proj["technologies"] + techs))
+                        else:
+                            if len(current_proj["description"]) > 0 and not is_bullet and not line.startswith(' ') and not clean_line[0].isupper():
+                                current_proj["description"][-1] += ' ' + clean_line
+                                current_proj["highlights"][-1] += ' ' + clean_line
+                            else:
+                                current_proj["description"].append(clean_line)
+                                current_proj["highlights"].append(clean_line)
+                    else:
+                        if current_proj and (len(current_proj["highlights"]) > 0 or current_proj["name"] != 'Project'):
+                            result["projects"].append(current_proj)
+                            current_proj = None
+
+                        name_line = clean_line
+                        proj_link = ''
+                        if extracted_link:
+                            proj_link = extracted_link
+                            name_line = name_line.replace(extracted_link, '')
+                            name_line = re.sub(r'\(\s*\)', '', name_line)
+                            name_line = re.sub(r'\[\s*\]', '', name_line)
+                            name_line = re.sub(r'^[•\-\*\–\—\·\s|:,\/()\[\]]+|[•\-\*\–\—\·\s|:,\/()\[\]]+$', '', name_line)
+                            name_line = re.sub(r'\s+', ' ', name_line).strip()
+
+                        # Extract date/timeline from nameLine if any (matches JS)
+                        proj_date = ''
+                        title_date_matches = date_regex.findall(name_line)
+                        if title_date_matches:
+                            proj_date = ' – '.join(title_date_matches)
+                            name_line = date_regex.sub('', name_line)
+                            name_line = re.sub(r'^[•\-\*\–\—\·\s|:,\/()\[\]\–\-]+|[•\-\*\–\—\·\s|:,\/()\[\]\–\-]+$', '', name_line)
+                            name_line = re.sub(r'\s+', ' ', name_line).strip()
+
+                        name = name_line
+                        technologies = []
+                        if '|' in name_line:
+                            parts = name_line.split('|', 1)
+                            name = parts[0].strip()
+                            tech_part = parts[1].strip()
+                            technologies = [t.strip() for t in re.split(r'[,/]', tech_part) if t.strip()]
+                        elif ':' in name_line:
+                            parts = name_line.split(':', 1)
+                            name = parts[0].strip()
+                            tech_part = parts[1].strip()
+                            technologies = [t.strip() for t in re.split(r'[,/]', tech_part) if t.strip()]
+
+                        current_proj = {
+                            "name": clean_timeline_and_skills_from_name_python(name),
+                            "description": [],
+                            "technologies": technologies,
+                            "highlights": [],
+                            "link": proj_link,
+                            "date": proj_date
+                        }
+
+                if current_proj:
+                    result["projects"].append(current_proj)
+
+            elif current_section == 'certifications':
+                cert_list = []
+                current_cert_text = ''
+                for line in section_content:
+                    is_bullet = line.strip().startswith(('•', '-', '*', '–', '—', '·'))
+                    clean_line = re.sub(r'^[•\-\*\–\—\·\s]+', '', line).strip()
+                    if is_bullet:
+                        if current_cert_text:
+                            cert_list.append(current_cert_text)
+                            current_cert_text = ''
+                        if clean_line:
+                            current_cert_text = clean_line
+                    else:
+                        if clean_line:
+                            if current_cert_text:
+                                current_cert_text += ' ' + clean_line
+                            else:
+                                current_cert_text = clean_line
+                if current_cert_text:
+                    cert_list.append(current_cert_text)
+
+                for cert_text in cert_list:
+                    name = cert_text
+                    issuer = ''
+                    date = ''
+                    if '–' in cert_text:
+                        parts = cert_text.split('–', 1)
+                        name = parts[0].strip()
+                        issuer = parts[1].strip()
+                    elif '-' in cert_text and not re.search(r'(?:19|20)\d{2}\b', cert_text):
+                        parts = cert_text.split('-', 1)
+                        name = parts[0].strip()
+                        issuer = parts[1].strip()
+
+                    date_match = re.search(r'(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b|(?:19|20)\d{2}\b', cert_text, re.IGNORECASE)
+                    if date_match:
+                        date = date_match.group(0)
+                        name = re.sub(r'[\(\),\-\–\—\s]+$', '', name.replace(date, '')).strip()
+                        if issuer:
+                            issuer = re.sub(r'[\(\),\-\–\—\s]+$', '', issuer.replace(date, '')).strip()
+                    result["certifications"].append({"name": name, "issuer": issuer, "date": date})
+
+            elif current_section == 'achievements':
+                ach_list = []
+                current_ach = ''
+                for line in section_content:
+                    is_bullet = line.strip().startswith(('•', '-', '*', '–', '—', '·'))
+                    clean_line = re.sub(r'^[•\-\*\–\—\·\s]+', '', line).strip()
+                    if is_bullet:
+                        if current_ach:
+                            ach_list.append(current_ach)
+                            current_ach = ''
+                        if clean_line:
+                            current_ach = clean_line
+                    else:
+                        if clean_line:
+                            if current_ach:
+                                current_ach += ' ' + clean_line
+                            else:
+                                current_ach = clean_line
+                if current_ach:
+                    ach_list.append(current_ach)
+                result["achievements"] = ach_list
+
+            elif current_section == 'summary':
+                result["summary"] = ' '.join([l.strip() for l in section_content if l.strip()])
+
+            section_content = []
+
+        # Iterate lines and group into sections
+        for line in lines:
+            detected = is_section_header(line)
+            if detected:
+                flush_section()
+                current_section = detected
+            elif current_section:
+                section_content.append(line)
+            else:
+                pre_header_lines.append(line)
+        flush_section()
+
+        # Handle summary fallback from pre-header
+        if not result["summary"] and pre_header_lines:
+            local_email_regex = re.compile(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}')
+            local_phone_regex = re.compile(r'(?:\+?\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}')
+            clean_summary_lines = []
+            for line in pre_header_lines:
+                lower = line.lower()
+                if '@' in lower or local_email_regex.search(line) or local_phone_regex.search(line):
+                    continue
+                if 'linkedin.com' in lower or 'github.com' in lower or re.search(r'https?://', line, re.IGNORECASE):
+                    continue
+                if result["name"] and result["name"].lower() in lower:
+                    continue
+                if len(line) < 20:
+                    continue
+                if re.match(r'^[•\-\*\–\—\·\s\|]+$', line):
+                    continue
+                if is_pure_tech_list(line):
+                    continue
+                clean_summary_lines.append(line)
+            if clean_summary_lines:
+                result["summary"] = ' '.join(clean_summary_lines)
+
+        # Post-process projects to clean bullets and extract technologies
+        if result["projects"]:
+            processed_projects = []
+            for proj in result["projects"]:
+                cleaned_info = clean_project_bullets_and_extract_techs(proj.get("description", []), proj.get("technologies", []))
+                processed_projects.append({
+                    "name": proj.get("name", "Project"),
+                    "description": cleaned_info["cleanedBullets"],
+                    "technologies": cleaned_info["technologies"],
+                    "highlights": cleaned_info["cleanedBullets"],
+                    "link": proj.get("link", ""),
+                    "date": proj.get("date", "")
+                })
+            result["projects"] = processed_projects
+
+        # Post-process experience to clean bullets and format properly
+        if result["experience"]:
+            processed_experience = []
+            for exp in result["experience"]:
+                cleaned_info = clean_project_bullets_and_extract_techs(exp.get("description", []), [])
+                processed_experience.append({
+                    "company": exp.get("company", "Company"),
+                    "role": exp.get("role", "Software Engineer"),
+                    "startDate": exp.get("startDate", ""),
+                    "endDate": exp.get("endDate", ""),
+                    "location": exp.get("location", ""),
+                    "description": cleaned_info["cleanedBullets"],
+                    "highlights": cleaned_info["cleanedBullets"]
+                })
+            result["experience"] = processed_experience
+
+        result["skills"] = list(found_skills)
+        return result
     
     def _calculate_keyword_score(self, resume_text: str, role_config: Dict) -> float:
         """Calculate keyword match score"""

@@ -1160,11 +1160,10 @@ Instructions:
 
       let latexSource = template.source;
       if (!hasExperience) {
-        // Strip experience section from LaTeX template source completely
-        latexSource = latexSource
-          .replace(/\\section\{(?:Experience|Professional Experience|Research \\\& Professional Experience)\}\s*\\resumeSubHeadingListStart\s*\{\{EXPERIENCE_ITEMS\}\}\s*\\resumeSubHeadingListEnd/g, '')
-          .replace(/\\section\{(?:Experience|Professional Experience|Research \\\& Professional Experience)\}\s*\{\{EXPERIENCE_ITEMS\}\}/g, '')
-          .replace(/%-----------EXPERIENCE-----------/g, '');
+        // Strip experience section from LaTeX template source completely up to the next section or end of document
+        const experienceSectionRegex = /\\section\{(?:Experience|Professional Experience|Research\s+(?:\\\&|\&|\\amp;|\\and)\s+Professional\s+Experience|Work\s+Experience|Employment)\}[\s\S]*?(?=\\section|\s*\\end\{document\})/gi;
+        latexSource = latexSource.replace(experienceSectionRegex, '');
+        latexSource = latexSource.replace(/%-----------EXPERIENCE-----------/g, '');
       }
 
       if (!latexSource.includes('\\begin{document}')) {
