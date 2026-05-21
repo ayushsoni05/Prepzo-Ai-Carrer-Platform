@@ -54,30 +54,30 @@ const jakesResume: LaTeXTemplate = {
 \setlength{\tabcolsep}{0in}
 
 \titleformat{\section}{
-  \vspace{4pt}\scshape\raggedright\large
-}{}{0em}{}[\color{black}\titlerule \vspace{3pt}]
+  \vspace{4pt plus 2pt minus 2pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{3pt plus 1pt minus 1pt}]
 
-\newcommand{\resumeItem}[1]{\item\small{#1 \vspace{1pt}}}
+\newcommand{\resumeItem}[1]{\item\small{#1 \vspace{1pt plus 0.5pt minus 0.5pt}}}
 \newcommand{\resumeSubheading}[4]{
   \item
     \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{2pt}
+    \end{tabular*}\vspace{2pt plus 1pt minus 1pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
   \item
     \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \parbox[t]{0.83\textwidth}{\small#1} & #2 \\
-    \end{tabular*}\vspace{2pt}
+    \end{tabular*}\vspace{2pt plus 1pt minus 1pt}
 }
-\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{1pt}}
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{1pt plus 0.5pt minus 0.5pt}}
 \renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}, itemsep=3pt, parsep=1.5pt]}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}, itemsep=3pt plus 2pt minus 1.5pt, parsep=1.5pt plus 1pt minus 1pt]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}[itemsep=2pt, parsep=1pt, topsep=1pt]}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt}}
-\setlist[itemize]{itemsep=2pt, parsep=1pt}
+\newcommand{\resumeItemListStart}{\begin{itemize}[itemsep=2pt plus 1.5pt minus 1pt, parsep=1pt plus 1pt minus 0.5pt, topsep=1pt plus 1pt minus 1pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt plus 1pt minus 1pt}}
+\setlist[itemize]{itemsep=2pt plus 1.5pt minus 1pt, parsep=1pt plus 1pt minus 0.5pt}
 
 \begin{document}
 
@@ -114,7 +114,7 @@ const jakesResume: LaTeXTemplate = {
 
 %-----------TECHNICAL SKILLS-----------
 \section{Technical Skills}
- \begin{itemize}[leftmargin=0.15in, label={}, itemsep=2pt, parsep=1pt]
+ \begin{itemize}[leftmargin=0.15in, label={}, itemsep=2pt plus 1.5pt minus 1pt, parsep=1pt plus 1pt minus 0.5pt]
     \small{\item{
 {{SKILLS_ITEMS}}
     }}
@@ -143,9 +143,9 @@ const cleanAts: LaTeXTemplate = {
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
 
-\titleformat{\section}{\large\bfseries\scshape}{}{0em}{}[\titlerule \vspace{3pt}]
-\titlespacing*{\section}{0pt}{8pt}{4pt}
-\setlist[itemize]{itemsep=3pt, parsep=1.5pt}
+\titleformat{\section}{\large\bfseries\scshape}{}{0em}{}[\titlerule \vspace{3pt plus 1.5pt minus 1.5pt}]
+\titlespacing*{\section}{0pt}{8pt plus 4pt minus 3pt}{4pt plus 2pt minus 1pt}
+\setlist[itemize]{itemsep=3pt plus 2pt minus 1.5pt, parsep=1.5pt plus 1pt minus 1pt}
 
 \begin{document}
 
@@ -196,9 +196,9 @@ const modernTwoColumn: LaTeXTemplate = {
 \definecolor{accent}{HTML}{6C63FF}
 \pagestyle{empty}
 
-\titleformat{\section}{\color{accent}\large\bfseries\scshape}{}{0em}{}[\color{accent}\titlerule \vspace{3pt}]
-\titlespacing*{\section}{0pt}{8pt}{4pt}
-\setlist[itemize]{itemsep=3pt, parsep=1.5pt}
+\titleformat{\section}{\color{accent}\large\bfseries\scshape}{}{0em}{}[\color{accent}\titlerule \vspace{3pt plus 1.5pt minus 1.5pt}]
+\titlespacing*{\section}{0pt}{8pt plus 4pt minus 3pt}{4pt plus 2pt minus 1pt}
+\setlist[itemize]{itemsep=3pt plus 2pt minus 1.5pt, parsep=1.5pt plus 1pt minus 1pt}
 
 \begin{document}
 
@@ -258,9 +258,9 @@ const academicCv: LaTeXTemplate = {
 \renewcommand{\headrulewidth}{0pt}
 \fancyfoot[C]{\footnotesize\thepage}
 
-\titleformat{\section}{\color{heading}\large\bfseries}{}{0em}{}[\color{heading}\titlerule \vspace{3pt}]
-\titlespacing*{\section}{0pt}{8pt}{4pt}
-\setlist[itemize]{itemsep=3pt, parsep=1.5pt}
+\titleformat{\section}{\color{heading}\large\bfseries}{}{0em}{}[\color{heading}\titlerule \vspace{3pt plus 1.5pt minus 1.5pt}]
+\titlespacing*{\section}{0pt}{8pt plus 4pt minus 3pt}{4pt plus 2pt minus 1pt}
+\setlist[itemize]{itemsep=3pt plus 2pt minus 1.5pt, parsep=1.5pt plus 1pt minus 1pt}
 
 \begin{document}
 
@@ -317,11 +317,11 @@ const deedyCv: LaTeXTemplate = {
 
 \pagestyle{empty}
 
-\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titlerule \vspace{3pt}]
-\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titlerule \vspace{3pt plus 1.5pt minus 1.5pt}]
+\titlespacing*{\section}{0pt}{8pt plus 4pt minus 3pt}{4pt plus 2pt minus 1pt}
 
 \setlength{\columnsep}{1.5em}
-\setlist[itemize]{itemsep=3pt, parsep=1.5pt}
+\setlist[itemize]{itemsep=3pt plus 2pt minus 1.5pt, parsep=1.5pt plus 1pt minus 1pt}
 
 \begin{document}
 
@@ -384,8 +384,8 @@ const executiveCv: LaTeXTemplate = {
 \fancyfoot[C]{\footnotesize Page \thepage}
 
 \titleformat{\section}{\color{navy}\large\scshape}{}{0em}{}[\color{navy}\rule{\linewidth}{0.6pt}]
-\titlespacing*{\section}{0pt}{8pt}{4pt}
-\setlist[itemize]{itemsep=3pt, parsep=1.5pt}
+\titlespacing*{\section}{0pt}{8pt plus 4pt minus 3pt}{4pt plus 2pt minus 1pt}
+\setlist[itemize]{itemsep=3pt plus 2pt minus 1.5pt, parsep=1.5pt plus 1pt minus 1pt}
 
 \begin{document}
 
@@ -438,29 +438,29 @@ const techCompact: LaTeXTemplate = {
 \definecolor{accent}{HTML}{3B82F6}
 
 \pagestyle{empty}
-\setlist[itemize]{itemsep=3pt,parsep=1.5pt,topsep=2pt,leftmargin=0.15in}
+\setlist[itemize]{itemsep=3pt plus 2pt minus 1.5pt,parsep=1.5pt plus 1pt minus 1pt,topsep=2pt plus 1pt minus 1pt,leftmargin=0.15in}
 
-\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titlerule \vspace{3pt}]
-\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titlerule \vspace{3pt plus 1.5pt minus 1.5pt}]
+\titlespacing*{\section}{0pt}{8pt plus 4pt minus 3pt}{4pt plus 2pt minus 1pt}
 
-\newcommand{\resumeItem}[1]{\item\small{#1}}
+\newcommand{\resumeItem}[1]{\item\small{#1 \vspace{1pt plus 0.5pt minus 0.5pt}}}
 \newcommand{\resumeSubheading}[4]{
   \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & \small #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{2pt}
+    \end{tabular*}\vspace{2pt plus 1pt minus 1pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
   \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \parbox[t]{0.83\textwidth}{\small#1} & \small #2 \\
-    \end{tabular*}\vspace{2pt}
+    \end{tabular*}\vspace{2pt plus 1pt minus 1pt}
 }
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in, itemsep=3pt plus 2pt minus 1.5pt, parsep=1.5pt plus 1pt minus 1pt]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[itemsep=2pt plus 1.5pt minus 1pt, parsep=1pt plus 1pt minus 0.5pt, topsep=1pt plus 1pt minus 1pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt plus 1pt minus 1pt}}
 
 \begin{document}
 
@@ -491,7 +491,7 @@ const techCompact: LaTeXTemplate = {
   \resumeSubHeadingListEnd
 
 \section{Technical Skills}
-\begin{itemize}[label={}, leftmargin=0.15in]
+\begin{itemize}[label={}, leftmargin=0.15in, itemsep=2pt plus 1.5pt minus 1pt, parsep=1pt plus 1pt minus 0.5pt]
   \small{\item{
 {{SKILLS_ITEMS}}
   }}
@@ -519,29 +519,29 @@ const corporateExecutive: LaTeXTemplate = {
 
 \definecolor{slate}{HTML}{334155}
 \pagestyle{empty}
-\setlist[itemize]{itemsep=3pt,parsep=1.5pt,topsep=2pt,leftmargin=0.15in}
+\setlist[itemize]{itemsep=3pt plus 2pt minus 1.5pt,parsep=1.5pt plus 1pt minus 1pt,topsep=2pt plus 1pt minus 1pt,leftmargin=0.15in}
 
-\titleformat{\section}{\color{slate}\large\bfseries\uppercase}{}{0em}{}[\color{slate}\titlerule \vspace{3pt}]
-\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titleformat{\section}{\color{slate}\large\bfseries\uppercase}{}{0em}{}[\color{slate}\titlerule \vspace{3pt plus 1.5pt minus 1.5pt}]
+\titlespacing*{\section}{0pt}{8pt plus 4pt minus 3pt}{4pt plus 2pt minus 1pt}
 
-\newcommand{\resumeItem}[1]{\item\small{#1}}
+\newcommand{\resumeItem}[1]{\item\small{#1 \vspace{1pt plus 0.5pt minus 0.5pt}}}
 \newcommand{\resumeSubheading}[4]{
   \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & \small #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{2pt}
+    \end{tabular*}\vspace{2pt plus 1pt minus 1pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
   \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \parbox[t]{0.83\textwidth}{\small#1} & \small #2 \\
-    \end{tabular*}\vspace{2pt}
+    \end{tabular*}\vspace{2pt plus 1pt minus 1pt}
 }
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in, itemsep=3pt plus 2pt minus 1.5pt, parsep=1.5pt plus 1pt minus 1pt]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[itemsep=2pt plus 1.5pt minus 1pt, parsep=1pt plus 1pt minus 0.5pt, topsep=1pt plus 1pt minus 1pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt plus 1pt minus 1pt}}
 
 \begin{document}
 
@@ -557,7 +557,7 @@ const corporateExecutive: LaTeXTemplate = {
 \small {{SUMMARY}}
 
 \section{Core Expertise \& Skills}
-\begin{itemize}[label={}, leftmargin=0.15in]
+\begin{itemize}[label={}, leftmargin=0.15in, itemsep=2pt plus 1.5pt minus 1pt, parsep=1pt plus 1pt minus 0.5pt]
   \small{\item{
 {{SKILLS_ITEMS}}
   }}
@@ -604,29 +604,29 @@ const techModern: LaTeXTemplate = {
 \definecolor{accent}{HTML}{2563EB}
 
 \pagestyle{empty}
-\setlist[itemize]{itemsep=3pt,parsep=1.5pt,topsep=2pt,leftmargin=0.15in}
+\setlist[itemize]{itemsep=3pt plus 2pt minus 1.5pt,parsep=1.5pt plus 1pt minus 1pt,topsep=2pt plus 1pt minus 1pt,leftmargin=0.15in}
 
-\titleformat{\section}{\color{primary}\large\bfseries}{}{0em}{}[\color{accent}\titlerule \vspace{3pt}]
-\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titleformat{\section}{\color{primary}\large\bfseries}{}{0em}{}[\color{accent}\titlerule \vspace{3pt plus 1.5pt minus 1.5pt}]
+\titlespacing*{\section}{0pt}{8pt plus 4pt minus 3pt}{4pt plus 2pt minus 1pt}
 
-\newcommand{\resumeItem}[1]{\item\small{#1}}
+\newcommand{\resumeItem}[1]{\item\small{#1 \vspace{1pt plus 0.5pt minus 0.5pt}}}
 \newcommand{\resumeSubheading}[4]{
   \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{\color{primary}#1} & \small #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{2pt}
+    \end{tabular*}\vspace{2pt plus 1pt minus 1pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
   \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \parbox[t]{0.83\textwidth}{\textbf{\small#1}} & \small #2 \\
-    \end{tabular*}\vspace{2pt}
+    \end{tabular*}\vspace{2pt plus 1pt minus 1pt}
 }
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in, itemsep=3pt plus 2pt minus 1.5pt, parsep=1.5pt plus 1pt minus 1pt]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[itemsep=2pt plus 1.5pt minus 1pt, parsep=1pt plus 1pt minus 0.5pt, topsep=1pt plus 1pt minus 1pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt plus 1pt minus 1pt}}
 
 \begin{document}
 
@@ -657,7 +657,7 @@ const techModern: LaTeXTemplate = {
   \resumeSubHeadingListEnd
 
 \section{Skills}
-\begin{itemize}[label={}, leftmargin=0.15in]
+\begin{itemize}[label={}, leftmargin=0.15in, itemsep=2pt plus 1.5pt minus 1pt, parsep=1pt plus 1pt minus 0.5pt]
   \small{\item{
 {{SKILLS_ITEMS}}
   }}
@@ -688,29 +688,29 @@ const creativeCompact: LaTeXTemplate = {
 \definecolor{accent}{HTML}{DB2777}
 
 \pagestyle{empty}
-\setlist[itemize]{itemsep=3pt,parsep=1.5pt,topsep=2pt,leftmargin=0.15in}
+\setlist[itemize]{itemsep=3pt plus 2pt minus 1.5pt,parsep=1.5pt plus 1pt minus 1pt,topsep=2pt plus 1pt minus 1pt,leftmargin=0.15in}
 
-\titleformat{\section}{\color{primary}\large\fontfamily{ppl}\selectfont\bfseries}{}{0em}{}[\color{accent}\titlerule \vspace{3pt}]
-\titlespacing*{\section}{0pt}{9pt}{5pt}
+\titleformat{\section}{\color{primary}\large\fontfamily{ppl}\selectfont\bfseries}{}{0em}{}[\color{accent}\titlerule \vspace{3pt plus 1.5pt minus 1.5pt}]
+\titlespacing*{\section}{0pt}{9pt plus 4pt minus 3pt}{5pt plus 2pt minus 1pt}
 
-\newcommand{\resumeItem}[1]{\item\small{#1}}
+\newcommand{\resumeItem}[1]{\item\small{#1 \vspace{1pt plus 0.5pt minus 0.5pt}}}
 \newcommand{\resumeSubheading}[4]{
   \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & \small #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{2pt}
+    \end{tabular*}\vspace{2pt plus 1pt minus 1pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
   \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \parbox[t]{0.83\textwidth}{\textbf{\small#1}} & \small #2 \\
-    \end{tabular*}\vspace{2pt}
+    \end{tabular*}\vspace{2pt plus 1pt minus 1pt}
 }
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in, itemsep=3pt plus 2pt minus 1.5pt, parsep=1.5pt plus 1pt minus 1pt]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[itemsep=2pt plus 1.5pt minus 1pt, parsep=1pt plus 1pt minus 0.5pt, topsep=1pt plus 1pt minus 1pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt plus 1pt minus 1pt}}
 
 \begin{document}
 
@@ -726,7 +726,7 @@ const creativeCompact: LaTeXTemplate = {
 \small {{SUMMARY}}
 
 \section{Core Skills}
-\begin{itemize}[label={}, leftmargin=0.15in]
+\begin{itemize}[label={}, leftmargin=0.15in, itemsep=2pt plus 1.5pt minus 1pt, parsep=1pt plus 1pt minus 0.5pt]
   \small{\item{
 {{SKILLS_ITEMS}}
   }}
@@ -771,29 +771,29 @@ const financeConsultant: LaTeXTemplate = {
 \definecolor{accent}{HTML}{475569}
 
 \pagestyle{empty}
-\setlist[itemize]{itemsep=3pt,parsep=1.5pt,topsep=2pt,leftmargin=0.15in}
+\setlist[itemize]{itemsep=3pt plus 2pt minus 1.5pt,parsep=1.5pt plus 1pt minus 1pt,topsep=2pt plus 1pt minus 1pt,leftmargin=0.15in}
 
-\titleformat{\section}{\color{navy}\large\bfseries\uppercase}{}{0em}{}[\color{navy}\rule{\linewidth}{0.8pt} \vspace{3pt}]
-\titlespacing*{\section}{0pt}{8pt}{4pt}
+\titleformat{\section}{\color{navy}\large\bfseries\uppercase}{}{0em}{}[\color{navy}\rule{\linewidth}{0.8pt} \vspace{3pt plus 1.5pt minus 1.5pt}]
+\titlespacing*{\section}{0pt}{8pt plus 4pt minus 3pt}{4pt plus 2pt minus 1pt}
 
-\newcommand{\resumeItem}[1]{\item\small{#1}}
+\newcommand{\resumeItem}[1]{\item\small{#1 \vspace{1pt plus 0.5pt minus 0.5pt}}}
 \newcommand{\resumeSubheading}[4]{
   \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & \small #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{2pt}
+    \end{tabular*}\vspace{2pt plus 1pt minus 1pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
   \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \parbox[t]{0.83\textwidth}{\textbf{\small#1}} & \small #2 \\
-    \end{tabular*}\vspace{2pt}
+    \end{tabular*}\vspace{2pt plus 1pt minus 1pt}
 }
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in, itemsep=3pt plus 2pt minus 1.5pt, parsep=1.5pt plus 1pt minus 1pt]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[itemsep=2pt plus 1.5pt minus 1pt, parsep=1pt plus 1pt minus 0.5pt, topsep=1pt plus 1pt minus 1pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt plus 1pt minus 1pt}}
 
 \begin{document}
 
@@ -809,7 +809,7 @@ const financeConsultant: LaTeXTemplate = {
 \small {{SUMMARY}}
 
 \section{Core Skills \& Expertise}
-\begin{itemize}[label={}, leftmargin=0.15in]
+\begin{itemize}[label={}, leftmargin=0.15in, itemsep=2pt plus 1.5pt minus 1pt, parsep=1pt plus 1pt minus 0.5pt]
   \small{\item{
 {{SKILLS_ITEMS}}
   }}

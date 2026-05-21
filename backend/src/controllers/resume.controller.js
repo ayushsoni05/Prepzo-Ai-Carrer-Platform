@@ -11,7 +11,7 @@ import aiService from '../services/aiService.js';
 import { compileLatexToPdf, isPdflatexAvailable } from '../services/latexCompiler.service.js';
 import { extractResumeTextFromStoredFile } from '../services/resumeTextExtractor.service.js';
 import { buildAdvancedResumeReport } from '../services/resumeReport.service.js';
-import { extractResumeDataWithAI, cleanJSONString } from '../services/resumeDataExtractor.service.js';
+import { extractResumeDataWithAI, cleanJSONString, cleanProjectBulletsAndExtractTechs } from '../services/resumeDataExtractor.service.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { getTemplateById } from '../data/latexTemplates.js';
 import { writeFileSync, existsSync, mkdirSync } from 'fs';
@@ -779,6 +779,34 @@ export const generateLatexResume = asyncHandler(async (req, res) => {
   // Merge fresh extracted data (from frontend parsing) with stored user data
   const parsed = extractedData || user.resumeAnalysis?.extractedData || {};
 
+  // Clean projects and experience to ensure tech lists do not leak into descriptions/highlights
+  let cleanedProjects = [];
+  if (Array.isArray(parsed.projects)) {
+    cleanedProjects = parsed.projects.map(proj => {
+      const highlights = Array.isArray(proj.highlights) ? proj.highlights : (Array.isArray(proj.description) ? proj.description : []);
+      const { cleanedBullets, technologies } = cleanProjectBulletsAndExtractTechs(highlights, proj.technologies);
+      return {
+        ...proj,
+        description: cleanedBullets,
+        highlights: cleanedBullets,
+        technologies: technologies
+      };
+    });
+  }
+
+  let cleanedExperience = [];
+  if (Array.isArray(parsed.experience)) {
+    cleanedExperience = parsed.experience.map(exp => {
+      const highlights = Array.isArray(exp.highlights) ? exp.highlights : (Array.isArray(exp.description) ? exp.description : []);
+      const { cleanedBullets } = cleanProjectBulletsAndExtractTechs(highlights, []);
+      return {
+        ...exp,
+        description: cleanedBullets,
+        highlights: cleanedBullets
+      };
+    });
+  }
+
   // Build user profile for AI — prioritize freshly parsed data
   const userProfile = {
     fullName: parsed.name || parsed.fullName || user.fullName || 'John Doe',
@@ -794,8 +822,8 @@ export const generateLatexResume = asyncHandler(async (req, res) => {
     cgpa: parsed.cgpa || parsed.gpa || user.cgpa || '',
     skills: parsed.skills || user.knownTechnologies || [],
     targetRole: targetRole || user.targetRole || 'Software Engineer',
-    experience: parsed.experience || [],
-    projects: parsed.projects || [],
+    experience: cleanedExperience,
+    projects: cleanedProjects,
     education: parsed.education || [],
     certifications: parsed.certifications || [],
     achievements: parsed.achievements || [],
@@ -837,15 +865,15 @@ ATS SCORE MAXIMIZATION (90+ ATS SCORE TARGET):
 2. Bullet Points: Write impact-driven, professional bullet points for the Experience and Projects sections.
    - Start EVERY single bullet point with a strong, active verb (e.g. "Spearheaded", "Optimized", "Architected", "Engineered", "Pioneered", "Designed").
    - Quantify achievements: Introduce metrics, numbers, percentages, time-savings, or scale to every bullet point where possible (e.g. "improving system reliability by 24%", "saving 8 hours of manual overhead per week", "managing data ingestion pipeline of 10M+ events/day").
+   - Do NOT list or repeat the technologies used inside the project description highlights or bullet points. The technologies will be displayed separately on the project name/header line. Keep project bullets focused purely on actions, metrics, and achievements.
 3. Skills: Group/categorize skills cleanly using standard industry keywords matching the target role.
 4. No Placeholders: Eliminate all template symbols like {{NAME}}, {{EMAIL}}, etc. Replace them with the actual data.
-5. STRICT ONE-PAGE FIT REQUIREMENT (CRITICAL):
-   - The entire compiled LaTeX document MUST fit on exactly one page. Spilling over to a second page is a complete failure.
-   - Summary/Objective: Keep it under 2-3 lines (maximum 35 words).
-   - Experience & Projects: Max 2-3 experiences and max 2 key projects. For each entry, write at most 2-3 concise, high-impact bullet points. Keep each bullet point to a maximum of 1.5 lines.
-   - Skills: Keep lists compact and grouped.
-   - Certifications & Achievements: Limit them to a single concise section with at most 2-3 items, or present them inline to save vertical space.
-   - Do NOT add unnecessary whitespace, large line spacing, or extra empty lines.
+5. STRICT ONE-PAGE FIT & LAYOUT DENSITY (CRITICAL):
+   - The entire compiled LaTeX document MUST fit on exactly one page. Spilling over to a second page or leaving excessive blank space is a major failure.
+   - Adjust Content Density Dynamically:
+     * DENSE PROFILE (Many Experiences/Projects/Achievements): If the user has a lot of content, restrict the Experience and Projects sections to 2-3 entries each. For each entry, write exactly 2 short, high-impact bullet points (maximum 1.25 lines each). Keep the summary to exactly 2 lines. Use tight vertical spacings (e.g., small vspace adjustments) to ensure it fits perfectly on one page without overlap or spillover.
+     * SPARSE PROFILE / STUDENT PROFILE (Few Experiences/Projects/Achievements): If the user has very little content, write slightly richer bullet points (3-4 bullet points per Experience/Project entry, up to 1.5 lines each). Expand the summary/objective to 3 lines (about 35-40 words). Ensure that you include certifications or achievements (like contests, extra-curriculars) inline or as a dedicated section to fill the page gracefully. Use rubber spacings to distribute whitespace evenly.
+   - Spacing: Do NOT add manual hardcoded line breaks (e.g., \\\\ \\\\) or massive vspaces. Use LaTeX's rubber lengths (e.g., \\vspace{... plus ... minus ...}) and item spacing macros defined in the template preamble to let the LaTeX compiler distribute spaces dynamically.
 6. LINK & SOCIAL MEDIA INTEGRATION (CRITICAL):
    - LinkedIn username: ${cleanLinkedinUsername(userProfile.linkedin)}
    - GitHub username: ${cleanGithubUsername(userProfile.github)}
@@ -1096,25 +1124,25 @@ Instructions:
       // Define failsafe custom macros to prevent undefined control sequence errors in other templates
       const customMacros = `
 % Failsafe custom command definitions
-\\providecommand{\\resumeItem}[1]{\\item\\small{#1 \\vspace{-1pt}}}
+\\providecommand{\\resumeItem}[1]{\\item\\small{#1 \\vspace{1pt plus 0.5pt minus 0.5pt}}}
 \\providecommand{\\resumeSubheading}[4]{
   \\item
     \\begin{tabular*}{0.97\\textwidth}[t]{l@{\\extracolsep{\\fill}}r}
       \\textbf{#1} & #2 \\\\
       \\textit{\\small#3} & \\textit{\\small #4} \\\\
-    \\end{tabular*}\\vspace{-3pt}
+    \\end{tabular*}\\vspace{2pt plus 1pt minus 1pt}
 }
 \\providecommand{\\resumeProjectHeading}[2]{
   \\item
     \\begin{tabular*}{0.97\\textwidth}[t]{l@{\\extracolsep{\\fill}}r}
       \\parbox[t]{0.83\\textwidth}{\\small#1} & #2 \\\\
-    \\end{tabular*}\\vspace{-3pt}
+    \\end{tabular*}\\vspace{2pt plus 1pt minus 1pt}
 }
-\\providecommand{\\resumeSubItem}[1]{\\resumeItem{#1}\\vspace{-2pt}}
-\\providecommand{\\resumeSubHeadingListStart}{\\begin{itemize}[leftmargin=0.15in, label={}, nosep]}
+\\providecommand{\\resumeSubItem}[1]{\\resumeItem{#1}\\vspace{1pt plus 0.5pt minus 0.5pt}}
+\\providecommand{\\resumeSubHeadingListStart}{\\begin{itemize}[leftmargin=0.15in, label={}, itemsep=3pt plus 2pt minus 1.5pt, parsep=1.5pt plus 1pt minus 1pt]}
 \\providecommand{\\resumeSubHeadingListEnd}{\\end{itemize}}
-\\providecommand{\\resumeItemListStart}{\\begin{itemize}[nosep, topsep=0pt, partopsep=0pt, parsep=0pt]}
-\\providecommand{\\resumeItemListEnd}{\\end{itemize}\\vspace{-2pt}}
+\\providecommand{\\resumeItemListStart}{\\begin{itemize}[itemsep=2pt plus 1.5pt minus 1pt, parsep=1pt plus 1pt minus 0.5pt, topsep=1pt plus 1pt minus 1pt]}
+\\providecommand{\\resumeItemListEnd}{\\end{itemize}\\vspace{2pt plus 1pt minus 1pt}}
 `;
 
       let latexSource = template.source;

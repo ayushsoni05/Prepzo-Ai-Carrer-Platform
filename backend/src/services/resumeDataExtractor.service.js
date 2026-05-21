@@ -125,6 +125,7 @@ CRITICAL RULES FOR STRUCTURAL CLEANLINESS:
 2. Capture all bullet points. Do not omit details or summarize multiple items into a single string.
 3. Clean all text to be free of raw formatting chars (like bullet characters •, -, * at the beginning of parsed fields).
 4. If a field is not found in the resume, use an empty string or empty array as specified in the schema.
+5. DO NOT include lists of technologies/tools (e.g. 'React, Node.js, AWS') as separate highlights or bullet points in either 'projects.highlights' or 'experience.highlights'. Filter them out entirely from highlights and ensure they are only placed in 'technologies' or 'skills' array. Highlights should strictly represent action-oriented statements (achievements, tasks, metrics).
 
 Only return the JSON response. Do not include markdown code block formatting (like \`\`\`json).
 `;
@@ -233,11 +234,12 @@ Only return the JSON response. Do not include markdown code block formatting (li
         } else if (typeof proj.description === 'string' && proj.description.trim()) {
           bullets = proj.description.split('\n').map(l => l.replace(/^[•\-\*\s]+/, '').trim()).filter(Boolean);
         }
+        const { cleanedBullets, technologies } = cleanProjectBulletsAndExtractTechs(bullets.filter(Boolean), proj.technologies);
         return {
           name: cleanTimelineAndSkillsFromName(proj.name || proj.title || ''),
-          description: bullets.filter(Boolean),
-          technologies: Array.isArray(proj.technologies) ? proj.technologies.filter(Boolean) : [],
-          highlights: bullets.filter(Boolean),
+          description: cleanedBullets,
+          technologies: technologies,
+          highlights: cleanedBullets,
           link: proj.link || ''
         };
       });
@@ -263,39 +265,116 @@ Only return the JSON response. Do not include markdown code block formatting (li
   }
 };
 
+/**
+ * Utility to filter out technology lists from project bullets/descriptions
+ * and merge them into the technologies array.
+ */
+export const cleanProjectBulletsAndExtractTechs = (bullets, existingTechs) => {
+  const cleanedBullets = [];
+  const mergedTechs = new Set(
+    (Array.isArray(existingTechs) ? existingTechs : [])
+      .map(t => t.trim())
+      .filter(Boolean)
+  );
+
+  const techHeaderRegex = /^(?:technologies|tech\s+stack|tools\s+used|technologies\s+used|built\s+with|stack|tech)\s*[:\-–—\s]+/i;
+
+  (bullets || []).forEach(bullet => {
+    const trimmed = bullet.trim();
+    if (!trimmed) return;
+
+    // Check if the bullet is a header pattern like "Technologies: React, Node.js"
+    if (techHeaderRegex.test(trimmed)) {
+      const techPart = trimmed.replace(techHeaderRegex, '');
+      const parts = techPart.split(/[,/|;]|\s+and\s+|\s*&\s*/i).map(t => t.trim()).filter(Boolean);
+      parts.forEach(t => {
+        const cleanT = t.replace(/\b(?:and|etc)\b/gi, '').trim();
+        if (cleanT) mergedTechs.add(cleanT);
+      });
+      return; // Skip this bullet from descriptions
+    }
+
+    // Check if it's a pure tech list (e.g. "React, Node.js, Express.js")
+    if (isPureTechList(trimmed)) {
+      const parts = trimmed.split(/[,/|;]|\s+and\s+|\s*&\s*/i).map(t => t.trim()).filter(Boolean);
+      parts.forEach(t => {
+        const cleanT = t.replace(/\b(?:and|etc)\b/gi, '').trim();
+        if (cleanT) {
+          mergedTechs.add(cleanT);
+        }
+      });
+      return; // Skip this bullet from descriptions
+    }
+
+    cleanedBullets.push(bullet);
+  });
+
+  return {
+    cleanedBullets,
+    technologies: Array.from(mergedTechs)
+  };
+};
+
 export const isPureTechList = (line) => {
   const trimmed = (line || '').trim();
   if (!trimmed) return false;
 
-  if (trimmed.includes('|')) {
-    const firstPart = trimmed.split('|')[0].trim().toLowerCase();
-    const techKeywords = new Set([
-      'javascript', 'typescript', 'python', 'java', 'c++', 'c#', 'go', 'rust', 'ruby', 'php', 'swift', 'kotlin',
-      'html', 'css', 'sass', 'react', 'react.js', 'angular', 'vue', 'vue.js', 'next.js', 'node.js', 'node', 'express', 'express.js', 'django', 'flask',
-      'mongodb', 'postgresql', 'mysql', 'sqlite', 'redis', 'firebase', 'supabase', 'docker', 'kubernetes', 'aws', 'git', 'github', 'rest api', 'graphql'
-    ]);
-    if (!techKeywords.has(firstPart) && !Array.from(techKeywords).some(k => firstPart === k || firstPart.includes(' ' + k) || firstPart.includes(k + ' '))) {
-      return false;
+  // If it starts with an action verb, it's not a pure tech list
+  const ACTION_VERBS = /^(?:engineered|designed|integrated|developed|implemented|optimized|built|trained|led|completed|created|spearheaded|architected|pioneered|managed|formulated|automated|collaborated|conducted|established|improved|enhanced|contributed|delivered|tested|used|worked|focused|achieved|resolved|increased|decreased|secured|solved|managed|deployed|maintained|monitored)/i;
+  // Strip starting bullet chars
+  const cleanLine = trimmed.replace(/^[•\-\*\–\—\·\d\.\s]+/, '').trim();
+  if (ACTION_VERBS.test(cleanLine)) return false;
+
+  // Check if it has sentence indicators
+  const words = cleanLine.split(/\s+/);
+  const sentenceIndicators = ['the', 'and', 'for', 'with', 'by', 'of', 'in', 'to', 'from', 'on', 'at', 'a', 'an', 'using', 'through', 'about', 'as', 'over'];
+  let indicatorCount = 0;
+  words.forEach(w => {
+    if (sentenceIndicators.includes(w.toLowerCase())) {
+      indicatorCount++;
     }
+  });
+
+  // If there are many sentence indicators, it's likely a description, not a pure tech list
+  if (indicatorCount > 2 || (words.length > 8 && indicatorCount > 1)) {
+    return false;
   }
 
-  const parts = trimmed.split(/[,/|;]/).map(p => p.trim().toLowerCase()).filter(Boolean);
-  if (parts.length > 1) {
-    const techKeywords = new Set([
+  // Split by common delimiters: comma, pipe, slash, semicolon, or "and"
+  const parts = cleanLine.split(/[,/|;]|\s+and\s+|\s*&\s*/i).map(p => p.trim()).filter(Boolean);
+  
+  // If it's a single item, check if it's a known tech stack keyword
+  if (parts.length === 1) {
+    const singleWord = parts[0].toLowerCase();
+    const knownTech = [
       'javascript', 'typescript', 'python', 'java', 'c++', 'c#', 'go', 'rust', 'ruby', 'php', 'swift', 'kotlin',
       'html', 'css', 'sass', 'react', 'react.js', 'angular', 'vue', 'vue.js', 'next.js', 'node.js', 'node', 'express', 'express.js', 'django', 'flask',
       'mongodb', 'postgresql', 'mysql', 'sqlite', 'redis', 'firebase', 'supabase', 'docker', 'kubernetes', 'aws', 'git', 'github', 'rest api', 'graphql',
-      'jwt', 'apis', 'rest apis', 'computer vision', 'opencv', 'mediapipe', 'numpy', 'scipy', 'pandas', 'scikit-learn'
-    ]);
-    const matchCount = parts.filter(p => {
-      const cleanPart = p.replace(/\(.*\)/g, '').replace(/[\d\.]+/g, '').replace(/[^a-z\+\#\s]/g, '').trim();
-      return techKeywords.has(cleanPart) || Array.from(techKeywords).some(k => cleanPart === k || cleanPart.startsWith(k + ' ') || cleanPart.endsWith(' ' + k));
-    }).length;
-    if (matchCount >= parts.length * 0.7 && matchCount >= 2) {
-      return true;
-    }
+      'jwt', 'apis', 'rest apis', 'computer vision', 'opencv', 'mediapipe', 'numpy', 'scipy', 'pandas', 'scikit-learn', 'deep learning', 'machine learning',
+      'tensorflow', 'keras', 'pytorch', 'gcp', 'azure', 'ci/cd', 'jenkins', 'html5', 'css3', 'tailwind', 'tailwind css', 'bootstrap', 'material ui', 'mui'
+    ];
+    return knownTech.includes(singleWord);
   }
-  return false;
+
+  // If there are multiple parts, and most parts are short (1-3 words) and start with capital letters or are known tech keywords
+  const avgWordCount = parts.reduce((acc, p) => acc + p.split(/\s+/).length, 0) / parts.length;
+  if (avgWordCount > 3) return false; // parts are too long to be just technologies
+
+  // Check how many parts start with a capital letter or are numbers/acronyms or known technologies
+  const capitalizedOrTechCount = parts.filter(p => {
+    const pClean = p.replace(/[^a-zA-Z0-9\+\#\-\.]/g, '').trim();
+    if (!pClean) return false;
+    // Starts with uppercase or is all uppercase or has numbers/special chars like ++, #
+    const isCapitalized = /^[A-Z0-9]/.test(pClean) || pClean.toUpperCase() === pClean;
+    const isKnown = [
+      'react', 'nodejs', 'express', 'mongodb', 'mysql', 'postgres', 'postgresql', 'redis', 'aws', 'gcp', 'azure', 'docker', 'k8s', 'kubernetes',
+      'rest', 'api', 'apis', 'jwt', 'html', 'css', 'js', 'ts', 'git', 'github', 'cv', 'opencv', 'cnn', 'rnn', 'lstm', 'svm', 'dsa', 'oop', 'os', 'dbms'
+    ].includes(pClean.toLowerCase());
+    return isCapitalized || isKnown;
+  }).length;
+
+  // If 75% or more of the parts fit this description, it's a technology list!
+  return capitalizedOrTechCount >= parts.length * 0.75;
 };
 
 export const isLikelyProjectTitle = (line) => {
@@ -407,7 +486,7 @@ const isSectionHeader = (line) => {
     }
     return 'achievements';
   }
-  if (/^(?:summary|objective|profile|about\s+me)$/i.test(lower)) {
+  if (/^(?:professional\s+|career\s+|executive\s+)?(?:summary|objective|profile|about\s+me)$/i.test(lower)) {
     return 'summary';
   }
 
@@ -473,6 +552,7 @@ export const extractLocalFallback = (resumeText) => {
 
   let currentSection = null;
   let sectionContent = [];
+  const preHeaderLines = [];
   
   const flushSection = () => {
     if (!currentSection || sectionContent.length === 0) return;
@@ -867,9 +947,29 @@ export const extractLocalFallback = (resumeText) => {
       currentSection = detected;
     } else if (currentSection) {
       sectionContent.push(line);
+    } else {
+      preHeaderLines.push(line);
     }
   });
   flushSection();
+
+  if (!result.summary && preHeaderLines.length > 0) {
+    const localEmailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+    const localPhoneRegex = /(?:\+?\d{1,3}[ -]?)?\(?\d{3}\)?[ -]?\d{3}[ -]?\d{4}/;
+    const cleanSummaryLines = preHeaderLines.filter(line => {
+      const lower = line.toLowerCase();
+      if (lower.includes('@') || localEmailRegex.test(line) || localPhoneRegex.test(line)) return false;
+      if (lower.includes('linkedin.com') || lower.includes('github.com') || /https?:\/\//i.test(line)) return false;
+      if (result.name && lower.includes(result.name.toLowerCase())) return false;
+      if (line.length < 20) return false;
+      if (/^[•\-\*\–\—\·\s\|]+$/.test(line)) return false;
+      if (isPureTechList(line)) return false;
+      return true;
+    });
+    if (cleanSummaryLines.length > 0) {
+      result.summary = cleanSummaryLines.join(' ');
+    }
+  }
 
   if (result.experience.length === 0 && result.education.length === 0 && result.projects.length === 0) {
     const descLines = lines.slice(1, 10).filter(l => l.length > 10 && !l.includes('@'));
@@ -884,6 +984,18 @@ export const extractLocalFallback = (resumeText) => {
         highlights: descLines
       });
     }
+  }
+
+  if (result.projects) {
+    result.projects = result.projects.map(proj => {
+      const { cleanedBullets, technologies } = cleanProjectBulletsAndExtractTechs(proj.description || [], proj.technologies || []);
+      return {
+        ...proj,
+        description: cleanedBullets,
+        highlights: cleanedBullets,
+        technologies: technologies
+      };
+    });
   }
 
   result.skills = Array.from(foundSkills);
