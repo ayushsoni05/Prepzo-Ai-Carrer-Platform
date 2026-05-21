@@ -38,6 +38,7 @@
     "pdfjs-dist": "^4.0.379",
     "prop-types": "^15.8.1",
     "react": "19.2.3",
+    "react-aria-components": "^1.17.0",
     "react-dom": "19.2.3",
     "react-hook-form": "^7.71.2",
     "react-hot-toast": "^2.6.0",

@@ -8,6 +8,7 @@ import {
 import { useAppStore } from '@/store/appStore';
 import { useAuthStore } from '@/store/authStore';
 import { compileLatex, generateLatexResume, saveLatexSource, getLatexSource } from '@/api/latexResume';
+import { useConfirm } from '@/hooks/useConfirm';
 import { uploadApi } from '@/api/auth';
 import api from '@/api/axios';
 import { latexTemplates, getTemplateById, defaultTemplateId } from '@/data/latexTemplates';
@@ -105,6 +106,7 @@ const prePopulateTemplate = (source: string, templateId: string, user: any): str
 export function LaTeXResumeBuilder() {
   const { user } = useAuthStore();
   const { resumeAnalysis, setDashboardTab } = useAppStore();
+  const confirm = useConfirm();
 
   // State
   const [latexSource, setLatexSource] = useState('');
@@ -327,9 +329,13 @@ export function LaTeXResumeBuilder() {
   const handleSelectTemplate = async (id: string) => {
     // If the user has made manual edits and hasn't saved, warn them
     if (hasUnsaved) {
-      const confirmChange = window.confirm(
-        'You have unsaved changes in the editor. Changing the template will regenerate the LaTeX source and overwrite your manual changes. Do you want to proceed?'
-      );
+      const confirmChange = await confirm({
+        title: 'Unsaved Changes',
+        description: 'You have unsaved changes in the editor. Changing the template will regenerate the LaTeX source and overwrite your manual changes. Do you want to proceed?',
+        confirmText: 'Proceed',
+        cancelText: 'Cancel',
+        variant: 'destructive'
+      });
       if (!confirmChange) return;
     }
 
