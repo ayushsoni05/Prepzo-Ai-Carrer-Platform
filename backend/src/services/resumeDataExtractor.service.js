@@ -114,6 +114,9 @@ You must return a JSON object that adheres strictly to the following schema:
       "issuer": "Issuing organization (e.g. AWS, Coursera)",
       "date": "Date obtained"
     }
+  ],
+  "achievements": [
+    "Extracted achievement, award, extra-curricular activity, or co-curricular activity description"
   ]
 }
 
@@ -248,6 +251,9 @@ Only return the JSON response. Do not include markdown code block formatting (li
         issuer: cert.issuer || '',
         date: cert.date || ''
       }));
+    }
+    if (result.achievements) {
+      result.achievements = Array.isArray(result.achievements) ? result.achievements.filter(Boolean) : [];
     }
 
     return result;

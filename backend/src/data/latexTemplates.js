@@ -13,7 +13,7 @@
 const jakesResume = {
   id: 'jakes-resume',
   name: "Jake's ATS Resume",
-  description: 'The most popular ATS-optimised LaTeX resume. Clean single-column layout with tight spacing for a single page fit.',
+  description: 'The most popular ATS-optimised LaTeX resume. Clean single-column layout with comfortable margins and spacing for a single page fit.',
   badge: 'Most Popular',
   accent: '#6366f1',
   source: String.raw`%-------------------------
@@ -23,7 +23,7 @@ const jakesResume = {
 \documentclass[letterpaper,10pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{latexsym}
-\usepackage[empty]{fullpage}
+\usepackage[margin=0.55in]{geometry}
 \usepackage{titlesec}
 \usepackage[usenames,dvipsnames]{color}
 \usepackage{enumitem}
@@ -37,48 +37,42 @@ const jakesResume = {
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
-\addtolength{\oddsidemargin}{-0.65in}
-\addtolength{\evensidemargin}{-0.65in}
-\addtolength{\textwidth}{1.3in}
-\addtolength{\topmargin}{-.65in}
-\addtolength{\textheight}{1.3in}
-
 \urlstyle{same}
 \raggedbottom
 \raggedright
 \setlength{\tabcolsep}{0in}
 
 \titleformat{\section}{
-  \vspace{-10pt}\scshape\raggedright\large
-}{}{0em}{}[\color{black}\titlerule \vspace{-7pt}]
+  \vspace{4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{3pt}]
 
-\newcommand{\resumeItem}[1]{\item\small{#1 \vspace{-1pt}}}
+\newcommand{\resumeItem}[1]{\item\small{#1 \vspace{1pt}}}
 \newcommand{\resumeSubheading}[4]{
   \item
     \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-3pt}
+    \end{tabular*}\vspace{2pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
   \item
     \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \parbox[t]{0.83\textwidth}{\small#1} & #2 \\
-    \end{tabular*}\vspace{-3pt}
+    \end{tabular*}\vspace{2pt}
 }
-\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-2pt}}
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{1pt}}
 \renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
-\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}, nosep]}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}, itemsep=3pt, parsep=1.5pt]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}[nosep, topsep=0pt, partopsep=0pt, parsep=0pt]}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-2pt}}
-\setlist[itemize]{nosep}
+\newcommand{\resumeItemListStart}{\begin{itemize}[itemsep=2pt, parsep=1pt, topsep=1pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt}}
+\setlist[itemize]{itemsep=2pt, parsep=1pt}
 
 \begin{document}
 
 %----------HEADING----------
 \begin{center}
-    \textbf{\Huge \scshape {{NAME}}} \\ \vspace{1pt}
+    \textbf{\Huge \scshape {{NAME}}} \\ \vspace{2pt}
     \small {{PHONE}} $|$
     \href{mailto:{{EMAIL}}}{\underline{{{EMAIL}}}} $|$
     \href{https://linkedin.com/in/{{LINKEDIN}}}{\underline{linkedin.com/in/{{LINKEDIN}}}} $|$
@@ -109,7 +103,7 @@ const jakesResume = {
 
 %-----------TECHNICAL SKILLS-----------
 \section{Technical Skills}
- \begin{itemize}[leftmargin=0.15in, label={}, nosep]
+ \begin{itemize}[leftmargin=0.15in, label={}, itemsep=2pt, parsep=1pt]
     \small{\item{
 {{SKILLS_ITEMS}}
     }}
@@ -128,7 +122,7 @@ const cleanAts = {
   accent: '#10b981',
   source: String.raw`\documentclass[a4paper,10pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[empty]{fullpage}
+\usepackage[margin=0.55in]{geometry}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
@@ -138,20 +132,14 @@ const cleanAts = {
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
 
-\addtolength{\oddsidemargin}{-0.65in}
-\addtolength{\evensidemargin}{-0.65in}
-\addtolength{\textwidth}{1.3in}
-\addtolength{\topmargin}{-0.65in}
-\addtolength{\textheight}{1.3in}
-
-\titleformat{\section}{\large\bfseries\scshape}{}{0em}{}[\titlerule \vspace{-3pt}]
-\titlespacing*{\section}{0pt}{4pt}{2pt}
-\setlist[itemize]{nosep}
+\titleformat{\section}{\large\bfseries\scshape}{}{0em}{}[\titlerule \vspace{3pt}]
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\setlist[itemize]{itemsep=3pt, parsep=1.5pt}
 
 \begin{document}
 
 \begin{center}
-  {\LARGE\bfseries {{NAME}}} \\[3pt]
+  {\LARGE\bfseries {{NAME}}} \\[4pt]
   {{EMAIL}} \quad $\cdot$ \quad {{PHONE}} \quad $\cdot$ \quad {{LOCATION}} \\
   \href{https://linkedin.com/in/{{LINKEDIN}}}{linkedin.com/in/{{LINKEDIN}}}
   \quad $\cdot$ \quad
@@ -181,12 +169,12 @@ const cleanAts = {
 const modernTwoColumn = {
   id: 'modern-two-col',
   name: 'Modern Two-Column',
-  description: 'Modern two-column layout with colour accent sidebar. Highly compact for single page layout.',
+  description: 'Modern two-column layout with colour accent sidebar. Comfortable layout for single page layout.',
   badge: 'Modern',
   accent: '#8b5cf6',
   source: String.raw`\documentclass[9pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=0.45in]{geometry}
+\usepackage[margin=0.55in]{geometry}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
@@ -197,20 +185,20 @@ const modernTwoColumn = {
 \definecolor{accent}{HTML}{6C63FF}
 \pagestyle{empty}
 
-\titleformat{\section}{\color{accent}\large\bfseries\scshape}{}{0em}{}[\color{accent}\titlerule \vspace{-3pt}]
-\titlespacing*{\section}{0pt}{4pt}{2pt}
-\setlist[itemize]{nosep}
+\titleformat{\section}{\color{accent}\large\bfseries\scshape}{}{0em}{}[\color{accent}\titlerule \vspace{3pt}]
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\setlist[itemize]{itemsep=3pt, parsep=1.5pt}
 
 \begin{document}
 
 \begin{center}
-  {\Huge\bfseries\color{accent} {{NAME}}} \\[4pt]
-  \small {{EMAIL}} \enspace|\enspace {{PHONE}} \enspace|\enspace {{LOCATION}} \\[2pt]
+  {\Huge\bfseries\color{accent} {{NAME}}} \\[5pt]
+  \small {{EMAIL}} \enspace|\enspace {{PHONE}} \enspace|\enspace {{LOCATION}} \\[3pt]
   \href{https://linkedin.com/in/{{LINKEDIN}}}{LinkedIn} \enspace|\enspace
   \href{https://github.com/{{GITHUB}}}{GitHub}
 \end{center}
 
-\vspace{2pt}
+\vspace{4pt}
 
 \begin{multicols}{2}
 
@@ -246,7 +234,7 @@ const academicCv = {
   accent: '#0369a1',
   source: String.raw`\documentclass[10pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=0.45in]{geometry}
+\usepackage[margin=0.55in]{geometry}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
@@ -259,21 +247,21 @@ const academicCv = {
 \renewcommand{\headrulewidth}{0pt}
 \fancyfoot[C]{\footnotesize\thepage}
 
-\titleformat{\section}{\color{heading}\large\bfseries}{}{0em}{}[\color{heading}\titlerule \vspace{-3pt}]
-\titlespacing*{\section}{0pt}{4pt}{2pt}
-\setlist[itemize]{nosep}
+\titleformat{\section}{\color{heading}\large\bfseries}{}{0em}{}[\color{heading}\titlerule \vspace{3pt}]
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\setlist[itemize]{itemsep=3pt, parsep=1.5pt}
 
 \begin{document}
 
 \begin{center}
-  {\LARGE\bfseries\color{heading} {{NAME}}} \\[4pt]
-  \small {{EMAIL}} \quad|\quad {{PHONE}} \quad|\quad {{LOCATION}} \\[2pt]
+  {\LARGE\bfseries\color{heading} {{NAME}}} \\[5pt]
+  \small {{EMAIL}} \quad|\quad {{PHONE}} \quad|\quad {{LOCATION}} \\[3pt]
   \href{https://linkedin.com/in/{{LINKEDIN}}}{LinkedIn}
   \quad|\quad
   \href{https://github.com/{{GITHUB}}}{GitHub}
 \end{center}
 
-\vspace{2pt}
+\vspace{4pt}
 
 \section{Research Summary}
 {{SUMMARY}}
@@ -303,7 +291,7 @@ const deedyCv = {
   accent: '#ec4899',
   source: String.raw`\documentclass[a4paper,9pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=0.45in]{geometry}
+\usepackage[margin=0.55in]{geometry}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
@@ -318,16 +306,16 @@ const deedyCv = {
 
 \pagestyle{empty}
 
-\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titlerule \vspace{-3pt}]
-\titlespacing*{\section}{0pt}{4pt}{2pt}
+\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titlerule \vspace{3pt}]
+\titlespacing*{\section}{0pt}{8pt}{4pt}
 
 \setlength{\columnsep}{1.5em}
-\setlist[itemize]{nosep}
+\setlist[itemize]{itemsep=3pt, parsep=1.5pt}
 
 \begin{document}
 
 \begin{center}
-  {\huge\bfseries\color{primary} {{NAME}}} \\[3pt]
+  {\huge\bfseries\color{primary} {{NAME}}} \\[4pt]
   \footnotesize
   \href{mailto:{{EMAIL}}}{{{EMAIL}}} $\cdot$
   {{PHONE}} $\cdot$
@@ -335,7 +323,7 @@ const deedyCv = {
   \href{https://github.com/{{GITHUB}}}{GitHub}
 \end{center}
 
-\vspace{1pt}
+\vspace{2pt}
 
 \section{Summary}
 \small {{SUMMARY}}
@@ -371,7 +359,7 @@ const executiveCv = {
   accent: '#7c3aed',
   source: String.raw`\documentclass[10pt,letterpaper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=0.45in]{geometry}
+\usepackage[margin=0.55in]{geometry}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
@@ -385,19 +373,19 @@ const executiveCv = {
 \fancyfoot[C]{\footnotesize Page \thepage}
 
 \titleformat{\section}{\color{navy}\large\scshape}{}{0em}{}[\color{navy}\rule{\linewidth}{0.6pt}]
-\titlespacing*{\section}{0pt}{4pt}{2pt}
-\setlist[itemize]{nosep}
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+\setlist[itemize]{itemsep=3pt, parsep=1.5pt}
 
 \begin{document}
 
 \begin{center}
-  {\fontsize{24}{28}\selectfont\bfseries\color{navy} {{NAME}}} \\[4pt]
+  {\fontsize{24}{28}\selectfont\bfseries\color{navy} {{NAME}}} \\[5pt]
   \normalsize
-  {{EMAIL}} \enspace$\diamond$\enspace {{PHONE}} \enspace$\diamond$\enspace {{LOCATION}} \\[2pt]
+  {{EMAIL}} \enspace$\diamond$\enspace {{PHONE}} \enspace$\diamond$\enspace {{LOCATION}} \\[3pt]
   \href{https://linkedin.com/in/{{LINKEDIN}}}{linkedin.com/in/{{LINKEDIN}}}
 \end{center}
 
-\vspace{2pt}
+\vspace{4pt}
 
 \section{Executive Summary}
 {{SUMMARY}}
@@ -418,7 +406,7 @@ const executiveCv = {
 `,
 };
 
-// 7. Tech Compact (New Template)
+// 7. Tech Compact
 const techCompact = {
   id: 'tech-compact',
   name: 'Tech Developer Compact',
@@ -427,7 +415,7 @@ const techCompact = {
   accent: '#3b82f6',
   source: String.raw`\documentclass[9pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=0.4in]{geometry}
+\usepackage[margin=0.52in]{geometry}
 \usepackage{titlesec}
 \usepackage[hidelinks]{hyperref}
 \usepackage{enumitem}
@@ -439,10 +427,10 @@ const techCompact = {
 \definecolor{accent}{HTML}{3B82F6}
 
 \pagestyle{empty}
-\setlist[itemize]{nosep,topsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=0.15in}
+\setlist[itemize]{itemsep=3pt,parsep=1.5pt,topsep=2pt,leftmargin=0.15in}
 
-\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titlerule \vspace{-3pt}]
-\titlespacing*{\section}{0pt}{4pt}{2pt}
+\titleformat{\section}{\color{primary}\large\bfseries\uppercase}{}{0em}{}[\color{accent}\titlerule \vspace{3pt}]
+\titlespacing*{\section}{0pt}{8pt}{4pt}
 
 \newcommand{\resumeItem}[1]{\item\small{#1}}
 \newcommand{\resumeSubheading}[4]{
@@ -450,28 +438,28 @@ const techCompact = {
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & \small #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-3pt}
+    \end{tabular*}\vspace{2pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
   \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \parbox[t]{0.83\textwidth}{\small#1} & \small #2 \\
-    \end{tabular*}\vspace{-3pt}
+    \end{tabular*}\vspace{2pt}
 }
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
 \newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-2pt}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt}}
 
 \begin{document}
 
 \begin{center}
-  {\Huge\bfseries\color{primary} {{NAME}}} \\[2pt]
+  {\Huge\bfseries\color{primary} {{NAME}}} \\[3pt]
   \small {{PHONE}} $\cdot$ \href{mailto:{{EMAIL}}}{{{EMAIL}}} $\cdot$ {{LOCATION}} \\
   \href{https://linkedin.com/in/{{LINKEDIN}}}{linkedin.com/in/{{LINKEDIN}}} $\cdot$ \href{https://github.com/{{GITHUB}}}{github.com/{{GITHUB}}}
 \end{center}
 
-\vspace{-8pt}
+\vspace{-4pt}
 
 \section{Summary}
 \small {{SUMMARY}}
@@ -502,7 +490,7 @@ const techCompact = {
 `,
 };
 
-// 8. Corporate Executive (New Template)
+// 8. Corporate Executive
 const corporateExecutive = {
   id: 'corporate-executive',
   name: 'Corporate Executive',
@@ -511,7 +499,7 @@ const corporateExecutive = {
   accent: '#475569',
   source: String.raw`\documentclass[10pt,letterpaper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=0.45in]{geometry}
+\usepackage[margin=0.55in]{geometry}
 \usepackage{titlesec}
 \usepackage[hidelinks]{hyperref}
 \usepackage{enumitem}
@@ -520,10 +508,10 @@ const corporateExecutive = {
 
 \definecolor{slate}{HTML}{334155}
 \pagestyle{empty}
-\setlist[itemize]{nosep,topsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=0.15in}
+\setlist[itemize]{itemsep=3pt,parsep=1.5pt,topsep=2pt,leftmargin=0.15in}
 
-\titleformat{\section}{\color{slate}\large\bfseries\uppercase}{}{0em}{}[\color{slate}\titlerule \vspace{-3pt}]
-\titlespacing*{\section}{0pt}{4pt}{2pt}
+\titleformat{\section}{\color{slate}\large\bfseries\uppercase}{}{0em}{}[\color{slate}\titlerule \vspace{3pt}]
+\titlespacing*{\section}{0pt}{8pt}{4pt}
 
 \newcommand{\resumeItem}[1]{\item\small{#1}}
 \newcommand{\resumeSubheading}[4]{
@@ -531,28 +519,28 @@ const corporateExecutive = {
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & \small #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-3pt}
+    \end{tabular*}\vspace{2pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
   \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \parbox[t]{0.83\textwidth}{\small#1} & \small #2 \\
-    \end{tabular*}\vspace{-3pt}
+    \end{tabular*}\vspace{2pt}
 }
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
 \newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-2pt}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt}}
 
 \begin{document}
 
 \begin{center}
-  {\Huge\bfseries\color{slate} {{NAME}}} \\[2pt]
+  {\Huge\bfseries\color{slate} {{NAME}}} \\[3pt]
   \small {{PHONE}} $\cdot$ \href{mailto:{{EMAIL}}}{{{EMAIL}}} $\cdot$ {{LOCATION}} \\
   \href{https://linkedin.com/in/{{LINKEDIN}}}{linkedin.com/in/{{LINKEDIN}}}
 \end{center}
 
-\vspace{-8pt}
+\vspace{-4pt}
 
 \section{Professional Summary}
 \small {{SUMMARY}}
@@ -583,16 +571,16 @@ const corporateExecutive = {
 `,
 };
 
-// 9. Tech Modern Minimalist (New Template)
+// 9. Tech Modern Minimalist
 const techModern = {
   id: 'tech-modern',
   name: 'Tech Modern Minimalist',
-  description: 'Clean sans-serif modern layout with tight spacing, optimized for single page software engineering profiles.',
+  description: 'Clean sans-serif modern layout with comfortable spacing, optimized for single page software engineering profiles.',
   badge: 'Tech',
   accent: '#2563eb',
   source: String.raw`\documentclass[9pt,letterpaper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=0.4in]{geometry}
+\usepackage[margin=0.52in]{geometry}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
@@ -605,10 +593,10 @@ const techModern = {
 \definecolor{accent}{HTML}{2563EB}
 
 \pagestyle{empty}
-\setlist[itemize]{nosep,topsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=0.15in}
+\setlist[itemize]{itemsep=3pt,parsep=1.5pt,topsep=2pt,leftmargin=0.15in}
 
-\titleformat{\section}{\color{primary}\large\bfseries}{}{0em}{}[\color{accent}\titlerule \vspace{-3pt}]
-\titlespacing*{\section}{0pt}{4pt}{2pt}
+\titleformat{\section}{\color{primary}\large\bfseries}{}{0em}{}[\color{accent}\titlerule \vspace{3pt}]
+\titlespacing*{\section}{0pt}{8pt}{4pt}
 
 \newcommand{\resumeItem}[1]{\item\small{#1}}
 \newcommand{\resumeSubheading}[4]{
@@ -616,28 +604,28 @@ const techModern = {
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{\color{primary}#1} & \small #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-3pt}
+    \end{tabular*}\vspace{2pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
   \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \parbox[t]{0.83\textwidth}{\textbf{\small#1}} & \small #2 \\
-    \end{tabular*}\vspace{-3pt}
+    \end{tabular*}\vspace{2pt}
 }
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
 \newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-2pt}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt}}
 
 \begin{document}
 
 \begin{center}
-  {\Huge\bfseries\color{primary} {{NAME}}} \\[2pt]
+  {\Huge\bfseries\color{primary} {{NAME}}} \\[3pt]
   \small {{PHONE}} $\cdot$ \href{mailto:{{EMAIL}}}{{{EMAIL}}} $\cdot$ {{LOCATION}} \\
   \href{https://linkedin.com/in/{{LINKEDIN}}}{linkedin.com/in/{{LINKEDIN}}} $\cdot$ \href{https://github.com/{{GITHUB}}}{github.com/{{GITHUB}}}
 \end{center}
 
-\vspace{-8pt}
+\vspace{-4pt}
 
 \section{Summary}
 \small {{SUMMARY}}
@@ -668,7 +656,7 @@ const techModern = {
 `,
 };
 
-// 10. Creative Marketing Compact (New Template)
+// 10. Creative Marketing Compact
 const creativeCompact = {
   id: 'creative-compact',
   name: 'Creative Marketing Compact',
@@ -677,7 +665,7 @@ const creativeCompact = {
   accent: '#db2777',
   source: String.raw`\documentclass[9pt,letterpaper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=0.42in]{geometry}
+\usepackage[margin=0.52in]{geometry}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
@@ -689,10 +677,10 @@ const creativeCompact = {
 \definecolor{accent}{HTML}{DB2777}
 
 \pagestyle{empty}
-\setlist[itemize]{nosep,topsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=0.15in}
+\setlist[itemize]{itemsep=3pt,parsep=1.5pt,topsep=2pt,leftmargin=0.15in}
 
-\titleformat{\section}{\color{primary}\large\fontfamily{ppl}\selectfont\bfseries}{}{0em}{}[\color{accent}\titlerule \vspace{-3pt}]
-\titlespacing*{\section}{0pt}{5pt}{3pt}
+\titleformat{\section}{\color{primary}\large\fontfamily{ppl}\selectfont\bfseries}{}{0em}{}[\color{accent}\titlerule \vspace{3pt}]
+\titlespacing*{\section}{0pt}{9pt}{5pt}
 
 \newcommand{\resumeItem}[1]{\item\small{#1}}
 \newcommand{\resumeSubheading}[4]{
@@ -700,28 +688,28 @@ const creativeCompact = {
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & \small #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-3pt}
+    \end{tabular*}\vspace{2pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
   \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \parbox[t]{0.83\textwidth}{\textbf{\small#1}} & \small #2 \\
-    \end{tabular*}\vspace{-3pt}
+    \end{tabular*}\vspace{2pt}
 }
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
 \newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-2pt}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt}}
 
 \begin{document}
 
 \begin{center}
-  {\Huge\fontfamily{ppl}\selectfont\bfseries\color{primary} {{NAME}}} \\[2pt]
+  {\Huge\fontfamily{ppl}\selectfont\bfseries\color{primary} {{NAME}}} \\[3pt]
   \small {{PHONE}} $\cdot$ \href{mailto:{{EMAIL}}}{{{EMAIL}}} $\cdot$ {{LOCATION}} \\
   \href{https://linkedin.com/in/{{LINKEDIN}}}{linkedin.com/in/{{LINKEDIN}}} $\cdot$ \href{https://github.com/{{GITHUB}}}{github.com/{{GITHUB}}}
 \end{center}
 
-\vspace{-8pt}
+\vspace{-4pt}
 
 \section{Creative Profile}
 \small {{SUMMARY}}
@@ -752,7 +740,7 @@ const creativeCompact = {
 `,
 };
 
-// 11. Finance & Consulting Premium (New Template)
+// 11. Finance & Consulting Premium
 const financeConsultant = {
   id: 'finance-consultant',
   name: 'Finance & Consulting Premium',
@@ -761,7 +749,7 @@ const financeConsultant = {
   accent: '#475569',
   source: String.raw`\documentclass[10pt,letterpaper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=0.45in]{geometry}
+\usepackage[margin=0.55in]{geometry}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
@@ -772,10 +760,10 @@ const financeConsultant = {
 \definecolor{accent}{HTML}{475569}
 
 \pagestyle{empty}
-\setlist[itemize]{nosep,topsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=0.15in}
+\setlist[itemize]{itemsep=3pt,parsep=1.5pt,topsep=2pt,leftmargin=0.15in}
 
-\titleformat{\section}{\color{navy}\large\bfseries\uppercase}{}{0em}{}[\color{navy}\rule{\linewidth}{0.8pt} \vspace{-3pt}]
-\titlespacing*{\section}{0pt}{4pt}{2pt}
+\titleformat{\section}{\color{navy}\large\bfseries\uppercase}{}{0em}{}[\color{navy}\rule{\linewidth}{0.8pt} \vspace{3pt}]
+\titlespacing*{\section}{0pt}{8pt}{4pt}
 
 \newcommand{\resumeItem}[1]{\item\small{#1}}
 \newcommand{\resumeSubheading}[4]{
@@ -783,28 +771,28 @@ const financeConsultant = {
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \textbf{#1} & \small #2 \\
       \textit{\small#3} & \textit{\small #4} \\
-    \end{tabular*}\vspace{-3pt}
+    \end{tabular*}\vspace{2pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
   \item
     \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \parbox[t]{0.83\textwidth}{\textbf{\small#1}} & \small #2 \\
-    \end{tabular*}\vspace{-3pt}
+    \end{tabular*}\vspace{2pt}
 }
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[label={}, leftmargin=0.15in]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
 \newcommand{\resumeItemListStart}{\begin{itemize}}
-\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-2pt}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt}}
 
 \begin{document}
 
 \begin{center}
-  {\Huge\scshape\color{navy} {{NAME}}} \\[2pt]
+  {\Huge\scshape\color{navy} {{NAME}}} \\[3pt]
   \small {{PHONE}} $\cdot$ \href{mailto:{{EMAIL}}}{{{EMAIL}}} $\cdot$ {{LOCATION}} \\
   \href{https://linkedin.com/in/{{LINKEDIN}}}{linkedin.com/in/{{LINKEDIN}}}
 \end{center}
 
-\vspace{-8pt}
+\vspace{-4pt}
 
 \section{Executive Profile}
 \small {{SUMMARY}}

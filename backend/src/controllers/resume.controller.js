@@ -739,6 +739,28 @@ export const compileLatex = asyncHandler(async (req, res) => {
   }
 });
 
+const cleanLinkedinUsername = (linkedin) => {
+  if (!linkedin) return '';
+  let cleaned = linkedin.trim();
+  if (cleaned.includes('linkedin.com/in/')) {
+    const parts = cleaned.split('linkedin.com/in/');
+    cleaned = parts[parts.length - 1];
+  }
+  cleaned = cleaned.split('?')[0].replace(/^\/+|\/+$/g, '');
+  return cleaned.replace(/https?:\/\//i, '').trim();
+};
+
+const cleanGithubUsername = (github) => {
+  if (!github) return '';
+  let cleaned = github.trim();
+  if (cleaned.includes('github.com/')) {
+    const parts = cleaned.split('github.com/');
+    cleaned = parts[parts.length - 1];
+  }
+  cleaned = cleaned.split('?')[0].replace(/^\/+|\/+$/g, '');
+  return cleaned.replace(/https?:\/\//i, '').trim();
+};
+
 /**
  * @desc    Generate LaTeX resume using AI
  * @route   POST /api/resume/generate-latex
@@ -824,6 +846,16 @@ ATS SCORE MAXIMIZATION (90+ ATS SCORE TARGET):
    - Skills: Keep lists compact and grouped.
    - Certifications & Achievements: Limit them to a single concise section with at most 2-3 items, or present them inline to save vertical space.
    - Do NOT add unnecessary whitespace, large line spacing, or extra empty lines.
+6. LINK & SOCIAL MEDIA INTEGRATION (CRITICAL):
+   - LinkedIn username: ${cleanLinkedinUsername(userProfile.linkedin)}
+   - GitHub username: ${cleanGithubUsername(userProfile.github)}
+   - You MUST substitute ONLY the clean, raw username (e.g. "ayush-soni05" or "ayushsoni05") into the {{LINKEDIN}} and {{GITHUB}} placeholders.
+   - DO NOT substitute full URLs or protocols into these placeholders, as the templates already prepend "https://linkedin.com/in/" and "https://github.com/". Substituting a full URL will result in corrupted, uncompilable links (like "linkedin.com/in/https://linkedin.com/in/username").
+7. CONDITIONAL EXPERIENCE SECTION:
+   - If the user profile contains NO professional experience entries (the "experience" array is empty or has length 0), you MUST NOT generate or include any "Experience" or "Professional Experience" section in the LaTeX code. Completely remove/omit that section and its header. Do NOT create dummy internships or placeholder jobs.
+8. ACHIEVEMENTS & EXTRA-CURRICULARS:
+   - The user's achievements and extra-curricular activities are: ${JSON.stringify(userProfile.achievements || [])}.
+   - If achievements are present in the profile, you MUST create a section named "Achievements & Extra-Curriculars" (or append them to "Certifications" to save space) in the LaTeX code, formatting them as bullet points or a compact list.
 `;
 
   if (jobDescription && jobDescription.trim()) {
@@ -970,8 +1002,8 @@ Instructions:
       const cleanName = escapeLatex(userProfile.fullName);
       const cleanEmail = escapeLatex(userProfile.email);
       const cleanPhone = escapeLatex(userProfile.phone);
-      const cleanLinkedin = escapeLatex(userProfile.linkedin);
-      const cleanGithub = escapeLatex(userProfile.github);
+      const cleanLinkedin = escapeLatex(cleanLinkedinUsername(userProfile.linkedin));
+      const cleanGithub = escapeLatex(cleanGithubUsername(userProfile.github));
       const cleanLocation = escapeLatex(userProfile.location || 'San Francisco, CA');
       
       // Formatting education - limit to top 2 to ensure 1-page fit
@@ -986,7 +1018,8 @@ Instructions:
 
       // Formatting experience - limit to top 3 entries, max 2 bullets each
       let experienceItems = '';
-      if (userProfile.experience && userProfile.experience.length > 0) {
+      const hasExperience = userProfile.experience && userProfile.experience.length > 0;
+      if (hasExperience) {
         userProfile.experience.slice(0, 3).forEach(exp => {
           const rawBullets = Array.isArray(exp.description) ? exp.description : [exp.description].filter(Boolean);
           const bulletsList = rawBullets.slice(0, 2);
@@ -995,8 +1028,6 @@ Instructions:
             .join('\n');
           experienceItems += `  \\resumeSubheading\n    {${escapeLatex(exp.company || 'Company')}}{${escapeLatex(exp.location || '')}}\n    {${escapeLatex(exp.position || exp.role || 'Software Engineer')}}{${escapeLatex(exp.startDate || '')} -- ${escapeLatex(exp.endDate || 'Present')}}\n    \\resumeItemListStart\n${bullets || '      \\resumeItem{Contributed to development and deployment of projects.}'}\n    \\resumeItemListEnd\n`;
         });
-      } else {
-        experienceItems = `  \\resumeSubheading\n    {Software Engineering Internship}{}\n    {Junior Developer}{Present}\n    \\resumeItemListStart\n      \\resumeItem{Developed, tested and optimized responsive web applications.}\n      \\resumeItem{Collaborated with teammates to build custom RESTful APIs and databases.}\n    \\resumeItemListEnd\n`;
       }
 
       // Formatting projects - limit to top 3 entries, max 2 bullets each
@@ -1087,6 +1118,14 @@ Instructions:
 `;
 
       let latexSource = template.source;
+      if (!hasExperience) {
+        // Strip experience section from LaTeX template source completely
+        latexSource = latexSource
+          .replace(/\\section\{(?:Experience|Professional Experience|Research \\\& Professional Experience)\}\s*\\resumeSubHeadingListStart\s*\{\{EXPERIENCE_ITEMS\}\}\s*\\resumeSubHeadingListEnd/g, '')
+          .replace(/\\section\{(?:Experience|Professional Experience|Research \\\& Professional Experience)\}\s*\{\{EXPERIENCE_ITEMS\}\}/g, '')
+          .replace(/%-----------EXPERIENCE-----------/g, '');
+      }
+
       if (!latexSource.includes('\\begin{document}')) {
         latexSource = template.source || '';
       }
