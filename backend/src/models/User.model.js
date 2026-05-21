@@ -332,7 +332,7 @@ const userSchema = new mongoose.Schema({
       technicalSkills: [{ type: String }],
       projects: [{ type: mongoose.Schema.Types.Mixed }],
       workExperience: [{ type: mongoose.Schema.Types.Mixed }],
-      certifications: [{ type: String }],
+      certifications: [{ type: mongoose.Schema.Types.Mixed }],
       technologiesUsed: [{ type: String }],
       achievements: [{ type: String }]
     },
