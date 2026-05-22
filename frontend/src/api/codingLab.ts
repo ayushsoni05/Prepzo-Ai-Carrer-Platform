@@ -16,6 +16,7 @@ export interface CodingProblem {
     javascript: string;
     python: string;
     cpp: string;
+    java: string;
   };
   testCases: TestCase[];
 }
@@ -63,8 +64,8 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-1",
     "title": "Reverse a Substring 1",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 65.8,
+    "difficulty": "Hard",
+    "acceptanceRate": 59.2,
     "companyTags": [
       "Uber"
     ],
@@ -95,10 +96,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Detect Cycle in Graph 2",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 37.6,
+    "acceptanceRate": 40.8,
     "companyTags": [
-      "Meta",
-      "Amazon"
+      "Apple",
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -127,11 +128,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Maximum Path Sum 3",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 45.2,
+    "acceptanceRate": 62.9,
     "companyTags": [
-      "Google",
-      "Amazon",
-      "ByteDance"
+      "Uber",
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -159,10 +159,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-4",
     "title": "Coin Change Variant 4",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 57.4,
+    "difficulty": "Hard",
+    "acceptanceRate": 52.6,
     "companyTags": [
-      "Apple"
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -190,11 +190,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-5",
     "title": "Longest Increasing Subsequence 5",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 36.7,
+    "difficulty": "Hard",
+    "acceptanceRate": 32.6,
     "companyTags": [
-      "Google",
-      "Amazon"
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -223,10 +222,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Merge Overlapping Intervals 6",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 57.5,
+    "acceptanceRate": 68.1,
     "companyTags": [
-      "Microsoft",
-      "Uber"
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -254,12 +252,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-7",
     "title": "Valid Parentheses Combination 7",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 46,
+    "difficulty": "Easy",
+    "acceptanceRate": 65.9,
     "companyTags": [
-      "Apple",
-      "Airbnb",
-      "Stripe"
+      "Google",
+      "Tesla"
     ],
     "hints": [
       "Think about edge cases.",
@@ -288,11 +285,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Word Break 8",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 42.9,
+    "acceptanceRate": 66.4,
     "companyTags": [
       "Meta",
-      "Tesla",
-      "Apple"
+      "Stripe"
     ],
     "hints": [
       "Think about edge cases.",
@@ -320,10 +316,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-9",
     "title": "Kth Largest Element 9",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 34.3,
+    "difficulty": "Hard",
+    "acceptanceRate": 57.5,
     "companyTags": [
-      "Uber"
+      "Apple",
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -352,11 +349,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Find the Missing Element in Array 10",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 65.6,
+    "acceptanceRate": 63.6,
     "companyTags": [
-      "Meta",
-      "Airbnb",
-      "Amazon"
+      "Stripe"
     ],
     "hints": [
       "Think about edge cases.",
@@ -384,11 +379,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-11",
     "title": "Reverse a Substring 11",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 39.4,
+    "difficulty": "Hard",
+    "acceptanceRate": 41.5,
     "companyTags": [
-      "Google",
-      "Apple"
+      "Apple",
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -416,12 +411,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-12",
     "title": "Detect Cycle in Graph 12",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 52.9,
+    "difficulty": "Medium",
+    "acceptanceRate": 56.9,
     "companyTags": [
-      "Apple",
-      "Uber",
-      "ByteDance"
+      "Airbnb",
+      "Apple"
     ],
     "hints": [
       "Think about edge cases.",
@@ -450,10 +444,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Maximum Path Sum 13",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 52.9,
+    "acceptanceRate": 51.2,
     "companyTags": [
-      "Tesla",
-      "Google"
+      "Microsoft",
+      "Netflix"
     ],
     "hints": [
       "Think about edge cases.",
@@ -482,9 +476,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Coin Change Variant 14",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 68.2,
+    "acceptanceRate": 45.8,
     "companyTags": [
-      "Google"
+      "Apple",
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -513,11 +508,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Longest Increasing Subsequence 15",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 65.6,
+    "acceptanceRate": 68.5,
     "companyTags": [
-      "Meta",
-      "Microsoft",
-      "Tesla"
+      "ByteDance",
+      "Apple",
+      "Stripe"
     ],
     "hints": [
       "Think about edge cases.",
@@ -546,9 +541,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Merge Overlapping Intervals 16",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 42.8,
+    "acceptanceRate": 39.1,
     "companyTags": [
-      "Apple"
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -576,12 +571,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-17",
     "title": "Valid Parentheses Combination 17",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 44.3,
+    "difficulty": "Hard",
+    "acceptanceRate": 42.8,
     "companyTags": [
-      "Netflix",
-      "Airbnb",
-      "Amazon"
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -609,11 +602,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-18",
     "title": "Word Break 18",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 30.7,
+    "difficulty": "Easy",
+    "acceptanceRate": 37.5,
     "companyTags": [
-      "Apple",
-      "Airbnb"
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -642,8 +634,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Kth Largest Element 19",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 38.9,
+    "acceptanceRate": 43.4,
     "companyTags": [
+      "Airbnb",
+      "Microsoft",
       "Meta"
     ],
     "hints": [
@@ -672,10 +666,9 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-20",
     "title": "Find the Missing Element in Array 20",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 40.2,
+    "difficulty": "Hard",
+    "acceptanceRate": 48.7,
     "companyTags": [
-      "Google",
       "Tesla"
     ],
     "hints": [
@@ -704,11 +697,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-21",
     "title": "Reverse a Substring 21",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 68.6,
+    "difficulty": "Easy",
+    "acceptanceRate": 53.1,
     "companyTags": [
-      "Uber",
-      "Apple"
+      "ByteDance"
     ],
     "hints": [
       "Think about edge cases.",
@@ -736,10 +728,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-22",
     "title": "Detect Cycle in Graph 22",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 48.3,
+    "difficulty": "Hard",
+    "acceptanceRate": 54.5,
     "companyTags": [
-      "Stripe"
+      "ByteDance"
     ],
     "hints": [
       "Think about edge cases.",
@@ -768,11 +760,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Maximum Path Sum 23",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 38.2,
+    "acceptanceRate": 42.7,
     "companyTags": [
       "Stripe",
-      "ByteDance",
-      "Google"
+      "Apple",
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -800,10 +792,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-24",
     "title": "Coin Change Variant 24",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 52.6,
+    "difficulty": "Easy",
+    "acceptanceRate": 52.4,
     "companyTags": [
-      "Uber"
+      "Meta",
+      "Amazon",
+      "Apple"
     ],
     "hints": [
       "Think about edge cases.",
@@ -832,10 +826,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Longest Increasing Subsequence 25",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 68.3,
+    "acceptanceRate": 60.6,
     "companyTags": [
       "Netflix",
-      "Google"
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -863,11 +857,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-26",
     "title": "Merge Overlapping Intervals 26",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 66.3,
+    "difficulty": "Medium",
+    "acceptanceRate": 43.3,
     "companyTags": [
-      "Apple",
-      "ByteDance"
+      "Amazon",
+      "Netflix"
     ],
     "hints": [
       "Think about edge cases.",
@@ -896,10 +890,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Valid Parentheses Combination 27",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 56.7,
+    "acceptanceRate": 56.9,
     "companyTags": [
       "Google",
-      "Uber"
+      "Tesla"
     ],
     "hints": [
       "Think about edge cases.",
@@ -927,10 +921,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-28",
     "title": "Word Break 28",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 65.7,
+    "difficulty": "Hard",
+    "acceptanceRate": 47.3,
     "companyTags": [
-      "Amazon"
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -958,11 +952,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-29",
     "title": "Kth Largest Element 29",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 68.6,
+    "difficulty": "Easy",
+    "acceptanceRate": 50.2,
     "companyTags": [
-      "ByteDance",
-      "Netflix"
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -990,11 +983,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-30",
     "title": "Find the Missing Element in Array 30",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 39.9,
+    "difficulty": "Medium",
+    "acceptanceRate": 50.6,
     "companyTags": [
-      "Airbnb",
-      "Apple"
+      "Google",
+      "Apple",
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1023,10 +1017,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Reverse a Substring 31",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 30.2,
+    "acceptanceRate": 57.9,
     "companyTags": [
-      "Stripe",
-      "Amazon"
+      "Netflix",
+      "Apple",
+      "ByteDance"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1054,12 +1049,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-32",
     "title": "Detect Cycle in Graph 32",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 33.4,
+    "difficulty": "Medium",
+    "acceptanceRate": 31.1,
     "companyTags": [
       "Uber",
-      "Google",
-      "Microsoft"
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1087,12 +1081,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-33",
     "title": "Maximum Path Sum 33",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 70,
+    "difficulty": "Hard",
+    "acceptanceRate": 62.4,
     "companyTags": [
-      "Airbnb",
       "Stripe",
-      "Uber"
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1121,11 +1114,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Coin Change Variant 34",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 68.6,
+    "acceptanceRate": 53.3,
     "companyTags": [
-      "Microsoft",
-      "Google",
-      "Uber"
+      "Apple",
+      "Meta",
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1154,11 +1147,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Longest Increasing Subsequence 35",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 36.2,
+    "acceptanceRate": 34.4,
     "companyTags": [
-      "Apple",
-      "Amazon",
-      "Meta"
+      "Apple"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1186,10 +1177,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-36",
     "title": "Merge Overlapping Intervals 36",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 49.9,
+    "difficulty": "Easy",
+    "acceptanceRate": 60.1,
     "companyTags": [
-      "Meta"
+      "Google",
+      "Apple",
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1218,9 +1211,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Valid Parentheses Combination 37",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 51,
+    "acceptanceRate": 50.8,
     "companyTags": [
-      "Google"
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1248,12 +1241,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-38",
     "title": "Word Break 38",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 62.2,
+    "difficulty": "Medium",
+    "acceptanceRate": 30.4,
     "companyTags": [
-      "Apple",
-      "Google",
-      "Airbnb"
+      "Amazon",
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1281,12 +1273,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-39",
     "title": "Kth Largest Element 39",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 50.2,
+    "difficulty": "Hard",
+    "acceptanceRate": 38.4,
     "companyTags": [
-      "Amazon",
-      "Tesla",
-      "Microsoft"
+      "Stripe",
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1315,11 +1306,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Find the Missing Element in Array 40",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 55.7,
+    "acceptanceRate": 57.5,
     "companyTags": [
-      "Tesla",
-      "Meta",
-      "Amazon"
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1347,12 +1336,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-41",
     "title": "Reverse a Substring 41",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 67.1,
+    "difficulty": "Medium",
+    "acceptanceRate": 54.6,
     "companyTags": [
-      "Google",
-      "Stripe",
-      "Microsoft"
+      "Microsoft",
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1381,11 +1369,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Detect Cycle in Graph 42",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 58.9,
+    "acceptanceRate": 33.2,
     "companyTags": [
-      "Airbnb",
-      "Meta",
-      "Uber"
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1414,9 +1400,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Maximum Path Sum 43",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 63.7,
+    "acceptanceRate": 65.1,
     "companyTags": [
-      "Apple"
+      "Google",
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1444,10 +1431,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-44",
     "title": "Coin Change Variant 44",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 30.4,
+    "difficulty": "Hard",
+    "acceptanceRate": 39.3,
     "companyTags": [
-      "Microsoft"
+      "Microsoft",
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1476,10 +1464,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Longest Increasing Subsequence 45",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 51.9,
+    "acceptanceRate": 65.6,
     "companyTags": [
-      "Apple",
-      "Google"
+      "Tesla",
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1507,12 +1495,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-46",
     "title": "Merge Overlapping Intervals 46",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 69.5,
+    "difficulty": "Medium",
+    "acceptanceRate": 51.1,
     "companyTags": [
-      "Uber",
       "Tesla",
-      "Meta"
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1541,9 +1528,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Valid Parentheses Combination 47",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 51.7,
+    "acceptanceRate": 57.2,
     "companyTags": [
-      "Tesla"
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1571,12 +1558,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-48",
     "title": "Word Break 48",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 65.5,
+    "difficulty": "Easy",
+    "acceptanceRate": 44.9,
     "companyTags": [
-      "Meta",
-      "ByteDance",
-      "Stripe"
+      "Uber",
+      "Apple",
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1604,12 +1591,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-49",
     "title": "Kth Largest Element 49",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 65.5,
+    "difficulty": "Easy",
+    "acceptanceRate": 37.3,
     "companyTags": [
-      "Microsoft",
-      "Netflix",
-      "Apple"
+      "Amazon",
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1637,12 +1623,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-50",
     "title": "Find the Missing Element in Array 50",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 31.5,
+    "difficulty": "Hard",
+    "acceptanceRate": 53.8,
     "companyTags": [
-      "Amazon",
-      "Stripe",
-      "Apple"
+      "Apple",
+      "Airbnb",
+      "Tesla"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1671,11 +1657,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Reverse a Substring 51",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 32.4,
+    "acceptanceRate": 39.6,
     "companyTags": [
-      "Amazon",
-      "Apple",
-      "Stripe"
+      "Meta",
+      "Netflix",
+      "Tesla"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1703,10 +1689,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-52",
     "title": "Detect Cycle in Graph 52",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 47.8,
+    "difficulty": "Hard",
+    "acceptanceRate": 37,
     "companyTags": [
-      "Netflix"
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1734,12 +1720,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-53",
     "title": "Maximum Path Sum 53",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 65.2,
+    "difficulty": "Medium",
+    "acceptanceRate": 60.3,
     "companyTags": [
       "Uber",
-      "Google",
-      "Microsoft"
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1767,10 +1752,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-54",
     "title": "Coin Change Variant 54",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 62.5,
+    "difficulty": "Medium",
+    "acceptanceRate": 60.8,
     "companyTags": [
-      "Tesla"
+      "Tesla",
+      "Apple",
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1798,11 +1785,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-55",
     "title": "Longest Increasing Subsequence 55",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 52.9,
+    "difficulty": "Medium",
+    "acceptanceRate": 64.5,
     "companyTags": [
-      "Meta",
-      "Amazon"
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1830,12 +1816,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-56",
     "title": "Merge Overlapping Intervals 56",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 44.2,
+    "difficulty": "Medium",
+    "acceptanceRate": 65.3,
     "companyTags": [
-      "Uber",
-      "Netflix",
-      "Tesla"
+      "Airbnb",
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1864,11 +1849,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Valid Parentheses Combination 57",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 54.4,
+    "acceptanceRate": 30.3,
     "companyTags": [
-      "Stripe",
-      "Meta",
-      "Netflix"
+      "Netflix",
+      "Airbnb",
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1896,10 +1881,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-58",
     "title": "Word Break 58",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 50.5,
+    "difficulty": "Hard",
+    "acceptanceRate": 61,
     "companyTags": [
-      "Uber"
+      "ByteDance",
+      "Apple",
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1928,11 +1915,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Kth Largest Element 59",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 46.9,
+    "acceptanceRate": 64.3,
     "companyTags": [
-      "Uber",
-      "Amazon",
-      "Netflix"
+      "Stripe"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1961,7 +1946,7 @@ export const codingProblems: CodingProblem[] = [
     "title": "Find the Missing Element in Array 60",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 40.5,
+    "acceptanceRate": 40.3,
     "companyTags": [
       "Amazon"
     ],
@@ -1991,11 +1976,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-61",
     "title": "Reverse a Substring 61",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 63,
+    "difficulty": "Hard",
+    "acceptanceRate": 53.5,
     "companyTags": [
-      "Microsoft",
-      "Airbnb"
+      "Meta",
+      "Google",
+      "Stripe"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2023,11 +2009,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-62",
     "title": "Detect Cycle in Graph 62",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 36.7,
+    "difficulty": "Hard",
+    "acceptanceRate": 42.9,
     "companyTags": [
       "Microsoft",
-      "Meta"
+      "Apple",
+      "Tesla"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2056,11 +2043,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Maximum Path Sum 63",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 42,
+    "acceptanceRate": 39.8,
     "companyTags": [
-      "Netflix",
-      "Uber",
-      "Amazon"
+      "Google",
+      "Amazon",
+      "Apple"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2088,11 +2075,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-64",
     "title": "Coin Change Variant 64",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 65.2,
+    "difficulty": "Easy",
+    "acceptanceRate": 38.3,
     "companyTags": [
-      "Stripe",
-      "Netflix"
+      "Airbnb",
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2120,12 +2107,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-65",
     "title": "Longest Increasing Subsequence 65",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 41.4,
+    "difficulty": "Easy",
+    "acceptanceRate": 41.5,
     "companyTags": [
-      "Tesla",
-      "Google",
-      "Microsoft"
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2153,11 +2138,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-66",
     "title": "Merge Overlapping Intervals 66",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 38.6,
+    "difficulty": "Medium",
+    "acceptanceRate": 55.4,
     "companyTags": [
-      "ByteDance",
-      "Google"
+      "Meta",
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2185,10 +2170,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-67",
     "title": "Valid Parentheses Combination 67",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 63.8,
+    "difficulty": "Hard",
+    "acceptanceRate": 37.6,
     "companyTags": [
-      "Apple"
+      "Stripe",
+      "Airbnb",
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2217,11 +2204,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Word Break 68",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 59.1,
+    "acceptanceRate": 48,
     "companyTags": [
-      "Apple",
-      "Uber",
-      "Stripe"
+      "Google",
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2249,12 +2235,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-69",
     "title": "Kth Largest Element 69",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 66.8,
+    "difficulty": "Hard",
+    "acceptanceRate": 46.6,
     "companyTags": [
-      "Airbnb",
-      "Google",
-      "ByteDance"
+      "Meta",
+      "Amazon",
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2282,12 +2268,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-70",
     "title": "Find the Missing Element in Array 70",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 54.1,
+    "difficulty": "Easy",
+    "acceptanceRate": 45.1,
     "companyTags": [
-      "Meta",
-      "Uber",
-      "Google"
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2315,10 +2299,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-71",
     "title": "Reverse a Substring 71",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 46.2,
+    "difficulty": "Hard",
+    "acceptanceRate": 44.1,
     "companyTags": [
-      "Meta",
+      "Airbnb",
+      "Amazon",
       "Stripe"
     ],
     "hints": [
@@ -2348,11 +2333,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Detect Cycle in Graph 72",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 54,
+    "acceptanceRate": 31.4,
     "companyTags": [
       "Uber",
-      "Netflix",
-      "Apple"
+      "Netflix"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2380,11 +2364,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-73",
     "title": "Maximum Path Sum 73",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 42.2,
+    "difficulty": "Medium",
+    "acceptanceRate": 53.5,
     "companyTags": [
-      "Microsoft",
-      "Uber"
+      "Meta",
+      "Apple",
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2413,11 +2398,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Coin Change Variant 74",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 58.3,
+    "acceptanceRate": 56.2,
     "companyTags": [
-      "Amazon",
-      "Tesla",
-      "ByteDance"
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2445,10 +2428,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-75",
     "title": "Longest Increasing Subsequence 75",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 54.5,
+    "difficulty": "Easy",
+    "acceptanceRate": 53.1,
     "companyTags": [
-      "Airbnb"
+      "Netflix",
+      "Apple"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2477,9 +2461,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Merge Overlapping Intervals 76",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 30.8,
+    "acceptanceRate": 60.8,
     "companyTags": [
-      "Airbnb"
+      "Google",
+      "Stripe",
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2507,10 +2493,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-77",
     "title": "Valid Parentheses Combination 77",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 36.2,
+    "difficulty": "Hard",
+    "acceptanceRate": 61.3,
     "companyTags": [
-      "Tesla"
+      "Apple",
+      "Netflix",
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2539,11 +2527,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Word Break 78",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 35.3,
+    "acceptanceRate": 46.5,
     "companyTags": [
-      "Google",
       "Netflix",
-      "ByteDance"
+      "Apple",
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2571,11 +2559,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-79",
     "title": "Kth Largest Element 79",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 39.1,
+    "difficulty": "Easy",
+    "acceptanceRate": 41.9,
     "companyTags": [
-      "Microsoft",
-      "Tesla"
+      "Meta",
+      "Amazon",
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2603,9 +2592,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-80",
     "title": "Find the Missing Element in Array 80",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 30.4,
+    "difficulty": "Easy",
+    "acceptanceRate": 52.1,
     "companyTags": [
+      "Stripe",
       "Uber"
     ],
     "hints": [
@@ -2635,11 +2625,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Reverse a Substring 81",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 37.6,
+    "acceptanceRate": 55.7,
     "companyTags": [
-      "Airbnb",
-      "Microsoft",
-      "Amazon"
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2667,11 +2655,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-82",
     "title": "Detect Cycle in Graph 82",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 53.3,
+    "difficulty": "Medium",
+    "acceptanceRate": 47,
     "companyTags": [
-      "Apple",
-      "Google"
+      "Meta",
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2699,11 +2687,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-83",
     "title": "Maximum Path Sum 83",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 52.5,
+    "difficulty": "Medium",
+    "acceptanceRate": 31.1,
     "companyTags": [
       "Uber",
-      "Google"
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2732,9 +2720,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Coin Change Variant 84",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 53.8,
+    "acceptanceRate": 66.4,
     "companyTags": [
-      "Airbnb",
+      "Meta",
       "Uber"
     ],
     "hints": [
@@ -2763,11 +2751,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-85",
     "title": "Longest Increasing Subsequence 85",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 38.9,
+    "difficulty": "Hard",
+    "acceptanceRate": 61.1,
     "companyTags": [
-      "Uber",
-      "Amazon"
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2795,10 +2782,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-86",
     "title": "Merge Overlapping Intervals 86",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 55.5,
+    "difficulty": "Medium",
+    "acceptanceRate": 56.8,
     "companyTags": [
-      "Google"
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2826,11 +2813,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-87",
     "title": "Valid Parentheses Combination 87",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 44.4,
+    "difficulty": "Medium",
+    "acceptanceRate": 36,
     "companyTags": [
-      "Stripe",
-      "Netflix"
+      "Google",
+      "Amazon",
+      "ByteDance"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2858,11 +2846,9 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-88",
     "title": "Word Break 88",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 31,
+    "difficulty": "Medium",
+    "acceptanceRate": 64.5,
     "companyTags": [
-      "Microsoft",
-      "Airbnb",
       "Netflix"
     ],
     "hints": [
@@ -2891,10 +2877,9 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-89",
     "title": "Kth Largest Element 89",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 38.1,
+    "difficulty": "Medium",
+    "acceptanceRate": 58.9,
     "companyTags": [
-      "Airbnb",
       "Apple"
     ],
     "hints": [
@@ -2924,8 +2909,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Find the Missing Element in Array 90",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 32.7,
+    "acceptanceRate": 62.6,
     "companyTags": [
+      "Google",
       "Amazon"
     ],
     "hints": [
@@ -2954,10 +2940,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-91",
     "title": "Reverse a Substring 91",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 48,
+    "difficulty": "Easy",
+    "acceptanceRate": 60.7,
     "companyTags": [
-      "Uber"
+      "Netflix",
+      "Apple",
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2985,10 +2973,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-92",
     "title": "Detect Cycle in Graph 92",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 56.1,
+    "difficulty": "Hard",
+    "acceptanceRate": 49.6,
     "companyTags": [
-      "Amazon"
+      "Netflix"
     ],
     "hints": [
       "Think about edge cases.",
@@ -3016,10 +3004,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-93",
     "title": "Maximum Path Sum 93",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 42.6,
+    "difficulty": "Easy",
+    "acceptanceRate": 33.5,
     "companyTags": [
-      "Netflix"
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -3047,10 +3035,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-94",
     "title": "Coin Change Variant 94",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 66.8,
+    "difficulty": "Easy",
+    "acceptanceRate": 64.4,
     "companyTags": [
-      "Meta",
+      "Uber",
       "Apple"
     ],
     "hints": [
@@ -3079,10 +3067,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-95",
     "title": "Longest Increasing Subsequence 95",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 35.2,
+    "difficulty": "Medium",
+    "acceptanceRate": 36.2,
     "companyTags": [
-      "Google"
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -3111,8 +3099,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Merge Overlapping Intervals 96",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 51,
+    "acceptanceRate": 40.2,
     "companyTags": [
+      "Airbnb",
       "Apple"
     ],
     "hints": [
@@ -3141,12 +3130,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-97",
     "title": "Valid Parentheses Combination 97",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 51.1,
+    "difficulty": "Hard",
+    "acceptanceRate": 33.8,
     "companyTags": [
-      "Airbnb",
-      "Google",
-      "Tesla"
+      "ByteDance"
     ],
     "hints": [
       "Think about edge cases.",

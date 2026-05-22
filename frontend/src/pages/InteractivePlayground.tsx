@@ -5,14 +5,16 @@ import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
 import { cpp } from '@codemirror/lang-cpp';
-import { Play, RotateCcw, ChevronLeft, CheckCircle2, XCircle, Layout, Info, Lightbulb, Building2, Send } from 'lucide-react';
+import { java } from '@codemirror/lang-java';
+import { Play, RotateCcw, ChevronLeft, CheckCircle2, XCircle, Layout, Info, Lightbulb, Building2, Send, ChevronDown } from 'lucide-react';
 import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from 'react-resizable-panels';
 import { getCodingProblemById, CodingProblem } from '@/api/codingLab';
 
 const LANGUAGE_EXTENSIONS: Record<string, any> = {
   javascript: javascript({ jsx: true }),
   python: python(),
-  cpp: cpp()
+  cpp: cpp(),
+  java: java()
 };
 
 export const InteractivePlayground: React.FC = () => {
@@ -25,8 +27,9 @@ export const InteractivePlayground: React.FC = () => {
   const [problem, setProblem] = useState<CodingProblem | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const [language, setLanguage] = useState<'javascript' | 'python' | 'cpp'>('javascript');
+  const [language, setLanguage] = useState<'javascript' | 'python' | 'cpp' | 'java'>('javascript');
   const [code, setCode] = useState('');
+  const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   
   const [activeTab, setActiveTab] = useState<'testcases' | 'result'>('testcases');
   const [testResults, setTestResults] = useState<{ id: string, passed: boolean, output: string, expected: string, input: string }[] | null>(null);
@@ -47,7 +50,7 @@ export const InteractivePlayground: React.FC = () => {
             acceptanceRate: 100,
             companyTags: ['Practice'],
             hints: [stateQuestion.answer],
-            starterCode: { javascript: '// Write your solution here\\n', python: '# Write your solution here\\n', cpp: '// Write your solution here\\n' },
+            starterCode: { javascript: '// Write your solution here\\n', python: '# Write your solution here\\n', cpp: '// Write your solution here\\n', java: '// Write your solution here\\n' },
             testCases: []
           });
           setCode('// Write your solution here\\n');
@@ -70,10 +73,10 @@ export const InteractivePlayground: React.FC = () => {
     fetchProblem();
   }, [problemId, language]);
 
-  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const lang = e.target.value as 'javascript' | 'python' | 'cpp';
+  const handleLanguageChange = (lang: 'javascript' | 'python' | 'cpp' | 'java') => {
     setLanguage(lang);
     setTestResults(null);
+    setLanguageDropdownOpen(false);
     if (problem) {
       setCode(problem.starterCode[lang]);
     }
@@ -271,15 +274,31 @@ export const InteractivePlayground: React.FC = () => {
               {/* Editor Pane */}
               <Panel defaultSize={60} minSize={30} className="bg-[#1e1e1e] flex flex-col relative">
                 <div className="h-10 border-b border-white/5 flex items-center justify-between px-4 bg-[#1e1e1e]">
-                  <select 
-                    value={language}
-                    onChange={handleLanguageChange}
-                    className="appearance-none bg-transparent text-white/70 text-xs font-bold uppercase tracking-widest focus:outline-none cursor-pointer"
-                  >
-                    <option value="javascript">JavaScript</option>
-                    <option value="python">Python</option>
-                    <option value="cpp">C++</option>
-                  </select>
+                  <div className="relative">
+                    <button 
+                      onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}
+                      className="flex items-center gap-2 px-3 py-1.5 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition-all text-white/70 text-xs font-bold uppercase tracking-widest"
+                    >
+                      {language === 'cpp' ? 'C++' : language} <ChevronDown size={14} className={`transition-transform \${languageDropdownOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    
+                    {languageDropdownOpen && (
+                      <>
+                        <div className="fixed inset-0 z-40" onClick={() => setLanguageDropdownOpen(false)} />
+                        <div className="absolute top-full left-0 mt-2 w-32 bg-[#13171d] border border-[#5ed29c]/20 rounded-xl shadow-2xl shadow-black overflow-hidden z-50 py-1 backdrop-blur-xl">
+                          {(['javascript', 'python', 'cpp', 'java'] as const).map((l) => (
+                            <button
+                              key={l}
+                              onClick={() => handleLanguageChange(l)}
+                              className={`w-full text-left px-4 py-2 text-xs font-bold uppercase tracking-widest hover:bg-[#5ed29c]/10 transition-colors \${language === l ? 'text-[#5ed29c] bg-[#5ed29c]/5' : 'text-white/60 hover:text-white'}`}
+                            >
+                              {l === 'cpp' ? 'C++' : l}
+                            </button>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
                   <button onClick={() => setCode(problem.starterCode[language])} className="text-white/30 hover:text-white" title="Reset Code">
                     <RotateCcw size={14} />
                   </button>
