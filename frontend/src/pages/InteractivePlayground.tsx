@@ -34,7 +34,8 @@ export const InteractivePlayground: React.FC = () => {
   const [code, setCode] = useState('');
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   
-  const [activeTab, setActiveTab] = useState<'testcases' | 'result' | 'submissions'>('testcases');
+  const [leftActiveTab, setLeftActiveTab] = useState<'description' | 'submissions'>('description');
+  const [activeTab, setActiveTab] = useState<'testcases' | 'result'>('testcases');
   const [testResults, setTestResults] = useState<{ id: string, passed: boolean, output: string, expected: string, input: string, isHidden?: boolean }[] | null>(null);
   const [isRunning, setIsRunning] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,14 +44,14 @@ export const InteractivePlayground: React.FC = () => {
   const [loadingSubmissions, setLoadingSubmissions] = useState(false);
 
   useEffect(() => {
-    if (problemId && activeTab === 'submissions') {
+    if (problemId && leftActiveTab === 'submissions') {
       setLoadingSubmissions(true);
       getSubmissionsByProblem(problemId)
         .then(data => setSubmissions(data))
         .catch(err => console.error(err))
         .finally(() => setLoadingSubmissions(false));
     }
-  }, [problemId, activeTab]);
+  }, [problemId, leftActiveTab]);
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -259,17 +260,28 @@ export const InteractivePlayground: React.FC = () => {
       {/* Main Resizable Area */}
       <div className="flex-1 overflow-hidden p-2">
         <PanelGroup orientation="horizontal" className="h-full rounded-2xl overflow-hidden border border-white/5 bg-black">
-          {/* Left Panel: Description */}
+          {/* Left Panel: Description & Submissions */}
           <Panel defaultSize={35} minSize={25} className="bg-[#0a0c10] flex flex-col">
-            <div className="h-12 border-b border-white/5 flex items-center px-4 bg-white/[0.02]">
-              <span className="text-[10px] font-black text-white/50 uppercase tracking-[0.2em] flex items-center gap-2">
+            <div className="h-10 border-b border-white/5 flex items-center px-2 bg-white/[0.02]">
+              <button 
+                onClick={() => setLeftActiveTab('description')}
+                className={`px-4 h-full flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${leftActiveTab === 'description' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40 hover:text-white/70'}`}
+              >
                 <Info size={14} /> Description
-              </span>
+              </button>
+              <button 
+                onClick={() => setLeftActiveTab('submissions')}
+                className={`px-4 h-full flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${leftActiveTab === 'submissions' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40 hover:text-white/70'}`}
+              >
+                Submissions
+              </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-6 space-y-8">
-              <div className="prose prose-invert prose-p:text-white/70 prose-p:leading-relaxed prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10 prose-code:text-[#5ed29c]">
-                <div dangerouslySetInnerHTML={{ __html: problem.description }} />
-              </div>
+            <div className="flex-1 overflow-y-auto p-4">
+              {leftActiveTab === 'description' && (
+                <div className="space-y-8 p-2">
+                  <div className="prose prose-invert prose-p:text-white/70 prose-p:leading-relaxed prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10 prose-code:text-[#5ed29c]">
+                    <div dangerouslySetInnerHTML={{ __html: problem.description }} />
+                  </div>
               
               <div className="space-y-4">
                 <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] flex items-center gap-2">
@@ -284,18 +296,26 @@ export const InteractivePlayground: React.FC = () => {
                 </div>
               </div>
 
-              {problem.hints.length > 0 && (
-                <div className="space-y-4">
-                  <h3 className="text-[10px] font-black text-[#5ed29c] uppercase tracking-[0.2em] flex items-center gap-2">
-                    <Lightbulb size={14} /> Hints
-                  </h3>
-                  <div className="space-y-2">
-                    {problem.hints.map((hint, i) => (
-                      <div key={i} className="p-3 bg-[#5ed29c]/5 border border-[#5ed29c]/10 rounded-lg text-sm text-[#5ed29c]/80 italic">
-                        {hint}
+                  {problem.hints.length > 0 && (
+                    <div className="space-y-4">
+                      <h3 className="text-[10px] font-black text-[#5ed29c] uppercase tracking-[0.2em] flex items-center gap-2">
+                        <Lightbulb size={14} /> Hints
+                      </h3>
+                      <div className="space-y-2">
+                        {problem.hints.map((hint, i) => (
+                          <div key={i} className="p-3 bg-[#5ed29c]/5 border border-[#5ed29c]/10 rounded-lg text-sm text-[#5ed29c]/80 italic">
+                            {hint}
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {leftActiveTab === 'submissions' && (
+                <div className="h-full -m-4">
+                  <SubmissionsTab submissions={submissions} loading={loadingSubmissions} />
                 </div>
               )}
             </div>
@@ -375,20 +395,9 @@ export const InteractivePlayground: React.FC = () => {
                       allPassed ? <CheckCircle2 size={12} className="text-green-500" /> : <XCircle size={12} className="text-red-500" />
                     )}
                   </button>
-                  <button 
-                    onClick={() => setActiveTab('submissions')}
-                    className={`px-4 h-full flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${activeTab === 'submissions' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40 hover:text-white/70'}`}
-                  >
-                    Submissions
-                  </button>
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-4">
-                  {activeTab === 'submissions' && (
-                    <div className="h-full -m-4">
-                      <SubmissionsTab submissions={submissions} loading={loadingSubmissions} />
-                    </div>
-                  )}
                   {activeTab === 'testcases' && (
                     <div className="space-y-4">
                       {problem.testCases.filter(tc => !tc.isHidden).map((tc, idx) => (
