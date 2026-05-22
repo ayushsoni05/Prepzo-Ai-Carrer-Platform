@@ -91,145 +91,88 @@ export const InteractivePlayground: React.FC = () => {
     setActiveTab('result');
     setTestResults(null);
 
-    let testCasesToRun = problem.testCases;
-    if (!isSubmit) {
-      testCasesToRun = problem.testCases.filter(tc => !tc.isHidden);
-    }
-
-    try {
-      let wrapperCode = '';
-      const inputsArrayStr = JSON.stringify(testCasesToRun.map(tc => tc.input));
-
-      if (language === 'javascript') {
-        wrapperCode = `
-${code}
-const inputs = ${inputsArrayStr};
-for (const input of inputs) {
-  console.log("---SPLIT---");
-  try {
-    const res = typeof solve === 'function' ? solve(input) : eval(input);
-    console.log(typeof res === 'object' ? JSON.stringify(res) : String(res));
-  } catch(e) {
-    console.log("Error: " + e.message);
-  }
-}
-`;
-      } else if (language === 'python') {
-        // Handle quotes for Python JSON loading
-        const pyInputsStr = inputsArrayStr.replace(/'/g, "\\'");
-        wrapperCode = `
-import json
-${code}
-inputs = json.loads('${pyInputsStr}')
-try:
-    sol = Solution()
-except:
-    sol = None
-
-for inp in inputs:
-    print("---SPLIT---")
-    try:
-        res = sol.solve(inp) if sol else solve(inp)
-        print(json.dumps(res) if isinstance(res, (dict, list)) else str(res))
-    except Exception as e:
-        print("Error:", str(e))
-`;
-      } else if (language === 'cpp') {
-        const cppInputs = testCasesToRun.map(tc => `R"DELIM(${tc.input})DELIM"`).join(', ');
-        wrapperCode = `
-#include <iostream>
-#include <string>
-#include <vector>
-using namespace std;
-${code}
-int main() {
-    vector<string> inputs = { ${cppInputs} };
-    Solution sol;
-    for (const string& inp : inputs) {
-        cout << "---SPLIT---\\n";
-        try {
-            cout << sol.solve(inp) << "\\n";
-        } catch(...) {
-            cout << "Error\\n";
-        }
-    }
-    return 0;
-}
-`;
-      } else if (language === 'java') {
-        const javaInputs = testCasesToRun.map(tc => `"${tc.input.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`).join(', ');
-        // Make sure userCode doesn't have public class Solution, only class Solution
-        const sanitizedCode = code.replace(/public\s+class\s+Solution/, 'class Solution');
-        wrapperCode = `
-import java.util.*;
-${sanitizedCode}
-public class Main {
-    public static void main(String[] args) {
-        String[] inputs = { ${javaInputs} };
-        Solution sol = new Solution();
-        for (String inp : inputs) {
-            System.out.println("---SPLIT---");
-            try {
-                System.out.println(sol.solve(inp));
-            } catch(Exception e) {
-                System.out.println("Error: " + e.getMessage());
-            }
-        }
-    }
-}
-`;
+    // Give UI time to show loading state
+    setTimeout(async () => {
+      let testCasesToRun = problem.testCases;
+      if (!isSubmit) {
+        testCasesToRun = problem.testCases.filter(tc => !tc.isHidden);
       }
 
-      // Execute via Piston
-      const pistonLang = language === 'cpp' ? 'c++' : language;
-      const res = await fetch('https://emkc.org/api/v2/piston/execute', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          language: pistonLang,
-          version: '*', // Auto-detect highest version
-          files: [{ content: wrapperCode }]
-        })
-      });
-      
-      const data = await res.json();
-      const output = data.run?.stdout || data.run?.stderr || 'Error executing code';
-      
-      // Parse output
-      const outputs = output.split('---SPLIT---').slice(1).map((s: string) => s.trim());
-      
-      const results = testCasesToRun.map((tc, idx) => {
-        const outStr = outputs[idx] || 'undefined';
-        const passed = outStr.replace(/\s+/g, '') === tc.expectedOutput.replace(/\s+/g, '');
-        return {
+      if (language === 'javascript') {
+        const results = testCasesToRun.map((tc) => {
+          let outputStr = '';
+          let passed = false;
+          try {
+            // Find function definition and parameter names
+            const funcMatch = code.match(/function\s+([a-zA-Z0-9_]+)\s*\(([^)]*)\)/) || code.match(/(?:const|let|var)\s+([a-zA-Z0-9_]+)\s*=\s*(?:function)?\s*\(([^)]*)\)/);
+            
+            if (funcMatch) {
+              const fnName = funcMatch[1];
+              const paramsStr = funcMatch[2]; // e.g. "nums, target"
+              
+              // We inject the raw input as let variables inside the function scope
+              // tc.input is like 'nums = [2,7,11,15], target = 9'
+              // so `let ${tc.input};` becomes `let nums = [2,7,11,15], target = 9;`
+              // If the input doesn't have an equals sign, we fallback to just passing it as arguments.
+              const isAssignment = tc.input.includes('=');
+              
+              const executionFn = new Function(`
+                ${code}
+                try {
+                  ${isAssignment ? `let ${tc.input};` : ''}
+                  const res = ${fnName}(${isAssignment ? paramsStr : tc.input});
+                  return typeof res === 'object' && res !== null ? JSON.stringify(res) : String(res);
+                } catch(e) {
+                  return "Error: " + e.message;
+                }
+              `);
+              
+              outputStr = executionFn();
+              
+              // Remove whitespace for comparison
+              passed = outputStr?.replace(/\s+/g, '') === tc.expectedOutput.replace(/\s+/g, '');
+            } else {
+              outputStr = 'Error: Could not find function definition.';
+            }
+          } catch (err: any) {
+            outputStr = `Execution Error: ${err.message}`;
+          }
+
+          return {
+            id: tc.id,
+            input: tc.input,
+            expected: tc.expectedOutput,
+            output: outputStr || 'undefined',
+            passed,
+            isHidden: tc.isHidden
+          };
+        });
+        
+        setTestResults(results);
+
+        if (isSubmit && results.every(r => r.passed)) {
+          const solved = JSON.parse(localStorage.getItem('coding-lab-solved') || '[]');
+          if (!solved.includes(problem.id)) {
+            solved.push(problem.id);
+            localStorage.setItem('coding-lab-solved', JSON.stringify(solved));
+          }
+        }
+      } else {
+        // Fallback for languages that require a backend compiler
+        const results = testCasesToRun.map(tc => ({
           id: tc.id,
           input: tc.input,
           expected: tc.expectedOutput,
-          output: outStr,
-          passed,
+          output: "Compiler Offline (Remote API disabled). Please use JavaScript for local evaluation.",
+          passed: false,
           isHidden: tc.isHidden
-        };
-      });
-      
-      setTestResults(results);
-
-      if (isSubmit && results.every(r => r.passed)) {
-        const solved = JSON.parse(localStorage.getItem('coding-lab-solved') || '[]');
-        if (!solved.includes(problem.id)) {
-          solved.push(problem.id);
-          localStorage.setItem('coding-lab-solved', JSON.stringify(solved));
-        }
+        }));
+        setTestResults(results);
       }
-
-    } catch (err: any) {
-      console.error(err);
-      setTestResults(testCasesToRun.map(tc => ({
-        id: tc.id, input: tc.input, expected: tc.expectedOutput, output: 'API Error', passed: false, isHidden: tc.isHidden
-      })));
-    } finally {
+      
       if (isSubmit) setIsSubmitting(false);
       else setIsRunning(false);
-    }
+    }, 500);
   };
 
   if (loading) {
