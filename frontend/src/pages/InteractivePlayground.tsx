@@ -91,101 +91,145 @@ export const InteractivePlayground: React.FC = () => {
     setActiveTab('result');
     setTestResults(null);
 
-    // Simulate network delay for container execution
-    setTimeout(() => {
-      if (isSubmit) setIsSubmitting(false);
-      else setIsRunning(false);
+    let testCasesToRun = problem.testCases;
+    if (!isSubmit) {
+      testCasesToRun = problem.testCases.filter(tc => !tc.isHidden);
+    }
 
-      let testCasesToRun = problem.testCases;
-      if (!isSubmit) {
-        testCasesToRun = problem.testCases.filter(tc => !tc.isHidden);
-      }
+    try {
+      let wrapperCode = '';
+      const inputsArrayStr = JSON.stringify(testCasesToRun.map(tc => tc.input));
 
       if (language === 'javascript') {
-        const results = testCasesToRun.map((tc) => {
-          let outputStr = '';
-          let passed = false;
-          try {
-            // Very naive execution for frontend mockup
-            // We expect the user to have written a function, we will evaluate it and then call it
-            // This is purely for demonstration purposes.
-            const userCode = code;
-            
-            // For a real app, this would be sent to a sandboxed backend!
-            // We are mocking execution by appending a call to the function based on the input
-            // Assuming the function name is the first function definition found
-            const funcNameMatch = userCode.match(/function\s+([a-zA-Z0-9_]+)\s*\(/);
-            const varFuncNameMatch = userCode.match(/var\s+([a-zA-Z0-9_]+)\s*=\s*function/);
-            
-            let fnName = '';
-            if (funcNameMatch) fnName = funcNameMatch[1];
-            else if (varFuncNameMatch) fnName = varFuncNameMatch[1];
+        wrapperCode = `
+${code}
+const inputs = ${inputsArrayStr};
+for (const input of inputs) {
+  console.log("---SPLIT---");
+  try {
+    const res = typeof solve === 'function' ? solve(input) : eval(input);
+    console.log(typeof res === 'object' ? JSON.stringify(res) : String(res));
+  } catch(e) {
+    console.log("Error: " + e.message);
+  }
+}
+`;
+      } else if (language === 'python') {
+        // Handle quotes for Python JSON loading
+        const pyInputsStr = inputsArrayStr.replace(/'/g, "\\'");
+        wrapperCode = `
+import json
+${code}
+inputs = json.loads('${pyInputsStr}')
+try:
+    sol = Solution()
+except:
+    sol = None
 
-            if (fnName) {
-              // Construct executable string: code + "\n return fnName(...input);"
-              // Since input is a JSON string of arguments like '[ [2,7,11,15], 9 ]', we parse it and spread it
-              const executionFn = new Function(`
-                ${userCode}
-                try {
-                  const args = JSON.parse('${tc.input}');
-                  const res = ${fnName}(...args);
-                  return JSON.stringify(res);
-                } catch(e) {
-                  return "Error: " + e.message;
-                }
-              `);
-              
-              outputStr = executionFn();
-              
-              // Remove whitespace for comparison
-              passed = outputStr?.replace(/\\s+/g, '') === tc.expectedOutput.replace(/\\s+/g, '');
-            } else {
-              outputStr = 'Error: Could not find function definition to execute.';
-            }
-          } catch (err: any) {
-            outputStr = `Execution Error: ${err.message}`;
-          }
-
-          return {
-            id: tc.id,
-            input: tc.input,
-            expected: tc.expectedOutput,
-            output: outputStr || 'undefined',
-            passed,
-            isHidden: tc.isHidden
-          };
-        });
-        
-        setTestResults(results);
-
-        if (isSubmit && results.every(r => r.passed)) {
-          const solved = JSON.parse(localStorage.getItem('coding-lab-solved') || '[]');
-          if (!solved.includes(problem.id)) {
-            solved.push(problem.id);
-            localStorage.setItem('coding-lab-solved', JSON.stringify(solved));
-          }
+for inp in inputs:
+    print("---SPLIT---")
+    try:
+        res = sol.solve(inp) if sol else solve(inp)
+        print(json.dumps(res) if isinstance(res, (dict, list)) else str(res))
+    except Exception as e:
+        print("Error:", str(e))
+`;
+      } else if (language === 'cpp') {
+        const cppInputs = testCasesToRun.map(tc => `R"DELIM(${tc.input})DELIM"`).join(', ');
+        wrapperCode = `
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+${code}
+int main() {
+    vector<string> inputs = { ${cppInputs} };
+    Solution sol;
+    for (const string& inp : inputs) {
+        cout << "---SPLIT---\\n";
+        try {
+            cout << sol.solve(inp) << "\\n";
+        } catch(...) {
+            cout << "Error\\n";
         }
-      } else {
-        // Mock non-JS languages
-        const results = testCasesToRun.map(tc => ({
+    }
+    return 0;
+}
+`;
+      } else if (language === 'java') {
+        const javaInputs = testCasesToRun.map(tc => `"${tc.input.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`).join(', ');
+        // Make sure userCode doesn't have public class Solution, only class Solution
+        const sanitizedCode = code.replace(/public\s+class\s+Solution/, 'class Solution');
+        wrapperCode = `
+import java.util.*;
+${sanitizedCode}
+public class Main {
+    public static void main(String[] args) {
+        String[] inputs = { ${javaInputs} };
+        Solution sol = new Solution();
+        for (String inp : inputs) {
+            System.out.println("---SPLIT---");
+            try {
+                System.out.println(sol.solve(inp));
+            } catch(Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+    }
+}
+`;
+      }
+
+      // Execute via Piston
+      const pistonLang = language === 'cpp' ? 'c++' : language;
+      const res = await fetch('https://emkc.org/api/v2/piston/execute', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          language: pistonLang,
+          version: '*', // Auto-detect highest version
+          files: [{ content: wrapperCode }]
+        })
+      });
+      
+      const data = await res.json();
+      const output = data.run?.stdout || data.run?.stderr || 'Error executing code';
+      
+      // Parse output
+      const outputs = output.split('---SPLIT---').slice(1).map((s: string) => s.trim());
+      
+      const results = testCasesToRun.map((tc, idx) => {
+        const outStr = outputs[idx] || 'undefined';
+        const passed = outStr.replace(/\s+/g, '') === tc.expectedOutput.replace(/\s+/g, '');
+        return {
           id: tc.id,
           input: tc.input,
           expected: tc.expectedOutput,
-          output: tc.expectedOutput, // Mock success
-          passed: true,
+          output: outStr,
+          passed,
           isHidden: tc.isHidden
-        }));
-        setTestResults(results);
+        };
+      });
+      
+      setTestResults(results);
 
-        if (isSubmit && results.every(r => r.passed)) {
-          const solved = JSON.parse(localStorage.getItem('coding-lab-solved') || '[]');
-          if (!solved.includes(problem.id)) {
-            solved.push(problem.id);
-            localStorage.setItem('coding-lab-solved', JSON.stringify(solved));
-          }
+      if (isSubmit && results.every(r => r.passed)) {
+        const solved = JSON.parse(localStorage.getItem('coding-lab-solved') || '[]');
+        if (!solved.includes(problem.id)) {
+          solved.push(problem.id);
+          localStorage.setItem('coding-lab-solved', JSON.stringify(solved));
         }
       }
-    }, 1500);
+
+    } catch (err: any) {
+      console.error(err);
+      setTestResults(testCasesToRun.map(tc => ({
+        id: tc.id, input: tc.input, expected: tc.expectedOutput, output: 'API Error', passed: false, isHidden: tc.isHidden
+      })));
+    } finally {
+      if (isSubmit) setIsSubmitting(false);
+      else setIsRunning(false);
+    }
   };
 
   if (loading) {
