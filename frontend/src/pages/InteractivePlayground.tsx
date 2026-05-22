@@ -32,7 +32,7 @@ export const InteractivePlayground: React.FC = () => {
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   
   const [activeTab, setActiveTab] = useState<'testcases' | 'result'>('testcases');
-  const [testResults, setTestResults] = useState<{ id: string, passed: boolean, output: string, expected: string, input: string }[] | null>(null);
+  const [testResults, setTestResults] = useState<{ id: string, passed: boolean, output: string, expected: string, input: string, isHidden?: boolean }[] | null>(null);
   const [isRunning, setIsRunning] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -96,8 +96,13 @@ export const InteractivePlayground: React.FC = () => {
       if (isSubmit) setIsSubmitting(false);
       else setIsRunning(false);
 
+      let testCasesToRun = problem.testCases;
+      if (!isSubmit) {
+        testCasesToRun = problem.testCases.filter(tc => !tc.isHidden);
+      }
+
       if (language === 'javascript') {
-        const results = problem.testCases.map((tc) => {
+        const results = testCasesToRun.map((tc) => {
           let outputStr = '';
           let passed = false;
           try {
@@ -146,7 +151,8 @@ export const InteractivePlayground: React.FC = () => {
             input: tc.input,
             expected: tc.expectedOutput,
             output: outputStr || 'undefined',
-            passed
+            passed,
+            isHidden: tc.isHidden
           };
         });
         
@@ -161,12 +167,13 @@ export const InteractivePlayground: React.FC = () => {
         }
       } else {
         // Mock non-JS languages
-        const results = problem.testCases.map(tc => ({
+        const results = testCasesToRun.map(tc => ({
           id: tc.id,
           input: tc.input,
           expected: tc.expectedOutput,
           output: tc.expectedOutput, // Mock success
-          passed: true
+          passed: true,
+          isHidden: tc.isHidden
         }));
         setTestResults(results);
 
@@ -361,7 +368,7 @@ export const InteractivePlayground: React.FC = () => {
                 <div className="flex-1 overflow-y-auto p-4">
                   {activeTab === 'testcases' && (
                     <div className="space-y-4">
-                      {problem.testCases.map((tc, idx) => (
+                      {problem.testCases.filter(tc => !tc.isHidden).map((tc, idx) => (
                         <div key={tc.id} className="p-4 bg-white/5 rounded-xl border border-white/5">
                           <p className="text-[10px] font-black text-white/30 uppercase mb-2 tracking-widest">Case {idx + 1}</p>
                           <div className="space-y-2 font-mono text-xs">
@@ -395,18 +402,20 @@ export const InteractivePlayground: React.FC = () => {
                             <div key={res.id} className={`p-4 rounded-xl border ${res.passed ? 'bg-green-500/5 border-green-500/20' : 'bg-red-500/5 border-red-500/20'}`}>
                               <div className="flex items-center gap-2 mb-3">
                                 {res.passed ? <CheckCircle2 size={14} className="text-green-500" /> : <XCircle size={14} className="text-red-500" />}
-                                <span className="text-[10px] font-black uppercase tracking-widest text-white/70">Case {idx + 1}</span>
+                                <span className="text-[10px] font-black uppercase tracking-widest text-white/70">
+                                  {res.isHidden ? 'Hidden Test Case' : `Case ${idx + 1}`}
+                                </span>
                               </div>
                               <div className="space-y-2 font-mono text-xs">
                                 <div className="p-2 bg-black/50 rounded text-white/70">
-                                  <span className="text-white/30 select-none">Input: </span> {res.input}
+                                  <span className="text-white/30 select-none">Input: </span> {res.isHidden ? <span className="italic text-white/40">Hidden...</span> : res.input}
                                 </div>
                                 <div className="p-2 bg-black/50 rounded text-white/70">
-                                  <span className="text-white/30 select-none">Output: </span> <span className={res.passed ? 'text-green-400' : 'text-red-400'}>{res.output}</span>
+                                  <span className="text-white/30 select-none">Output: </span> <span className={res.passed ? 'text-green-400' : 'text-red-400'}>{res.isHidden ? <span className="italic text-white/40">Hidden...</span> : res.output}</span>
                                 </div>
                                 {!res.passed && (
                                   <div className="p-2 bg-black/50 rounded text-white/70">
-                                    <span className="text-white/30 select-none">Expected: </span> <span className="text-green-400">{res.expected}</span>
+                                    <span className="text-white/30 select-none">Expected: </span> <span className="text-green-400">{res.isHidden ? <span className="italic text-white/40">Hidden...</span> : res.expected}</span>
                                   </div>
                                 )}
                               </div>

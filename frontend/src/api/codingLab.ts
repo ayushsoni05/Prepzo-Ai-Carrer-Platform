@@ -2,6 +2,7 @@ export interface TestCase {
   id: string;
   input: string;
   expectedOutput: string;
+  isHidden?: boolean;
 }
 
 export interface CodingProblem {
@@ -58,6 +59,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [3,3], target = 6",
         "expectedOutput": "[0,1]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1000000000, 1000000000], target = 2000000000",
+        "expectedOutput": "[0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,5,7,9], target = 10",
+        "expectedOutput": "[0, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10], target = 3",
+        "expectedOutput": "[0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [0,4,3,0], target = 0",
+        "expectedOutput": "[0, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1000000000, -1000000000, 500000000, -500000000], target = 0",
+        "expectedOutput": "[0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10], target = 17",
+        "expectedOutput": "[7, 8]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,5,7,8], target = 15",
+        "expectedOutput": "[2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1000000000, -1000000000], target = 0",
+        "expectedOutput": "[0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [2,7,11,15], target = 9",
+        "expectedOutput": "[0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10], target = 19",
+        "expectedOutput": "[8, 9]",
+        "isHidden": true
       }
     ]
   },
@@ -94,6 +155,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]",
         "expectedOutput": "[8,9,9,9,0,0,0,1]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "l1 = [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], l2 = [5,6,4]",
+        "expectedOutput": "[6, 6, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "l1 = [2,4,3], l2 = [5,6,4,1]",
+        "expectedOutput": "[7, 0, 8, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "l1 = [1,2,3,4,5], l2 = [9,8,7,6,5]",
+        "expectedOutput": "[0, 1, 1, 1, 1, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "l1 = [1], l2 = [9,9,9,9,9,9,9,9,9,9]",
+        "expectedOutput": "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "l1 = [5,5,5], l2 = [5,5,5,5,5]",
+        "expectedOutput": "[0, 1, 1, 6, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "l1 = [9, 9, 9, 9, 9, 9, 9], l2 = [9, 9, 9, 9]",
+        "expectedOutput": "[8, 9, 9, 9, 0, 0, 0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "l1 = [9,9,9,9,9,9,9,9,9,9], l2 = [1]",
+        "expectedOutput": "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "l1 = [1], l2 = [9,9]",
+        "expectedOutput": "[0, 0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "l1 = [1,0,0,0,0], l2 = [9,9,9,9]",
+        "expectedOutput": "[0, 0, 0, 0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "l1 = [9,8,7,6,5,4,3,2,1], l2 = [1,2,3,4,5,6,7,8,9]",
+        "expectedOutput": "[0, 1, 1, 1, 1, 1, 1, 1, 1, 1]",
+        "isHidden": true
       }
     ]
   },
@@ -132,6 +253,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;pwwkew&quot;",
         "expectedOutput": "3"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"pwwkew\"",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"abcdabcabcabcd\"",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"abcdefgabcdefgabcdefgabcdefg\"",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"aabbccddeeff\"",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"sldfjldskfjdslkfjsdkljflkjsdfljfsdlkflskdjflsdjflskdjflsdkjflsdfjlsd\"",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"racecar\"",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"abcdefghijklmnopqrstuvwxyz\"",
+        "expectedOutput": "26",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"aabacbebebe\"",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"ekdvdfis\"",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"aabbccddeeffgghhiijjkkllmmnnooppqqrrssttuuvvwwxxyyzz1234567890abcdefghijklmnopqrstuvwxyz\"",
+        "expectedOutput": "36",
+        "isHidden": true
       }
     ]
   },
@@ -163,6 +344,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums1 = [1,2], nums2 = [3,4]",
         "expectedOutput": "2.50000"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums1 = [1,3], nums2 = [2]",
+        "expectedOutput": "2.0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums1 = [1], nums2 = [2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "5.5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums1 = [1000000], nums2 = [-1000000]",
+        "expectedOutput": "0.0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums1 = [1,2,3,4,5,6,7,8,9], nums2 = [10,11,12,13,14,15,16,17,18,19]",
+        "expectedOutput": "10.0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums1 = [1,3,5,7], nums2 = [2,4,6,8]",
+        "expectedOutput": "4.5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums1 = [10,20,30], nums2 = [5,15,25,35,45]",
+        "expectedOutput": "22.5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums1 = [0,0], nums2 = [0,0]",
+        "expectedOutput": "0.0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums1 = [1,2,3,4,5,6,7,8,9,10], nums2 = [11,12,13,14,15,16,17,18,19,20]",
+        "expectedOutput": "10.5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums1 = [1,2,3,4,5], nums2 = [6,7,8,9,10]",
+        "expectedOutput": "5.5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums1 = [1,2,3], nums2 = [0,4,5,6]",
+        "expectedOutput": "3.0",
+        "isHidden": true
       }
     ]
   },
@@ -198,6 +439,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = &quot;cbbd&quot;",
         "expectedOutput": "&quot;bb&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"abacdfgdcaba\"",
+        "expectedOutput": "aba",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"ac\"",
+        "expectedOutput": "a",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"babad\"",
+        "expectedOutput": "aba",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"noon\"",
+        "expectedOutput": "noon",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"cbbd\"",
+        "expectedOutput": "bb",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"abcba\"",
+        "expectedOutput": "abcba",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"bcbabcbabcba\"",
+        "expectedOutput": "bcbabcbabcb",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"noonhighnoon\"",
+        "expectedOutput": "noon",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"forgeeksskeegfor\"",
+        "expectedOutput": "geeksskeeg",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"aaabaaaa\"",
+        "expectedOutput": "aaabaaa",
+        "isHidden": true
       }
     ]
   },
@@ -232,6 +533,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;A&quot;, numRows = 1",
         "expectedOutput": "&quot;A&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z\", numRows = 5",
+        "expectedOutput": "AEIMQUY,,,,,,,,,,,,,BDFHJLNPRTVXZ,,,,,,,,,,,,CGKOSW",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"PAYPALISHIRING\", numRows = 3",
+        "expectedOutput": "PAHNAPLSIIGYIR",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"A\", numRows = 1",
+        "expectedOutput": "A",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"HELLO\", numRows = 5",
+        "expectedOutput": "HELLO",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"ABCDEF\", numRows = 2",
+        "expectedOutput": "ACEBDF",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"HELLO WORLD\", numRows = 5",
+        "expectedOutput": "HREOLLWDL O",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z\", numRows = 20",
+        "expectedOutput": "atM,,,,,bsuLN,,,,,crvKO,,,,,dqwJP,,,,,epxIQ,,,,,foyHR,,,,,gnzGSZ,,,,,,hmAFTY,,,,,,ilBEUX,,,,,,jkCDVW,,,",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"AB\", numRows = 1",
+        "expectedOutput": "AB",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"ABCDEFGHIJKLMNOPQRSTUVWXYZ\", numRows = 5",
+        "expectedOutput": "AIQYBHJPRXZCGKOSWDFLNTVEMU",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"ABCD\", numRows = 2",
+        "expectedOutput": "ACBD",
+        "isHidden": true
       }
     ]
   },
@@ -266,6 +627,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "x = 120",
         "expectedOutput": "21"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "x = 120",
+        "expectedOutput": "21",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "x = -123",
+        "expectedOutput": "-321",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "x = 1534236469",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "x = 0",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "x = -2147483648",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "x = -1534236469",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "x = 123",
+        "expectedOutput": "321",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "x = -10",
+        "expectedOutput": "-1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "x = -100000",
+        "expectedOutput": "-1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "x = 10",
+        "expectedOutput": "1",
+        "isHidden": true
       }
     ]
   },
@@ -290,6 +711,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"20000000000000000000000000000000000000000\"",
+        "expectedOutput": "2147483647",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"   \"+-12\"",
+        "expectedOutput": "Error: Solution.myAtoi() missing 1 required positional argument: 's'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"-2147483649\"",
+        "expectedOutput": "-2147483648",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"-21474836480\"",
+        "expectedOutput": "-2147483648",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"  000000000000   \"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"+1\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"   -  42\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"words with 42\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"   -042\"",
+        "expectedOutput": "-42",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"0-1\"",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -326,6 +807,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "x = 10",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "x = 123421",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "x = 1",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "x = -121",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "x = 12345678987654321",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "x = 123456",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "x = -2147483648",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "x = 1000000001",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "x = 1111111111",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "x = 0",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "x = 123321",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -362,6 +903,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;ab&quot;, p = &quot;.*&quot;",
         "expectedOutput": "true"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"ab\", p = \".*\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"aa\", p = \"a\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"mississippi\", p = \"mis*is*p*.\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"aabbccddeeff\", p = \"a*b*c*d*e*f*f*\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"abababa\", p = \"(ab)*a\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"abcde\", p = \"a*.*e\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"ababcd\", p = \"a.*a.*d\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"aabbbbc\", p = \"a*b*c\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"aaaaaa\", p = \"a*a*a*a*a*a\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"aabb\", p = \"ab*a*b*\"",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -397,6 +998,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "height = [1,1]",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "height = [8,10,14,0,13,10,9,9,8,9]",
+        "expectedOutput": "72",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "height = [1,8,6,2,5,4,8,3,7]",
+        "expectedOutput": "49",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "height = [2,3,4,5,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "81",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "height = [2,3,10,5,7,8,9]",
+        "expectedOutput": "36",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "height = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "25",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "height = [1,2,4,3]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "height = [1,2,3,4,5]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "height = [1,3,2,5,25,24,5]",
+        "expectedOutput": "24",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "height = [1,2,1]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "height = [10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "25",
+        "isHidden": true
       }
     ]
   },
@@ -423,6 +1084,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "num = 4",
+        "expectedOutput": "IV",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "num = 2023",
+        "expectedOutput": "MMXXIII",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "num = 589",
+        "expectedOutput": "DLXXXIX",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "num = 444",
+        "expectedOutput": "CDXLIV",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "num = 1000",
+        "expectedOutput": "M",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "num = 789",
+        "expectedOutput": "DCCLXXXIX",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "num = 58",
+        "expectedOutput": "LVIII",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "num = 3999",
+        "expectedOutput": "MMMCMXCIX",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "num = 399",
+        "expectedOutput": "CCCXCIX",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "num = 3749",
+        "expectedOutput": "MMMDCCXLIX",
+        "isHidden": true
       }
     ]
   },
@@ -461,6 +1182,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;MCMXCIV&quot;",
         "expectedOutput": "1994"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"MMMCMXCIX\"",
+        "expectedOutput": "3999",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"DCXXI\"",
+        "expectedOutput": "621",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"XC\"",
+        "expectedOutput": "90",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"VIII\"",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"XV\"",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"XXVII\"",
+        "expectedOutput": "27",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"IX\"",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"DCCLXXIX\"",
+        "expectedOutput": "779",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"XX\"",
+        "expectedOutput": "20",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"CDXLIV\"",
+        "expectedOutput": "444",
+        "isHidden": true
       }
     ]
   },
@@ -492,6 +1273,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "strs = [&quot;dog&quot;,&quot;racecar&quot;,&quot;car&quot;]",
         "expectedOutput": "&quot;&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "strs = [\"\",\"\",\"\",\"\"]",
+        "expectedOutput": "",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "strs = [\"apple\",\"app\",\"apricot\"]",
+        "expectedOutput": "ap",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "strs = [\"abcd\",\"abce\",\"abcf\"]",
+        "expectedOutput": "abc",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "strs = [\"apple\",\"app\",\"application\"]",
+        "expectedOutput": "app",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "strs = [\"interview\",\"interrupt\",\"inter\"]",
+        "expectedOutput": "inter",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "strs = [\"test\",\"testing\",\"tester\"]",
+        "expectedOutput": "test",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "strs = [\"hello\",\"hell\",\"hella\"]",
+        "expectedOutput": "hell",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "strs = [\"flower\",\"flow\",\"flight\"]",
+        "expectedOutput": "fl",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "strs = [\"same\",\"same\",\"same\"]",
+        "expectedOutput": "same",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "strs = [\"single\"]",
+        "expectedOutput": "single",
+        "isHidden": true
       }
     ]
   },
@@ -532,6 +1373,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [0,0,0]",
         "expectedOutput": "[[0,0,0]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [-1,0,1,2,-1,-4]",
+        "expectedOutput": "[[-1, -1, 2], [-1, 0, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [-2,0,1,1,2]",
+        "expectedOutput": "[[-2, 0, 2], [-2, 1, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,-2,-1]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [-1,0,0,0,1,1,2]",
+        "expectedOutput": "[[-1, 0, 1], [0, 0, 0]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,-1,-1,0]",
+        "expectedOutput": "[[-1, 0, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [3,-2,1,0,-1,-2,1,-2,1,-2]",
+        "expectedOutput": "[[-2, -1, 3], [-2, 1, 1], [-1, 0, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [-1,0,1,0]",
+        "expectedOutput": "[[-1, 0, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [-4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6]",
+        "expectedOutput": "[[-4, -2, 6], [-4, 0, 4], [-4, 1, 3], [-4, 2, 2], [-2, -2, 4], [-2, 0, 2]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [-1,1,0]",
+        "expectedOutput": "[[-1, 0, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [0,1,1]",
+        "expectedOutput": "[]",
+        "isHidden": true
       }
     ]
   },
@@ -563,6 +1464,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [0,0,0], target = 1",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [-10,-2,-5,-1], target = -12",
+        "expectedOutput": "-13",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [-5,-4,-3,-2,-1], target = -10",
+        "expectedOutput": "-10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [0,0,0], target = 1",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,1,1,1], target = 3",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [5,5,5,5], target = 15",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [-1,-2,-3,-4,-5], target = -10",
+        "expectedOutput": "-10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [-1,0,1,2,-1,-4], target = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [-1,2,1,-4], target = 1",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [5,1,3,4,2], target = 7",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,1,1,1], target = 0",
+        "expectedOutput": "3",
+        "isHidden": true
       }
     ]
   },
@@ -594,6 +1555,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "digits = &quot;2&quot;",
         "expectedOutput": "[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "digits = \"3\"",
+        "expectedOutput": "['d', 'e', 'f']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "digits = \"9\"",
+        "expectedOutput": "['w', 'x', 'y', 'z']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "digits = \"47\"",
+        "expectedOutput": "['gp', 'gq', 'gr', 'gs', 'hp', 'hq', 'hr', 'hs', 'ip', 'iq', 'ir', 'is']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "digits = \"99\"",
+        "expectedOutput": "['ww', 'wx', 'wy', 'wz', 'xw', 'xx', 'xy', 'xz', 'yw', 'yx', 'yy', 'yz', 'zw', 'zx', 'zy', 'zz']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "digits = \"234\"",
+        "expectedOutput": "['adg', 'adh', 'adi', 'aeg', 'aeh', 'aei', 'afg', 'afh', 'afi', 'bdg', 'bdh', 'bdi', 'beg', 'beh', 'bei', 'bfg', 'bfh', 'bfi', 'cdg', 'cdh', 'cdi', 'ceg', 'ceh', 'cei', 'cfg', 'cfh', 'cfi']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "digits = \"299\"",
+        "expectedOutput": "['aww', 'awx', 'awy', 'awz', 'axw', 'axx', 'axy', 'axz', 'ayw', 'ayx', 'ayy', 'ayz', 'azw', 'azx', 'azy', 'azz', 'bww', 'bwx', 'bwy', 'bwz', 'bxw', 'bxx', 'bxy', 'bxz', 'byw', 'byx', 'byy', 'byz', 'bzw', 'bzx', 'bzy', 'bzz', 'cww', 'cwx', 'cwy', 'cwz', 'cxw', 'cxx', 'cxy', 'cxz', 'cyw', 'cyx', 'cyy', 'cyz', 'czw', 'czx', 'czy', 'czz']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "digits = \"\"",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "digits = \"79\"",
+        "expectedOutput": "['pw', 'px', 'py', 'pz', 'qw', 'qx', 'qy', 'qz', 'rw', 'rx', 'ry', 'rz', 'sw', 'sx', 'sy', 'sz']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "digits = \"23\"",
+        "expectedOutput": "['ad', 'ae', 'af', 'bd', 'be', 'bf', 'cd', 'ce', 'cf']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "digits = \"89\"",
+        "expectedOutput": "['tw', 'tx', 'ty', 'tz', 'uw', 'ux', 'uy', 'uz', 'vw', 'vx', 'vy', 'vz']",
+        "isHidden": true
       }
     ]
   },
@@ -625,6 +1646,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [2,2,2,2,2], target = 8",
         "expectedOutput": "[[2,2,2,2]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [-1,-2,-3,-4,-5], target = -14",
+        "expectedOutput": "[[-5, -4, -3, -2]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [0,0,0,0], target = 0",
+        "expectedOutput": "[[0, 0, 0, 0]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [-1,-2,-3,-4,-5,-6,-7,-8,-9,-10], target = -20",
+        "expectedOutput": "[[-10, -7, -2, -1], [-10, -6, -3, -1], [-10, -5, -4, -1], [-10, -5, -3, -2], [-9, -8, -2, -1], [-9, -7, -3, -1], [-9, -6, -4, -1], [-9, -6, -3, -2], [-9, -5, -4, -2], [-8, -7, -4, -1], [-8, -7, -3, -2], [-8, -6, -5, -1], [-8, -6, -4, -2], [-8, -5, -4, -3], [-7, -6, -5, -2], [-7, -6, -4, -3]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1000000000, 1000000000, 1000000000, 1000000000], target = 4000000000",
+        "expectedOutput": "[[1000000000, 1000000000, 1000000000, 1000000000]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [-1,-2,-3,-4,-5], target = -10",
+        "expectedOutput": "[[-4, -3, -2, -1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1000000000,1000000000,1000000000,1000000000], target = 4000000000",
+        "expectedOutput": "[[1000000000, 1000000000, 1000000000, 1000000000]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [2,2,2,2,2], target = 8",
+        "expectedOutput": "[[2, 2, 2, 2]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10], target = 20",
+        "expectedOutput": "[[1, 2, 7, 10], [1, 2, 8, 9], [1, 3, 6, 10], [1, 3, 7, 9], [1, 4, 5, 10], [1, 4, 6, 9], [1, 4, 7, 8], [1, 5, 6, 8], [2, 3, 5, 10], [2, 3, 6, 9], [2, 3, 7, 8], [2, 4, 5, 9], [2, 4, 6, 8], [2, 5, 6, 7], [3, 4, 5, 8], [3, 4, 6, 7]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [-5,-4,-3,-2,-1,0,1,2,3,4,5], target = 0",
+        "expectedOutput": "[[-5, -4, 4, 5], [-5, -3, 3, 5], [-5, -2, 2, 5], [-5, -2, 3, 4], [-5, -1, 1, 5], [-5, -1, 2, 4], [-5, 0, 1, 4], [-5, 0, 2, 3], [-4, -3, 2, 5], [-4, -3, 3, 4], [-4, -2, 1, 5], [-4, -2, 2, 4], [-4, -1, 0, 5], [-4, -1, 1, 4], [-4, -1, 2, 3], [-4, 0, 1, 3], [-3, -2, 0, 5], [-3, -2, 1, 4], [-3, -2, 2, 3], [-3, -1, 0, 4], [-3, -1, 1, 3], [-3, 0, 1, 2], [-2, -1, 0, 3], [-2, -1, 1, 2]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10], target = 30",
+        "expectedOutput": "[[3, 8, 9, 10], [4, 7, 9, 10], [5, 6, 9, 10], [5, 7, 8, 10], [6, 7, 8, 9]]",
+        "isHidden": true
       }
     ]
   },
@@ -662,6 +1743,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "head = [1,2], n = 1",
         "expectedOutput": "[1]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = [5,4,3,2,1], n = 5",
+        "expectedOutput": "[4, 3, 2, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [1,2,3,4,5], n = 2",
+        "expectedOutput": "[1, 2, 3, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [1,2,3,4,5,6,7,8,9,10], n = 5",
+        "expectedOutput": "[1, 2, 3, 4, 5, 7, 8, 9, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [1], n = 1",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = [1,2,3], n = 3",
+        "expectedOutput": "[2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59], n = 15",
+        "expectedOutput": "[1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30], n = 15",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [1,2,3,4,5,6,7,8,9,10], n = 1",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6, 7, 8, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [10,20,30,40,50,60,70,80,90,100], n = 5",
+        "expectedOutput": "[10, 20, 30, 40, 50, 70, 80, 90, 100]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], n = 1",
+        "expectedOutput": "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]",
+        "isHidden": true
       }
     ]
   },
@@ -691,6 +1832,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"[[[[[[{{{{}}}}]]]]]]\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"({[(])})\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"([)]\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \")()()(\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"({[({})]})\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"(]\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"{{{{{{}}}}}}\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"{[(])}\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"[[[[[[]]]]]]\"",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -726,6 +1927,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "list1 = [], list2 = [0]",
         "expectedOutput": "[0]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "list1 = [-1,0,2], list2 = [-2,-1,0]",
+        "expectedOutput": "[-2, -1, -1, 0, 0, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "list1 = [1,3,5,7,9], list2 = [2,4,6,8,10]",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "list1 = [10], list2 = [10]",
+        "expectedOutput": "[10, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "list1 = [100], list2 = [50,75,100]",
+        "expectedOutput": "[50, 75, 100, 100]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "list1 = [-100,0,100], list2 = [-50,50]",
+        "expectedOutput": "[-100, -50, 0, 50, 100]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "list1 = [5], list2 = [4]",
+        "expectedOutput": "[4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "list1 = [1,3,5,7], list2 = [2,4,6,8]",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6, 7, 8]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "list1 = [], list2 = []",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "list1 = [5], list2 = [1,2,3]",
+        "expectedOutput": "[1, 2, 3, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "list1 = [-100, 0, 100], list2 = [-50, 50]",
+        "expectedOutput": "[-100, -50, 0, 50, 100]",
+        "isHidden": true
       }
     ]
   },
@@ -757,6 +2018,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 1",
         "expectedOutput": "[\"()\"]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 4",
+        "expectedOutput": "['(((())))', '((()()))', '((())())', '((()))()', '(()(()))', '(()()())', '(()())()', '(())(())', '(())()()', '()((()))', '()(()())', '()(())()', '()()(())', '()()()()']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 6",
+        "expectedOutput": "['(((((())))))', '((((()()))))', '((((())())))', '((((()))()))', '((((())))())', '((((()))))()', '(((()(()))))', '(((()()())))', '(((()())()))', '(((()()))())', '(((()())))()', '(((())(())))', '(((())()()))', '(((())())())', '(((())()))()', '(((()))(()))', '(((()))()())', '(((()))())()', '(((())))(())', '(((())))()()', '((()((()))))', '((()(()())))', '((()(())()))', '((()(()))())', '((()(())))()', '((()()(())))', '((()()()()))', '((()()())())', '((()()()))()', '((()())(()))', '((()())()())', '((()())())()', '((()()))(())', '((()()))()()', '((())((())))', '((())(()()))', '((())(())())', '((())(()))()', '((())()(()))', '((())()()())', '((())()())()', '((())())(())', '((())())()()', '((()))((()))', '((()))(()())', '((()))(())()', '((()))()(())', '((()))()()()', '(()(((()))))', '(()((()())))', '(()((())()))', '(()((()))())', '(()((())))()', '(()(()(())))', '(()(()()()))', '(()(()())())', '(()(()()))()', '(()(())(()))', '(()(())()())', '(()(())())()', '(()(()))(())', '(()(()))()()', '(()()((())))', '(()()(()()))', '(()()(())())', '(()()(()))()', '(()()()(()))', '(()()()()())', '(()()()())()', '(()()())(())', '(()()())()()', '(()())((()))', '(()())(()())', '(()())(())()', '(()())()(())', '(()())()()()', '(())(((())))', '(())((()()))', '(())((())())', '(())((()))()', '(())(()(()))', '(())(()()())', '(())(()())()', '(())(())(())', '(())(())()()', '(())()((()))', '(())()(()())', '(())()(())()', '(())()()(())', '(())()()()()', '()((((()))))', '()(((()())))', '()(((())()))', '()(((()))())', '()(((())))()', '()((()(())))', '()((()()()))', '()((()())())', '()((()()))()', '()((())(()))', '()((())()())', '()((())())()', '()((()))(())', '()((()))()()', '()(()((())))', '()(()(()()))', '()(()(())())', '()(()(()))()', '()(()()(()))', '()(()()()())', '()(()()())()', '()(()())(())', '()(()())()()', '()(())((()))', '()(())(()())', '()(())(())()', '()(())()(())', '()(())()()()', '()()(((())))', '()()((()()))', '()()((())())', '()()((()))()', '()()(()(()))', '()()(()()())', '()()(()())()', '()()(())(())', '()()(())()()', '()()()((()))', '()()()(()())', '()()()(())()', '()()()()(())', '()()()()()()']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 2",
+        "expectedOutput": "['(())', '()()']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 1",
+        "expectedOutput": "['()']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 7",
+        "expectedOutput": "['((((((()))))))', '(((((()())))))', '(((((())()))))', '(((((()))())))', '(((((())))()))', '(((((()))))())', '(((((())))))()', '((((()(())))))', '((((()()()))))', '((((()())())))', '((((()()))()))', '((((()())))())', '((((()()))))()', '((((())(()))))', '((((())()())))', '((((())())()))', '((((())()))())', '((((())())))()', '((((()))(())))', '((((()))()()))', '((((()))())())', '((((()))()))()', '((((())))(()))', '((((())))()())', '((((())))())()', '((((()))))(())', '((((()))))()()', '(((()((())))))', '(((()(()()))))', '(((()(())())))', '(((()(()))()))', '(((()(())))())', '(((()(()))))()', '(((()()(()))))', '(((()()()())))', '(((()()())()))', '(((()()()))())', '(((()()())))()', '(((()())(())))', '(((()())()()))', '(((()())())())', '(((()())()))()', '(((()()))(()))', '(((()()))()())', '(((()()))())()', '(((()())))(())', '(((()())))()()', '(((())((()))))', '(((())(()())))', '(((())(())()))', '(((())(()))())', '(((())(())))()', '(((())()(())))', '(((())()()()))', '(((())()())())', '(((())()()))()', '(((())())(()))', '(((())())()())', '(((())())())()', '(((())()))(())', '(((())()))()()', '(((()))((())))', '(((()))(()()))', '(((()))(())())', '(((()))(()))()', '(((()))()(()))', '(((()))()()())', '(((()))()())()', '(((()))())(())', '(((()))())()()', '(((())))((()))', '(((())))(()())', '(((())))(())()', '(((())))()(())', '(((())))()()()', '((()(((())))))', '((()((()()))))', '((()((())())))', '((()((()))()))', '((()((())))())', '((()((()))))()', '((()(()(()))))', '((()(()()())))', '((()(()())()))', '((()(()()))())', '((()(()())))()', '((()(())(())))', '((()(())()()))', '((()(())())())', '((()(())()))()', '((()(()))(()))', '((()(()))()())', '((()(()))())()', '((()(())))(())', '((()(())))()()', '((()()((()))))', '((()()(()())))', '((()()(())()))', '((()()(()))())', '((()()(())))()', '((()()()(())))', '((()()()()()))', '((()()()())())', '((()()()()))()', '((()()())(()))', '((()()())()())', '((()()())())()', '((()()()))(())', '((()()()))()()', '((()())((())))', '((()())(()()))', '((()())(())())', '((()())(()))()', '((()())()(()))', '((()())()()())', '((()())()())()', '((()())())(())', '((()())())()()', '((()()))((()))', '((()()))(()())', '((()()))(())()', '((()()))()(())', '((()()))()()()', '((())(((()))))', '((())((()())))', '((())((())()))', '((())((()))())', '((())((())))()', '((())(()(())))', '((())(()()()))', '((())(()())())', '((())(()()))()', '((())(())(()))', '((())(())()())', '((())(())())()', '((())(()))(())', '((())(()))()()', '((())()((())))', '((())()(()()))', '((())()(())())', '((())()(()))()', '((())()()(()))', '((())()()()())', '((())()()())()', '((())()())(())', '((())()())()()', '((())())((()))', '((())())(()())', '((())())(())()', '((())())()(())', '((())())()()()', '((()))(((())))', '((()))((()()))', '((()))((())())', '((()))((()))()', '((()))(()(()))', '((()))(()()())', '((()))(()())()', '((()))(())(())', '((()))(())()()', '((()))()((()))', '((()))()(()())', '((()))()(())()', '((()))()()(())', '((()))()()()()', '(()((((())))))', '(()(((()()))))', '(()(((())())))', '(()(((()))()))', '(()(((())))())', '(()(((()))))()', '(()((()(()))))', '(()((()()())))', '(()((()())()))', '(()((()()))())', '(()((()())))()', '(()((())(())))', '(()((())()()))', '(()((())())())', '(()((())()))()', '(()((()))(()))', '(()((()))()())', '(()((()))())()', '(()((())))(())', '(()((())))()()', '(()(()((()))))', '(()(()(()())))', '(()(()(())()))', '(()(()(()))())', '(()(()(())))()', '(()(()()(())))', '(()(()()()()))', '(()(()()())())', '(()(()()()))()', '(()(()())(()))', '(()(()())()())', '(()(()())())()', '(()(()()))(())', '(()(()()))()()', '(()(())((())))', '(()(())(()()))', '(()(())(())())', '(()(())(()))()', '(()(())()(()))', '(()(())()()())', '(()(())()())()', '(()(())())(())', '(()(())())()()', '(()(()))((()))', '(()(()))(()())', '(()(()))(())()', '(()(()))()(())', '(()(()))()()()', '(()()(((()))))', '(()()((()())))', '(()()((())()))', '(()()((()))())', '(()()((())))()', '(()()(()(())))', '(()()(()()()))', '(()()(()())())', '(()()(()()))()', '(()()(())(()))', '(()()(())()())', '(()()(())())()', '(()()(()))(())', '(()()(()))()()', '(()()()((())))', '(()()()(()()))', '(()()()(())())', '(()()()(()))()', '(()()()()(()))', '(()()()()()())', '(()()()()())()', '(()()()())(())', '(()()()())()()', '(()()())((()))', '(()()())(()())', '(()()())(())()', '(()()())()(())', '(()()())()()()', '(()())(((())))', '(()())((()()))', '(()())((())())', '(()())((()))()', '(()())(()(()))', '(()())(()()())', '(()())(()())()', '(()())(())(())', '(()())(())()()', '(()())()((()))', '(()())()(()())', '(()())()(())()', '(()())()()(())', '(()())()()()()', '(())((((()))))', '(())(((()())))', '(())(((())()))', '(())(((()))())', '(())(((())))()', '(())((()(())))', '(())((()()()))', '(())((()())())', '(())((()()))()', '(())((())(()))', '(())((())()())', '(())((())())()', '(())((()))(())', '(())((()))()()', '(())(()((())))', '(())(()(()()))', '(())(()(())())', '(())(()(()))()', '(())(()()(()))', '(())(()()()())', '(())(()()())()', '(())(()())(())', '(())(()())()()', '(())(())((()))', '(())(())(()())', '(())(())(())()', '(())(())()(())', '(())(())()()()', '(())()(((())))', '(())()((()()))', '(())()((())())', '(())()((()))()', '(())()(()(()))', '(())()(()()())', '(())()(()())()', '(())()(())(())', '(())()(())()()', '(())()()((()))', '(())()()(()())', '(())()()(())()', '(())()()()(())', '(())()()()()()', '()(((((())))))', '()((((()()))))', '()((((())())))', '()((((()))()))', '()((((())))())', '()((((()))))()', '()(((()(()))))', '()(((()()())))', '()(((()())()))', '()(((()()))())', '()(((()())))()', '()(((())(())))', '()(((())()()))', '()(((())())())', '()(((())()))()', '()(((()))(()))', '()(((()))()())', '()(((()))())()', '()(((())))(())', '()(((())))()()', '()((()((()))))', '()((()(()())))', '()((()(())()))', '()((()(()))())', '()((()(())))()', '()((()()(())))', '()((()()()()))', '()((()()())())', '()((()()()))()', '()((()())(()))', '()((()())()())', '()((()())())()', '()((()()))(())', '()((()()))()()', '()((())((())))', '()((())(()()))', '()((())(())())', '()((())(()))()', '()((())()(()))', '()((())()()())', '()((())()())()', '()((())())(())', '()((())())()()', '()((()))((()))', '()((()))(()())', '()((()))(())()', '()((()))()(())', '()((()))()()()', '()(()(((()))))', '()(()((()())))', '()(()((())()))', '()(()((()))())', '()(()((())))()', '()(()(()(())))', '()(()(()()()))', '()(()(()())())', '()(()(()()))()', '()(()(())(()))', '()(()(())()())', '()(()(())())()', '()(()(()))(())', '()(()(()))()()', '()(()()((())))', '()(()()(()()))', '()(()()(())())', '()(()()(()))()', '()(()()()(()))', '()(()()()()())', '()(()()()())()', '()(()()())(())', '()(()()())()()', '()(()())((()))', '()(()())(()())', '()(()())(())()', '()(()())()(())', '()(()())()()()', '()(())(((())))', '()(())((()()))', '()(())((())())', '()(())((()))()', '()(())(()(()))', '()(())(()()())', '()(())(()())()', '()(())(())(())', '()(())(())()()', '()(())()((()))', '()(())()(()())', '()(())()(())()', '()(())()()(())', '()(())()()()()', '()()((((()))))', '()()(((()())))', '()()(((())()))', '()()(((()))())', '()()(((())))()', '()()((()(())))', '()()((()()()))', '()()((()())())', '()()((()()))()', '()()((())(()))', '()()((())()())', '()()((())())()', '()()((()))(())', '()()((()))()()', '()()(()((())))', '()()(()(()()))', '()()(()(())())', '()()(()(()))()', '()()(()()(()))', '()()(()()()())', '()()(()()())()', '()()(()())(())', '()()(()())()()', '()()(())((()))', '()()(())(()())', '()()(())(())()', '()()(())()(())', '()()(())()()()', '()()()(((())))', '()()()((()()))', '()()()((())())', '()()()((()))()', '()()()(()(()))', '()()()(()()())', '()()()(()())()', '()()()(())(())', '()()()(())()()', '()()()()((()))', '()()()()(()())', '()()()()(())()', '()()()()()(())', '()()()()()()()']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 5",
+        "expectedOutput": "['((((()))))', '(((()())))', '(((())()))', '(((()))())', '(((())))()', '((()(())))', '((()()()))', '((()())())', '((()()))()', '((())(()))', '((())()())', '((())())()', '((()))(())', '((()))()()', '(()((())))', '(()(()()))', '(()(())())', '(()(()))()', '(()()(()))', '(()()()())', '(()()())()', '(()())(())', '(()())()()', '(())((()))', '(())(()())', '(())(())()', '(())()(())', '(())()()()', '()(((())))', '()((()()))', '()((())())', '()((()))()', '()(()(()))', '()(()()())', '()(()())()', '()(())(())', '()(())()()', '()()((()))', '()()(()())', '()()(())()', '()()()(())', '()()()()()']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -794,6 +2115,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "lists = [[]]",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "lists = [[]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -819,6 +2200,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = []",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [1]",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [1,3,5,7,9,11,13,15,17,19,21]",
+        "expectedOutput": "[3, 1, 7, 5, 11, 9, 15, 13, 19, 17, 21]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [1,2,2,3,3,4,4,5,5,6,6]",
+        "expectedOutput": "[2, 1, 3, 2, 4, 3, 5, 4, 6, 5, 6]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+        "expectedOutput": "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [10,21,32,43,54,65,76,87,98,109,120,131,142,153,164,175,186,197,208]",
+        "expectedOutput": "[21, 10, 43, 32, 65, 54, 87, 76, 109, 98, 131, 120, 153, 142, 175, 164, 197, 186, 208]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [1,2,3,4,5,6,7,8,9]",
+        "expectedOutput": "[2, 1, 4, 3, 6, 5, 8, 7, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [1,3,5,7,9,11,13,15,17,19,21,23,25]",
+        "expectedOutput": "[3, 1, 7, 5, 11, 9, 15, 13, 19, 17, 23, 21, 25]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [5]",
+        "expectedOutput": "[5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [5, 4, 3, 2, 1]",
+        "expectedOutput": "[4, 5, 2, 3, 1]",
+        "isHidden": true
       }
     ]
   },
@@ -849,6 +2290,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "head = [1,2,3,4,5], k = 3",
         "expectedOutput": "[3,2,1,4,5]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = [1,2,3,4,5,6,7], k = 3",
+        "expectedOutput": "[3, 2, 1, 6, 5, 4, 7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [1,2,3,4,5,6,7,8,9,10], k = 5",
+        "expectedOutput": "[5, 4, 3, 2, 1, 10, 9, 8, 7, 6]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [], k = 1",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [1,2,3,4,5,6,7,8,9], k = 5",
+        "expectedOutput": "[5, 4, 3, 2, 1, 6, 7, 8, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = [1,2,3,4,5,6,7,8,9,10,11], k = 4",
+        "expectedOutput": "[4, 3, 2, 1, 8, 7, 6, 5, 9, 10, 11]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [1,2,3,4,5], k = 2",
+        "expectedOutput": "[2, 1, 4, 3, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [1,2,3,4,5,6], k = 2",
+        "expectedOutput": "[2, 1, 4, 3, 6, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [1,2,3,4,5,6,7,8,9,10,11], k = 2",
+        "expectedOutput": "[2, 1, 4, 3, 6, 5, 8, 7, 10, 9, 11]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [1,2,3,4,5,6], k = 3",
+        "expectedOutput": "[3, 2, 1, 6, 5, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [1,2,3,4,5], k = 3",
+        "expectedOutput": "[3, 2, 1, 4, 5]",
+        "isHidden": true
       }
     ]
   },
@@ -883,6 +2384,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [0,0,1,1,1,2,2,3,3,4]",
         "expectedOutput": "5, nums = [0,1,2,3,4,_,_,_,_,_]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,2,2,3,4,4,4,5]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [0,1,1,2,2,2,3,3,3,3,4,4,4,4,4]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [-1,-1,-1,-1,-1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [-1,-1,0,0,1,1,2]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [-10,-10,-9,-9,-8,-7,-6,-6,-6,-5]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [-100,-100,-50,-50,0,0,50,50,100,100]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [0,0,0,0,0]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10]",
+        "expectedOutput": "10",
+        "isHidden": true
       }
     ]
   },
@@ -917,6 +2478,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [0,1,2,2,3,0,4,2], val = 2",
         "expectedOutput": "5, nums = [0,1,4,0,3,_,_,_]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10], val = 5",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [5,5,5,5,5,5], val = 5",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [0,1,2,2,3,0,4,2], val = 2",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [50,49,48,47,46], val = 46",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,1,1,1,1], val = 1",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [3,2,2,3], val = 3",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,2,3,4,5], val = 6",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5], val = 5",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], val = 0",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [49, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0], val = 25",
+        "expectedOutput": "49",
+        "isHidden": true
       }
     ]
   },
@@ -948,6 +2569,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "haystack = &quot;leetcode&quot;, needle = &quot;leeto&quot;",
         "expectedOutput": "-1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "haystack = \"mississippi\", needle = \"issi\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "haystack = \"sadbutsad\", needle = \"sad\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "haystack = \"abababa\", needle = \"aba\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "haystack = \"abcdefgh\", needle = \"efg\"",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "haystack = \"abc\", needle = \"c\"",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "haystack = \"aaaaa\", needle = \"bba\"",
+        "expectedOutput": "-1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "haystack = \"mississippi\", needle = \"issip\"",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "haystack = \"abc\", needle = \"d\"",
+        "expectedOutput": "-1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "haystack = \"a\", needle = \"a\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "haystack = \"hello\", needle = \"ll\"",
+        "expectedOutput": "2",
+        "isHidden": true
       }
     ]
   },
@@ -978,6 +2659,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "dividend = 7, divisor = -3",
         "expectedOutput": "-2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "dividend = -2147483648, divisor = -1",
+        "expectedOutput": "2147483647",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "dividend = -1, divisor = -1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "dividend = 2147483647, divisor = 1",
+        "expectedOutput": "2147483647",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "dividend = 1, divisor = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "dividend = 1000000000, divisor = 3",
+        "expectedOutput": "333333333",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "dividend = 7, divisor = -3",
+        "expectedOutput": "-2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "dividend = -2147483648, divisor = 1",
+        "expectedOutput": "-2147483648",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "dividend = 100, divisor = 7",
+        "expectedOutput": "14",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "dividend = -5, divisor = 2",
+        "expectedOutput": "-2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "dividend = 1, divisor = -1",
+        "expectedOutput": "-1",
+        "isHidden": true
       }
     ]
   },
@@ -1004,6 +2745,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"abababab\", words = [\"a\",\"b\",\"a\",\"b\"]",
+        "expectedOutput": "[0, 1, 2, 3, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"lingmindraboofooowingdingbarrwingmonkeypoundcake\", words = [\"fooo\",\"barr\",\"wing\",\"ding\",\"wing\"]",
+        "expectedOutput": "[13]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"barfoothefoobarman\", words = [\"foo\",\"bar\"]",
+        "expectedOutput": "[0, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"barfoofoobarthefoobarman\", words = [\"bar\",\"foo\",\"the\"]",
+        "expectedOutput": "[6, 9, 12]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"aaa\", words = [\"a\",\"a\"]",
+        "expectedOutput": "[0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"thisisjustafancysentencewithallthesewordsin\", words = [\"this\",\"is\",\"a\",\"just\",\"fancy\",\"sentence\",\"with\",\"all\",\"these\",\"words\",\"in\"]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"overlaplaplaplaplaplaplaplaplaplap\", words = [\"lap\",\"laplap\",\"laplap\",\"laplap\",\"laplap\",\"laplap\",\"laplap\",\"laplap\"]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"abcdefabcdefabcdefabcdefabcdef\", words = [\"abcdef\",\"abcdef\",\"abcdef\",\"abcdef\",\"abcdef\"]",
+        "expectedOutput": "[0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"aabbccddeeffgghhiijjkkllmmnnooppqqrrssttuuvvwwxxyyzz\", words = [\"aabb\",\"ccdd\",\"eefg\",\"ghhi\",\"jklk\",\"llmm\",\"nnoo\",\"pqqr\",\"rstt\",\"uuvv\",\"wwxx\",\"yyzz\"]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"oneonetwoonethreetwothreeonetwothreeone\", words = [\"one\",\"two\",\"three\"]",
+        "expectedOutput": "[]",
+        "isHidden": true
       }
     ]
   },
@@ -1039,6 +2840,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [1,1,5]",
         "expectedOutput": "[1,5,1]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,2,2,3]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,1,1]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [2,3,1]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [2,1]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,2,3,4]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [2,1,3]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,4,5]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,3,2]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,3,5,4,2]",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -1075,6 +2936,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;&quot;",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"())(()\"",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"((((((()))))))\"",
+        "expectedOutput": "14",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"((())()())()\"",
+        "expectedOutput": "12",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \")()(()(()))\"",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"(()(()(()(()))))\"",
+        "expectedOutput": "16",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \")()())\"",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"()()()()()()()()\"",
+        "expectedOutput": "16",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"()(()(()))\"",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"()()(())\"",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"()(()\")",
+        "expectedOutput": "Error: Solution.longestValidParentheses() missing 1 required positional argument: 's'",
+        "isHidden": true
       }
     ]
   },
@@ -1110,6 +3031,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [1], target = 0",
         "expectedOutput": "-1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [5,1,3], target = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [4,5,6,7,0,1,2], target = 3",
+        "expectedOutput": "-1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [4,5,6,7,0,1,2], target = 0",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [6,7,8,9,1,2,3,4,5], target = 6",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [2,5,6,0,1,3,4], target = 1",
+        "expectedOutput": "-1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [3,5,1], target = 3",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [11,13,15,17], target = 11",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [15,1,3,5,7,9,11,13], target = 7",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [5,1,2,3,4], target = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [5,1,2,3,4], target = 6",
+        "expectedOutput": "-1",
+        "isHidden": true
       }
     ]
   },
@@ -1145,6 +3126,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [], target = 0",
         "expectedOutput": "[-1,-1]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,2,3,4,5], target = 5",
+        "expectedOutput": "[4, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [5,7,7,8,8,10], target = 8",
+        "expectedOutput": "[3, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,3,4,5,6,7], target = 1",
+        "expectedOutput": "[0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [-10,-5,-3,0,3,5,9,10], target = 3",
+        "expectedOutput": "[4, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,3,5,7,9], target = 0",
+        "expectedOutput": "[-1, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,2,2,2,3,4,5], target = 2",
+        "expectedOutput": "[1, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1], target = 1",
+        "expectedOutput": "[0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,2,3,4,4,4,5,6], target = 4",
+        "expectedOutput": "[4, 6]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,2,3,4,5,6,7], target = 7",
+        "expectedOutput": "[6, 6]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [5,7,7,8,8,10], target = 6",
+        "expectedOutput": "[-1, -1]",
+        "isHidden": true
       }
     ]
   },
@@ -1171,6 +3212,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "board = [[\"8\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"],[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"],[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"],[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"],[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"],[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"],[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"],[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]\"",
+        "expectedOutput": "Error: Solution.isValidSudoku() missing 1 required positional argument: 'board'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "board = [[\"5\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"],[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"],[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"],[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"],[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"],[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"],[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"],[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "board = [[\".\",\".\",\".\",\".\",\".\",\".\",\"5\",\"1\",\"9\"],[\".\",\"9\",\".\",\".\",\"5\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"2\",\".\",\"4\",\".\",\".\",\".\"],[\"4\",\".\",\".\",\".\",\".\",\".\",\"1\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\"7\",\".\",\"3\"],[\".\",\".\",\"2\",\".\",\".\",\".\",\".\",\".\",\"6\"],[\".\",\"6\",\".\",\".\",\".\",\".\",\".\",\"8\",\".\"],[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "board = [[\".\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"],[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\"8\"],[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\",[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"],[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"],[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"],[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"],[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]",
+        "expectedOutput": "Error: Solution.isValidSudoku() missing 1 required positional argument: 'board'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "board = [[\"5\",\"3\",\"4\",\"6\",\"7\",\"8\",\"9\",\"1\",\"2\"],[\"6\",\"7\",\"2\",\"1\",\"9\",\"5\",\"3\",\"4\",\"8\"],[\"1\",\"9\",\"8\",\"3\",\"4\",\"2\",\"5\",\"6\",\"7\"],[\"8\",\"5\",\"9\",\"7\",\"6\",\"1\",\"4\",\"2\",\"3\"],[\"4\",\"2\",\"6\",\"8\",\"5\",\"3\",\"7\",\"9\",\"1\"],[\"7\",\"1\",\"3\",\"9\",\"2\",\"4\",\"8\",\"5\",\"6\"],[\"9\",\"6\",\"1\",\"5\",\"3\",\"7\",\"2\",\"8\",\"4\"],[\"2\",\"8\",\"7\",\"4\",\"1\",\"9\",\"6\",\"3\",\"5\"],[\"3\",\"4\",\"5\",\"2\",\"8\",\"6\",\"1\",\"7\",\"5\"]]\"",
+        "expectedOutput": "Error: Solution.isValidSudoku() missing 1 required positional argument: 'board'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "board = [[\"5\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"],[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"],[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"],[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"],[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"],[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"],[\".\",\"6\",\".\",\"5\",\".\",\".\",\"2\",\"8\",\".\"],[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "board = [[\"1\",\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\"2\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\"3\",\".\",\".\",\".\",\".\",\".\",\".\"],[\"4\",\".\",\".\",\"5\",\".\",\".\",\".\",\".\",\".\"],[\".\",\"5\",\".\",\".\",\"6\",\".\",\".\",\".\",\".\"],[\".\",\".\",\"6\",\".\",\".\",\"7\",\".\",\".\",\".\"],[\"7\",\".\",\".\",\".\",\".\",\".\",\"8\",\".\",\".\"],[\".\",\"8\",\".\",\".\",\".\",\".\",\".\",\"9\",\".\"],[\".\",\".\",\"9\",\".\",\".\",\".\",\".\",\".\",\"1\"]]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "board = [[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"3\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\"3\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\"3\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\"3\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\"3\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\",\"3\"]]\"",
+        "expectedOutput": "Error: Solution.isValidSudoku() missing 1 required positional argument: 'board'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "board = [[\".\",\".\",\".\",\".\",\".\",\".\",\"5\",\"1\",\"9\"],[\".\",\".\",\"2\",\".\",\".\",\".\",\".\",\"6\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\",[\"5\",\"1\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\"5\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"]],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"2\",\".\",\".\",\"1\",\".\",\".\"]]",
+        "expectedOutput": "Error: list index out of range",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "board = [[\".\",\".\",\".\",\".\",\"5\",\".\",\".\",\"1\",\".\"],[\".\",\"4\",\".\",\"3\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\"3\",\".\",\".\",\"1\"],[\"8\",\".\",\".\",\".\",\".\",\".\",\".\",\"2\",\".\"],[\".\",\".\",\"2\",\".\",\"7\",\".\",\"4\",\".\",\".\"],[\".\",\"1\",\".\",\".\",\".\",\".\",\".\",\".\",\"8\"],[\"9\",\".\",\".\",\"1\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\"8\",\".\",\".\",\"8\",\".\",\"7\",\".\"],[\".\",\"5\",\".\",\".\",\"9\",\".\",\".\",\".\",\".\"]]",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -1201,6 +3302,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "board = [[&quot;5&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],[&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;,&quot;9&quot;,&quot;5&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;],[&quot;.&quot;,&quot;9&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;],[&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;3&quot;],[&quot;4&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;3&quot;,&quot;.&quot;,&quot;.&quot;,&quot;1&quot;],[&quot;7&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;6&quot;],[&quot;.&quot;,&quot;6&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;2&quot;,&quot;8&quot;,&quot;.&quot;],[&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;4&quot;,&quot;1&quot;,&quot;9&quot;,&quot;.&quot;,&quot;.&quot;,&quot;5&quot;],[&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;.&quot;,&quot;8&quot;,&quot;.&quot;,&quot;.&quot;,&quot;7&quot;,&quot;9&quot;]]",
         "expectedOutput": "[[&quot;5&quot;,&quot;3&quot;,&quot;4&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;,&quot;1&quot;,&quot;2&quot;],[&quot;6&quot;,&quot;7&quot;,&quot;2&quot;,&quot;1&quot;,&quot;9&quot;,&quot;5&quot;,&quot;3&quot;,&quot;4&quot;,&quot;8&quot;],[&quot;1&quot;,&quot;9&quot;,&quot;8&quot;,&quot;3&quot;,&quot;4&quot;,&quot;2&quot;,&quot;5&quot;,&quot;6&quot;,&quot;7&quot;],[&quot;8&quot;,&quot;5&quot;,&quot;9&quot;,&quot;7&quot;,&quot;6&quot;,&quot;1&quot;,&quot;4&quot;,&quot;2&quot;,&quot;3&quot;],[&quot;4&quot;,&quot;2&quot;,&quot;6&quot;,&quot;8&quot;,&quot;5&quot;,&quot;3&quot;,&quot;7&quot;,&quot;9&quot;,&quot;1&quot;],[&quot;7&quot;,&quot;1&quot;,&quot;3&quot;,&quot;9&quot;,&quot;2&quot;,&quot;4&quot;,&quot;8&quot;,&quot;5&quot;,&quot;6&quot;],[&quot;9&quot;,&quot;6&quot;,&quot;1&quot;,&quot;5&quot;,&quot;3&quot;,&quot;7&quot;,&quot;2&quot;,&quot;8&quot;,&quot;4&quot;],[&quot;2&quot;,&quot;8&quot;,&quot;7&quot;,&quot;4&quot;,&quot;1&quot;,&quot;9&quot;,&quot;6&quot;,&quot;3&quot;,&quot;5&quot;],[&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;2&quot;,&quot;8&quot;,&quot;6&quot;,&quot;1&quot;,&quot;7&quot;,&quot;9&quot;]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "board = [[\".\",\".\",\".\",\"4\",\"3\",\".\",\".\",\".\",\"1\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\"2\",\".\"],[\".\",\".\",\"2\",\".\",\"7\",\".\",\".\",\".\",\".\"],[\"4\",\"1\",\"5\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"2\",\"5\",\".\",\"3\",\"4\",\"8\"],[\".\",\"3\",\"7\",\".\",\".\",\".\",\"5\",\".\",\".\"],[\".\",\"2\",\".\",\".\",\".\",\".\",\".\",\".\",\"4\"],[\"1\",\"4\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"2\"]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "board = [['.','.','9','7','4','8','.','.','.'],['7','.','.','.','.','.','.','.','.'],['.','2','.','1','.','9','.','.','.'],['.','.','7','.','.','.','2','4','.'],['.','6','4','.','1','.','5','9','.'],['.','9','8','.','.','.','3','.','.'],['.','.','.','8','.','3','.','2','.'],['.','.','.','.','.','.','.','.','6'],['.','','.','.','2','7','.','.','.']]",
+        "expectedOutput": "Error: invalid literal for int() with base 10: ''",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "9','7','4','8','.','.','.'],['7','.','.','.','.','.','.','.','.'],['.','2','.','1','.','9','.','.','.'],['.','.','7','.','.','.','2','4','.'],['.','6','4','.','1','.','5','9','.'],['.','9','8','.','.','.','3','.','.'],['.','.','.','8','.','3','.','2','.'],['.','.','.','.','.','.','.','.','6'],['.','.','.','2','7','5','9','.','.']]",
+        "expectedOutput": "Error: Solution.solveSudoku() missing 1 required positional argument: 'board'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": ".','8','.','.','.','4','.'],['.','.','2','.','.','.','.','1','.'],['.','6','.','.','.','3','.','.','.'],['.','','.','.','.','.','.','.','8']]",
+        "expectedOutput": "Error: Solution.solveSudoku() missing 1 required positional argument: 'board'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "board = [['.','2','.','1','.','4','.','.','.'],['.','.','4','.','.','.','6','3','.'],['5','.','.','.','.','.','.','9','.'],['2','.','.','.','.','9','.','.','.'],['.','.','1','3','.','.','2','.','.'],['.','.','.','5','.','.','.','.','7'],['.','1','.','.','.','.','.','2','.'],['.','2','.','.','.','.','9','.','.'],['.','.','.','8','.','1','.','.','.']]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "board = [['.','2','3','.','.','.','.','.','.'],['8','.','.','.','.','.','.','.','.'],['4','.','.','.','.','.','.','.','.'],['.','.','.','9','.','5','.','.','.'],['.','.','.','1','.','.','3','.','.'],['.','.','.','3','.','6','.','.','.'],['.','.','.','4','.','.','2','.','.'],['.','.','.','8','.','.','.','.','5'],['.','.','.','7','.','.','.','.','3']]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "board = [[\"5\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"],[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"],[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"],[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"],[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"],[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"],[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"],[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "board = [[\"8\",\".\",\".\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\"3\",\"6\",\".\",\".\",\".\",\".\",\".\",\".\"],[\".\",\".\",\".\",\"7\",\"9\",\".\",\".\",\"6\",\".\"],[\".\",\"2\",\".\",\"1\",\".\",\"9\",\".\",\".\",\".\"],[\".\",\".\",\"7\",\".\",\".\",\".\",\"2\",\".\",\".\"],[\".\",\".\",\".\",\"4\",\".\",\"3\",\".\",\"2\",\".\"],[\".\",\"5\",\".\",\".\",\"1\",\".\",\".\",\"7\",\".\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\"5\",\".\",\".\"],[\".\",\".\",\".\",\".\",\".\",\"7\",\".\",\"4\",\".\"]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "board = [[\".\",\".\",\"4\",\"6\",\"3\",\".\",\".\",\".\",\"1\"],[\"3\",\".\",\".\",\".\",\".\",\"5\",\"9\",\".\",\".\"],[\".\",\"9\",\"8\",\".\",\".\",\".\",\"3\",\"6\",\".\"],[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"],[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"],[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"],[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"],[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "board = [['8','.','.','.','.','.','.','.','6'],['.','3','.','.','.','6','.','9','.'],['.','2','.','7','.','.','.','.','.'],['2','.','.','.','.','.','6','.','8'],['.','8','7','.','.','.','5','.','.'],['1','.','6','.','.','.','.','.','3'],['.','.','.','','.','.','2','8','.'],['.','4','.','5','.','.','.','7','.'],['7','.','.','.','.','.','.','.','4']]",
+        "expectedOutput": "Error: invalid literal for int() with base 10: ''",
+        "isHidden": true
       }
     ]
   },
@@ -1229,6 +3390,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 30",
+        "expectedOutput": "3113112221131112311332111213122112311311123112111331121113122112132113121113222112311311221112131221123113112221121113311211131122211211131221131211132221121321132132212321121113121112133221123113112221131112212211131221121321131211132221123113112221131112311332211211133112111311222112111312211311123113322112111312211312111322212321121113121112133221121321132132211331121321132213211231132132211211131221232112111312212221121123222112311311222113111231133211121321321122111312211312111322211213211321322123211211131211121332211231131122211311123113321112131221123113111231121123222112111331121113112221121113122113111231133221121113122113121113221112131221123113111231121123222112111312211312111322212321121113121112131112132112311321322112111312212321121113122122211211232221121321132132211331121321231231121113112221121321132132211322132113213221123113112221133112132123222112111312211312112213211231132132211211131221131211322113321132211221121332211231131122211311123113321112131221123113111231121113311211131221121321131211132221123113112211121312211231131122211211133112111311222112111312211312111322211213211321223112111311222112132113213221133122211311221122111312211312111322212321121113121112131112132112311321322112111312212321121113122122211211232221121321132132211331121321231231121113112221121321132132211322132113213221123113112221133112132123222112111312211312112213211231132132211211131221131211322113321132211221121332211213211321322113311213212312311211131122211213211331121321123123211231131122211211131221131112311332211213211321223112111311222112132113213221123123211231132132211231131122211311123113322112111312211312111322111213122112311311123112112322211213211321322113312211223113112221121113122113111231133221121321132132211331222113321112131122211332113221122112133221123113112221131112311332111213122112311311123112111331121113122112132113121113222112311311221112131221123113112221121113311211131122211211131221131211132221121321132132212321121113121112133221123113112221131112311332111213122112311311123112112322211322311311222113111231133211121312211231131112311211232221121113122113121113222123211211131221132211131221121321131211132221123113112211121312211231131122113221122112133221121321132132211331121321231231121113121113122122311311222113111231133221121113122113121113221112131221123113111231121123222112132113213221133112132123123112111312211322311211133112111312211213211311123113223112111321322123122113222122211211232221121113122113121113222123211211131211121311121321123113213221121113122123211211131221121311121312211213211321322112311311222113311213212322211211131221131211221321123113213221121113122113121113222112131112131221121321131211132221121321132132211331121321232221123113112221131112311322311211131122211213211331121321122112133221121113122113121113222123112221221321132132211231131122211331121321232221121113122113121113222123211211131211121332211213111213122112132113121113222112132113213221232112111312111213322112132113213221133112132123123112111311222112132113311213211221121332211231131122211311123113321112131221123113112221132231131122211211131221131112311332211213211321223112111311222112132113212221132221222112112322211211131221131211132221232112111312111213111213211231131112311311221122132113213221133112132123222112311311222113111231132231121113112221121321133112132112211213322112111312211312111322212321121113121112131112132112311321322112111312212321121113122122211211232221121311121312211213211312111322211213211321322123211211131211121332211213211321322113311213211322132112311321322112111312212321121113122122211211232221121321132132211331121321231231121113112221121321133112132112312321123113112221121113122113111231133221121321132122311211131122211213211321222113222122211211232221123113112221131112311332111213122112311311123112111331121113122112132113121113222112311311221112131221123113112221121113311211131122211211131221131211132221121321132132212321121113121112133221123113112221131112311332111213213211221113122113121113222112132113213221232112111312111213322112132113213221133112132123123112111312211322311211133112111312212221121123222112132113213221133112132123222113223113112221131112311332111213122112311311123112112322211211131221131211132221232112111312111213111213211231132132211211131221131211221321123113213221123113112221131112211322212322211231131122211322111312211312111322211213211321322113311213211331121113122122211211132213211231131122212322211331222113112211",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 15",
+        "expectedOutput": "311311222113111231131112132112311321322112111312211312111322212311322113212221",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 4",
+        "expectedOutput": "1211",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 9",
+        "expectedOutput": "31131211131221",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 6",
+        "expectedOutput": "312211",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 20",
+        "expectedOutput": "11131221131211132221232112111312111213111213211231132132211211131221131211221321123113213221123113112221131112311332211211131221131211132211121312211231131112311211232221121321132132211331121321231231121113112221121321133112132112312321123113112221121113122113121113123112112322111213211322211312113211",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 2",
+        "expectedOutput": "11",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 25",
+        "expectedOutput": "132113213221133112132123123112111311222112132113311213211231232112311311222112111312211311123113322112132113212231121113112221121321132132211231232112311321322112311311222113111231133221121113122113121113221112131221123113111231121123222112132113213221133112132123123112111312111312212231131122211311123113322112111312211312111322111213122112311311123112112322211211131221131211132221232112111312111213111213211231132132211211131221232112111312212221121123222112132113213221133112132123123112111311222112132113213221132213211321322112311311222113311213212322211211131221131211221321123113213221121113122113121132211332113221122112133221123113112221131112311332111213122112311311123112111331121113122112132113121113222112311311221112131221123113112221121113311211131122211211131221131211132221121321132132212321121113121112133221123113112221131112212211131221121321131211132221123113112221131112311332211211133112111311222112111312211311123113322112111312211312111322212321121113121112133221121321132132211331121321231231121113112221121321132122311211131122211211131221131211322113322112111312211322132113213221123113112221131112311311121321122112132231121113122113322113111221131221",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 7",
+        "expectedOutput": "13112221",
+        "isHidden": true
       }
     ]
   },
@@ -1264,6 +3485,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "candidates = [2], target = 1",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "candidates = [2,5,10], target = 10",
+        "expectedOutput": "[[2, 2, 2, 2, 2], [5, 5], [10]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "candidates = [2,5,10], target = 15",
+        "expectedOutput": "[[2, 2, 2, 2, 2, 5], [5, 5, 5], [5, 10]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "candidates = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], target = 5",
+        "expectedOutput": "Execution timed out",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "candidates = [3,5,7], target = 10",
+        "expectedOutput": "[[3, 7], [5, 5]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "candidates = [2,3,5], target = 8",
+        "expectedOutput": "[[2, 2, 2, 2], [2, 3, 3], [3, 5]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "candidates = [8,2,3], target = 11",
+        "expectedOutput": "[[2, 2, 2, 2, 3], [2, 3, 3, 3], [3, 8]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "candidates = [3,5,8], target = 11",
+        "expectedOutput": "[[3, 3, 5], [3, 8]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "candidates = [3,5,7,8,9], target = 15",
+        "expectedOutput": "[[3, 3, 3, 3, 3], [3, 3, 9], [3, 5, 7], [5, 5, 5], [7, 8]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "candidates = [4,2,1], target = 10",
+        "expectedOutput": "[[1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 2], [1, 1, 1, 1, 1, 1, 2, 2], [1, 1, 1, 1, 1, 1, 4], [1, 1, 1, 1, 2, 2, 2], [1, 1, 1, 1, 2, 4], [1, 1, 2, 2, 2, 2], [1, 1, 2, 2, 4], [1, 1, 4, 4], [2, 2, 2, 2, 2], [2, 2, 2, 4], [2, 4, 4]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "candidates = [10,20,30], target = 20",
+        "expectedOutput": "[[10, 10], [20]]",
+        "isHidden": true
       }
     ]
   },
@@ -1294,6 +3575,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "candidates = [2,5,2,1,2], target = 5",
         "expectedOutput": "["
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "candidates = [4,4,2,1,4,2,2,1,3], target = 6",
+        "expectedOutput": "[[1, 1, 2, 2], [1, 1, 4], [1, 2, 3], [2, 2, 2], [2, 4]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "candidates = [1,2], target = 4",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "candidates = [1,2,3,4,5], target = 5",
+        "expectedOutput": "[[1, 4], [2, 3], [5]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "candidates = [10,1,2,7,6,1,5], target = 8",
+        "expectedOutput": "[[1, 1, 6], [1, 2, 5], [1, 7], [2, 6]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "candidates = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], target = 25",
+        "expectedOutput": "[[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "candidates = [3,1,3,5,1,1], target = 8",
+        "expectedOutput": "[[1, 1, 1, 5], [1, 1, 3, 3], [3, 5]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "candidates = [1,1,1,1,1,1,1,1,1,1], target = 5",
+        "expectedOutput": "[[1, 1, 1, 1, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "candidates = [1], target = 1",
+        "expectedOutput": "[[1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "candidates = [1,1,2,2,2,3,3,4,4,4,4,5,5,5,5,5,6,6,6,6,6,7,7,7,7,7,8,8,8,8,8], target = 20",
+        "expectedOutput": "[[1, 1, 2, 2, 2, 3, 3, 6], [1, 1, 2, 2, 2, 3, 4, 5], [1, 1, 2, 2, 2, 4, 4, 4], [1, 1, 2, 2, 2, 4, 8], [1, 1, 2, 2, 2, 5, 7], [1, 1, 2, 2, 2, 6, 6], [1, 1, 2, 2, 3, 3, 4, 4], [1, 1, 2, 2, 3, 3, 8], [1, 1, 2, 2, 3, 4, 7], [1, 1, 2, 2, 3, 5, 6], [1, 1, 2, 2, 4, 4, 6], [1, 1, 2, 2, 4, 5, 5], [1, 1, 2, 2, 6, 8], [1, 1, 2, 2, 7, 7], [1, 1, 2, 3, 3, 4, 6], [1, 1, 2, 3, 3, 5, 5], [1, 1, 2, 3, 4, 4, 5], [1, 1, 2, 3, 5, 8], [1, 1, 2, 3, 6, 7], [1, 1, 2, 4, 4, 4, 4], [1, 1, 2, 4, 4, 8], [1, 1, 2, 4, 5, 7], [1, 1, 2, 4, 6, 6], [1, 1, 2, 5, 5, 6], [1, 1, 2, 8, 8], [1, 1, 3, 3, 4, 4, 4], [1, 1, 3, 3, 4, 8], [1, 1, 3, 3, 5, 7], [1, 1, 3, 3, 6, 6], [1, 1, 3, 4, 4, 7], [1, 1, 3, 4, 5, 6], [1, 1, 3, 5, 5, 5], [1, 1, 3, 7, 8], [1, 1, 4, 4, 4, 6], [1, 1, 4, 4, 5, 5], [1, 1, 4, 6, 8], [1, 1, 4, 7, 7], [1, 1, 5, 5, 8], [1, 1, 5, 6, 7], [1, 1, 6, 6, 6], [1, 2, 2, 2, 3, 3, 7], [1, 2, 2, 2, 3, 4, 6], [1, 2, 2, 2, 3, 5, 5], [1, 2, 2, 2, 4, 4, 5], [1, 2, 2, 2, 5, 8], [1, 2, 2, 2, 6, 7], [1, 2, 2, 3, 3, 4, 5], [1, 2, 2, 3, 4, 4, 4], [1, 2, 2, 3, 4, 8], [1, 2, 2, 3, 5, 7], [1, 2, 2, 3, 6, 6], [1, 2, 2, 4, 4, 7], [1, 2, 2, 4, 5, 6], [1, 2, 2, 5, 5, 5], [1, 2, 2, 7, 8], [1, 2, 3, 3, 4, 7], [1, 2, 3, 3, 5, 6], [1, 2, 3, 4, 4, 6], [1, 2, 3, 4, 5, 5], [1, 2, 3, 6, 8], [1, 2, 3, 7, 7], [1, 2, 4, 4, 4, 5], [1, 2, 4, 5, 8], [1, 2, 4, 6, 7], [1, 2, 5, 5, 7], [1, 2, 5, 6, 6], [1, 3, 3, 4, 4, 5], [1, 3, 3, 5, 8], [1, 3, 3, 6, 7], [1, 3, 4, 4, 4, 4], [1, 3, 4, 4, 8], [1, 3, 4, 5, 7], [1, 3, 4, 6, 6], [1, 3, 5, 5, 6], [1, 3, 8, 8], [1, 4, 4, 4, 7], [1, 4, 4, 5, 6], [1, 4, 5, 5, 5], [1, 4, 7, 8], [1, 5, 6, 8], [1, 5, 7, 7], [1, 6, 6, 7], [2, 2, 2, 3, 3, 4, 4], [2, 2, 2, 3, 3, 8], [2, 2, 2, 3, 4, 7], [2, 2, 2, 3, 5, 6], [2, 2, 2, 4, 4, 6], [2, 2, 2, 4, 5, 5], [2, 2, 2, 6, 8], [2, 2, 2, 7, 7], [2, 2, 3, 3, 4, 6], [2, 2, 3, 3, 5, 5], [2, 2, 3, 4, 4, 5], [2, 2, 3, 5, 8], [2, 2, 3, 6, 7], [2, 2, 4, 4, 4, 4], [2, 2, 4, 4, 8], [2, 2, 4, 5, 7], [2, 2, 4, 6, 6], [2, 2, 5, 5, 6], [2, 2, 8, 8], [2, 3, 3, 4, 4, 4], [2, 3, 3, 4, 8], [2, 3, 3, 5, 7], [2, 3, 3, 6, 6], [2, 3, 4, 4, 7], [2, 3, 4, 5, 6], [2, 3, 5, 5, 5], [2, 3, 7, 8], [2, 4, 4, 4, 6], [2, 4, 4, 5, 5], [2, 4, 6, 8], [2, 4, 7, 7], [2, 5, 5, 8], [2, 5, 6, 7], [2, 6, 6, 6], [3, 3, 4, 4, 6], [3, 3, 4, 5, 5], [3, 3, 6, 8], [3, 3, 7, 7], [3, 4, 4, 4, 5], [3, 4, 5, 8], [3, 4, 6, 7], [3, 5, 5, 7], [3, 5, 6, 6], [4, 4, 4, 8], [4, 4, 5, 7], [4, 4, 6, 6], [4, 5, 5, 6], [4, 8, 8], [5, 5, 5, 5], [5, 7, 8], [6, 6, 8], [6, 7, 7]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "candidates = [5,10,15,20,25,30,35,40,45,50], target = 100",
+        "expectedOutput": "[[5, 10, 15, 20, 50], [5, 10, 15, 25, 45], [5, 10, 15, 30, 40], [5, 10, 20, 25, 40], [5, 10, 20, 30, 35], [5, 10, 35, 50], [5, 10, 40, 45], [5, 15, 20, 25, 35], [5, 15, 30, 50], [5, 15, 35, 45], [5, 20, 25, 50], [5, 20, 30, 45], [5, 20, 35, 40], [5, 25, 30, 40], [5, 45, 50], [10, 15, 20, 25, 30], [10, 15, 25, 50], [10, 15, 30, 45], [10, 15, 35, 40], [10, 20, 25, 45], [10, 20, 30, 40], [10, 25, 30, 35], [10, 40, 50], [15, 20, 25, 40], [15, 20, 30, 35], [15, 35, 50], [15, 40, 45], [20, 30, 50], [20, 35, 45], [25, 30, 45], [25, 35, 40]]",
+        "isHidden": true
       }
     ]
   },
@@ -1333,6 +3674,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [7,8,9,11,12]",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,1,1,1]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,1,2,2]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [2147483647, 1, 2, 0]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [-1,-2,-3]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "11",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [2]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [7,8,9,11,12]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [0,-1,-2]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,3,2]",
+        "expectedOutput": "4",
+        "isHidden": true
       }
     ]
   },
@@ -1366,6 +3767,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "height = [4,2,0,3,2,5]",
         "expectedOutput": "9"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "height = [5,4,3,2,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "height = [1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "height = [2,0,2]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "height = [0,0,1,0,0,0,0,0,0]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "height = [1,1,1,1,1,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "height = [1,0,2,0,1,0,3,0,1,0,1,2]",
+        "expectedOutput": "12",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "height = [1,2,1,0,1,0,1,0,1,2,1]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "height = [0,0,0,0,0]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "height = [1,2,3,4,5,4,3,2,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "height = [0,0,0,0]",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -1397,6 +3858,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "num1 = \"123\", num2 = \"456\"",
         "expectedOutput": "\"56088\""
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "num1 = \"2\", num2 = \"3\"",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "num1 = \"123456789\", num2 = \"987654321\"",
+        "expectedOutput": "121932631112635269",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "num1 = \"1000\", num2 = \"1000\"",
+        "expectedOutput": "1000000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "num1 = \"10\", num2 = \"10\"",
+        "expectedOutput": "100",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "num1 = \"0\", num2 = \"123\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "num1 = \"1\", num2 = \"1\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "num1 = \"0\", num2 = \"5678\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "num1 = \"100\", num2 = \"200\"",
+        "expectedOutput": "20000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "num1 = \"100\", num2 = \"100\"",
+        "expectedOutput": "10000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "num1 = \"0\", num2 = \"567\"",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -1434,6 +3955,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;cb&quot;, p = &quot;?a&quot;",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"mississippi\", p = \"m??*ss*?i*pi\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"aa\", p = \"a\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"abcde\", p = \"?bcde\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"abcde\", p = \"a*b*e\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"cb\", p = \"?a\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"abcabczzzde\", p = \"*abc***de*\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"abcde\", p = \"abc?de\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"\", p = \"\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"abcde\", p = \"b*c*d*e*\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"abcde\", p = \"a?c*e\"",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -1465,6 +4046,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [2,3,0,1,4]",
         "expectedOutput": "2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [2,3,0,1,4]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [5,6,4,4,6,9,4,4,7,4,4,8,2,6,8,1,5,9,6,5,2,7,9,7,9,6,9,4,1,6,8,8,4,4,2,0,3,8,5]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [0]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [5,6,4,4,6,9,4,4,7,4,4,8,2,6,8,1,5,9,6,5,2,7,9,7,9,6,9,4,1,6,8,8,4,4,2,0,1,1,2,6,5,5,0,1,2,2,9,1,4,9,5,8,0,1,9,4,5,0,8,0,3,4,6,6,1,5,8,5,9,6,2,6,1]",
+        "expectedOutput": "11",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,2,3]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,1,1,1]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [2,3,1,1,4]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [10,9,8,7,6,5,4,3,2,1,1,0]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,2,3,4,5]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "4",
+        "isHidden": true
       }
     ]
   },
@@ -1500,6 +4141,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [1]",
         "expectedOutput": "[[1]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [4,5,6,7]",
+        "expectedOutput": "[[4, 5, 6, 7], [4, 5, 7, 6], [4, 6, 5, 7], [4, 6, 7, 5], [4, 7, 5, 6], [4, 7, 6, 5], [5, 4, 6, 7], [5, 4, 7, 6], [5, 6, 4, 7], [5, 6, 7, 4], [5, 7, 4, 6], [5, 7, 6, 4], [6, 4, 5, 7], [6, 4, 7, 5], [6, 5, 4, 7], [6, 5, 7, 4], [6, 7, 4, 5], [6, 7, 5, 4], [7, 4, 5, 6], [7, 4, 6, 5], [7, 5, 4, 6], [7, 5, 6, 4], [7, 6, 4, 5], [7, 6, 5, 4]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [4,5,6]",
+        "expectedOutput": "[[4, 5, 6], [4, 6, 5], [5, 4, 6], [5, 6, 4], [6, 4, 5], [6, 5, 4]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [5,3,4,1,2]",
+        "expectedOutput": "[[5, 3, 4, 1, 2], [5, 3, 4, 2, 1], [5, 3, 1, 4, 2], [5, 3, 1, 2, 4], [5, 3, 2, 4, 1], [5, 3, 2, 1, 4], [5, 4, 3, 1, 2], [5, 4, 3, 2, 1], [5, 4, 1, 3, 2], [5, 4, 1, 2, 3], [5, 4, 2, 3, 1], [5, 4, 2, 1, 3], [5, 1, 3, 4, 2], [5, 1, 3, 2, 4], [5, 1, 4, 3, 2], [5, 1, 4, 2, 3], [5, 1, 2, 3, 4], [5, 1, 2, 4, 3], [5, 2, 3, 4, 1], [5, 2, 3, 1, 4], [5, 2, 4, 3, 1], [5, 2, 4, 1, 3], [5, 2, 1, 3, 4], [5, 2, 1, 4, 3], [3, 5, 4, 1, 2], [3, 5, 4, 2, 1], [3, 5, 1, 4, 2], [3, 5, 1, 2, 4], [3, 5, 2, 4, 1], [3, 5, 2, 1, 4], [3, 4, 5, 1, 2], [3, 4, 5, 2, 1], [3, 4, 1, 5, 2], [3, 4, 1, 2, 5], [3, 4, 2, 5, 1], [3, 4, 2, 1, 5], [3, 1, 5, 4, 2], [3, 1, 5, 2, 4], [3, 1, 4, 5, 2], [3, 1, 4, 2, 5], [3, 1, 2, 5, 4], [3, 1, 2, 4, 5], [3, 2, 5, 4, 1], [3, 2, 5, 1, 4], [3, 2, 4, 5, 1], [3, 2, 4, 1, 5], [3, 2, 1, 5, 4], [3, 2, 1, 4, 5], [4, 5, 3, 1, 2], [4, 5, 3, 2, 1], [4, 5, 1, 3, 2], [4, 5, 1, 2, 3], [4, 5, 2, 3, 1], [4, 5, 2, 1, 3], [4, 3, 5, 1, 2], [4, 3, 5, 2, 1], [4, 3, 1, 5, 2], [4, 3, 1, 2, 5], [4, 3, 2, 5, 1], [4, 3, 2, 1, 5], [4, 1, 5, 3, 2], [4, 1, 5, 2, 3], [4, 1, 3, 5, 2], [4, 1, 3, 2, 5], [4, 1, 2, 5, 3], [4, 1, 2, 3, 5], [4, 2, 5, 3, 1], [4, 2, 5, 1, 3], [4, 2, 3, 5, 1], [4, 2, 3, 1, 5], [4, 2, 1, 5, 3], [4, 2, 1, 3, 5], [1, 5, 3, 4, 2], [1, 5, 3, 2, 4], [1, 5, 4, 3, 2], [1, 5, 4, 2, 3], [1, 5, 2, 3, 4], [1, 5, 2, 4, 3], [1, 3, 5, 4, 2], [1, 3, 5, 2, 4], [1, 3, 4, 5, 2], [1, 3, 4, 2, 5], [1, 3, 2, 5, 4], [1, 3, 2, 4, 5], [1, 4, 5, 3, 2], [1, 4, 5, 2, 3], [1, 4, 3, 5, 2], [1, 4, 3, 2, 5], [1, 4, 2, 5, 3], [1, 4, 2, 3, 5], [1, 2, 5, 3, 4], [1, 2, 5, 4, 3], [1, 2, 3, 5, 4], [1, 2, 3, 4, 5], [1, 2, 4, 5, 3], [1, 2, 4, 3, 5], [2, 5, 3, 4, 1], [2, 5, 3, 1, 4], [2, 5, 4, 3, 1], [2, 5, 4, 1, 3], [2, 5, 1, 3, 4], [2, 5, 1, 4, 3], [2, 3, 5, 4, 1], [2, 3, 5, 1, 4], [2, 3, 4, 5, 1], [2, 3, 4, 1, 5], [2, 3, 1, 5, 4], [2, 3, 1, 4, 5], [2, 4, 5, 3, 1], [2, 4, 5, 1, 3], [2, 4, 3, 5, 1], [2, 4, 3, 1, 5], [2, 4, 1, 5, 3], [2, 4, 1, 3, 5], [2, 1, 5, 3, 4], [2, 1, 5, 4, 3], [2, 1, 3, 5, 4], [2, 1, 3, 4, 5], [2, 1, 4, 5, 3], [2, 1, 4, 3, 5]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,2,3]",
+        "expectedOutput": "[[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [2,3,5,7,11,13]",
+        "expectedOutput": "[[2, 3, 5, 7, 11, 13], [2, 3, 5, 7, 13, 11], [2, 3, 5, 11, 7, 13], [2, 3, 5, 11, 13, 7], [2, 3, 5, 13, 7, 11], [2, 3, 5, 13, 11, 7], [2, 3, 7, 5, 11, 13], [2, 3, 7, 5, 13, 11], [2, 3, 7, 11, 5, 13], [2, 3, 7, 11, 13, 5], [2, 3, 7, 13, 5, 11], [2, 3, 7, 13, 11, 5], [2, 3, 11, 5, 7, 13], [2, 3, 11, 5, 13, 7], [2, 3, 11, 7, 5, 13], [2, 3, 11, 7, 13, 5], [2, 3, 11, 13, 5, 7], [2, 3, 11, 13, 7, 5], [2, 3, 13, 5, 7, 11], [2, 3, 13, 5, 11, 7], [2, 3, 13, 7, 5, 11], [2, 3, 13, 7, 11, 5], [2, 3, 13, 11, 5, 7], [2, 3, 13, 11, 7, 5], [2, 5, 3, 7, 11, 13], [2, 5, 3, 7, 13, 11], [2, 5, 3, 11, 7, 13], [2, 5, 3, 11, 13, 7], [2, 5, 3, 13, 7, 11], [2, 5, 3, 13, 11, 7], [2, 5, 7, 3, 11, 13], [2, 5, 7, 3, 13, 11], [2, 5, 7, 11, 3, 13], [2, 5, 7, 11, 13, 3], [2, 5, 7, 13, 3, 11], [2, 5, 7, 13, 11, 3], [2, 5, 11, 3, 7, 13], [2, 5, 11, 3, 13, 7], [2, 5, 11, 7, 3, 13], [2, 5, 11, 7, 13, 3], [2, 5, 11, 13, 3, 7], [2, 5, 11, 13, 7, 3], [2, 5, 13, 3, 7, 11], [2, 5, 13, 3, 11, 7], [2, 5, 13, 7, 3, 11], [2, 5, 13, 7, 11, 3], [2, 5, 13, 11, 3, 7], [2, 5, 13, 11, 7, 3], [2, 7, 3, 5, 11, 13], [2, 7, 3, 5, 13, 11], [2, 7, 3, 11, 5, 13], [2, 7, 3, 11, 13, 5], [2, 7, 3, 13, 5, 11], [2, 7, 3, 13, 11, 5], [2, 7, 5, 3, 11, 13], [2, 7, 5, 3, 13, 11], [2, 7, 5, 11, 3, 13], [2, 7, 5, 11, 13, 3], [2, 7, 5, 13, 3, 11], [2, 7, 5, 13, 11, 3], [2, 7, 11, 3, 5, 13], [2, 7, 11, 3, 13, 5], [2, 7, 11, 5, 3, 13], [2, 7, 11, 5, 13, 3], [2, 7, 11, 13, 3, 5], [2, 7, 11, 13, 5, 3], [2, 7, 13, 3, 5, 11], [2, 7, 13, 3, 11, 5], [2, 7, 13, 5, 3, 11], [2, 7, 13, 5, 11, 3], [2, 7, 13, 11, 3, 5], [2, 7, 13, 11, 5, 3], [2, 11, 3, 5, 7, 13], [2, 11, 3, 5, 13, 7], [2, 11, 3, 7, 5, 13], [2, 11, 3, 7, 13, 5], [2, 11, 3, 13, 5, 7], [2, 11, 3, 13, 7, 5], [2, 11, 5, 3, 7, 13], [2, 11, 5, 3, 13, 7], [2, 11, 5, 7, 3, 13], [2, 11, 5, 7, 13, 3], [2, 11, 5, 13, 3, 7], [2, 11, 5, 13, 7, 3], [2, 11, 7, 3, 5, 13], [2, 11, 7, 3, 13, 5], [2, 11, 7, 5, 3, 13], [2, 11, 7, 5, 13, 3], [2, 11, 7, 13, 3, 5], [2, 11, 7, 13, 5, 3], [2, 11, 13, 3, 5, 7], [2, 11, 13, 3, 7, 5], [2, 11, 13, 5, 3, 7], [2, 11, 13, 5, 7, 3], [2, 11, 13, 7, 3, 5], [2, 11, 13, 7, 5, 3], [2, 13, 3, 5, 7, 11], [2, 13, 3, 5, 11, 7], [2, 13, 3, 7, 5, 11], [2, 13, 3, 7, 11, 5], [2, 13, 3, 11, 5, 7], [2, 13, 3, 11, 7, 5], [2, 13, 5, 3, 7, 11], [2, 13, 5, 3, 11, 7], [2, 13, 5, 7, 3, 11], [2, 13, 5, 7, 11, 3], [2, 13, 5, 11, 3, 7], [2, 13, 5, 11, 7, 3], [2, 13, 7, 3, 5, 11], [2, 13, 7, 3, 11, 5], [2, 13, 7, 5, 3, 11], [2, 13, 7, 5, 11, 3], [2, 13, 7, 11, 3, 5], [2, 13, 7, 11, 5, 3], [2, 13, 11, 3, 5, 7], [2, 13, 11, 3, 7, 5], [2, 13, 11, 5, 3, 7], [2, 13, 11, 5, 7, 3], [2, 13, 11, 7, 3, 5], [2, 13, 11, 7, 5, 3], [3, 2, 5, 7, 11, 13], [3, 2, 5, 7, 13, 11], [3, 2, 5, 11, 7, 13], [3, 2, 5, 11, 13, 7], [3, 2, 5, 13, 7, 11], [3, 2, 5, 13, 11, 7], [3, 2, 7, 5, 11, 13], [3, 2, 7, 5, 13, 11], [3, 2, 7, 11, 5, 13], [3, 2, 7, 11, 13, 5], [3, 2, 7, 13, 5, 11], [3, 2, 7, 13, 11, 5], [3, 2, 11, 5, 7, 13], [3, 2, 11, 5, 13, 7], [3, 2, 11, 7, 5, 13], [3, 2, 11, 7, 13, 5], [3, 2, 11, 13, 5, 7], [3, 2, 11, 13, 7, 5], [3, 2, 13, 5, 7, 11], [3, 2, 13, 5, 11, 7], [3, 2, 13, 7, 5, 11], [3, 2, 13, 7, 11, 5], [3, 2, 13, 11, 5, 7], [3, 2, 13, 11, 7, 5], [3, 5, 2, 7, 11, 13], [3, 5, 2, 7, 13, 11], [3, 5, 2, 11, 7, 13], [3, 5, 2, 11, 13, 7], [3, 5, 2, 13, 7, 11], [3, 5, 2, 13, 11, 7], [3, 5, 7, 2, 11, 13], [3, 5, 7, 2, 13, 11], [3, 5, 7, 11, 2, 13], [3, 5, 7, 11, 13, 2], [3, 5, 7, 13, 2, 11], [3, 5, 7, 13, 11, 2], [3, 5, 11, 2, 7, 13], [3, 5, 11, 2, 13, 7], [3, 5, 11, 7, 2, 13], [3, 5, 11, 7, 13, 2], [3, 5, 11, 13, 2, 7], [3, 5, 11, 13, 7, 2], [3, 5, 13, 2, 7, 11], [3, 5, 13, 2, 11, 7], [3, 5, 13, 7, 2, 11], [3, 5, 13, 7, 11, 2], [3, 5, 13, 11, 2, 7], [3, 5, 13, 11, 7, 2], [3, 7, 2, 5, 11, 13], [3, 7, 2, 5, 13, 11], [3, 7, 2, 11, 5, 13], [3, 7, 2, 11, 13, 5], [3, 7, 2, 13, 5, 11], [3, 7, 2, 13, 11, 5], [3, 7, 5, 2, 11, 13], [3, 7, 5, 2, 13, 11], [3, 7, 5, 11, 2, 13], [3, 7, 5, 11, 13, 2], [3, 7, 5, 13, 2, 11], [3, 7, 5, 13, 11, 2], [3, 7, 11, 2, 5, 13], [3, 7, 11, 2, 13, 5], [3, 7, 11, 5, 2, 13], [3, 7, 11, 5, 13, 2], [3, 7, 11, 13, 2, 5], [3, 7, 11, 13, 5, 2], [3, 7, 13, 2, 5, 11], [3, 7, 13, 2, 11, 5], [3, 7, 13, 5, 2, 11], [3, 7, 13, 5, 11, 2], [3, 7, 13, 11, 2, 5], [3, 7, 13, 11, 5, 2], [3, 11, 2, 5, 7, 13], [3, 11, 2, 5, 13, 7], [3, 11, 2, 7, 5, 13], [3, 11, 2, 7, 13, 5], [3, 11, 2, 13, 5, 7], [3, 11, 2, 13, 7, 5], [3, 11, 5, 2, 7, 13], [3, 11, 5, 2, 13, 7], [3, 11, 5, 7, 2, 13], [3, 11, 5, 7, 13, 2], [3, 11, 5, 13, 2, 7], [3, 11, 5, 13, 7, 2], [3, 11, 7, 2, 5, 13], [3, 11, 7, 2, 13, 5], [3, 11, 7, 5, 2, 13], [3, 11, 7, 5, 13, 2], [3, 11, 7, 13, 2, 5], [3, 11, 7, 13, 5, 2], [3, 11, 13, 2, 5, 7], [3, 11, 13, 2, 7, 5], [3, 11, 13, 5, 2, 7], [3, 11, 13, 5, 7, 2], [3, 11, 13, 7, 2, 5], [3, 11, 13, 7, 5, 2], [3, 13, 2, 5, 7, 11], [3, 13, 2, 5, 11, 7], [3, 13, 2, 7, 5, 11], [3, 13, 2, 7, 11, 5], [3, 13, 2, 11, 5, 7], [3, 13, 2, 11, 7, 5], [3, 13, 5, 2, 7, 11], [3, 13, 5, 2, 11, 7], [3, 13, 5, 7, 2, 11], [3, 13, 5, 7, 11, 2], [3, 13, 5, 11, 2, 7], [3, 13, 5, 11, 7, 2], [3, 13, 7, 2, 5, 11], [3, 13, 7, 2, 11, 5], [3, 13, 7, 5, 2, 11], [3, 13, 7, 5, 11, 2], [3, 13, 7, 11, 2, 5], [3, 13, 7, 11, 5, 2], [3, 13, 11, 2, 5, 7], [3, 13, 11, 2, 7, 5], [3, 13, 11, 5, 2, 7], [3, 13, 11, 5, 7, 2], [3, 13, 11, 7, 2, 5], [3, 13, 11, 7, 5, 2], [5, 2, 3, 7, 11, 13], [5, 2, 3, 7, 13, 11], [5, 2, 3, 11, 7, 13], [5, 2, 3, 11, 13, 7], [5, 2, 3, 13, 7, 11], [5, 2, 3, 13, 11, 7], [5, 2, 7, 3, 11, 13], [5, 2, 7, 3, 13, 11], [5, 2, 7, 11, 3, 13], [5, 2, 7, 11, 13, 3], [5, 2, 7, 13, 3, 11], [5, 2, 7, 13, 11, 3], [5, 2, 11, 3, 7, 13], [5, 2, 11, 3, 13, 7], [5, 2, 11, 7, 3, 13], [5, 2, 11, 7, 13, 3], [5, 2, 11, 13, 3, 7], [5, 2, 11, 13, 7, 3], [5, 2, 13, 3, 7, 11], [5, 2, 13, 3, 11, 7], [5, 2, 13, 7, 3, 11], [5, 2, 13, 7, 11, 3], [5, 2, 13, 11, 3, 7], [5, 2, 13, 11, 7, 3], [5, 3, 2, 7, 11, 13], [5, 3, 2, 7, 13, 11], [5, 3, 2, 11, 7, 13], [5, 3, 2, 11, 13, 7], [5, 3, 2, 13, 7, 11], [5, 3, 2, 13, 11, 7], [5, 3, 7, 2, 11, 13], [5, 3, 7, 2, 13, 11], [5, 3, 7, 11, 2, 13], [5, 3, 7, 11, 13, 2], [5, 3, 7, 13, 2, 11], [5, 3, 7, 13, 11, 2], [5, 3, 11, 2, 7, 13], [5, 3, 11, 2, 13, 7], [5, 3, 11, 7, 2, 13], [5, 3, 11, 7, 13, 2], [5, 3, 11, 13, 2, 7], [5, 3, 11, 13, 7, 2], [5, 3, 13, 2, 7, 11], [5, 3, 13, 2, 11, 7], [5, 3, 13, 7, 2, 11], [5, 3, 13, 7, 11, 2], [5, 3, 13, 11, 2, 7], [5, 3, 13, 11, 7, 2], [5, 7, 2, 3, 11, 13], [5, 7, 2, 3, 13, 11], [5, 7, 2, 11, 3, 13], [5, 7, 2, 11, 13, 3], [5, 7, 2, 13, 3, 11], [5, 7, 2, 13, 11, 3], [5, 7, 3, 2, 11, 13], [5, 7, 3, 2, 13, 11], [5, 7, 3, 11, 2, 13], [5, 7, 3, 11, 13, 2], [5, 7, 3, 13, 2, 11], [5, 7, 3, 13, 11, 2], [5, 7, 11, 2, 3, 13], [5, 7, 11, 2, 13, 3], [5, 7, 11, 3, 2, 13], [5, 7, 11, 3, 13, 2], [5, 7, 11, 13, 2, 3], [5, 7, 11, 13, 3, 2], [5, 7, 13, 2, 3, 11], [5, 7, 13, 2, 11, 3], [5, 7, 13, 3, 2, 11], [5, 7, 13, 3, 11, 2], [5, 7, 13, 11, 2, 3], [5, 7, 13, 11, 3, 2], [5, 11, 2, 3, 7, 13], [5, 11, 2, 3, 13, 7], [5, 11, 2, 7, 3, 13], [5, 11, 2, 7, 13, 3], [5, 11, 2, 13, 3, 7], [5, 11, 2, 13, 7, 3], [5, 11, 3, 2, 7, 13], [5, 11, 3, 2, 13, 7], [5, 11, 3, 7, 2, 13], [5, 11, 3, 7, 13, 2], [5, 11, 3, 13, 2, 7], [5, 11, 3, 13, 7, 2], [5, 11, 7, 2, 3, 13], [5, 11, 7, 2, 13, 3], [5, 11, 7, 3, 2, 13], [5, 11, 7, 3, 13, 2], [5, 11, 7, 13, 2, 3], [5, 11, 7, 13, 3, 2], [5, 11, 13, 2, 3, 7], [5, 11, 13, 2, 7, 3], [5, 11, 13, 3, 2, 7], [5, 11, 13, 3, 7, 2], [5, 11, 13, 7, 2, 3], [5, 11, 13, 7, 3, 2], [5, 13, 2, 3, 7, 11], [5, 13, 2, 3, 11, 7], [5, 13, 2, 7, 3, 11], [5, 13, 2, 7, 11, 3], [5, 13, 2, 11, 3, 7], [5, 13, 2, 11, 7, 3], [5, 13, 3, 2, 7, 11], [5, 13, 3, 2, 11, 7], [5, 13, 3, 7, 2, 11], [5, 13, 3, 7, 11, 2], [5, 13, 3, 11, 2, 7], [5, 13, 3, 11, 7, 2], [5, 13, 7, 2, 3, 11], [5, 13, 7, 2, 11, 3], [5, 13, 7, 3, 2, 11], [5, 13, 7, 3, 11, 2], [5, 13, 7, 11, 2, 3], [5, 13, 7, 11, 3, 2], [5, 13, 11, 2, 3, 7], [5, 13, 11, 2, 7, 3], [5, 13, 11, 3, 2, 7], [5, 13, 11, 3, 7, 2], [5, 13, 11, 7, 2, 3], [5, 13, 11, 7, 3, 2], [7, 2, 3, 5, 11, 13], [7, 2, 3, 5, 13, 11], [7, 2, 3, 11, 5, 13], [7, 2, 3, 11, 13, 5], [7, 2, 3, 13, 5, 11], [7, 2, 3, 13, 11, 5], [7, 2, 5, 3, 11, 13], [7, 2, 5, 3, 13, 11], [7, 2, 5, 11, 3, 13], [7, 2, 5, 11, 13, 3], [7, 2, 5, 13, 3, 11], [7, 2, 5, 13, 11, 3], [7, 2, 11, 3, 5, 13], [7, 2, 11, 3, 13, 5], [7, 2, 11, 5, 3, 13], [7, 2, 11, 5, 13, 3], [7, 2, 11, 13, 3, 5], [7, 2, 11, 13, 5, 3], [7, 2, 13, 3, 5, 11], [7, 2, 13, 3, 11, 5], [7, 2, 13, 5, 3, 11], [7, 2, 13, 5, 11, 3], [7, 2, 13, 11, 3, 5], [7, 2, 13, 11, 5, 3], [7, 3, 2, 5, 11, 13], [7, 3, 2, 5, 13, 11], [7, 3, 2, 11, 5, 13], [7, 3, 2, 11, 13, 5], [7, 3, 2, 13, 5, 11], [7, 3, 2, 13, 11, 5], [7, 3, 5, 2, 11, 13], [7, 3, 5, 2, 13, 11], [7, 3, 5, 11, 2, 13], [7, 3, 5, 11, 13, 2], [7, 3, 5, 13, 2, 11], [7, 3, 5, 13, 11, 2], [7, 3, 11, 2, 5, 13], [7, 3, 11, 2, 13, 5], [7, 3, 11, 5, 2, 13], [7, 3, 11, 5, 13, 2], [7, 3, 11, 13, 2, 5], [7, 3, 11, 13, 5, 2], [7, 3, 13, 2, 5, 11], [7, 3, 13, 2, 11, 5], [7, 3, 13, 5, 2, 11], [7, 3, 13, 5, 11, 2], [7, 3, 13, 11, 2, 5], [7, 3, 13, 11, 5, 2], [7, 5, 2, 3, 11, 13], [7, 5, 2, 3, 13, 11], [7, 5, 2, 11, 3, 13], [7, 5, 2, 11, 13, 3], [7, 5, 2, 13, 3, 11], [7, 5, 2, 13, 11, 3], [7, 5, 3, 2, 11, 13], [7, 5, 3, 2, 13, 11], [7, 5, 3, 11, 2, 13], [7, 5, 3, 11, 13, 2], [7, 5, 3, 13, 2, 11], [7, 5, 3, 13, 11, 2], [7, 5, 11, 2, 3, 13], [7, 5, 11, 2, 13, 3], [7, 5, 11, 3, 2, 13], [7, 5, 11, 3, 13, 2], [7, 5, 11, 13, 2, 3], [7, 5, 11, 13, 3, 2], [7, 5, 13, 2, 3, 11], [7, 5, 13, 2, 11, 3], [7, 5, 13, 3, 2, 11], [7, 5, 13, 3, 11, 2], [7, 5, 13, 11, 2, 3], [7, 5, 13, 11, 3, 2], [7, 11, 2, 3, 5, 13], [7, 11, 2, 3, 13, 5], [7, 11, 2, 5, 3, 13], [7, 11, 2, 5, 13, 3], [7, 11, 2, 13, 3, 5], [7, 11, 2, 13, 5, 3], [7, 11, 3, 2, 5, 13], [7, 11, 3, 2, 13, 5], [7, 11, 3, 5, 2, 13], [7, 11, 3, 5, 13, 2], [7, 11, 3, 13, 2, 5], [7, 11, 3, 13, 5, 2], [7, 11, 5, 2, 3, 13], [7, 11, 5, 2, 13, 3], [7, 11, 5, 3, 2, 13], [7, 11, 5, 3, 13, 2], [7, 11, 5, 13, 2, 3], [7, 11, 5, 13, 3, 2], [7, 11, 13, 2, 3, 5], [7, 11, 13, 2, 5, 3], [7, 11, 13, 3, 2, 5], [7, 11, 13, 3, 5, 2], [7, 11, 13, 5, 2, 3], [7, 11, 13, 5, 3, 2], [7, 13, 2, 3, 5, 11], [7, 13, 2, 3, 11, 5], [7, 13, 2, 5, 3, 11], [7, 13, 2, 5, 11, 3], [7, 13, 2, 11, 3, 5], [7, 13, 2, 11, 5, 3], [7, 13, 3, 2, 5, 11], [7, 13, 3, 2, 11, 5], [7, 13, 3, 5, 2, 11], [7, 13, 3, 5, 11, 2], [7, 13, 3, 11, 2, 5], [7, 13, 3, 11, 5, 2], [7, 13, 5, 2, 3, 11], [7, 13, 5, 2, 11, 3], [7, 13, 5, 3, 2, 11], [7, 13, 5, 3, 11, 2], [7, 13, 5, 11, 2, 3], [7, 13, 5, 11, 3, 2], [7, 13, 11, 2, 3, 5], [7, 13, 11, 2, 5, 3], [7, 13, 11, 3, 2, 5], [7, 13, 11, 3, 5, 2], [7, 13, 11, 5, 2, 3], [7, 13, 11, 5, 3, 2], [11, 2, 3, 5, 7, 13], [11, 2, 3, 5, 13, 7], [11, 2, 3, 7, 5, 13], [11, 2, 3, 7, 13, 5], [11, 2, 3, 13, 5, 7], [11, 2, 3, 13, 7, 5], [11, 2, 5, 3, 7, 13], [11, 2, 5, 3, 13, 7], [11, 2, 5, 7, 3, 13], [11, 2, 5, 7, 13, 3], [11, 2, 5, 13, 3, 7], [11, 2, 5, 13, 7, 3], [11, 2, 7, 3, 5, 13], [11, 2, 7, 3, 13, 5], [11, 2, 7, 5, 3, 13], [11, 2, 7, 5, 13, 3], [11, 2, 7, 13, 3, 5], [11, 2, 7, 13, 5, 3], [11, 2, 13, 3, 5, 7], [11, 2, 13, 3, 7, 5], [11, 2, 13, 5, 3, 7], [11, 2, 13, 5, 7, 3], [11, 2, 13, 7, 3, 5], [11, 2, 13, 7, 5, 3], [11, 3, 2, 5, 7, 13], [11, 3, 2, 5, 13, 7], [11, 3, 2, 7, 5, 13], [11, 3, 2, 7, 13, 5], [11, 3, 2, 13, 5, 7], [11, 3, 2, 13, 7, 5], [11, 3, 5, 2, 7, 13], [11, 3, 5, 2, 13, 7], [11, 3, 5, 7, 2, 13], [11, 3, 5, 7, 13, 2], [11, 3, 5, 13, 2, 7], [11, 3, 5, 13, 7, 2], [11, 3, 7, 2, 5, 13], [11, 3, 7, 2, 13, 5], [11, 3, 7, 5, 2, 13], [11, 3, 7, 5, 13, 2], [11, 3, 7, 13, 2, 5], [11, 3, 7, 13, 5, 2], [11, 3, 13, 2, 5, 7], [11, 3, 13, 2, 7, 5], [11, 3, 13, 5, 2, 7], [11, 3, 13, 5, 7, 2], [11, 3, 13, 7, 2, 5], [11, 3, 13, 7, 5, 2], [11, 5, 2, 3, 7, 13], [11, 5, 2, 3, 13, 7], [11, 5, 2, 7, 3, 13], [11, 5, 2, 7, 13, 3], [11, 5, 2, 13, 3, 7], [11, 5, 2, 13, 7, 3], [11, 5, 3, 2, 7, 13], [11, 5, 3, 2, 13, 7], [11, 5, 3, 7, 2, 13], [11, 5, 3, 7, 13, 2], [11, 5, 3, 13, 2, 7], [11, 5, 3, 13, 7, 2], [11, 5, 7, 2, 3, 13], [11, 5, 7, 2, 13, 3], [11, 5, 7, 3, 2, 13], [11, 5, 7, 3, 13, 2], [11, 5, 7, 13, 2, 3], [11, 5, 7, 13, 3, 2], [11, 5, 13, 2, 3, 7], [11, 5, 13, 2, 7, 3], [11, 5, 13, 3, 2, 7], [11, 5, 13, 3, 7, 2], [11, 5, 13, 7, 2, 3], [11, 5, 13, 7, 3, 2], [11, 7, 2, 3, 5, 13], [11, 7, 2, 3, 13, 5], [11, 7, 2, 5, 3, 13], [11, 7, 2, 5, 13, 3], [11, 7, 2, 13, 3, 5], [11, 7, 2, 13, 5, 3], [11, 7, 3, 2, 5, 13], [11, 7, 3, 2, 13, 5], [11, 7, 3, 5, 2, 13], [11, 7, 3, 5, 13, 2], [11, 7, 3, 13, 2, 5], [11, 7, 3, 13, 5, 2], [11, 7, 5, 2, 3, 13], [11, 7, 5, 2, 13, 3], [11, 7, 5, 3, 2, 13], [11, 7, 5, 3, 13, 2], [11, 7, 5, 13, 2, 3], [11, 7, 5, 13, 3, 2], [11, 7, 13, 2, 3, 5], [11, 7, 13, 2, 5, 3], [11, 7, 13, 3, 2, 5], [11, 7, 13, 3, 5, 2], [11, 7, 13, 5, 2, 3], [11, 7, 13, 5, 3, 2], [11, 13, 2, 3, 5, 7], [11, 13, 2, 3, 7, 5], [11, 13, 2, 5, 3, 7], [11, 13, 2, 5, 7, 3], [11, 13, 2, 7, 3, 5], [11, 13, 2, 7, 5, 3], [11, 13, 3, 2, 5, 7], [11, 13, 3, 2, 7, 5], [11, 13, 3, 5, 2, 7], [11, 13, 3, 5, 7, 2], [11, 13, 3, 7, 2, 5], [11, 13, 3, 7, 5, 2], [11, 13, 5, 2, 3, 7], [11, 13, 5, 2, 7, 3], [11, 13, 5, 3, 2, 7], [11, 13, 5, 3, 7, 2], [11, 13, 5, 7, 2, 3], [11, 13, 5, 7, 3, 2], [11, 13, 7, 2, 3, 5], [11, 13, 7, 2, 5, 3], [11, 13, 7, 3, 2, 5], [11, 13, 7, 3, 5, 2], [11, 13, 7, 5, 2, 3], [11, 13, 7, 5, 3, 2], [13, 2, 3, 5, 7, 11], [13, 2, 3, 5, 11, 7], [13, 2, 3, 7, 5, 11], [13, 2, 3, 7, 11, 5], [13, 2, 3, 11, 5, 7], [13, 2, 3, 11, 7, 5], [13, 2, 5, 3, 7, 11], [13, 2, 5, 3, 11, 7], [13, 2, 5, 7, 3, 11], [13, 2, 5, 7, 11, 3], [13, 2, 5, 11, 3, 7], [13, 2, 5, 11, 7, 3], [13, 2, 7, 3, 5, 11], [13, 2, 7, 3, 11, 5], [13, 2, 7, 5, 3, 11], [13, 2, 7, 5, 11, 3], [13, 2, 7, 11, 3, 5], [13, 2, 7, 11, 5, 3], [13, 2, 11, 3, 5, 7], [13, 2, 11, 3, 7, 5], [13, 2, 11, 5, 3, 7], [13, 2, 11, 5, 7, 3], [13, 2, 11, 7, 3, 5], [13, 2, 11, 7, 5, 3], [13, 3, 2, 5, 7, 11], [13, 3, 2, 5, 11, 7], [13, 3, 2, 7, 5, 11], [13, 3, 2, 7, 11, 5], [13, 3, 2, 11, 5, 7], [13, 3, 2, 11, 7, 5], [13, 3, 5, 2, 7, 11], [13, 3, 5, 2, 11, 7], [13, 3, 5, 7, 2, 11], [13, 3, 5, 7, 11, 2], [13, 3, 5, 11, 2, 7], [13, 3, 5, 11, 7, 2], [13, 3, 7, 2, 5, 11], [13, 3, 7, 2, 11, 5], [13, 3, 7, 5, 2, 11], [13, 3, 7, 5, 11, 2], [13, 3, 7, 11, 2, 5], [13, 3, 7, 11, 5, 2], [13, 3, 11, 2, 5, 7], [13, 3, 11, 2, 7, 5], [13, 3, 11, 5, 2, 7], [13, 3, 11, 5, 7, 2], [13, 3, 11, 7, 2, 5], [13, 3, 11, 7, 5, 2], [13, 5, 2, 3, 7, 11], [13, 5, 2, 3, 11, 7], [13, 5, 2, 7, 3, 11], [13, 5, 2, 7, 11, 3], [13, 5, 2, 11, 3, 7], [13, 5, 2, 11, 7, 3], [13, 5, 3, 2, 7, 11], [13, 5, 3, 2, 11, 7], [13, 5, 3, 7, 2, 11], [13, 5, 3, 7, 11, 2], [13, 5, 3, 11, 2, 7], [13, 5, 3, 11, 7, 2], [13, 5, 7, 2, 3, 11], [13, 5, 7, 2, 11, 3], [13, 5, 7, 3, 2, 11], [13, 5, 7, 3, 11, 2], [13, 5, 7, 11, 2, 3], [13, 5, 7, 11, 3, 2], [13, 5, 11, 2, 3, 7], [13, 5, 11, 2, 7, 3], [13, 5, 11, 3, 2, 7], [13, 5, 11, 3, 7, 2], [13, 5, 11, 7, 2, 3], [13, 5, 11, 7, 3, 2], [13, 7, 2, 3, 5, 11], [13, 7, 2, 3, 11, 5], [13, 7, 2, 5, 3, 11], [13, 7, 2, 5, 11, 3], [13, 7, 2, 11, 3, 5], [13, 7, 2, 11, 5, 3], [13, 7, 3, 2, 5, 11], [13, 7, 3, 2, 11, 5], [13, 7, 3, 5, 2, 11], [13, 7, 3, 5, 11, 2], [13, 7, 3, 11, 2, 5], [13, 7, 3, 11, 5, 2], [13, 7, 5, 2, 3, 11], [13, 7, 5, 2, 11, 3], [13, 7, 5, 3, 2, 11], [13, 7, 5, 3, 11, 2], [13, 7, 5, 11, 2, 3], [13, 7, 5, 11, 3, 2], [13, 7, 11, 2, 3, 5], [13, 7, 11, 2, 5, 3], [13, 7, 11, 3, 2, 5], [13, 7, 11, 3, 5, 2], [13, 7, 11, 5, 2, 3], [13, 7, 11, 5, 3, 2], [13, 11, 2, 3, 5, 7], [13, 11, 2, 3, 7, 5], [13, 11, 2, 5, 3, 7], [13, 11, 2, 5, 7, 3], [13, 11, 2, 7, 3, 5], [13, 11, 2, 7, 5, 3], [13, 11, 3, 2, 5, 7], [13, 11, 3, 2, 7, 5], [13, 11, 3, 5, 2, 7], [13, 11, 3, 5, 7, 2], [13, 11, 3, 7, 2, 5], [13, 11, 3, 7, 5, 2], [13, 11, 5, 2, 3, 7], [13, 11, 5, 2, 7, 3], [13, 11, 5, 3, 2, 7], [13, 11, 5, 3, 7, 2], [13, 11, 5, 7, 2, 3], [13, 11, 5, 7, 3, 2], [13, 11, 7, 2, 3, 5], [13, 11, 7, 2, 5, 3], [13, 11, 7, 3, 2, 5], [13, 11, 7, 3, 5, 2], [13, 11, 7, 5, 2, 3], [13, 11, 7, 5, 3, 2]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [0,1]",
+        "expectedOutput": "[[0, 1], [1, 0]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [3,1,2]",
+        "expectedOutput": "[[3, 1, 2], [3, 2, 1], [1, 3, 2], [1, 2, 3], [2, 3, 1], [2, 1, 3]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [10,-10,20,-20,30,-30,40]",
+        "expectedOutput": "Execution timed out",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [-1,2,-3,4,5]",
+        "expectedOutput": "[[-1, 2, -3, 4, 5], [-1, 2, -3, 5, 4], [-1, 2, 4, -3, 5], [-1, 2, 4, 5, -3], [-1, 2, 5, -3, 4], [-1, 2, 5, 4, -3], [-1, -3, 2, 4, 5], [-1, -3, 2, 5, 4], [-1, -3, 4, 2, 5], [-1, -3, 4, 5, 2], [-1, -3, 5, 2, 4], [-1, -3, 5, 4, 2], [-1, 4, 2, -3, 5], [-1, 4, 2, 5, -3], [-1, 4, -3, 2, 5], [-1, 4, -3, 5, 2], [-1, 4, 5, 2, -3], [-1, 4, 5, -3, 2], [-1, 5, 2, -3, 4], [-1, 5, 2, 4, -3], [-1, 5, -3, 2, 4], [-1, 5, -3, 4, 2], [-1, 5, 4, 2, -3], [-1, 5, 4, -3, 2], [2, -1, -3, 4, 5], [2, -1, -3, 5, 4], [2, -1, 4, -3, 5], [2, -1, 4, 5, -3], [2, -1, 5, -3, 4], [2, -1, 5, 4, -3], [2, -3, -1, 4, 5], [2, -3, -1, 5, 4], [2, -3, 4, -1, 5], [2, -3, 4, 5, -1], [2, -3, 5, -1, 4], [2, -3, 5, 4, -1], [2, 4, -1, -3, 5], [2, 4, -1, 5, -3], [2, 4, -3, -1, 5], [2, 4, -3, 5, -1], [2, 4, 5, -1, -3], [2, 4, 5, -3, -1], [2, 5, -1, -3, 4], [2, 5, -1, 4, -3], [2, 5, -3, -1, 4], [2, 5, -3, 4, -1], [2, 5, 4, -1, -3], [2, 5, 4, -3, -1], [-3, -1, 2, 4, 5], [-3, -1, 2, 5, 4], [-3, -1, 4, 2, 5], [-3, -1, 4, 5, 2], [-3, -1, 5, 2, 4], [-3, -1, 5, 4, 2], [-3, 2, -1, 4, 5], [-3, 2, -1, 5, 4], [-3, 2, 4, -1, 5], [-3, 2, 4, 5, -1], [-3, 2, 5, -1, 4], [-3, 2, 5, 4, -1], [-3, 4, -1, 2, 5], [-3, 4, -1, 5, 2], [-3, 4, 2, -1, 5], [-3, 4, 2, 5, -1], [-3, 4, 5, -1, 2], [-3, 4, 5, 2, -1], [-3, 5, -1, 2, 4], [-3, 5, -1, 4, 2], [-3, 5, 2, -1, 4], [-3, 5, 2, 4, -1], [-3, 5, 4, -1, 2], [-3, 5, 4, 2, -1], [4, -1, 2, -3, 5], [4, -1, 2, 5, -3], [4, -1, -3, 2, 5], [4, -1, -3, 5, 2], [4, -1, 5, 2, -3], [4, -1, 5, -3, 2], [4, 2, -1, -3, 5], [4, 2, -1, 5, -3], [4, 2, -3, -1, 5], [4, 2, -3, 5, -1], [4, 2, 5, -1, -3], [4, 2, 5, -3, -1], [4, -3, -1, 2, 5], [4, -3, -1, 5, 2], [4, -3, 2, -1, 5], [4, -3, 2, 5, -1], [4, -3, 5, -1, 2], [4, -3, 5, 2, -1], [4, 5, -1, 2, -3], [4, 5, -1, -3, 2], [4, 5, 2, -1, -3], [4, 5, 2, -3, -1], [4, 5, -3, -1, 2], [4, 5, -3, 2, -1], [5, -1, 2, -3, 4], [5, -1, 2, 4, -3], [5, -1, -3, 2, 4], [5, -1, -3, 4, 2], [5, -1, 4, 2, -3], [5, -1, 4, -3, 2], [5, 2, -1, -3, 4], [5, 2, -1, 4, -3], [5, 2, -3, -1, 4], [5, 2, -3, 4, -1], [5, 2, 4, -1, -3], [5, 2, 4, -3, -1], [5, -3, -1, 2, 4], [5, -3, -1, 4, 2], [5, -3, 2, -1, 4], [5, -3, 2, 4, -1], [5, -3, 4, -1, 2], [5, -3, 4, 2, -1], [5, 4, -1, 2, -3], [5, 4, -1, -3, 2], [5, 4, 2, -1, -3], [5, 4, 2, -3, -1], [5, 4, -3, -1, 2], [5, 4, -3, 2, -1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [-1,2,-3]",
+        "expectedOutput": "[[-1, 2, -3], [-1, -3, 2], [2, -1, -3], [2, -3, -1], [-3, -1, 2], [-3, 2, -1]]",
+        "isHidden": true
       }
     ]
   },
@@ -1531,6 +4232,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1,2,3]",
         "expectedOutput": "[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,1,1]",
+        "expectedOutput": "[[1, 1, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [-1,2,-1,2]",
+        "expectedOutput": "[[-1, -1, 2, 2], [-1, 2, -1, 2], [-1, 2, 2, -1], [2, -1, -1, 2], [2, -1, 2, -1], [2, 2, -1, -1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [3,3,0,3]",
+        "expectedOutput": "[[0, 3, 3, 3], [3, 0, 3, 3], [3, 3, 0, 3], [3, 3, 3, 0]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [0,1,0,0,1]",
+        "expectedOutput": "[[0, 0, 0, 1, 1], [0, 0, 1, 0, 1], [0, 0, 1, 1, 0], [0, 1, 0, 0, 1], [0, 1, 0, 1, 0], [0, 1, 1, 0, 0], [1, 0, 0, 0, 1], [1, 0, 0, 1, 0], [1, 0, 1, 0, 0], [1, 1, 0, 0, 0]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1]",
+        "expectedOutput": "[[1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [4,4,4]",
+        "expectedOutput": "[[4, 4, 4]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,2,2]",
+        "expectedOutput": "[[1, 2, 2], [2, 1, 2], [2, 2, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,1,1,2]",
+        "expectedOutput": "[[1, 1, 1, 2], [1, 1, 2, 1], [1, 2, 1, 1], [2, 1, 1, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,1,2]",
+        "expectedOutput": "[[1, 1, 2], [1, 2, 1], [2, 1, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [7,7,7,7,7,7,7,7]",
+        "expectedOutput": "[[7, 7, 7, 7, 7, 7, 7, 7]]",
+        "isHidden": true
       }
     ]
   },
@@ -1562,6 +4323,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]",
         "expectedOutput": "[[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "matrix = [[1000,-1000,500],[0,250,-250],[100,300,-300]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "matrix = [[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15],[16,17,18,19,20],[21,22,23,24,25]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "matrix = [[0,1,2,3,4,5],[6,7,8,9,10,11],[12,13,14,15,16,17],[18,19,20,21,22,23],[24,25,26,27,28,29],[30,31,32,33,34,35]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "matrix = [[-1,-2,-3],[-4,-5,-6],[-7,-8,-9]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "matrix = [[0,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "matrix = [[17,24,1,8,15],[23,5,7,14,16],[4,6,13,20,22],[10,12,19,21,3],[11,18,25,2,9]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "matrix = [[1000,999,998,997],[996,995,994,993],[992,991,990,989],[988,987,986,985]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "matrix = [[-1,2,-3,4],[5,-6,7,-8],[-9,10,-11,12],[13,-14,15,-16]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "matrix = [[-1,-2,-3,-4],[-5,-6,-7,-8],[-9,-10,-11,-12],[-13,-14,-15,-16]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "matrix = [[-1000,-999,-998],[-997,-996,-995],[-994,-993,-992]]",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -1589,6 +4410,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "strs = [\"abc\",\"def\",\"ghi\",\"jkl\"]",
+        "expectedOutput": "[['abc'], ['def'], ['ghi'], ['jkl']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "strs = [\"abc\",\"acb\",\"bac\",\"bca\",\"cab\",\"cba\"]",
+        "expectedOutput": "[['abc', 'acb', 'bac', 'bca', 'cab', 'cba']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "strs = [\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]",
+        "expectedOutput": "[['eat', 'tea', 'ate'], ['tan', 'nat'], ['bat']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "strs = [\"listen\",\"silent\",\"enlist\"]",
+        "expectedOutput": "[['listen', 'silent', 'enlist']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "strs = [\"a\"]",
+        "expectedOutput": "[['a']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "strs = [\"aabb\",\"bbaa\",\"abab\",\"baab\",\"baba\",\"abba\",\"aaaa\",\"bbbb\"]",
+        "expectedOutput": "[['aabb', 'bbaa', 'abab', 'baab', 'baba', 'abba'], ['aaaa'], ['bbbb']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "strs = [\"listen\",\"silent\",\"enlist\",\"google\",\"gooegl\"]",
+        "expectedOutput": "[['listen', 'silent', 'enlist'], ['google', 'gooegl']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "strs = [\"listen\",\"silent\",\"enlist\",\"google\",\"gooegl\",\"rat\",\"tar\",\"art\"]",
+        "expectedOutput": "[['listen', 'silent', 'enlist'], ['google', 'gooegl'], ['rat', 'tar', 'art']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "strs = [\"abc\",\"bac\",\"cab\",\"bca\",\"acb\",\"cba\"]",
+        "expectedOutput": "[['abc', 'bac', 'cab', 'bca', 'acb', 'cba']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "strs = [\"dormitory\",\"dirtyroom\",\"conversation\",\"voicesranton\",\"listen\",\"silent\"]",
+        "expectedOutput": "[['dormitory', 'dirtyroom'], ['conversation', 'voicesranton'], ['listen', 'silent']]",
+        "isHidden": true
       }
     ]
   },
@@ -1624,6 +4505,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "x = 2.00000, n = -2",
         "expectedOutput": "0.25000"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "x = 5.00000, n = 1",
+        "expectedOutput": "5.0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "x = 2.00000, n = -2",
+        "expectedOutput": "0.25",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "x = 0.10000, n = 2",
+        "expectedOutput": "0.010000000000000002",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "x = 1.50000, n = 5",
+        "expectedOutput": "7.59375",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "x = 2.10000, n = 3",
+        "expectedOutput": "9.261000000000001",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "x = 2.00000, n = -1",
+        "expectedOutput": "0.5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "x = 0.50000, n = 4",
+        "expectedOutput": "0.0625",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "x = 2.00000, n = 10",
+        "expectedOutput": "1024.0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "x = 0.99000, n = 100",
+        "expectedOutput": "0.3660323412732289",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "x = 1.00000, n = -1000000",
+        "expectedOutput": "1.0",
+        "isHidden": true
       }
     ]
   },
@@ -1654,6 +4595,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 1",
         "expectedOutput": "[[&quot;Q&quot;]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 4",
+        "expectedOutput": "[['.Q..', '...Q', 'Q...', '..Q.'], ['..Q.', 'Q...', '...Q', '.Q..']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 9",
+        "expectedOutput": "Execution timed out",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 6",
+        "expectedOutput": "[['.Q....', '...Q..', '.....Q', 'Q.....', '..Q...', '....Q.'], ['..Q...', '.....Q', '.Q....', '....Q.', 'Q.....', '...Q..'], ['...Q..', 'Q.....', '....Q.', '.Q....', '.....Q', '..Q...'], ['....Q.', '..Q...', 'Q.....', '.....Q', '...Q..', '.Q....']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 2",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 1",
+        "expectedOutput": "[['Q']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 7",
+        "expectedOutput": "[['Q......', '..Q....', '....Q..', '......Q', '.Q.....', '...Q...', '.....Q.'], ['Q......', '...Q...', '......Q', '..Q....', '.....Q.', '.Q.....', '....Q..'], ['Q......', '....Q..', '.Q.....', '.....Q.', '..Q....', '......Q', '...Q...'], ['Q......', '.....Q.', '...Q...', '.Q.....', '......Q', '....Q..', '..Q....'], ['.Q.....', '...Q...', 'Q......', '......Q', '....Q..', '..Q....', '.....Q.'], ['.Q.....', '...Q...', '.....Q.', 'Q......', '..Q....', '....Q..', '......Q'], ['.Q.....', '....Q..', 'Q......', '...Q...', '......Q', '..Q....', '.....Q.'], ['.Q.....', '....Q..', '..Q....', 'Q......', '......Q', '...Q...', '.....Q.'], ['.Q.....', '....Q..', '......Q', '...Q...', 'Q......', '..Q....', '.....Q.'], ['.Q.....', '.....Q.', '..Q....', '......Q', '...Q...', 'Q......', '....Q..'], ['.Q.....', '......Q', '....Q..', '..Q....', 'Q......', '.....Q.', '...Q...'], ['..Q....', 'Q......', '.....Q.', '.Q.....', '....Q..', '......Q', '...Q...'], ['..Q....', 'Q......', '.....Q.', '...Q...', '.Q.....', '......Q', '....Q..'], ['..Q....', '....Q..', '......Q', '.Q.....', '...Q...', '.....Q.', 'Q......'], ['..Q....', '.....Q.', '.Q.....', '....Q..', 'Q......', '...Q...', '......Q'], ['..Q....', '......Q', '.Q.....', '...Q...', '.....Q.', 'Q......', '....Q..'], ['..Q....', '......Q', '...Q...', 'Q......', '....Q..', '.Q.....', '.....Q.'], ['...Q...', 'Q......', '..Q....', '.....Q.', '.Q.....', '......Q', '....Q..'], ['...Q...', 'Q......', '....Q..', '.Q.....', '.....Q.', '..Q....', '......Q'], ['...Q...', '.Q.....', '......Q', '....Q..', '..Q....', 'Q......', '.....Q.'], ['...Q...', '.....Q.', 'Q......', '..Q....', '....Q..', '......Q', '.Q.....'], ['...Q...', '......Q', '..Q....', '.....Q.', '.Q.....', '....Q..', 'Q......'], ['...Q...', '......Q', '....Q..', '.Q.....', '.....Q.', 'Q......', '..Q....'], ['....Q..', 'Q......', '...Q...', '......Q', '..Q....', '.....Q.', '.Q.....'], ['....Q..', 'Q......', '.....Q.', '...Q...', '.Q.....', '......Q', '..Q....'], ['....Q..', '.Q.....', '.....Q.', '..Q....', '......Q', '...Q...', 'Q......'], ['....Q..', '..Q....', 'Q......', '.....Q.', '...Q...', '.Q.....', '......Q'], ['....Q..', '......Q', '.Q.....', '...Q...', '.....Q.', 'Q......', '..Q....'], ['....Q..', '......Q', '.Q.....', '.....Q.', '..Q....', 'Q......', '...Q...'], ['.....Q.', 'Q......', '..Q....', '....Q..', '......Q', '.Q.....', '...Q...'], ['.....Q.', '.Q.....', '....Q..', 'Q......', '...Q...', '......Q', '..Q....'], ['.....Q.', '..Q....', 'Q......', '...Q...', '......Q', '....Q..', '.Q.....'], ['.....Q.', '..Q....', '....Q..', '......Q', 'Q......', '...Q...', '.Q.....'], ['.....Q.', '..Q....', '......Q', '...Q...', 'Q......', '....Q..', '.Q.....'], ['.....Q.', '...Q...', '.Q.....', '......Q', '....Q..', '..Q....', 'Q......'], ['.....Q.', '...Q...', '......Q', 'Q......', '..Q....', '....Q..', '.Q.....'], ['......Q', '.Q.....', '...Q...', '.....Q.', 'Q......', '..Q....', '....Q..'], ['......Q', '..Q....', '.....Q.', '.Q.....', '....Q..', 'Q......', '...Q...'], ['......Q', '...Q...', 'Q......', '....Q..', '.Q.....', '.....Q.', '..Q....'], ['......Q', '....Q..', '..Q....', 'Q......', '.....Q.', '...Q...', '.Q.....']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 5",
+        "expectedOutput": "[['Q....', '..Q..', '....Q', '.Q...', '...Q.'], ['Q....', '...Q.', '.Q...', '....Q', '..Q..'], ['.Q...', '...Q.', 'Q....', '..Q..', '....Q'], ['.Q...', '....Q', '..Q..', 'Q....', '...Q.'], ['..Q..', 'Q....', '...Q.', '.Q...', '....Q'], ['..Q..', '....Q', '.Q...', '...Q.', 'Q....'], ['...Q.', 'Q....', '..Q..', '....Q', '.Q...'], ['...Q.', '.Q...', '....Q', '..Q..', 'Q....'], ['....Q', '.Q...', '...Q.', 'Q....', '..Q..'], ['....Q', '..Q..', 'Q....', '...Q.', '.Q...']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 10",
+        "expectedOutput": "Execution timed out",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -1683,6 +4684,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 1",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 4",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 9",
+        "expectedOutput": "352",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 6",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 2",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 7",
+        "expectedOutput": "40",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 5",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -1719,6 +4780,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [5,4,-1,7,8]",
         "expectedOutput": "23"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [10000,-10000,10000,-10000,10000]",
+        "expectedOutput": "10000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [100,-1,50,-1,100]",
+        "expectedOutput": "248",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [0,-3,5,-2,1,3,-1,2,-4,2]",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [0,-3,5,-2,1,3,-1,2,-4,2,3]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [-5,-4,-3,-2,-1]",
+        "expectedOutput": "-1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [-1,0,-2,0,-3,0,-4,0]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,-2,3,5,-3,2]",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [-2,0,-1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,2,3,4,5]",
+        "expectedOutput": "15",
+        "isHidden": true
       }
     ]
   },
@@ -1754,6 +4875,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]",
         "expectedOutput": "[1,2,3,4,8,12,11,10,9,5,6,7]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "matrix = [[7],[9],[3]]",
+        "expectedOutput": "[7, 9, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "matrix = [[1]]",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "matrix = [[1,2],[3,4],[5,6],[7,8],[9,10]]",
+        "expectedOutput": "[1, 2, 4, 6, 8, 10, 9, 7, 5, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "matrix = [[1,2,3,4,5],[6,7,8,9,10]]",
+        "expectedOutput": "[1, 2, 3, 4, 5, 10, 9, 8, 7, 6]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "matrix = [[1,2,3,4,5,6],[7,8,9,10,11,12],[13,14,15,16,17,18]]",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6, 12, 18, 17, 16, 15, 14, 13, 7, 8, 9, 10, 11]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "matrix = [[1,2],[3,4]]",
+        "expectedOutput": "[1, 2, 4, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "matrix = [[1,2,3],[4,5,6],[7,8,9]]",
+        "expectedOutput": "[1, 2, 3, 6, 9, 8, 7, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "matrix = [[1,2,3],[4,5,6]]",
+        "expectedOutput": "[1, 2, 3, 6, 5, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "matrix = [[7]]",
+        "expectedOutput": "[7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]",
+        "expectedOutput": "[1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]",
+        "isHidden": true
       }
     ]
   },
@@ -1785,6 +4966,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [3,2,1,0,4]",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,1,1,1,1]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [0]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [5,0,0,0,0]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,2,3]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [2,3,1,1,4]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [3,2,1,0,4]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,0,1,0]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [10,9,8,7,6,5,4,3,2,1,0]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,2,3,4,5]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [5,9,4,2,1]",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -1820,6 +5061,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "intervals = [[4,7],[1,4]]",
         "expectedOutput": "[[1,7]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "intervals = [[1,3],[2,6],[8,10],[15,18]]",
+        "expectedOutput": "[[1, 6], [8, 10], [15, 18]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "intervals = [[1,3],[2,5],[4,8],[10,12]]",
+        "expectedOutput": "[[1, 8], [10, 12]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "intervals = [[1,2],[3,4],[5,6]]",
+        "expectedOutput": "[[1, 2], [3, 4], [5, 6]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "intervals = [[1,10],[2,6],[9,12]]",
+        "expectedOutput": "[[1, 12]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "intervals = [[1,1],[2,2],[3,3]]",
+        "expectedOutput": "[[1, 1], [2, 2], [3, 3]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "intervals = [[2,3],[2,2],[3,3],[1,3],[5,7],[2,2],[4,6]]",
+        "expectedOutput": "[[1, 3], [4, 7]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "intervals = [[1,4],[2,3]]",
+        "expectedOutput": "[[1, 4]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "intervals = [[2,3],[4,5],[6,7],[8,9],[1,10]]",
+        "expectedOutput": "[[1, 10]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "intervals = [[1,10],[2,6],[3,5],[7,9]]",
+        "expectedOutput": "[[1, 10]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "intervals = [[1,10],[10,20],[20,30]]",
+        "expectedOutput": "[[1, 30]]",
+        "isHidden": true
       }
     ]
   },
@@ -1853,6 +5154,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]",
         "expectedOutput": "[[1,2],[3,10],[12,16]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "intervals = [[1,2],[3,10],[12,16]], newInterval = [10,11]",
+        "expectedOutput": "[[1, 2], [3, 11], [12, 16]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "intervals = [[1,2],[3,4],[5,6],[7,8]], newInterval = [1,8]",
+        "expectedOutput": "[[1, 8]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [13,14]",
+        "expectedOutput": "[[1, 2], [3, 5], [6, 7], [8, 10], [12, 16]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "intervals = [[1,3],[5,7]], newInterval = [4,4]",
+        "expectedOutput": "[[1, 3], [4, 4], [5, 7]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "intervals = [], newInterval = [5,7]",
+        "expectedOutput": "[[5, 7]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "intervals = [[1,2],[3,4],[5,6],[7,8]], newInterval = [0,9]",
+        "expectedOutput": "[[0, 9]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "intervals = [[1,3],[6,9]], newInterval = [10,12]",
+        "expectedOutput": "[[1, 3], [6, 9], [10, 12]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "intervals = [[1,3],[5,7]], newInterval = [4,6]",
+        "expectedOutput": "[[1, 3], [4, 7]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "intervals = [[1,5]], newInterval = [0,0]",
+        "expectedOutput": "[[0, 0], [1, 5]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "intervals = [[1,5]], newInterval = [6,8]",
+        "expectedOutput": "[[1, 5], [6, 8]]",
+        "isHidden": true
       }
     ]
   },
@@ -1887,6 +5248,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;luffy is still joyboy&quot;",
         "expectedOutput": "6"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"luffy is still joyboy\"",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"    a    \"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"multiple   spaces   between   words\"",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"multiple    spaces    between    words\"",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"    word1    word2    word3    \"",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"word1 word2  word3   word4    word5\"",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"longwordwithnospaces\"",
+        "expectedOutput": "20",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"trailing    spaces   ontheend    \"",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"a \"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"Multiple     spaces     between     words\"",
+        "expectedOutput": "5",
+        "isHidden": true
       }
     ]
   },
@@ -1918,6 +5339,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 1",
         "expectedOutput": "[[1]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 4",
+        "expectedOutput": "[[1, 2, 3, 4], [12, 13, 14, 5], [11, 16, 15, 6], [10, 9, 8, 7]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 20",
+        "expectedOutput": "[[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], [76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 21], [75, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 95, 22], [74, 143, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 161, 96, 23], [73, 142, 203, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 219, 162, 97, 24], [72, 141, 202, 255, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 269, 220, 163, 98, 25], [71, 140, 201, 254, 299, 336, 337, 338, 339, 340, 341, 342, 343, 344, 311, 270, 221, 164, 99, 26], [70, 139, 200, 253, 298, 335, 364, 365, 366, 367, 368, 369, 370, 345, 312, 271, 222, 165, 100, 27], [69, 138, 199, 252, 297, 334, 363, 384, 385, 386, 387, 388, 371, 346, 313, 272, 223, 166, 101, 28], [68, 137, 198, 251, 296, 333, 362, 383, 396, 397, 398, 389, 372, 347, 314, 273, 224, 167, 102, 29], [67, 136, 197, 250, 295, 332, 361, 382, 395, 400, 399, 390, 373, 348, 315, 274, 225, 168, 103, 30], [66, 135, 196, 249, 294, 331, 360, 381, 394, 393, 392, 391, 374, 349, 316, 275, 226, 169, 104, 31], [65, 134, 195, 248, 293, 330, 359, 380, 379, 378, 377, 376, 375, 350, 317, 276, 227, 170, 105, 32], [64, 133, 194, 247, 292, 329, 358, 357, 356, 355, 354, 353, 352, 351, 318, 277, 228, 171, 106, 33], [63, 132, 193, 246, 291, 328, 327, 326, 325, 324, 323, 322, 321, 320, 319, 278, 229, 172, 107, 34], [62, 131, 192, 245, 290, 289, 288, 287, 286, 285, 284, 283, 282, 281, 280, 279, 230, 173, 108, 35], [61, 130, 191, 244, 243, 242, 241, 240, 239, 238, 237, 236, 235, 234, 233, 232, 231, 174, 109, 36], [60, 129, 190, 189, 188, 187, 186, 185, 184, 183, 182, 181, 180, 179, 178, 177, 176, 175, 110, 37], [59, 128, 127, 126, 125, 124, 123, 122, 121, 120, 119, 118, 117, 116, 115, 114, 113, 112, 111, 38], [58, 57, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 2",
+        "expectedOutput": "[[1, 2], [4, 3]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 1",
+        "expectedOutput": "[[1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 10",
+        "expectedOutput": "[[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [36, 37, 38, 39, 40, 41, 42, 43, 44, 11], [35, 64, 65, 66, 67, 68, 69, 70, 45, 12], [34, 63, 84, 85, 86, 87, 88, 71, 46, 13], [33, 62, 83, 96, 97, 98, 89, 72, 47, 14], [32, 61, 82, 95, 100, 99, 90, 73, 48, 15], [31, 60, 81, 94, 93, 92, 91, 74, 49, 16], [30, 59, 80, 79, 78, 77, 76, 75, 50, 17], [29, 58, 57, 56, 55, 54, 53, 52, 51, 18], [28, 27, 26, 25, 24, 23, 22, 21, 20, 19]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 5",
+        "expectedOutput": "[[1, 2, 3, 4, 5], [16, 17, 18, 19, 6], [15, 24, 25, 20, 7], [14, 23, 22, 21, 8], [13, 12, 11, 10, 9]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 12",
+        "expectedOutput": "[[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], [44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 13], [43, 80, 81, 82, 83, 84, 85, 86, 87, 88, 55, 14], [42, 79, 108, 109, 110, 111, 112, 113, 114, 89, 56, 15], [41, 78, 107, 128, 129, 130, 131, 132, 115, 90, 57, 16], [40, 77, 106, 127, 140, 141, 142, 133, 116, 91, 58, 17], [39, 76, 105, 126, 139, 144, 143, 134, 117, 92, 59, 18], [38, 75, 104, 125, 138, 137, 136, 135, 118, 93, 60, 19], [37, 74, 103, 124, 123, 122, 121, 120, 119, 94, 61, 20], [36, 73, 102, 101, 100, 99, 98, 97, 96, 95, 62, 21], [35, 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 22], [34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 16",
+        "expectedOutput": "[[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 17], [59, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 75, 18], [58, 111, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 125, 76, 19], [57, 110, 155, 192, 193, 194, 195, 196, 197, 198, 199, 200, 167, 126, 77, 20], [56, 109, 154, 191, 220, 221, 222, 223, 224, 225, 226, 201, 168, 127, 78, 21], [55, 108, 153, 190, 219, 240, 241, 242, 243, 244, 227, 202, 169, 128, 79, 22], [54, 107, 152, 189, 218, 239, 252, 253, 254, 245, 228, 203, 170, 129, 80, 23], [53, 106, 151, 188, 217, 238, 251, 256, 255, 246, 229, 204, 171, 130, 81, 24], [52, 105, 150, 187, 216, 237, 250, 249, 248, 247, 230, 205, 172, 131, 82, 25], [51, 104, 149, 186, 215, 236, 235, 234, 233, 232, 231, 206, 173, 132, 83, 26], [50, 103, 148, 185, 214, 213, 212, 211, 210, 209, 208, 207, 174, 133, 84, 27], [49, 102, 147, 184, 183, 182, 181, 180, 179, 178, 177, 176, 175, 134, 85, 28], [48, 101, 146, 145, 144, 143, 142, 141, 140, 139, 138, 137, 136, 135, 86, 29], [47, 100, 99, 98, 97, 96, 95, 94, 93, 92, 91, 90, 89, 88, 87, 30], [46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 17",
+        "expectedOutput": "[[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], [64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 18], [63, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 80, 19], [62, 119, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 134, 81, 20], [61, 118, 167, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 180, 135, 82, 21], [60, 117, 166, 207, 240, 241, 242, 243, 244, 245, 246, 247, 218, 181, 136, 83, 22], [59, 116, 165, 206, 239, 264, 265, 266, 267, 268, 269, 248, 219, 182, 137, 84, 23], [58, 115, 164, 205, 238, 263, 280, 281, 282, 283, 270, 249, 220, 183, 138, 85, 24], [57, 114, 163, 204, 237, 262, 279, 288, 289, 284, 271, 250, 221, 184, 139, 86, 25], [56, 113, 162, 203, 236, 261, 278, 287, 286, 285, 272, 251, 222, 185, 140, 87, 26], [55, 112, 161, 202, 235, 260, 277, 276, 275, 274, 273, 252, 223, 186, 141, 88, 27], [54, 111, 160, 201, 234, 259, 258, 257, 256, 255, 254, 253, 224, 187, 142, 89, 28], [53, 110, 159, 200, 233, 232, 231, 230, 229, 228, 227, 226, 225, 188, 143, 90, 29], [52, 109, 158, 199, 198, 197, 196, 195, 194, 193, 192, 191, 190, 189, 144, 91, 30], [51, 108, 157, 156, 155, 154, 153, 152, 151, 150, 149, 148, 147, 146, 145, 92, 31], [50, 107, 106, 105, 104, 103, 102, 101, 100, 99, 98, 97, 96, 95, 94, 93, 32], [49, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 8",
+        "expectedOutput": "[[1, 2, 3, 4, 5, 6, 7, 8], [28, 29, 30, 31, 32, 33, 34, 9], [27, 48, 49, 50, 51, 52, 35, 10], [26, 47, 60, 61, 62, 53, 36, 11], [25, 46, 59, 64, 63, 54, 37, 12], [24, 45, 58, 57, 56, 55, 38, 13], [23, 44, 43, 42, 41, 40, 39, 14], [22, 21, 20, 19, 18, 17, 16, 15]]",
+        "isHidden": true
       }
     ]
   },
@@ -1953,6 +5434,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "n = 3, k = 1",
         "expectedOutput": "\"123\""
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 4, k = 9",
+        "expectedOutput": "2314",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 9, k = 362880",
+        "expectedOutput": "987654321",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 5, k = 10",
+        "expectedOutput": "13452",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 3, k = 3",
+        "expectedOutput": "213",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 2, k = 1",
+        "expectedOutput": "12",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 2, k = 2",
+        "expectedOutput": "21",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 6, k = 720",
+        "expectedOutput": "654321",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 7, k = 5040",
+        "expectedOutput": "7654321",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 5, k = 1",
+        "expectedOutput": "12345",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 5, k = 120",
+        "expectedOutput": "54321",
+        "isHidden": true
       }
     ]
   },
@@ -1983,6 +5524,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "head = [0,1,2], k = 4",
         "expectedOutput": "[2,0,1]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = [0,1,2], k = 4",
+        "expectedOutput": "[2, 0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [1,2,3,4,5], k = 5",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [1,2], k = 0",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [1,2,3,4,5,6,7,8,9,10], k = 10",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = [1,2,3], k = 3",
+        "expectedOutput": "[1, 2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [1,2,3,4,5], k = 2",
+        "expectedOutput": "[4, 5, 1, 2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [], k = 0",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [1,2], k = 3",
+        "expectedOutput": "[2, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [1], k = 0",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [1,2,3], k = 6",
+        "expectedOutput": "[1, 2, 3]",
+        "isHidden": true
       }
     ]
   },
@@ -2014,6 +5615,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "m = 3, n = 2",
         "expectedOutput": "3"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "m = 3, n = 7",
+        "expectedOutput": "28",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "m = 5, n = 5",
+        "expectedOutput": "70",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "m = 10, n = 10",
+        "expectedOutput": "48620",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "m = 5, n = 3",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "m = 30, n = 20",
+        "expectedOutput": "11541847896480",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "m = 1, n = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "m = 3, n = 2",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "m = 100, n = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "m = 40, n = 30",
+        "expectedOutput": "13750991318793417920",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "m = 67, n = 33",
+        "expectedOutput": "65814642035034133075191231",
+        "isHidden": true
       }
     ]
   },
@@ -2048,6 +5709,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "obstacleGrid = [[0,1],[0,0]]",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "obstacleGrid = [[0,0,0,0],[0,0,1,0],[0,0,0,0],[0,1,0,0]]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "obstacleGrid = [[0,1,0,0,0],[0,1,0,0,0],[0,0,0,0,0],[0,0,0,1,0],[0,0,0,0,0]]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "obstacleGrid = [[1]]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "obstacleGrid = [[0,0,0],[0,0,0],[0,0,0]]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "obstacleGrid = [[0,0,0,0],[0,1,0,0],[0,0,0,0]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "obstacleGrid = [[0,0,1,0],[0,0,0,0],[0,1,0,0],[0,0,0,0]]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "obstacleGrid = [[0]]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "obstacleGrid = [[0,0],[0,0]]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "obstacleGrid = [[0,0],[0,1]]",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -2079,6 +5800,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "grid = [[1,2,3],[4,5,6]]",
         "expectedOutput": "12"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "grid = [[10,15,20],[25,30,35],[40,45,50]]",
+        "expectedOutput": "130",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "grid = [[1]]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "grid = [[7]]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "grid = [[1,2],[3,4]]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "grid = [[1,2],[3,4],[5,6]]",
+        "expectedOutput": "13",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "grid = [[1,3,1],[1,5,1],[4,2,1]]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "grid = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]",
+        "expectedOutput": "30",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "grid = [[1,3,5,7,9],[2,4,6,8,10],[1,1,1,1,1],[9,7,5,3,1]]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "grid = [[1,2,3,4,5],[5,4,3,2,1],[1,3,1,5,1],[2,1,2,3,4]]",
+        "expectedOutput": "17",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "grid = [[1,2,3],[4,5,6],[7,8,9],[10,11,12],[13,14,15]]",
+        "expectedOutput": "48",
+        "isHidden": true
       }
     ]
   },
@@ -2103,6 +5884,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"95a54e53\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"e3\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"4.\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"2e10\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"1a\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"-+3\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"0\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"99e2.5\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \".\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"-.9\"",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -2138,6 +5979,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "digits = [9]",
         "expectedOutput": "[1,0]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "digits = [1,0,0,0]",
+        "expectedOutput": "[1, 0, 0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "digits = [1,9,9,9,9,9,9,9,9,9]",
+        "expectedOutput": "[2, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "digits = [1,2,3]",
+        "expectedOutput": "[1, 2, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "digits = [1,2,9]",
+        "expectedOutput": "[1, 3, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "digits = [9]",
+        "expectedOutput": "[1, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "digits = [2,9,9]",
+        "expectedOutput": "[3, 0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "digits = [5,6,7,8,9]",
+        "expectedOutput": "[5, 6, 7, 9, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "digits = [4,3,2,1]",
+        "expectedOutput": "[4, 3, 2, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "digits = [0]",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "digits = [1,0,0]",
+        "expectedOutput": "[1, 0, 1]",
+        "isHidden": true
       }
     ]
   },
@@ -2170,6 +6071,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "a = \"1010\", b = \"1011\"",
         "expectedOutput": "\"10101\""
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "a = \"1101\", b = \"1001\"",
+        "expectedOutput": "10110",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "a = \"1000000000000000000000000000000\", b = \"1\"",
+        "expectedOutput": "1000000000000000000000000000001",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "a = \"1000\", b = \"1100\"",
+        "expectedOutput": "10100",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "a = \"1111\", b = \"1\"",
+        "expectedOutput": "10000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "a = \"1\", b = \"11111111\"",
+        "expectedOutput": "100000000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "a = \"110010\", b = \"100111\"",
+        "expectedOutput": "1011001",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "a = \"1111\", b = \"1111\"",
+        "expectedOutput": "11110",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "a = \"111\", b = \"111\"",
+        "expectedOutput": "1110",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "a = \"0\", b = \"101010\"",
+        "expectedOutput": "101010",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "a = \"1\", b = \"1\"",
+        "expectedOutput": "10",
+        "isHidden": true
       }
     ]
   },
@@ -2206,6 +6167,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "words = [&quot;Science&quot;,&quot;is&quot;,&quot;what&quot;,&quot;we&quot;,&quot;understand&quot;,&quot;well&quot;,&quot;enough&quot;,&quot;to&quot;,&quot;explain&quot;,&quot;to&quot;,&quot;a&quot;,&quot;computer.&quot;,&quot;Art&quot;,&quot;is&quot;,&quot;everything&quot;,&quot;else&quot;,&quot;we&quot;,&quot;do&quot;], maxWidth = 20",
         "expectedOutput": "["
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "words = [\"What\",\"must\",\"be\",\"acknowledgment\",\"shall\",\"be\"], maxWidth = 16",
+        "expectedOutput": "['What   must   be', 'acknowledgment  ', 'shall be        ']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "words = [\"Listen\",\"to\",\"many\",\"people\",\"so\",\"that\",\"you\",\"can\",\"speak\",\"to\",\"none.\"], maxWidth = 15",
+        "expectedOutput": "['Listen  to many', 'people  so that', 'you  can  speak', 'to none.       ']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "words = [\"short\",\"longwordhere\",\"longwordhere\",\"short\"], maxWidth = 20",
+        "expectedOutput": "['short   longwordhere', 'longwordhere short  ']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "words = [\"a\"], maxWidth = 2",
+        "expectedOutput": "['a ']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "words = [\"a\", \"b\", \"c\", \"d\", \"e\"], maxWidth = 3",
+        "expectedOutput": "['a b', 'c d', 'e  ']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "words = [\"Science\",\"is\",\"what\",\"we\",\"understand\",\"well\",\"enough\",\"to\",\"explain\",\"to\",\"a\",\"computer.\",\"Art\",\"is\",\"everything\",\"else\",\"we\",\"do\"], maxWidth = 20",
+        "expectedOutput": "['Science  is  what we', 'understand      well', 'enough to explain to', 'a  computer.  Art is', 'everything  else  we', 'do                  ']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "words = [\"Listen\",\"to\",\"many\",\"people\",\"so\",\"you\",\"can\",\"speak\",\"to\",\"all\",\"people\"], maxWidth = 7",
+        "expectedOutput": "['Listen ', 'to many', 'people ', 'so  you', 'can    ', 'speak  ', 'to  all', 'people ']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "words = [\"This\", \"is\", \"an\", \"example\", \"of\", \"text\", \"justification.\"], maxWidth = 16",
+        "expectedOutput": "['This    is    an', 'example  of text', 'justification.  ']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "words = [\"Lorem\", \"ipsum\", \"dolor\", \"sit\", \"amet,\", \"consectetur\", \"adipiscing\", \"elit.\", \"Vestibulum\", \"bibendum\", \"porttitor\", \"diam,\"], maxWidth = 20",
+        "expectedOutput": "['Lorem   ipsum  dolor', 'sit            amet,', 'consectetur         ', 'adipiscing     elit.', 'Vestibulum  bibendum', 'porttitor diam,     ']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "words = [\"Even\", \"though\", \"the\", \"path\", \"may\", \"seem\", \"long\", \"and\", \"difficult.\"], maxWidth = 18",
+        "expectedOutput": "['Even   though  the', 'path may seem long', 'and difficult.    ']",
+        "isHidden": true
       }
     ]
   },
@@ -2239,6 +6260,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "x = 8",
         "expectedOutput": "2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "x = 4",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "x = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "x = 25",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "x = 0",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "x = 101",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "x = 100",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "x = 8",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "x = 1025",
+        "expectedOutput": "32",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "x = 10",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "x = 1234567890123456789",
+        "expectedOutput": "1111111106",
+        "isHidden": true
       }
     ]
   },
@@ -2272,6 +6353,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 3",
         "expectedOutput": "3"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 4",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 20",
+        "expectedOutput": "10946",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 2",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 10",
+        "expectedOutput": "89",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 5",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 30",
+        "expectedOutput": "1346269",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 15",
+        "expectedOutput": "987",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 40",
+        "expectedOutput": "165580141",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 12",
+        "expectedOutput": "233",
+        "isHidden": true
       }
     ]
   },
@@ -2297,6 +6438,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "path = \"/a/b/c/d/e/f/g/../../..\"",
+        "expectedOutput": "/a/b/c/d",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "path = \"/a/b/c/d/e/../../..//f/\"",
+        "expectedOutput": "/a/b/f",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "path = \"/a/b/c/../\"",
+        "expectedOutput": "/a/b",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "path = \"/a/b/c/d/e/../../../..///f/\"",
+        "expectedOutput": "/a/f",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "path = \"/a/b/c/d/e/../../../\"",
+        "expectedOutput": "/a/b",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "path = \"/a/b/c/d/\"",
+        "expectedOutput": "/a/b/c/d",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "path = \"/a/b/c/d/e/../../../../f/\"",
+        "expectedOutput": "/a/f",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "path = \"/a/b/c/d/../../..\"",
+        "expectedOutput": "/a",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "path = \"/a//b////c/d//././/..\"",
+        "expectedOutput": "/a/b/c",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "path = \"/home/\"",
+        "expectedOutput": "/home",
+        "isHidden": true
       }
     ]
   },
@@ -2327,6 +6528,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "word1 = &quot;intention&quot;, word2 = &quot;execution&quot;",
         "expectedOutput": "5"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "word1 = \"abc\", word2 = \"\"",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "word1 = \"horse\", word2 = \"ros\"",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "word1 = \"a\", word2 = \"b\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "word1 = \"kitten\", word2 = \"sitting\"",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "word1 = \"a\", word2 = \"a\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "word1 = \"a\", word2 = \"\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "word1 = \"abcdefghij\", word2 = \"jihgfedcba\"",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "word1 = \"\", word2 = \"a\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "word1 = \"\", word2 = \"abc\"",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "word1 = \"abc\", word2 = \"abc\"",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -2363,6 +6624,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]",
         "expectedOutput": "[[0,0,0,0],[0,4,5,0],[0,3,1,0]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "matrix = [[1]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "matrix = [[0,0,0],[0,0,0],[0,0,0]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "matrix = [[1,2,3],[4,5,6],[7,8,9]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "matrix = [[1,1,1],[1,0,1],[1,1,1]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "matrix = [[1,2],[3,4]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "matrix = [[1,2,3],[4,0,6],[7,8,9]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "matrix = [[1],[0]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "matrix = [[1,2,3,4],[5,6,0,8],[9,10,11,12]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "matrix = [[1,0]]",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -2394,6 +6715,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "matrix = [[-10,-5,-3,-1],[0,2,3,5],[7,8,11,13],[15,16,18,20]], target = 0",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "matrix = [[1,2,3],[4,5,6],[7,8,9]], target = 5",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "matrix = [[1]], target = 1",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "matrix = [[-10,-8,-6,-4],[-3,-1,1,3],[5,7,9,11]], target = 10",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "matrix = [[1,2,3,4,5],[6,7,8,9,10]], target = 0",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "matrix = [[-10,-5,-3,-1],[0,2,3,5],[7,8,11,13],[15,16,18,20]], target = 20",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "matrix = [[-10,-8,-6,-4],[-3,-1,1,3],[5,7,9,11]], target = -5",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "matrix = [[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15]], target = 8",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "matrix = [[1]], target = 2",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -2429,6 +6810,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [2,0,1]",
         "expectedOutput": "[0,1,2]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [2,2,2,1,1,1,0,0,0]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,0,2,1,0,2,1,0,2]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [2,2,2]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [0,1,1,0,1,2,1,2,2,0]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [0,1,0,2,1,0,1,2,0,1,2]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [2,0,1]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [2]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,2,0,2,1,0]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [0,1,2,2,1,0]",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -2470,6 +6911,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;a&quot;, t = &quot;aa&quot;",
         "expectedOutput": "&quot;&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"aaaaaaa\", t = \"aa\"",
+        "expectedOutput": "aa",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"a\", t = \"aa\"",
+        "expectedOutput": "",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"abcd\", t = \"bd\"",
+        "expectedOutput": "bcd",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"ab\", t = \"b\"",
+        "expectedOutput": "b",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"aa\", t = \"aa\"",
+        "expectedOutput": "aa",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"ADOBECODEBANC\", t = \"ABC\"",
+        "expectedOutput": "BANC",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"fgrheahtfeqcrha\", t = \"harf\"",
+        "expectedOutput": "fgrhea",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"aaaaaaaaaaaabbbbbcdd\", t = \"abcdd\"",
+        "expectedOutput": "abbbbbcdd",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"abcde\", t = \"f\"",
+        "expectedOutput": "",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"ab\", t = \"a\"",
+        "expectedOutput": "a",
+        "isHidden": true
       }
     ]
   },
@@ -2499,6 +7000,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 1, k = 1",
         "expectedOutput": "[[1]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 1, k = 1",
+        "expectedOutput": "[[1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 20, k = 5",
+        "expectedOutput": "Execution timed out",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 4, k = 2",
+        "expectedOutput": "[[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 6, k = 1",
+        "expectedOutput": "[[1], [2], [3], [4], [5], [6]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 20, k = 10",
+        "expectedOutput": "Execution timed out",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 5, k = 3",
+        "expectedOutput": "[[1, 2, 3], [1, 2, 4], [1, 2, 5], [1, 3, 4], [1, 3, 5], [1, 4, 5], [2, 3, 4], [2, 3, 5], [2, 4, 5], [3, 4, 5]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 9, k = 4",
+        "expectedOutput": "[[1, 2, 3, 4], [1, 2, 3, 5], [1, 2, 3, 6], [1, 2, 3, 7], [1, 2, 3, 8], [1, 2, 3, 9], [1, 2, 4, 5], [1, 2, 4, 6], [1, 2, 4, 7], [1, 2, 4, 8], [1, 2, 4, 9], [1, 2, 5, 6], [1, 2, 5, 7], [1, 2, 5, 8], [1, 2, 5, 9], [1, 2, 6, 7], [1, 2, 6, 8], [1, 2, 6, 9], [1, 2, 7, 8], [1, 2, 7, 9], [1, 2, 8, 9], [1, 3, 4, 5], [1, 3, 4, 6], [1, 3, 4, 7], [1, 3, 4, 8], [1, 3, 4, 9], [1, 3, 5, 6], [1, 3, 5, 7], [1, 3, 5, 8], [1, 3, 5, 9], [1, 3, 6, 7], [1, 3, 6, 8], [1, 3, 6, 9], [1, 3, 7, 8], [1, 3, 7, 9], [1, 3, 8, 9], [1, 4, 5, 6], [1, 4, 5, 7], [1, 4, 5, 8], [1, 4, 5, 9], [1, 4, 6, 7], [1, 4, 6, 8], [1, 4, 6, 9], [1, 4, 7, 8], [1, 4, 7, 9], [1, 4, 8, 9], [1, 5, 6, 7], [1, 5, 6, 8], [1, 5, 6, 9], [1, 5, 7, 8], [1, 5, 7, 9], [1, 5, 8, 9], [1, 6, 7, 8], [1, 6, 7, 9], [1, 6, 8, 9], [1, 7, 8, 9], [2, 3, 4, 5], [2, 3, 4, 6], [2, 3, 4, 7], [2, 3, 4, 8], [2, 3, 4, 9], [2, 3, 5, 6], [2, 3, 5, 7], [2, 3, 5, 8], [2, 3, 5, 9], [2, 3, 6, 7], [2, 3, 6, 8], [2, 3, 6, 9], [2, 3, 7, 8], [2, 3, 7, 9], [2, 3, 8, 9], [2, 4, 5, 6], [2, 4, 5, 7], [2, 4, 5, 8], [2, 4, 5, 9], [2, 4, 6, 7], [2, 4, 6, 8], [2, 4, 6, 9], [2, 4, 7, 8], [2, 4, 7, 9], [2, 4, 8, 9], [2, 5, 6, 7], [2, 5, 6, 8], [2, 5, 6, 9], [2, 5, 7, 8], [2, 5, 7, 9], [2, 5, 8, 9], [2, 6, 7, 8], [2, 6, 7, 9], [2, 6, 8, 9], [2, 7, 8, 9], [3, 4, 5, 6], [3, 4, 5, 7], [3, 4, 5, 8], [3, 4, 5, 9], [3, 4, 6, 7], [3, 4, 6, 8], [3, 4, 6, 9], [3, 4, 7, 8], [3, 4, 7, 9], [3, 4, 8, 9], [3, 5, 6, 7], [3, 5, 6, 8], [3, 5, 6, 9], [3, 5, 7, 8], [3, 5, 7, 9], [3, 5, 8, 9], [3, 6, 7, 8], [3, 6, 7, 9], [3, 6, 8, 9], [3, 7, 8, 9], [4, 5, 6, 7], [4, 5, 6, 8], [4, 5, 6, 9], [4, 5, 7, 8], [4, 5, 7, 9], [4, 5, 8, 9], [4, 6, 7, 8], [4, 6, 7, 9], [4, 6, 8, 9], [4, 7, 8, 9], [5, 6, 7, 8], [5, 6, 7, 9], [5, 6, 8, 9], [5, 7, 8, 9], [6, 7, 8, 9]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 17, k = 3",
+        "expectedOutput": "[[1, 2, 3], [1, 2, 4], [1, 2, 5], [1, 2, 6], [1, 2, 7], [1, 2, 8], [1, 2, 9], [1, 2, 10], [1, 2, 11], [1, 2, 12], [1, 2, 13], [1, 2, 14], [1, 2, 15], [1, 2, 16], [1, 2, 17], [1, 3, 4], [1, 3, 5], [1, 3, 6], [1, 3, 7], [1, 3, 8], [1, 3, 9], [1, 3, 10], [1, 3, 11], [1, 3, 12], [1, 3, 13], [1, 3, 14], [1, 3, 15], [1, 3, 16], [1, 3, 17], [1, 4, 5], [1, 4, 6], [1, 4, 7], [1, 4, 8], [1, 4, 9], [1, 4, 10], [1, 4, 11], [1, 4, 12], [1, 4, 13], [1, 4, 14], [1, 4, 15], [1, 4, 16], [1, 4, 17], [1, 5, 6], [1, 5, 7], [1, 5, 8], [1, 5, 9], [1, 5, 10], [1, 5, 11], [1, 5, 12], [1, 5, 13], [1, 5, 14], [1, 5, 15], [1, 5, 16], [1, 5, 17], [1, 6, 7], [1, 6, 8], [1, 6, 9], [1, 6, 10], [1, 6, 11], [1, 6, 12], [1, 6, 13], [1, 6, 14], [1, 6, 15], [1, 6, 16], [1, 6, 17], [1, 7, 8], [1, 7, 9], [1, 7, 10], [1, 7, 11], [1, 7, 12], [1, 7, 13], [1, 7, 14], [1, 7, 15], [1, 7, 16], [1, 7, 17], [1, 8, 9], [1, 8, 10], [1, 8, 11], [1, 8, 12], [1, 8, 13], [1, 8, 14], [1, 8, 15], [1, 8, 16], [1, 8, 17], [1, 9, 10], [1, 9, 11], [1, 9, 12], [1, 9, 13], [1, 9, 14], [1, 9, 15], [1, 9, 16], [1, 9, 17], [1, 10, 11], [1, 10, 12], [1, 10, 13], [1, 10, 14], [1, 10, 15], [1, 10, 16], [1, 10, 17], [1, 11, 12], [1, 11, 13], [1, 11, 14], [1, 11, 15], [1, 11, 16], [1, 11, 17], [1, 12, 13], [1, 12, 14], [1, 12, 15], [1, 12, 16], [1, 12, 17], [1, 13, 14], [1, 13, 15], [1, 13, 16], [1, 13, 17], [1, 14, 15], [1, 14, 16], [1, 14, 17], [1, 15, 16], [1, 15, 17], [1, 16, 17], [2, 3, 4], [2, 3, 5], [2, 3, 6], [2, 3, 7], [2, 3, 8], [2, 3, 9], [2, 3, 10], [2, 3, 11], [2, 3, 12], [2, 3, 13], [2, 3, 14], [2, 3, 15], [2, 3, 16], [2, 3, 17], [2, 4, 5], [2, 4, 6], [2, 4, 7], [2, 4, 8], [2, 4, 9], [2, 4, 10], [2, 4, 11], [2, 4, 12], [2, 4, 13], [2, 4, 14], [2, 4, 15], [2, 4, 16], [2, 4, 17], [2, 5, 6], [2, 5, 7], [2, 5, 8], [2, 5, 9], [2, 5, 10], [2, 5, 11], [2, 5, 12], [2, 5, 13], [2, 5, 14], [2, 5, 15], [2, 5, 16], [2, 5, 17], [2, 6, 7], [2, 6, 8], [2, 6, 9], [2, 6, 10], [2, 6, 11], [2, 6, 12], [2, 6, 13], [2, 6, 14], [2, 6, 15], [2, 6, 16], [2, 6, 17], [2, 7, 8], [2, 7, 9], [2, 7, 10], [2, 7, 11], [2, 7, 12], [2, 7, 13], [2, 7, 14], [2, 7, 15], [2, 7, 16], [2, 7, 17], [2, 8, 9], [2, 8, 10], [2, 8, 11], [2, 8, 12], [2, 8, 13], [2, 8, 14], [2, 8, 15], [2, 8, 16], [2, 8, 17], [2, 9, 10], [2, 9, 11], [2, 9, 12], [2, 9, 13], [2, 9, 14], [2, 9, 15], [2, 9, 16], [2, 9, 17], [2, 10, 11], [2, 10, 12], [2, 10, 13], [2, 10, 14], [2, 10, 15], [2, 10, 16], [2, 10, 17], [2, 11, 12], [2, 11, 13], [2, 11, 14], [2, 11, 15], [2, 11, 16], [2, 11, 17], [2, 12, 13], [2, 12, 14], [2, 12, 15], [2, 12, 16], [2, 12, 17], [2, 13, 14], [2, 13, 15], [2, 13, 16], [2, 13, 17], [2, 14, 15], [2, 14, 16], [2, 14, 17], [2, 15, 16], [2, 15, 17], [2, 16, 17], [3, 4, 5], [3, 4, 6], [3, 4, 7], [3, 4, 8], [3, 4, 9], [3, 4, 10], [3, 4, 11], [3, 4, 12], [3, 4, 13], [3, 4, 14], [3, 4, 15], [3, 4, 16], [3, 4, 17], [3, 5, 6], [3, 5, 7], [3, 5, 8], [3, 5, 9], [3, 5, 10], [3, 5, 11], [3, 5, 12], [3, 5, 13], [3, 5, 14], [3, 5, 15], [3, 5, 16], [3, 5, 17], [3, 6, 7], [3, 6, 8], [3, 6, 9], [3, 6, 10], [3, 6, 11], [3, 6, 12], [3, 6, 13], [3, 6, 14], [3, 6, 15], [3, 6, 16], [3, 6, 17], [3, 7, 8], [3, 7, 9], [3, 7, 10], [3, 7, 11], [3, 7, 12], [3, 7, 13], [3, 7, 14], [3, 7, 15], [3, 7, 16], [3, 7, 17], [3, 8, 9], [3, 8, 10], [3, 8, 11], [3, 8, 12], [3, 8, 13], [3, 8, 14], [3, 8, 15], [3, 8, 16], [3, 8, 17], [3, 9, 10], [3, 9, 11], [3, 9, 12], [3, 9, 13], [3, 9, 14], [3, 9, 15], [3, 9, 16], [3, 9, 17], [3, 10, 11], [3, 10, 12], [3, 10, 13], [3, 10, 14], [3, 10, 15], [3, 10, 16], [3, 10, 17], [3, 11, 12], [3, 11, 13], [3, 11, 14], [3, 11, 15], [3, 11, 16], [3, 11, 17], [3, 12, 13], [3, 12, 14], [3, 12, 15], [3, 12, 16], [3, 12, 17], [3, 13, 14], [3, 13, 15], [3, 13, 16], [3, 13, 17], [3, 14, 15], [3, 14, 16], [3, 14, 17], [3, 15, 16], [3, 15, 17], [3, 16, 17], [4, 5, 6], [4, 5, 7], [4, 5, 8], [4, 5, 9], [4, 5, 10], [4, 5, 11], [4, 5, 12], [4, 5, 13], [4, 5, 14], [4, 5, 15], [4, 5, 16], [4, 5, 17], [4, 6, 7], [4, 6, 8], [4, 6, 9], [4, 6, 10], [4, 6, 11], [4, 6, 12], [4, 6, 13], [4, 6, 14], [4, 6, 15], [4, 6, 16], [4, 6, 17], [4, 7, 8], [4, 7, 9], [4, 7, 10], [4, 7, 11], [4, 7, 12], [4, 7, 13], [4, 7, 14], [4, 7, 15], [4, 7, 16], [4, 7, 17], [4, 8, 9], [4, 8, 10], [4, 8, 11], [4, 8, 12], [4, 8, 13], [4, 8, 14], [4, 8, 15], [4, 8, 16], [4, 8, 17], [4, 9, 10], [4, 9, 11], [4, 9, 12], [4, 9, 13], [4, 9, 14], [4, 9, 15], [4, 9, 16], [4, 9, 17], [4, 10, 11], [4, 10, 12], [4, 10, 13], [4, 10, 14], [4, 10, 15], [4, 10, 16], [4, 10, 17], [4, 11, 12], [4, 11, 13], [4, 11, 14], [4, 11, 15], [4, 11, 16], [4, 11, 17], [4, 12, 13], [4, 12, 14], [4, 12, 15], [4, 12, 16], [4, 12, 17], [4, 13, 14], [4, 13, 15], [4, 13, 16], [4, 13, 17], [4, 14, 15], [4, 14, 16], [4, 14, 17], [4, 15, 16], [4, 15, 17], [4, 16, 17], [5, 6, 7], [5, 6, 8], [5, 6, 9], [5, 6, 10], [5, 6, 11], [5, 6, 12], [5, 6, 13], [5, 6, 14], [5, 6, 15], [5, 6, 16], [5, 6, 17], [5, 7, 8], [5, 7, 9], [5, 7, 10], [5, 7, 11], [5, 7, 12], [5, 7, 13], [5, 7, 14], [5, 7, 15], [5, 7, 16], [5, 7, 17], [5, 8, 9], [5, 8, 10], [5, 8, 11], [5, 8, 12], [5, 8, 13], [5, 8, 14], [5, 8, 15], [5, 8, 16], [5, 8, 17], [5, 9, 10], [5, 9, 11], [5, 9, 12], [5, 9, 13], [5, 9, 14], [5, 9, 15], [5, 9, 16], [5, 9, 17], [5, 10, 11], [5, 10, 12], [5, 10, 13], [5, 10, 14], [5, 10, 15], [5, 10, 16], [5, 10, 17], [5, 11, 12], [5, 11, 13], [5, 11, 14], [5, 11, 15], [5, 11, 16], [5, 11, 17], [5, 12, 13], [5, 12, 14], [5, 12, 15], [5, 12, 16], [5, 12, 17], [5, 13, 14], [5, 13, 15], [5, 13, 16], [5, 13, 17], [5, 14, 15], [5, 14, 16], [5, 14, 17], [5, 15, 16], [5, 15, 17], [5, 16, 17], [6, 7, 8], [6, 7, 9], [6, 7, 10], [6, 7, 11], [6, 7, 12], [6, 7, 13], [6, 7, 14], [6, 7, 15], [6, 7, 16], [6, 7, 17], [6, 8, 9], [6, 8, 10], [6, 8, 11], [6, 8, 12], [6, 8, 13], [6, 8, 14], [6, 8, 15], [6, 8, 16], [6, 8, 17], [6, 9, 10], [6, 9, 11], [6, 9, 12], [6, 9, 13], [6, 9, 14], [6, 9, 15], [6, 9, 16], [6, 9, 17], [6, 10, 11], [6, 10, 12], [6, 10, 13], [6, 10, 14], [6, 10, 15], [6, 10, 16], [6, 10, 17], [6, 11, 12], [6, 11, 13], [6, 11, 14], [6, 11, 15], [6, 11, 16], [6, 11, 17], [6, 12, 13], [6, 12, 14], [6, 12, 15], [6, 12, 16], [6, 12, 17], [6, 13, 14], [6, 13, 15], [6, 13, 16], [6, 13, 17], [6, 14, 15], [6, 14, 16], [6, 14, 17], [6, 15, 16], [6, 15, 17], [6, 16, 17], [7, 8, 9], [7, 8, 10], [7, 8, 11], [7, 8, 12], [7, 8, 13], [7, 8, 14], [7, 8, 15], [7, 8, 16], [7, 8, 17], [7, 9, 10], [7, 9, 11], [7, 9, 12], [7, 9, 13], [7, 9, 14], [7, 9, 15], [7, 9, 16], [7, 9, 17], [7, 10, 11], [7, 10, 12], [7, 10, 13], [7, 10, 14], [7, 10, 15], [7, 10, 16], [7, 10, 17], [7, 11, 12], [7, 11, 13], [7, 11, 14], [7, 11, 15], [7, 11, 16], [7, 11, 17], [7, 12, 13], [7, 12, 14], [7, 12, 15], [7, 12, 16], [7, 12, 17], [7, 13, 14], [7, 13, 15], [7, 13, 16], [7, 13, 17], [7, 14, 15], [7, 14, 16], [7, 14, 17], [7, 15, 16], [7, 15, 17], [7, 16, 17], [8, 9, 10], [8, 9, 11], [8, 9, 12], [8, 9, 13], [8, 9, 14], [8, 9, 15], [8, 9, 16], [8, 9, 17], [8, 10, 11], [8, 10, 12], [8, 10, 13], [8, 10, 14], [8, 10, 15], [8, 10, 16], [8, 10, 17], [8, 11, 12], [8, 11, 13], [8, 11, 14], [8, 11, 15], [8, 11, 16], [8, 11, 17], [8, 12, 13], [8, 12, 14], [8, 12, 15], [8, 12, 16], [8, 12, 17], [8, 13, 14], [8, 13, 15], [8, 13, 16], [8, 13, 17], [8, 14, 15], [8, 14, 16], [8, 14, 17], [8, 15, 16], [8, 15, 17], [8, 16, 17], [9, 10, 11], [9, 10, 12], [9, 10, 13], [9, 10, 14], [9, 10, 15], [9, 10, 16], [9, 10, 17], [9, 11, 12], [9, 11, 13], [9, 11, 14], [9, 11, 15], [9, 11, 16], [9, 11, 17], [9, 12, 13], [9, 12, 14], [9, 12, 15], [9, 12, 16], [9, 12, 17], [9, 13, 14], [9, 13, 15], [9, 13, 16], [9, 13, 17], [9, 14, 15], [9, 14, 16], [9, 14, 17], [9, 15, 16], [9, 15, 17], [9, 16, 17], [10, 11, 12], [10, 11, 13], [10, 11, 14], [10, 11, 15], [10, 11, 16], [10, 11, 17], [10, 12, 13], [10, 12, 14], [10, 12, 15], [10, 12, 16], [10, 12, 17], [10, 13, 14], [10, 13, 15], [10, 13, 16], [10, 13, 17], [10, 14, 15], [10, 14, 16], [10, 14, 17], [10, 15, 16], [10, 15, 17], [10, 16, 17], [11, 12, 13], [11, 12, 14], [11, 12, 15], [11, 12, 16], [11, 12, 17], [11, 13, 14], [11, 13, 15], [11, 13, 16], [11, 13, 17], [11, 14, 15], [11, 14, 16], [11, 14, 17], [11, 15, 16], [11, 15, 17], [11, 16, 17], [12, 13, 14], [12, 13, 15], [12, 13, 16], [12, 13, 17], [12, 14, 15], [12, 14, 16], [12, 14, 17], [12, 15, 16], [12, 15, 17], [12, 16, 17], [13, 14, 15], [13, 14, 16], [13, 14, 17], [13, 15, 16], [13, 15, 17], [13, 16, 17], [14, 15, 16], [14, 15, 17], [14, 16, 17], [15, 16, 17]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 9, k = 5",
+        "expectedOutput": "[[1, 2, 3, 4, 5], [1, 2, 3, 4, 6], [1, 2, 3, 4, 7], [1, 2, 3, 4, 8], [1, 2, 3, 4, 9], [1, 2, 3, 5, 6], [1, 2, 3, 5, 7], [1, 2, 3, 5, 8], [1, 2, 3, 5, 9], [1, 2, 3, 6, 7], [1, 2, 3, 6, 8], [1, 2, 3, 6, 9], [1, 2, 3, 7, 8], [1, 2, 3, 7, 9], [1, 2, 3, 8, 9], [1, 2, 4, 5, 6], [1, 2, 4, 5, 7], [1, 2, 4, 5, 8], [1, 2, 4, 5, 9], [1, 2, 4, 6, 7], [1, 2, 4, 6, 8], [1, 2, 4, 6, 9], [1, 2, 4, 7, 8], [1, 2, 4, 7, 9], [1, 2, 4, 8, 9], [1, 2, 5, 6, 7], [1, 2, 5, 6, 8], [1, 2, 5, 6, 9], [1, 2, 5, 7, 8], [1, 2, 5, 7, 9], [1, 2, 5, 8, 9], [1, 2, 6, 7, 8], [1, 2, 6, 7, 9], [1, 2, 6, 8, 9], [1, 2, 7, 8, 9], [1, 3, 4, 5, 6], [1, 3, 4, 5, 7], [1, 3, 4, 5, 8], [1, 3, 4, 5, 9], [1, 3, 4, 6, 7], [1, 3, 4, 6, 8], [1, 3, 4, 6, 9], [1, 3, 4, 7, 8], [1, 3, 4, 7, 9], [1, 3, 4, 8, 9], [1, 3, 5, 6, 7], [1, 3, 5, 6, 8], [1, 3, 5, 6, 9], [1, 3, 5, 7, 8], [1, 3, 5, 7, 9], [1, 3, 5, 8, 9], [1, 3, 6, 7, 8], [1, 3, 6, 7, 9], [1, 3, 6, 8, 9], [1, 3, 7, 8, 9], [1, 4, 5, 6, 7], [1, 4, 5, 6, 8], [1, 4, 5, 6, 9], [1, 4, 5, 7, 8], [1, 4, 5, 7, 9], [1, 4, 5, 8, 9], [1, 4, 6, 7, 8], [1, 4, 6, 7, 9], [1, 4, 6, 8, 9], [1, 4, 7, 8, 9], [1, 5, 6, 7, 8], [1, 5, 6, 7, 9], [1, 5, 6, 8, 9], [1, 5, 7, 8, 9], [1, 6, 7, 8, 9], [2, 3, 4, 5, 6], [2, 3, 4, 5, 7], [2, 3, 4, 5, 8], [2, 3, 4, 5, 9], [2, 3, 4, 6, 7], [2, 3, 4, 6, 8], [2, 3, 4, 6, 9], [2, 3, 4, 7, 8], [2, 3, 4, 7, 9], [2, 3, 4, 8, 9], [2, 3, 5, 6, 7], [2, 3, 5, 6, 8], [2, 3, 5, 6, 9], [2, 3, 5, 7, 8], [2, 3, 5, 7, 9], [2, 3, 5, 8, 9], [2, 3, 6, 7, 8], [2, 3, 6, 7, 9], [2, 3, 6, 8, 9], [2, 3, 7, 8, 9], [2, 4, 5, 6, 7], [2, 4, 5, 6, 8], [2, 4, 5, 6, 9], [2, 4, 5, 7, 8], [2, 4, 5, 7, 9], [2, 4, 5, 8, 9], [2, 4, 6, 7, 8], [2, 4, 6, 7, 9], [2, 4, 6, 8, 9], [2, 4, 7, 8, 9], [2, 5, 6, 7, 8], [2, 5, 6, 7, 9], [2, 5, 6, 8, 9], [2, 5, 7, 8, 9], [2, 6, 7, 8, 9], [3, 4, 5, 6, 7], [3, 4, 5, 6, 8], [3, 4, 5, 6, 9], [3, 4, 5, 7, 8], [3, 4, 5, 7, 9], [3, 4, 5, 8, 9], [3, 4, 6, 7, 8], [3, 4, 6, 7, 9], [3, 4, 6, 8, 9], [3, 4, 7, 8, 9], [3, 5, 6, 7, 8], [3, 5, 6, 7, 9], [3, 5, 6, 8, 9], [3, 5, 7, 8, 9], [3, 6, 7, 8, 9], [4, 5, 6, 7, 8], [4, 5, 6, 7, 9], [4, 5, 6, 8, 9], [4, 5, 7, 8, 9], [4, 6, 7, 8, 9], [5, 6, 7, 8, 9]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 14, k = 7",
+        "expectedOutput": "Execution timed out",
+        "isHidden": true
       }
     ]
   },
@@ -2530,6 +7091,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [0]",
         "expectedOutput": "[[],[0]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [-2,-3,-1,0]",
+        "expectedOutput": "[[], [0], [-1], [-1, 0], [-3], [-3, 0], [-3, -1], [-3, -1, 0], [-2], [-2, 0], [-2, -1], [-2, -1, 0], [-2, -3], [-2, -3, 0], [-2, -3, -1], [-2, -3, -1, 0]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [-2,-3,-1]",
+        "expectedOutput": "[[], [-1], [-3], [-3, -1], [-2], [-2, -1], [-2, -3], [-2, -3, -1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [6,2,8,1,3]",
+        "expectedOutput": "[[], [3], [1], [1, 3], [8], [8, 3], [8, 1], [8, 1, 3], [2], [2, 3], [2, 1], [2, 1, 3], [2, 8], [2, 8, 3], [2, 8, 1], [2, 8, 1, 3], [6], [6, 3], [6, 1], [6, 1, 3], [6, 8], [6, 8, 3], [6, 8, 1], [6, 8, 1, 3], [6, 2], [6, 2, 3], [6, 2, 1], [6, 2, 1, 3], [6, 2, 8], [6, 2, 8, 3], [6, 2, 8, 1], [6, 2, 8, 1, 3]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [2,4,6,8,10]",
+        "expectedOutput": "[[], [10], [8], [8, 10], [6], [6, 10], [6, 8], [6, 8, 10], [4], [4, 10], [4, 8], [4, 8, 10], [4, 6], [4, 6, 10], [4, 6, 8], [4, 6, 8, 10], [2], [2, 10], [2, 8], [2, 8, 10], [2, 6], [2, 6, 10], [2, 6, 8], [2, 6, 8, 10], [2, 4], [2, 4, 10], [2, 4, 8], [2, 4, 8, 10], [2, 4, 6], [2, 4, 6, 10], [2, 4, 6, 8], [2, 4, 6, 8, 10]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,3,5,7,9]",
+        "expectedOutput": "[[], [9], [7], [7, 9], [5], [5, 9], [5, 7], [5, 7, 9], [3], [3, 9], [3, 7], [3, 7, 9], [3, 5], [3, 5, 9], [3, 5, 7], [3, 5, 7, 9], [1], [1, 9], [1, 7], [1, 7, 9], [1, 5], [1, 5, 9], [1, 5, 7], [1, 5, 7, 9], [1, 3], [1, 3, 9], [1, 3, 7], [1, 3, 7, 9], [1, 3, 5], [1, 3, 5, 9], [1, 3, 5, 7], [1, 3, 5, 7, 9]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [10]",
+        "expectedOutput": "[[], [10]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1]",
+        "expectedOutput": "[[], [1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [-5,0,5]",
+        "expectedOutput": "[[], [5], [0], [0, 5], [-5], [-5, 5], [-5, 0], [-5, 0, 5]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,2,3,4]",
+        "expectedOutput": "[[], [4], [3], [3, 4], [2], [2, 4], [2, 3], [2, 3, 4], [1], [1, 4], [1, 3], [1, 3, 4], [1, 2], [1, 2, 4], [1, 2, 3], [1, 2, 3, 4]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [-5,-4,-3,-2,-1]",
+        "expectedOutput": "[[], [-1], [-2], [-2, -1], [-3], [-3, -1], [-3, -2], [-3, -2, -1], [-4], [-4, -1], [-4, -2], [-4, -2, -1], [-4, -3], [-4, -3, -1], [-4, -3, -2], [-4, -3, -2, -1], [-5], [-5, -1], [-5, -2], [-5, -2, -1], [-5, -3], [-5, -3, -1], [-5, -3, -2], [-5, -3, -2, -1], [-5, -4], [-5, -4, -1], [-5, -4, -2], [-5, -4, -2, -1], [-5, -4, -3], [-5, -4, -3, -1], [-5, -4, -3, -2], [-5, -4, -3, -2, -1]]",
+        "isHidden": true
       }
     ]
   },
@@ -2568,6 +7189,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "board = [[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;E&quot;],[&quot;S&quot;,&quot;F&quot;,&quot;C&quot;,&quot;S&quot;],[&quot;A&quot;,&quot;D&quot;,&quot;E&quot;,&quot;E&quot;]], word = &quot;ABCB&quot;",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "{\"board\": [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], \"word\": \"ABCB\"}",
+        "expectedOutput": "Error: Solution.exist() missing 2 required positional arguments: 'board' and 'word'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "{\"board\": [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], \"word\": \"ABCCED\"}",
+        "expectedOutput": "Error: Solution.exist() missing 2 required positional arguments: 'board' and 'word'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "board = [[\"A\",\"B\"],[\"C\",\"D\"]], word = \"AC\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "board = [['A','B','C','E'],['S','F','C','S'],['A','D','E','E']], word = 'ABCB'",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ASADB\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCB\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"E\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCESEEEFS\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "board = [['A','B','C','E'],['S','F','C','S'],['A','D','E','E']], word = 'Z'",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "board = [['A','B','C','E'],['S','F','C','S'],['A','D','E','E']], word = 'AB'",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCCED\"",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -2598,6 +7279,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [0,0,1,1,1,1,2,3,3]",
         "expectedOutput": "7, nums = [0,0,1,1,2,3,3,_,_]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,1,1,1]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,1,2,2,2,3,3,3,3,3]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [-1,-1,-1,0,0,0,1,1,2,2,3]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,1,2,2,3,3,4,4,4,4]",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,1,1,2,2,3]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [0,0,1,1,1,1,2,3,3]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,4,5]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,1,2,2,2,3,3,3,4,4,4,5]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,1,2]",
+        "expectedOutput": "3",
+        "isHidden": true
       }
     ]
   },
@@ -2628,6 +7369,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [2,5,6,0,0,1,2], target = 3",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [4,5,6,6,7,0,1,2,4,4], target = 4",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [3,1], target = 2",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [4,5,6,7,0,1,2], target = 3",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [4,5,6,7,0,1,2], target = 0",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,3,3], target = 1",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1], target = 3",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39,1], target = 1",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [3,1], target = 1",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1], target = 1",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [5,1,3], target = 3",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -2658,6 +7459,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "head = [1,1,1,2,3]",
         "expectedOutput": "[2,3]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = [-100,-100,-99,-98,-98,-97,-96,-96,-95]",
+        "expectedOutput": "[-99, -97, -95]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [1,2,3,4,5]",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [1,1,2,3,3,4,4,5]",
+        "expectedOutput": "[2, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [1,2,2,3,3,4,5,5]",
+        "expectedOutput": "[1, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = [-100,100,-100,100]",
+        "expectedOutput": "[-100, 100, -100, 100]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [1]",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [1,2,2,3,3,4,4,5,5]",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [1,1,2,2,3,3,4,4,5,5,6,6]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [1,1,2,2,3,3]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [1,1,1,2,3]",
+        "expectedOutput": "[2, 3]",
+        "isHidden": true
       }
     ]
   },
@@ -2687,6 +7548,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "head = [1,1,2,3,3]",
         "expectedOutput": "[1,2,3]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = [-100,-100,-99,-98,-98,-97,-97,-96]",
+        "expectedOutput": "[-100, -99, -98, -97, -96]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [0,0,0,0,0]",
+        "expectedOutput": "[0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = []",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [1]",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = [1,2,3,4,5]",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [1,2,2,3,4,4,5]",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [-100,0,100]",
+        "expectedOutput": "[-100, 0, 100]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [-100,-50,-50,-25,-25,0,0,50,50,100]",
+        "expectedOutput": "[-100, -50, -25, 0, 50, 100]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [1,1,2]",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [-3,-2,-1,-1,0,1,2,2,3]",
+        "expectedOutput": "[-3, -2, -1, 0, 1, 2, 3]",
+        "isHidden": true
       }
     ]
   },
@@ -2718,6 +7639,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "heights = [2,4]",
         "expectedOutput": "4"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "heights = [10000, 10000, 10000, 10000, 10000]",
+        "expectedOutput": "50000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "heights = [0]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "heights = [1,2,3,4,5]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "heights = [0,1,0,1,0]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "heights = [2,1,2]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "heights = [4,2,0,3,2,5,6,0,0,1]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "heights = [3,6,5,7,4,8,1,0]",
+        "expectedOutput": "20",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "heights = [3]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "heights = [2,4]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "heights = [10000,10000,10000,10000]",
+        "expectedOutput": "40000",
+        "isHidden": true
       }
     ]
   },
@@ -2756,6 +7737,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "matrix = [[&quot;1&quot;]]",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "matrix = [[\"1\",\"1\"],[\"1\",\"1\"]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "matrix = [[\"0\"]]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "matrix = [[\"1\",\"1\",\"0\",\"0\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"0\",\"0\",\"1\",\"1\",\"1\"]]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "matrix = [[\"0\",\"0\",\"0\"],[\"0\",\"0\",\"0\"]]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "matrix = [[\"1\",\"0\",\"1\",\"0\",\"0\"],[\"1\",\"0\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"0\",\"0\",\"1\",\"0\"]]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "matrix = [[\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\"]]",
+        "expectedOutput": "16",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "matrix = [[\"1\",\"0\"],[\"0\",\"1\"]]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "matrix = [[\"1\",\"0\",\"1\"],[\"0\",\"0\",\"1\"],[\"1\",\"0\",\"1\"]]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "matrix = [[\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\"]]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "matrix = [[\"0\",\"0\"],[\"0\",\"0\"]]",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -2786,6 +7827,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "head = [2,1], x = 2",
         "expectedOutput": "[1,2]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = [100,-100,50,0,-50], x = 0",
+        "expectedOutput": "[-100, -50, 100, 50, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [1,1,1,1,1], x = 2",
+        "expectedOutput": "[1, 1, 1, 1, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [1,2,3,4,5], x = 3",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [1,4,3,2,5,2], x = 3",
+        "expectedOutput": "[1, 2, 2, 4, 3, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = [5,1,2,3,4], x = 3",
+        "expectedOutput": "[1, 2, 5, 3, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [-100, 100, 0], x = 0",
+        "expectedOutput": "[-100, 100, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [1,2,3,4,5], x = 6",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [], x = 5",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [2,1], x = 2",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [1,2,3,4,5,6,7,8,9,10], x = 5",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
+        "isHidden": true
       }
     ]
   },
@@ -2821,6 +7922,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s1 = &quot;a&quot;, s2 = &quot;a&quot;",
         "expectedOutput": "true"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s1 = \"abc\", s2 = \"cab\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s1 = \"abcdefghijklmnop\", s2 = \"ponmlkjihgfedcba\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s1 = \"abcde\", s2 = \"caebd\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s1 = \"abcdefghijk\", s2 = \"abcdefghijk\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s1 = \"abc\", s2 = \"bca\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s1 = \"abcdefgh\", s2 = \"hgfedcba\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s1 = \"abcdefghij\", s2 = \"ijabcdefgh\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s1 = \"eebaacbcbcadaaedceaaacadccd\", s2 = \"eadcaacabaddaceacbceaabe\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s1 = \"ab\", s2 = \"ba\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s1 = \"abcdefghij\", s2 = \"jihgfedcba\"",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -2860,6 +8021,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums1 = [0], m = 0, nums2 = [1], n = 1",
         "expectedOutput": "[1]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums1 = [0], m = 0, nums2 = [1], n = 1",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums1 = [4,5,6,0,0,0], m = 3, nums2 = [1,2,3], n = 3",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums1 = [1,3,5,7,9,11,13,15,0,0,0,0,0,0,0,0,0,0,0], m = 8, nums2 = [2,4,6,8,10,12,14,16,18,20,22], n = 11",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums1 = [1,3,5,7,9,11,13,0,0,0,0,0,0,0], m = 7, nums2 = [2,4,6,8,10,12,14], n = 7",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums1 = [-1,0,0,0,0], m = 1, nums2 = [-10,-3,-2,-1], n = 4",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums1 = [1,2,3,4,5,6,7,8,9,10,0,0,0,0,0,0,0,0,0,0], m = 10, nums2 = [-10,-9,-8,-7,-6,-5,-4,-3,-2,-1], n = 10",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums1 = [0, 0, 0, 0, 0, 0], m = 0, nums2 = [1, 1, 1, 1, 1, 1], n = 6",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums1 = [10,20,30,40,50,60,0,0,0,0,0,0], m = 6, nums2 = [5,15,25,35,45,55], n = 6",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums1 = [5,10,15,20,0,0,0,0], m = 4, nums2 = [1,2,8,16], n = 4",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -2891,6 +8112,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 1",
         "expectedOutput": "[0,1]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 4",
+        "expectedOutput": "[0, 1, 3, 2, 6, 7, 5, 4, 12, 13, 15, 14, 10, 11, 9, 8]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 16",
+        "expectedOutput": "Execution timed out",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 2",
+        "expectedOutput": "[0, 1, 3, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 1",
+        "expectedOutput": "[0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 10",
+        "expectedOutput": "[0, 1, 3, 2, 6, 7, 5, 4, 12, 13, 15, 14, 10, 11, 9, 8, 24, 25, 27, 26, 30, 31, 29, 28, 20, 21, 23, 22, 18, 19, 17, 16, 48, 49, 51, 50, 54, 55, 53, 52, 60, 61, 63, 62, 58, 59, 57, 56, 40, 41, 43, 42, 46, 47, 45, 44, 36, 37, 39, 38, 34, 35, 33, 32, 96, 97, 99, 98, 102, 103, 101, 100, 108, 109, 111, 110, 106, 107, 105, 104, 120, 121, 123, 122, 126, 127, 125, 124, 116, 117, 119, 118, 114, 115, 113, 112, 80, 81, 83, 82, 86, 87, 85, 84, 92, 93, 95, 94, 90, 91, 89, 88, 72, 73, 75, 74, 78, 79, 77, 76, 68, 69, 71, 70, 66, 67, 65, 64, 192, 193, 195, 194, 198, 199, 197, 196, 204, 205, 207, 206, 202, 203, 201, 200, 216, 217, 219, 218, 222, 223, 221, 220, 212, 213, 215, 214, 210, 211, 209, 208, 240, 241, 243, 242, 246, 247, 245, 244, 252, 253, 255, 254, 250, 251, 249, 248, 232, 233, 235, 234, 238, 239, 237, 236, 228, 229, 231, 230, 226, 227, 225, 224, 160, 161, 163, 162, 166, 167, 165, 164, 172, 173, 175, 174, 170, 171, 169, 168, 184, 185, 187, 186, 190, 191, 189, 188, 180, 181, 183, 182, 178, 179, 177, 176, 144, 145, 147, 146, 150, 151, 149, 148, 156, 157, 159, 158, 154, 155, 153, 152, 136, 137, 139, 138, 142, 143, 141, 140, 132, 133, 135, 134, 130, 131, 129, 128, 384, 385, 387, 386, 390, 391, 389, 388, 396, 397, 399, 398, 394, 395, 393, 392, 408, 409, 411, 410, 414, 415, 413, 412, 404, 405, 407, 406, 402, 403, 401, 400, 432, 433, 435, 434, 438, 439, 437, 436, 444, 445, 447, 446, 442, 443, 441, 440, 424, 425, 427, 426, 430, 431, 429, 428, 420, 421, 423, 422, 418, 419, 417, 416, 480, 481, 483, 482, 486, 487, 485, 484, 492, 493, 495, 494, 490, 491, 489, 488, 504, 505, 507, 506, 510, 511, 509, 508, 500, 501, 503, 502, 498, 499, 497, 496, 464, 465, 467, 466, 470, 471, 469, 468, 476, 477, 479, 478, 474, 475, 473, 472, 456, 457, 459, 458, 462, 463, 461, 460, 452, 453, 455, 454, 450, 451, 449, 448, 320, 321, 323, 322, 326, 327, 325, 324, 332, 333, 335, 334, 330, 331, 329, 328, 344, 345, 347, 346, 350, 351, 349, 348, 340, 341, 343, 342, 338, 339, 337, 336, 368, 369, 371, 370, 374, 375, 373, 372, 380, 381, 383, 382, 378, 379, 377, 376, 360, 361, 363, 362, 366, 367, 365, 364, 356, 357, 359, 358, 354, 355, 353, 352, 288, 289, 291, 290, 294, 295, 293, 292, 300, 301, 303, 302, 298, 299, 297, 296, 312, 313, 315, 314, 318, 319, 317, 316, 308, 309, 311, 310, 306, 307, 305, 304, 272, 273, 275, 274, 278, 279, 277, 276, 284, 285, 287, 286, 282, 283, 281, 280, 264, 265, 267, 266, 270, 271, 269, 268, 260, 261, 263, 262, 258, 259, 257, 256, 768, 769, 771, 770, 774, 775, 773, 772, 780, 781, 783, 782, 778, 779, 777, 776, 792, 793, 795, 794, 798, 799, 797, 796, 788, 789, 791, 790, 786, 787, 785, 784, 816, 817, 819, 818, 822, 823, 821, 820, 828, 829, 831, 830, 826, 827, 825, 824, 808, 809, 811, 810, 814, 815, 813, 812, 804, 805, 807, 806, 802, 803, 801, 800, 864, 865, 867, 866, 870, 871, 869, 868, 876, 877, 879, 878, 874, 875, 873, 872, 888, 889, 891, 890, 894, 895, 893, 892, 884, 885, 887, 886, 882, 883, 881, 880, 848, 849, 851, 850, 854, 855, 853, 852, 860, 861, 863, 862, 858, 859, 857, 856, 840, 841, 843, 842, 846, 847, 845, 844, 836, 837, 839, 838, 834, 835, 833, 832, 960, 961, 963, 962, 966, 967, 965, 964, 972, 973, 975, 974, 970, 971, 969, 968, 984, 985, 987, 986, 990, 991, 989, 988, 980, 981, 983, 982, 978, 979, 977, 976, 1008, 1009, 1011, 1010, 1014, 1015, 1013, 1012, 1020, 1021, 1023, 1022, 1018, 1019, 1017, 1016, 1000, 1001, 1003, 1002, 1006, 1007, 1005, 1004, 996, 997, 999, 998, 994, 995, 993, 992, 928, 929, 931, 930, 934, 935, 933, 932, 940, 941, 943, 942, 938, 939, 937, 936, 952, 953, 955, 954, 958, 959, 957, 956, 948, 949, 951, 950, 946, 947, 945, 944, 912, 913, 915, 914, 918, 919, 917, 916, 924, 925, 927, 926, 922, 923, 921, 920, 904, 905, 907, 906, 910, 911, 909, 908, 900, 901, 903, 902, 898, 899, 897, 896, 640, 641, 643, 642, 646, 647, 645, 644, 652, 653, 655, 654, 650, 651, 649, 648, 664, 665, 667, 666, 670, 671, 669, 668, 660, 661, 663, 662, 658, 659, 657, 656, 688, 689, 691, 690, 694, 695, 693, 692, 700, 701, 703, 702, 698, 699, 697, 696, 680, 681, 683, 682, 686, 687, 685, 684, 676, 677, 679, 678, 674, 675, 673, 672, 736, 737, 739, 738, 742, 743, 741, 740, 748, 749, 751, 750, 746, 747, 745, 744, 760, 761, 763, 762, 766, 767, 765, 764, 756, 757, 759, 758, 754, 755, 753, 752, 720, 721, 723, 722, 726, 727, 725, 724, 732, 733, 735, 734, 730, 731, 729, 728, 712, 713, 715, 714, 718, 719, 717, 716, 708, 709, 711, 710, 706, 707, 705, 704, 576, 577, 579, 578, 582, 583, 581, 580, 588, 589, 591, 590, 586, 587, 585, 584, 600, 601, 603, 602, 606, 607, 605, 604, 596, 597, 599, 598, 594, 595, 593, 592, 624, 625, 627, 626, 630, 631, 629, 628, 636, 637, 639, 638, 634, 635, 633, 632, 616, 617, 619, 618, 622, 623, 621, 620, 612, 613, 615, 614, 610, 611, 609, 608, 544, 545, 547, 546, 550, 551, 549, 548, 556, 557, 559, 558, 554, 555, 553, 552, 568, 569, 571, 570, 574, 575, 573, 572, 564, 565, 567, 566, 562, 563, 561, 560, 528, 529, 531, 530, 534, 535, 533, 532, 540, 541, 543, 542, 538, 539, 537, 536, 520, 521, 523, 522, 526, 527, 525, 524, 516, 517, 519, 518, 514, 515, 513, 512]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 5",
+        "expectedOutput": "[0, 1, 3, 2, 6, 7, 5, 4, 12, 13, 15, 14, 10, 11, 9, 8, 24, 25, 27, 26, 30, 31, 29, 28, 20, 21, 23, 22, 18, 19, 17, 16]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 8",
+        "expectedOutput": "[0, 1, 3, 2, 6, 7, 5, 4, 12, 13, 15, 14, 10, 11, 9, 8, 24, 25, 27, 26, 30, 31, 29, 28, 20, 21, 23, 22, 18, 19, 17, 16, 48, 49, 51, 50, 54, 55, 53, 52, 60, 61, 63, 62, 58, 59, 57, 56, 40, 41, 43, 42, 46, 47, 45, 44, 36, 37, 39, 38, 34, 35, 33, 32, 96, 97, 99, 98, 102, 103, 101, 100, 108, 109, 111, 110, 106, 107, 105, 104, 120, 121, 123, 122, 126, 127, 125, 124, 116, 117, 119, 118, 114, 115, 113, 112, 80, 81, 83, 82, 86, 87, 85, 84, 92, 93, 95, 94, 90, 91, 89, 88, 72, 73, 75, 74, 78, 79, 77, 76, 68, 69, 71, 70, 66, 67, 65, 64, 192, 193, 195, 194, 198, 199, 197, 196, 204, 205, 207, 206, 202, 203, 201, 200, 216, 217, 219, 218, 222, 223, 221, 220, 212, 213, 215, 214, 210, 211, 209, 208, 240, 241, 243, 242, 246, 247, 245, 244, 252, 253, 255, 254, 250, 251, 249, 248, 232, 233, 235, 234, 238, 239, 237, 236, 228, 229, 231, 230, 226, 227, 225, 224, 160, 161, 163, 162, 166, 167, 165, 164, 172, 173, 175, 174, 170, 171, 169, 168, 184, 185, 187, 186, 190, 191, 189, 188, 180, 181, 183, 182, 178, 179, 177, 176, 144, 145, 147, 146, 150, 151, 149, 148, 156, 157, 159, 158, 154, 155, 153, 152, 136, 137, 139, 138, 142, 143, 141, 140, 132, 133, 135, 134, 130, 131, 129, 128]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 11",
+        "expectedOutput": "[0, 1, 3, 2, 6, 7, 5, 4, 12, 13, 15, 14, 10, 11, 9, 8, 24, 25, 27, 26, 30, 31, 29, 28, 20, 21, 23, 22, 18, 19, 17, 16, 48, 49, 51, 50, 54, 55, 53, 52, 60, 61, 63, 62, 58, 59, 57, 56, 40, 41, 43, 42, 46, 47, 45, 44, 36, 37, 39, 38, 34, 35, 33, 32, 96, 97, 99, 98, 102, 103, 101, 100, 108, 109, 111, 110, 106, 107, 105, 104, 120, 121, 123, 122, 126, 127, 125, 124, 116, 117, 119, 118, 114, 115, 113, 112, 80, 81, 83, 82, 86, 87, 85, 84, 92, 93, 95, 94, 90, 91, 89, 88, 72, 73, 75, 74, 78, 79, 77, 76, 68, 69, 71, 70, 66, 67, 65, 64, 192, 193, 195, 194, 198, 199, 197, 196, 204, 205, 207, 206, 202, 203, 201, 200, 216, 217, 219, 218, 222, 223, 221, 220, 212, 213, 215, 214, 210, 211, 209, 208, 240, 241, 243, 242, 246, 247, 245, 244, 252, 253, 255, 254, 250, 251, 249, 248, 232, 233, 235, 234, 238, 239, 237, 236, 228, 229, 231, 230, 226, 227, 225, 224, 160, 161, 163, 162, 166, 167, 165, 164, 172, 173, 175, 174, 170, 171, 169, 168, 184, 185, 187, 186, 190, 191, 189, 188, 180, 181, 183, 182, 178, 179, 177, 176, 144, 145, 147, 146, 150, 151, 149, 148, 156, 157, 159, 158, 154, 155, 153, 152, 136, 137, 139, 138, 142, 143, 141, 140, 132, 133, 135, 134, 130, 131, 129, 128, 384, 385, 387, 386, 390, 391, 389, 388, 396, 397, 399, 398, 394, 395, 393, 392, 408, 409, 411, 410, 414, 415, 413, 412, 404, 405, 407, 406, 402, 403, 401, 400, 432, 433, 435, 434, 438, 439, 437, 436, 444, 445, 447, 446, 442, 443, 441, 440, 424, 425, 427, 426, 430, 431, 429, 428, 420, 421, 423, 422, 418, 419, 417, 416, 480, 481, 483, 482, 486, 487, 485, 484, 492, 493, 495, 494, 490, 491, 489, 488, 504, 505, 507, 506, 510, 511, 509, 508, 500, 501, 503, 502, 498, 499, 497, 496, 464, 465, 467, 466, 470, 471, 469, 468, 476, 477, 479, 478, 474, 475, 473, 472, 456, 457, 459, 458, 462, 463, 461, 460, 452, 453, 455, 454, 450, 451, 449, 448, 320, 321, 323, 322, 326, 327, 325, 324, 332, 333, 335, 334, 330, 331, 329, 328, 344, 345, 347, 346, 350, 351, 349, 348, 340, 341, 343, 342, 338, 339, 337, 336, 368, 369, 371, 370, 374, 375, 373, 372, 380, 381, 383, 382, 378, 379, 377, 376, 360, 361, 363, 362, 366, 367, 365, 364, 356, 357, 359, 358, 354, 355, 353, 352, 288, 289, 291, 290, 294, 295, 293, 292, 300, 301, 303, 302, 298, 299, 297, 296, 312, 313, 315, 314, 318, 319, 317, 316, 308, 309, 311, 310, 306, 307, 305, 304, 272, 273, 275, 274, 278, 279, 277, 276, 284, 285, 287, 286, 282, 283, 281, 280, 264, 265, 267, 266, 270, 271, 269, 268, 260, 261, 263, 262, 258, 259, 257, 256, 768, 769, 771, 770, 774, 775, 773, 772, 780, 781, 783, 782, 778, 779, 777, 776, 792, 793, 795, 794, 798, 799, 797, 796, 788, 789, 791, 790, 786, 787, 785, 784, 816, 817, 819, 818, 822, 823, 821, 820, 828, 829, 831, 830, 826, 827, 825, 824, 808, 809, 811, 810, 814, 815, 813, 812, 804, 805, 807, 806, 802, 803, 801, 800, 864, 865, 867, 866, 870, 871, 869, 868, 876, 877, 879, 878, 874, 875, 873, 872, 888, 889, 891, 890, 894, 895, 893, 892, 884, 885, 887, 886, 882, 883, 881, 880, 848, 849, 851, 850, 854, 855, 853, 852, 860, 861, 863, 862, 858, 859, 857, 856, 840, 841, 843, 842, 846, 847, 845, 844, 836, 837, 839, 838, 834, 835, 833, 832, 960, 961, 963, 962, 966, 967, 965, 964, 972, 973, 975, 974, 970, 971, 969, 968, 984, 985, 987, 986, 990, 991, 989, 988, 980, 981, 983, 982, 978, 979, 977, 976, 1008, 1009, 1011, 1010, 1014, 1015, 1013, 1012, 1020, 1021, 1023, 1022, 1018, 1019, 1017, 1016, 1000, 1001, 1003, 1002, 1006, 1007, 1005, 1004, 996, 997, 999, 998, 994, 995, 993, 992, 928, 929, 931, 930, 934, 935, 933, 932, 940, 941, 943, 942, 938, 939, 937, 936, 952, 953, 955, 954, 958, 959, 957, 956, 948, 949, 951, 950, 946, 947, 945, 944, 912, 913, 915, 914, 918, 919, 917, 916, 924, 925, 927, 926, 922, 923, 921, 920, 904, 905, 907, 906, 910, 911, 909, 908, 900, 901, 903, 902, 898, 899, 897, 896, 640, 641, 643, 642, 646, 647, 645, 644, 652, 653, 655, 654, 650, 651, 649, 648, 664, 665, 667, 666, 670, 671, 669, 668, 660, 661, 663, 662, 658, 659, 657, 656, 688, 689, 691, 690, 694, 695, 693, 692, 700, 701, 703, 702, 698, 699, 697, 696, 680, 681, 683, 682, 686, 687, 685, 684, 676, 677, 679, 678, 674, 675, 673, 672, 736, 737, 739, 738, 742, 743, 741, 740, 748, 749, 751, 750, 746, 747, 745, 744, 760, 761, 763, 762, 766, 767, 765, 764, 756, 757, 759, 758, 754, 755, 753, 752, 720, 721, 723, 722, 726, 727, 725, 724, 732, 733, 735, 734, 730, 731, 729, 728, 712, 713, 715, 714, 718, 719, 717, 716, 708, 709, 711, 710, 706, 707, 705, 704, 576, 577, 579, 578, 582, 583, 581, 580, 588, 589, 591, 590, 586, 587, 585, 584, 600, 601, 603, 602, 606, 607, 605, 604, 596, 597, 599, 598, 594, 595, 593, 592, 624, 625, 627, 626, 630, 631, 629, 628, 636, 637, 639, 638, 634, 635, 633, 632, 616, 617, 619, 618, 622, 623, 621, 620, 612, 613, 615, 614, 610, 611, 609, 608, 544, 545, 547, 546, 550, 551, 549, 548, 556, 557, 559, 558, 554, 555, 553, 552, 568, 569, 571, 570, 574, 575, 573, 572, 564, 565, 567, 566, 562, 563, 561, 560, 528, 529, 531, 530, 534, 535, 533, 532, 540, 541, 543, 542, 538, 539, 537, 536, 520, 521, 523, 522, 526, 527, 525, 524, 516, 517, 519, 518, 514, 515, 513, 512, 1536, 1537, 1539, 1538, 1542, 1543, 1541, 1540, 1548, 1549, 1551, 1550, 1546, 1547, 1545, 1544, 1560, 1561, 1563, 1562, 1566, 1567, 1565, 1564, 1556, 1557, 1559, 1558, 1554, 1555, 1553, 1552, 1584, 1585, 1587, 1586, 1590, 1591, 1589, 1588, 1596, 1597, 1599, 1598, 1594, 1595, 1593, 1592, 1576, 1577, 1579, 1578, 1582, 1583, 1581, 1580, 1572, 1573, 1575, 1574, 1570, 1571, 1569, 1568, 1632, 1633, 1635, 1634, 1638, 1639, 1637, 1636, 1644, 1645, 1647, 1646, 1642, 1643, 1641, 1640, 1656, 1657, 1659, 1658, 1662, 1663, 1661, 1660, 1652, 1653, 1655, 1654, 1650, 1651, 1649, 1648, 1616, 1617, 1619, 1618, 1622, 1623, 1621, 1620, 1628, 1629, 1631, 1630, 1626, 1627, 1625, 1624, 1608, 1609, 1611, 1610, 1614, 1615, 1613, 1612, 1604, 1605, 1607, 1606, 1602, 1603, 1601, 1600, 1728, 1729, 1731, 1730, 1734, 1735, 1733, 1732, 1740, 1741, 1743, 1742, 1738, 1739, 1737, 1736, 1752, 1753, 1755, 1754, 1758, 1759, 1757, 1756, 1748, 1749, 1751, 1750, 1746, 1747, 1745, 1744, 1776, 1777, 1779, 1778, 1782, 1783, 1781, 1780, 1788, 1789, 1791, 1790, 1786, 1787, 1785, 1784, 1768, 1769, 1771, 1770, 1774, 1775, 1773, 1772, 1764, 1765, 1767, 1766, 1762, 1763, 1761, 1760, 1696, 1697, 1699, 1698, 1702, 1703, 1701, 1700, 1708, 1709, 1711, 1710, 1706, 1707, 1705, 1704, 1720, 1721, 1723, 1722, 1726, 1727, 1725, 1724, 1716, 1717, 1719, 1718, 1714, 1715, 1713, 1712, 1680, 1681, 1683, 1682, 1686, 1687, 1685, 1684, 1692, 1693, 1695, 1694, 1690, 1691, 1689, 1688, 1672, 1673, 1675, 1674, 1678, 1679, 1677, 1676, 1668, 1669, 1671, 1670, 1666, 1667, 1665, 1664, 1920, 1921, 1923, 1922, 1926, 1927, 1925, 1924, 1932, 1933, 1935, 1934, 1930, 1931, 1929, 1928, 1944, 1945, 1947, 1946, 1950, 1951, 1949, 1948, 1940, 1941, 1943, 1942, 1938, 1939, 1937, 1936, 1968, 1969, 1971, 1970, 1974, 1975, 1973, 1972, 1980, 1981, 1983, 1982, 1978, 1979, 1977, 1976, 1960, 1961, 1963, 1962, 1966, 1967, 1965, 1964, 1956, 1957, 1959, 1958, 1954, 1955, 1953, 1952, 2016, 2017, 2019, 2018, 2022, 2023, 2021, 2020, 2028, 2029, 2031, 2030, 2026, 2027, 2025, 2024, 2040, 2041, 2043, 2042, 2046, 2047, 2045, 2044, 2036, 2037, 2039, 2038, 2034, 2035, 2033, 2032, 2000, 2001, 2003, 2002, 2006, 2007, 2005, 2004, 2012, 2013, 2015, 2014, 2010, 2011, 2009, 2008, 1992, 1993, 1995, 1994, 1998, 1999, 1997, 1996, 1988, 1989, 1991, 1990, 1986, 1987, 1985, 1984, 1856, 1857, 1859, 1858, 1862, 1863, 1861, 1860, 1868, 1869, 1871, 1870, 1866, 1867, 1865, 1864, 1880, 1881, 1883, 1882, 1886, 1887, 1885, 1884, 1876, 1877, 1879, 1878, 1874, 1875, 1873, 1872, 1904, 1905, 1907, 1906, 1910, 1911, 1909, 1908, 1916, 1917, 1919, 1918, 1914, 1915, 1913, 1912, 1896, 1897, 1899, 1898, 1902, 1903, 1901, 1900, 1892, 1893, 1895, 1894, 1890, 1891, 1889, 1888, 1824, 1825, 1827, 1826, 1830, 1831, 1829, 1828, 1836, 1837, 1839, 1838, 1834, 1835, 1833, 1832, 1848, 1849, 1851, 1850, 1854, 1855, 1853, 1852, 1844, 1845, 1847, 1846, 1842, 1843, 1841, 1840, 1808, 1809, 1811, 1810, 1814, 1815, 1813, 1812, 1820, 1821, 1823, 1822, 1818, 1819, 1817, 1816, 1800, 1801, 1803, 1802, 1806, 1807, 1805, 1804, 1796, 1797, 1799, 1798, 1794, 1795, 1793, 1792, 1280, 1281, 1283, 1282, 1286, 1287, 1285, 1284, 1292, 1293, 1295, 1294, 1290, 1291, 1289, 1288, 1304, 1305, 1307, 1306, 1310, 1311, 1309, 1308, 1300, 1301, 1303, 1302, 1298, 1299, 1297, 1296, 1328, 1329, 1331, 1330, 1334, 1335, 1333, 1332, 1340, 1341, 1343, 1342, 1338, 1339, 1337, 1336, 1320, 1321, 1323, 1322, 1326, 1327, 1325, 1324, 1316, 1317, 1319, 1318, 1314, 1315, 1313, 1312, 1376, 1377, 1379, 1378, 1382, 1383, 1381, 1380, 1388, 1389, 1391, 1390, 1386, 1387, 1385, 1384, 1400, 1401, 1403, 1402, 1406, 1407, 1405, 1404, 1396, 1397, 1399, 1398, 1394, 1395, 1393, 1392, 1360, 1361, 1363, 1362, 1366, 1367, 1365, 1364, 1372, 1373, 1375, 1374, 1370, 1371, 1369, 1368, 1352, 1353, 1355, 1354, 1358, 1359, 1357, 1356, 1348, 1349, 1351, 1350, 1346, 1347, 1345, 1344, 1472, 1473, 1475, 1474, 1478, 1479, 1477, 1476, 1484, 1485, 1487, 1486, 1482, 1483, 1481, 1480, 1496, 1497, 1499, 1498, 1502, 1503, 1501, 1500, 1492, 1493, 1495, 1494, 1490, 1491, 1489, 1488, 1520, 1521, 1523, 1522, 1526, 1527, 1525, 1524, 1532, 1533, 1535, 1534, 1530, 1531, 1529, 1528, 1512, 1513, 1515, 1514, 1518, 1519, 1517, 1516, 1508, 1509, 1511, 1510, 1506, 1507, 1505, 1504, 1440, 1441, 1443, 1442, 1446, 1447, 1445, 1444, 1452, 1453, 1455, 1454, 1450, 1451, 1449, 1448, 1464, 1465, 1467, 1466, 1470, 1471, 1469, 1468, 1460, 1461, 1463, 1462, 1458, 1459, 1457, 1456, 1424, 1425, 1427, 1426, 1430, 1431, 1429, 1428, 1436, 1437, 1439, 1438, 1434, 1435, 1433, 1432, 1416, 1417, 1419, 1418, 1422, 1423, 1421, 1420, 1412, 1413, 1415, 1414, 1410, 1411, 1409, 1408, 1152, 1153, 1155, 1154, 1158, 1159, 1157, 1156, 1164, 1165, 1167, 1166, 1162, 1163, 1161, 1160, 1176, 1177, 1179, 1178, 1182, 1183, 1181, 1180, 1172, 1173, 1175, 1174, 1170, 1171, 1169, 1168, 1200, 1201, 1203, 1202, 1206, 1207, 1205, 1204, 1212, 1213, 1215, 1214, 1210, 1211, 1209, 1208, 1192, 1193, 1195, 1194, 1198, 1199, 1197, 1196, 1188, 1189, 1191, 1190, 1186, 1187, 1185, 1184, 1248, 1249, 1251, 1250, 1254, 1255, 1253, 1252, 1260, 1261, 1263, 1262, 1258, 1259, 1257, 1256, 1272, 1273, 1275, 1274, 1278, 1279, 1277, 1276, 1268, 1269, 1271, 1270, 1266, 1267, 1265, 1264, 1232, 1233, 1235, 1234, 1238, 1239, 1237, 1236, 1244, 1245, 1247, 1246, 1242, 1243, 1241, 1240, 1224, 1225, 1227, 1226, 1230, 1231, 1229, 1228, 1220, 1221, 1223, 1222, 1218, 1219, 1217, 1216, 1088, 1089, 1091, 1090, 1094, 1095, 1093, 1092, 1100, 1101, 1103, 1102, 1098, 1099, 1097, 1096, 1112, 1113, 1115, 1114, 1118, 1119, 1117, 1116, 1108, 1109, 1111, 1110, 1106, 1107, 1105, 1104, 1136, 1137, 1139, 1138, 1142, 1143, 1141, 1140, 1148, 1149, 1151, 1150, 1146, 1147, 1145, 1144, 1128, 1129, 1131, 1130, 1134, 1135, 1133, 1132, 1124, 1125, 1127, 1126, 1122, 1123, 1121, 1120, 1056, 1057, 1059, 1058, 1062, 1063, 1061, 1060, 1068, 1069, 1071, 1070, 1066, 1067, 1065, 1064, 1080, 1081, 1083, 1082, 1086, 1087, 1085, 1084, 1076, 1077, 1079, 1078, 1074, 1075, 1073, 1072, 1040, 1041, 1043, 1042, 1046, 1047, 1045, 1044, 1052, 1053, 1055, 1054, 1050, 1051, 1049, 1048, 1032, 1033, 1035, 1034, 1038, 1039, 1037, 1036, 1028, 1029, 1031, 1030, 1026, 1027, 1025, 1024]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 12",
+        "expectedOutput": "[0, 1, 3, 2, 6, 7, 5, 4, 12, 13, 15, 14, 10, 11, 9, 8, 24, 25, 27, 26, 30, 31, 29, 28, 20, 21, 23, 22, 18, 19, 17, 16, 48, 49, 51, 50, 54, 55, 53, 52, 60, 61, 63, 62, 58, 59, 57, 56, 40, 41, 43, 42, 46, 47, 45, 44, 36, 37, 39, 38, 34, 35, 33, 32, 96, 97, 99, 98, 102, 103, 101, 100, 108, 109, 111, 110, 106, 107, 105, 104, 120, 121, 123, 122, 126, 127, 125, 124, 116, 117, 119, 118, 114, 115, 113, 112, 80, 81, 83, 82, 86, 87, 85, 84, 92, 93, 95, 94, 90, 91, 89, 88, 72, 73, 75, 74, 78, 79, 77, 76, 68, 69, 71, 70, 66, 67, 65, 64, 192, 193, 195, 194, 198, 199, 197, 196, 204, 205, 207, 206, 202, 203, 201, 200, 216, 217, 219, 218, 222, 223, 221, 220, 212, 213, 215, 214, 210, 211, 209, 208, 240, 241, 243, 242, 246, 247, 245, 244, 252, 253, 255, 254, 250, 251, 249, 248, 232, 233, 235, 234, 238, 239, 237, 236, 228, 229, 231, 230, 226, 227, 225, 224, 160, 161, 163, 162, 166, 167, 165, 164, 172, 173, 175, 174, 170, 171, 169, 168, 184, 185, 187, 186, 190, 191, 189, 188, 180, 181, 183, 182, 178, 179, 177, 176, 144, 145, 147, 146, 150, 151, 149, 148, 156, 157, 159, 158, 154, 155, 153, 152, 136, 137, 139, 138, 142, 143, 141, 140, 132, 133, 135, 134, 130, 131, 129, 128, 384, 385, 387, 386, 390, 391, 389, 388, 396, 397, 399, 398, 394, 395, 393, 392, 408, 409, 411, 410, 414, 415, 413, 412, 404, 405, 407, 406, 402, 403, 401, 400, 432, 433, 435, 434, 438, 439, 437, 436, 444, 445, 447, 446, 442, 443, 441, 440, 424, 425, 427, 426, 430, 431, 429, 428, 420, 421, 423, 422, 418, 419, 417, 416, 480, 481, 483, 482, 486, 487, 485, 484, 492, 493, 495, 494, 490, 491, 489, 488, 504, 505, 507, 506, 510, 511, 509, 508, 500, 501, 503, 502, 498, 499, 497, 496, 464, 465, 467, 466, 470, 471, 469, 468, 476, 477, 479, 478, 474, 475, 473, 472, 456, 457, 459, 458, 462, 463, 461, 460, 452, 453, 455, 454, 450, 451, 449, 448, 320, 321, 323, 322, 326, 327, 325, 324, 332, 333, 335, 334, 330, 331, 329, 328, 344, 345, 347, 346, 350, 351, 349, 348, 340, 341, 343, 342, 338, 339, 337, 336, 368, 369, 371, 370, 374, 375, 373, 372, 380, 381, 383, 382, 378, 379, 377, 376, 360, 361, 363, 362, 366, 367, 365, 364, 356, 357, 359, 358, 354, 355, 353, 352, 288, 289, 291, 290, 294, 295, 293, 292, 300, 301, 303, 302, 298, 299, 297, 296, 312, 313, 315, 314, 318, 319, 317, 316, 308, 309, 311, 310, 306, 307, 305, 304, 272, 273, 275, 274, 278, 279, 277, 276, 284, 285, 287, 286, 282, 283, 281, 280, 264, 265, 267, 266, 270, 271, 269, 268, 260, 261, 263, 262, 258, 259, 257, 256, 768, 769, 771, 770, 774, 775, 773, 772, 780, 781, 783, 782, 778, 779, 777, 776, 792, 793, 795, 794, 798, 799, 797, 796, 788, 789, 791, 790, 786, 787, 785, 784, 816, 817, 819, 818, 822, 823, 821, 820, 828, 829, 831, 830, 826, 827, 825, 824, 808, 809, 811, 810, 814, 815, 813, 812, 804, 805, 807, 806, 802, 803, 801, 800, 864, 865, 867, 866, 870, 871, 869, 868, 876, 877, 879, 878, 874, 875, 873, 872, 888, 889, 891, 890, 894, 895, 893, 892, 884, 885, 887, 886, 882, 883, 881, 880, 848, 849, 851, 850, 854, 855, 853, 852, 860, 861, 863, 862, 858, 859, 857, 856, 840, 841, 843, 842, 846, 847, 845, 844, 836, 837, 839, 838, 834, 835, 833, 832, 960, 961, 963, 962, 966, 967, 965, 964, 972, 973, 975, 974, 970, 971, 969, 968, 984, 985, 987, 986, 990, 991, 989, 988, 980, 981, 983, 982, 978, 979, 977, 976, 1008, 1009, 1011, 1010, 1014, 1015, 1013, 1012, 1020, 1021, 1023, 1022, 1018, 1019, 1017, 1016, 1000, 1001, 1003, 1002, 1006, 1007, 1005, 1004, 996, 997, 999, 998, 994, 995, 993, 992, 928, 929, 931, 930, 934, 935, 933, 932, 940, 941, 943, 942, 938, 939, 937, 936, 952, 953, 955, 954, 958, 959, 957, 956, 948, 949, 951, 950, 946, 947, 945, 944, 912, 913, 915, 914, 918, 919, 917, 916, 924, 925, 927, 926, 922, 923, 921, 920, 904, 905, 907, 906, 910, 911, 909, 908, 900, 901, 903, 902, 898, 899, 897, 896, 640, 641, 643, 642, 646, 647, 645, 644, 652, 653, 655, 654, 650, 651, 649, 648, 664, 665, 667, 666, 670, 671, 669, 668, 660, 661, 663, 662, 658, 659, 657, 656, 688, 689, 691, 690, 694, 695, 693, 692, 700, 701, 703, 702, 698, 699, 697, 696, 680, 681, 683, 682, 686, 687, 685, 684, 676, 677, 679, 678, 674, 675, 673, 672, 736, 737, 739, 738, 742, 743, 741, 740, 748, 749, 751, 750, 746, 747, 745, 744, 760, 761, 763, 762, 766, 767, 765, 764, 756, 757, 759, 758, 754, 755, 753, 752, 720, 721, 723, 722, 726, 727, 725, 724, 732, 733, 735, 734, 730, 731, 729, 728, 712, 713, 715, 714, 718, 719, 717, 716, 708, 709, 711, 710, 706, 707, 705, 704, 576, 577, 579, 578, 582, 583, 581, 580, 588, 589, 591, 590, 586, 587, 585, 584, 600, 601, 603, 602, 606, 607, 605, 604, 596, 597, 599, 598, 594, 595, 593, 592, 624, 625, 627, 626, 630, 631, 629, 628, 636, 637, 639, 638, 634, 635, 633, 632, 616, 617, 619, 618, 622, 623, 621, 620, 612, 613, 615, 614, 610, 611, 609, 608, 544, 545, 547, 546, 550, 551, 549, 548, 556, 557, 559, 558, 554, 555, 553, 552, 568, 569, 571, 570, 574, 575, 573, 572, 564, 565, 567, 566, 562, 563, 561, 560, 528, 529, 531, 530, 534, 535, 533, 532, 540, 541, 543, 542, 538, 539, 537, 536, 520, 521, 523, 522, 526, 527, 525, 524, 516, 517, 519, 518, 514, 515, 513, 512, 1536, 1537, 1539, 1538, 1542, 1543, 1541, 1540, 1548, 1549, 1551, 1550, 1546, 1547, 1545, 1544, 1560, 1561, 1563, 1562, 1566, 1567, 1565, 1564, 1556, 1557, 1559, 1558, 1554, 1555, 1553, 1552, 1584, 1585, 1587, 1586, 1590, 1591, 1589, 1588, 1596, 1597, 1599, 1598, 1594, 1595, 1593, 1592, 1576, 1577, 1579, 1578, 1582, 1583, 1581, 1580, 1572, 1573, 1575, 1574, 1570, 1571, 1569, 1568, 1632, 1633, 1635, 1634, 1638, 1639, 1637, 1636, 1644, 1645, 1647, 1646, 1642, 1643, 1641, 1640, 1656, 1657, 1659, 1658, 1662, 1663, 1661, 1660, 1652, 1653, 1655, 1654, 1650, 1651, 1649, 1648, 1616, 1617, 1619, 1618, 1622, 1623, 1621, 1620, 1628, 1629, 1631, 1630, 1626, 1627, 1625, 1624, 1608, 1609, 1611, 1610, 1614, 1615, 1613, 1612, 1604, 1605, 1607, 1606, 1602, 1603, 1601, 1600, 1728, 1729, 1731, 1730, 1734, 1735, 1733, 1732, 1740, 1741, 1743, 1742, 1738, 1739, 1737, 1736, 1752, 1753, 1755, 1754, 1758, 1759, 1757, 1756, 1748, 1749, 1751, 1750, 1746, 1747, 1745, 1744, 1776, 1777, 1779, 1778, 1782, 1783, 1781, 1780, 1788, 1789, 1791, 1790, 1786, 1787, 1785, 1784, 1768, 1769, 1771, 1770, 1774, 1775, 1773, 1772, 1764, 1765, 1767, 1766, 1762, 1763, 1761, 1760, 1696, 1697, 1699, 1698, 1702, 1703, 1701, 1700, 1708, 1709, 1711, 1710, 1706, 1707, 1705, 1704, 1720, 1721, 1723, 1722, 1726, 1727, 1725, 1724, 1716, 1717, 1719, 1718, 1714, 1715, 1713, 1712, 1680, 1681, 1683, 1682, 1686, 1687, 1685, 1684, 1692, 1693, 1695, 1694, 1690, 1691, 1689, 1688, 1672, 1673, 1675, 1674, 1678, 1679, 1677, 1676, 1668, 1669, 1671, 1670, 1666, 1667, 1665, 1664, 1920, 1921, 1923, 1922, 1926, 1927, 1925, 1924, 1932, 1933, 1935, 1934, 1930, 1931, 1929, 1928, 1944, 1945, 1947, 1946, 1950, 1951, 1949, 1948, 1940, 1941, 1943, 1942, 1938, 1939, 1937, 1936, 1968, 1969, 1971, 1970, 1974, 1975, 1973, 1972, 1980, 1981, 1983, 1982, 1978, 1979, 1977, 1976, 1960, 1961, 1963, 1962, 1966, 1967, 1965, 1964, 1956, 1957, 1959, 1958, 1954, 1955, 1953, 1952, 2016, 2017, 2019, 2018, 2022, 2023, 2021, 2020, 2028, 2029, 2031, 2030, 2026, 2027, 2025, 2024, 2040, 2041, 2043, 2042, 2046, 2047, 2045, 2044, 2036, 2037, 2039, 2038, 2034, 2035, 2033, 2032, 2000, 2001, 2003, 2002, 2006, 2007, 2005, 2004, 2012, 2013, 2015, 2014, 2010, 2011, 2009, 2008, 1992, 1993, 1995, 1994, 1998, 1999, 1997, 1996, 1988, 1989, 1991, 1990, 1986, 1987, 1985, 1984, 1856, 1857, 1859, 1858, 1862, 1863, 1861, 1860, 1868, 1869, 1871, 1870, 1866, 1867, 1865, 1864, 1880, 1881, 1883, 1882, 1886, 1887, 1885, 1884, 1876, 1877, 1879, 1878, 1874, 1875, 1873, 1872, 1904, 1905, 1907, 1906, 1910, 1911, 1909, 1908, 1916, 1917, 1919, 1918, 1914, 1915, 1913, 1912, 1896, 1897, 1899, 1898, 1902, 1903, 1901, 1900, 1892, 1893, 1895, 1894, 1890, 1891, 1889, 1888, 1824, 1825, 1827, 1826, 1830, 1831, 1829, 1828, 1836, 1837, 1839, 1838, 1834, 1835, 1833, 1832, 1848, 1849, 1851, 1850, 1854, 1855, 1853, 1852, 1844, 1845, 1847, 1846, 1842, 1843, 1841, 1840, 1808, 1809, 1811, 1810, 1814, 1815, 1813, 1812, 1820, 1821, 1823, 1822, 1818, 1819, 1817, 1816, 1800, 1801, 1803, 1802, 1806, 1807, 1805, 1804, 1796, 1797, 1799, 1798, 1794, 1795, 1793, 1792, 1280, 1281, 1283, 1282, 1286, 1287, 1285, 1284, 1292, 1293, 1295, 1294, 1290, 1291, 1289, 1288, 1304, 1305, 1307, 1306, 1310, 1311, 1309, 1308, 1300, 1301, 1303, 1302, 1298, 1299, 1297, 1296, 1328, 1329, 1331, 1330, 1334, 1335, 1333, 1332, 1340, 1341, 1343, 1342, 1338, 1339, 1337, 1336, 1320, 1321, 1323, 1322, 1326, 1327, 1325, 1324, 1316, 1317, 1319, 1318, 1314, 1315, 1313, 1312, 1376, 1377, 1379, 1378, 1382, 1383, 1381, 1380, 1388, 1389, 1391, 1390, 1386, 1387, 1385, 1384, 1400, 1401, 1403, 1402, 1406, 1407, 1405, 1404, 1396, 1397, 1399, 1398, 1394, 1395, 1393, 1392, 1360, 1361, 1363, 1362, 1366, 1367, 1365, 1364, 1372, 1373, 1375, 1374, 1370, 1371, 1369, 1368, 1352, 1353, 1355, 1354, 1358, 1359, 1357, 1356, 1348, 1349, 1351, 1350, 1346, 1347, 1345, 1344, 1472, 1473, 1475, 1474, 1478, 1479, 1477, 1476, 1484, 1485, 1487, 1486, 1482, 1483, 1481, 1480, 1496, 1497, 1499, 1498, 1502, 1503, 1501, 1500, 1492, 1493, 1495, 1494, 1490, 1491, 1489, 1488, 1520, 1521, 1523, 1522, 1526, 1527, 1525, 1524, 1532, 1533, 1535, 1534, 1530, 1531, 1529, 1528, 1512, 1513, 1515, 1514, 1518, 1519, 1517, 1516, 1508, 1509, 1511, 1510, 1506, 1507, 1505, 1504, 1440, 1441, 1443, 1442, 1446, 1447, 1445, 1444, 1452, 1453, 1455, 1454, 1450, 1451, 1449, 1448, 1464, 1465, 1467, 1466, 1470, 1471, 1469, 1468, 1460, 1461, 1463, 1462, 1458, 1459, 1457, 1456, 1424, 1425, 1427, 1426, 1430, 1431, 1429, 1428, 1436, 1437, 1439, 1438, 1434, 1435, 1433, 1432, 1416, 1417, 1419, 1418, 1422, 1423, 1421, 1420, 1412, 1413, 1415, 1414, 1410, 1411, 1409, 1408, 1152, 1153, 1155, 1154, 1158, 1159, 1157, 1156, 1164, 1165, 1167, 1166, 1162, 1163, 1161, 1160, 1176, 1177, 1179, 1178, 1182, 1183, 1181, 1180, 1172, 1173, 1175, 1174, 1170, 1171, 1169, 1168, 1200, 1201, 1203, 1202, 1206, 1207, 1205, 1204, 1212, 1213, 1215, 1214, 1210, 1211, 1209, 1208, 1192, 1193, 1195, 1194, 1198, 1199, 1197, 1196, 1188, 1189, 1191, 1190, 1186, 1187, 1185, 1184, 1248, 1249, 1251, 1250, 1254, 1255, 1253, 1252, 1260, 1261, 1263, 1262, 1258, 1259, 1257, 1256, 1272, 1273, 1275, 1274, 1278, 1279, 1277, 1276, 1268, 1269, 1271, 1270, 1266, 1267, 1265, 1264, 1232, 1233, 1235, 1234, 1238, 1239, 1237, 1236, 1244, 1245, 1247, 1246, 1242, 1243, 1241, 1240, 1224, 1225, 1227, 1226, 1230, 1231, 1229, 1228, 1220, 1221, 1223, 1222, 1218, 1219, 1217, 1216, 1088, 1089, 1091, 1090, 1094, 1095, 1093, 1092, 1100, 1101, 1103, 1102, 1098, 1099, 1097, 1096, 1112, 1113, 1115, 1114, 1118, 1119, 1117, 1116, 1108, 1109, 1111, 1110, 1106, 1107, 1105, 1104, 1136, 1137, 1139, 1138, 1142, 1143, 1141, 1140, 1148, 1149, 1151, 1150, 1146, 1147, 1145, 1144, 1128, 1129, 1131, 1130, 1134, 1135, 1133, 1132, 1124, 1125, 1127, 1126, 1122, 1123, 1121, 1120, 1056, 1057, 1059, 1058, 1062, 1063, 1061, 1060, 1068, 1069, 1071, 1070, 1066, 1067, 1065, 1064, 1080, 1081, 1083, 1082, 1086, 1087, 1085, 1084, 1076, 1077, 1079, 1078, 1074, 1075, 1073, 1072, 1040, 1041, 1043, 1042, 1046, 1047, 1045, 1044, 1052, 1053, 1055, 1054, 1050, 1051, 1049, 1048, 1032, 1033, 1035, 1034, 1038, 1039, 1037, 1036, 1028, 1029, 1031, 1030, 1026, 1027, 1025, 1024, 3072, 3073, 3075, 3074, 3078, 3079, 3077, 3076, 3084, 3085, 3087, 3086, 3082, 3083, 3081, 3080, 3096, 3097, 3099, 3098, 3102, 3103, 3101, 3100, 3092, 3093, 3095, 3094, 3090, 3091, 3089, 3088, 3120, 3121, 3123, 3122, 3126, 3127, 3125, 3124, 3132, 3133, 3135, 3134, 3130, 3131, 3129, 3128, 3112, 3113, 3115, 3114, 3118, 3119, 3117, 3116, 3108, 3109, 3111, 3110, 3106, 3107, 3105, 3104, 3168, 3169, 3171, 3170, 3174, 3175, 3173, 3172, 3180, 3181, 3183, 3182, 3178, 3179, 3177, 3176, 3192, 3193, 3195, 3194, 3198, 3199, 3197, 3196, 3188, 3189, 3191, 3190, 3186, 3187, 3185, 3184, 3152, 3153, 3155, 3154, 3158, 3159, 3157, 3156, 3164, 3165, 3167, 3166, 3162, 3163, 3161, 3160, 3144, 3145, 3147, 3146, 3150, 3151, 3149, 3148, 3140, 3141, 3143, 3142, 3138, 3139, 3137, 3136, 3264, 3265, 3267, 3266, 3270, 3271, 3269, 3268, 3276, 3277, 3279, 3278, 3274, 3275, 3273, 3272, 3288, 3289, 3291, 3290, 3294, 3295, 3293, 3292, 3284, 3285, 3287, 3286, 3282, 3283, 3281, 3280, 3312, 3313, 3315, 3314, 3318, 3319, 3317, 3316, 3324, 3325, 3327, 3326, 3322, 3323, 3321, 3320, 3304, 3305, 3307, 3306, 3310, 3311, 3309, 3308, 3300, 3301, 3303, 3302, 3298, 3299, 3297, 3296, 3232, 3233, 3235, 3234, 3238, 3239, 3237, 3236, 3244, 3245, 3247, 3246, 3242, 3243, 3241, 3240, 3256, 3257, 3259, 3258, 3262, 3263, 3261, 3260, 3252, 3253, 3255, 3254, 3250, 3251, 3249, 3248, 3216, 3217, 3219, 3218, 3222, 3223, 3221, 3220, 3228, 3229, 3231, 3230, 3226, 3227, 3225, 3224, 3208, 3209, 3211, 3210, 3214, 3215, 3213, 3212, 3204, 3205, 3207, 3206, 3202, 3203, 3201, 3200, 3456, 3457, 3459, 3458, 3462, 3463, 3461, 3460, 3468, 3469, 3471, 3470, 3466, 3467, 3465, 3464, 3480, 3481, 3483, 3482, 3486, 3487, 3485, 3484, 3476, 3477, 3479, 3478, 3474, 3475, 3473, 3472, 3504, 3505, 3507, 3506, 3510, 3511, 3509, 3508, 3516, 3517, 3519, 3518, 3514, 3515, 3513, 3512, 3496, 3497, 3499, 3498, 3502, 3503, 3501, 3500, 3492, 3493, 3495, 3494, 3490, 3491, 3489, 3488, 3552, 3553, 3555, 3554, 3558, 3559, 3557, 3556, 3564, 3565, 3567, 3566, 3562, 3563, 3561, 3560, 3576, 3577, 3579, 3578, 3582, 3583, 3581, 3580, 3572, 3573, 3575, 3574, 3570, 3571, 3569, 3568, 3536, 3537, 3539, 3538, 3542, 3543, 3541, 3540, 3548, 3549, 3551, 3550, 3546, 3547, 3545, 3544, 3528, 3529, 3531, 3530, 3534, 3535, 3533, 3532, 3524, 3525, 3527, 3526, 3522, 3523, 3521, 3520, 3392, 3393, 3395, 3394, 3398, 3399, 3397, 3396, 3404, 3405, 3407, 3406, 3402, 3403, 3401, 3400, 3416, 3417, 3419, 3418, 3422, 3423, 3421, 3420, 3412, 3413, 3415, 3414, 3410, 3411, 3409, 3408, 3440, 3441, 3443, 3442, 3446, 3447, 3445, 3444, 3452, 3453, 3455, 3454, 3450, 3451, 3449, 3448, 3432, 3433, 3435, 3434, 3438, 3439, 3437, 3436, 3428, 3429, 3431, 3430, 3426, 3427, 3425, 3424, 3360, 3361, 3363, 3362, 3366, 3367, 3365, 3364, 3372, 3373, 3375, 3374, 3370, 3371, 3369, 3368, 3384, 3385, 3387, 3386, 3390, 3391, 3389, 3388, 3380, 3381, 3383, 3382, 3378, 3379, 3377, 3376, 3344, 3345, 3347, 3346, 3350, 3351, 3349, 3348, 3356, 3357, 3359, 3358, 3354, 3355, 3353, 3352, 3336, 3337, 3339, 3338, 3342, 3343, 3341, 3340, 3332, 3333, 3335, 3334, 3330, 3331, 3329, 3328, 3840, 3841, 3843, 3842, 3846, 3847, 3845, 3844, 3852, 3853, 3855, 3854, 3850, 3851, 3849, 3848, 3864, 3865, 3867, 3866, 3870, 3871, 3869, 3868, 3860, 3861, 3863, 3862, 3858, 3859, 3857, 3856, 3888, 3889, 3891, 3890, 3894, 3895, 3893, 3892, 3900, 3901, 3903, 3902, 3898, 3899, 3897, 3896, 3880, 3881, 3883, 3882, 3886, 3887, 3885, 3884, 3876, 3877, 3879, 3878, 3874, 3875, 3873, 3872, 3936, 3937, 3939, 3938, 3942, 3943, 3941, 3940, 3948, 3949, 3951, 3950, 3946, 3947, 3945, 3944, 3960, 3961, 3963, 3962, 3966, 3967, 3965, 3964, 3956, 3957, 3959, 3958, 3954, 3955, 3953, 3952, 3920, 3921, 3923, 3922, 3926, 3927, 3925, 3924, 3932, 3933, 3935, 3934, 3930, 3931, 3929, 3928, 3912, 3913, 3915, 3914, 3918, 3919, 3917, 3916, 3908, 3909, 3911, 3910, 3906, 3907, 3905, 3904, 4032, 4033, 4035, 4034, 4038, 4039, 4037, 4036, 4044, 4045, 4047, 4046, 4042, 4043, 4041, 4040, 4056, 4057, 4059, 4058, 4062, 4063, 4061, 4060, 4052, 4053, 4055, 4054, 4050, 4051, 4049, 4048, 4080, 4081, 4083, 4082, 4086, 4087, 4085, 4084, 4092, 4093, 4095, 4094, 4090, 4091, 4089, 4088, 4072, 4073, 4075, 4074, 4078, 4079, 4077, 4076, 4068, 4069, 4071, 4070, 4066, 4067, 4065, 4064, 4000, 4001, 4003, 4002, 4006, 4007, 4005, 4004, 4012, 4013, 4015, 4014, 4010, 4011, 4009, 4008, 4024, 4025, 4027, 4026, 4030, 4031, 4029, 4028, 4020, 4021, 4023, 4022, 4018, 4019, 4017, 4016, 3984, 3985, 3987, 3986, 3990, 3991, 3989, 3988, 3996, 3997, 3999, 3998, 3994, 3995, 3993, 3992, 3976, 3977, 3979, 3978, 3982, 3983, 3981, 3980, 3972, 3973, 3975, 3974, 3970, 3971, 3969, 3968, 3712, 3713, 3715, 3714, 3718, 3719, 3717, 3716, 3724, 3725, 3727, 3726, 3722, 3723, 3721, 3720, 3736, 3737, 3739, 3738, 3742, 3743, 3741, 3740, 3732, 3733, 3735, 3734, 3730, 3731, 3729, 3728, 3760, 3761, 3763, 3762, 3766, 3767, 3765, 3764, 3772, 3773, 3775, 3774, 3770, 3771, 3769, 3768, 3752, 3753, 3755, 3754, 3758, 3759, 3757, 3756, 3748, 3749, 3751, 3750, 3746, 3747, 3745, 3744, 3808, 3809, 3811, 3810, 3814, 3815, 3813, 3812, 3820, 3821, 3823, 3822, 3818, 3819, 3817, 3816, 3832, 3833, 3835, 3834, 3838, 3839, 3837, 3836, 3828, 3829, 3831, 3830, 3826, 3827, 3825, 3824, 3792, 3793, 3795, 3794, 3798, 3799, 3797, 3796, 3804, 3805, 3807, 3806, 3802, 3803, 3801, 3800, 3784, 3785, 3787, 3786, 3790, 3791, 3789, 3788, 3780, 3781, 3783, 3782, 3778, 3779, 3777, 3776, 3648, 3649, 3651, 3650, 3654, 3655, 3653, 3652, 3660, 3661, 3663, 3662, 3658, 3659, 3657, 3656, 3672, 3673, 3675, 3674, 3678, 3679, 3677, 3676, 3668, 3669, 3671, 3670, 3666, 3667, 3665, 3664, 3696, 3697, 3699, 3698, 3702, 3703, 3701, 3700, 3708, 3709, 3711, 3710, 3706, 3707, 3705, 3704, 3688, 3689, 3691, 3690, 3694, 3695, 3693, 3692, 3684, 3685, 3687, 3686, 3682, 3683, 3681, 3680, 3616, 3617, 3619, 3618, 3622, 3623, 3621, 3620, 3628, 3629, 3631, 3630, 3626, 3627, 3625, 3624, 3640, 3641, 3643, 3642, 3646, 3647, 3645, 3644, 3636, 3637, 3639, 3638, 3634, 3635, 3633, 3632, 3600, 3601, 3603, 3602, 3606, 3607, 3605, 3604, 3612, 3613, 3615, 3614, 3610, 3611, 3609, 3608, 3592, 3593, 3595, 3594, 3598, 3599, 3597, 3596, 3588, 3589, 3591, 3590, 3586, 3587, 3585, 3584, 2560, 2561, 2563, 2562, 2566, 2567, 2565, 2564, 2572, 2573, 2575, 2574, 2570, 2571, 2569, 2568, 2584, 2585, 2587, 2586, 2590, 2591, 2589, 2588, 2580, 2581, 2583, 2582, 2578, 2579, 2577, 2576, 2608, 2609, 2611, 2610, 2614, 2615, 2613, 2612, 2620, 2621, 2623, 2622, 2618, 2619, 2617, 2616, 2600, 2601, 2603, 2602, 2606, 2607, 2605, 2604, 2596, 2597, 2599, 2598, 2594, 2595, 2593, 2592, 2656, 2657, 2659, 2658, 2662, 2663, 2661, 2660, 2668, 2669, 2671, 2670, 2666, 2667, 2665, 2664, 2680, 2681, 2683, 2682, 2686, 2687, 2685, 2684, 2676, 2677, 2679, 2678, 2674, 2675, 2673, 2672, 2640, 2641, 2643, 2642, 2646, 2647, 2645, 2644, 2652, 2653, 2655, 2654, 2650, 2651, 2649, 2648, 2632, 2633, 2635, 2634, 2638, 2639, 2637, 2636, 2628, 2629, 2631, 2630, 2626, 2627, 2625, 2624, 2752, 2753, 2755, 2754, 2758, 2759, 2757, 2756, 2764, 2765, 2767, 2766, 2762, 2763, 2761, 2760, 2776, 2777, 2779, 2778, 2782, 2783, 2781, 2780, 2772, 2773, 2775, 2774, 2770, 2771, 2769, 2768, 2800, 2801, 2803, 2802, 2806, 2807, 2805, 2804, 2812, 2813, 2815, 2814, 2810, 2811, 2809, 2808, 2792, 2793, 2795, 2794, 2798, 2799, 2797, 2796, 2788, 2789, 2791, 2790, 2786, 2787, 2785, 2784, 2720, 2721, 2723, 2722, 2726, 2727, 2725, 2724, 2732, 2733, 2735, 2734, 2730, 2731, 2729, 2728, 2744, 2745, 2747, 2746, 2750, 2751, 2749, 2748, 2740, 2741, 2743, 2742, 2738, 2739, 2737, 2736, 2704, 2705, 2707, 2706, 2710, 2711, 2709, 2708, 2716, 2717, 2719, 2718, 2714, 2715, 2713, 2712, 2696, 2697, 2699, 2698, 2702, 2703, 2701, 2700, 2692, 2693, 2695, 2694, 2690, 2691, 2689, 2688, 2944, 2945, 2947, 2946, 2950, 2951, 2949, 2948, 2956, 2957, 2959, 2958, 2954, 2955, 2953, 2952, 2968, 2969, 2971, 2970, 2974, 2975, 2973, 2972, 2964, 2965, 2967, 2966, 2962, 2963, 2961, 2960, 2992, 2993, 2995, 2994, 2998, 2999, 2997, 2996, 3004, 3005, 3007, 3006, 3002, 3003, 3001, 3000, 2984, 2985, 2987, 2986, 2990, 2991, 2989, 2988, 2980, 2981, 2983, 2982, 2978, 2979, 2977, 2976, 3040, 3041, 3043, 3042, 3046, 3047, 3045, 3044, 3052, 3053, 3055, 3054, 3050, 3051, 3049, 3048, 3064, 3065, 3067, 3066, 3070, 3071, 3069, 3068, 3060, 3061, 3063, 3062, 3058, 3059, 3057, 3056, 3024, 3025, 3027, 3026, 3030, 3031, 3029, 3028, 3036, 3037, 3039, 3038, 3034, 3035, 3033, 3032, 3016, 3017, 3019, 3018, 3022, 3023, 3021, 3020, 3012, 3013, 3015, 3014, 3010, 3011, 3009, 3008, 2880, 2881, 2883, 2882, 2886, 2887, 2885, 2884, 2892, 2893, 2895, 2894, 2890, 2891, 2889, 2888, 2904, 2905, 2907, 2906, 2910, 2911, 2909, 2908, 2900, 2901, 2903, 2902, 2898, 2899, 2897, 2896, 2928, 2929, 2931, 2930, 2934, 2935, 2933, 2932, 2940, 2941, 2943, 2942, 2938, 2939, 2937, 2936, 2920, 2921, 2923, 2922, 2926, 2927, 2925, 2924, 2916, 2917, 2919, 2918, 2914, 2915, 2913, 2912, 2848, 2849, 2851, 2850, 2854, 2855, 2853, 2852, 2860, 2861, 2863, 2862, 2858, 2859, 2857, 2856, 2872, 2873, 2875, 2874, 2878, 2879, 2877, 2876, 2868, 2869, 2871, 2870, 2866, 2867, 2865, 2864, 2832, 2833, 2835, 2834, 2838, 2839, 2837, 2836, 2844, 2845, 2847, 2846, 2842, 2843, 2841, 2840, 2824, 2825, 2827, 2826, 2830, 2831, 2829, 2828, 2820, 2821, 2823, 2822, 2818, 2819, 2817, 2816, 2304, 2305, 2307, 2306, 2310, 2311, 2309, 2308, 2316, 2317, 2319, 2318, 2314, 2315, 2313, 2312, 2328, 2329, 2331, 2330, 2334, 2335, 2333, 2332, 2324, 2325, 2327, 2326, 2322, 2323, 2321, 2320, 2352, 2353, 2355, 2354, 2358, 2359, 2357, 2356, 2364, 2365, 2367, 2366, 2362, 2363, 2361, 2360, 2344, 2345, 2347, 2346, 2350, 2351, 2349, 2348, 2340, 2341, 2343, 2342, 2338, 2339, 2337, 2336, 2400, 2401, 2403, 2402, 2406, 2407, 2405, 2404, 2412, 2413, 2415, 2414, 2410, 2411, 2409, 2408, 2424, 2425, 2427, 2426, 2430, 2431, 2429, 2428, 2420, 2421, 2423, 2422, 2418, 2419, 2417, 2416, 2384, 2385, 2387, 2386, 2390, 2391, 2389, 2388, 2396, 2397, 2399, 2398, 2394, 2395, 2393, 2392, 2376, 2377, 2379, 2378, 2382, 2383, 2381, 2380, 2372, 2373, 2375, 2374, 2370, 2371, 2369, 2368, 2496, 2497, 2499, 2498, 2502, 2503, 2501, 2500, 2508, 2509, 2511, 2510, 2506, 2507, 2505, 2504, 2520, 2521, 2523, 2522, 2526, 2527, 2525, 2524, 2516, 2517, 2519, 2518, 2514, 2515, 2513, 2512, 2544, 2545, 2547, 2546, 2550, 2551, 2549, 2548, 2556, 2557, 2559, 2558, 2554, 2555, 2553, 2552, 2536, 2537, 2539, 2538, 2542, 2543, 2541, 2540, 2532, 2533, 2535, 2534, 2530, 2531, 2529, 2528, 2464, 2465, 2467, 2466, 2470, 2471, 2469, 2468, 2476, 2477, 2479, 2478, 2474, 2475, 2473, 2472, 2488, 2489, 2491, 2490, 2494, 2495, 2493, 2492, 2484, 2485, 2487, 2486, 2482, 2483, 2481, 2480, 2448, 2449, 2451, 2450, 2454, 2455, 2453, 2452, 2460, 2461, 2463, 2462, 2458, 2459, 2457, 2456, 2440, 2441, 2443, 2442, 2446, 2447, 2445, 2444, 2436, 2437, 2439, 2438, 2434, 2435, 2433, 2432, 2176, 2177, 2179, 2178, 2182, 2183, 2181, 2180, 2188, 2189, 2191, 2190, 2186, 2187, 2185, 2184, 2200, 2201, 2203, 2202, 2206, 2207, 2205, 2204, 2196, 2197, 2199, 2198, 2194, 2195, 2193, 2192, 2224, 2225, 2227, 2226, 2230, 2231, 2229, 2228, 2236, 2237, 2239, 2238, 2234, 2235, 2233, 2232, 2216, 2217, 2219, 2218, 2222, 2223, 2221, 2220, 2212, 2213, 2215, 2214, 2210, 2211, 2209, 2208, 2272, 2273, 2275, 2274, 2278, 2279, 2277, 2276, 2284, 2285, 2287, 2286, 2282, 2283, 2281, 2280, 2296, 2297, 2299, 2298, 2302, 2303, 2301, 2300, 2292, 2293, 2295, 2294, 2290, 2291, 2289, 2288, 2256, 2257, 2259, 2258, 2262, 2263, 2261, 2260, 2268, 2269, 2271, 2270, 2266, 2267, 2265, 2264, 2248, 2249, 2251, 2250, 2254, 2255, 2253, 2252, 2244, 2245, 2247, 2246, 2242, 2243, 2241, 2240, 2112, 2113, 2115, 2114, 2118, 2119, 2117, 2116, 2124, 2125, 2127, 2126, 2122, 2123, 2121, 2120, 2136, 2137, 2139, 2138, 2142, 2143, 2141, 2140, 2132, 2133, 2135, 2134, 2130, 2131, 2129, 2128, 2160, 2161, 2163, 2162, 2166, 2167, 2165, 2164, 2172, 2173, 2175, 2174, 2170, 2171, 2169, 2168, 2152, 2153, 2155, 2154, 2158, 2159, 2157, 2156, 2148, 2149, 2151, 2150, 2146, 2147, 2145, 2144, 2080, 2081, 2083, 2082, 2086, 2087, 2085, 2084, 2092, 2093, 2095, 2094, 2090, 2091, 2089, 2088, 2104, 2105, 2107, 2106, 2110, 2111, 2109, 2108, 2100, 2101, 2103, 2102, 2098, 2099, 2097, 2096, 2064, 2065, 2067, 2066, 2070, 2071, 2069, 2068, 2076, 2077, 2079, 2078, 2074, 2075, 2073, 2072, 2056, 2057, 2059, 2058, 2062, 2063, 2061, 2060, 2052, 2053, 2055, 2054, 2050, 2051, 2049, 2048]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 14",
+        "expectedOutput": "Execution timed out",
+        "isHidden": true
       }
     ]
   },
@@ -2922,6 +8203,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [0]",
         "expectedOutput": "[[],[0]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,1,2,2]",
+        "expectedOutput": "[[1, 1, 2, 2], [1, 1, 2], [1, 1], [1, 2, 2], [1, 2], [1], [2, 2], [2], []]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [-1,-1,0,1,1,2]",
+        "expectedOutput": "[[-1, -1, 0, 1, 1, 2], [-1, -1, 0, 1, 1], [-1, -1, 0, 1, 2], [-1, -1, 0, 1], [-1, -1, 0, 2], [-1, -1, 0], [-1, -1, 1, 1, 2], [-1, -1, 1, 1], [-1, -1, 1, 2], [-1, -1, 1], [-1, -1, 2], [-1, -1], [-1, 0, 1, 1, 2], [-1, 0, 1, 1], [-1, 0, 1, 2], [-1, 0, 1], [-1, 0, 2], [-1, 0], [-1, 1, 1, 2], [-1, 1, 1], [-1, 1, 2], [-1, 1], [-1, 2], [-1], [0, 1, 1, 2], [0, 1, 1], [0, 1, 2], [0, 1], [0, 2], [0], [1, 1, 2], [1, 1], [1, 2], [1], [2], []]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,1,2,2,3,3]",
+        "expectedOutput": "[[1, 1, 2, 2, 3, 3], [1, 1, 2, 2, 3], [1, 1, 2, 2], [1, 1, 2, 3, 3], [1, 1, 2, 3], [1, 1, 2], [1, 1, 3, 3], [1, 1, 3], [1, 1], [1, 2, 2, 3, 3], [1, 2, 2, 3], [1, 2, 2], [1, 2, 3, 3], [1, 2, 3], [1, 2], [1, 3, 3], [1, 3], [1], [2, 2, 3, 3], [2, 2, 3], [2, 2], [2, 3, 3], [2, 3], [2], [3, 3], [3], []]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,2,3,4]",
+        "expectedOutput": "[[1, 2, 3, 4], [1, 2, 3], [1, 2, 4], [1, 2], [1, 3, 4], [1, 3], [1, 4], [1], [2, 3, 4], [2, 3], [2, 4], [2], [3, 4], [3], [4], []]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [2,1,2]",
+        "expectedOutput": "[[1, 2, 2], [1, 2], [1], [2, 2], [2], []]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,2,2]",
+        "expectedOutput": "[[1, 2, 2], [1, 2], [1], [2, 2], [2], []]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [5,5,5,5,5]",
+        "expectedOutput": "[[5, 5, 5, 5, 5], [5, 5, 5, 5], [5, 5, 5], [5, 5], [5], []]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [-1,-2,-3,-4,-5]",
+        "expectedOutput": "[[-5, -4, -3, -2, -1], [-5, -4, -3, -2], [-5, -4, -3, -1], [-5, -4, -3], [-5, -4, -2, -1], [-5, -4, -2], [-5, -4, -1], [-5, -4], [-5, -3, -2, -1], [-5, -3, -2], [-5, -3, -1], [-5, -3], [-5, -2, -1], [-5, -2], [-5, -1], [-5], [-4, -3, -2, -1], [-4, -3, -2], [-4, -3, -1], [-4, -3], [-4, -2, -1], [-4, -2], [-4, -1], [-4], [-3, -2, -1], [-3, -2], [-3, -1], [-3], [-2, -1], [-2], [-1], []]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [0,0,0,0,0]",
+        "expectedOutput": "[[0, 0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0], [0, 0], [0], []]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,2,3,4,5]",
+        "expectedOutput": "[[1, 2, 3, 4, 5], [1, 2, 3, 4], [1, 2, 3, 5], [1, 2, 3], [1, 2, 4, 5], [1, 2, 4], [1, 2, 5], [1, 2], [1, 3, 4, 5], [1, 3, 4], [1, 3, 5], [1, 3], [1, 4, 5], [1, 4], [1, 5], [1], [2, 3, 4, 5], [2, 3, 4], [2, 3, 5], [2, 3], [2, 4, 5], [2, 4], [2, 5], [2], [3, 4, 5], [3, 4], [3, 5], [3], [4, 5], [4], [5], []]",
+        "isHidden": true
       }
     ]
   },
@@ -2947,6 +8288,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"1111001111001111001111001111001111001111001111001111001111\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"2611055971756562\"",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"10011\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"11106\"",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"30\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"10101010101010101010101010101010\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"260260260260260260260260260260260260260260260260260260260\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"50633191395000636099666\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"12212212212212212212212212212212\"",
+        "expectedOutput": "3524578",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"120123\"",
+        "expectedOutput": "3",
+        "isHidden": true
       }
     ]
   },
@@ -2976,6 +8377,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "head = [5], left = 1, right = 1",
         "expectedOutput": "[5]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = [1,2,3,4,5,6,7,8,9,10], left = 3, right = 8",
+        "expectedOutput": "[1, 2, 8, 7, 6, 5, 4, 3, 9, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [1,2,3,4,5], left = 2, right = 2",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [10,20,30,40,50], left = 1, right = 3",
+        "expectedOutput": "[30, 20, 10, 40, 50]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [1,2,3], left = 1, right = 3",
+        "expectedOutput": "[3, 2, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = [1,2,3,4,5,6,7,8,9], left = 3, right = 7",
+        "expectedOutput": "[1, 2, 7, 6, 5, 4, 3, 8, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [1,2,3,4,5], left = 2, right = 3",
+        "expectedOutput": "[1, 3, 2, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [1,2,3,4,5], left = 5, right = 5",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [1,3,5,7,9], left = 2, right = 3",
+        "expectedOutput": "[1, 5, 3, 7, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [5], left = 1, right = 1",
+        "expectedOutput": "[5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [1,2,3,4,5], left = 1, right = 1",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
       }
     ]
   },
@@ -3011,6 +8472,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;101023&quot;",
         "expectedOutput": "[&quot;1.0.10.23&quot;,&quot;1.0.102.3&quot;,&quot;10.1.0.23&quot;,&quot;10.10.2.3&quot;,&quot;101.0.2.3&quot;]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"9876543210\"",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"00000000000000000000\"",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"222333444\"",
+        "expectedOutput": "['22.233.34.44', '222.33.34.44']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"0000\"",
+        "expectedOutput": "['0.0.0.0']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"25525511135\"",
+        "expectedOutput": "['255.255.11.135', '255.255.111.35']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"256256256256\"",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"010010\"",
+        "expectedOutput": "['0.10.0.10', '0.100.1.0']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"99999999999999999999\"",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"11111111111111111111\"",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"19216811\"",
+        "expectedOutput": "['1.92.168.11', '19.2.168.11', '19.21.68.11', '19.216.8.11', '19.216.81.1', '192.1.68.11', '192.16.8.11', '192.16.81.1', '192.168.1.1']",
+        "isHidden": true
       }
     ]
   },
@@ -3038,6 +8559,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [1,null,2,3]",
+        "expectedOutput": "[1, 3, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = []",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [25,15,35,10,20,30,40,5,12,null,18,28,32,null,45]",
+        "expectedOutput": "[5, 10, 12, 15, 20, 18, 25, 28, 30, 32, 35, 40, 45]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [3,1,4,null,2,null,null]",
+        "expectedOutput": "[1, 2, 3, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [10,5,15,null,null,6,20]",
+        "expectedOutput": "[5, 10, 6, 15, 20]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [10,5,15,3,7,null,18]",
+        "expectedOutput": "[3, 5, 7, 10, 15, 18]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [5,3,7,2,4,6,8,1]",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6, 7, 8]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [1,null,2,null,null,3,null,4,null,null,5]",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [8,3,10,1,6,null,14,null,null,4,7,13]",
+        "expectedOutput": "[1, 3, 4, 6, 7, 8, 10, 13, 14]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [6,2,8,0,4,7,9,null,null,3,5]",
+        "expectedOutput": "[0, 2, 3, 4, 5, 6, 7, 8, 9]",
+        "isHidden": true
       }
     ]
   },
@@ -3071,6 +8652,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 1",
         "expectedOutput": "[[1]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -3104,6 +8745,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 1",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 19",
+        "expectedOutput": "1767263190",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 10",
+        "expectedOutput": "16796",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 5",
+        "expectedOutput": "42",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 8",
+        "expectedOutput": "1430",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 15",
+        "expectedOutput": "9694845",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 12",
+        "expectedOutput": "208012",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 18",
+        "expectedOutput": "477638700",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 9",
+        "expectedOutput": "4862",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 6",
+        "expectedOutput": "132",
+        "isHidden": true
       }
     ]
   },
@@ -3139,6 +8840,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s1 = &quot;&quot;, s2 = &quot;&quot;, s3 = &quot;&quot;",
         "expectedOutput": "true"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s1 = \"\", s2 = \"b\", s3 = \"b\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s1 = \"a\", s2 = \"\", s3 = \"a\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s1 = \"abc\", s2 = \"\", s3 = \"abc\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s1 = \"aab\", s2 = \"dbbc\", s3 = \"aadbbcbc\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s1 = \"aabcc\", s2 = \"dbbca\", s3 = \"aadbbbaccc\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s1 = \"abc\", s2 = \"def\", s3 = \"defabc\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s1 = \"a\", s2 = \"a\", s3 = \"aa\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s1 = \"aaaa\", s2 = \"bbbb\", s3 = \"abababab\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s1 = \"abc\", s2 = \"def\", s3 = \"abcdef\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s1 = \"abc\", s2 = \"def\", s3 = \"abcfde\"",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -3171,6 +8932,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = [5,1,4,null,null,3,6]",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [0,-1]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [5,1,4,null,null,3,6]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [3,1,5,0,2,4,6]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [3,1,4,3,2,6,5]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [2,2,2]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [2,null,1]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [1,2]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [2147483647]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [1,null,2]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [2,1,3]",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -3203,6 +9024,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = [3,1,4,null,null,2]",
         "expectedOutput": "[2,1,4,null,null,3]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [5,1,4,null,null,3,6]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,3,null,null,2]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [3,2,1]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [5,3,9,-20,10]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [10,5,15,null,null,6,20]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [7,3,15,1,5,9,20]",
+        "expectedOutput": "Error: 'NoneType' object has no attribute 'val'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [5,3,8,1,4,7,10,0,null,null,null,null,null,null,12]",
+        "expectedOutput": "Error: 'NoneType' object has no attribute 'val'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [30,15,70,10,20,60,90,5,12,18,25,55,65,85,95]",
+        "expectedOutput": "Error: 'NoneType' object has no attribute 'val'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [7,3,10,null,null,8,12,1,null,null,9,11,13]",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -3240,6 +9121,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "p = [1,2,1], q = [1,1,2]",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "p = [1,0], q = [1,null]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "p = [1, null, 3], q = [1, null, 3]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "p = [1,2,3], q = [1,2,3]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "p = [1, 2, 3, 4, 5], q = [1, 2, 3, 4, 5]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "p = [1,null,2,null,3], q = [1,null,2,null,3]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "p = [1,null,2], q = [1,2,null]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "p = [1,2,1], q = [1,1,2]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "p = [], q = []",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "p = [1,null,3], q = [1,2,3]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "p = [5,1,4,null,null,3,6], q = [5,1,4,null,null,3,6]",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -3272,6 +9213,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = [1,2,2,null,3,null,3]",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [1,2,2,3,null,null,3]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,2,2,3,4,4,3]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [1,2,3,4,null,null,5]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [2,3,3,4,5,5,4]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [1,2]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [1,2,2,3,4,4,3,5,6,7,8,8,7,6,5]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [1,2,2,3,4,3,4]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [1,2,2,3,4,5,3]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [1,2,2,null,3,null,3]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [1]",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -3310,6 +9311,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "root = []",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = []",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,2,3,4,5,6,7]",
+        "expectedOutput": "[[1], [2, 3], [4, 5, 6, 7]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [0,2,4,1,null,3,-1,5,1,null,6,null,8]",
+        "expectedOutput": "[[0], [2, 4], [1, 3, -1], [5, 1, 6, 8]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [1,null,2,null,3,null,4,null,5]",
+        "expectedOutput": "[[1], [2], [3], [4], [5]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15,-16,-17,-18,-19]",
+        "expectedOutput": "[[0], [-1, -2], [-3, -4, -5, -6], [-7, -8, -9, -10, -11, -12, -13, -14], [-15, -16, -17, -18, -19]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [1,2,3,4,5,6,7,null,8,null,9,null,10,null,11,null,12,null,13,null,14,null,15,null,16]",
+        "expectedOutput": "[[1], [2, 3], [4, 5, 6, 7], [8, 9, 10, 11], [12, 13, 14, 15], [16]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9,null,10]",
+        "expectedOutput": "[[1], [2], [3], [4], [5], [6], [7], [8], [9], [10]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [3,9,20,10,null,null,15,7,8,11,16]",
+        "expectedOutput": "[[3], [9, 20], [10, 15], [7, 8, 11, 16]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [1,2,3,4,null,null,5]",
+        "expectedOutput": "[[1], [2, 3], [4, 5]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [1,2,3,null,4,null,5,null,null,6,null,null,7]",
+        "expectedOutput": "[[1], [2, 3], [4, 5], [6], [7]]",
+        "isHidden": true
       }
     ]
   },
@@ -3346,6 +9407,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "root = []",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [3,5,1,6,2,0,8,null,null,7,4]",
+        "expectedOutput": "[[3], [1, 5], [6, 2, 0, 8], [4, 7]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [3,9,20,null,null,15,7]",
+        "expectedOutput": "[[3], [20, 9], [15, 7]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [1]",
+        "expectedOutput": "[[1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = []",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9,null,10]",
+        "expectedOutput": "[[1], [2], [3], [4], [5], [6], [7], [8], [9], [10]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [1,null,2,null,null,null,null,3,null,null,null,null,null,4]",
+        "expectedOutput": "[[1], [2]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "[[10], [8, 9], [7, 6, 5, 4], [1, 2, 3]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [1,2,2,3,null,null,3,4,null,null,4]",
+        "expectedOutput": "[[1], [2, 2], [3, 3], [4, 4]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [1,null,3,null,null,2,null]",
+        "expectedOutput": "[[1], [3]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [10,5,15,3,7,null,18,null,null,6,9]",
+        "expectedOutput": "[[10], [15, 5], [3, 7, 18], [9, 6]]",
+        "isHidden": true
       }
     ]
   },
@@ -3378,6 +9499,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = [1,null,2]",
         "expectedOutput": "2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [1,null,2,null,3,null,4,null,5]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [1,null,3,2,null,4,5]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [1,2,3,4,null,null,5]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [3,9,20,null,null,15,7,null,null,null,8]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [1,2,2,3,3,null,null,4,4]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [1,null,2]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [1,null,null,2,null,null,3,null,null,4,null,null,5]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [0]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [3,9,20,null,null,15,7]",
+        "expectedOutput": "3",
+        "isHidden": true
       }
     ]
   },
@@ -3411,6 +9592,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "preorder = [-1], inorder = [-1]",
         "expectedOutput": "[-1]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "preorder = [1,2,4,5,3,6,7], inorder = [4,2,5,1,6,3,7]",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6, 7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "preorder = [-1], inorder = [-1]",
+        "expectedOutput": "[-1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "preorder = [1,2,3], inorder = [2,1,3]",
+        "expectedOutput": "[1, 2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "preorder = [1,2], inorder = [2,1]",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "preorder = [8,5,3,1,4,2,6,7,12,10,9,11,15,13,14,16,18,17,19], inorder = [1,3,2,4,5,7,6,8,9,10,11,12,13,14,15,16,17,18,19]",
+        "expectedOutput": "[8, 5, 12, 3, 6, 10, 15, 1, 4, 7, None, 9, 11, 13, 16, None, None, 2, None, None, None, None, None, None, None, None, 14, None, 18, None, None, None, None, 17, 19]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "preorder = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], inorder = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]",
+        "expectedOutput": "[1, None, 2, None, 3, None, 4, None, 5, None, 6, None, 7, None, 8, None, 9, None, 10, None, 11, None, 12, None, 13, None, 14, None, 15]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "preorder = [1,3,5,7,9,11,13,15,17,19,21,23,25,27,29], inorder = [1,3,5,7,9,11,13,15,17,19,21,23,25,27,29]",
+        "expectedOutput": "[1, None, 3, None, 5, None, 7, None, 9, None, 11, None, 13, None, 15, None, 17, None, 19, None, 21, None, 23, None, 25, None, 27, None, 29]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "preorder = [8,3,1,6,4,7,10,14,13], inorder = [1,3,4,6,7,8,10,13,14]",
+        "expectedOutput": "[8, 3, 10, 1, 6, None, 14, None, None, 4, 7, 13]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "preorder = [20,10,5,3,2,1,7,6,15,12,11,14,18,16,17,25,22,21,23,27,26,28,29], inorder = [1,2,3,5,6,7,10,11,12,14,15,16,17,18,20,21,22,23,25,26,27,28,29]",
+        "expectedOutput": "[20, 10, 25, 5, 15, 22, 27, 3, 7, 12, 18, 21, 23, 26, 28, 2, None, 6, None, 11, 14, 16, None, None, None, None, None, None, None, None, 29, 1, None, None, None, None, None, None, None, None, 17]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "preorder = [150,75,30,15,25,60,45,55,90,80,120,110,130,200,175,160,180,225,210,230], inorder = [15,25,30,45,55,60,75,80,90,110,120,130,150,160,175,180,200,210,225,230]",
+        "expectedOutput": "[150, 75, 200, 30, 90, 175, 225, 15, 60, 80, 120, 160, 180, 210, 230, None, 25, 45, None, None, None, 110, 130, None, None, None, None, None, None, None, None, None, None, None, 55]",
+        "isHidden": true
       }
     ]
   },
@@ -3444,6 +9685,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "inorder = [-1], postorder = [-1]",
         "expectedOutput": "[-1]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "inorder = [3,2,1], postorder = [3,2,1]",
+        "expectedOutput": "[1, 2, None, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "inorder = [1,2,3,4,5], postorder = [1,2,5,4,3]",
+        "expectedOutput": "[3, 2, 4, 1, None, None, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "inorder = [1,2,3,4], postorder = [1,2,4,3]",
+        "expectedOutput": "[3, 2, 4, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "inorder = [1,2,3,4,5,6,7], postorder = [1,3,2,5,7,6,4]",
+        "expectedOutput": "[4, 2, 6, 1, 3, 5, 7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "inorder = [9,3,15,20,7], postorder = [9,15,7,20,3]",
+        "expectedOutput": "[3, 9, 20, None, None, 15, 7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "inorder = [4,2,5,1,6,3,7], postorder = [4,5,2,6,7,3,1]",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6, 7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "inorder = [2,1,3,5,4,8,6,7,9,11,10,13,12,14,15], postorder = [2,5,3,1,11,10,13,9,8,15,14,7,6,4,1]",
+        "expectedOutput": "Error: maximum recursion depth exceeded",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "inorder = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20], postorder = [1,2,4,3,6,8,10,9,7,5,12,14,16,17,15,13,11,18,20,19]",
+        "expectedOutput": "[19, 18, 20, 11, None, None, None, 5, 13, 3, 7, 12, 15, 2, 4, 6, 9, None, None, 14, 17, 1, None, None, None, None, None, 8, 10, None, None, 16]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "inorder = [7,10,4,3,1,2,8,11,5,9,6], postorder = [7,10,4,3,11,8,9,5,6,2,1]",
+        "expectedOutput": "[1, 3, 2, 4, None, None, 6, 10, None, 5, None, 7, None, 8, 9, None, None, None, 11]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "inorder = [5,4,8,7,10,9,1,3,6,2], postorder = [5,8,10,9,7,4,6,3,2,1]",
+        "expectedOutput": "[1, 4, 2, 5, 7, 3, None, None, None, 8, 9, None, 6, None, None, 10]",
+        "isHidden": true
       }
     ]
   },
@@ -3480,6 +9781,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "root = []",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = []",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,2,3,4,5,6,7]",
+        "expectedOutput": "[[4, 5, 6, 7], [2, 3], [1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [0,2,4,1,null,3,-1,5,1,null,6,null,8]",
+        "expectedOutput": "[[5, 1, 6, 8], [1, 3, -1], [2, 4], [0]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [1,null,2,null,3,null,4,null,5]",
+        "expectedOutput": "[[5], [4], [3], [2], [1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [3,1,4,null,2]",
+        "expectedOutput": "[[2], [1, 4], [3]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [3,9,20,8,null,15,7,4,5,null,null,6]",
+        "expectedOutput": "[[4, 5, 6], [8, 15, 7], [9, 20], [3]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9,null,10]",
+        "expectedOutput": "[[10], [9], [8], [7], [6], [5], [4], [3], [2], [1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [1,2,3,4,5,null,6,7,null,null,null,null,8]",
+        "expectedOutput": "[[7, 8], [4, 5, 6], [2, 3], [1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [1,null,2,null,3,null,4,null,5,null,6]",
+        "expectedOutput": "[[6], [5], [4], [3], [2], [1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [1,2,3,4,null,null,5]",
+        "expectedOutput": "[[4, 5], [2, 3], [1]]",
+        "isHidden": true
       }
     ]
   },
@@ -3513,6 +9874,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1,3]",
         "expectedOutput": "[3,1]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [-10,-3,0,5,9]",
+        "expectedOutput": "[0, -10, 5, None, -3, None, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [-1,0,1,2]",
+        "expectedOutput": "[0, -1, 1, None, None, None, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [-1,-2,-3,-4,-5]",
+        "expectedOutput": "[-3, -1, -4, None, -2, None, -5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,2,3,4,5,6,7]",
+        "expectedOutput": "[4, 2, 6, 1, 3, 5, 7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [-1,0,1]",
+        "expectedOutput": "[0, -1, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [-10,-5,0,5,10,15,20]",
+        "expectedOutput": "[5, -5, 15, -10, 0, 10, 20]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97]",
+        "expectedOutput": "[49, 21, 73, 9, 33, 61, 85, 1, 13, 25, 41, 53, 65, 77, 93, None, 5, None, 17, None, 29, 37, 45, None, 57, None, 69, None, 81, 89, 97]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31]",
+        "expectedOutput": "[15, 7, 23, 3, 11, 19, 27, 1, 5, 9, 13, 17, 21, 25, 29, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, 31]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [-20, -15, -10, -5, 0, 5, 10, 15, 20]",
+        "expectedOutput": "[0, -15, 10, -20, -10, 5, 15, None, None, None, -5, None, None, None, 20]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49]",
+        "expectedOutput": "[24, 11, 37, 5, 17, 30, 43, 2, 8, 14, 20, 27, 33, 40, 46, 0, 3, 6, 9, 12, 15, 18, 22, 25, 28, 31, 35, 38, 41, 44, 48, None, 1, None, 4, None, 7, None, 10, None, 13, None, 16, None, 19, 21, 23, None, 26, None, 29, None, 32, 34, 36, None, 39, None, 42, None, 45, 47, 49]",
+        "isHidden": true
       }
     ]
   },
@@ -3546,6 +9967,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "head = []",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = [-10,-5,0,5,10]",
+        "expectedOutput": "[0, -10, 5, None, -5, None, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [0,1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "[5, 2, 8, 0, 3, 6, 9, None, 1, None, 4, None, 7, None, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [-10,-3,0,5,9]",
+        "expectedOutput": "[0, -10, 5, None, -3, None, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = []",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = [1]",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [1,3]",
+        "expectedOutput": "[1, None, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [-1, 1, -2, 2, -3, 3, -4, 4, -5, 5, -6, 6, -7, 7, -8, 8, -9, 9, -10, 10]",
+        "expectedOutput": "[5, -3, -8, 1, -4, 6, 9, -1, -2, 3, 4, -6, -7, 8, -10, None, None, None, 2, None, None, None, -5, None, None, None, 7, None, -9, None, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500]",
+        "expectedOutput": "[800, 400, 1200, 200, 600, 1000, 1400, 100, 300, 500, 700, 900, 1100, 1300, 1500]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]",
+        "expectedOutput": "[7, 0, 14, -3, 3, 10, 17, -5, -2, 1, 5, 8, 12, 15, 19, None, -4, None, -1, None, 2, 4, 6, None, 9, 11, 13, None, 16, 18, 20]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [-3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]",
+        "expectedOutput": "[3, -1, 6, -3, 1, 4, 8, None, -2, 0, 2, None, 5, 7, 9]",
+        "isHidden": true
       }
     ]
   },
@@ -3582,6 +10063,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "root = []",
         "expectedOutput": "true"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [1,2,2,3,null,null,3,4,4,4,4]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,2,2,3,4,4,3]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [1,2,2,3,3,null,null,4,4]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [1,null,2,null,3]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [1,2,3,null,4,null,5,null,6]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [1,2,2,3,null,null,3,4,4,null,null,4,4]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [3,9,20,null,null,15,7]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [1]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = []",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [1,2,2,3,3,3,3,4,4,4,4,5,5,5,5]",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -3614,6 +10155,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = [2,null,3,null,4,null,5,null,6]",
         "expectedOutput": "5"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [1,null,2,null,3,null,4,null,5]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [0,1,2,3,4,5,6,7,8,9]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [2,null,3,null,4,null,5,null,6]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [1,2,3,4,null,null,5]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [1,2]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [1,2,3,4,5,null,null,6,7,null,8,null,null,9,10]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [0]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [3,9,20,null,null,15,7]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = []",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -3651,6 +10252,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "root = [], targetSum = 0",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [1,-2,-3,1,3,-2,null,-1], targetSum = 3",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,2], targetSum = 3",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [1,2,3], targetSum = 5",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [1,2], targetSum = 1",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [-2,null,-3], targetSum = -5",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [1,2,3,null,null,4,5], targetSum = 10",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [100,50,150,25,75,125,175,10,40,60,90,110,140,160,190], targetSum = 400",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 26",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], targetSum = 30",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -3688,6 +10349,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "root = [1,2], targetSum = 0",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [0,1,1], targetSum = 1",
+        "expectedOutput": "[[0, 1], [0, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], targetSum = 45",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [1,null,2,null,3,null,4,null,5,null,6], targetSum = 21",
+        "expectedOutput": "[[1, 2, 3, 4, 5, 6]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [-2,null,-3], targetSum = -5",
+        "expectedOutput": "[[-2, -3]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [1,2,3,4,5,6,7], targetSum = 15",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [1,2,3], targetSum = 5",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [1,-2,-3,1,3,-2,null,-1,-1], targetSum = -1",
+        "expectedOutput": "[[1, -2, 1, -1], [1, -2, 1, -1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 27",
+        "expectedOutput": "[[5, 4, 11, 7]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [1,2,null,3,null,4,null,5,null,6], targetSum = 15",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8",
+        "expectedOutput": "[]",
+        "isHidden": true
       }
     ]
   },
@@ -3728,6 +10449,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "root = [0]",
         "expectedOutput": "[0]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [1,2,3,4]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,null,2,null,3,null,4,null,5,null,6]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [1,2,3,null,4,null,5,null,6]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [1,2,3,4,5,null,7]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [1,2]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [1,null,null,2,null,3,null,4]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [1,null,2]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [1,2,null,3,null,4,null,5,null,6,null,7]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [0]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [1,2,5,3,4,null,6]",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -3758,6 +10539,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = &quot;babgbag&quot;, t = &quot;bag&quot;",
         "expectedOutput": "5"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"rabbbit\", t = \"rabbit\"",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"aaa\", t = \"a\"",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"\", t = \"abc\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"mississippi\", t = \"isip\"",
+        "expectedOutput": "16",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"aaaaa\", t = \"aa\"",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"abcde\", t = \"ae\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"abcde\", t = \"\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"abcd\", t = \"ab\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"a\", t = \"a\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"abcdabcabc\", t = \"abc\"",
+        "expectedOutput": "10",
+        "isHidden": true
       }
     ]
   },
@@ -3791,6 +10632,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = []",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -3824,6 +10725,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = []",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -3854,6 +10815,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "numRows = 1",
         "expectedOutput": "[[1]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "numRows = 1",
+        "expectedOutput": "[[1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "numRows = 5",
+        "expectedOutput": "[[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "numRows = 30",
+        "expectedOutput": "[[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1], [1, 5, 10, 10, 5, 1], [1, 6, 15, 20, 15, 6, 1], [1, 7, 21, 35, 35, 21, 7, 1], [1, 8, 28, 56, 70, 56, 28, 8, 1], [1, 9, 36, 84, 126, 126, 84, 36, 9, 1], [1, 10, 45, 120, 210, 252, 210, 120, 45, 10, 1], [1, 11, 55, 165, 330, 462, 462, 330, 165, 55, 11, 1], [1, 12, 66, 220, 495, 792, 924, 792, 495, 220, 66, 12, 1], [1, 13, 78, 286, 715, 1287, 1716, 1716, 1287, 715, 286, 78, 13, 1], [1, 14, 91, 364, 1001, 2002, 3003, 3432, 3003, 2002, 1001, 364, 91, 14, 1], [1, 15, 105, 455, 1365, 3003, 5005, 6435, 6435, 5005, 3003, 1365, 455, 105, 15, 1], [1, 16, 120, 560, 1820, 4368, 8008, 11440, 12870, 11440, 8008, 4368, 1820, 560, 120, 16, 1], [1, 17, 136, 680, 2380, 6188, 12376, 19448, 24310, 24310, 19448, 12376, 6188, 2380, 680, 136, 17, 1], [1, 18, 153, 816, 3060, 8568, 18564, 31824, 43758, 48620, 43758, 31824, 18564, 8568, 3060, 816, 153, 18, 1], [1, 19, 171, 969, 3876, 11628, 27132, 50388, 75582, 92378, 92378, 75582, 50388, 27132, 11628, 3876, 969, 171, 19, 1], [1, 20, 190, 1140, 4845, 15504, 38760, 77520, 125970, 167960, 184756, 167960, 125970, 77520, 38760, 15504, 4845, 1140, 190, 20, 1], [1, 21, 210, 1330, 5985, 20349, 54264, 116280, 203490, 293930, 352716, 352716, 293930, 203490, 116280, 54264, 20349, 5985, 1330, 210, 21, 1], [1, 22, 231, 1540, 7315, 26334, 74613, 170544, 319770, 497420, 646646, 705432, 646646, 497420, 319770, 170544, 74613, 26334, 7315, 1540, 231, 22, 1], [1, 23, 253, 1771, 8855, 33649, 100947, 245157, 490314, 817190, 1144066, 1352078, 1352078, 1144066, 817190, 490314, 245157, 100947, 33649, 8855, 1771, 253, 23, 1], [1, 24, 276, 2024, 10626, 42504, 134596, 346104, 735471, 1307504, 1961256, 2496144, 2704156, 2496144, 1961256, 1307504, 735471, 346104, 134596, 42504, 10626, 2024, 276, 24, 1], [1, 25, 300, 2300, 12650, 53130, 177100, 480700, 1081575, 2042975, 3268760, 4457400, 5200300, 5200300, 4457400, 3268760, 2042975, 1081575, 480700, 177100, 53130, 12650, 2300, 300, 25, 1], [1, 26, 325, 2600, 14950, 65780, 230230, 657800, 1562275, 3124550, 5311735, 7726160, 9657700, 10400600, 9657700, 7726160, 5311735, 3124550, 1562275, 657800, 230230, 65780, 14950, 2600, 325, 26, 1], [1, 27, 351, 2925, 17550, 80730, 296010, 888030, 2220075, 4686825, 8436285, 13037895, 17383860, 20058300, 20058300, 17383860, 13037895, 8436285, 4686825, 2220075, 888030, 296010, 80730, 17550, 2925, 351, 27, 1], [1, 28, 378, 3276, 20475, 98280, 376740, 1184040, 3108105, 6906900, 13123110, 21474180, 30421755, 37442160, 40116600, 37442160, 30421755, 21474180, 13123110, 6906900, 3108105, 1184040, 376740, 98280, 20475, 3276, 378, 28, 1], [1, 29, 406, 3654, 23751, 118755, 475020, 1560780, 4292145, 10015005, 20030010, 34597290, 51895935, 67863915, 77558760, 77558760, 67863915, 51895935, 34597290, 20030010, 10015005, 4292145, 1560780, 475020, 118755, 23751, 3654, 406, 29, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "numRows = 17",
+        "expectedOutput": "[[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1], [1, 5, 10, 10, 5, 1], [1, 6, 15, 20, 15, 6, 1], [1, 7, 21, 35, 35, 21, 7, 1], [1, 8, 28, 56, 70, 56, 28, 8, 1], [1, 9, 36, 84, 126, 126, 84, 36, 9, 1], [1, 10, 45, 120, 210, 252, 210, 120, 45, 10, 1], [1, 11, 55, 165, 330, 462, 462, 330, 165, 55, 11, 1], [1, 12, 66, 220, 495, 792, 924, 792, 495, 220, 66, 12, 1], [1, 13, 78, 286, 715, 1287, 1716, 1716, 1287, 715, 286, 78, 13, 1], [1, 14, 91, 364, 1001, 2002, 3003, 3432, 3003, 2002, 1001, 364, 91, 14, 1], [1, 15, 105, 455, 1365, 3003, 5005, 6435, 6435, 5005, 3003, 1365, 455, 105, 15, 1], [1, 16, 120, 560, 1820, 4368, 8008, 11440, 12870, 11440, 8008, 4368, 1820, 560, 120, 16, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "numRows = 2",
+        "expectedOutput": "[[1], [1, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "numRows = 16",
+        "expectedOutput": "[[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1], [1, 5, 10, 10, 5, 1], [1, 6, 15, 20, 15, 6, 1], [1, 7, 21, 35, 35, 21, 7, 1], [1, 8, 28, 56, 70, 56, 28, 8, 1], [1, 9, 36, 84, 126, 126, 84, 36, 9, 1], [1, 10, 45, 120, 210, 252, 210, 120, 45, 10, 1], [1, 11, 55, 165, 330, 462, 462, 330, 165, 55, 11, 1], [1, 12, 66, 220, 495, 792, 924, 792, 495, 220, 66, 12, 1], [1, 13, 78, 286, 715, 1287, 1716, 1716, 1287, 715, 286, 78, 13, 1], [1, 14, 91, 364, 1001, 2002, 3003, 3432, 3003, 2002, 1001, 364, 91, 14, 1], [1, 15, 105, 455, 1365, 3003, 5005, 6435, 6435, 5005, 3003, 1365, 455, 105, 15, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "numRows = 12",
+        "expectedOutput": "[[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1], [1, 5, 10, 10, 5, 1], [1, 6, 15, 20, 15, 6, 1], [1, 7, 21, 35, 35, 21, 7, 1], [1, 8, 28, 56, 70, 56, 28, 8, 1], [1, 9, 36, 84, 126, 126, 84, 36, 9, 1], [1, 10, 45, 120, 210, 252, 210, 120, 45, 10, 1], [1, 11, 55, 165, 330, 462, 462, 330, 165, 55, 11, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "numRows = 28",
+        "expectedOutput": "[[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1], [1, 5, 10, 10, 5, 1], [1, 6, 15, 20, 15, 6, 1], [1, 7, 21, 35, 35, 21, 7, 1], [1, 8, 28, 56, 70, 56, 28, 8, 1], [1, 9, 36, 84, 126, 126, 84, 36, 9, 1], [1, 10, 45, 120, 210, 252, 210, 120, 45, 10, 1], [1, 11, 55, 165, 330, 462, 462, 330, 165, 55, 11, 1], [1, 12, 66, 220, 495, 792, 924, 792, 495, 220, 66, 12, 1], [1, 13, 78, 286, 715, 1287, 1716, 1716, 1287, 715, 286, 78, 13, 1], [1, 14, 91, 364, 1001, 2002, 3003, 3432, 3003, 2002, 1001, 364, 91, 14, 1], [1, 15, 105, 455, 1365, 3003, 5005, 6435, 6435, 5005, 3003, 1365, 455, 105, 15, 1], [1, 16, 120, 560, 1820, 4368, 8008, 11440, 12870, 11440, 8008, 4368, 1820, 560, 120, 16, 1], [1, 17, 136, 680, 2380, 6188, 12376, 19448, 24310, 24310, 19448, 12376, 6188, 2380, 680, 136, 17, 1], [1, 18, 153, 816, 3060, 8568, 18564, 31824, 43758, 48620, 43758, 31824, 18564, 8568, 3060, 816, 153, 18, 1], [1, 19, 171, 969, 3876, 11628, 27132, 50388, 75582, 92378, 92378, 75582, 50388, 27132, 11628, 3876, 969, 171, 19, 1], [1, 20, 190, 1140, 4845, 15504, 38760, 77520, 125970, 167960, 184756, 167960, 125970, 77520, 38760, 15504, 4845, 1140, 190, 20, 1], [1, 21, 210, 1330, 5985, 20349, 54264, 116280, 203490, 293930, 352716, 352716, 293930, 203490, 116280, 54264, 20349, 5985, 1330, 210, 21, 1], [1, 22, 231, 1540, 7315, 26334, 74613, 170544, 319770, 497420, 646646, 705432, 646646, 497420, 319770, 170544, 74613, 26334, 7315, 1540, 231, 22, 1], [1, 23, 253, 1771, 8855, 33649, 100947, 245157, 490314, 817190, 1144066, 1352078, 1352078, 1144066, 817190, 490314, 245157, 100947, 33649, 8855, 1771, 253, 23, 1], [1, 24, 276, 2024, 10626, 42504, 134596, 346104, 735471, 1307504, 1961256, 2496144, 2704156, 2496144, 1961256, 1307504, 735471, 346104, 134596, 42504, 10626, 2024, 276, 24, 1], [1, 25, 300, 2300, 12650, 53130, 177100, 480700, 1081575, 2042975, 3268760, 4457400, 5200300, 5200300, 4457400, 3268760, 2042975, 1081575, 480700, 177100, 53130, 12650, 2300, 300, 25, 1], [1, 26, 325, 2600, 14950, 65780, 230230, 657800, 1562275, 3124550, 5311735, 7726160, 9657700, 10400600, 9657700, 7726160, 5311735, 3124550, 1562275, 657800, 230230, 65780, 14950, 2600, 325, 26, 1], [1, 27, 351, 2925, 17550, 80730, 296010, 888030, 2220075, 4686825, 8436285, 13037895, 17383860, 20058300, 20058300, 17383860, 13037895, 8436285, 4686825, 2220075, 888030, 296010, 80730, 17550, 2925, 351, 27, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "numRows = 7",
+        "expectedOutput": "[[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1], [1, 5, 10, 10, 5, 1], [1, 6, 15, 20, 15, 6, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "numRows = 20",
+        "expectedOutput": "[[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1], [1, 5, 10, 10, 5, 1], [1, 6, 15, 20, 15, 6, 1], [1, 7, 21, 35, 35, 21, 7, 1], [1, 8, 28, 56, 70, 56, 28, 8, 1], [1, 9, 36, 84, 126, 126, 84, 36, 9, 1], [1, 10, 45, 120, 210, 252, 210, 120, 45, 10, 1], [1, 11, 55, 165, 330, 462, 462, 330, 165, 55, 11, 1], [1, 12, 66, 220, 495, 792, 924, 792, 495, 220, 66, 12, 1], [1, 13, 78, 286, 715, 1287, 1716, 1716, 1287, 715, 286, 78, 13, 1], [1, 14, 91, 364, 1001, 2002, 3003, 3432, 3003, 2002, 1001, 364, 91, 14, 1], [1, 15, 105, 455, 1365, 3003, 5005, 6435, 6435, 5005, 3003, 1365, 455, 105, 15, 1], [1, 16, 120, 560, 1820, 4368, 8008, 11440, 12870, 11440, 8008, 4368, 1820, 560, 120, 16, 1], [1, 17, 136, 680, 2380, 6188, 12376, 19448, 24310, 24310, 19448, 12376, 6188, 2380, 680, 136, 17, 1], [1, 18, 153, 816, 3060, 8568, 18564, 31824, 43758, 48620, 43758, 31824, 18564, 8568, 3060, 816, 153, 18, 1], [1, 19, 171, 969, 3876, 11628, 27132, 50388, 75582, 92378, 92378, 75582, 50388, 27132, 11628, 3876, 969, 171, 19, 1]]",
+        "isHidden": true
       }
     ]
   },
@@ -3889,6 +10910,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "rowIndex = 1",
         "expectedOutput": "[1,1]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "rowIndex = 15",
+        "expectedOutput": "[1, 15, 105, 455, 1365, 3003, 5005, 6435, 6435, 5005, 3003, 1365, 455, 105, 15, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "rowIndex = 1",
+        "expectedOutput": "[1, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "rowIndex = 3",
+        "expectedOutput": "[1, 3, 3, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "rowIndex = 20",
+        "expectedOutput": "[1, 20, 190, 1140, 4845, 15504, 38760, 77520, 125970, 167960, 184756, 167960, 125970, 77520, 38760, 15504, 4845, 1140, 190, 20, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "rowIndex = 5",
+        "expectedOutput": "[1, 5, 10, 10, 5, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "rowIndex = 33",
+        "expectedOutput": "[1, 33, 528, 5456, 40920, 237336, 1107568, 4272048, 13884156, 38567100, 92561040, 193536720, 354817320, 573166440, 818809200, 1037158320, 1166803110, 1166803110, 1037158320, 818809200, 573166440, 354817320, 193536720, 92561040, 38567100, 13884156, 4272048, 1107568, 237336, 40920, 5456, 528, 33, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "rowIndex = 11",
+        "expectedOutput": "[1, 11, 55, 165, 330, 462, 462, 330, 165, 55, 11, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "rowIndex = 7",
+        "expectedOutput": "[1, 7, 21, 35, 35, 21, 7, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "rowIndex = 8",
+        "expectedOutput": "[1, 8, 28, 56, 70, 56, 28, 8, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "rowIndex = 30",
+        "expectedOutput": "[1, 30, 435, 4060, 27405, 142506, 593775, 2035800, 5852925, 14307150, 30045015, 54627300, 86493225, 119759850, 145422675, 155117520, 145422675, 119759850, 86493225, 54627300, 30045015, 14307150, 5852925, 2035800, 593775, 142506, 27405, 4060, 435, 30, 1]",
+        "isHidden": true
       }
     ]
   },
@@ -3919,6 +11000,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "triangle = [[-10]]",
         "expectedOutput": "-10"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "triangle = [[0],[1,2],[3,4,5],[6,7,8,9]]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "triangle = [[-1],[2,-2],[3,-3,3],[-4,-4,4,4]]",
+        "expectedOutput": "-10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "triangle = [[-1],[2,3],[1,-1,-3]]",
+        "expectedOutput": "-1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]",
+        "expectedOutput": "11",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "triangle = [[0],[1,0],[1,1,1],[1,2,3,4]]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "triangle = [[0],[-1,-2],[-3,-4,-5]]",
+        "expectedOutput": "-7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "triangle = [[0],[10000,-10000],[10000,10000,10000]]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "triangle = [[3],[7,4],[2,4,6],[8,5,9,3]]",
+        "expectedOutput": "16",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "triangle = [[-1],[2,-3],[4,-5,6],[-7,8,-9,10]]",
+        "expectedOutput": "-18",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "triangle = [[1],[2,3],[4,5,6]]",
+        "expectedOutput": "7",
+        "isHidden": true
       }
     ]
   },
@@ -3949,6 +11090,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "prices = [7,6,4,3,1]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "prices = [2,1,2,1,0,1,2]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "prices = [2,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "prices = [7,6,4,3,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "prices = [3,3,5,0,0,3,1,4]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "prices = [7,1,5,3,6,4]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "prices = [1,2,3,4,5]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "prices = [1,2]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "prices = [8,9,7,9,8,7,9,10,7,9,8,10,11,10,12]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "prices = [1,2,3,2,1,4,3,2,1,5,4,3,2,1,6]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "prices = [7,1,5,3,6,4,1,2,3,8,2,10]",
+        "expectedOutput": "9",
+        "isHidden": true
       }
     ]
   },
@@ -3985,6 +11186,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "prices = [7,6,4,3,1]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "prices = [10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "prices = [1,2,1,2,1,2,1]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "prices = [6,5,4,3,2,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "prices = [1,9,6,9,1,7,1,1,5,9,9,9]",
+        "expectedOutput": "25",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "prices = [1,2,2,3,0,4]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "prices = [1,2]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "prices = [1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "prices = [1,3,2,8,4,9]",
+        "expectedOutput": "13",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "prices = [7,1,5,3,6,4]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "prices = [3,2,6,5,0,3]",
+        "expectedOutput": "7",
+        "isHidden": true
       }
     ]
   },
@@ -4020,6 +11281,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "prices = [7,6,4,3,1]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "prices = [10,22,5,75,65,80]",
+        "expectedOutput": "87",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "prices = [10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "prices = [3,2,6,5,0,3]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "prices = [1,1,1,1,1,1,1,1,1,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "prices = [1,4,2,8,2,6,7,8,2,4,5,2,1]",
+        "expectedOutput": "13",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "prices = [7,6,4,3,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "prices = [1,3,2,8,4,9]",
+        "expectedOutput": "12",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "prices = [3,3,5,0,0,3,1,4]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "prices = [1,2]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "prices = [1,2,3,4,5]",
+        "expectedOutput": "4",
+        "isHidden": true
       }
     ]
   },
@@ -4052,6 +11373,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = [-10,9,20,null,null,15,7]",
         "expectedOutput": "42"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [-3]",
+        "expectedOutput": "-3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,2,3]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [1,-2,-3]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [-2,1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [-10,9,20,null,null,15,7]",
+        "expectedOutput": "42",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [1,2]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [1,null,2]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [0]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [-1]",
+        "expectedOutput": "-1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [5,4,8,11,null,13,4,7,2,null,null,5,1]",
+        "expectedOutput": "48",
+        "isHidden": true
       }
     ]
   },
@@ -4087,6 +11468,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot; &quot;",
         "expectedOutput": "true"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"Able was I ere I saw Elba\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"__Level__, __level__\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"No lemon, no melon\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"0P\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"_a!a_\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"Never odd or even\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"12345678987654321\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"Was it a car or a cat I saw?\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"No 'x' in Nixon\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"Able was I, I saw Elba\"",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -4119,6 +11560,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "beginWord = &quot;hit&quot;, endWord = &quot;cog&quot;, wordList = [&quot;hot&quot;,&quot;dot&quot;,&quot;dog&quot;,&quot;lot&quot;,&quot;log&quot;]",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -4150,6 +11651,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "beginWord = &quot;hit&quot;, endWord = &quot;cog&quot;, wordList = [&quot;hot&quot;,&quot;dot&quot;,&quot;dog&quot;,&quot;lot&quot;,&quot;log&quot;]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "beginWord = \"talk\", endWord = \"walk\", wordList = [\"talk\",\"walk\",\"tall\",\"tale\",\"tali\",\"wali\",\"wali\",\"wale\",\"wall\",\"walk\"]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "beginWord = \"leet\", endWord = \"code\", wordList = [\"lest\",\"leet\",\"lose\",\"code\",\"lode\",\"robe\",\"lost\"]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "beginWord = \"red\", endWord = \"tax\", wordList = [\"ted\",\"tex\",\"red\",\"tax\",\"tad\",\"den\",\"rex\",\"pee\"]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "beginWord = \"cat\", endWord = \"dog\", wordList = [\"bat\",\"rat\",\"hat\",\"hot\",\"dot\",\"dog\"]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "beginWord = \"hit\", endWord = \"cog\", wordList = [\"hot\",\"dot\",\"dog\",\"lot\",\"log\"]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "beginWord = \"hit\", endWord = \"cog\", wordList = [\"hot\",\"dot\",\"dog\",\"lot\",\"log\",\"cog\"]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "beginWord = \"abcf\", endWord = \"aefh\", wordList = [\"abcf\",\"aefg\",\"aefh\",\"aegh\",\"cefh\",\"cefh\",\"aegh\",\"cefg\",\"abcf\",\"abef\"]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "beginWord = \"machine\", endWord = \"natural\", wordList = [\"machene\",\"machenr\",\"machrne\",\"machren\",\"machenl\",\"machenm\",\"machene\",\"machrne\",\"machren\",\"machenl\",\"machenm\",\"machane\",\"machrne\",\"machren\",\"machenl\",\"machenm\",\"machenl\",\"machene\",\"machrne\",\"machren\",\"machenl\",\"machenm\",\"nachenl\",\"nachene\",\"nachrne\",\"nachren\",\"nachenl\",\"nachenm\",\"nachene\",\"nachrne\",\"nachren\",\"nachenl\",\"nachenm\",\"nachene\",\"nachrne\",\"nachren\",\"nachenl\",\"nachenm\",\"nachene\",\"nachrne\",\"nachren\",\"nachenl\",\"nachenm\",\"nachene\",\"nachrne\",\"nachren\",\"nachenl\",\"nachenm\",\"nachene\",\"nachrne\",\"nachren\",\"nachenl\",\"nachenm\",\"nachene\",\"nachrne\",\"nachren\",\"nachenl\",\"nachenm\",\"nachene\",\"nachrne\",\"nachren\",\"nachenl\",\"nachenm\",\"natural\"]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "beginWord = \"listen\", endWord = \"silent\", wordList = [\"lisen\",\"litesn\",\"litens\",\"listne\",\"listen\",\"siltne\",\"silent\",\"linset\",\"lintes\",\"sleint\",\"ltsine\",\"lintse\",\"lisnet\",\"lsitne\",\"lnties\",\"lintes\",\"lintes\",\"linsat\",\"slient\",\"lsinte\",\"linset\"]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "beginWord = \"algorithm\", endWord = \"rhythm\", wordList = [\"alorhythm\",\"alohrhythm\",\"alohrhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"alorhythm\",\"rhythm\",\"rhythm\",\"rhythm\",\"rhythm\",\"rhythm\",\"rhythm\",\"rhythm\",\"rhythm\",\"rhythm\",\"rhythm\"]",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -4186,6 +11747,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [1,0,1,2]",
         "expectedOutput": "3"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,9,3,10,4,20,2]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [10,5,12,3,14,7,16,20,18,11,9,8,13,6,4,19,15,17,2,1]",
+        "expectedOutput": "20",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [10,5,12,3,7,8,9,2,1,0]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1000000000,-1000000000,500000000,-500000000]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [-1,-2,-3,-4,-5]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [0,0,0,0,0]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,3,5,7,9,11,13,15,17,19]",
+        "expectedOutput": "1",
+        "isHidden": true
       }
     ]
   },
@@ -4217,6 +11838,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = [4,9,0,5,1]",
         "expectedOutput": "1026"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [1,2,3]",
+        "expectedOutput": "25",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,0,0]",
+        "expectedOutput": "20",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [1,0]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [5,2,8,3,5,4,9,0,null,null,6]",
+        "expectedOutput": "11659",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [1,0,1]",
+        "expectedOutput": "21",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [1,0,1,0,1,0,1]",
+        "expectedOutput": "422",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [4,9,0,5,1]",
+        "expectedOutput": "1026",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [1,null,2]",
+        "expectedOutput": "12",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [5,3,6,2,4,null,8,1,null,null,null,7,9]",
+        "expectedOutput": "17231",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [0]",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -4245,6 +11926,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "board = [[\"X\",\"X\",\"X\",\"X\"],[\"X\",\"O\",\"O\",\"X\"],[\"X\",\"X\",\"O\",\"X\"],[\"X\",\"O\",\"X\",\"X\"]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "board = [[\"X\",\"X\",\"X\",\"X\",\"X\"],[\"X\",\"O\",\"O\",\"O\",\"X\"],[\"X\",\"O\",\"X\",\"O\",\"X\"],[\"X\",\"O\",\"O\",\"O\",\"X\"],[\"X\",\"X\",\"X\",\"X\",\"X\"]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "board = [[\"O\",\"O\",\"O\"],[\"O\",\"X\",\"O\"],[\"O\",\"O\",\"O\"]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "board = [[\"O\",\"X\",\"X\",\"O\",\"X\"],[\"X\",\"X\",\"X\",\"X\",\"X\"],[\"X\",\"X\",\"X\",\"X\",\"X\"],[\"X\",\"X\",\"X\",\"O\",\"O\"],[\"X\",\"X\",\"O\",\"X\",\"X\"]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "board = [[\"X\",\"O\",\"X\",\"O\"],[\"O\",\"X\",\"O\",\"X\"],[\"X\",\"O\",\"X\",\"O\"],[\"O\",\"X\",\"O\",\"X\"]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "board = [[\"X\"]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "board = [[\"X\",\"X\",\"X\",\"X\",\"X\",\"X\",\"X\"],[\"X\",\"O\",\"O\",\"X\",\"X\",\"O\",\"X\"],[\"X\",\"X\",\"X\",\"X\",\"X\",\"X\",\"X\"],[\"X\",\"O\",\"O\",\"O\",\"O\",\"X\",\"X\"],[\"X\",\"X\",\"X\",\"X\",\"X\",\"X\",\"X\"],[\"X\",\"O\",\"O\",\"X\",\"X\",\"O\",\"X\"],[\"X\",\"X\",\"X\",\"X\",\"X\",\"X\",\"X\"]] ",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "board = [[\"X\",\"X\",\"X\",\"X\",\"X\",\"X\",\"X\"],[\"X\",\"O\",\"O\",\"O\",\"O\",\"O\",\"X\"],[\"X\",\"O\",\"X\",\"X\",\"X\",\"O\",\"X\"],[\"X\",\"O\",\"X\",\"O\",\"X\",\"O\",\"X\"],[\"X\",\"O\",\"X\",\"X\",\"X\",\"O\",\"X\"],[\"X\",\"O\",\"O\",\"O\",\"O\",\"O\",\"X\"],[\"X\",\"X\",\"X\",\"X\",\"X\",\"X\",\"X\"]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "board = [[\"X\",\"X\",\"X\",\"X\",\"X\",\"X\",\"X\",\"X\"],[\"X\",\"O\",\"O\",\"X\",\"X\",\"O\",\"O\",\"X\"],[\"X\",\"X\",\"O\",\"O\",\"O\",\"O\",\"X\",\"X\"],[\"X\",\"O\",\"X\",\"X\",\"X\",\"X\",\"X\",\"O\"],[\"X\",\"O\",\"O\",\"X\",\"O\",\"X\",\"O\",\"X\"],[\"X\",\"X\",\"O\",\"X\",\"X\",\"X\",\"O\",\"X\"],[\"X\",\"O\",\"O\",\"O\",\"O\",\"X\",\"X\",\"X\"],[\"X\",\"X\",\"X\",\"X\",\"X\",\"X\",\"X\",\"X\"]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "board = [[\"O\",\"X\",\"O\",\"X\",\"O\"],[\"O\",\"O\",\"O\",\"O\",\"O\"],[\"X\",\"O\",\"X\",\"O\",\"X\"],[\"O\",\"O\",\"O\",\"O\",\"O\"],[\"O\",\"X\",\"O\",\"X\",\"O\"]]",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -4276,6 +12017,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = \"a\"",
         "expectedOutput": "[[\"a\"]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"repaper\"",
+        "expectedOutput": "[['r', 'e', 'p', 'a', 'p', 'e', 'r'], ['r', 'e', 'pap', 'e', 'r'], ['r', 'epape', 'r'], ['repaper']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"aaab\"",
+        "expectedOutput": "[['a', 'a', 'a', 'b'], ['a', 'aa', 'b'], ['aa', 'a', 'b'], ['aaa', 'b']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"aabbaa\"",
+        "expectedOutput": "[['a', 'a', 'b', 'b', 'a', 'a'], ['a', 'a', 'b', 'b', 'aa'], ['a', 'a', 'bb', 'a', 'a'], ['a', 'a', 'bb', 'aa'], ['a', 'abba', 'a'], ['aa', 'b', 'b', 'a', 'a'], ['aa', 'b', 'b', 'aa'], ['aa', 'bb', 'a', 'a'], ['aa', 'bb', 'aa'], ['aabbaa']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"abcdedcba\"",
+        "expectedOutput": "[['a', 'b', 'c', 'd', 'e', 'd', 'c', 'b', 'a'], ['a', 'b', 'c', 'ded', 'c', 'b', 'a'], ['a', 'b', 'cdedc', 'b', 'a'], ['a', 'bcdedcb', 'a'], ['abcdedcba']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"refer\"",
+        "expectedOutput": "[['r', 'e', 'f', 'e', 'r'], ['r', 'efe', 'r'], ['refer']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"kayak\"",
+        "expectedOutput": "[['k', 'a', 'y', 'a', 'k'], ['k', 'aya', 'k'], ['kayak']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"a\"",
+        "expectedOutput": "[['a']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"\"",
+        "expectedOutput": "[[]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"aabaa\"",
+        "expectedOutput": "[['a', 'a', 'b', 'a', 'a'], ['a', 'a', 'b', 'aa'], ['a', 'aba', 'a'], ['aa', 'b', 'a', 'a'], ['aa', 'b', 'aa'], ['aabaa']]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"noonnoon\"",
+        "expectedOutput": "[['n', 'o', 'o', 'n', 'n', 'o', 'o', 'n'], ['n', 'o', 'o', 'n', 'n', 'oo', 'n'], ['n', 'o', 'o', 'n', 'noon'], ['n', 'o', 'o', 'nn', 'o', 'o', 'n'], ['n', 'o', 'o', 'nn', 'oo', 'n'], ['n', 'o', 'onno', 'o', 'n'], ['n', 'oo', 'n', 'n', 'o', 'o', 'n'], ['n', 'oo', 'n', 'n', 'oo', 'n'], ['n', 'oo', 'n', 'noon'], ['n', 'oo', 'nn', 'o', 'o', 'n'], ['n', 'oo', 'nn', 'oo', 'n'], ['n', 'oonnoo', 'n'], ['noon', 'n', 'o', 'o', 'n'], ['noon', 'n', 'oo', 'n'], ['noon', 'noon'], ['noonnoon']]",
+        "isHidden": true
       }
     ]
   },
@@ -4311,6 +12112,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;ab&quot;",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"abcdcba\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"abababab\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"a\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"ab\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"noonnoon\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"aabaa\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"aabb\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"racecar\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"abba\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"abcdabcdabcd\"",
+        "expectedOutput": "11",
+        "isHidden": true
       }
     ]
   },
@@ -4348,6 +12209,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "adjList = []",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -4378,6 +12299,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "gas = [2,3,4], cost = [3,4,3]",
         "expectedOutput": "-1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "gas = [1,1,1,1,1], cost = [1,1,1,1,1]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "gas = [5,1,2,3,4], cost = [4,5,1,2,3]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "gas = [1,2,3,4,5], cost = [5,4,3,2,1]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "gas = [2,3,4], cost = [3,4,3]",
+        "expectedOutput": "-1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "gas = [5,8,2,8], cost = [6,5,6,6]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "gas = [0,0,0,0,0], cost = [0,0,0,0,0]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "gas = [10,20,30,40,50], cost = [15,25,35,45,55]",
+        "expectedOutput": "-1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "gas = [3,1,1], cost = [1,2,2]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "gas = [10,1,2,3,4], cost = [3,4,5,1,2]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "gas = [3,3,4], cost = [3,4,4]",
+        "expectedOutput": "-1",
+        "isHidden": true
       }
     ]
   },
@@ -4408,6 +12389,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "ratings = [1,2,2]",
         "expectedOutput": "4"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "ratings = [1,3,4,5,2]",
+        "expectedOutput": "11",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "ratings = [1,1,1,1]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "ratings = [1,2,3,2,1,2,3,4,3,2,1]",
+        "expectedOutput": "24",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "ratings = [5,4,3,2,1]",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "ratings = [10,20,30,40,50,45,35,25,15,5]",
+        "expectedOutput": "31",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "ratings = [10,9,8,7,6,5,4,3,2,1,0]",
+        "expectedOutput": "66",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "ratings = [1,3,2,2,3,1]",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "ratings = [1,3,4,3,2]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "ratings = [1,6,10,8,7,3,2]",
+        "expectedOutput": "18",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "ratings = [10,20,30,40,50]",
+        "expectedOutput": "15",
+        "isHidden": true
       }
     ]
   },
@@ -4435,6 +12476,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [10,1,10,2,2]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [3,3,7,7,10]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [10,10,20,20,30]",
+        "expectedOutput": "30",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [3,3,5,7,5,7,9]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [-1,-1,-2]",
+        "expectedOutput": "-2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [100000,100000,50000]",
+        "expectedOutput": "50000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [5,7,5,7,9]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [3,3,2,2,5]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [2147483647,-2147483648,-2147483648,2147483647,0]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [0,1,0,1,2]",
+        "expectedOutput": "2",
+        "isHidden": true
       }
     ]
   },
@@ -4465,6 +12566,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [0,1,0,1,0,1,99]",
         "expectedOutput": "99"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [-2,-2,-2,1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1000000,1000000,1000000,2000000]",
+        "expectedOutput": "2000000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,1,1,2,2,2,3]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [7,7,7,10]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [4,4,4,9]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [4,1,4,4]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,1,1,2]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [2,2,3,2]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [0,1,0,1,0,1,99]",
+        "expectedOutput": "99",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [10,10,3,10]",
+        "expectedOutput": "3",
+        "isHidden": true
       }
     ]
   },
@@ -4505,6 +12666,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "head = [[3,null],[3,0],[3,null]]",
         "expectedOutput": "[[3,null],[3,0],[3,null]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -4544,6 +12765,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;catsandog&quot;, wordDict = [&quot;cats&quot;,&quot;dog&quot;,&quot;sand&quot;,&quot;and&quot;,&quot;cat&quot;]",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"pineapplepenapple\", wordDict = [\"apple\",\"pen\",\"applepen\",\"pine\",\"pineapple\"]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"leetcode\", wordDict = [\"leet\",\"code\"]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"applepenapple\", wordDict = [\"apple\",\"pen\"]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"catsandog\", wordDict = [\"cats\",\"dog\",\"sand\",\"and\",\"cat\"]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"abcd\", wordDict = [\"a\",\"abc\",\"b\",\"cd\"]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"supercalifragilisticexpialidocious\", wordDict = [\"super\",\"cali\",\"fragi\",\"listic\",\"expi\",\"ali\",\"docious\"]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"skyscraper\", wordDict = [\"sky\",\"sc\",\"raper\",\"scra\",\"per\"]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"wordbreakproblem\", wordDict = [\"word\",\"break\",\"problem\",\"wordbreak\",\"breakproblem\",\"wordbreakproblem\",\"wordbreakpro\",\"blem\",\"wordprob\",\"lem\",\"wordb\",\"reak\",\"breakpro\",\"brea\",\"kprob\",\"wordbre\",\"akprob\",\"wordbreakp\",\"rob\",\"reakp\",\"reakpro\",\"wordbre\",\"reakproblem\"]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"cascadingsubstrings\", wordDict = [\"cascade\",\"sub\",\"strings\",\"cascade\",\"ing\",\"substring\"]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"breaktheglassceiling\", wordDict = [\"break\",\"the\",\"glass\",\"ceiling\",\"breaks\",\"theglass\",\"ceiling\"]",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -4584,6 +12865,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;catsandog&quot;, wordDict = [&quot;cats&quot;,&quot;dog&quot;,&quot;sand&quot;,&quot;and&quot;,&quot;cat&quot;]",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"a\", wordDict = [\"a\"]",
+        "expectedOutput": "['a']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"catsanddog\", wordDict = [\"cat\",\"cats\",\"and\",\"sand\",\"dog\"]",
+        "expectedOutput": "['cat sand dog', 'cats and dog']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"catsandog\", wordDict = [\"cats\",\"dog\",\"sand\",\"and\",\"cat\"]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"abcd\", wordDict = [\"a\",\"abc\",\"b\",\"cd\"]",
+        "expectedOutput": "['a b cd']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"leetcodeleet\", wordDict = [\"leet\",\"code\"]",
+        "expectedOutput": "['leet code leet']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"nevergonnagiveyouup\", wordDict = [\"never\",\"gonna\",\"give\",\"you\",\"up\",\"nevergonna\",\"gonnagive\",\"onnagive\",\"nnagive\",\"nagive\",\"agive\",\"giveu\",\"giveyo\",\"giveyou\",\"giveyoup\",\"giveyoupu\",\"giveyoupup\",\"youpup\",\"oupup\",\"pupup\",\"upup\",\"pup\",\"up\"]",
+        "expectedOutput": "['never gonna give you up', 'never gonna giveyou up', 'never gonnagive you up', 'nevergonna give you up', 'nevergonna giveyou up']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"ababababababababababababababababababababababababababababababababababababab\", wordDict = [\"ab\",\"aba\",\"bab\",\"baba\"]",
+        "expectedOutput": "Execution timed out",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"thisproblemisverydifficult\", wordDict = [\"this\",\"problem\",\"is\",\"very\",\"difficult\",\"difficul\",\"icult\"]",
+        "expectedOutput": "['this problem is very difficult']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"exampleofquestion\", wordDict = [\"example\",\"of\",\"question\",\"ex\",\"ample\",\"que\",\"stion\",\"exam\",\"ple\",\"quest\",\"uest\",\"ion\"]",
+        "expectedOutput": "['ex ample of que stion', 'ex ample of quest ion', 'ex ample of question', 'exam ple of que stion', 'exam ple of quest ion', 'exam ple of question', 'example of que stion', 'example of quest ion', 'example of question']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"amazingrace\", wordDict = [\"amazing\",\"race\",\"amaz\",\"ing\",\"zing\",\"ace\",\"rac\"]",
+        "expectedOutput": "['amaz ing race', 'amazing race']",
+        "isHidden": true
       }
     ]
   },
@@ -4620,6 +12961,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "head = [1], pos = -1",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = [], pos = -1",
+        "expectedOutput": "Error: Solution.hasCycle() got an unexpected keyword argument 'pos'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [1,2,3,4,5], pos = 3",
+        "expectedOutput": "Error: Solution.hasCycle() got an unexpected keyword argument 'pos'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [1,2], pos = 0",
+        "expectedOutput": "Error: Solution.hasCycle() got an unexpected keyword argument 'pos'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [1,2,3,4,5], pos = -1",
+        "expectedOutput": "Error: Solution.hasCycle() got an unexpected keyword argument 'pos'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = [1], pos = -1",
+        "expectedOutput": "Error: Solution.hasCycle() got an unexpected keyword argument 'pos'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [10,9,8,7,6,5,4,3,2,1,0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14,-15], pos = 15",
+        "expectedOutput": "Error: Solution.hasCycle() got an unexpected keyword argument 'pos'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [1,2,3,4,5,6,7,8,9,10], pos = 6",
+        "expectedOutput": "Error: Solution.hasCycle() got an unexpected keyword argument 'pos'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [0,-1,-2,-3,-4,-5,-6,-7,-8,-9], pos = 7",
+        "expectedOutput": "Error: Solution.hasCycle() got an unexpected keyword argument 'pos'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [5,-5,5,-5,5,-5,5,-5,5,-5,5,-5,5,-5,5,-5,5,-5,5,-5], pos = 18",
+        "expectedOutput": "Error: Solution.hasCycle() got an unexpected keyword argument 'pos'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [10,9,8,7,6,5,4,3,2,1], pos = 5",
+        "expectedOutput": "Error: Solution.hasCycle() got an unexpected keyword argument 'pos'",
+        "isHidden": true
       }
     ]
   },
@@ -4656,6 +13057,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "head = [1], pos = -1",
         "expectedOutput": "no cycle"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -4688,6 +13149,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "head = [1,2,3,4,5]",
         "expectedOutput": "[1,5,2,4,3]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = [1]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [1,2]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [1,2,3,4]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = [1,2,3,4,5,6]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [5,4,3,2,1]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [1,3,5,7,9,11,13,15,17,19,21]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34]",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -4715,6 +13236,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [1,2,3,4,5,null,8,null,null,6,7,9]",
+        "expectedOutput": "[1, 2, 4, 5, 6, 7, 3, 8, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,null,3,null,2]",
+        "expectedOutput": "[1, 3, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [1,2]",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [1,null,2]",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [1,null,2,3]",
+        "expectedOutput": "[1, 2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [1]",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = []",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9,null,10]",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [10,5,15,null,null,6,20]",
+        "expectedOutput": "[10, 5, 15, 6, 20]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [10,5,15,3,7,null,18,1,null,6,9]",
+        "expectedOutput": "[10, 5, 3, 1, 7, 6, 9, 15, 18]",
+        "isHidden": true
       }
     ]
   },
@@ -4742,6 +13323,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [1,2]",
+        "expectedOutput": "[2, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,null,2,3]",
+        "expectedOutput": "[3, 2, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [3,1,2]",
+        "expectedOutput": "[1, 2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [1]",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = []",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [1,null,2,null,null,3,null,null,4,null,null,5]",
+        "expectedOutput": "[2, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9,null,10]",
+        "expectedOutput": "[10, 9, 8, 7, 6, 5, 4, 3, 2, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [1,null,2,null,null,null,3,null,null,null,null,null,4]",
+        "expectedOutput": "[2, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [10,5,15,null,null,6,20]",
+        "expectedOutput": "[5, 6, 20, 15, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [10,5,15,3,7,null,18,1,null,6,9]",
+        "expectedOutput": "[1, 3, 6, 9, 7, 5, 18, 15, 10]",
+        "isHidden": true
       }
     ]
   },
@@ -4769,6 +13410,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -4799,6 +13500,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "head = [-1,5,3,4,0]",
         "expectedOutput": "[-1,0,3,4,5]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = [0,0,0,0]",
+        "expectedOutput": "[0, 0, 0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [10,-1,0,5,3,2,-5]",
+        "expectedOutput": "[-5, -1, 0, 2, 3, 5, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [1,2,3,4,5]",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [5,2,4,6,1,3]",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = [3,1,2,1,3,1,2]",
+        "expectedOutput": "[1, 1, 1, 2, 2, 3, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [1,3,2,4,5]",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [1000,500,250,125,62,31,15,7,3,1]",
+        "expectedOutput": "[1, 3, 7, 15, 31, 62, 125, 250, 500, 1000]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [1]",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [1000,999,998,997,996,995,994,993,992,991]",
+        "expectedOutput": "[991, 992, 993, 994, 995, 996, 997, 998, 999, 1000]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [-1,5,3,4,0]",
+        "expectedOutput": "[-1, 0, 3, 4, 5]",
+        "isHidden": true
       }
     ]
   },
@@ -4837,6 +13598,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "head = []",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = [0,0,0,0]",
+        "expectedOutput": "[0, 0, 0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [-1,5,3,4,0]",
+        "expectedOutput": "[-1, 0, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [1,3,2,5,4,7,6,9,8,10]",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [0,0,0,0,0]",
+        "expectedOutput": "[0, 0, 0, 0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = []",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [1]",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [1,2,3,4,5]",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [100000,-100000,0,50000,-50000]",
+        "expectedOutput": "[-100000, -50000, 0, 50000, 100000]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [10,-10,20,-20,30,-30]",
+        "expectedOutput": "[-30, -20, -10, 10, 20, 30]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [-100000,100000,-100000,100000]",
+        "expectedOutput": "[-100000, -100000, 100000, 100000]",
+        "isHidden": true
       }
     ]
   },
@@ -4869,6 +13690,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "points = [[1,1],[3,2],[5,3],[4,1],[2,3],[1,4]]",
         "expectedOutput": "4"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "points = [[1,2],[2,3],[3,4],[4,5],[5,6],[6,7]]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "points = [[1,1],[1,2],[1,3],[1,4]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "points = [[1,1],[2,2],[2,3],[3,2],[3,3]]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "points = [[0,0],[1,1],[2,2],[3,4],[4,5],[5,6],[7,8]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "points = [[1,2],[2,3],[3,4],[4,5],[5,6]]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "points = [[-4,-4],[-8,-582],[-5,-26],[0,3],[-1,1],[0,-7],[1,-1],[5,5],[-8,-6722],[-6,-576],[-6,-3608]]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "points = [[-1,-1],[2,2],[3,3]]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "points = [[1,1],[1,1],[1,1]]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "points = [[1,1],[3,2],[5,3],[4,1],[2,3],[1,4]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "points = [[-1,-1],[0,0],[1,1],[2,2],[3,3],[4,4]]",
+        "expectedOutput": "6",
+        "isHidden": true
       }
     ]
   },
@@ -4905,6 +13786,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "tokens = [&quot;10&quot;,&quot;6&quot;,&quot;9&quot;,&quot;3&quot;,&quot;+&quot;,&quot;-11&quot;,&quot;*&quot;,&quot;/&quot;,&quot;*&quot;,&quot;17&quot;,&quot;+&quot;,&quot;5&quot;,&quot;+&quot;]",
         "expectedOutput": "22"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "tokens = [\"10\",\"6\",\"9\",\"3\",\"+\",\"-11\",\"*\",\"/\",\"*\",\"17\",\"+\",\"5\",\"+\"]",
+        "expectedOutput": "22",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "tokens = [\"15\",\"7\",\"1\",\"1\",\"+\",\"-\",\"/\",\"3\",\"*\",\"2\",\"1\",\"1\",\"+\",\"+\",\"-\",\"/\",\"/\",\"5\",\"2\",\"+\",\"*\",\"3\",\"+\"]",
+        "expectedOutput": "Error: pop index out of range",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "tokens = [\"20\",\"5\",\"/\",\"2\",\"+\",\"10\",\"3\",\"/\",\"-\",\"3\",\"4\",\"*\",\"+\",\"2\",\"-\",\"1\",\"*\"]",
+        "expectedOutput": "13",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "tokens = [\"100\",\"50\",\"/\",\"3\",\"-\",\"2\",\"*\",\"4\",\"1\",\"+\",\"/\",\"5\",\"-\",\"2\",\"*\"]",
+        "expectedOutput": "-10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "tokens = [\"-10\",\"-3\",\"/\",\"2\",\"*\"]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "tokens = [\"5\",\"3\",\"+\",\"-1\",\"*\",\"2\",\"/\",\"-11\",\"*\",\"-12\",\"+\",\"4\",\"*\",\"+\",\"2\",\"/\",\"5\",\"-\",\"3\",\"+\",\"9\",\"*\",\"+\",\"12\",\"/\",\"3\",\"-\",\"8\",\"*\",\"+\"]",
+        "expectedOutput": "Error: pop index out of range",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "tokens = [\"20\",\"5\",\"*\"]",
+        "expectedOutput": "100",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "tokens = [\"3\",\"-4\",\"+\",\"2\",\"*\",\"5\",\"/\",\"10\",\"+\"]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "tokens = [\"8\",\"4\",\"+\",\"3\",\"*\",\"2\",\"/\",\"7\",\"-\",\"1\",\"+\",\"5\",\"*\"]",
+        "expectedOutput": "60",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "tokens = [\"17\",\"5\",\"+\",\"3\",\"8\",\"*\",\"-\",\"10\",\"2\",\"/\",\"+\"]",
+        "expectedOutput": "3",
+        "isHidden": true
       }
     ]
   },
@@ -4940,6 +13881,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;a good   example&quot;",
         "expectedOutput": "&quot;example good a&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"a good   example\"",
+        "expectedOutput": "\"example good a\"",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"   multiple     spaces   between words   \"",
+        "expectedOutput": "words between spaces multiple",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"   complex   example    with    various    spacing    conditions   \"",
+        "expectedOutput": "conditions spacing various with example complex",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"   edge   cases    should    be    handled   correctly   \"",
+        "expectedOutput": "correctly handled be should cases edge",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"   one   two three    four     five six seven eight nine ten    \"",
+        "expectedOutput": "ten nine eight seven six five four three two one",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"    leading and trailing spaces    \"",
+        "expectedOutput": "spaces trailing and leading",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"word1 word2 word3 word4 word5\"",
+        "expectedOutput": "word5 word4 word3 word2 word1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"   quick   brown   fox   jumps   over   the   lazy   dog   \"",
+        "expectedOutput": "dog lazy the over jumps fox brown quick",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"one two three four five six seven eight nine ten\"",
+        "expectedOutput": "ten nine eight seven six five four three two one",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"   leading and trailing spaces   \"",
+        "expectedOutput": "spaces trailing and leading",
+        "isHidden": true
       }
     ]
   },
@@ -4970,6 +13971,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [-2,0,-1]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [-2,3,-4]",
+        "expectedOutput": "24",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [10,-20,0,5,1]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [3,-1,4]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [-1,-2,-3,0]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [0,2]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [-1,2,-3,4,-5,6,-7,8,-9,10]",
+        "expectedOutput": "3628800",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [2,3,-2,4]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,-1,4]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [0,2,0]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [-1,-2,-3,-4]",
+        "expectedOutput": "24",
+        "isHidden": true
       }
     ]
   },
@@ -5009,6 +14070,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [11,13,15,17]",
         "expectedOutput": "11"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [2,3,4,5,6,7,8,9,1,0]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,3,2]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [10,15,1,3,8]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [11,13,15,17]",
+        "expectedOutput": "11",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [7,8,9,10,11,1,2,3,4,5,6]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [10,1,2,3,4,5,6,7,8,9]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [2,1,3]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [5,1,2,3,4]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [2,3,4,5,6,7,8,9,1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [3,1,2]",
+        "expectedOutput": "1",
+        "isHidden": true
       }
     ]
   },
@@ -5039,6 +14160,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [2,2,2,0,1]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [2,2,2,0,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [5,1,2,3,4]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [3,4,5,1,2]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [15,17,11,13]",
+        "expectedOutput": "11",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,0]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [0,1,4,4,5,6,7]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [3,3,3,3,3,1,3]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [4,4,5,6,7,0,1,2,3]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [11,13,15,17]",
+        "expectedOutput": "11",
+        "isHidden": true
       }
     ]
   },
@@ -5066,6 +14247,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -5102,6 +14343,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "intersectVal = 0, listA = [2,6,4], listB = [1,5], skipA = 3, skipB = 2",
         "expectedOutput": "No intersection"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "headA = [4,1,8,4,5], headB = [5,6,1,8,4,5], skipA = 2, skipB = 3",
+        "expectedOutput": "Error: Solution.getIntersectionNode() got an unexpected keyword argument 'skipA'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "headA = [1,3,5,7,9,11,13,15,17,19], headB = [2,4,6,8,10,12,14,16,18,15,17,19], skipA = 5, skipB = 5",
+        "expectedOutput": "Error: Solution.getIntersectionNode() got an unexpected keyword argument 'skipA'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "headA = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], headB = [16,17,18,19,20], skipA = 5, skipB = 5",
+        "expectedOutput": "Error: Solution.getIntersectionNode() got an unexpected keyword argument 'skipA'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "headA = [1,2,3,4,5,6,7,8,9,10], headB = [10,9,8,7,6,5,4,3,2,1], skipA = 5, skipB = 9",
+        "expectedOutput": "Error: Solution.getIntersectionNode() got an unexpected keyword argument 'skipA'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "headA = [1], headB = [2,1], skipA = 0, skipB = 1",
+        "expectedOutput": "Error: Solution.getIntersectionNode() got an unexpected keyword argument 'skipA'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "headA = [10,11,12,13,14,15,16,17,18,19,20], headB = [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20], skipA = 4, skipB = 9",
+        "expectedOutput": "Error: Solution.getIntersectionNode() got an unexpected keyword argument 'skipA'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "headA = [7,8,9,10,11,12,13,14], headB = [1,2,3,4,5,6,14], skipA = 3, skipB = 6",
+        "expectedOutput": "Error: Solution.getIntersectionNode() got an unexpected keyword argument 'skipA'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "headA = [1,2,3,4,5,6,7,8,9,10], headB = [11,12,13,14,15,6,7,8,9,10], skipA = 5, skipB = 5",
+        "expectedOutput": "Error: Solution.getIntersectionNode() got an unexpected keyword argument 'skipA'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "headA = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20], headB = [21,22,15,16,17,18,19,20], skipA = 14, skipB = 2",
+        "expectedOutput": "Error: Solution.getIntersectionNode() got an unexpected keyword argument 'skipA'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "headA = [1,2,3,4,5,6,7,8,9,10], headB = [11,12,13,4,5,6,7,8,9,10], skipA = 3, skipB = 3",
+        "expectedOutput": "Error: Solution.getIntersectionNode() got an unexpected keyword argument 'skipA'",
+        "isHidden": true
       }
     ]
   },
@@ -5132,6 +14433,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1,2,1,3,5,6,4]",
         "expectedOutput": "5"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [0,1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [2,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [6,5,4,3,2,3,2]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [10,9,8,7,6,5,4,3,2,1,0]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,4,5]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,3,20,4,1,0]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,2,3,4,3,2,1]",
+        "expectedOutput": "3",
+        "isHidden": true
       }
     ]
   },
@@ -5165,6 +14526,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [2,2,1,1,1,2,2]",
         "expectedOutput": "2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [2,2,1,1,1,2,2]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [-1,100,-1,-1,-1,-1,1,1,1,1]",
+        "expectedOutput": "-1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,3,4,5,4,4,4,4]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [4,4,4,4,2,2,3]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1000000000,1000000000,1000000000,1000000000,1000000000,1000000000,1,1,1,1,1]",
+        "expectedOutput": "1000000000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [5,5,4,5,5,6,5,5]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,2,3,4,5,1,1,1,1,1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1000000000,-1000000000,1000000000,1000000000,1000000000]",
+        "expectedOutput": "1000000000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,1,1,1,2,2,3,3,3,3,3]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5]",
+        "expectedOutput": "5",
+        "isHidden": true
       }
     ]
   },
@@ -5201,6 +14622,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "numbers = [-1,0], target = -1",
         "expectedOutput": "[1,2]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "numbers = [1,2,3,4,5,6,7,8,9], target = 17",
+        "expectedOutput": "[8, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "numbers = [-10,-5,-3,3,5,6,7,8,9], target = 0",
+        "expectedOutput": "[2, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "numbers = [5,25,75], target = 100",
+        "expectedOutput": "[2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "numbers = [-10,-5,-2,-1,0,1,2,5,10], target = 0",
+        "expectedOutput": "[1, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "numbers = [-10,-5,-3,-1,0,2,3,5,6,9], target = -8",
+        "expectedOutput": "[1, 6]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "numbers = [1,2,3,4,4,9,56,90], target = 8",
+        "expectedOutput": "[4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "numbers = [1,3,5,7,9], target = 10",
+        "expectedOutput": "[1, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "numbers = [-1000, -500, 0, 500, 1000], target = 0",
+        "expectedOutput": "[1, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "numbers = [-1,0], target = -1",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "numbers = [2,3,4], target = 6",
+        "expectedOutput": "[1, 3]",
+        "isHidden": true
       }
     ]
   },
@@ -5236,6 +14717,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "columnNumber = 701",
         "expectedOutput": "&quot;ZY&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "columnNumber = 1045",
+        "expectedOutput": "ANE",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "columnNumber = 2147483647",
+        "expectedOutput": "FXSHRXW",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "columnNumber = 456976",
+        "expectedOutput": "YYYZ",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "columnNumber = 52",
+        "expectedOutput": "AZ",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "columnNumber = 701",
+        "expectedOutput": "ZY",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "columnNumber = 1048576",
+        "expectedOutput": "BGQCV",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "columnNumber = 26",
+        "expectedOutput": "Z",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "columnNumber = 134217728",
+        "expectedOutput": "KGRJXH",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "columnNumber = 702",
+        "expectedOutput": "ZZ",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "columnNumber = 1047",
+        "expectedOutput": "ANG",
+        "isHidden": true
       }
     ]
   },
@@ -5271,6 +14812,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "columnTitle = &quot;ZY&quot;",
         "expectedOutput": "701"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "columnTitle = \"ZY\"",
+        "expectedOutput": "701",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "columnTitle = \"AC\"",
+        "expectedOutput": "29",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "columnTitle = \"Z\"",
+        "expectedOutput": "26",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "columnTitle = \"ZYZ\"",
+        "expectedOutput": "18252",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "columnTitle = \"FXSHRXW\"",
+        "expectedOutput": "2147483647",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "columnTitle = \"ZAB\"",
+        "expectedOutput": "17604",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "columnTitle = \"BZ\"",
+        "expectedOutput": "78",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "columnTitle = \"M\"",
+        "expectedOutput": "13",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "columnTitle = \"ABC\"",
+        "expectedOutput": "731",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "columnTitle = \"ZZZ\"",
+        "expectedOutput": "18278",
+        "isHidden": true
       }
     ]
   },
@@ -5305,6 +14906,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "n = 0",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 10000",
+        "expectedOutput": "2499",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 25",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 100",
+        "expectedOutput": "24",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 1000",
+        "expectedOutput": "249",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 10",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 5",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 625",
+        "expectedOutput": "156",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 15000",
+        "expectedOutput": "3748",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 1875",
+        "expectedOutput": "468",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 4000",
+        "expectedOutput": "999",
+        "isHidden": true
       }
     ]
   },
@@ -5334,6 +14995,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -5365,6 +15086,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "dungeon = [[0]]",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "dungeon = [[-2,-3,3],[-5,-10,1],[10,30,-5]]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "dungeon = [[0,0,0],[0,0,0],[0,0,0]]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "dungeon = [[1,6,7,-6,5,3],[4,-8,-5,5,-9,3],[-3,1,-2,6,-6,2],[-8,-6,-3,-8,-9,-5],[-5,-8,-8,-1,5,-9]]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "dungeon = [[-2,-1],[-1,10]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "dungeon = [[0]]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "dungeon = [[100,50,-50],[10,-10,-10],[10,10,-10]]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "dungeon = [[-1,-2,-6,-3],[-2,-3,-3,-5],[-1,-3,-5,-7],[-8,-8,-3,-4]]",
+        "expectedOutput": "20",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "dungeon = [[-2,-1,1],[-1,-2,-2],[-3,3,1]]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "dungeon = [[-3,5,-10],[0,0,-3],[3,1,-2]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "dungeon = [[-10,-50,20],[-30,-10,10],[10,30,-5]]",
+        "expectedOutput": "41",
+        "isHidden": true
       }
     ]
   },
@@ -5397,6 +15178,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [3,30,34,5,9]",
         "expectedOutput": "&quot;9534330&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [3,30,34,5,9]",
+        "expectedOutput": "9534330",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [10,2]",
+        "expectedOutput": "210",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [111311,1113]",
+        "expectedOutput": "1113111311",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [10,100,1000]",
+        "expectedOutput": "101001000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [9,99,999,9999]",
+        "expectedOutput": "9999999999",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [3,30,34,5,9,10]",
+        "expectedOutput": "953433010",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [10,20,30,40,50]",
+        "expectedOutput": "5040302010",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [9,8,7,6,5,4,3,2,1,0]",
+        "expectedOutput": "9876543210",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [34323,3432]",
+        "expectedOutput": "343234323",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [121,12]",
+        "expectedOutput": "12121",
+        "isHidden": true
       }
     ]
   },
@@ -5431,6 +15272,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = \"AAAAAAAAAAAAA\"",
         "expectedOutput": "[\"AAAAAAAAAA\"]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT\"",
+        "expectedOutput": "['AAAAACCCCC', 'CCCCCAAAAA']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"CGTTGCGTTGCGTTGCGTTG\"",
+        "expectedOutput": "['CGTTGCGTTG', 'GTTGCGTTGC', 'TTGCGTTGCG', 'TGCGTTGCGT', 'GCGTTGCGTT']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"AAAAAAAAAATTTTTTTTTTAAAAAAAAAA\"",
+        "expectedOutput": "['AAAAAAAAAA']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"ACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGT\"",
+        "expectedOutput": "['ACGTACGTAC', 'CGTACGTACG', 'GTACGTACGT', 'TACGTACGTA']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"CGCGCGCGCGCGCGCGCGCG\"",
+        "expectedOutput": "['CGCGCGCGCG', 'GCGCGCGCGC']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"ACGTTTACGTTTACGTTT\"",
+        "expectedOutput": "['ACGTTTACGT', 'CGTTTACGTT', 'GTTTACGTTT']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"ACGACGACGACGACGACGACGACGACG\"",
+        "expectedOutput": "['ACGACGACGA', 'CGACGACGAC', 'GACGACGACG']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"",
+        "expectedOutput": "['AAAAAAAAAA']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"ACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGTACGT\"",
+        "expectedOutput": "['ACGTACGTAC', 'CGTACGTACG', 'GTACGTACGT', 'TACGTACGTA']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT\"",
+        "expectedOutput": "['TTTTTTTTTT']",
+        "isHidden": true
       }
     ]
   },
@@ -5467,6 +15368,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [-1,-100,3,99], k = 2",
         "expectedOutput": "[3,99,-1,-100]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [0,1,0,1,0,1,0], k = 2",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,2], k = 1",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10], k = 5",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [0,1,2,3,4,5,6,7,8,9], k = 100000",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,2,3], k = 0",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10], k = 3",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1], k = 1",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1], k = 0",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [-1,-100,3,99], k = 2",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1], k = 100",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -5492,6 +15453,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 11111111111111111111111111111111",
+        "expectedOutput": "3817748707",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 00000000000000000000000000000000",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 10000000000000000000000000000000",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 2147483648",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 00000010100101000001111010011100",
+        "expectedOutput": "Error: Solution.reverseBits() missing 1 required positional argument: 'n'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 43261596",
+        "expectedOutput": "964176192",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 4294967293",
+        "expectedOutput": "3221225471",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 1",
+        "expectedOutput": "2147483648",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 11111111111111111111111111111101",
+        "expectedOutput": "3180214499",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 00010001000100010001000100010001",
+        "expectedOutput": "Error: Solution.reverseBits() missing 1 required positional argument: 'n'",
+        "isHidden": true
       }
     ]
   },
@@ -5517,6 +15538,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 11",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 15",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 2147483647",
+        "expectedOutput": "31",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 32",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 1023",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 2147483645",
+        "expectedOutput": "30",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 65535",
+        "expectedOutput": "16",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 128",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 3",
+        "expectedOutput": "2",
+        "isHidden": true
       }
     ]
   },
@@ -5547,6 +15628,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [2,7,9,3,1]",
         "expectedOutput": "12"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [2,1,1,2]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [5,2,6,3,4,1]",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [5,2,6,3,1,8,9,4,7]",
+        "expectedOutput": "28",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,2]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [10,2,3,8,10,1]",
+        "expectedOutput": "23",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [0]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [3,2,5,10,7]",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [5,10,5,10]",
+        "expectedOutput": "20",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,3,1,3,100]",
+        "expectedOutput": "103",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [10,20,30,40,50]",
+        "expectedOutput": "90",
+        "isHidden": true
       }
     ]
   },
@@ -5574,6 +15715,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = []",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,2,3,null,5,null,4]",
+        "expectedOutput": "[1, 3, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9,null,10]",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [1,2,3,null,null,4,null,null,null,5,null,null,null,6,null,null,null,7,null,null,null,8,null,null,null,9,null,null,null,10]",
+        "expectedOutput": "[1, 3, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [1,2,3,4,null,null,5,null,null,6,null,null,7]",
+        "expectedOutput": "[1, 3, 5, 6, 7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [10,5,15,3,7,null,18,1,null,6,9]",
+        "expectedOutput": "[10, 15, 18, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [1,2,3,4,null,null,5,null,6,null,7,8,9,null,null,10,11,12,null,null,13,null,null,14]",
+        "expectedOutput": "[1, 3, 5, 7, 9, 12, 14]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [5,3,8,1,4,null,9,2,null,null,null,null,10]",
+        "expectedOutput": "[5, 8, 9, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [1,2,3,4,5,6,7,null,null,null,null,null,null,8,9]",
+        "expectedOutput": "[1, 3, 7, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [1,2,null,3,null,4,null,5,null,6]",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6]",
+        "isHidden": true
       }
     ]
   },
@@ -5602,6 +15803,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "grid = [['1','1','0','0','0'],['1','1','0','0','0'],['0','0','1','0','0'],['0','0','0','1','1']]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "grid = [['1','1','1'],['0','0','0'],['1','1','1']]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "grid = [['1','0','1','0','1'],['0','1','0','1','0'],['1','0','1','0','1'],['0','1','0','1','0']]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "grid = [['1','1','1','0','0','0'],['0','0','0','1','1','0'],['1','0','1','0','0','1'],['0','1','0','1','0','1'],['0','0','1','1','1','0']]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "grid = [['1','0','0','0','1','1','0','0','0','0'],['0','0','0','1','1','0','0','0','0','0'],['0','0','0','0','0','0','0','1','1','0'],['0','0','0','0','0','0','0','1','1','0'],['0','1','1','0','0','1','1','0','0','1']]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "grid = [['1','0','0','1','0','0','1','0','0','1'],['0','1','1','0','1','1','0','1','1','0'],['0','1','0','1','0','1','0','1','0','1'],['1','0','1','0','1','0','1','0','1','0'],['0','1','0','1','0','1','0','1','0','1'],['1','0','1','0','1','0','1','0','1','0'],['0','1','1','0','1','1','0','1','1','0'],['1','0','0','1','0','0','1','0','0','1']]",
+        "expectedOutput": "28",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "grid = [['1','1','1','1','1','1','1','1','1','1'],['1','0','0','0','0','0','0','0','0','1'],['1','0','1','1','1','1','1','1','0','1'],['1','0','1','0','0','0','0','1','0','1'],['1','0','1','1','1','1','0','1','0','1'],['1','0','0','0','0','0','0','1','0','1'],['1','1','1','1','1','1','1','1','0','1']]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "grid = [['1','0','1','0','1','0','1','0','1'],['0','1','0','1','0','1','0','1','0'],['1','0','1','0','1','0','1','0','1'],['0','1','0','1','0','1','0','1','0']]",
+        "expectedOutput": "18",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "grid = [['1','1','0','0','0','0','0'],['0','1','0','0','1','1','0'],['0','0','1','1','0','0','1'],['0','0','0','0','1','1','0'],['1','0','1','0','1','0','1'],['1','1','0','0','1','0','1']]",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "grid = [['1','1','0','0','0','0','1'],['1','1','0','0','1','0','1'],['0','0','0','0','1','0','1'],['0','0','1','1','1','0','0'],['0','0','0','0','0','0','0']]",
+        "expectedOutput": "3",
+        "isHidden": true
       }
     ]
   },
@@ -5636,6 +15897,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "left = 1, right = 2147483647",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "left = 16, right = 31",
+        "expectedOutput": "16",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "left = 123456, right = 654321",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "left = 8, right = 12",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "left = 0, right = 0",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "left = 33, right = 35",
+        "expectedOutput": "32",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "left = 1, right = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "left = 1, right = 2147483647",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "left = 8, right = 8",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "left = 10, right = 15",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "left = 100, right = 200",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -5667,6 +15988,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 2",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 20",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 2",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 1111111",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 19",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 1",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 1000000000",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 7",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 489",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 789789789",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 130",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -5702,6 +16083,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "head = [7,7,7,7], val = 7",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = [50,20,30,20,10], val = 20",
+        "expectedOutput": "[50, 30, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [1,1,1,1,1], val = 1",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [50,40,30,20,10], val = 50",
+        "expectedOutput": "[40, 30, 20, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [7,7,7,7], val = 7",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = [5,1,2,3,5,4,5], val = 5",
+        "expectedOutput": "[1, 2, 3, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [5,1,5,2,5,3,5], val = 5",
+        "expectedOutput": "[1, 2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [1,2,3,4,5], val = 3",
+        "expectedOutput": "[1, 2, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [], val = 1",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [1,1,1,2,3], val = 1",
+        "expectedOutput": "[2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [1,2,3,4,5], val = 6",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
       }
     ]
   },
@@ -5743,6 +16184,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "n = 1",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 1000",
+        "expectedOutput": "168",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 100",
+        "expectedOutput": "25",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 30",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 1500000",
+        "expectedOutput": "114155",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 1000000",
+        "expectedOutput": "78498",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 20",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 2",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 1",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 50",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 10",
+        "expectedOutput": "4",
+        "isHidden": true
       }
     ]
   },
@@ -5768,6 +16269,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"paper\", t = \"title\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"#a@C\", t = \"%b$D\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"1234567890\", t = \"0987654321\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"aaaa\", t = \"bbbb\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"123\", t = \"456\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"13\", t = \"42\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"egg\", t = \"add\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"test\", t = \"tets\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"foo\", t = \"bar\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"badc\", t = \"baba\"",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -5803,6 +16364,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "head = []",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = []",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [1,2]",
+        "expectedOutput": "[2, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [1]",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [-1,-2,-3,-4,-5]",
+        "expectedOutput": "[-5, -4, -3, -2, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = [3]",
+        "expectedOutput": "[3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]",
+        "expectedOutput": "[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [-1000,0,1000]",
+        "expectedOutput": "[1000, 0, -1000]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [5000,-5000,5000,-5000]",
+        "expectedOutput": "[-5000, 5000, -5000, 5000]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,10,5]",
+        "expectedOutput": "[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [1,3,5,7,9,11,13,15,17,19,21]",
+        "expectedOutput": "[21, 19, 17, 15, 13, 11, 9, 7, 5, 3, 1]",
+        "isHidden": true
       }
     ]
   },
@@ -5839,6 +16460,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "numCourses = 2, prerequisites = [[1,0],[0,1]]",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "numCourses = 3, prerequisites = [[1,0],[2,1]]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "numCourses = 1, prerequisites = []",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "numCourses = 2, prerequisites = [[1,0]]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "numCourses = 20, prerequisites = [[1,0],[2,0],[3,1],[4,1],[5,2],[6,2],[7,3],[7,4],[8,5],[8,6],[9,7],[10,7],[11,8],[12,8],[13,9],[14,10],[14,11],[14,12],[15,13],[16,13],[17,14],[18,15],[18,16],[19,17],[19,18]]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "numCourses = 10, prerequisites = [[1,0],[2,0],[3,0],[4,1],[4,2],[4,3],[5,4],[6,4],[7,5],[8,5],[9,6],[9,7]]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "numCourses = 9, prerequisites = [[1,0],[2,0],[3,0],[4,1],[4,2],[5,3],[5,4],[6,5],[7,6],[8,7],[8,5]]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "numCourses = 7, prerequisites = [[1,0],[2,0],[3,1],[3,2],[4,1],[5,2],[6,3]]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "numCourses = 7, prerequisites = [[1,0],[2,0],[3,1],[3,2],[4,3],[5,3],[6,4],[6,5]]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "numCourses = 10, prerequisites = [[1,0],[2,1],[3,1],[4,2],[5,2],[6,3],[7,3],[8,4],[8,5],[9,6],[9,7]]",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -5866,6 +16547,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -5903,6 +16644,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "target = 11, nums = [1,1,1,1,1,1,1,1]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "target = 11, nums = [1,1,1,1,1,1,1,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "target = 100, nums = [10,20,30,40,50]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "target = 8, nums = [2,2,2,2,2,2,2,2]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "target = 8, nums = [3,4,3,1,1,1,1,1]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "target = 7, nums = [2,3,1,2,4,3]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "target = 4, nums = [1,4,4]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "target = 3, nums = [1,1,1]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "target = 15, nums = [5,5,5,5,5]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "target = 5, nums = [2,3,1,1,1,1,1]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "target = 15, nums = [5,1,3,5,10,7,4,9,2,8]",
+        "expectedOutput": "2",
+        "isHidden": true
       }
     ]
   },
@@ -5944,6 +16745,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "numCourses = 1, prerequisites = []",
         "expectedOutput": "[0]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "numCourses = 5, prerequisites = [[1,0],[2,0],[3,1],[3,2],[4,3]]",
+        "expectedOutput": "[0, 1, 2, 3, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "numCourses = 6, prerequisites = [[1,0],[2,0],[3,1],[3,2],[2,1]]",
+        "expectedOutput": "[0, 4, 5, 1, 2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "numCourses = 3, prerequisites = [[0,1],[1,2],[2,0]]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "numCourses = 3, prerequisites = [[1,0],[1,2],[0,1]]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "numCourses = 3, prerequisites = [[0,1],[0,2],[1,2]]",
+        "expectedOutput": "[2, 1, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "numCourses = 3, prerequisites = [[1,0],[0,1]]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "numCourses = 5, prerequisites = [[1,0],[2,0],[3,1],[3,2]]",
+        "expectedOutput": "[0, 4, 1, 2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "numCourses = 8, prerequisites = [[1,0],[2,1],[3,2],[4,2],[5,3],[6,3],[7,4],[7,5]]",
+        "expectedOutput": "[0, 1, 2, 3, 4, 5, 6, 7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "numCourses = 5, prerequisites = [[1,4],[2,4],[3,1],[3,2]]",
+        "expectedOutput": "[0, 4, 1, 2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]",
+        "expectedOutput": "[0, 1, 2, 3]",
+        "isHidden": true
       }
     ]
   },
@@ -5973,6 +16834,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -6009,6 +16930,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "board = [[&quot;a&quot;,&quot;b&quot;],[&quot;c&quot;,&quot;d&quot;]], words = [&quot;abcb&quot;]",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "board = [[\"o\",\"a\",\"a\",\"n\"],[\"e\",\"t\",\"a\",\"e\"],[\"i\",\"h\",\"k\",\"r\"],[\"i\",\"f\",\"l\",\"v\"]], words = [\"oath\",\"pea\",\"eat\",\"rain\"]",
+        "expectedOutput": "['oath', 'eat']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "abc\"],",
+        "expectedOutput": "Error: Solution.findWords() missing 2 required positional arguments: 'board' and 'words'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "board = [[\"a\"],[\"a\"]], words = [\"a\"]",
+        "expectedOutput": "['a']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "board = [['a','b'],['c','d']], words = ['abcb']",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "board = [[\"a\",\"b\",\"c\"],[\"a\",\"e\",\"d\"],[\"a\",\"f\",\"g\"]], words = [\"abcdefg\",\"gfedcbaaa\",\"eaabcdgfa\",\"befadac\",\"gf",
+        "expectedOutput": "Error: Solution.findWords() missing 1 required positional argument: 'words'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "board = [[\"a\",\"a\"]], words = [\"aaa\"]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "board = [[\"a\"]], words = [\"a\"]",
+        "expectedOutput": "['a']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "board = [[\"a\",\"b\",\"c\"],[\"d\",\"e\",\"f\"],[\"g\",\"h\",\"i\"]], words = [\"abc\",\"cfi\",\"beh\",\"defi\",\"ghi\"]",
+        "expectedOutput": "['abc', 'beh', 'cfi', 'defi', 'ghi']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "board = [[\"a\",\"b\"],[\"c\",\"d\"]], words = [\"abcb\"]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "board = [[\"a\",\"b\"],[\"c\",\"f\"]], words = [\"ab\",\"cf\",\"bf\",\"ca\"]",
+        "expectedOutput": "['ab', 'bf', 'ca', 'cf']",
+        "isHidden": true
       }
     ]
   },
@@ -6046,6 +17027,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [1,2,3]",
         "expectedOutput": "3"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [5,1,2,4,7,8]",
+        "expectedOutput": "14",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [5,3,1,1,1]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "30",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [10,20,30,40,50]",
+        "expectedOutput": "80",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [300,3,140,20,10,5,5,200]",
+        "expectedOutput": "455",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [5,5,5,5,5]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [4,1,2,3,4,5,6,7,8,9]",
+        "expectedOutput": "25",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,4,5]",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [2,7,9,3,1]",
+        "expectedOutput": "11",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1000]",
+        "expectedOutput": "1000",
+        "isHidden": true
       }
     ]
   },
@@ -6078,6 +17119,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = \"abcd\"",
         "expectedOutput": "\"dcbabcd\""
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"abcdefghijklmnopqrstuvwxyz\"",
+        "expectedOutput": "zyxwvutsrqponmlkjihgfedcbabcdefghijklmnopqrstuvwxyz",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"abac\"",
+        "expectedOutput": "cabac",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"zxcvbnm\"",
+        "expectedOutput": "mnbvcxzxcvbnm",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"aabbaa\"",
+        "expectedOutput": "aabbaa",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"abcdcba\"",
+        "expectedOutput": "abcdcba",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"aaaaa\"",
+        "expectedOutput": "aaaaa",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"a\"",
+        "expectedOutput": "a",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"abcabcabc\"",
+        "expectedOutput": "cbacbacbabcabcabc",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"step\"",
+        "expectedOutput": "petstep",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"abacdfgdcaba\"",
+        "expectedOutput": "abacdgfdcabacdfgdcaba",
+        "isHidden": true
       }
     ]
   },
@@ -6111,6 +17212,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [3,2,3,1,2,4,5,5,6], k = 4",
         "expectedOutput": "4"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [10000,-10000,0], k = 2",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [3,2,1,5,6,4], k = 2",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [-1,-2,-3,-4,-5], k = 2",
+        "expectedOutput": "-2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1], k = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [3,2,3,1,2,4,5,5,6], k = 4",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [10000, 9999, 9998, 9997, 9996, 9995, 9994, 9993, 9992, 9991, 9990, 9989, 9988, 9987, 9986, 9985, 9984, 9983, 9982, 9981], k = 10",
+        "expectedOutput": "9991",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1000, 999, 998, 997, 996, 995, 994, 993, 992, 991, 990, 989, 988, 987, 986, 985, 984, 983, 982, 981], k = 15",
+        "expectedOutput": "986",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39], k = 20",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1], k = 20",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [-10000, -9999, -9998, -9997, -9996, -9995, -9994, -9993, -9992, -9991], k = 3",
+        "expectedOutput": "-9993",
+        "isHidden": true
       }
     ]
   },
@@ -6146,6 +17307,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "k = 4, n = 1",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "k = 5, n = 20",
+        "expectedOutput": "[[1, 2, 3, 5, 9], [1, 2, 3, 6, 8], [1, 2, 4, 5, 8], [1, 2, 4, 6, 7], [1, 3, 4, 5, 7], [2, 3, 4, 5, 6]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "k = 7, n = 56",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "k = 4, n = 1",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "k = 2, n = 15",
+        "expectedOutput": "[[6, 9], [7, 8]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "k = 9, n = 45",
+        "expectedOutput": "[[1, 2, 3, 4, 5, 6, 7, 8, 9]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "k = 8, n = 84",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "k = 3, n = 18",
+        "expectedOutput": "[[1, 8, 9], [2, 7, 9], [3, 6, 9], [3, 7, 8], [4, 5, 9], [4, 6, 8], [5, 6, 7]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "k = 3, n = 9",
+        "expectedOutput": "[[1, 2, 6], [1, 3, 5], [2, 3, 4]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "k = 7, n = 63",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "k = 4, n = 28",
+        "expectedOutput": "[[4, 7, 8, 9], [5, 6, 8, 9]]",
+        "isHidden": true
       }
     ]
   },
@@ -6172,6 +17393,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,1,1,3,3,4,3,2,4,2]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [0,0,0,0,0,0,0,0,0,0]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,3,4]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,2]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [5,7,8,9,5]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [0]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1000000000,-1000000000,1000000000,-1000000000]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [0,0,0,0,0,0]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [-1,0,1,2]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [-1,0,1,2,3,-1]",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -6208,6 +17489,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [1,2,3,1,2,3], k = 2",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,0,1,1], k = 1",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [0,1,2,3,4,5,6,7,8,9,0], k = 10",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,9], k = 1",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,2,2,1], k = 2",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,2,3,4,5], k = 4",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,2,3,4,5], k = 5",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10], k = 5",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,1], k = 9",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9,1], k = 18",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [9,9], k = 1",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -6244,6 +17585,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1,5,9,1,5,9], indexDiff = 2, valueDiff = 3",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [10,10,10,10,10,10], indexDiff = 3, valueDiff = 0",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,2,3,4,5], indexDiff = 1, valueDiff = 1",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [8,7,15,1,6,1,9,15], indexDiff = 1, valueDiff = 3",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [2,1,2,3,1,5], indexDiff = 3, valueDiff = 2",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,2,3,1], indexDiff = 3, valueDiff = 0",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [2147483647,-2147483647], indexDiff = 1, valueDiff = 2147483647",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,5,9,1,5,9], indexDiff = 2, valueDiff = 3",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10], indexDiff = 5, valueDiff = 5",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [8,2,4,2,0,1,0,1], indexDiff = 2, valueDiff = 1",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [10,9,8,7,6,5,4,3,2,1], indexDiff = 4, valueDiff = 2",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -6280,6 +17681,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "matrix = [[&quot;0&quot;]]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "matrix = [[\"1\",\"1\"],[\"1\",\"1\"]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "matrix = [[\"0\"]]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "matrix = [[\"1\",\"1\",\"0\",\"0\",\"0\"],[\"1\",\"1\",\"0\",\"0\",\"0\"],[\"0\",\"0\",\"0\",\"0\",\"0\"],[\"0\",\"0\",\"0\",\"0\",\"0\"]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "matrix = [[\"1\",\"0\",\"1\",\"0\",\"0\"],[\"1\",\"0\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"0\",\"0\",\"1\",\"0\"]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "matrix = [[\"1\",\"0\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\"]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "matrix = [[\"1\",\"0\",\"1\",\"1\",\"0\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"0\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"0\"]]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "matrix = [[\"1\",\"0\",\"1\",\"1\",\"1\"],[\"1\",\"0\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"0\",\"0\",\"1\",\"0\"]]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "matrix = [[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"]]\"",
+        "expectedOutput": "Error: Solution.maximalSquare() missing 1 required positional argument: 'matrix'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "matrix = [[\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"]]\"",
+        "expectedOutput": "Error: Solution.maximalSquare() missing 1 required positional argument: 'matrix'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "matrix = [[\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"0\",\"0\",\"1\",\"1\"],[\"1\",\"1\",\"0\",\"0\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"]]",
+        "expectedOutput": "4",
+        "isHidden": true
       }
     ]
   },
@@ -6317,6 +17778,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "root = [1]",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [1,2,3,4,5,null,7]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,2,3,4,5,6]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = []",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [1,2,3,4,5,6,7,8,9,10,11,12,13,null,null,16,17]",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [1,2,3,null,null,6,7]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [1,2,3,4,5,6,7,8,9,10,11,12,13,null,null,16,17,null,null,19,20,21,22,null,null,null,null,23,24,25,26,null,null,27,null,null,null,null,null,null,null,null,null,null,null,null,null,null,28]",
+        "expectedOutput": "25",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [1,2,3,4]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34]",
+        "expectedOutput": "34",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32]",
+        "expectedOutput": "32",
+        "isHidden": true
       }
     ]
   },
@@ -6347,6 +17868,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "ax1 = -2, ay1 = -2, ax2 = 2, ay2 = 2, bx1 = -2, by1 = -2, bx2 = 2, by2 = 2",
         "expectedOutput": "16"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "ax1 = 0, ay1 = 0, ax2 = 5, ay2 = 5, bx1 = 5, by1 = 5, bx2 = 10, by2 = 10",
+        "expectedOutput": "50",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "ax1 = -3, ay1 = 0, ax2 = 3, ay2 = 4, bx1 = 0, by1 = -1, bx2 = 9, by2 = 2",
+        "expectedOutput": "45",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "ax1 = -5, ay1 = -5, ax2 = 0, ay2 = 0, bx1 = -3, by1 = -3, bx2 = 3, by2 = 3",
+        "expectedOutput": "52",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "ax1 = -5, ay1 = -5, ax2 = 0, ay2 = 0, bx1 = -3, by1 = -3, bx2 = -1, by2 = -1",
+        "expectedOutput": "25",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "ax1 = 1, ay1 = 1, ax2 = 4, ay2 = 5, bx1 = 2, by1 = 2, bx2 = 5, by2 = 6",
+        "expectedOutput": "18",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "ax1 = 0, ay1 = 0, ax2 = 1, ay2 = 1, bx1 = 2, by1 = 2, bx2 = 3, by2 = 3",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "ax1 = 1, ay1 = 1, ax2 = 5, ay2 = 5, bx1 = 3, by1 = 3, bx2 = 7, by2 = 7",
+        "expectedOutput": "28",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "ax1 = -1, ay1 = -1, ax2 = 1, ay2 = 1, bx1 = 0, by1 = 0, bx2 = 2, by2 = 2",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "ax1 = 1, ay1 = 1, ax2 = 3, ay2 = 3, bx1 = 4, by1 = 4, bx2 = 6, by2 = 6",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "ax1 = -20, ay1 = -20, ax2 = 20, ay2 = 20, bx1 = 15, by1 = 15, bx2 = 25, by2 = 25",
+        "expectedOutput": "1675",
+        "isHidden": true
       }
     ]
   },
@@ -6384,6 +17965,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;(1+(4+5+2)-3)+(6+8)&quot;",
         "expectedOutput": "23"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"-2147483647\"",
+        "expectedOutput": "-2147483647",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"- (3 + (2 - 1))\"",
+        "expectedOutput": "-4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"1 + (2 + 3) + (4 + (5 + 6))\"",
+        "expectedOutput": "21",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"5 - (3 - (1 + 2))\"",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"(1-2+(3-(4-5)))\"",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \" 2-1 + 2 \"",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"(1+(4+5+2)-3)+(6+8)\"",
+        "expectedOutput": "23",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"- (3 + (2 - 1) )\"",
+        "expectedOutput": "-4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"100 * 2 + 12\"",
+        "expectedOutput": "114",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"(1+(2+(3+(4+(5+(6+(7+(8+(9+(10)))))))))\"",
+        "expectedOutput": "55",
+        "isHidden": true
       }
     ]
   },
@@ -6410,6 +18051,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -6447,6 +18148,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "root = []",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = []",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [3,1,4,null,2]",
+        "expectedOutput": "[3, 4, 1, None, None, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [1,null,2,null,3,null,4,null,5]",
+        "expectedOutput": "[1, 2, None, 3, None, 4, None, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [1,2,3,4,5,null,7,8,null,10,11,12]",
+        "expectedOutput": "[1, 3, 2, 7, None, 5, 4, None, 12, 11, 10, None, 8]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [50,20,70,10,30,60,80,5,15,25,35,55,65,75,85]",
+        "expectedOutput": "[50, 70, 20, 80, 60, 30, 10, 85, 75, 65, 55, 35, 25, 15, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [3,1,4,3,null,1,5]",
+        "expectedOutput": "[3, 4, 1, 5, 1, None, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [1,null,2,null,3,null,4,null,5,null,6]",
+        "expectedOutput": "[1, 2, None, 3, None, 4, None, 5, None, 6]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [8,5,9,3,7,12,15,1,4,6,10,13,17]",
+        "expectedOutput": "[8, 9, 5, 15, 12, 7, 3, None, None, 17, 13, 10, 6, 4, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [5,15,1,null,30,20,null]",
+        "expectedOutput": "[5, 1, 15, None, 20, 30]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [8,15,3,7,19,1,2]",
+        "expectedOutput": "[8, 3, 15, 2, 1, 19, 7]",
+        "isHidden": true
       }
     ]
   },
@@ -6483,6 +18244,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = \" 3+5 / 2 \"",
         "expectedOutput": "5"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"30 + 2 * 6 / (3 - 1)\"",
+        "expectedOutput": "33",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"100 * ( 2 + 12 ) / 14\"",
+        "expectedOutput": "200",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"1 + 1 * 1 + 1\"",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"2*3+4/5\"",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"3 + 5 / ( 2 + 3 )\"",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"0 + 0\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"100*2+12\"",
+        "expectedOutput": "212",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"2147483647 + 1 - 1\"",
+        "expectedOutput": "2147483647",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"100000 + 100000 - 50000 * 2 + 25000 * 4 / 5\"",
+        "expectedOutput": "120000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"100 * 2 + 12\"",
+        "expectedOutput": "212",
+        "isHidden": true
       }
     ]
   },
@@ -6512,6 +18333,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [0,2,3,4,6,8,9]",
         "expectedOutput": "[&quot;0&quot;,&quot;2-&gt;4&quot;,&quot;6&quot;,&quot;8-&gt;9&quot;]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [-2147483648,-2147483647,-2147483646]",
+        "expectedOutput": "['-2147483648->-2147483646']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,3,5,7,9]",
+        "expectedOutput": "['1', '3', '5', '7', '9']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [5,6,7,9,10,11,13,14,15,16]",
+        "expectedOutput": "['5->7', '9->11', '13->16']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1]",
+        "expectedOutput": "['1']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [-2,-1,0,1,3,4,6,8]",
+        "expectedOutput": "['-2->1', '3->4', '6', '8']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [-2147483648,-2147483647,0,2147483646,2147483647]",
+        "expectedOutput": "['-2147483648->-2147483647', '0', '2147483646->2147483647']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,2,3,6,8,9,10,12,13,14]",
+        "expectedOutput": "['1->3', '6', '8->10', '12->14']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [0,1,2,4,5,7]",
+        "expectedOutput": "['0->2', '4->5', '7']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [-1,-2,-3,-4,-5]",
+        "expectedOutput": "['-1', '-2', '-3', '-4', '-5']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [0,2,4,6,8,10,12,14,16,18,20]",
+        "expectedOutput": "['0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20']",
+        "isHidden": true
       }
     ]
   },
@@ -6553,6 +18434,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [1,2]",
         "expectedOutput": "[1,2]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,2]",
+        "expectedOutput": "[2, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,1,1,1]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [3,3,4,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3]",
+        "expectedOutput": "[3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,1,1,3,3,2,2,2]",
+        "expectedOutput": "[2, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [2,2,1,1,1,2,2]",
+        "expectedOutput": "[2, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [5,5,5,5,5,5,5,5,5,5,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [10,10,10,10,10,10,10,2,3,4,5,6,7,8,9]",
+        "expectedOutput": "[10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [2,2,1,3]",
+        "expectedOutput": "[2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [4,1,2,3,4,2,3,4,5,6,7,8,9,4,4,4,4,4,4,4,4,4,4]",
+        "expectedOutput": "[4]",
+        "isHidden": true
       }
     ]
   },
@@ -6590,6 +18531,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = [5,3,6,2,4,null,null,1], k = 3",
         "expectedOutput": "3"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [3,2,4,1], k = 2",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1], k = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [5,1,7,null,2,null,8,null,3], k = 4",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [3,1,4,null,2,null,null,null,null,null], k = 2",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [10,5,15,3,7,null,18], k = 4",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [8,4,12,2,6,10,14,1,3,5,7,9,11,13,15], k = 15",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [10,5,15,3,7,12,18,1,4,6,8,11,13,17,19], k = 5",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [50,25,75,10,30,60,80,5,15,27,35,55,65,70,90,1,null,8,12,20,28,32,38,40,52,58,62,68,72,78,85,95], k = 15",
+        "expectedOutput": "38",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [8,3,10,1,6,null,14,null,null,4,7,13,17,11,15], k = 7",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [7,3,15,null,null,9,20,8,10,11,19], k = 4",
+        "expectedOutput": "9",
+        "isHidden": true
       }
     ]
   },
@@ -6626,6 +18627,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "n = 3",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = -16",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 67108864",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 4096",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 2147483647",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 536870912",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 524288",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 268435456",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 16384",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 16777216",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = -1",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -6652,6 +18713,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -6685,6 +18806,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 0",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 100000",
+        "expectedOutput": "50001",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 999999999",
+        "expectedOutput": "900000000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 999",
+        "expectedOutput": "300",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 1000000",
+        "expectedOutput": "600001",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 501",
+        "expectedOutput": "201",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 9999",
+        "expectedOutput": "4000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 100",
+        "expectedOutput": "21",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 1000000000",
+        "expectedOutput": "900000001",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 1000",
+        "expectedOutput": "301",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 55",
+        "expectedOutput": "16",
+        "isHidden": true
       }
     ]
   },
@@ -6717,6 +18898,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "head = [1,2]",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = [9,8,7,8,9]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [1,2,3,3,2,1]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [1,2,3,4,5,4,3,2,1]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [1,2,3,4,5]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = [1,2,3,2,1]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [1,2,2,1]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [1,2]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [1]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [1,0,1]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [1,1]",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -6754,6 +18995,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "root = [2,1], p = 2, q = 1",
         "expectedOutput": "2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -6790,6 +19091,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "root = [1,2], p = 1, q = 2",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "p",
+        "expectedOutput": "Error: Solution.lowestCommonAncestor() missing 3 required positional arguments: 'root', 'p', and 'q'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [3,5,1,6,2,0,8,null,null,7,4], p = 2, q = 7",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [3,5,1,6,2,0,8,null,null,7,4], p = 6, q = 8",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [37,-34,-48,null,-100,-101,48,null,null,null,null,-54,null,-71,-22,null,null,null,8], p = -100, q = -101",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [3,1,4,null,2], p = 2, q = 1",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [3,5,1,6,2,0,8,null,null,7,4], p = 6, q = 4",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [6,2,8,0,4,7,9,null,null,3,5], p = 0, q = 5",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [3,5,1,6,2,0,8,null,null,7,4], p = 3, q = 0",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -6822,6 +19183,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 20",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "matrix = [[-10,-5,-3,-1,-1],[0,1,1,2,2],[3,3,4,4,5],[6,7,8,8,9],[10,10,12,13,15]], target = 8",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "matrix = [[-5,-4,-3,-2,-1],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19],[20,21,22,23,24]], target = 0",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "matrix = [[-10,-8,-6,-4,-3],[-9,-7,-5,-3,-1],[-4,-2,0,2,4],[-3,1,3,5,7],[2,4,6,8,10]], target = 0",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "matrix = [[1,3,5,7],[2,4,6,8],[0,11,16,20],[13,14,17,18]], target = 14",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "matrix = [[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15],[16,17,18,19,20],[21,22,23,24,25]], target = 15",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "matrix = [[-10,-8,-6,-4,-2],[0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19]], target = -5",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "matrix = [[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15],[16,17,18,19,20],[21,22,23,24,25]], target = 13",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "matrix = [[-10,-8,-5,-3,-1],[0,2,3,5,7],[8,9,10,12,13],[15,17,18,20,21],[23,25,26,27,29]], target = 14",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -6858,6 +19279,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "num = 0",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "num = 111111111",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "num = 47",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "num = 456789",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "num = 38",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "num = 45",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "num = 234567890",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "num = 1000000000",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "num = 942",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "num = 123",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "num = 987654321",
+        "expectedOutput": "9",
+        "isHidden": true
       }
     ]
   },
@@ -6893,6 +19374,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [0,1]",
         "expectedOutput": "[1,0]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [4,1,4,13,6,7,6,7]",
+        "expectedOutput": "[13, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [4,1,4,13,6,13,2,6]",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [9,8,7,6,5,4,3,2,1,2,3,4,5,6,7,8]",
+        "expectedOutput": "[9, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [2,2,3,4,3,4,5,5,6,7]",
+        "expectedOutput": "[7, 6]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [-1,0]",
+        "expectedOutput": "[-1, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [0,0,1,1,2,3,4,4,5,5,6,6,7,7,8,8,9,9,10,11]",
+        "expectedOutput": "[0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [10,1,10,3,7,3,5,5]",
+        "expectedOutput": "[7, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [10,20,10,30,40,50,40,50]",
+        "expectedOutput": "[30, 20]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [3,1,2,3,2,5,6,6]",
+        "expectedOutput": "[5, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [0,0,1,2,3,3,4,4,5,5]",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
       }
     ]
   },
@@ -6927,6 +19468,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "n = 14",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = -2147483648",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 100000",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 100",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 30",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = -1",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 2147483648",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 125",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 14",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 2147483647",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 6",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -6964,6 +19565,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 1",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 1690",
+        "expectedOutput": "2123366400",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 50",
+        "expectedOutput": "243",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 10",
+        "expectedOutput": "12",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 5",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 1400",
+        "expectedOutput": "516560652",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 3",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 1575",
+        "expectedOutput": "1230187500",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 1600",
+        "expectedOutput": "1399680000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 1685",
+        "expectedOutput": "2066242608",
+        "isHidden": true
       }
     ]
   },
@@ -6993,6 +19654,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [0]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [5,2,4,6,3,0,1]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [0,2,3,4]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [8,6,4,2,0,1,3,5,7]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [0,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [5,2,4,0,1]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [0,1]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [9,6,4,2,3,5,7,0,1]",
+        "expectedOutput": "8",
+        "isHidden": true
       }
     ]
   },
@@ -7033,6 +19754,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "num = 1234567",
         "expectedOutput": "&quot;One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "num = 100000000",
+        "expectedOutput": "One Hundred Million",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "num = 1234567",
+        "expectedOutput": "One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "num = 999",
+        "expectedOutput": "Nine Hundred Ninety Nine",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "num = 10000000",
+        "expectedOutput": "Ten Million",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "num = 29",
+        "expectedOutput": "Twenty Nine",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "num = 31",
+        "expectedOutput": "Thirty One",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "num = 30",
+        "expectedOutput": "Thirty",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "num = 1000000000",
+        "expectedOutput": "One Billion",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "num = 110",
+        "expectedOutput": "One Hundred Ten",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "num = 5",
+        "expectedOutput": "Five",
+        "isHidden": true
       }
     ]
   },
@@ -7068,6 +19849,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "citations = [1,3,1]",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "citations = [3,0,6,1,5]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "citations = [0,1,2,3,4]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "citations = [1000,999,998,997,996]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "citations = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "citations = [0,0,0,0,0]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "citations = [8,8,8,8,8,8,8]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "citations = [10,10,10,10]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "citations = [1,3,1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "citations = [100,0,1,2]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "citations = [11,15,0,6,9,12]",
+        "expectedOutput": "5",
+        "isHidden": true
       }
     ]
   },
@@ -7100,6 +19941,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "citations = [1,2,100]",
         "expectedOutput": "2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "citations = [100]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "citations = [0,0,0,0,0]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "citations = [100,100,100,100,100]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "citations = [0,0,4,4,5,6]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "citations = [0,1,2,3,4,5]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "citations = [11,15]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "citations = [0,0,0,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "citations = [1,2,2,3,3,4,4,5,5,5]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "citations = [1,2,100]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "citations = [1,3,3,3,3,3,3]",
+        "expectedOutput": "3",
+        "isHidden": true
       }
     ]
   },
@@ -7130,6 +20031,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 1, bad = 1",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 10, bad = 2",
+        "expectedOutput": "Error: Solution.firstBadVersion() got an unexpected keyword argument 'bad'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 5, bad = 4",
+        "expectedOutput": "Error: Solution.firstBadVersion() got an unexpected keyword argument 'bad'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 1, bad = 1",
+        "expectedOutput": "Error: Solution.firstBadVersion() got an unexpected keyword argument 'bad'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 100, bad = 50",
+        "expectedOutput": "Error: Solution.firstBadVersion() got an unexpected keyword argument 'bad'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 10, bad = 10",
+        "expectedOutput": "Error: Solution.firstBadVersion() got an unexpected keyword argument 'bad'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 10, bad = 7",
+        "expectedOutput": "Error: Solution.firstBadVersion() got an unexpected keyword argument 'bad'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 2147483647, bad = 1",
+        "expectedOutput": "Error: Solution.firstBadVersion() got an unexpected keyword argument 'bad'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 10, bad = 1",
+        "expectedOutput": "Error: Solution.firstBadVersion() got an unexpected keyword argument 'bad'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 30, bad = 16",
+        "expectedOutput": "Error: Solution.firstBadVersion() got an unexpected keyword argument 'bad'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 1000, bad = 1",
+        "expectedOutput": "Error: Solution.firstBadVersion() got an unexpected keyword argument 'bad'",
+        "isHidden": true
       }
     ]
   },
@@ -7161,6 +20122,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 13",
         "expectedOutput": "2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 100",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 4",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 12",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 16",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 17",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 10000",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 9",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 9876",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 6",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 9999",
+        "expectedOutput": "4",
+        "isHidden": true
       }
     ]
   },
@@ -7194,6 +20215,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [0]",
         "expectedOutput": "[0]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [4,2,4,0,0,3,0,5,1,0]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [-1,0,0,3,5,-2]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [0]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [0,0,1,0,0,2,0,3]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [0,0,0,0,1]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [0,0,1,0,3,12]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,0,2,0,3,0,4,5]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [0,0,0,0]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [0,1,0,2,0,3,0,4,0,5]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [0,0,0,0,0]",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -7225,6 +20306,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -7262,6 +20403,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [3,3,3,3,3]",
         "expectedOutput": "3"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [7,9,7,4,6,2,3,8,5,1]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [3,1,3,4,2]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,3,4,4,4,5]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [3,3,3,3,3]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,3,4,2,2]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [5,1,2,3,4,5]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,2,3,4,5,6,6]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,4,4]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,1,2,3,4,5]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,1,2,3,4]",
+        "expectedOutput": "1",
+        "isHidden": true
       }
     ]
   },
@@ -7293,6 +20494,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "board = [[1,1],[1,0]]",
         "expectedOutput": "[[1,1],[1,1]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "board = [[0]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "board = [[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "board = [[1]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "board = [[1,1,1],[1,1,1],[1,1,1]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "board = [[1,1],[1,0]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "board = [[1,0,1,0],[0,1,0,1],[1,0,1,0],[0,1,0,1]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "board = [[0,0,0],[1,0,1],[0,0,0]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "board = [[0,1,0],[0,0,1],[1,1,1],[0,0,0]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "board = [[0,0,0],[1,0,1],[0,1,0]]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "board = [[0,1,0,0,0,0],[0,0,1,0,0,0],[1,1,1,0,0,0],[0,0,0,0,1,1],[0,0,0,0,1,1],[0,0,0,0,0,0]]",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -7318,6 +20579,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "pattern = \"abcd\", s = \"dog cat elephant fish\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "pattern = \"aaaa\", s = \"dog dog dog dog\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "pattern = \"he\", s = \"unit\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "pattern = \"abb\", s = \"dog cat cat\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "pattern = \"abab\", s = \"dog cat dog cat\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "pattern = \"title\", s = \"title\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "pattern = \"abc\", s = \"b c a\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "pattern = \"abba\", s = \"dog dog dog dog\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "pattern = \"aaa\", s = \"aa aa aa\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "pattern = \"abc\", s = \"dog cat fish\"",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -7356,6 +20677,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "n = 2",
         "expectedOutput": "true"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 2147483647",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 104",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 100",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 10",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 5",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 28",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 40",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 4",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 16",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 33",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -7384,6 +20765,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -7418,6 +20859,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = []",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -7449,6 +20950,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "secret = &quot;1123&quot;, guess = &quot;0111&quot;",
         "expectedOutput": "&quot;1A1B&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "secret = \"0000\", guess = \"1111\"",
+        "expectedOutput": "0A0B",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "secret = \"111222333\", guess = \"333222111\"",
+        "expectedOutput": "3A6B",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "secret = \"9999999999\", guess = \"1111111111\"",
+        "expectedOutput": "0A0B",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "secret = \"1112\", guess = \"1122\"",
+        "expectedOutput": "3A0B",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "secret = \"9305\", guess = \"7315\"",
+        "expectedOutput": "2A0B",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "secret = \"1122\", guess = \"2211\"",
+        "expectedOutput": "0A4B",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "secret = \"1234567890\", guess = \"0987654321\"",
+        "expectedOutput": "0A10B",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "secret = \"1111\", guess = \"1111\"",
+        "expectedOutput": "4A0B",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "secret = \"0000\", guess = \"0000\"",
+        "expectedOutput": "4A0B",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "secret = \"5678901234\", guess = \"1234567890\"",
+        "expectedOutput": "0A10B",
+        "isHidden": true
       }
     ]
   },
@@ -7485,6 +21046,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [7,7,7,7,7,7,7]",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [7,7,7,7,7,7,7]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,2,2,4,5,3]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [0,-1,1]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [0,1,0,3,2,3]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,3,5,4,7]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,3,6,7,9,4,10,5,6]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [10,9,2,5,3,7,101,18]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,2,2,2,3,4,5]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,2,2,2,2,2,2,3]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [10,22,9,33,21,50,41,60,80]",
+        "expectedOutput": "6",
+        "isHidden": true
       }
     ]
   },
@@ -7526,6 +21147,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;)(&quot;",
         "expectedOutput": "[&quot;&quot;]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -7552,6 +21233,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -7579,6 +21320,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -7607,6 +21408,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -7637,6 +21498,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "&quot;199100199&quot;",
         "expectedOutput": "true"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "num = \"12358132134558914423337761098715972584467376111128914423337761098715972584467376\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "num = \"000\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "num = \"112358\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "num = \"101\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "num = \"1023\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "num = \"111\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "num = \"123456789101112131415\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "num = \"199100199\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "num = \"11112233558814332333776109871597258446737611112891442333776109871597258446737600\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "num = \"1212243660100961962968965936565601271879009877665776613593530136146765122399774777472502727500\"",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -7667,6 +21588,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "prices = [1]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "prices = [2,1,4,5,2,9,7]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "prices = [1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "prices = [3,2,6,5,0,3]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "prices = [3,2,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "prices = [8,9,7,9,10,1,2,3,4,1,5]",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "prices = [8,6,4,3,3,2,3,5,8,3,8,2,6]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "prices = [1,3,2,8,4,9]",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "prices = [6,1,3,2,4,7]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "prices = [7,1,5,3,6,4]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "prices = [5,4,3,2,1]",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -7701,6 +21682,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 6, edges = [[3,0],[3,1],[3,2],[3,4],[5,4]]",
         "expectedOutput": "[3,4]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 6, edges = [[3,0],[3,1],[3,2],[3,4],[5,4]]",
+        "expectedOutput": "[3, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 5, edges = [[0,1],[1,2],[0,3],[3,4]]",
+        "expectedOutput": "[0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 10, edges = [[0,3],[1,3],[2,3],[4,3],[5,4],[5,6],[5,7],[8,5],[9,5]]",
+        "expectedOutput": "[4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 1, edges = []",
+        "expectedOutput": "[0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 7, edges = [[0,1],[1,2],[1,3],[2,4],[3,5],[4,6]]",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 4, edges = [[1,0],[1,2],[1,3]]",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 9, edges = [[0,1],[0,2],[0,3],[1,4],[1,5],[2,6],[3,7],[3,8]]",
+        "expectedOutput": "[0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 12, edges = [[0,1],[1,2],[1,3],[2,4],[2,5],[3,6],[3,7],[4,8],[4,9],[5,10],[5,11]]",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 10, edges = [[0,1],[0,2],[0,3],[1,4],[1,5],[2,6],[3,7],[4,8],[5,9]]",
+        "expectedOutput": "[0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 10, edges = [[0,1],[0,2],[1,3],[1,4],[2,5],[2,6],[3,7],[4,8],[8,9]]",
+        "expectedOutput": "[1]",
+        "isHidden": true
       }
     ]
   },
@@ -7731,6 +21772,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1,5]",
         "expectedOutput": "10"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [7,9,8,0,7,1,3,5,5,2,3]",
+        "expectedOutput": "1654",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [7,9,8,0,7,1,3,5,5,7,4,5,5,5,4]",
+        "expectedOutput": "2886",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [3,1,5,8]",
+        "expectedOutput": "167",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [0,0,0]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [9,76,66,18,49,79,11,31,2,83,45,12,50,88,67,34,73,39,100,87,30,6,41,72,84,17,29,63,52,75,58,92,37,35,61,43,89,64,55,19,32,62,57,90,91,33,44,27,3,76,65,68,42,8,54,60,10,80,70,12,3,5,82,46,30,81,13,26,93,14,20,78,86,25,56,1,36,59,74,15,95,16,4,7,22,69,51,38,85,23,40,94,48,6,97,24,53,9,96,21,47,77,99,31,28,45,32]",
+        "expectedOutput": "35112384",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [10,10,10,10]",
+        "expectedOutput": "2110",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [100]",
+        "expectedOutput": "100",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [9,76,64,21,97,60]",
+        "expectedOutput": "1086136",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [8,3,8,3,8]",
+        "expectedOutput": "968",
+        "isHidden": true
       }
     ]
   },
@@ -7762,6 +21863,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 1, primes = [2,3,5]",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 5, primes = [2,11,13,17,19]",
+        "expectedOutput": "11",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 3, primes = [2,3,5,7]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 15, primes = [3,5,7]",
+        "expectedOutput": "81",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 10, primes = [2,3,5]",
+        "expectedOutput": "12",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 20, primes = [2,11,13,17,19]",
+        "expectedOutput": "88",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 2, primes = [2,7]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 12, primes = [2,7,13,19]",
+        "expectedOutput": "32",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 1, primes = [2,3,5]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 100, primes = [2,3,5,7,11,13,17,19,23,29]",
+        "expectedOutput": "136",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 20, primes = [3,5,7,11,13]",
+        "expectedOutput": "75",
+        "isHidden": true
       }
     ]
   },
@@ -7802,6 +21963,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [-1,-1]",
         "expectedOutput": "[0,0]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [4,5,6,7,8,9,10]",
+        "expectedOutput": "[0, 0, 0, 0, 0, 0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [0,1,0,1,0,1]",
+        "expectedOutput": "[0, 2, 0, 1, 0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [0,-1,1,-2,2]",
+        "expectedOutput": "[2, 1, 1, 0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [100, 200, 150, 100]",
+        "expectedOutput": "[0, 2, 1, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [100,99,98,97,96]",
+        "expectedOutput": "[4, 3, 2, 1, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [10,9,8,7,6,5,4]",
+        "expectedOutput": "[6, 5, 4, 3, 2, 1, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [10000,-10000,5000,0,-5000]",
+        "expectedOutput": "[4, 0, 2, 1, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [-1]",
+        "expectedOutput": "[0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "[9, 8, 7, 6, 5, 4, 3, 2, 1, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+        "isHidden": true
       }
     ]
   },
@@ -7836,6 +22057,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = &quot;cbacdcbc&quot;",
         "expectedOutput": "&quot;acdb&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"thesqtitxyetpxooxlqskyae\"",
+        "expectedOutput": "heitpoxlqskya",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"thesqquishs\"",
+        "expectedOutput": "tequihs",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"a\"",
+        "expectedOutput": "a",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"russell\"",
+        "expectedOutput": "rusel",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"cbacdcbc\"",
+        "expectedOutput": "acdb",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"zyxzyzzyxzy\"",
+        "expectedOutput": "xyz",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"xyz\"",
+        "expectedOutput": "xyz",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"leetcode\"",
+        "expectedOutput": "letcod",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"abacbabcabacbacbacbabcaba\"",
+        "expectedOutput": "abc",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"zyxzyxzyxzyxzyx\"",
+        "expectedOutput": "xyz",
+        "isHidden": true
       }
     ]
   },
@@ -7872,6 +22153,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "words = [&quot;a&quot;,&quot;aa&quot;,&quot;aaa&quot;,&quot;aaaa&quot;]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "words = [\"abcw\",\"baz\",\"foo\",\"bar\",\"xtfn\",\"abcdef\"]",
+        "expectedOutput": "16",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "words = [\"a\",\"aa\",\"aaa\",\"aaaa\"]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "words = [\"aa\",\"aaa\",\"aaaa\",\"aaaaa\",\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"aa\"]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "words = [\"hello\",\"world\",\"python\",\"programming\"]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "words = [\"abc\",\"def\",\"ghi\"]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "words = [\"arml\",\"vb\",\"ve\",\"vef\",\"k\"]",
+        "expectedOutput": "12",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "words = [\"eae\",\"eaee\",\"aaee\",\"aee\",\"eceeaeeea\",\"cecceeaeea\",\"eceeaeea\"]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "words = [\"abcdefghijklmnopqrstuvwxyz\",\"zyxwvutsrqponmlkjihgfedcba\",\"mnopqrstuvwxyzabcdefghijkl\",\"abcdefghijklnmopqrstuvwxyz\"]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "words = [\"unique\",\"strings\",\"without\",\"common\",\"characters\",\"different\",\"letters\"]",
+        "expectedOutput": "42",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "words = [\"unique\",\"letters\",\"pair\",\"matches\",\"product\",\"maximum\",\"distinct\",\"words\",\"solution\",\"algorithm\"]",
+        "expectedOutput": "49",
+        "isHidden": true
       }
     ]
   },
@@ -7907,6 +22248,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "n = 1",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 100",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 4",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 16",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 9",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 1000000",
+        "expectedOutput": "1000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 1000000000",
+        "expectedOutput": "31622",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 1000",
+        "expectedOutput": "31",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 10",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 25",
+        "expectedOutput": "5",
+        "isHidden": true
       }
     ]
   },
@@ -7943,6 +22344,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "coins = [1], amount = 0",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "coins = [3, 7, 405], amount = 8839",
+        "expectedOutput": "71",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "coins = [2,5,10,1], amount = 27",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "coins = [1,2,5], amount = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "coins = [1,3,4,5], amount = 7",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "coins = [1], amount = 0",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "coins = [5,7,8], amount = 100",
+        "expectedOutput": "13",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "coins = [1, 3, 4], amount = 6",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "coins = [4,2,1], amount = 11",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "coins = [1,3,4], amount = 6",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "coins = [1,2,5], amount = 11",
+        "expectedOutput": "3",
+        "isHidden": true
       }
     ]
   },
@@ -7976,6 +22437,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1,3,2,2,3,1]",
         "expectedOutput": "[2,3,1,3,1,2]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,3,2,2,3,1]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,2,3,4,5,6,7,8,9]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [5,3,1,2,3]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,2,3,4,5,6]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,1,2,1,2,2,1]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [5,5,5,5,5,5,5]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [9,8,7,6,5,4,3,2,1,0]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [5,5,5,5,5]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [4,5,5,6]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [5,3,1,2,4]",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -8005,6 +22526,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "head = [2,1,3,5,6,4,7]",
         "expectedOutput": "[2,3,6,7,1,5,4]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "head = [2,1,3,5,6,4,7]",
+        "expectedOutput": "[2, 3, 6, 7, 1, 5, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "head = [0]",
+        "expectedOutput": "[0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "head = [-1,0,1,-2,2,-3,3]",
+        "expectedOutput": "[-1, 1, 2, 3, 0, -2, -3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "head = [1,2,3,4,5]",
+        "expectedOutput": "[1, 3, 5, 2, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "head = []",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "head = [1,2]",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "head = [1]",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "head = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "[1, 3, 5, 7, 9, 2, 4, 6, 8, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "head = [1,2,3,4]",
+        "expectedOutput": "[1, 3, 2, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "head = [1,2,3,4,5,6]",
+        "expectedOutput": "[1, 3, 5, 2, 4, 6]",
+        "isHidden": true
       }
     ]
   },
@@ -8040,6 +22621,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [0], lower = 0, upper = 0",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [-1,-2,-3,-4,-5], lower = -10, upper = -5",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,2,3,4,5], lower = 1, upper = 5",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [100,100,100,100,100], lower = 200, upper = 400",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [0,0,0,0,0], lower = 0, upper = 0",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [-2,5,-1], lower = -2, upper = 2",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [5,5,5,5,5], lower = 10, upper = 20",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1000000000,-1000000000,1000000000,-1000000000], lower = -2000000000, upper = 2000000000",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [2147483647,-2147483648,-1,0], lower = -1, upper = 1",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,2,3], lower = 3, upper = 6",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [0], lower = 0, upper = 0",
+        "expectedOutput": "1",
+        "isHidden": true
       }
     ]
   },
@@ -8075,6 +22716,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "n = -1",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 729",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 2147483647",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 19683",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 100",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 244",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 10",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = -1",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = -27",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 3**19",
+        "expectedOutput": "Error: Solution.isPowerOfThree() missing 1 required positional argument: 'n'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 0",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -8111,6 +22812,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "n = 1",
         "expectedOutput": "true"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 2147483647",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 536870912",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 4294967295",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 268435456",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 5",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 16777216",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 4",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 64",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 16",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 2",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -8144,6 +22905,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 10",
         "expectedOutput": "36"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 20",
+        "expectedOutput": "1458",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 2",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 10",
+        "expectedOutput": "36",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 58",
+        "expectedOutput": "1549681956",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 29",
+        "expectedOutput": "39366",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 45",
+        "expectedOutput": "14348907",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 49",
+        "expectedOutput": "57395628",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 12",
+        "expectedOutput": "81",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 47",
+        "expectedOutput": "28697814",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 53",
+        "expectedOutput": "258280326",
+        "isHidden": true
       }
     ]
   },
@@ -8176,6 +22997,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = [\"H\",\"a\",\"n\",\"n\",\"a\",\"h\"]",
         "expectedOutput": "[\"h\",\"a\",\"n\",\"n\",\"a\",\"H\"]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = [\"a\",\"b\"]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = [\"a\"]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = [\"A\",\"b\",\"C\",\"d\",\"E\",\"f\",\"G\"]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = [\"A\",\"b\",\"C\",\"d\",\"E\",\"f\"]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = [\"Z\"]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = [\"h\",\"e\",\"l\",\"l\",\"o\"]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = [\"x\",\"y\",\"z\",\"w\",\"v\",\"u\",\"t\",\"s\",\"r\",\"q\",\"p\"]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = [\"H\",\"a\",\"n\",\"n\",\"a\",\"h\"]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = [\"t\",\"e\",\"s\",\"t\",\"i\",\"n\",\"g\",\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"0\"]",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = [\"t\",\"h\",\"i\",\"s\",\" \",\"i\",\"s\",\" \",\"a\",\" \",\"t\",\"e\",\"s\",\"t\",\" \",\"c\",\"a\",\"s\",\"e\"]",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -8201,6 +23082,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"HELLO world\"",
+        "expectedOutput": "HoLLO wErld",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"Fly High\"",
+        "expectedOutput": "Fly High",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"AbcdeEfghI\"",
+        "expectedOutput": "IbcdEefghA",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"Rhythmhythm\"",
+        "expectedOutput": "Rhythmhythm",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"AEIOUaeiou\"",
+        "expectedOutput": "uoieaUOIEA",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"uAeiouAeiou\"",
+        "expectedOutput": "uoieAuoieAu",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"abcdefghijklmnopqrstuvwxyz\"",
+        "expectedOutput": "ubcdofghijklmnepqrstavwxyz",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"bcdEfghIjklmNoPQRSTUvwxyz\"",
+        "expectedOutput": "bcdUfghojklmNIPQRSTEvwxyz",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"Programming\"",
+        "expectedOutput": "Prigrammong",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"Umbrella\"",
+        "expectedOutput": "ambrellU",
+        "isHidden": true
       }
     ]
   },
@@ -8232,6 +23173,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], k = 10",
+        "expectedOutput": "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [5,3,1,1,1,3,73,1], k = 1",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1], k = 1",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,1,1,2,2,3], k = 2",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [-1,-1,-1,2,2,3,4,4,4,4], k = 2",
+        "expectedOutput": "[4, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,2], k = 2",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,4,4,4,4,3,3,3,3,2,2,2,1,1], k = 3",
+        "expectedOutput": "[5, 4, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [5,3,1,1,1,3,5,7,7,7,7], k = 3",
+        "expectedOutput": "[7, 1, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [4,1,-1,2,-1,2,3], k = 2",
+        "expectedOutput": "[-1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9], k = 4",
+        "expectedOutput": "[9, 8, 7, 6]",
+        "isHidden": true
       }
     ]
   },
@@ -8265,6 +23266,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums1 = [4,9,5], nums2 = [9,4,9,8,4]",
         "expectedOutput": "[9,4]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums1 = [1,3,5,7], nums2 = [2,4,6,8]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums1 = [0,0,0,0], nums2 = [0,0,0,0]",
+        "expectedOutput": "[0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums1 = [0,1,2,3,4,5], nums2 = [5,4,3,2,1,0]",
+        "expectedOutput": "[0, 1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums1 = [10,20,30,40], nums2 = [30,40,50,60]",
+        "expectedOutput": "[40, 30]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums1 = [1000], nums2 = [1000]",
+        "expectedOutput": "[1000]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums1 = [1,2,3,4,5], nums2 = [5,4,3,2,1]",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums1 = [1,2,2,1], nums2 = [2,2]",
+        "expectedOutput": "[2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums1 = [1000,1000,1000], nums2 = [1000,1000]",
+        "expectedOutput": "[1000]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums1 = [10,20,30], nums2 = [30,40,50]",
+        "expectedOutput": "[30]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums1 = [5,5,5,5], nums2 = [5,5,5,5]",
+        "expectedOutput": "[5]",
+        "isHidden": true
       }
     ]
   },
@@ -8298,6 +23359,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums1 = [4,9,5], nums2 = [9,4,9,8,4]",
         "expectedOutput": "[4,9]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums1 = [1,1,2,2,3,3], nums2 = [3,3,3,3,1,1]",
+        "expectedOutput": "[3, 3, 1, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums1 = [1,3,5,7], nums2 = [2,4,6,8]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums1 = [0,0,0,0], nums2 = [0,0,0,0]",
+        "expectedOutput": "[0, 0, 0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums1 = [0,0,0], nums2 = [0,0,0,0]",
+        "expectedOutput": "[0, 0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums1 = [1000,1000,1000], nums2 = [1000,1000,1000]",
+        "expectedOutput": "[1000, 1000, 1000]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums1 = [1,1,2,2], nums2 = [2,2,2,2]",
+        "expectedOutput": "[2, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums1 = [10,20,30,40], nums2 = [30,40,50,60]",
+        "expectedOutput": "[30, 40]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums1 = [1,3,5,7,9], nums2 = [2,4,6,8,10]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums1 = [1000], nums2 = [1000]",
+        "expectedOutput": "[1000]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums1 = [1,3,2,4], nums2 = [3,2,2,1]",
+        "expectedOutput": "[3, 2, 1]",
+        "isHidden": true
       }
     ]
   },
@@ -8327,6 +23448,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -8359,6 +23540,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "envelopes = [[1,1],[1,1],[1,1]]",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "envelopes = [[5,4],[6,4],[6,7],[2,3]]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "envelopes = [[1,10],[2,9],[3,8],[4,7],[5,6],[6,5],[7,4],[8,3],[9,2],[10,1]]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "envelopes = [[1,3],[2,5],[3,7],[4,9],[5,11],[6,13],[7,15],[8,17],[9,19],[10,21]]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "envelopes = [[2,100],[3,200],[4,300],[5,500],[5,400],[5,250],[6,370],[6,360],[7,380]]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "envelopes = [[10,16],[2,3],[6,8],[7,12]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "envelopes = [[1,2],[2,3],[3,4],[4,5],[5,6]]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "envelopes = [[30,50],[12,2],[3,4],[12,15]]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "envelopes = [[2,100],[3,200],[4,300],[5,400],[5,500],[5,600],[6,300],[6,400],[6,500]]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "envelopes = [[1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7],[8,8],[9,9],[10,10]]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "envelopes = [[1,2],[2,3],[3,4],[4,5]]",
+        "expectedOutput": "4",
+        "isHidden": true
       }
     ]
   },
@@ -8386,6 +23627,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -8416,6 +23717,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "num = 14",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "num = 1000000000",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "num = 49",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "num = 50",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "num = 25",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "num = 0",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "num = 4",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "num = 1524157875",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "num = 1",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "num = 100",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "num = 152415787501905210",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -8448,6 +23809,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1,2,4,8]",
         "expectedOutput": "[1,2,4,8]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,5,10,20,25,50]",
+        "expectedOutput": "[20, 10, 5, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [2,3,5,7,11,13]",
+        "expectedOutput": "[2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [2,3,5,7,11]",
+        "expectedOutput": "[2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [3,9,20,18,15]",
+        "expectedOutput": "[18, 9, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [3,6,9,12,18]",
+        "expectedOutput": "[12, 6, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [2,4,8,16,32,64,128]",
+        "expectedOutput": "[128, 64, 32, 16, 8, 4, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [18,3,6,2,9]",
+        "expectedOutput": "[18, 9, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "[8, 4, 2, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,3,5,7,9]",
+        "expectedOutput": "[9, 3, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [7,14,28,56,112]",
+        "expectedOutput": "[112, 56, 28, 14, 7]",
+        "isHidden": true
       }
     ]
   },
@@ -8478,6 +23899,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "a = 2, b = 3",
         "expectedOutput": "5"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "a = 0, b = 5",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "a = 500, b = 500",
+        "expectedOutput": "1000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "a = -5, b = -5",
+        "expectedOutput": "-10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "a = 1, b = 2",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "a = 999, b = 1",
+        "expectedOutput": "1000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "a = -5, b = 5",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "a = -1000, b = 1000",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "a = -500, b = 500",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "a = -500, b = -500",
+        "expectedOutput": "-1000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "a = 0, b = 0",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -8513,6 +23994,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "a = 1, b = [4,3,3,8,5,2]",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -8543,6 +24084,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums1 = [1,1,2], nums2 = [1,2,3], k = 2",
         "expectedOutput": "[[1,1],[1,1]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums1 = [1,1,2], nums2 = [1,2,3], k = 4",
+        "expectedOutput": "[[1, 1], [1, 1], [1, 2], [1, 2]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums1 = [1,7,11], nums2 = [2,4,6], k = 3",
+        "expectedOutput": "[[1, 2], [1, 4], [1, 6]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums1 = [1,2,3,4,5], nums2 = [1,2,3,4,5], k = 10",
+        "expectedOutput": "[[1, 1], [1, 2], [2, 1], [1, 3], [2, 2], [3, 1], [1, 4], [2, 3], [3, 2], [4, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums1 = [5,8,12], nums2 = [9,10,11], k = 4",
+        "expectedOutput": "[[5, 9], [5, 10], [5, 11], [8, 9]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums1 = [1,1,2], nums2 = [1,2,3], k = 2",
+        "expectedOutput": "[[1, 1], [1, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums1 = [5,8,8,9], nums2 = [1,1,1,1], k = 4",
+        "expectedOutput": "[[5, 1], [5, 1], [5, 1], [5, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums1 = [1,1,2], nums2 = [1,2,3], k = 10",
+        "expectedOutput": "[[1, 1], [1, 1], [1, 2], [1, 2], [2, 1], [1, 3], [1, 3], [2, 2], [2, 3]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums1 = [1,2,3], nums2 = [4,5,6], k = 5",
+        "expectedOutput": "[[1, 4], [1, 5], [2, 4], [1, 6], [2, 5]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums1 = [1,2,3], nums2 = [4,5,6], k = 6",
+        "expectedOutput": "[[1, 4], [1, 5], [2, 4], [1, 6], [2, 5], [3, 4]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums1 = [-10,-8,0,5,6], nums2 = [1,3,4,7,8], k = 4",
+        "expectedOutput": "[[-10, 1], [-10, 3], [-8, 1], [-10, 4]]",
+        "isHidden": true
       }
     ]
   },
@@ -8578,6 +24179,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "n = 2, pick = 1",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -8620,6 +24281,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "n = 2",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 200",
+        "expectedOutput": "952",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 2",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 1",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 10",
+        "expectedOutput": "16",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 5",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 150",
+        "expectedOutput": "692",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 3",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 130",
+        "expectedOutput": "585",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 125",
+        "expectedOutput": "560",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 12",
+        "expectedOutput": "21",
+        "isHidden": true
       }
     ]
   },
@@ -8656,6 +24377,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [1,2,3,4,5,6,7,8,9]",
         "expectedOutput": "2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [3,3,3,2,5,25,50,41,60,70,55,65,80,90,99]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,1,1,1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [2,1]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [0,0]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,3,7,4,9,2,5]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [0,0,1,0,0,2,0,0,3]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,3,2,2,3,1,4]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,2,2,3,4,4,5]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,2,3,4,5,6,7,8,9]",
+        "expectedOutput": "2",
+        "isHidden": true
       }
     ]
   },
@@ -8686,6 +24467,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [9], target = 3",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,2,3], target = 4",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [5,50,75], target = 95",
+        "expectedOutput": "16",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [5,1,3], target = 8",
+        "expectedOutput": "19",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [5,10,20], target = 100",
+        "expectedOutput": "46754",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [2,1,5], target = 10",
+        "expectedOutput": "128",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [4,2,1], target = 32",
+        "expectedOutput": "39882198",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [9], target = 3",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1], target = 100",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [2,5,10,20], target = 25",
+        "expectedOutput": "119",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,2,3,4,5], target = 50",
+        "expectedOutput": "256641310658978",
+        "isHidden": true
       }
     ]
   },
@@ -8719,6 +24560,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "matrix = [[-5]], k = 1",
         "expectedOutput": "-5"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "matrix = [[1,2,3],[4,5,6],[7,8,9]], k = 4",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "matrix = [[1,3,5],[6,7,12],[11,14,14]], k = 4",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "matrix = [[1,2],[1,3]], k = 3",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "matrix = [[1,5,9],[10,11,13],[12,13,15]], k = 8",
+        "expectedOutput": "13",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "matrix = [[-5]], k = 1",
+        "expectedOutput": "-5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "matrix = [[5,19,21,30,32],[22,27,31,36,38],[23,29,34,37,41],[42,46,49,50,51],[48,52,53,55,57]], k = 15",
+        "expectedOutput": "41",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "matrix = [[5,9,11],[9,11,13],[10,12,15]], k = 5",
+        "expectedOutput": "11",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "matrix = [[1,3,5],[6,7,12],[11,14,14]], k = 3",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "matrix = [[1,2],[1,3]], k = 2",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "matrix = [[1,3,5],[6,7,12],[11,14,14]], k = 6",
+        "expectedOutput": "11",
+        "isHidden": true
       }
     ]
   },
@@ -8747,6 +24648,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -8775,6 +24736,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -8802,6 +24823,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -8838,6 +24919,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "ransomNote = \"aa\", magazine = \"aab\"",
         "expectedOutput": "true"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "ransomNote = \"mississippi\", magazine = \"mspsisgp\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "ransomNote = \"aa\", magazine = \"ab\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "ransomNote = \"aabbcc\", magazine = \"abc\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "ransomNote = \"construct\", magazine = \"nstructco\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "ransomNote = \"abc\", magazine = \"cba\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "ransomNote = \"\", magazine = \"abc\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "ransomNote = \"hello\", magazine = \"ohell\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "ransomNote = \"abc\", magazine = \"aabbcc\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "ransomNote = \"world\", magazine = \"dlrow\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "ransomNote = \"hello\", magazine = \"ehlol\"",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -8867,6 +25008,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -8898,6 +25099,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = &quot;[123,[456,[789]]]&quot;",
         "expectedOutput": "[123,[456,[789]]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -8928,6 +25189,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 2",
         "expectedOutput": "[1,2]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 999",
+        "expectedOutput": "[1, 10, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 11, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 12, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 13, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 14, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 15, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 16, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 17, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 18, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 19, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 2, 20, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 21, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 22, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 23, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 24, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 25, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 26, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 27, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 28, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 29, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 3, 30, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 31, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 32, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 33, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 34, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 35, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 36, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 37, 370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 38, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 39, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 4, 40, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 41, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 42, 420, 421, 422, 423, 424, 425, 426, 427, 428, 429, 43, 430, 431, 432, 433, 434, 435, 436, 437, 438, 439, 44, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 45, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 46, 460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 47, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479, 48, 480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 49, 490, 491, 492, 493, 494, 495, 496, 497, 498, 499, 5, 50, 500, 501, 502, 503, 504, 505, 506, 507, 508, 509, 51, 510, 511, 512, 513, 514, 515, 516, 517, 518, 519, 52, 520, 521, 522, 523, 524, 525, 526, 527, 528, 529, 53, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 54, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 55, 550, 551, 552, 553, 554, 555, 556, 557, 558, 559, 56, 560, 561, 562, 563, 564, 565, 566, 567, 568, 569, 57, 570, 571, 572, 573, 574, 575, 576, 577, 578, 579, 58, 580, 581, 582, 583, 584, 585, 586, 587, 588, 589, 59, 590, 591, 592, 593, 594, 595, 596, 597, 598, 599, 6, 60, 600, 601, 602, 603, 604, 605, 606, 607, 608, 609, 61, 610, 611, 612, 613, 614, 615, 616, 617, 618, 619, 62, 620, 621, 622, 623, 624, 625, 626, 627, 628, 629, 63, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 64, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 65, 650, 651, 652, 653, 654, 655, 656, 657, 658, 659, 66, 660, 661, 662, 663, 664, 665, 666, 667, 668, 669, 67, 670, 671, 672, 673, 674, 675, 676, 677, 678, 679, 68, 680, 681, 682, 683, 684, 685, 686, 687, 688, 689, 69, 690, 691, 692, 693, 694, 695, 696, 697, 698, 699, 7, 70, 700, 701, 702, 703, 704, 705, 706, 707, 708, 709, 71, 710, 711, 712, 713, 714, 715, 716, 717, 718, 719, 72, 720, 721, 722, 723, 724, 725, 726, 727, 728, 729, 73, 730, 731, 732, 733, 734, 735, 736, 737, 738, 739, 74, 740, 741, 742, 743, 744, 745, 746, 747, 748, 749, 75, 750, 751, 752, 753, 754, 755, 756, 757, 758, 759, 76, 760, 761, 762, 763, 764, 765, 766, 767, 768, 769, 77, 770, 771, 772, 773, 774, 775, 776, 777, 778, 779, 78, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 79, 790, 791, 792, 793, 794, 795, 796, 797, 798, 799, 8, 80, 800, 801, 802, 803, 804, 805, 806, 807, 808, 809, 81, 810, 811, 812, 813, 814, 815, 816, 817, 818, 819, 82, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 83, 830, 831, 832, 833, 834, 835, 836, 837, 838, 839, 84, 840, 841, 842, 843, 844, 845, 846, 847, 848, 849, 85, 850, 851, 852, 853, 854, 855, 856, 857, 858, 859, 86, 860, 861, 862, 863, 864, 865, 866, 867, 868, 869, 87, 870, 871, 872, 873, 874, 875, 876, 877, 878, 879, 88, 880, 881, 882, 883, 884, 885, 886, 887, 888, 889, 89, 890, 891, 892, 893, 894, 895, 896, 897, 898, 899, 9, 90, 900, 901, 902, 903, 904, 905, 906, 907, 908, 909, 91, 910, 911, 912, 913, 914, 915, 916, 917, 918, 919, 92, 920, 921, 922, 923, 924, 925, 926, 927, 928, 929, 93, 930, 931, 932, 933, 934, 935, 936, 937, 938, 939, 94, 940, 941, 942, 943, 944, 945, 946, 947, 948, 949, 95, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959, 96, 960, 961, 962, 963, 964, 965, 966, 967, 968, 969, 97, 970, 971, 972, 973, 974, 975, 976, 977, 978, 979, 98, 980, 981, 982, 983, 984, 985, 986, 987, 988, 989, 99, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 99",
+        "expectedOutput": "[1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 3, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 4, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 6, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 7, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 8, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 9, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 10000",
+        "expectedOutput": "Execution timed out",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 2",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 100",
+        "expectedOutput": "[1, 10, 100, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 3, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 4, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 5, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 6, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 7, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 8, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 9, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 50000",
+        "expectedOutput": "Execution timed out",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 1",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 13",
+        "expectedOutput": "[1, 10, 11, 12, 13, 2, 3, 4, 5, 6, 7, 8, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 5",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 15000",
+        "expectedOutput": "Execution timed out",
+        "isHidden": true
       }
     ]
   },
@@ -8955,6 +25276,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"abcdef\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"aabbccddee\"",
+        "expectedOutput": "-1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"a\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"abacabadabacaba\"",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"abcdabcde\"",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\"",
+        "expectedOutput": "-1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"swiss\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"abacabadabc\"",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"\"",
+        "expectedOutput": "-1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"repetition\"",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -8991,6 +25372,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "input = &quot;a&quot;",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "input = \"a\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "input = \"file1.txt\\nfile2.txt\\nlongfile.txt\"",
+        "expectedOutput": "12",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "input = \"data\\n\\ttemp\\n\\t\\ttempfile1.csv\\n\\t\\ttempfile2.csv\\n\\tlogs\\n\\t\\terror.log\\n\\t\\tinfo.log\\n\\t\\tdebug.log\"",
+        "expectedOutput": "23",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "input = \"project\\n\\tassets\\n\\t\\timages\\n\\t\\t\\timage1.png\\n\\t\\t\\timage2.png\\n\\t\\t\\tvideos\\n\\t\\t\\tvideo1.mp4\\n\\t\\t\\tvideo2.mp4\\n\\t\\tfonts\\n\\t\\t\\tfont1.ttf\"",
+        "expectedOutput": "32",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "input = \"data\\n\\tdataset1\\n\\t\\tfile1.csv\\n\\t\\tfile2.csv\\n\\t\\tdataset2\\n\\t\\tfile3.csv\\n\\t\\tdataset3\\n\\t\\tfile4.csv\"",
+        "expectedOutput": "23",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "input = \"documents\\n\\treports\\n\\t\\tmonthly\\n\\t\\t\\tjanuary.pdf\\n\\t\\t\\tfebruary.pdf\\n\\t\\tannual\\n\\t\\t\\treport.pdf\"",
+        "expectedOutput": "38",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "input = \"project\\n\\tsrc\\n\\t\\tmain.py\\n\\t\\tutils\\n\\t\\t\\thelper.py\\n\\t\\ttests\\n\\t\\t\\ttest_main.py\\n\\tREADME.md\"",
+        "expectedOutput": "30",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "input = \"documents\\n\\treports\\n\\t\\tq4_sales_report.pdf\\n\\t\\tq4_marketing_report.pdf\\n\\t\\tfinancials\\n\\t\\t\\tq4_financials.xlsx\"",
+        "expectedOutput": "47",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "input = \"logs\\n\\tserver1\\n\\t\\taccess.log\\n\\t\\terror.log\\n\\t\\tserver2\\n\\t\\t\\taccess.log\\n\\t\\t\\terror.log\"",
+        "expectedOutput": "31",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "input = \"home\\n\\tuser\\n\\t\\tdesktop\\n\\t\\t\\tphoto1.jpg\\n\\t\\t\\tphoto2.jpg\\n\\t\\tdownloads\\n\\t\\t\\tfile.zip\"",
+        "expectedOutput": "28",
+        "isHidden": true
       }
     ]
   },
@@ -9023,6 +25464,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = &quot;&quot;, t = &quot;y&quot;",
         "expectedOutput": "&quot;y&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"python\", t = \"ypthon\"",
+        "expectedOutput": "None",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"abcdxyz\", t = \"abcdzyxw\"",
+        "expectedOutput": "w",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"a\", t = \"ab\"",
+        "expectedOutput": "b",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"xyz\", t = \"zyxw\"",
+        "expectedOutput": "w",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"\", t = \"y\"",
+        "expectedOutput": "y",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"abcdefghijklmnopqrstuvwxyz\", t = \"abcdefghijklmnopqrstuvwxyza\"",
+        "expectedOutput": "a",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"hello\", t = \"helloa\"",
+        "expectedOutput": "a",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"hello\", t = \"hleloa\"",
+        "expectedOutput": "a",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"aeiou\", t = \"aeiozu\"",
+        "expectedOutput": "z",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"hello\", t = \"ohell\"",
+        "expectedOutput": "None",
+        "isHidden": true
       }
     ]
   },
@@ -9053,6 +25554,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 1",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 9",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 1000000",
+        "expectedOutput": "481110",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 2",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 20",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 1000000000",
+        "expectedOutput": "534765398",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 1000",
+        "expectedOutput": "510",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 10",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 25",
+        "expectedOutput": "14",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 244140",
+        "expectedOutput": "130558",
+        "isHidden": true
       }
     ]
   },
@@ -9091,6 +25652,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "rectangles = [[1,1,3,3],[3,1,4,2],[1,3,2,4],[2,2,4,4]]",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "rectangles = [[1,1,3,3],[3,1,4,2],[3,2,4,4],[1,3,2,4],[2,3,3,4]]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "rectangles = [[0,0,2,2],[2,2,4,4],[2,0,4,2]]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "rectangles = [[0,0,2,2],[2,2,4,4]]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "rectangles = [[0,0,2,2],[2,0,4,2],[0,2,2,4],[2,2,4,4]]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "rectangles = [[1,1,2,3],[1,3,2,4],[3,1,4,2],[3,2,4,4]]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "rectangles = [[0,0,1,1],[1,0,2,1],[0,1,1,2],[1,1,2,2]]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "rectangles = [[1,1,3,3],[3,1,4,2],[1,3,2,4],[2,2,4,4]]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "rectangles = [[1,1,3,3],[2,2,4,4],[3,3,5,5],[4,4,6,6],[5,5,7,7],[6,6,8,8],[7,7,9,9],[8,8,10,10]]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "rectangles = [[-1,-1,0,0],[0,0,1,1],[1,1,2,2],[2,2,3,3],[3,3,4,4]]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "rectangles = [[0,0,5,5],[5,0,10,5],[0,5,5,10],[5,5,10,10],[2,2,3,3]]",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -9122,6 +25743,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = \"axc\", t = \"ahbgdc\"",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"xyz\", t = \"abcdefghijklmnopqrstuvwxyz\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"aec\", t = \"abcde\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"\", t = \"ahbgdc\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"\", t = \"\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"zyx\", t = \"abcdefghijklmnopqrstuvwxyz\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"abcd\", t = \"abcde\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"abc\", t = \"abcbc\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"bb\", t = \"aabbb\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"aaaaaa\", t = \"bbaaaa\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"abc\", t = \"bahbgdca\"",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -9156,6 +25837,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "data = [235,140,4]",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "data = [238,130,130]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "data = [31, 130, 130, 130]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "data = [237,130,130,130,130]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "data = [228, 189, 160]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "data = [235, 140, 4]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "data = [240,162,134,142]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "data = [237,130,130,130,130,130,130]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "data = [251,117,104,101,108,108,111]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "data = [240, 162, 134, 161]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "data = [145]",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -9192,6 +25933,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;2[abc]3[cd]ef&quot;",
         "expectedOutput": "&quot;abcabccdcdcdef&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"1[a1[b1[c]]]\"",
+        "expectedOutput": "abc",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"2[3[a]]\"",
+        "expectedOutput": "aaaaaa",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"a1[b]\"",
+        "expectedOutput": "ab",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"3[a3[b]1[c]]\"",
+        "expectedOutput": "abbbcabbbcabbbc",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"a\"",
+        "expectedOutput": "a",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"10[abc]\"",
+        "expectedOutput": "abcabcabcabcabcabcabcabcabcabc",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"1[2[3[4[a]]]]\"",
+        "expectedOutput": "aaaaaaaaaaaaaaaaaaaaaaaa",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"2[3[a]b]\"",
+        "expectedOutput": "aaabaaab",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"4[ab]\"",
+        "expectedOutput": "abababab",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"1[a2[b3[c]]]\"",
+        "expectedOutput": "abcccbccc",
+        "isHidden": true
       }
     ]
   },
@@ -9224,6 +26025,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = &quot;ababbc&quot;, k = 2",
         "expectedOutput": "5"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"bbaaacccddddeee\", k = 4",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"\", k = 1",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"aabcabb\", k = 2",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"aaa\", k = 4",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"a\", k = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"aaaabbbbcccc\", k = 5",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"a\", k = 2",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"aabbcc\", k = 1",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"abcde\", k = 2",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"aabbbccc\", k = 3",
+        "expectedOutput": "6",
+        "isHidden": true
       }
     ]
   },
@@ -9255,6 +26116,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [100]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,0,0,0,1]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [10,-10,20,-20]",
+        "expectedOutput": "50",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "330",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,0,0,0]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [100]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,-1,1,-1]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [10,20,30,40,50]",
+        "expectedOutput": "400",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [4,3,2,6]",
+        "expectedOutput": "26",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [-1,-2,-3,-4,-5]",
+        "expectedOutput": "-25",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [5,5,5,5,5]",
+        "expectedOutput": "50",
+        "isHidden": true
       }
     ]
   },
@@ -9292,6 +26213,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "n = 4",
         "expectedOutput": "2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 4",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 2147483647",
+        "expectedOutput": "32",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 1",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 1000000000",
+        "expectedOutput": "38",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 7",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 317",
+        "expectedOutput": "11",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 63",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 21",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 32767",
+        "expectedOutput": "16",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 50000",
+        "expectedOutput": "20",
+        "isHidden": true
       }
     ]
   },
@@ -9319,6 +26300,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -9361,6 +26402,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "equations = [[&quot;a&quot;,&quot;b&quot;]], values = [0.5], queries = [[&quot;a&quot;,&quot;b&quot;],[&quot;b&quot;,&quot;a&quot;],[&quot;a&quot;,&quot;c&quot;],[&quot;x&quot;,&quot;y&quot;]]",
         "expectedOutput": "[0.50000,2.00000,-1.00000,-1.00000]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "equations = [[\"a\",\"b\"]], values = [0.5], queries = [[\"a\",\"b\"],[\"b\",\"a\"],[\"a\",\"c\"],[\"x\",\"y\"]]",
+        "expectedOutput": "[0.5, 2.0, -1, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "equations = [[\"x1\",\"x2\"],[\"x3\",\"x4\"]], values = [2.0,3.0], queries = [[\"x1\",\"x2\"],[\"x3\",\"x4\"],[\"x1\",\"x3\"]]",
+        "expectedOutput": "[2.0, 3.0, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "equations = [[\"a\",\"b\"],[\"b\",\"c\"],[\"bc\",\"cd\"]], values = [1.5,2.5,5.0], queries = [[\"a\",\"c\"],[\"c\",\"b\"],[\"bc\",\"cd\"],[\"cd\",\"bc\"]]",
+        "expectedOutput": "[3.75, 0.4, 5.0, 0.2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "equations = [[\"x1\",\"x2\"],[\"x2\",\"x3\"],[\"x3\",\"x4\"]], values = [2.0,3.0,4.0], queries = [[\"x1\",\"x4\"],[\"x4\",\"x1\"],[\"x1\",\"x5\"]]",
+        "expectedOutput": "[24.0, 0.041666666666666664, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "equations = [[\"m1\",\"m2\"],[\"m2\",\"m3\"],[\"m3\",\"m4\"],[\"m4\",\"m1\"],[\"m1\",\"m5\"]], values = [1.2,2.3,3.4,4.5,5.6], queries = [[\"m1\",\"m3\"],[\"m3\",\"m1\"],[\"m2\",\"m4\"],[\"m4\",\"m2\"],[\"m1\",\"m6\"]] ",
+        "expectedOutput": "[2.76, 0.3623188405797102, 7.8199999999999985, 0.1278772378516624, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "equations = [[\"a\",\"b\"],[\"b\",\"c\"],[\"c\",\"d\"],[\"d\",\"a\"]], values = [2.0,3.0,0.5,0.333], queries = [[\"a\",\"c\"],[\"c\",\"a\"],[\"b\",\"d\"],[\"d\",\"b\"],[\"a\",\"a\"],[\"e\",\"e\"]]",
+        "expectedOutput": "[6.0, 0.16666666666666666, 1.5, 0.6666666666666666, 1.0, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "equations = [[\"u1\",\"u2\"],[\"u2\",\"u3\"],[\"u3\",\"u4\"],[\"u4\",\"u5\"],[\"u5\",\"u6\"],[\"u6\",\"u7\"],[\"u7\",\"u8\"],[\"u8\",\"u9\"],[\"u9\",\"u10\"]], values = [1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9], queries = [[\"u1\",\"u10\"],[\"u10\",\"u9\"],[\"u9\",\"u8\"],[\"u8\",\"u7\"],[\"u7\",\"u6\"],[\"u6\",\"u5\"],[\"u5\",\"u4\"],[\"u4\",\"u3\"],[\"u3\",\"u2\"],[\"u2\",\"u1\"],[\"u1\",\"u11\"]]\"",
+        "expectedOutput": "Error: Solution.calcEquation() missing 1 required positional argument: 'queries'",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "equations = [[\"alpha\",\"beta\"],[\"beta\",\"gamma\"],[\"gamma\",\"delta\"],[\"delta\",\"epsilon\"],[\"epsilon\",\"zeta\"],[\"zeta\",\"eta\"],[\"eta\",\"theta\"],[\"theta\",\"iota\"],[\"iota\",\"kappa\"],[\"kappa\",\"lambda\"]], values = [2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0], queries = [[\"alpha\",\"lambda\"],[\"lambda\",\"alpha\"],[\"beta\",\"kappa\"],[\"kappa\",\"beta\"],[\"gamma\",\"iota\"],[\"iota\",\"gamma\"],[\"delta\",\"theta\"],[\"theta\",\"delta\"],[\"epsilon\",\"eta\"],[\"eta\",\"epsilon\"],[\"alpha\",\"mu\"]]",
+        "expectedOutput": "[39916800.0, 2.505210838544172e-08, 1814400.0, 5.511463844797178e-07, 60480.0, 1.6534391534391536e-05, 1680.0, 0.0005952380952380953, 42.0, 0.023809523809523808, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "equations = [[\"nodeA\",\"nodeB\"],[\"nodeB\",\"nodeC\"],[\"nodeC\",\"nodeD\"],[\"nodeD\",\"nodeE\"],[\"nodeE\",\"nodeF\"],[\"nodeF\",\"nodeG\"],[\"nodeG\",\"nodeH\"],[\"nodeH\",\"nodeI\"],[\"nodeI\",\"nodeJ\"],[\"nodeJ\",\"nodeA\"]], values = [1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0,2.1], queries = [[\"nodeA\",\"nodeJ\"],[\"nodeJ\",\"nodeA\"],[\"nodeB\",\"nodeD\"],[\"nodeD\",\"nodeB\"],[\"nodeE\",\"nodeH\"],[\"nodeH\",\"nodeE\"],[\"nodeF\",\"nodeG\"],[\"nodeG\",\"nodeF\"],[\"nodeA\",\"nodeK\"]]",
+        "expectedOutput": "[60.9493248, 0.016407072650622703, 1.8199999999999998, 0.5494505494505495, 4.896000000000001, 0.20424836601307186, 1.7, 0.5882352941176471, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "equations = [[\"a\",\"b\"],[\"b\",\"c\"],[\"c\",\"d\"],[\"d\",\"e\"],[\"e\",\"f\"],[\"f\",\"g\"]], values = [2.0,3.0,4.0,5.0,6.0,7.0], queries = [[\"a\",\"g\"],[\"g\",\"a\"],[\"b\",\"f\"],[\"f\",\"b\"],[\"c\",\"e\"],[\"e\",\"c\"],[\"a\",\"h\"],[\"h\",\"a\"]] ",
+        "expectedOutput": "[5040.0, 0.0001984126984126984, 360.0, 0.002777777777777778, 20.0, 0.05, -1, -1]",
+        "isHidden": true
       }
     ]
   },
@@ -9391,6 +26492,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 11",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 231",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 15",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 2147483647",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 1000000",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 123456789",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 100",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 1000",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 99999",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 999999999",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 2147483646",
+        "expectedOutput": "2",
+        "isHidden": true
       }
     ]
   },
@@ -9424,6 +26585,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "turnedOn = 9",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "turnedOn = 0",
+        "expectedOutput": "['0:00']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "turnedOn = 9",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "turnedOn = 3",
+        "expectedOutput": "['0:07', '0:11', '0:13', '0:14', '0:19', '0:21', '0:22', '0:25', '0:26', '0:28', '0:35', '0:37', '0:38', '0:41', '0:42', '0:44', '0:49', '0:50', '0:52', '0:56', '1:03', '1:05', '1:06', '1:09', '1:10', '1:12', '1:17', '1:18', '1:20', '1:24', '1:33', '1:34', '1:36', '1:40', '1:48', '2:03', '2:05', '2:06', '2:09', '2:10', '2:12', '2:17', '2:18', '2:20', '2:24', '2:33', '2:34', '2:36', '2:40', '2:48', '3:01', '3:02', '3:04', '3:08', '3:16', '3:32', '4:03', '4:05', '4:06', '4:09', '4:10', '4:12', '4:17', '4:18', '4:20', '4:24', '4:33', '4:34', '4:36', '4:40', '4:48', '5:01', '5:02', '5:04', '5:08', '5:16', '5:32', '6:01', '6:02', '6:04', '6:08', '6:16', '6:32', '7:00', '8:03', '8:05', '8:06', '8:09', '8:10', '8:12', '8:17', '8:18', '8:20', '8:24', '8:33', '8:34', '8:36', '8:40', '8:48', '9:01', '9:02', '9:04', '9:08', '9:16', '9:32', '10:01', '10:02', '10:04', '10:08', '10:16', '10:32', '11:00']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "turnedOn = 10",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "turnedOn = 4",
+        "expectedOutput": "['0:15', '0:23', '0:27', '0:29', '0:30', '0:39', '0:43', '0:45', '0:46', '0:51', '0:53', '0:54', '0:57', '0:58', '1:07', '1:11', '1:13', '1:14', '1:19', '1:21', '1:22', '1:25', '1:26', '1:28', '1:35', '1:37', '1:38', '1:41', '1:42', '1:44', '1:49', '1:50', '1:52', '1:56', '2:07', '2:11', '2:13', '2:14', '2:19', '2:21', '2:22', '2:25', '2:26', '2:28', '2:35', '2:37', '2:38', '2:41', '2:42', '2:44', '2:49', '2:50', '2:52', '2:56', '3:03', '3:05', '3:06', '3:09', '3:10', '3:12', '3:17', '3:18', '3:20', '3:24', '3:33', '3:34', '3:36', '3:40', '3:48', '4:07', '4:11', '4:13', '4:14', '4:19', '4:21', '4:22', '4:25', '4:26', '4:28', '4:35', '4:37', '4:38', '4:41', '4:42', '4:44', '4:49', '4:50', '4:52', '4:56', '5:03', '5:05', '5:06', '5:09', '5:10', '5:12', '5:17', '5:18', '5:20', '5:24', '5:33', '5:34', '5:36', '5:40', '5:48', '6:03', '6:05', '6:06', '6:09', '6:10', '6:12', '6:17', '6:18', '6:20', '6:24', '6:33', '6:34', '6:36', '6:40', '6:48', '7:01', '7:02', '7:04', '7:08', '7:16', '7:32', '8:07', '8:11', '8:13', '8:14', '8:19', '8:21', '8:22', '8:25', '8:26', '8:28', '8:35', '8:37', '8:38', '8:41', '8:42', '8:44', '8:49', '8:50', '8:52', '8:56', '9:03', '9:05', '9:06', '9:09', '9:10', '9:12', '9:17', '9:18', '9:20', '9:24', '9:33', '9:34', '9:36', '9:40', '9:48', '10:03', '10:05', '10:06', '10:09', '10:10', '10:12', '10:17', '10:18', '10:20', '10:24', '10:33', '10:34', '10:36', '10:40', '10:48', '11:01', '11:02', '11:04', '11:08', '11:16', '11:32']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "turnedOn = 2",
+        "expectedOutput": "['0:03', '0:05', '0:06', '0:09', '0:10', '0:12', '0:17', '0:18', '0:20', '0:24', '0:33', '0:34', '0:36', '0:40', '0:48', '1:01', '1:02', '1:04', '1:08', '1:16', '1:32', '2:01', '2:02', '2:04', '2:08', '2:16', '2:32', '3:00', '4:01', '4:02', '4:04', '4:08', '4:16', '4:32', '5:00', '6:00', '8:01', '8:02', '8:04', '8:08', '8:16', '8:32', '9:00', '10:00']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "turnedOn = 6",
+        "expectedOutput": "['1:31', '1:47', '1:55', '1:59', '2:31', '2:47', '2:55', '2:59', '3:15', '3:23', '3:27', '3:29', '3:30', '3:39', '3:43', '3:45', '3:46', '3:51', '3:53', '3:54', '3:57', '3:58', '4:31', '4:47', '4:55', '4:59', '5:15', '5:23', '5:27', '5:29', '5:30', '5:39', '5:43', '5:45', '5:46', '5:51', '5:53', '5:54', '5:57', '5:58', '6:15', '6:23', '6:27', '6:29', '6:30', '6:39', '6:43', '6:45', '6:46', '6:51', '6:53', '6:54', '6:57', '6:58', '7:07', '7:11', '7:13', '7:14', '7:19', '7:21', '7:22', '7:25', '7:26', '7:28', '7:35', '7:37', '7:38', '7:41', '7:42', '7:44', '7:49', '7:50', '7:52', '7:56', '8:31', '8:47', '8:55', '8:59', '9:15', '9:23', '9:27', '9:29', '9:30', '9:39', '9:43', '9:45', '9:46', '9:51', '9:53', '9:54', '9:57', '9:58', '10:15', '10:23', '10:27', '10:29', '10:30', '10:39', '10:43', '10:45', '10:46', '10:51', '10:53', '10:54', '10:57', '10:58', '11:07', '11:11', '11:13', '11:14', '11:19', '11:21', '11:22', '11:25', '11:26', '11:28', '11:35', '11:37', '11:38', '11:41', '11:42', '11:44', '11:49', '11:50', '11:52', '11:56']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "turnedOn = 1",
+        "expectedOutput": "['0:01', '0:02', '0:04', '0:08', '0:16', '0:32', '1:00', '2:00', '4:00', '8:00']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "turnedOn = 7",
+        "expectedOutput": "['3:31', '3:47', '3:55', '3:59', '5:31', '5:47', '5:55', '5:59', '6:31', '6:47', '6:55', '6:59', '7:15', '7:23', '7:27', '7:29', '7:30', '7:39', '7:43', '7:45', '7:46', '7:51', '7:53', '7:54', '7:57', '7:58', '9:31', '9:47', '9:55', '9:59', '10:31', '10:47', '10:55', '10:59', '11:15', '11:23', '11:27', '11:29', '11:30', '11:39', '11:43', '11:45', '11:46', '11:51', '11:53', '11:54', '11:57', '11:58']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "turnedOn = 11",
+        "expectedOutput": "[]",
+        "isHidden": true
       }
     ]
   },
@@ -9461,6 +26682,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "num = &quot;10&quot;, k = 2",
         "expectedOutput": "&quot;0&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "num = \"1234567890\", k = 9",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "num = \"111111\", k = 2",
+        "expectedOutput": "1111",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "num = \"987654321\", k = 5",
+        "expectedOutput": "4321",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "num = \"11111\", k = 2",
+        "expectedOutput": "111",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "num = \"12345\", k = 2",
+        "expectedOutput": "123",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "num = \"1111\", k = 2",
+        "expectedOutput": "11",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "num = \"10001\", k = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "num = \"123456789\", k = 5",
+        "expectedOutput": "1234",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "num = \"112\", k = 1",
+        "expectedOutput": "11",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "num = \"99991\", k = 1",
+        "expectedOutput": "9991",
+        "isHidden": true
       }
     ]
   },
@@ -9491,6 +26772,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "stones = [0,1,2,3,4,8,9,11]",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "stones = [0,1,3,6,10,15,21]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "stones = [0,1,4,8,16]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "stones = [0,2,5,6,8,10,11,13,15,17,18,19,20]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "stones = [0,1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "stones = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "stones = [0,1,4,8,10,12,15,17,20]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "stones = [0,1,2]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "stones = [0,1,4,8,9,11]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "stones = [0,2]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "stones = [0,1,2,3,4,8,9,11]",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -9523,6 +26864,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = [1]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [3,9,20,15,7]",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [1,null,2,null,3,null,4,null,5]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [-9,-3,2,null,4,4,0,-6,null,-5]",
+        "expectedOutput": "-11",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [1,2,3,4,5,null,6,7,null,null,null,null,8]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [5,3,6,2,4,null,null,1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [3,9,20,8,null,15,7,null,4]",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]",
+        "expectedOutput": "40",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [0,1,2,3,4,5,6,7,8,9]",
+        "expectedOutput": "21",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [1,2,3,4,5,6,null,null,7]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [3,9,20,null,null,15,7]",
+        "expectedOutput": "24",
+        "isHidden": true
       }
     ]
   },
@@ -9554,6 +26955,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "num = -1",
         "expectedOutput": "\"ffffffff\""
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "num = -4294967296",
+        "expectedOutput": "",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "num = 16777215",
+        "expectedOutput": "ffffff",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "num = -16777215",
+        "expectedOutput": "ff000001",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "num = -1",
+        "expectedOutput": "ffffffff",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "num = 4294967295",
+        "expectedOutput": "ffffffff",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "num = 0",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "num = -2147483648",
+        "expectedOutput": "80000000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "num = -255",
+        "expectedOutput": "ffffff01",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "num = 255",
+        "expectedOutput": "ff",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "num = 1",
+        "expectedOutput": "1",
+        "isHidden": true
       }
     ]
   },
@@ -9589,6 +27050,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "people = [[6,0],[5,0],[4,0],[3,2],[2,2],[1,4]]",
         "expectedOutput": "[[4,0],[5,0],[2,2],[3,2],[1,4],[6,0]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "people = [[1,0],[2,0],[3,0],[4,0],[5,0]]",
+        "expectedOutput": "[[1, 0], [2, 0], [3, 0], [4, 0], [5, 0]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "people = [[5,2],[7,0],[5,0],[6,1],[3,2],[2,2],[1,4],[8,1]]",
+        "expectedOutput": "[[5, 0], [7, 0], [2, 2], [3, 2], [1, 4], [5, 2], [6, 1], [8, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "people = [[6,0],[5,0],[4,0],[3,2],[2,2],[1,4]]",
+        "expectedOutput": "[[4, 0], [5, 0], [2, 2], [3, 2], [1, 4], [6, 0]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "people = [[2,4],[3,4],[9,0],[0,6],[7,1],[3,1],[8,5],[1,5],[4,2],[5,0]]",
+        "expectedOutput": "[[5, 0], [3, 1], [9, 0], [4, 2], [2, 4], [1, 5], [0, 6], [3, 4], [7, 1], [8, 5]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "people = [[9,0],[7,0],[5,2],[6,1],[3,3],[8,2],[4,4]]",
+        "expectedOutput": "[[7, 0], [6, 1], [5, 2], [3, 3], [9, 0], [4, 4], [8, 2]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "people = [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]",
+        "expectedOutput": "[[5, 0], [7, 0], [5, 2], [6, 1], [4, 4], [7, 1]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "people = [[9,0],[7,0],[5,2],[6,1],[3,3],[8,2],[5,1],[6,0]]",
+        "expectedOutput": "[[6, 0], [5, 1], [5, 2], [3, 3], [6, 1], [7, 0], [9, 0], [8, 2]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "people = [[9,0],[7,0],[5,2],[6,1],[3,4],[8,2],[4,3]]",
+        "expectedOutput": "[[7, 0], [6, 1], [5, 2], [4, 3], [3, 4], [9, 0], [8, 2]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "people = [[10,0],[8,0],[6,0],[7,0],[5,0],[9,0]]",
+        "expectedOutput": "[[5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "people = [[1,9],[3,4],[7,0],[2,5],[1,0],[2,3],[6,0],[8,6],[9,7],[3,8]]",
+        "expectedOutput": "[[1, 0], [6, 0], [7, 0], [9, 7], [2, 3], [8, 6], [2, 5], [3, 4], [3, 8], [1, 9]]",
+        "isHidden": true
       }
     ]
   },
@@ -9621,6 +27142,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "heightMap = [[3,3,3,3,3],[3,2,2,2,3],[3,2,1,2,3],[3,2,2,2,3],[3,3,3,3,3]]",
         "expectedOutput": "10"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "heightMap = [[1,2,3],[0,1,0],[1,2,1]]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "heightMap = [[1]]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "heightMap = [[12,13,1,12],[13,4,13,12],[13,8,10,12],[12,13,12,12],[13,13,13,13]]",
+        "expectedOutput": "14",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "heightMap = [[7,8,9,10,9],[8,9,10,11,10],[9,10,11,12,11],[10,11,12,13,12],[11,12,13,14,13]]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "heightMap = [[1,1,1,1,1],[1,0,0,0,1],[1,0,4,0,1],[1,0,0,0,1],[1,1,1,1,1]]",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "heightMap = [[10,20,10],[20,5,20],[10,20,10]]",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "heightMap = [[1,2,3,4,5],[5,4,3,2,1],[1,2,3,4,5],[5,4,3,2,1]]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "heightMap = [[3,3,3,3,3],[3,2,2,2,3],[3,2,1,2,3],[3,2,2,2,3],[3,3,3,3,3]]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "heightMap = [[2,2,2],[2,1,2],[2,2,2]]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "heightMap = [[10,9,8,7,6],[9,8,7,6,5],[8,7,6,5,4],[7,6,5,4,3],[6,5,4,3,2]]",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -9646,6 +27227,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "word = \"hi\", abbr = \"2\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "word = \"substitution\", abbr = \"su3i1u2on\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "word = \"hi\", abbr = \"h1\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "word = \"hello\", abbr = \"he3\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "word = \"hello\", abbr = \"h4\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "word = \"abc\", abbr = \"a2\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "word = \"world\", abbr = \"w1r1d\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "word = \"hello\", abbr = \"he2ll\"",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "word = \"hello\", abbr = \"he2o\"",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "word = \"word\", abbr = \"wo2\"",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -9677,6 +27318,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = &quot;a&quot;",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"zyyzzzzz\"",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"abcdedcba\"",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"aabbbb\"",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"aaaaa\"",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"aabbccddee\"",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"a\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"aaabbbaa\"",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"aabbbccc\"",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"aabbbbccc\"",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"zzzz\"",
+        "expectedOutput": "4",
+        "isHidden": true
       }
     ]
   },
@@ -9710,6 +27411,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1,2,3,4,5], k = 2",
         "expectedOutput": "9"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [10,10,10,10], k = 2",
+        "expectedOutput": "20",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [10,5,13,4,8,4,5,11,14,9,15], k = 6",
+        "expectedOutput": "23",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10], k = 5",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [5,5,5,5,5,5,5,5,5,5], k = 10",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [10,10,10,10,10], k = 5",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,2,3,4,5], k = 2",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,1000000,1], k = 2",
+        "expectedOutput": "1000001",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,4,4], k = 3",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,2,3,4,5,6,7,8,9], k = 3",
+        "expectedOutput": "17",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [10,5,13,4,8,4,5,11,14,9,15], k = 8",
+        "expectedOutput": "15",
+        "isHidden": true
       }
     ]
   },
@@ -9746,6 +27507,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "n = 15",
         "expectedOutput": "[\"1\",\"2\",\"Fizz\",\"4\",\"Buzz\",\"Fizz\",\"7\",\"8\",\"Fizz\",\"Buzz\",\"11\",\"Fizz\",\"13\",\"14\",\"FizzBuzz\"]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 15",
+        "expectedOutput": "['1', '2', 'Fizz', '4', 'Buzz', 'Fizz', '7', '8', 'Fizz', 'Buzz', '11', 'Fizz', '13', '14', 'FizzBuzz']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 10000",
+        "expectedOutput": "Execution timed out",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 1",
+        "expectedOutput": "['1']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 50",
+        "expectedOutput": "['1', '2', 'Fizz', '4', 'Buzz', 'Fizz', '7', '8', 'Fizz', 'Buzz', '11', 'Fizz', '13', '14', 'FizzBuzz', '16', '17', 'Fizz', '19', 'Buzz', 'Fizz', '22', '23', 'Fizz', 'Buzz', '26', 'Fizz', '28', '29', 'FizzBuzz', '31', '32', 'Fizz', '34', 'Buzz', 'Fizz', '37', '38', 'Fizz', 'Buzz', '41', 'Fizz', '43', '44', 'FizzBuzz', '46', '47', 'Fizz', '49', 'Buzz']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 5",
+        "expectedOutput": "['1', '2', 'Fizz', '4', 'Buzz']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 4000",
+        "expectedOutput": "['1', '2', 'Fizz', '4', 'Buzz', 'Fizz', '7', '8', 'Fizz', 'Buzz', '11', 'Fizz', '13', '14', 'FizzBuzz', '16', '17', 'Fizz', '19', 'Buzz', 'Fizz', '22', '23', 'Fizz', 'Buzz', '26', 'Fizz', '28', '29', 'FizzBuzz', '31', '32', 'Fizz', '34', 'Buzz', 'Fizz', '37', '38', 'Fizz', 'Buzz', '41', 'Fizz', '43', '44', 'FizzBuzz', '46', '47', 'Fizz', '49', 'Buzz', 'Fizz', '52', '53', 'Fizz', 'Buzz', '56', 'Fizz', '58', '59', 'FizzBuzz', '61', '62', 'Fizz', '64', 'Buzz', 'Fizz', '67', '68', 'Fizz', 'Buzz', '71', 'Fizz', '73', '74', 'FizzBuzz', '76', '77', 'Fizz', '79', 'Buzz', 'Fizz', '82', '83', 'Fizz', 'Buzz', '86', 'Fizz', '88', '89', 'FizzBuzz', '91', '92', 'Fizz', '94', 'Buzz', 'Fizz', '97', '98', 'Fizz', 'Buzz', '101', 'Fizz', '103', '104', 'FizzBuzz', '106', '107', 'Fizz', '109', 'Buzz', 'Fizz', '112', '113', 'Fizz', 'Buzz', '116', 'Fizz', '118', '119', 'FizzBuzz', '121', '122', 'Fizz', '124', 'Buzz', 'Fizz', '127', '128', 'Fizz', 'Buzz', '131', 'Fizz', '133', '134', 'FizzBuzz', '136', '137', 'Fizz', '139', 'Buzz', 'Fizz', '142', '143', 'Fizz', 'Buzz', '146', 'Fizz', '148', '149', 'FizzBuzz', '151', '152', 'Fizz', '154', 'Buzz', 'Fizz', '157', '158', 'Fizz', 'Buzz', '161', 'Fizz', '163', '164', 'FizzBuzz', '166', '167', 'Fizz', '169', 'Buzz', 'Fizz', '172', '173', 'Fizz', 'Buzz', '176', 'Fizz', '178', '179', 'FizzBuzz', '181', '182', 'Fizz', '184', 'Buzz', 'Fizz', '187', '188', 'Fizz', 'Buzz', '191', 'Fizz', '193', '194', 'FizzBuzz', '196', '197', 'Fizz', '199', 'Buzz', 'Fizz', '202', '203', 'Fizz', 'Buzz', '206', 'Fizz', '208', '209', 'FizzBuzz', '211', '212', 'Fizz', '214', 'Buzz', 'Fizz', '217', '218', 'Fizz', 'Buzz', '221', 'Fizz', '223', '224', 'FizzBuzz', '226', '227', 'Fizz', '229', 'Buzz', 'Fizz', '232', '233', 'Fizz', 'Buzz', '236', 'Fizz', '238', '239', 'FizzBuzz', '241', '242', 'Fizz', '244', 'Buzz', 'Fizz', '247', '248', 'Fizz', 'Buzz', '251', 'Fizz', '253', '254', 'FizzBuzz', '256', '257', 'Fizz', '259', 'Buzz', 'Fizz', '262', '263', 'Fizz', 'Buzz', '266', 'Fizz', '268', '269', 'FizzBuzz', '271', '272', 'Fizz', '274', 'Buzz', 'Fizz', '277', '278', 'Fizz', 'Buzz', '281', 'Fizz', '283', '284', 'FizzBuzz', '286', '287', 'Fizz', '289', 'Buzz', 'Fizz', '292', '293', 'Fizz', 'Buzz', '296', 'Fizz', '298', '299', 'FizzBuzz', '301', '302', 'Fizz', '304', 'Buzz', 'Fizz', '307', '308', 'Fizz', 'Buzz', '311', 'Fizz', '313', '314', 'FizzBuzz', '316', '317', 'Fizz', '319', 'Buzz', 'Fizz', '322', '323', 'Fizz', 'Buzz', '326', 'Fizz', '328', '329', 'FizzBuzz', '331', '332', 'Fizz', '334', 'Buzz', 'Fizz', '337', '338', 'Fizz', 'Buzz', '341', 'Fizz', '343', '344', 'FizzBuzz', '346', '347', 'Fizz', '349', 'Buzz', 'Fizz', '352', '353', 'Fizz', 'Buzz', '356', 'Fizz', '358', '359', 'FizzBuzz', '361', '362', 'Fizz', '364', 'Buzz', 'Fizz', '367', '368', 'Fizz', 'Buzz', '371', 'Fizz', '373', '374', 'FizzBuzz', '376', '377', 'Fizz', '379', 'Buzz', 'Fizz', '382', '383', 'Fizz', 'Buzz', '386', 'Fizz', '388', '389', 'FizzBuzz', '391', '392', 'Fizz', '394', 'Buzz', 'Fizz', '397', '398', 'Fizz', 'Buzz', '401', 'Fizz', '403', '404', 'FizzBuzz', '406', '407', 'Fizz', '409', 'Buzz', 'Fizz', '412', '413', 'Fizz', 'Buzz', '416', 'Fizz', '418', '419', 'FizzBuzz', '421', '422', 'Fizz', '424', 'Buzz', 'Fizz', '427', '428', 'Fizz', 'Buzz', '431', 'Fizz', '433', '434', 'FizzBuzz', '436', '437', 'Fizz', '439', 'Buzz', 'Fizz', '442', '443', 'Fizz', 'Buzz', '446', 'Fizz', '448', '449', 'FizzBuzz', '451', '452', 'Fizz', '454', 'Buzz', 'Fizz', '457', '458', 'Fizz', 'Buzz', '461', 'Fizz', '463', '464', 'FizzBuzz', '466', '467', 'Fizz', '469', 'Buzz', 'Fizz', '472', '473', 'Fizz', 'Buzz', '476', 'Fizz', '478', '479', 'FizzBuzz', '481', '482', 'Fizz', '484', 'Buzz', 'Fizz', '487', '488', 'Fizz', 'Buzz', '491', 'Fizz', '493', '494', 'FizzBuzz', '496', '497', 'Fizz', '499', 'Buzz', 'Fizz', '502', '503', 'Fizz', 'Buzz', '506', 'Fizz', '508', '509', 'FizzBuzz', '511', '512', 'Fizz', '514', 'Buzz', 'Fizz', '517', '518', 'Fizz', 'Buzz', '521', 'Fizz', '523', '524', 'FizzBuzz', '526', '527', 'Fizz', '529', 'Buzz', 'Fizz', '532', '533', 'Fizz', 'Buzz', '536', 'Fizz', '538', '539', 'FizzBuzz', '541', '542', 'Fizz', '544', 'Buzz', 'Fizz', '547', '548', 'Fizz', 'Buzz', '551', 'Fizz', '553', '554', 'FizzBuzz', '556', '557', 'Fizz', '559', 'Buzz', 'Fizz', '562', '563', 'Fizz', 'Buzz', '566', 'Fizz', '568', '569', 'FizzBuzz', '571', '572', 'Fizz', '574', 'Buzz', 'Fizz', '577', '578', 'Fizz', 'Buzz', '581', 'Fizz', '583', '584', 'FizzBuzz', '586', '587', 'Fizz', '589', 'Buzz', 'Fizz', '592', '593', 'Fizz', 'Buzz', '596', 'Fizz', '598', '599', 'FizzBuzz', '601', '602', 'Fizz', '604', 'Buzz', 'Fizz', '607', '608', 'Fizz', 'Buzz', '611', 'Fizz', '613', '614', 'FizzBuzz', '616', '617', 'Fizz', '619', 'Buzz', 'Fizz', '622', '623', 'Fizz', 'Buzz', '626', 'Fizz', '628', '629', 'FizzBuzz', '631', '632', 'Fizz', '634', 'Buzz', 'Fizz', '637', '638', 'Fizz', 'Buzz', '641', 'Fizz', '643', '644', 'FizzBuzz', '646', '647', 'Fizz', '649', 'Buzz', 'Fizz', '652', '653', 'Fizz', 'Buzz', '656', 'Fizz', '658', '659', 'FizzBuzz', '661', '662', 'Fizz', '664', 'Buzz', 'Fizz', '667', '668', 'Fizz', 'Buzz', '671', 'Fizz', '673', '674', 'FizzBuzz', '676', '677', 'Fizz', '679', 'Buzz', 'Fizz', '682', '683', 'Fizz', 'Buzz', '686', 'Fizz', '688', '689', 'FizzBuzz', '691', '692', 'Fizz', '694', 'Buzz', 'Fizz', '697', '698', 'Fizz', 'Buzz', '701', 'Fizz', '703', '704', 'FizzBuzz', '706', '707', 'Fizz', '709', 'Buzz', 'Fizz', '712', '713', 'Fizz', 'Buzz', '716', 'Fizz', '718', '719', 'FizzBuzz', '721', '722', 'Fizz', '724', 'Buzz', 'Fizz', '727', '728', 'Fizz', 'Buzz', '731', 'Fizz', '733', '734', 'FizzBuzz', '736', '737', 'Fizz', '739', 'Buzz', 'Fizz', '742', '743', 'Fizz', 'Buzz', '746', 'Fizz', '748', '749', 'FizzBuzz', '751', '752', 'Fizz', '754', 'Buzz', 'Fizz', '757', '758', 'Fizz', 'Buzz', '761', 'Fizz', '763', '764', 'FizzBuzz', '766', '767', 'Fizz', '769', 'Buzz', 'Fizz', '772', '773', 'Fizz', 'Buzz', '776', 'Fizz', '778', '779', 'FizzBuzz', '781', '782', 'Fizz', '784', 'Buzz', 'Fizz', '787', '788', 'Fizz', 'Buzz', '791', 'Fizz', '793', '794', 'FizzBuzz', '796', '797', 'Fizz', '799', 'Buzz', 'Fizz', '802', '803', 'Fizz', 'Buzz', '806', 'Fizz', '808', '809', 'FizzBuzz', '811', '812', 'Fizz', '814', 'Buzz', 'Fizz', '817', '818', 'Fizz', 'Buzz', '821', 'Fizz', '823', '824', 'FizzBuzz', '826', '827', 'Fizz', '829', 'Buzz', 'Fizz', '832', '833', 'Fizz', 'Buzz', '836', 'Fizz', '838', '839', 'FizzBuzz', '841', '842', 'Fizz', '844', 'Buzz', 'Fizz', '847', '848', 'Fizz', 'Buzz', '851', 'Fizz', '853', '854', 'FizzBuzz', '856', '857', 'Fizz', '859', 'Buzz', 'Fizz', '862', '863', 'Fizz', 'Buzz', '866', 'Fizz', '868', '869', 'FizzBuzz', '871', '872', 'Fizz', '874', 'Buzz', 'Fizz', '877', '878', 'Fizz', 'Buzz', '881', 'Fizz', '883', '884', 'FizzBuzz', '886', '887', 'Fizz', '889', 'Buzz', 'Fizz', '892', '893', 'Fizz', 'Buzz', '896', 'Fizz', '898', '899', 'FizzBuzz', '901', '902', 'Fizz', '904', 'Buzz', 'Fizz', '907', '908', 'Fizz', 'Buzz', '911', 'Fizz', '913', '914', 'FizzBuzz', '916', '917', 'Fizz', '919', 'Buzz', 'Fizz', '922', '923', 'Fizz', 'Buzz', '926', 'Fizz', '928', '929', 'FizzBuzz', '931', '932', 'Fizz', '934', 'Buzz', 'Fizz', '937', '938', 'Fizz', 'Buzz', '941', 'Fizz', '943', '944', 'FizzBuzz', '946', '947', 'Fizz', '949', 'Buzz', 'Fizz', '952', '953', 'Fizz', 'Buzz', '956', 'Fizz', '958', '959', 'FizzBuzz', '961', '962', 'Fizz', '964', 'Buzz', 'Fizz', '967', '968', 'Fizz', 'Buzz', '971', 'Fizz', '973', '974', 'FizzBuzz', '976', '977', 'Fizz', '979', 'Buzz', 'Fizz', '982', '983', 'Fizz', 'Buzz', '986', 'Fizz', '988', '989', 'FizzBuzz', '991', '992', 'Fizz', '994', 'Buzz', 'Fizz', '997', '998', 'Fizz', 'Buzz', '1001', 'Fizz', '1003', '1004', 'FizzBuzz', '1006', '1007', 'Fizz', '1009', 'Buzz', 'Fizz', '1012', '1013', 'Fizz', 'Buzz', '1016', 'Fizz', '1018', '1019', 'FizzBuzz', '1021', '1022', 'Fizz', '1024', 'Buzz', 'Fizz', '1027', '1028', 'Fizz', 'Buzz', '1031', 'Fizz', '1033', '1034', 'FizzBuzz', '1036', '1037', 'Fizz', '1039', 'Buzz', 'Fizz', '1042', '1043', 'Fizz', 'Buzz', '1046', 'Fizz', '1048', '1049', 'FizzBuzz', '1051', '1052', 'Fizz', '1054', 'Buzz', 'Fizz', '1057', '1058', 'Fizz', 'Buzz', '1061', 'Fizz', '1063', '1064', 'FizzBuzz', '1066', '1067', 'Fizz', '1069', 'Buzz', 'Fizz', '1072', '1073', 'Fizz', 'Buzz', '1076', 'Fizz', '1078', '1079', 'FizzBuzz', '1081', '1082', 'Fizz', '1084', 'Buzz', 'Fizz', '1087', '1088', 'Fizz', 'Buzz', '1091', 'Fizz', '1093', '1094', 'FizzBuzz', '1096', '1097', 'Fizz', '1099', 'Buzz', 'Fizz', '1102', '1103', 'Fizz', 'Buzz', '1106', 'Fizz', '1108', '1109', 'FizzBuzz', '1111', '1112', 'Fizz', '1114', 'Buzz', 'Fizz', '1117', '1118', 'Fizz', 'Buzz', '1121', 'Fizz', '1123', '1124', 'FizzBuzz', '1126', '1127', 'Fizz', '1129', 'Buzz', 'Fizz', '1132', '1133', 'Fizz', 'Buzz', '1136', 'Fizz', '1138', '1139', 'FizzBuzz', '1141', '1142', 'Fizz', '1144', 'Buzz', 'Fizz', '1147', '1148', 'Fizz', 'Buzz', '1151', 'Fizz', '1153', '1154', 'FizzBuzz', '1156', '1157', 'Fizz', '1159', 'Buzz', 'Fizz', '1162', '1163', 'Fizz', 'Buzz', '1166', 'Fizz', '1168', '1169', 'FizzBuzz', '1171', '1172', 'Fizz', '1174', 'Buzz', 'Fizz', '1177', '1178', 'Fizz', 'Buzz', '1181', 'Fizz', '1183', '1184', 'FizzBuzz', '1186', '1187', 'Fizz', '1189', 'Buzz', 'Fizz', '1192', '1193', 'Fizz', 'Buzz', '1196', 'Fizz', '1198', '1199', 'FizzBuzz', '1201', '1202', 'Fizz', '1204', 'Buzz', 'Fizz', '1207', '1208', 'Fizz', 'Buzz', '1211', 'Fizz', '1213', '1214', 'FizzBuzz', '1216', '1217', 'Fizz', '1219', 'Buzz', 'Fizz', '1222', '1223', 'Fizz', 'Buzz', '1226', 'Fizz', '1228', '1229', 'FizzBuzz', '1231', '1232', 'Fizz', '1234', 'Buzz', 'Fizz', '1237', '1238', 'Fizz', 'Buzz', '1241', 'Fizz', '1243', '1244', 'FizzBuzz', '1246', '1247', 'Fizz', '1249', 'Buzz', 'Fizz', '1252', '1253', 'Fizz', 'Buzz', '1256', 'Fizz', '1258', '1259', 'FizzBuzz', '1261', '1262', 'Fizz', '1264', 'Buzz', 'Fizz', '1267', '1268', 'Fizz', 'Buzz', '1271', 'Fizz', '1273', '1274', 'FizzBuzz', '1276', '1277', 'Fizz', '1279', 'Buzz', 'Fizz', '1282', '1283', 'Fizz', 'Buzz', '1286', 'Fizz', '1288', '1289', 'FizzBuzz', '1291', '1292', 'Fizz', '1294', 'Buzz', 'Fizz', '1297', '1298', 'Fizz', 'Buzz', '1301', 'Fizz', '1303', '1304', 'FizzBuzz', '1306', '1307', 'Fizz', '1309', 'Buzz', 'Fizz', '1312', '1313', 'Fizz', 'Buzz', '1316', 'Fizz', '1318', '1319', 'FizzBuzz', '1321', '1322', 'Fizz', '1324', 'Buzz', 'Fizz', '1327', '1328', 'Fizz', 'Buzz', '1331', 'Fizz', '1333', '1334', 'FizzBuzz', '1336', '1337', 'Fizz', '1339', 'Buzz', 'Fizz', '1342', '1343', 'Fizz', 'Buzz', '1346', 'Fizz', '1348', '1349', 'FizzBuzz', '1351', '1352', 'Fizz', '1354', 'Buzz', 'Fizz', '1357', '1358', 'Fizz', 'Buzz', '1361', 'Fizz', '1363', '1364', 'FizzBuzz', '1366', '1367', 'Fizz', '1369', 'Buzz', 'Fizz', '1372', '1373', 'Fizz', 'Buzz', '1376', 'Fizz', '1378', '1379', 'FizzBuzz', '1381', '1382', 'Fizz', '1384', 'Buzz', 'Fizz', '1387', '1388', 'Fizz', 'Buzz', '1391', 'Fizz', '1393', '1394', 'FizzBuzz', '1396', '1397', 'Fizz', '1399', 'Buzz', 'Fizz', '1402', '1403', 'Fizz', 'Buzz', '1406', 'Fizz', '1408', '1409', 'FizzBuzz', '1411', '1412', 'Fizz', '1414', 'Buzz', 'Fizz', '1417', '1418', 'Fizz', 'Buzz', '1421', 'Fizz', '1423', '1424', 'FizzBuzz', '1426', '1427', 'Fizz', '1429', 'Buzz', 'Fizz', '1432', '1433', 'Fizz', 'Buzz', '1436', 'Fizz', '1438', '1439', 'FizzBuzz', '1441', '1442', 'Fizz', '1444', 'Buzz', 'Fizz', '1447', '1448', 'Fizz', 'Buzz', '1451', 'Fizz', '1453', '1454', 'FizzBuzz', '1456', '1457', 'Fizz', '1459', 'Buzz', 'Fizz', '1462', '1463', 'Fizz', 'Buzz', '1466', 'Fizz', '1468', '1469', 'FizzBuzz', '1471', '1472', 'Fizz', '1474', 'Buzz', 'Fizz', '1477', '1478', 'Fizz', 'Buzz', '1481', 'Fizz', '1483', '1484', 'FizzBuzz', '1486', '1487', 'Fizz', '1489', 'Buzz', 'Fizz', '1492', '1493', 'Fizz', 'Buzz', '1496', 'Fizz', '1498', '1499', 'FizzBuzz', '1501', '1502', 'Fizz', '1504', 'Buzz', 'Fizz', '1507', '1508', 'Fizz', 'Buzz', '1511', 'Fizz', '1513', '1514', 'FizzBuzz', '1516', '1517', 'Fizz', '1519', 'Buzz', 'Fizz', '1522', '1523', 'Fizz', 'Buzz', '1526', 'Fizz', '1528', '1529', 'FizzBuzz', '1531', '1532', 'Fizz', '1534', 'Buzz', 'Fizz', '1537', '1538', 'Fizz', 'Buzz', '1541', 'Fizz', '1543', '1544', 'FizzBuzz', '1546', '1547', 'Fizz', '1549', 'Buzz', 'Fizz', '1552', '1553', 'Fizz', 'Buzz', '1556', 'Fizz', '1558', '1559', 'FizzBuzz', '1561', '1562', 'Fizz', '1564', 'Buzz', 'Fizz', '1567', '1568', 'Fizz', 'Buzz', '1571', 'Fizz', '1573', '1574', 'FizzBuzz', '1576', '1577', 'Fizz', '1579', 'Buzz', 'Fizz', '1582', '1583', 'Fizz', 'Buzz', '1586', 'Fizz', '1588', '1589', 'FizzBuzz', '1591', '1592', 'Fizz', '1594', 'Buzz', 'Fizz', '1597', '1598', 'Fizz', 'Buzz', '1601', 'Fizz', '1603', '1604', 'FizzBuzz', '1606', '1607', 'Fizz', '1609', 'Buzz', 'Fizz', '1612', '1613', 'Fizz', 'Buzz', '1616', 'Fizz', '1618', '1619', 'FizzBuzz', '1621', '1622', 'Fizz', '1624', 'Buzz', 'Fizz', '1627', '1628', 'Fizz', 'Buzz', '1631', 'Fizz', '1633', '1634', 'FizzBuzz', '1636', '1637', 'Fizz', '1639', 'Buzz', 'Fizz', '1642', '1643', 'Fizz', 'Buzz', '1646', 'Fizz', '1648', '1649', 'FizzBuzz', '1651', '1652', 'Fizz', '1654', 'Buzz', 'Fizz', '1657', '1658', 'Fizz', 'Buzz', '1661', 'Fizz', '1663', '1664', 'FizzBuzz', '1666', '1667', 'Fizz', '1669', 'Buzz', 'Fizz', '1672', '1673', 'Fizz', 'Buzz', '1676', 'Fizz', '1678', '1679', 'FizzBuzz', '1681', '1682', 'Fizz', '1684', 'Buzz', 'Fizz', '1687', '1688', 'Fizz', 'Buzz', '1691', 'Fizz', '1693', '1694', 'FizzBuzz', '1696', '1697', 'Fizz', '1699', 'Buzz', 'Fizz', '1702', '1703', 'Fizz', 'Buzz', '1706', 'Fizz', '1708', '1709', 'FizzBuzz', '1711', '1712', 'Fizz', '1714', 'Buzz', 'Fizz', '1717', '1718', 'Fizz', 'Buzz', '1721', 'Fizz', '1723', '1724', 'FizzBuzz', '1726', '1727', 'Fizz', '1729', 'Buzz', 'Fizz', '1732', '1733', 'Fizz', 'Buzz', '1736', 'Fizz', '1738', '1739', 'FizzBuzz', '1741', '1742', 'Fizz', '1744', 'Buzz', 'Fizz', '1747', '1748', 'Fizz', 'Buzz', '1751', 'Fizz', '1753', '1754', 'FizzBuzz', '1756', '1757', 'Fizz', '1759', 'Buzz', 'Fizz', '1762', '1763', 'Fizz', 'Buzz', '1766', 'Fizz', '1768', '1769', 'FizzBuzz', '1771', '1772', 'Fizz', '1774', 'Buzz', 'Fizz', '1777', '1778', 'Fizz', 'Buzz', '1781', 'Fizz', '1783', '1784', 'FizzBuzz', '1786', '1787', 'Fizz', '1789', 'Buzz', 'Fizz', '1792', '1793', 'Fizz', 'Buzz', '1796', 'Fizz', '1798', '1799', 'FizzBuzz', '1801', '1802', 'Fizz', '1804', 'Buzz', 'Fizz', '1807', '1808', 'Fizz', 'Buzz', '1811', 'Fizz', '1813', '1814', 'FizzBuzz', '1816', '1817', 'Fizz', '1819', 'Buzz', 'Fizz', '1822', '1823', 'Fizz', 'Buzz', '1826', 'Fizz', '1828', '1829', 'FizzBuzz', '1831', '1832', 'Fizz', '1834', 'Buzz', 'Fizz', '1837', '1838', 'Fizz', 'Buzz', '1841', 'Fizz', '1843', '1844', 'FizzBuzz', '1846', '1847', 'Fizz', '1849', 'Buzz', 'Fizz', '1852', '1853', 'Fizz', 'Buzz', '1856', 'Fizz', '1858', '1859', 'FizzBuzz', '1861', '1862', 'Fizz', '1864', 'Buzz', 'Fizz', '1867', '1868', 'Fizz', 'Buzz', '1871', 'Fizz', '1873', '1874', 'FizzBuzz', '1876', '1877', 'Fizz', '1879', 'Buzz', 'Fizz', '1882', '1883', 'Fizz', 'Buzz', '1886', 'Fizz', '1888', '1889', 'FizzBuzz', '1891', '1892', 'Fizz', '1894', 'Buzz', 'Fizz', '1897', '1898', 'Fizz', 'Buzz', '1901', 'Fizz', '1903', '1904', 'FizzBuzz', '1906', '1907', 'Fizz', '1909', 'Buzz', 'Fizz', '1912', '1913', 'Fizz', 'Buzz', '1916', 'Fizz', '1918', '1919', 'FizzBuzz', '1921', '1922', 'Fizz', '1924', 'Buzz', 'Fizz', '1927', '1928', 'Fizz', 'Buzz', '1931', 'Fizz', '1933', '1934', 'FizzBuzz', '1936', '1937', 'Fizz', '1939', 'Buzz', 'Fizz', '1942', '1943', 'Fizz', 'Buzz', '1946', 'Fizz', '1948', '1949', 'FizzBuzz', '1951', '1952', 'Fizz', '1954', 'Buzz', 'Fizz', '1957', '1958', 'Fizz', 'Buzz', '1961', 'Fizz', '1963', '1964', 'FizzBuzz', '1966', '1967', 'Fizz', '1969', 'Buzz', 'Fizz', '1972', '1973', 'Fizz', 'Buzz', '1976', 'Fizz', '1978', '1979', 'FizzBuzz', '1981', '1982', 'Fizz', '1984', 'Buzz', 'Fizz', '1987', '1988', 'Fizz', 'Buzz', '1991', 'Fizz', '1993', '1994', 'FizzBuzz', '1996', '1997', 'Fizz', '1999', 'Buzz', 'Fizz', '2002', '2003', 'Fizz', 'Buzz', '2006', 'Fizz', '2008', '2009', 'FizzBuzz', '2011', '2012', 'Fizz', '2014', 'Buzz', 'Fizz', '2017', '2018', 'Fizz', 'Buzz', '2021', 'Fizz', '2023', '2024', 'FizzBuzz', '2026', '2027', 'Fizz', '2029', 'Buzz', 'Fizz', '2032', '2033', 'Fizz', 'Buzz', '2036', 'Fizz', '2038', '2039', 'FizzBuzz', '2041', '2042', 'Fizz', '2044', 'Buzz', 'Fizz', '2047', '2048', 'Fizz', 'Buzz', '2051', 'Fizz', '2053', '2054', 'FizzBuzz', '2056', '2057', 'Fizz', '2059', 'Buzz', 'Fizz', '2062', '2063', 'Fizz', 'Buzz', '2066', 'Fizz', '2068', '2069', 'FizzBuzz', '2071', '2072', 'Fizz', '2074', 'Buzz', 'Fizz', '2077', '2078', 'Fizz', 'Buzz', '2081', 'Fizz', '2083', '2084', 'FizzBuzz', '2086', '2087', 'Fizz', '2089', 'Buzz', 'Fizz', '2092', '2093', 'Fizz', 'Buzz', '2096', 'Fizz', '2098', '2099', 'FizzBuzz', '2101', '2102', 'Fizz', '2104', 'Buzz', 'Fizz', '2107', '2108', 'Fizz', 'Buzz', '2111', 'Fizz', '2113', '2114', 'FizzBuzz', '2116', '2117', 'Fizz', '2119', 'Buzz', 'Fizz', '2122', '2123', 'Fizz', 'Buzz', '2126', 'Fizz', '2128', '2129', 'FizzBuzz', '2131', '2132', 'Fizz', '2134', 'Buzz', 'Fizz', '2137', '2138', 'Fizz', 'Buzz', '2141', 'Fizz', '2143', '2144', 'FizzBuzz', '2146', '2147', 'Fizz', '2149', 'Buzz', 'Fizz', '2152', '2153', 'Fizz', 'Buzz', '2156', 'Fizz', '2158', '2159', 'FizzBuzz', '2161', '2162', 'Fizz', '2164', 'Buzz', 'Fizz', '2167', '2168', 'Fizz', 'Buzz', '2171', 'Fizz', '2173', '2174', 'FizzBuzz', '2176', '2177', 'Fizz', '2179', 'Buzz', 'Fizz', '2182', '2183', 'Fizz', 'Buzz', '2186', 'Fizz', '2188', '2189', 'FizzBuzz', '2191', '2192', 'Fizz', '2194', 'Buzz', 'Fizz', '2197', '2198', 'Fizz', 'Buzz', '2201', 'Fizz', '2203', '2204', 'FizzBuzz', '2206', '2207', 'Fizz', '2209', 'Buzz', 'Fizz', '2212', '2213', 'Fizz', 'Buzz', '2216', 'Fizz', '2218', '2219', 'FizzBuzz', '2221', '2222', 'Fizz', '2224', 'Buzz', 'Fizz', '2227', '2228', 'Fizz', 'Buzz', '2231', 'Fizz', '2233', '2234', 'FizzBuzz', '2236', '2237', 'Fizz', '2239', 'Buzz', 'Fizz', '2242', '2243', 'Fizz', 'Buzz', '2246', 'Fizz', '2248', '2249', 'FizzBuzz', '2251', '2252', 'Fizz', '2254', 'Buzz', 'Fizz', '2257', '2258', 'Fizz', 'Buzz', '2261', 'Fizz', '2263', '2264', 'FizzBuzz', '2266', '2267', 'Fizz', '2269', 'Buzz', 'Fizz', '2272', '2273', 'Fizz', 'Buzz', '2276', 'Fizz', '2278', '2279', 'FizzBuzz', '2281', '2282', 'Fizz', '2284', 'Buzz', 'Fizz', '2287', '2288', 'Fizz', 'Buzz', '2291', 'Fizz', '2293', '2294', 'FizzBuzz', '2296', '2297', 'Fizz', '2299', 'Buzz', 'Fizz', '2302', '2303', 'Fizz', 'Buzz', '2306', 'Fizz', '2308', '2309', 'FizzBuzz', '2311', '2312', 'Fizz', '2314', 'Buzz', 'Fizz', '2317', '2318', 'Fizz', 'Buzz', '2321', 'Fizz', '2323', '2324', 'FizzBuzz', '2326', '2327', 'Fizz', '2329', 'Buzz', 'Fizz', '2332', '2333', 'Fizz', 'Buzz', '2336', 'Fizz', '2338', '2339', 'FizzBuzz', '2341', '2342', 'Fizz', '2344', 'Buzz', 'Fizz', '2347', '2348', 'Fizz', 'Buzz', '2351', 'Fizz', '2353', '2354', 'FizzBuzz', '2356', '2357', 'Fizz', '2359', 'Buzz', 'Fizz', '2362', '2363', 'Fizz', 'Buzz', '2366', 'Fizz', '2368', '2369', 'FizzBuzz', '2371', '2372', 'Fizz', '2374', 'Buzz', 'Fizz', '2377', '2378', 'Fizz', 'Buzz', '2381', 'Fizz', '2383', '2384', 'FizzBuzz', '2386', '2387', 'Fizz', '2389', 'Buzz', 'Fizz', '2392', '2393', 'Fizz', 'Buzz', '2396', 'Fizz', '2398', '2399', 'FizzBuzz', '2401', '2402', 'Fizz', '2404', 'Buzz', 'Fizz', '2407', '2408', 'Fizz', 'Buzz', '2411', 'Fizz', '2413', '2414', 'FizzBuzz', '2416', '2417', 'Fizz', '2419', 'Buzz', 'Fizz', '2422', '2423', 'Fizz', 'Buzz', '2426', 'Fizz', '2428', '2429', 'FizzBuzz', '2431', '2432', 'Fizz', '2434', 'Buzz', 'Fizz', '2437', '2438', 'Fizz', 'Buzz', '2441', 'Fizz', '2443', '2444', 'FizzBuzz', '2446', '2447', 'Fizz', '2449', 'Buzz', 'Fizz', '2452', '2453', 'Fizz', 'Buzz', '2456', 'Fizz', '2458', '2459', 'FizzBuzz', '2461', '2462', 'Fizz', '2464', 'Buzz', 'Fizz', '2467', '2468', 'Fizz', 'Buzz', '2471', 'Fizz', '2473', '2474', 'FizzBuzz', '2476', '2477', 'Fizz', '2479', 'Buzz', 'Fizz', '2482', '2483', 'Fizz', 'Buzz', '2486', 'Fizz', '2488', '2489', 'FizzBuzz', '2491', '2492', 'Fizz', '2494', 'Buzz', 'Fizz', '2497', '2498', 'Fizz', 'Buzz', '2501', 'Fizz', '2503', '2504', 'FizzBuzz', '2506', '2507', 'Fizz', '2509', 'Buzz', 'Fizz', '2512', '2513', 'Fizz', 'Buzz', '2516', 'Fizz', '2518', '2519', 'FizzBuzz', '2521', '2522', 'Fizz', '2524', 'Buzz', 'Fizz', '2527', '2528', 'Fizz', 'Buzz', '2531', 'Fizz', '2533', '2534', 'FizzBuzz', '2536', '2537', 'Fizz', '2539', 'Buzz', 'Fizz', '2542', '2543', 'Fizz', 'Buzz', '2546', 'Fizz', '2548', '2549', 'FizzBuzz', '2551', '2552', 'Fizz', '2554', 'Buzz', 'Fizz', '2557', '2558', 'Fizz', 'Buzz', '2561', 'Fizz', '2563', '2564', 'FizzBuzz', '2566', '2567', 'Fizz', '2569', 'Buzz', 'Fizz', '2572', '2573', 'Fizz', 'Buzz', '2576', 'Fizz', '2578', '2579', 'FizzBuzz', '2581', '2582', 'Fizz', '2584', 'Buzz', 'Fizz', '2587', '2588', 'Fizz', 'Buzz', '2591', 'Fizz', '2593', '2594', 'FizzBuzz', '2596', '2597', 'Fizz', '2599', 'Buzz', 'Fizz', '2602', '2603', 'Fizz', 'Buzz', '2606', 'Fizz', '2608', '2609', 'FizzBuzz', '2611', '2612', 'Fizz', '2614', 'Buzz', 'Fizz', '2617', '2618', 'Fizz', 'Buzz', '2621', 'Fizz', '2623', '2624', 'FizzBuzz', '2626', '2627', 'Fizz', '2629', 'Buzz', 'Fizz', '2632', '2633', 'Fizz', 'Buzz', '2636', 'Fizz', '2638', '2639', 'FizzBuzz', '2641', '2642', 'Fizz', '2644', 'Buzz', 'Fizz', '2647', '2648', 'Fizz', 'Buzz', '2651', 'Fizz', '2653', '2654', 'FizzBuzz', '2656', '2657', 'Fizz', '2659', 'Buzz', 'Fizz', '2662', '2663', 'Fizz', 'Buzz', '2666', 'Fizz', '2668', '2669', 'FizzBuzz', '2671', '2672', 'Fizz', '2674', 'Buzz', 'Fizz', '2677', '2678', 'Fizz', 'Buzz', '2681', 'Fizz', '2683', '2684', 'FizzBuzz', '2686', '2687', 'Fizz', '2689', 'Buzz', 'Fizz', '2692', '2693', 'Fizz', 'Buzz', '2696', 'Fizz', '2698', '2699', 'FizzBuzz', '2701', '2702', 'Fizz', '2704', 'Buzz', 'Fizz', '2707', '2708', 'Fizz', 'Buzz', '2711', 'Fizz', '2713', '2714', 'FizzBuzz', '2716', '2717', 'Fizz', '2719', 'Buzz', 'Fizz', '2722', '2723', 'Fizz', 'Buzz', '2726', 'Fizz', '2728', '2729', 'FizzBuzz', '2731', '2732', 'Fizz', '2734', 'Buzz', 'Fizz', '2737', '2738', 'Fizz', 'Buzz', '2741', 'Fizz', '2743', '2744', 'FizzBuzz', '2746', '2747', 'Fizz', '2749', 'Buzz', 'Fizz', '2752', '2753', 'Fizz', 'Buzz', '2756', 'Fizz', '2758', '2759', 'FizzBuzz', '2761', '2762', 'Fizz', '2764', 'Buzz', 'Fizz', '2767', '2768', 'Fizz', 'Buzz', '2771', 'Fizz', '2773', '2774', 'FizzBuzz', '2776', '2777', 'Fizz', '2779', 'Buzz', 'Fizz', '2782', '2783', 'Fizz', 'Buzz', '2786', 'Fizz', '2788', '2789', 'FizzBuzz', '2791', '2792', 'Fizz', '2794', 'Buzz', 'Fizz', '2797', '2798', 'Fizz', 'Buzz', '2801', 'Fizz', '2803', '2804', 'FizzBuzz', '2806', '2807', 'Fizz', '2809', 'Buzz', 'Fizz', '2812', '2813', 'Fizz', 'Buzz', '2816', 'Fizz', '2818', '2819', 'FizzBuzz', '2821', '2822', 'Fizz', '2824', 'Buzz', 'Fizz', '2827', '2828', 'Fizz', 'Buzz', '2831', 'Fizz', '2833', '2834', 'FizzBuzz', '2836', '2837', 'Fizz', '2839', 'Buzz', 'Fizz', '2842', '2843', 'Fizz', 'Buzz', '2846', 'Fizz', '2848', '2849', 'FizzBuzz', '2851', '2852', 'Fizz', '2854', 'Buzz', 'Fizz', '2857', '2858', 'Fizz', 'Buzz', '2861', 'Fizz', '2863', '2864', 'FizzBuzz', '2866', '2867', 'Fizz', '2869', 'Buzz', 'Fizz', '2872', '2873', 'Fizz', 'Buzz', '2876', 'Fizz', '2878', '2879', 'FizzBuzz', '2881', '2882', 'Fizz', '2884', 'Buzz', 'Fizz', '2887', '2888', 'Fizz', 'Buzz', '2891', 'Fizz', '2893', '2894', 'FizzBuzz', '2896', '2897', 'Fizz', '2899', 'Buzz', 'Fizz', '2902', '2903', 'Fizz', 'Buzz', '2906', 'Fizz', '2908', '2909', 'FizzBuzz', '2911', '2912', 'Fizz', '2914', 'Buzz', 'Fizz', '2917', '2918', 'Fizz', 'Buzz', '2921', 'Fizz', '2923', '2924', 'FizzBuzz', '2926', '2927', 'Fizz', '2929', 'Buzz', 'Fizz', '2932', '2933', 'Fizz', 'Buzz', '2936', 'Fizz', '2938', '2939', 'FizzBuzz', '2941', '2942', 'Fizz', '2944', 'Buzz', 'Fizz', '2947', '2948', 'Fizz', 'Buzz', '2951', 'Fizz', '2953', '2954', 'FizzBuzz', '2956', '2957', 'Fizz', '2959', 'Buzz', 'Fizz', '2962', '2963', 'Fizz', 'Buzz', '2966', 'Fizz', '2968', '2969', 'FizzBuzz', '2971', '2972', 'Fizz', '2974', 'Buzz', 'Fizz', '2977', '2978', 'Fizz', 'Buzz', '2981', 'Fizz', '2983', '2984', 'FizzBuzz', '2986', '2987', 'Fizz', '2989', 'Buzz', 'Fizz', '2992', '2993', 'Fizz', 'Buzz', '2996', 'Fizz', '2998', '2999', 'FizzBuzz', '3001', '3002', 'Fizz', '3004', 'Buzz', 'Fizz', '3007', '3008', 'Fizz', 'Buzz', '3011', 'Fizz', '3013', '3014', 'FizzBuzz', '3016', '3017', 'Fizz', '3019', 'Buzz', 'Fizz', '3022', '3023', 'Fizz', 'Buzz', '3026', 'Fizz', '3028', '3029', 'FizzBuzz', '3031', '3032', 'Fizz', '3034', 'Buzz', 'Fizz', '3037', '3038', 'Fizz', 'Buzz', '3041', 'Fizz', '3043', '3044', 'FizzBuzz', '3046', '3047', 'Fizz', '3049', 'Buzz', 'Fizz', '3052', '3053', 'Fizz', 'Buzz', '3056', 'Fizz', '3058', '3059', 'FizzBuzz', '3061', '3062', 'Fizz', '3064', 'Buzz', 'Fizz', '3067', '3068', 'Fizz', 'Buzz', '3071', 'Fizz', '3073', '3074', 'FizzBuzz', '3076', '3077', 'Fizz', '3079', 'Buzz', 'Fizz', '3082', '3083', 'Fizz', 'Buzz', '3086', 'Fizz', '3088', '3089', 'FizzBuzz', '3091', '3092', 'Fizz', '3094', 'Buzz', 'Fizz', '3097', '3098', 'Fizz', 'Buzz', '3101', 'Fizz', '3103', '3104', 'FizzBuzz', '3106', '3107', 'Fizz', '3109', 'Buzz', 'Fizz', '3112', '3113', 'Fizz', 'Buzz', '3116', 'Fizz', '3118', '3119', 'FizzBuzz', '3121', '3122', 'Fizz', '3124', 'Buzz', 'Fizz', '3127', '3128', 'Fizz', 'Buzz', '3131', 'Fizz', '3133', '3134', 'FizzBuzz', '3136', '3137', 'Fizz', '3139', 'Buzz', 'Fizz', '3142', '3143', 'Fizz', 'Buzz', '3146', 'Fizz', '3148', '3149', 'FizzBuzz', '3151', '3152', 'Fizz', '3154', 'Buzz', 'Fizz', '3157', '3158', 'Fizz', 'Buzz', '3161', 'Fizz', '3163', '3164', 'FizzBuzz', '3166', '3167', 'Fizz', '3169', 'Buzz', 'Fizz', '3172', '3173', 'Fizz', 'Buzz', '3176', 'Fizz', '3178', '3179', 'FizzBuzz', '3181', '3182', 'Fizz', '3184', 'Buzz', 'Fizz', '3187', '3188', 'Fizz', 'Buzz', '3191', 'Fizz', '3193', '3194', 'FizzBuzz', '3196', '3197', 'Fizz', '3199', 'Buzz', 'Fizz', '3202', '3203', 'Fizz', 'Buzz', '3206', 'Fizz', '3208', '3209', 'FizzBuzz', '3211', '3212', 'Fizz', '3214', 'Buzz', 'Fizz', '3217', '3218', 'Fizz', 'Buzz', '3221', 'Fizz', '3223', '3224', 'FizzBuzz', '3226', '3227', 'Fizz', '3229', 'Buzz', 'Fizz', '3232', '3233', 'Fizz', 'Buzz', '3236', 'Fizz', '3238', '3239', 'FizzBuzz', '3241', '3242', 'Fizz', '3244', 'Buzz', 'Fizz', '3247', '3248', 'Fizz', 'Buzz', '3251', 'Fizz', '3253', '3254', 'FizzBuzz', '3256', '3257', 'Fizz', '3259', 'Buzz', 'Fizz', '3262', '3263', 'Fizz', 'Buzz', '3266', 'Fizz', '3268', '3269', 'FizzBuzz', '3271', '3272', 'Fizz', '3274', 'Buzz', 'Fizz', '3277', '3278', 'Fizz', 'Buzz', '3281', 'Fizz', '3283', '3284', 'FizzBuzz', '3286', '3287', 'Fizz', '3289', 'Buzz', 'Fizz', '3292', '3293', 'Fizz', 'Buzz', '3296', 'Fizz', '3298', '3299', 'FizzBuzz', '3301', '3302', 'Fizz', '3304', 'Buzz', 'Fizz', '3307', '3308', 'Fizz', 'Buzz', '3311', 'Fizz', '3313', '3314', 'FizzBuzz', '3316', '3317', 'Fizz', '3319', 'Buzz', 'Fizz', '3322', '3323', 'Fizz', 'Buzz', '3326', 'Fizz', '3328', '3329', 'FizzBuzz', '3331', '3332', 'Fizz', '3334', 'Buzz', 'Fizz', '3337', '3338', 'Fizz', 'Buzz', '3341', 'Fizz', '3343', '3344', 'FizzBuzz', '3346', '3347', 'Fizz', '3349', 'Buzz', 'Fizz', '3352', '3353', 'Fizz', 'Buzz', '3356', 'Fizz', '3358', '3359', 'FizzBuzz', '3361', '3362', 'Fizz', '3364', 'Buzz', 'Fizz', '3367', '3368', 'Fizz', 'Buzz', '3371', 'Fizz', '3373', '3374', 'FizzBuzz', '3376', '3377', 'Fizz', '3379', 'Buzz', 'Fizz', '3382', '3383', 'Fizz', 'Buzz', '3386', 'Fizz', '3388', '3389', 'FizzBuzz', '3391', '3392', 'Fizz', '3394', 'Buzz', 'Fizz', '3397', '3398', 'Fizz', 'Buzz', '3401', 'Fizz', '3403', '3404', 'FizzBuzz', '3406', '3407', 'Fizz', '3409', 'Buzz', 'Fizz', '3412', '3413', 'Fizz', 'Buzz', '3416', 'Fizz', '3418', '3419', 'FizzBuzz', '3421', '3422', 'Fizz', '3424', 'Buzz', 'Fizz', '3427', '3428', 'Fizz', 'Buzz', '3431', 'Fizz', '3433', '3434', 'FizzBuzz', '3436', '3437', 'Fizz', '3439', 'Buzz', 'Fizz', '3442', '3443', 'Fizz', 'Buzz', '3446', 'Fizz', '3448', '3449', 'FizzBuzz', '3451', '3452', 'Fizz', '3454', 'Buzz', 'Fizz', '3457', '3458', 'Fizz', 'Buzz', '3461', 'Fizz', '3463', '3464', 'FizzBuzz', '3466', '3467', 'Fizz', '3469', 'Buzz', 'Fizz', '3472', '3473', 'Fizz', 'Buzz', '3476', 'Fizz', '3478', '3479', 'FizzBuzz', '3481', '3482', 'Fizz', '3484', 'Buzz', 'Fizz', '3487', '3488', 'Fizz', 'Buzz', '3491', 'Fizz', '3493', '3494', 'FizzBuzz', '3496', '3497', 'Fizz', '3499', 'Buzz', 'Fizz', '3502', '3503', 'Fizz', 'Buzz', '3506', 'Fizz', '3508', '3509', 'FizzBuzz', '3511', '3512', 'Fizz', '3514', 'Buzz', 'Fizz', '3517', '3518', 'Fizz', 'Buzz', '3521', 'Fizz', '3523', '3524', 'FizzBuzz', '3526', '3527', 'Fizz', '3529', 'Buzz', 'Fizz', '3532', '3533', 'Fizz', 'Buzz', '3536', 'Fizz', '3538', '3539', 'FizzBuzz', '3541', '3542', 'Fizz', '3544', 'Buzz', 'Fizz', '3547', '3548', 'Fizz', 'Buzz', '3551', 'Fizz', '3553', '3554', 'FizzBuzz', '3556', '3557', 'Fizz', '3559', 'Buzz', 'Fizz', '3562', '3563', 'Fizz', 'Buzz', '3566', 'Fizz', '3568', '3569', 'FizzBuzz', '3571', '3572', 'Fizz', '3574', 'Buzz', 'Fizz', '3577', '3578', 'Fizz', 'Buzz', '3581', 'Fizz', '3583', '3584', 'FizzBuzz', '3586', '3587', 'Fizz', '3589', 'Buzz', 'Fizz', '3592', '3593', 'Fizz', 'Buzz', '3596', 'Fizz', '3598', '3599', 'FizzBuzz', '3601', '3602', 'Fizz', '3604', 'Buzz', 'Fizz', '3607', '3608', 'Fizz', 'Buzz', '3611', 'Fizz', '3613', '3614', 'FizzBuzz', '3616', '3617', 'Fizz', '3619', 'Buzz', 'Fizz', '3622', '3623', 'Fizz', 'Buzz', '3626', 'Fizz', '3628', '3629', 'FizzBuzz', '3631', '3632', 'Fizz', '3634', 'Buzz', 'Fizz', '3637', '3638', 'Fizz', 'Buzz', '3641', 'Fizz', '3643', '3644', 'FizzBuzz', '3646', '3647', 'Fizz', '3649', 'Buzz', 'Fizz', '3652', '3653', 'Fizz', 'Buzz', '3656', 'Fizz', '3658', '3659', 'FizzBuzz', '3661', '3662', 'Fizz', '3664', 'Buzz', 'Fizz', '3667', '3668', 'Fizz', 'Buzz', '3671', 'Fizz', '3673', '3674', 'FizzBuzz', '3676', '3677', 'Fizz', '3679', 'Buzz', 'Fizz', '3682', '3683', 'Fizz', 'Buzz', '3686', 'Fizz', '3688', '3689', 'FizzBuzz', '3691', '3692', 'Fizz', '3694', 'Buzz', 'Fizz', '3697', '3698', 'Fizz', 'Buzz', '3701', 'Fizz', '3703', '3704', 'FizzBuzz', '3706', '3707', 'Fizz', '3709', 'Buzz', 'Fizz', '3712', '3713', 'Fizz', 'Buzz', '3716', 'Fizz', '3718', '3719', 'FizzBuzz', '3721', '3722', 'Fizz', '3724', 'Buzz', 'Fizz', '3727', '3728', 'Fizz', 'Buzz', '3731', 'Fizz', '3733', '3734', 'FizzBuzz', '3736', '3737', 'Fizz', '3739', 'Buzz', 'Fizz', '3742', '3743', 'Fizz', 'Buzz', '3746', 'Fizz', '3748', '3749', 'FizzBuzz', '3751', '3752', 'Fizz', '3754', 'Buzz', 'Fizz', '3757', '3758', 'Fizz', 'Buzz', '3761', 'Fizz', '3763', '3764', 'FizzBuzz', '3766', '3767', 'Fizz', '3769', 'Buzz', 'Fizz', '3772', '3773', 'Fizz', 'Buzz', '3776', 'Fizz', '3778', '3779', 'FizzBuzz', '3781', '3782', 'Fizz', '3784', 'Buzz', 'Fizz', '3787', '3788', 'Fizz', 'Buzz', '3791', 'Fizz', '3793', '3794', 'FizzBuzz', '3796', '3797', 'Fizz', '3799', 'Buzz', 'Fizz', '3802', '3803', 'Fizz', 'Buzz', '3806', 'Fizz', '3808', '3809', 'FizzBuzz', '3811', '3812', 'Fizz', '3814', 'Buzz', 'Fizz', '3817', '3818', 'Fizz', 'Buzz', '3821', 'Fizz', '3823', '3824', 'FizzBuzz', '3826', '3827', 'Fizz', '3829', 'Buzz', 'Fizz', '3832', '3833', 'Fizz', 'Buzz', '3836', 'Fizz', '3838', '3839', 'FizzBuzz', '3841', '3842', 'Fizz', '3844', 'Buzz', 'Fizz', '3847', '3848', 'Fizz', 'Buzz', '3851', 'Fizz', '3853', '3854', 'FizzBuzz', '3856', '3857', 'Fizz', '3859', 'Buzz', 'Fizz', '3862', '3863', 'Fizz', 'Buzz', '3866', 'Fizz', '3868', '3869', 'FizzBuzz', '3871', '3872', 'Fizz', '3874', 'Buzz', 'Fizz', '3877', '3878', 'Fizz', 'Buzz', '3881', 'Fizz', '3883', '3884', 'FizzBuzz', '3886', '3887', 'Fizz', '3889', 'Buzz', 'Fizz', '3892', '3893', 'Fizz', 'Buzz', '3896', 'Fizz', '3898', '3899', 'FizzBuzz', '3901', '3902', 'Fizz', '3904', 'Buzz', 'Fizz', '3907', '3908', 'Fizz', 'Buzz', '3911', 'Fizz', '3913', '3914', 'FizzBuzz', '3916', '3917', 'Fizz', '3919', 'Buzz', 'Fizz', '3922', '3923', 'Fizz', 'Buzz', '3926', 'Fizz', '3928', '3929', 'FizzBuzz', '3931', '3932', 'Fizz', '3934', 'Buzz', 'Fizz', '3937', '3938', 'Fizz', 'Buzz', '3941', 'Fizz', '3943', '3944', 'FizzBuzz', '3946', '3947', 'Fizz', '3949', 'Buzz', 'Fizz', '3952', '3953', 'Fizz', 'Buzz', '3956', 'Fizz', '3958', '3959', 'FizzBuzz', '3961', '3962', 'Fizz', '3964', 'Buzz', 'Fizz', '3967', '3968', 'Fizz', 'Buzz', '3971', 'Fizz', '3973', '3974', 'FizzBuzz', '3976', '3977', 'Fizz', '3979', 'Buzz', 'Fizz', '3982', '3983', 'Fizz', 'Buzz', '3986', 'Fizz', '3988', '3989', 'FizzBuzz', '3991', '3992', 'Fizz', '3994', 'Buzz', 'Fizz', '3997', '3998', 'Fizz', 'Buzz']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 210",
+        "expectedOutput": "['1', '2', 'Fizz', '4', 'Buzz', 'Fizz', '7', '8', 'Fizz', 'Buzz', '11', 'Fizz', '13', '14', 'FizzBuzz', '16', '17', 'Fizz', '19', 'Buzz', 'Fizz', '22', '23', 'Fizz', 'Buzz', '26', 'Fizz', '28', '29', 'FizzBuzz', '31', '32', 'Fizz', '34', 'Buzz', 'Fizz', '37', '38', 'Fizz', 'Buzz', '41', 'Fizz', '43', '44', 'FizzBuzz', '46', '47', 'Fizz', '49', 'Buzz', 'Fizz', '52', '53', 'Fizz', 'Buzz', '56', 'Fizz', '58', '59', 'FizzBuzz', '61', '62', 'Fizz', '64', 'Buzz', 'Fizz', '67', '68', 'Fizz', 'Buzz', '71', 'Fizz', '73', '74', 'FizzBuzz', '76', '77', 'Fizz', '79', 'Buzz', 'Fizz', '82', '83', 'Fizz', 'Buzz', '86', 'Fizz', '88', '89', 'FizzBuzz', '91', '92', 'Fizz', '94', 'Buzz', 'Fizz', '97', '98', 'Fizz', 'Buzz', '101', 'Fizz', '103', '104', 'FizzBuzz', '106', '107', 'Fizz', '109', 'Buzz', 'Fizz', '112', '113', 'Fizz', 'Buzz', '116', 'Fizz', '118', '119', 'FizzBuzz', '121', '122', 'Fizz', '124', 'Buzz', 'Fizz', '127', '128', 'Fizz', 'Buzz', '131', 'Fizz', '133', '134', 'FizzBuzz', '136', '137', 'Fizz', '139', 'Buzz', 'Fizz', '142', '143', 'Fizz', 'Buzz', '146', 'Fizz', '148', '149', 'FizzBuzz', '151', '152', 'Fizz', '154', 'Buzz', 'Fizz', '157', '158', 'Fizz', 'Buzz', '161', 'Fizz', '163', '164', 'FizzBuzz', '166', '167', 'Fizz', '169', 'Buzz', 'Fizz', '172', '173', 'Fizz', 'Buzz', '176', 'Fizz', '178', '179', 'FizzBuzz', '181', '182', 'Fizz', '184', 'Buzz', 'Fizz', '187', '188', 'Fizz', 'Buzz', '191', 'Fizz', '193', '194', 'FizzBuzz', '196', '197', 'Fizz', '199', 'Buzz', 'Fizz', '202', '203', 'Fizz', 'Buzz', '206', 'Fizz', '208', '209', 'FizzBuzz']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 45",
+        "expectedOutput": "['1', '2', 'Fizz', '4', 'Buzz', 'Fizz', '7', '8', 'Fizz', 'Buzz', '11', 'Fizz', '13', '14', 'FizzBuzz', '16', '17', 'Fizz', '19', 'Buzz', 'Fizz', '22', '23', 'Fizz', 'Buzz', '26', 'Fizz', '28', '29', 'FizzBuzz', '31', '32', 'Fizz', '34', 'Buzz', 'Fizz', '37', '38', 'Fizz', 'Buzz', '41', 'Fizz', '43', '44', 'FizzBuzz']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 1010",
+        "expectedOutput": "['1', '2', 'Fizz', '4', 'Buzz', 'Fizz', '7', '8', 'Fizz', 'Buzz', '11', 'Fizz', '13', '14', 'FizzBuzz', '16', '17', 'Fizz', '19', 'Buzz', 'Fizz', '22', '23', 'Fizz', 'Buzz', '26', 'Fizz', '28', '29', 'FizzBuzz', '31', '32', 'Fizz', '34', 'Buzz', 'Fizz', '37', '38', 'Fizz', 'Buzz', '41', 'Fizz', '43', '44', 'FizzBuzz', '46', '47', 'Fizz', '49', 'Buzz', 'Fizz', '52', '53', 'Fizz', 'Buzz', '56', 'Fizz', '58', '59', 'FizzBuzz', '61', '62', 'Fizz', '64', 'Buzz', 'Fizz', '67', '68', 'Fizz', 'Buzz', '71', 'Fizz', '73', '74', 'FizzBuzz', '76', '77', 'Fizz', '79', 'Buzz', 'Fizz', '82', '83', 'Fizz', 'Buzz', '86', 'Fizz', '88', '89', 'FizzBuzz', '91', '92', 'Fizz', '94', 'Buzz', 'Fizz', '97', '98', 'Fizz', 'Buzz', '101', 'Fizz', '103', '104', 'FizzBuzz', '106', '107', 'Fizz', '109', 'Buzz', 'Fizz', '112', '113', 'Fizz', 'Buzz', '116', 'Fizz', '118', '119', 'FizzBuzz', '121', '122', 'Fizz', '124', 'Buzz', 'Fizz', '127', '128', 'Fizz', 'Buzz', '131', 'Fizz', '133', '134', 'FizzBuzz', '136', '137', 'Fizz', '139', 'Buzz', 'Fizz', '142', '143', 'Fizz', 'Buzz', '146', 'Fizz', '148', '149', 'FizzBuzz', '151', '152', 'Fizz', '154', 'Buzz', 'Fizz', '157', '158', 'Fizz', 'Buzz', '161', 'Fizz', '163', '164', 'FizzBuzz', '166', '167', 'Fizz', '169', 'Buzz', 'Fizz', '172', '173', 'Fizz', 'Buzz', '176', 'Fizz', '178', '179', 'FizzBuzz', '181', '182', 'Fizz', '184', 'Buzz', 'Fizz', '187', '188', 'Fizz', 'Buzz', '191', 'Fizz', '193', '194', 'FizzBuzz', '196', '197', 'Fizz', '199', 'Buzz', 'Fizz', '202', '203', 'Fizz', 'Buzz', '206', 'Fizz', '208', '209', 'FizzBuzz', '211', '212', 'Fizz', '214', 'Buzz', 'Fizz', '217', '218', 'Fizz', 'Buzz', '221', 'Fizz', '223', '224', 'FizzBuzz', '226', '227', 'Fizz', '229', 'Buzz', 'Fizz', '232', '233', 'Fizz', 'Buzz', '236', 'Fizz', '238', '239', 'FizzBuzz', '241', '242', 'Fizz', '244', 'Buzz', 'Fizz', '247', '248', 'Fizz', 'Buzz', '251', 'Fizz', '253', '254', 'FizzBuzz', '256', '257', 'Fizz', '259', 'Buzz', 'Fizz', '262', '263', 'Fizz', 'Buzz', '266', 'Fizz', '268', '269', 'FizzBuzz', '271', '272', 'Fizz', '274', 'Buzz', 'Fizz', '277', '278', 'Fizz', 'Buzz', '281', 'Fizz', '283', '284', 'FizzBuzz', '286', '287', 'Fizz', '289', 'Buzz', 'Fizz', '292', '293', 'Fizz', 'Buzz', '296', 'Fizz', '298', '299', 'FizzBuzz', '301', '302', 'Fizz', '304', 'Buzz', 'Fizz', '307', '308', 'Fizz', 'Buzz', '311', 'Fizz', '313', '314', 'FizzBuzz', '316', '317', 'Fizz', '319', 'Buzz', 'Fizz', '322', '323', 'Fizz', 'Buzz', '326', 'Fizz', '328', '329', 'FizzBuzz', '331', '332', 'Fizz', '334', 'Buzz', 'Fizz', '337', '338', 'Fizz', 'Buzz', '341', 'Fizz', '343', '344', 'FizzBuzz', '346', '347', 'Fizz', '349', 'Buzz', 'Fizz', '352', '353', 'Fizz', 'Buzz', '356', 'Fizz', '358', '359', 'FizzBuzz', '361', '362', 'Fizz', '364', 'Buzz', 'Fizz', '367', '368', 'Fizz', 'Buzz', '371', 'Fizz', '373', '374', 'FizzBuzz', '376', '377', 'Fizz', '379', 'Buzz', 'Fizz', '382', '383', 'Fizz', 'Buzz', '386', 'Fizz', '388', '389', 'FizzBuzz', '391', '392', 'Fizz', '394', 'Buzz', 'Fizz', '397', '398', 'Fizz', 'Buzz', '401', 'Fizz', '403', '404', 'FizzBuzz', '406', '407', 'Fizz', '409', 'Buzz', 'Fizz', '412', '413', 'Fizz', 'Buzz', '416', 'Fizz', '418', '419', 'FizzBuzz', '421', '422', 'Fizz', '424', 'Buzz', 'Fizz', '427', '428', 'Fizz', 'Buzz', '431', 'Fizz', '433', '434', 'FizzBuzz', '436', '437', 'Fizz', '439', 'Buzz', 'Fizz', '442', '443', 'Fizz', 'Buzz', '446', 'Fizz', '448', '449', 'FizzBuzz', '451', '452', 'Fizz', '454', 'Buzz', 'Fizz', '457', '458', 'Fizz', 'Buzz', '461', 'Fizz', '463', '464', 'FizzBuzz', '466', '467', 'Fizz', '469', 'Buzz', 'Fizz', '472', '473', 'Fizz', 'Buzz', '476', 'Fizz', '478', '479', 'FizzBuzz', '481', '482', 'Fizz', '484', 'Buzz', 'Fizz', '487', '488', 'Fizz', 'Buzz', '491', 'Fizz', '493', '494', 'FizzBuzz', '496', '497', 'Fizz', '499', 'Buzz', 'Fizz', '502', '503', 'Fizz', 'Buzz', '506', 'Fizz', '508', '509', 'FizzBuzz', '511', '512', 'Fizz', '514', 'Buzz', 'Fizz', '517', '518', 'Fizz', 'Buzz', '521', 'Fizz', '523', '524', 'FizzBuzz', '526', '527', 'Fizz', '529', 'Buzz', 'Fizz', '532', '533', 'Fizz', 'Buzz', '536', 'Fizz', '538', '539', 'FizzBuzz', '541', '542', 'Fizz', '544', 'Buzz', 'Fizz', '547', '548', 'Fizz', 'Buzz', '551', 'Fizz', '553', '554', 'FizzBuzz', '556', '557', 'Fizz', '559', 'Buzz', 'Fizz', '562', '563', 'Fizz', 'Buzz', '566', 'Fizz', '568', '569', 'FizzBuzz', '571', '572', 'Fizz', '574', 'Buzz', 'Fizz', '577', '578', 'Fizz', 'Buzz', '581', 'Fizz', '583', '584', 'FizzBuzz', '586', '587', 'Fizz', '589', 'Buzz', 'Fizz', '592', '593', 'Fizz', 'Buzz', '596', 'Fizz', '598', '599', 'FizzBuzz', '601', '602', 'Fizz', '604', 'Buzz', 'Fizz', '607', '608', 'Fizz', 'Buzz', '611', 'Fizz', '613', '614', 'FizzBuzz', '616', '617', 'Fizz', '619', 'Buzz', 'Fizz', '622', '623', 'Fizz', 'Buzz', '626', 'Fizz', '628', '629', 'FizzBuzz', '631', '632', 'Fizz', '634', 'Buzz', 'Fizz', '637', '638', 'Fizz', 'Buzz', '641', 'Fizz', '643', '644', 'FizzBuzz', '646', '647', 'Fizz', '649', 'Buzz', 'Fizz', '652', '653', 'Fizz', 'Buzz', '656', 'Fizz', '658', '659', 'FizzBuzz', '661', '662', 'Fizz', '664', 'Buzz', 'Fizz', '667', '668', 'Fizz', 'Buzz', '671', 'Fizz', '673', '674', 'FizzBuzz', '676', '677', 'Fizz', '679', 'Buzz', 'Fizz', '682', '683', 'Fizz', 'Buzz', '686', 'Fizz', '688', '689', 'FizzBuzz', '691', '692', 'Fizz', '694', 'Buzz', 'Fizz', '697', '698', 'Fizz', 'Buzz', '701', 'Fizz', '703', '704', 'FizzBuzz', '706', '707', 'Fizz', '709', 'Buzz', 'Fizz', '712', '713', 'Fizz', 'Buzz', '716', 'Fizz', '718', '719', 'FizzBuzz', '721', '722', 'Fizz', '724', 'Buzz', 'Fizz', '727', '728', 'Fizz', 'Buzz', '731', 'Fizz', '733', '734', 'FizzBuzz', '736', '737', 'Fizz', '739', 'Buzz', 'Fizz', '742', '743', 'Fizz', 'Buzz', '746', 'Fizz', '748', '749', 'FizzBuzz', '751', '752', 'Fizz', '754', 'Buzz', 'Fizz', '757', '758', 'Fizz', 'Buzz', '761', 'Fizz', '763', '764', 'FizzBuzz', '766', '767', 'Fizz', '769', 'Buzz', 'Fizz', '772', '773', 'Fizz', 'Buzz', '776', 'Fizz', '778', '779', 'FizzBuzz', '781', '782', 'Fizz', '784', 'Buzz', 'Fizz', '787', '788', 'Fizz', 'Buzz', '791', 'Fizz', '793', '794', 'FizzBuzz', '796', '797', 'Fizz', '799', 'Buzz', 'Fizz', '802', '803', 'Fizz', 'Buzz', '806', 'Fizz', '808', '809', 'FizzBuzz', '811', '812', 'Fizz', '814', 'Buzz', 'Fizz', '817', '818', 'Fizz', 'Buzz', '821', 'Fizz', '823', '824', 'FizzBuzz', '826', '827', 'Fizz', '829', 'Buzz', 'Fizz', '832', '833', 'Fizz', 'Buzz', '836', 'Fizz', '838', '839', 'FizzBuzz', '841', '842', 'Fizz', '844', 'Buzz', 'Fizz', '847', '848', 'Fizz', 'Buzz', '851', 'Fizz', '853', '854', 'FizzBuzz', '856', '857', 'Fizz', '859', 'Buzz', 'Fizz', '862', '863', 'Fizz', 'Buzz', '866', 'Fizz', '868', '869', 'FizzBuzz', '871', '872', 'Fizz', '874', 'Buzz', 'Fizz', '877', '878', 'Fizz', 'Buzz', '881', 'Fizz', '883', '884', 'FizzBuzz', '886', '887', 'Fizz', '889', 'Buzz', 'Fizz', '892', '893', 'Fizz', 'Buzz', '896', 'Fizz', '898', '899', 'FizzBuzz', '901', '902', 'Fizz', '904', 'Buzz', 'Fizz', '907', '908', 'Fizz', 'Buzz', '911', 'Fizz', '913', '914', 'FizzBuzz', '916', '917', 'Fizz', '919', 'Buzz', 'Fizz', '922', '923', 'Fizz', 'Buzz', '926', 'Fizz', '928', '929', 'FizzBuzz', '931', '932', 'Fizz', '934', 'Buzz', 'Fizz', '937', '938', 'Fizz', 'Buzz', '941', 'Fizz', '943', '944', 'FizzBuzz', '946', '947', 'Fizz', '949', 'Buzz', 'Fizz', '952', '953', 'Fizz', 'Buzz', '956', 'Fizz', '958', '959', 'FizzBuzz', '961', '962', 'Fizz', '964', 'Buzz', 'Fizz', '967', '968', 'Fizz', 'Buzz', '971', 'Fizz', '973', '974', 'FizzBuzz', '976', '977', 'Fizz', '979', 'Buzz', 'Fizz', '982', '983', 'Fizz', 'Buzz', '986', 'Fizz', '988', '989', 'FizzBuzz', '991', '992', 'Fizz', '994', 'Buzz', 'Fizz', '997', '998', 'Fizz', 'Buzz', '1001', 'Fizz', '1003', '1004', 'FizzBuzz', '1006', '1007', 'Fizz', '1009', 'Buzz']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 12345",
+        "expectedOutput": "Execution timed out",
+        "isHidden": true
       }
     ]
   },
@@ -9777,6 +27598,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [3,-1,-5,-9]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "36",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,3,5,7,9]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "36",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [10,7,4,3,2,1]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,2,3,4]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [7, 7, 7, 7]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [10, 7, 7, 7, 7, 7, 10]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [3, -1, -5, -9]",
+        "expectedOutput": "3",
+        "isHidden": true
       }
     ]
   },
@@ -9812,6 +27693,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [2,2,3,1]",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,2,-2147483648]",
+        "expectedOutput": "-2147483648",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,2,3,3,4]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [2,2,3,1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1000000000,1000000000,1000000000]",
+        "expectedOutput": "1000000000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [5,5,5,5]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,1,1,1,1,1,1,1,1,1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,2,2,3,4,4,5]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,1,1,1,1]",
+        "expectedOutput": "1",
+        "isHidden": true
       }
     ]
   },
@@ -9848,6 +27789,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "num1 = &quot;0&quot;, num2 = &quot;0&quot;",
         "expectedOutput": "&quot;0&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "num1 = \"1000\", num2 = \"2000\"",
+        "expectedOutput": "3000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "num1 = \"10000\", num2 = \"20000\"",
+        "expectedOutput": "30000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "num1 = \"123456789\", num2 = \"987654321\"",
+        "expectedOutput": "1111111110",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "num1 = \"10\", num2 = \"10\"",
+        "expectedOutput": "20",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "num1 = \"1\", num2 = \"1\"",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "num1 = \"111111\", num2 = \"111111\"",
+        "expectedOutput": "222222",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "num1 = \"9999\", num2 = \"1\"",
+        "expectedOutput": "10000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "num1 = \"456\", num2 = \"77\"",
+        "expectedOutput": "533",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "num1 = \"0\", num2 = \"0\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "num1 = \"999999999\", num2 = \"1\"",
+        "expectedOutput": "1000000000",
+        "isHidden": true
       }
     ]
   },
@@ -9878,6 +27879,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1,2,3,5]",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,2,2,3]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,2,3,4]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [2,2,3,3]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,1,1,1,1,1,1,1]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,2,3,4,5,6,7]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [2,2,3,5]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [2,2,3,6]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,5]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [99, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -9910,6 +27971,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "heights = [[1]]",
         "expectedOutput": "[[0,0]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "heights = [[10,10,10],[10,1,10],[10,10,10]]",
+        "expectedOutput": "[(0, 0), (0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1), (2, 2)]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "heights = [[1]]",
+        "expectedOutput": "[(0, 0)]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "heights = [[3,3,3,3,3],[3,2,2,2,3],[3,2,1,2,3],[3,2,2,2,3],[3,3,3,3,3]]",
+        "expectedOutput": "[(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (1, 0), (1, 4), (2, 0), (2, 4), (3, 0), (3, 4), (4, 0), (4, 1), (4, 2), (4, 3), (4, 4)]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "heights = [[1,2],[2,3]]",
+        "expectedOutput": "[(0, 1), (1, 0), (1, 1)]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "heights = [[1,2,3,4,5],[16,17,18,19,6],[15,24,25,20,7],[14,23,22,21,8],[13,12,11,10,9]]",
+        "expectedOutput": "[(0, 4), (1, 0), (1, 1), (1, 2), (1, 3), (1, 4), (2, 0), (2, 1), (2, 2), (2, 3), (2, 4), (3, 0), (3, 1), (3, 2), (3, 3), (3, 4), (4, 0), (4, 1), (4, 2), (4, 3), (4, 4)]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "heights = [[1,2,3],[8,9,4],[7,6,5]]",
+        "expectedOutput": "[(0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "heights = [[1,1,1,1,1,1,1],[1,2,2,2,2,2,1],[1,2,3,3,3,2,1],[1,2,3,4,3,2,1],[1,2,3,3,3,2,1],[1,2,2,2,2,2,1],[1,1,1,1,1,1,1]]",
+        "expectedOutput": "[(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (1, 0), (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), (2, 0), (2, 1), (2, 2), (2, 3), (2, 4), (2, 5), (2, 6), (3, 0), (3, 1), (3, 2), (3, 3), (3, 4), (3, 5), (3, 6), (4, 0), (4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (5, 0), (5, 1), (5, 2), (5, 3), (5, 4), (5, 5), (5, 6), (6, 0), (6, 1), (6, 2), (6, 3), (6, 4), (6, 5), (6, 6)]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "heights = [[1,2,3,4,5,6,7,8],[2,3,4,5,6,7,8,9],[3,4,5,6,7,8,9,10],[4,5,6,7,8,9,10,11],[5,6,7,8,9,10,11,12]]",
+        "expectedOutput": "[(0, 7), (1, 7), (2, 7), (3, 7), (4, 0), (4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7)]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "heights = [[1,2,3],[6,5,4],[7,8,9]]",
+        "expectedOutput": "[(0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "heights = [[10,10,10,10,10,10],[10,20,20,20,20,10],[10,20,30,30,20,10],[10,20,30,30,20,10],[10,20,20,20,20,10],[10,10,10,10,10,10]]",
+        "expectedOutput": "[(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (1, 0), (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (2, 0), (2, 1), (2, 2), (2, 3), (2, 4), (2, 5), (3, 0), (3, 1), (3, 2), (3, 3), (3, 4), (3, 5), (4, 0), (4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (5, 0), (5, 1), (5, 2), (5, 3), (5, 4), (5, 5)]",
+        "isHidden": true
       }
     ]
   },
@@ -9941,6 +28062,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "board = [[&quot;.&quot;]]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "board = [['.']]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "board = [['X','.','.'],['.','X','.'],['.','.','X']]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "board = [['X','.','.'],['X','X','.'],['.','.','X']]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "board = [['.','.','.','.','.'],['.','.','.','.','.'],['.','.','.','.','.'],['.','.','.','.','.'],['X','.','X','.','X']]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "board = [['.','.','.','.'],['.','X','X','X'],['.','X','.','.'],['.','.','.','.']]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "board = [['X','.','X','.','X'],['X','.','.','.','X'],['.','.','.','.','X'],['X','.','X','.','X']]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "board = [['.','.','.','.','.','.','.'],['.','.','X','X','.','.','.'],['.','.','.','.','.','.','.'],['.','.','.','.','.','.','.'],['.','.','.','.','X','X','.']]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "board = [['X','X','X','X','.'],['X','.','.','.','.'],['.','.','.','X','X'],['.','.','.','X','X']]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "board = [['X','.','.','X','X'],['X','.','.','.','.'],['X','.','.','.','.'],['X','.','.','X','X']]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "board = [['X','.','.','X','.','X'],['.','.','.','X','.','.'],['X','X','.','X','X','X'],['.','X','.','.','.','.'],['X','X','.','X','.','X']]",
+        "expectedOutput": "7",
+        "isHidden": true
       }
     ]
   },
@@ -9977,6 +28158,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "password = \"1337C0d3\"",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "password = \"Aa1234567890\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "password = \"........##@\"",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "password = \"Aaaaaa1A\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "password = \"Passwo0rd!!\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "password = \"A1b2C3\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "password = \"...!!!\"",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "password = \"A1b2C3d4E5f6G7\"",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "password = \"111111111111111111\"",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "password = \"A1B2C3D4E5F6G7H8I9J0\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "password = \"Aa1234567890!@#$%^\"",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -10009,6 +28250,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [14,70,53,83,49,91,36,80,92,51,66,70]",
         "expectedOutput": "127"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,2,3,4,5,6,7,8,9]",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1000000000,2147483647,0,1]",
+        "expectedOutput": "2147483647",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [4,6,7,2,1]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [0,1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [0,0,0,0]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [3000000000,2147483647,1,0]",
+        "expectedOutput": "2147483647",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [8,10,2]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,4,5]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [999999999, 888888888, 777777777, 666666666, 555555555, 444444444, 333333333, 222222222, 111111111, 1]",
+        "expectedOutput": "1036069302",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]",
+        "expectedOutput": "31",
+        "isHidden": true
       }
     ]
   },
@@ -10040,6 +28341,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = \"fviefuro\"",
         "expectedOutput": "\"45\""
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"oneonetwothreefourfivesixseveneightnine\"",
+        "expectedOutput": "1123456789",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"fivefivesixsix\"",
+        "expectedOutput": "5566",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"sixseveneightnine\"",
+        "expectedOutput": "6789",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"nieseve\"",
+        "expectedOutput": "79",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"onetwothree\"",
+        "expectedOutput": "123",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"neon\"",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"zerozerozerozerozero\"",
+        "expectedOutput": "00000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"zerofourzerooneeight\"",
+        "expectedOutput": "00148",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"zerozerozero\"",
+        "expectedOutput": "000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"oneonezero\"",
+        "expectedOutput": "011",
+        "isHidden": true
       }
     ]
   },
@@ -10071,6 +28432,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = &quot;AABABBA&quot;, k = 1",
         "expectedOutput": "4"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"AABBCCDD\", k = 2",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"\", k = 0",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"A\", k = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"AABAABBBCCCC\", k = 3",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"ABBBB\", k = 0",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"ABCCDEEEEE\", k = 3",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"ABAB\", k = 2",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"AABBB\", k = 2",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"ZYXWVUTSRQPONMLKJIHGFEDCBA\", k = 25",
+        "expectedOutput": "26",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"ABACBCAB\", k = 2",
+        "expectedOutput": "4",
+        "isHidden": true
       }
     ]
   },
@@ -10103,6 +28524,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "grid = [[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0],[1,1,1,1,0,0,0,0]]",
         "expectedOutput": "[[0,1],[1,1],[0,1],[1,1],[1,0],null,null,null,null,[1,0],[1,0],[1,1],[1,1]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -10133,6 +28614,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]",
         "expectedOutput": "[[1],[2,3,4,5],[6,7,8,9,10],[11,12,13],[14]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -10169,6 +28710,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "head = []",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -10203,6 +28804,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1,1]",
         "expectedOutput": "[2]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,1]",
+        "expectedOutput": "[2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [4,3,2,7,8,2,3,1]",
+        "expectedOutput": "[5, 6]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,2,3,3,4,4,5,5]",
+        "expectedOutput": "[6, 7, 8, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [3,3,3,3,3]",
+        "expectedOutput": "[1, 2, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [2,2,2,2]",
+        "expectedOutput": "[1, 3, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,2,3,4,5]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,2,3,3]",
+        "expectedOutput": "[4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [5,4,3,2,1,1,1,1,1,1]",
+        "expectedOutput": "[6, 7, 8, 9, 10]",
+        "isHidden": true
       }
     ]
   },
@@ -10242,6 +28903,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "s = &quot;Aabb&quot;",
         "expectedOutput": "&quot;bbAa&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"2a554442f544asfasss\"",
+        "expectedOutput": "44444ssssaaa55522ff",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"zzzzZZZZ\"",
+        "expectedOutput": "zzzzZZZZ",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"bbaaccdd\"",
+        "expectedOutput": "bbaaccdd",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"1223334444\"",
+        "expectedOutput": "4444333221",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"cccaaa\"",
+        "expectedOutput": "cccaaa",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"tree\"",
+        "expectedOutput": "eetr",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"aAaaaAaA\"",
+        "expectedOutput": "aaaaaAAA",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"a\"",
+        "expectedOutput": "a",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\"",
+        "expectedOutput": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"\"",
+        "expectedOutput": "",
+        "isHidden": true
       }
     ]
   },
@@ -10278,6 +28999,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "points = [[1,2],[2,3],[3,4],[4,5]]",
         "expectedOutput": "2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "points = [[1,100],[2,99],[3,98]]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "points = [[3,9],[7,12],[3,8],[6,8],[9,10],[2,9],[0,9],[3,9],[0,6],[2,8]]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "points = [[1,2],[3,4],[5,6],[7,8]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "points = [[0,9],[0,5],[4,8],[7,8],[9,10],[9,12],[4,5],[4,9],[5,9],[8,10]]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "points = [[1,9],[2,8],[3,7],[4,6],[5,5]]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "points = [[-2147483646,-2147483645],[2147483646,2147483647]]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "points = [[-5,5],[-4,4],[-3,3],[-2,2],[-1,1],[0,0]]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "points = [[-1000000000,1000000000],[-999999999,999999999],[-999999998,999999998],[1,2],[2,3],[3,4]]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "points = [[-1,-1],[-1,0],[0,0],[0,1],[1,1]]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "points = [[-100,0],[-90,10],[-80,20],[-70,30],[-60,40],[-50,50],[-40,60],[-30,70],[-20,80],[-10,90]]",
+        "expectedOutput": "1",
+        "isHidden": true
       }
     ]
   },
@@ -10308,6 +29089,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1,1,1]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [10,15,20]",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,1,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "45",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,3,5,7,9]",
+        "expectedOutput": "20",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "45",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,1,2,2,3,3,4,4,5,5]",
+        "expectedOutput": "20",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [5,5,5,5,5]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,2,1,4]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [-5,-4,-3,-2,-1]",
+        "expectedOutput": "10",
+        "isHidden": true
       }
     ]
   },
@@ -10338,6 +29179,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums1 = [0], nums2 = [0], nums3 = [0], nums4 = [0]",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums1 = [1,2,3], nums2 = [-1,-2,-3], nums3 = [1,2,3], nums4 = [-1,-2,-3]",
+        "expectedOutput": "19",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums1 = [-1,-2,-3], nums2 = [3,2,1], nums3 = [1,-2,3], nums4 = [-3,2,1]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums1 = [-1,1,0], nums2 = [-1,1,0], nums3 = [-1,1,0], nums4 = [-1,1,0]",
+        "expectedOutput": "19",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums1 = [0], nums2 = [0], nums3 = [0], nums4 = [0]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums1 = [-1,-1,-1,-1], nums2 = [1,1,1,1], nums3 = [-1,-1,-1,-1], nums4 = [1,1,1,1]",
+        "expectedOutput": "256",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums1 = [1,2,3], nums2 = [-1,-2,-3], nums3 = [0,1,-1], nums4 = [0,-1,1]",
+        "expectedOutput": "19",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums1 = [1,0,-1], nums2 = [1,0,-1], nums3 = [1,0,-1], nums4 = [1,0,-1]",
+        "expectedOutput": "19",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums1 = [1,-1], nums2 = [1,-1], nums3 = [1,-1], nums4 = [1,-1]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums1 = [100000000,-100000000], nums2 = [100000000,-100000000], nums3 = [100000000,-100000000], nums4 = [100000000,-100000000]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums1 = [1,2,3], nums2 = [-3,-2,-1], nums3 = [-1,2,1], nums4 = [0,2,-2]",
+        "expectedOutput": "12",
+        "isHidden": true
       }
     ]
   },
@@ -10370,6 +29271,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "g = [1,2], s = [1,2,3]",
         "expectedOutput": "2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "g = [3,3,3,3], s = [1,1,1,1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "g = [1,1,1,1], s = [1,1,1,1]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "g = [1,2,3], s = [1,2,3,4]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "g = [1,2,3,4,5], s = [1,2,3]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "g = [5,5,5,5], s = [5,5,5,5]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "g = [1,2], s = [1,2,3]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "g = [1], s = [1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "g = [10,20,30], s = [1,2,3]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "g = [], s = [1,2,3,4,5]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "g = [10,9,8,7], s = [5,6,7,8]",
+        "expectedOutput": "2",
+        "isHidden": true
       }
     ]
   },
@@ -10408,6 +29369,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [-1,3,2,0]",
         "expectedOutput": "true"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [3,5,0,2,3]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,2,3,4]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,2,3,3,3,4]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,2,3,4,5]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,-4,-3,-1]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [3,5,0,2,4]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [8,10,4,6]",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -10444,6 +29465,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [1,-1,5,1,4]",
         "expectedOutput": "true"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [-1,-2,-3,-4,-5,6]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [-2,-3,-4,-5,-6]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,-1,-2,3]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [5,1,1,2,2]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [5,-1,1,4,2]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [-1,-1,-1,-1,-1]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [-1,2]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [-1,2,-1,-2,-1]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [-1,-2,-3,-4,-5]",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -10479,6 +29560,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "buckets = 4, minutesToDie = 15, minutesToTest = 30",
         "expectedOutput": "2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "buckets = 1000, minutesToDie = 1, minutesToTest = 100",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "buckets = 4, minutesToDie = 15, minutesToTest = 30",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "buckets = 1, minutesToDie = 10, minutesToTest = 10",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "buckets = 8, minutesToDie = 10, minutesToTest = 40",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "buckets = 10, minutesToDie = 5, minutesToTest = 10",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "buckets = 1, minutesToDie = 10, minutesToTest = 100",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "buckets = 1000, minutesToDie = 1, minutesToTest = 1",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "buckets = 10, minutesToDie = 5, minutesToTest = 20",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "buckets = 100, minutesToDie = 10, minutesToTest = 60",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "buckets = 10, minutesToDie = 5, minutesToTest = 25",
+        "expectedOutput": "2",
+        "isHidden": true
       }
     ]
   },
@@ -10516,6 +29657,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "intervals = [[1,2],[2,3]]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "intervals = [[1,5],[2,3],[4,6],[7,8]]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "intervals = [[1,2],[2,3]]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "intervals = [[0,2],[1,3],[2,4],[3,5]]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "intervals = [[-5,-4],[-4,-3],[-3,-2],[-2,-1]]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "intervals = [[-2,-1],[0,1],[1,2],[2,3]]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "intervals = [[1,10],[2,3],[4,5],[6,7],[8,9]]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "intervals = [[1,100],[11,22],[1,11],[2,12]]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "intervals = [[1,10],[2,6],[3,5],[7,9]]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "intervals = [[-5,5],[0,1],[1,2],[2,3],[3,4]]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "intervals = [[1,3],[2,4],[3,5],[4,6]]",
+        "expectedOutput": "2",
+        "isHidden": true
       }
     ]
   },
@@ -10552,6 +29753,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "intervals = [[1,4],[2,3],[3,4]]",
         "expectedOutput": "[-1,2,-1]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "intervals = [[10,20],[20,30],[5,15],[30,40]]",
+        "expectedOutput": "[1, 3, 1, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "intervals = [[1,3],[4,7],[8,10],[9,12]]",
+        "expectedOutput": "[1, 2, -1, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "intervals = [[-10,-5],[-5,0],[0,5],[5,10]]",
+        "expectedOutput": "[1, 2, 3, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "intervals = [[5,5],[6,6],[7,7],[8,8]]",
+        "expectedOutput": "[0, 1, 2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "intervals = [[3,4],[2,3],[1,2]]",
+        "expectedOutput": "[-1, 0, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "intervals = [[1,5],[2,6],[3,7],[4,8]]",
+        "expectedOutput": "[-1, -1, -1, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "intervals = [[1,5],[6,8],[9,10]]",
+        "expectedOutput": "[1, 2, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "intervals = [[-1,0],[0,1],[1,2],[2,3]]",
+        "expectedOutput": "[1, 2, 3, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "intervals = [[1,10],[2,9],[3,8],[4,7],[5,6]]",
+        "expectedOutput": "[-1, -1, -1, -1, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "intervals = [[1,2],[2,3],[3,4],[4,5],[5,6]]",
+        "expectedOutput": "[1, 2, 3, 4, -1]",
+        "isHidden": true
       }
     ]
   },
@@ -10583,6 +29844,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22",
         "expectedOutput": "3"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [1,-2,-3], targetSum = -2",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], targetSum = 2",
+        "expectedOutput": "47",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [5,4,8,11,null,13,4,7,2,null,null,5,1,-1,-2], targetSum = 22",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], targetSum = 33",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [1000,500,-300,300,200,null,1100,300,-200,null,1000,null,null,null,null], targetSum = 800",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [10,5,-3,3,2,null,11,3,-2,null,1,1,null,-1,null,-1,2], targetSum = 8",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [10,5,-3,3,2,null,11,3,-2,null,1,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31], targetSum = 45",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], targetSum = 10",
+        "expectedOutput": "2",
+        "isHidden": true
       }
     ]
   },
@@ -10614,6 +29935,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = &quot;abab&quot;, p = &quot;ab&quot;",
         "expectedOutput": "[0,1,2]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"bbaa\", p = \"ab\"",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"abab\", p = \"ab\"",
+        "expectedOutput": "[0, 1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"abacbabc\", p = \"abc\"",
+        "expectedOutput": "[1, 2, 3, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"a\", p = \"a\"",
+        "expectedOutput": "[0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"aaaaaa\", p = \"aa\"",
+        "expectedOutput": "[0, 1, 2, 3, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"cbaebabacd\", p = \"abc\"",
+        "expectedOutput": "[0, 6]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"xyz\", p = \"zyx\"",
+        "expectedOutput": "[0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"aaaaaaaaaa\", p = \"aaa\"",
+        "expectedOutput": "[0, 1, 2, 3, 4, 5, 6, 7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"mississippi\", p = \"issi\"",
+        "expectedOutput": "[1, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"abcabcabc\", p = \"abc\"",
+        "expectedOutput": "[0, 1, 2, 3, 4, 5, 6]",
+        "isHidden": true
       }
     ]
   },
@@ -10643,6 +30024,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 1, k = 1",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 100000, k = 50000",
+        "expectedOutput": "54998",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 10, k = 10",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 1000000, k = 100000",
+        "expectedOutput": "189998",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 200, k = 150",
+        "expectedOutput": "53",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 10, k = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 1000, k = 100",
+        "expectedOutput": "188",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 999999999, k = 500000000",
+        "expectedOutput": "549999999",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 999, k = 999",
+        "expectedOutput": "999",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 99999, k = 50000",
+        "expectedOutput": "54999",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 2, k = 1",
+        "expectedOutput": "1",
+        "isHidden": true
       }
     ]
   },
@@ -10673,6 +30114,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 8",
         "expectedOutput": "3"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 30",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 15",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 22",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 21",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 2147483647",
+        "expectedOutput": "65535",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 1804289383",
+        "expectedOutput": "60070",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 180",
+        "expectedOutput": "18",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 10",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 5",
+        "expectedOutput": "2",
+        "isHidden": true
       }
     ]
   },
@@ -10709,6 +30210,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "nums = [1]",
         "expectedOutput": "[]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [5,3,1,2,4,3,5]",
+        "expectedOutput": "[3, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [10,9,8,7,6,5,4,3,2,1,10,9]",
+        "expectedOutput": "[10, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [5,4,6,7,9,3,10,9,5,6]",
+        "expectedOutput": "[5, 6, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [10,2,5,10,9,1,1,4,3,7]",
+        "expectedOutput": "[1, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [4,3,2,7,8,2,3,1]",
+        "expectedOutput": "[3, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [5,4,3,2,1,1,2,3]",
+        "expectedOutput": "[1, 2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,2,3,3,4,4,5]",
+        "expectedOutput": "[2, 4, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [2,2,3,3,4,4,5,5]",
+        "expectedOutput": "[2, 4, 3, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [5,3,4,5,3,2,1,2,4]",
+        "expectedOutput": "[3, 5, 2, 4]",
+        "isHidden": true
       }
     ]
   },
@@ -10746,6 +30307,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "chars = [&quot;a&quot;,&quot;b&quot;,&quot;b&quot;,&quot;b&quot;,&quot;b&quot;,&quot;b&quot;,&quot;b&quot;,&quot;b&quot;,&quot;b&quot;,&quot;b&quot;,&quot;b&quot;,&quot;b&quot;,&quot;b&quot;]",
         "expectedOutput": "4"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "chars = [\"a\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\"]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "chars = [\"a\",\"a\",\"b\",\"b\",\"c\",\"c\",\"c\"]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "chars = [\"a\",\"2\",\"b\",\"2\",\"c\",\"3\"]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "chars = [\"a\",\"a\",\"a\",\"b\",\"b\",\"a\",\"a\"]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "chars = [\"a\"]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "chars = [\"a\",\"b\",\"c\"]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "chars = [\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\",\"c\"]",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "chars = [\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\"]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "chars = [\"a\",\"a\",\"a\",\"b\",\"b\",\"c\",\"c\",\"c\",\"c\",\"d\",\"d\",\"d\",\"d\",\"d\",\"d\",\"d\",\"e\",\"e\",\"f\",\"f\",\"g\",\"g\",\"g\",\"g\",\"g\",\"g\",\"g\",\"g\"]",
+        "expectedOutput": "14",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "chars = [\"a\",\"b\",\"c\",\"a\",\"b\",\"c\",\"a\",\"b\",\"c\",\"a\",\"b\",\"c\",\"a\",\"b\",\"c\",\"a\",\"b\",\"c\",\"a\",\"b\"]",
+        "expectedOutput": "20",
+        "isHidden": true
       }
     ]
   },
@@ -10782,6 +30403,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "l1 = [0], l2 = [0]",
         "expectedOutput": "[0]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "l1 = [7,2,4,3], l2 = [5,6,4]",
+        "expectedOutput": "[7, 8, 0, 7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "l1 = [2,4,3], l2 = [5,6,4]",
+        "expectedOutput": "[8, 0, 7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "l1 = [0], l2 = [0]",
+        "expectedOutput": "[0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "l1 = [5], l2 = [5]",
+        "expectedOutput": "[1, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "l1 = [9,9,9], l2 = [1]",
+        "expectedOutput": "[1, 0, 0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "l1 = [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], l2 = [5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5]",
+        "expectedOutput": "[6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "l1 = [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], l2 = [5,6,4]",
+        "expectedOutput": "[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 6, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "l1 = [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], l2 = [9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9]",
+        "expectedOutput": "[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "l1 = [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5], l2 = [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5]",
+        "expectedOutput": "[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "l1 = [5], l2 = [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5]",
+        "expectedOutput": "[5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 0]",
+        "isHidden": true
       }
     ]
   },
@@ -10818,6 +30499,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "points = [[1,1]]",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "points = [[1,2],[2,3],[3,4],[4,5]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "points = [[0,0],[1,0],[0,1],[0,2]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "points = [[0,0],[1,0],[2,0]]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "points = [[0,0],[1,0],[-1,0],[0,1],[0,-1]]",
+        "expectedOutput": "20",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "points = [[1,1],[1,2],[1,3],[1,4]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "points = [[0,0],[1,1],[1,2],[2,0]]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "points = [[10000,10000],[-10000,-10000],[0,0]]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "points = [[1,1],[2,2],[3,3]]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "points = [[1,1],[2,2],[1,1],[2,2]]",
+        "expectedOutput": "16",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "points = [[0,0],[1,0],[0,1],[1,1]]",
+        "expectedOutput": "8",
+        "isHidden": true
       }
     ]
   },
@@ -10850,6 +30591,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = [1,2,3]",
         "expectedOutput": "[1,3]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [1,3,2,5,3,null,9]",
+        "expectedOutput": "[1, 3, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [0]",
+        "expectedOutput": "[0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = []",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [1,2,3,4,5,6,7]",
+        "expectedOutput": "[1, 3, 7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [3,1,4,3,null,1,5]",
+        "expectedOutput": "[3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [3,1,4,null,2]",
+        "expectedOutput": "[3, 4, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [1,2,3,4,5,6,7,null,8,9,10,11,12,13,null,null,14]",
+        "expectedOutput": "[1, 3, 7, 13, 14]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [1,2,3,4,5,6,7,null,null,8,9,10,11,null,null,null,12,null,null,13,null,null,14,null,null,15]",
+        "expectedOutput": "[1, 3, 7, 11, 14, 15]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10,-11,-12,-13,-14]",
+        "expectedOutput": "[0, -1, -3, -7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [3,1,4,null,null,2]",
+        "expectedOutput": "[3, 4, 2]",
+        "isHidden": true
       }
     ]
   },
@@ -10889,6 +30690,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "matchsticks = [3,3,3,3,4]",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "matchsticks = [10,10,10,10]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "matchsticks = [5,5,5,5]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "matchsticks = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "matchsticks = [1,3,3,3,4]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "matchsticks = [1,1,1,1,2,2,2,2]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "matchsticks = [1,1,2,2,2]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "matchsticks = [1,2,3,4,5]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "matchsticks = [3,3,3,3,3,3,3,3,3,3,3,3,3,3,12]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "matchsticks = [5,5,5,5,4,4,4,4]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "matchsticks = [3,3,3,3,4]",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -10920,6 +30781,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "strs = [&quot;10&quot;,&quot;0&quot;,&quot;1&quot;], m = 1, n = 1",
         "expectedOutput": "2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "strs = [\"10\",\"0\",\"1\"], m = 1, n = 1",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "strs = [\"111\",\"000\",\"1010\",\"0101\"], m = 3, n = 3",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "strs = [\"110\",\"100\",\"001\"], m = 2, n = 2",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "strs = [\"110\",\"100\",\"010\"], m = 2, n = 2",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "strs = [\"1\",\"10\",\"100\",\"1000\"], m = 4, n = 4",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "strs = [\"111111\",\"000000\"], m = 3, n = 3",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "strs = [\"0\",\"0\",\"0\",\"0\"], m = 0, n = 4",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "strs = [\"1111\",\"1010\",\"0101\",\"0000\"], m = 2, n = 2",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "strs = [\"111111\",\"000000\",\"101010\",\"010101\"], m = 3, n = 3",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "strs = [\"11111010110010001111\",\"01001100001100111100\",\"00000110011101011010\",\"11010011000101000011\",\"10011001110100010100\",\"00110001011100100010\",\"01000101110110011101\"], m = 34, n = 21",
+        "expectedOutput": "2",
+        "isHidden": true
       }
     ]
   },
@@ -10957,6 +30878,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "houses = [1,5], heaters = [2]",
         "expectedOutput": "3"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "houses = [10,20,30,40,50], heaters = [15,45]",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "houses = [10,20,30,40,50], heaters = [5,15,25,35,45]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "houses = [1,3,5,7,9], heaters = [2,6]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "houses = [1,3,5,7,9], heaters = [2,6,10]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "houses = [28,8,9,26,18,25,13,19,16,11,27,24,23,17,15,22,6,10,5,3], heaters = [20,1,15,10]",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "houses = [10,20,30,40,50], heaters = [15,25,35,45]",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "houses = [1,2,3,4,5], heaters = [1,5]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "houses = [1,1000000000], heaters = [500000000]",
+        "expectedOutput": "500000000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "houses = [1,2,3], heaters = [2]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "houses = [1,3,5,7,9], heaters = [2,6,8]",
+        "expectedOutput": "1",
+        "isHidden": true
       }
     ]
   },
@@ -10986,6 +30967,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "num = 1",
         "expectedOutput": "0"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "num = 32",
+        "expectedOutput": "31",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "num = 5",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "num = 1023",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "num = 1",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "num = 100",
+        "expectedOutput": "27",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "num = 2147483647",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "num = 15",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "num = 8191",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "num = 4294967295",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "num = 33",
+        "expectedOutput": "30",
+        "isHidden": true
       }
     ]
   },
@@ -11017,6 +31058,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [4,14,4]",
         "expectedOutput": "4"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [0,1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "112",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [31,14,7,3,1]",
+        "expectedOutput": "24",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,3,5]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,2,4,8,16]",
+        "expectedOutput": "20",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [3,3,3,3,3,3,3,3,3,3]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1000000000,1000000000,1000000000,1000000000]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,3,5,7,9]",
+        "expectedOutput": "16",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,4]",
+        "expectedOutput": "11",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,2,3,4,5]",
+        "expectedOutput": "18",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [0,1,2,3,4]",
+        "expectedOutput": "16",
+        "isHidden": true
       }
     ]
   },
@@ -11044,6 +31145,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -11074,6 +31235,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 1",
         "expectedOutput": "9"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 4",
+        "expectedOutput": "597",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 6",
+        "expectedOutput": "1218",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 2",
+        "expectedOutput": "987",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 1",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 7",
+        "expectedOutput": "877",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 5",
+        "expectedOutput": "677",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -11110,6 +31331,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1,2,3,4,2,3,1,4,2], k = 3",
         "expectedOutput": "[2.00000,3.00000,3.00000,3.00000,2.00000,3.00000,2.00000]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,2,3,4,5,6,7,8,9], k = 5",
+        "expectedOutput": "[3, 4, 5, 6, 7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [-1,-2,-3,-4,-5,-6,-7,-8,-9,-10], k = 3",
+        "expectedOutput": "[-2, -3, -4, -5, -6, -7, -8, -9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,3], k = 2",
+        "expectedOutput": "[1.5, 2.5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,4,2,3], k = 4",
+        "expectedOutput": "[2.5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10], k = 5",
+        "expectedOutput": "[3, 4, 5, 6, 7, 8]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,3,5,7,9,11,13,15,17,19], k = 5",
+        "expectedOutput": "[5, 7, 9, 11, 13, 15]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,2,3,4,5], k = 2",
+        "expectedOutput": "[1.5, 2.5, 3.5, 4.5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,3,5], k = 1",
+        "expectedOutput": "[1, 3, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,1,1,1,1,1,1,1,1,1], k = 5",
+        "expectedOutput": "[1, 1, 1, 1, 1, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1], k = 1",
+        "expectedOutput": "[1]",
+        "isHidden": true
       }
     ]
   },
@@ -11140,6 +31421,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "n = 1",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 15",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 10000",
+        "expectedOutput": "4996",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 6",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 20",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 1000",
+        "expectedOutput": "502",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 10",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 32000",
+        "expectedOutput": "15996",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 99999",
+        "expectedOutput": "49972",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 15000",
+        "expectedOutput": "7501",
+        "isHidden": true
       }
     ]
   },
@@ -11169,6 +31510,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "s = &quot;2-5g-3-J&quot;, k = 2",
         "expectedOutput": "&quot;2-5G-3J&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"\", k = 1",
+        "expectedOutput": "",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"\", k = 10",
+        "expectedOutput": "",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"1234567890\", k = 3",
+        "expectedOutput": "1-234-567-890",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"2-4A0r7-4k\", k = 3",
+        "expectedOutput": "24-A0R-74K",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"2-5g-3-J\", k = 2",
+        "expectedOutput": "2-5G-3J",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"5F3Z-2e-9-w\", k = 4",
+        "expectedOutput": "5F3Z-2E9W",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"----\", k = 2",
+        "expectedOutput": "",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"abcdefg\", k = 2",
+        "expectedOutput": "A-BC-DE-FG",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"a-a-a-a-\", k = 1",
+        "expectedOutput": "A-A-A-A",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"1-23-456\", k = 2",
+        "expectedOutput": "12-34-56",
+        "isHidden": true
       }
     ]
   },
@@ -11204,6 +31605,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "n = &quot;1000000000000000000&quot;",
         "expectedOutput": "&quot;999999999999999999&quot;"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = \"104729\"",
+        "expectedOutput": "104728",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = \"15\"",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = \"218\"",
+        "expectedOutput": "217",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = \"13\"",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = \"81\"",
+        "expectedOutput": "80",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = \"7\"",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = \"3\"",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = \"4\"",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = \"121\"",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = \"8\"",
+        "expectedOutput": "7",
+        "isHidden": true
       }
     ]
   },
@@ -11231,6 +31692,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "s = \"IDID\"",
+        "expectedOutput": "[1, 3, 2, 5, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "s = \"DDDD\"",
+        "expectedOutput": "[5, 4, 3, 2, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "s = \"I\"",
+        "expectedOutput": "[1, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "s = \"DDIIIDD\"",
+        "expectedOutput": "[3, 2, 1, 4, 5, 8, 7, 6]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "s = \"DDI\"",
+        "expectedOutput": "[3, 2, 1, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "s = \"IIII\"",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "s = \"IID\"",
+        "expectedOutput": "[1, 2, 4, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "s = \"IDDDI\"",
+        "expectedOutput": "[1, 5, 4, 3, 2, 6]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "s = \"IIDDDII\"",
+        "expectedOutput": "[1, 2, 6, 5, 4, 3, 7, 8]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "s = \"DIDD\"",
+        "expectedOutput": "[2, 1, 5, 4, 3]",
+        "isHidden": true
       }
     ]
   },
@@ -11262,6 +31783,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1,0,1,1,0,1]",
         "expectedOutput": "2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,0,1,1,0,1]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,0,0,0,1,0,0,1,1,1,0,1,1,0,0,1,1,1,1,0]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,0]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,1,0,0,1,1,1,0,1,1,1,1]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,0,0,0,0,0,1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [0,1,1,0,1,1,1,0,0,0,1,1,0,1]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [0,1,0,1,0,1,0,1,0,1]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,1,1,1,1,1,1,1,1,1]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,1,1,1,1]",
+        "expectedOutput": "5",
+        "isHidden": true
       }
     ]
   },
@@ -11295,6 +31876,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1,5,233,7]",
         "expectedOutput": "true"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [10]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [5,17,100,11]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,2,3,4]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,4,5]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [1,2,3,7]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [0,0,7,6,5,6,1]",
+        "expectedOutput": "False",
+        "isHidden": true
       }
     ]
   },
@@ -11321,6 +31962,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,0,1,1,0,1]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1,1,1,0,0,1,1,1,1,0,1]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,1,1,1]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,0,1,0,1,0,1,0,1]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [0,0,0,0,0]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,0,0,1,1,1,0,0,1,1,1,1,0,1,1,0,0,1,1,1,1,1]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,0,0,0,0,0,1]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [0,1,0,1,0,1,0,1,0,1]",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,1,1,1,1,1,1,1,1,1]",
+        "expectedOutput": "10",
+        "isHidden": true
       }
     ]
   },
@@ -11359,6 +32060,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "board = &quot;G&quot;, hand = &quot;GGGGG&quot;",
         "expectedOutput": "2"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "board = \"RRWWRRBBRR\", hand = \"WB\"",
+        "expectedOutput": "Error: name 're' is not defined",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "board = \"WYGBR\", hand = \"WYGBR\"",
+        "expectedOutput": "Error: name 're' is not defined",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "board = \"WWRRBBWW\", hand = \"WRBRW\"",
+        "expectedOutput": "Error: name 're' is not defined",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "board = \"BBB\", hand = \"BB\"",
+        "expectedOutput": "Error: name 're' is not defined",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "board = \"WRRBBW\", hand = \"RB\"",
+        "expectedOutput": "Error: name 're' is not defined",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "board = \"RRBBRR\", hand = \"RGB\"",
+        "expectedOutput": "Error: name 're' is not defined",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "board = \"YYRRYY\", hand = \"GGB\"",
+        "expectedOutput": "Error: name 're' is not defined",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "board = \"RWYWRRWRR\", hand = \"YGB\"",
+        "expectedOutput": "Error: name 're' is not defined",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "board = \"BBRRYYGG\", hand = \"RRYYGG\"",
+        "expectedOutput": "Error: name 're' is not defined",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "board = \"BGBBGGRRYY\", hand = \"GBRRY\"",
+        "expectedOutput": "Error: name 're' is not defined",
+        "isHidden": true
       }
     ]
   },
@@ -11384,6 +32145,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -11411,6 +32232,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "maze = [[0,0,0],[0,1,0],[0,0,0]], start = [0,0], destination = [2,2]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "maze = [[0,0,1,0,0],[0,0,0,0,0],[0,0,0,1,0],[1,1,0,1,1],[0,0,0,0,0]], start = [0,4], destination = [3,2]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "maze = [[0,0,0],[0,0,0],[0,0,0]], start = [0,0], destination = [1,1]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "maze = [[0,0,0],[0,0,0],[0,0,0]], start = [2,0], destination = [0,2]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "maze = [[0,0,0,1,0,0,0],[0,0,1,0,1,0,0],[0,0,0,0,0,1,0],[0,1,0,0,0,0,1],[0,1,0,1,0,1,0],[0,1,0,0,0,0,0],[0,0,0,1,1,1,0]], start = [0,4], destination = [5,6]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "maze = [[0,0,0,0,0,0],[0,0,0,1,0,1],[0,1,0,0,0,0],[0,1,0,1,1,1],[0,0,0,0,0,0],[1,1,1,1,0,0]], start = [2,2], destination = [5,0]",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "maze = [[0,0,0,0,0,1],[1,1,0,0,0,0],[0,0,0,1,0,1],[0,1,1,1,1,0],[0,0,0,0,0,0]], start = [4,5], destination = [0,0]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "maze = [[0,0,0,0,0,0,0,0],[0,1,1,1,1,1,1,0],[0,0,0,0,0,0,0,0],[0,1,1,1,1,1,1,0],[0,0,0,0,0,0,0,0]], start = [0,0], destination = [4,7]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "maze = [[0,0,1,0,0],[0,0,0,0,0],[0,1,0,1,0],[0,1,0,0,0],[0,0,0,1,0],[0,1,1,1,0],[0,0,0,0,0]], start = [5,0], destination = [0,4]",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "maze = [[0,0,0,0,0,0,0,0],[0,1,1,1,1,1,1,0],[0,0,0,0,0,0,0,0],[0,1,1,1,1,1,1,0],[0,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,0],[0,0,0,0,0,0,0,0]], start = [0,0], destination = [6,7]",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -11443,6 +32324,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [4,4,3,2,1]",
         "expectedOutput": "[[4,4]]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [1,2,2,2,3,3,4]",
+        "expectedOutput": "[[1, 2, 2, 2, 3, 3, 4], [1, 2, 2, 2, 3, 3], [1, 2, 2, 2, 3, 4], [1, 2, 2, 2, 3], [1, 2, 2, 2, 4], [1, 2, 2, 2], [1, 2, 2, 3, 3, 4], [1, 2, 2, 3, 3], [1, 2, 2, 3, 4], [1, 2, 2, 3], [1, 2, 2, 4], [1, 2, 2], [1, 2, 3, 3, 4], [1, 2, 3, 3], [1, 2, 3, 4], [1, 2, 3], [1, 2, 4], [1, 2], [1, 3, 3, 4], [1, 3, 3], [1, 3, 4], [1, 3], [1, 4], [2, 2, 2, 3, 3, 4], [2, 2, 2, 3, 3], [2, 2, 2, 3, 4], [2, 2, 2, 3], [2, 2, 2, 4], [2, 2, 2], [2, 2, 3, 3, 4], [2, 2, 3, 3], [2, 2, 3, 4], [2, 2, 3], [2, 2, 4], [2, 2], [2, 3, 3, 4], [2, 3, 3], [2, 3, 4], [2, 3], [2, 4], [3, 3, 4], [3, 3], [3, 4]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [3,2,1,2,3,4,2,2,3,4]",
+        "expectedOutput": "[[3, 3, 4, 4], [3, 3, 3, 4], [3, 3, 3], [2, 2, 3, 4, 4], [2, 2, 3, 3, 4], [2, 2, 3, 3], [2, 2, 4, 4], [2, 2, 2, 2, 3, 4], [2, 2, 2, 2, 3], [2, 2, 2, 2, 4], [2, 2, 2, 2], [1, 2, 3, 4, 4], [1, 2, 3, 3, 4], [1, 2, 3, 3], [1, 2, 4, 4], [1, 2, 2, 2, 3, 4], [1, 2, 2, 2, 3], [1, 2, 2, 2, 4], [1, 2, 2, 2], [1, 3, 4, 4], [1, 3, 3, 4], [1, 3, 3], [1, 4, 4], [1, 2, 2, 3, 4], [1, 2, 2, 3], [1, 2, 2, 4], [1, 2, 2], [1, 2, 3, 4], [1, 2, 3], [1, 2, 4], [1, 2], [1, 3, 4], [1, 3], [1, 4], [2, 3, 4, 4], [2, 3, 3, 4], [2, 3, 3], [2, 4, 4], [2, 2, 2, 3, 4], [2, 2, 2, 3], [2, 2, 2, 4], [2, 2, 2], [3, 4, 4], [3, 3, 4], [3, 3], [4, 4], [2, 2, 3, 4], [2, 2, 3], [2, 2, 4], [2, 2], [2, 3, 4], [2, 3], [2, 4], [3, 4]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [10,9,2,5,3,7,101,18]",
+        "expectedOutput": "[[10, 101], [10, 18], [9, 101], [9, 18], [2, 5, 7, 101], [2, 5, 7, 18], [2, 5, 7], [2, 5, 101], [2, 5, 18], [2, 5], [2, 3, 7, 101], [2, 3, 7, 18], [2, 3, 7], [2, 3, 101], [2, 3, 18], [2, 3], [2, 7, 101], [2, 7, 18], [2, 7], [2, 101], [2, 18], [5, 7, 101], [5, 7, 18], [5, 7], [5, 101], [5, 18], [3, 7, 101], [3, 7, 18], [3, 7], [3, 101], [3, 18], [7, 101], [7, 18]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,2,2,3,4,4]",
+        "expectedOutput": "[[1, 2, 2, 3, 4, 4], [1, 2, 2, 3, 4], [1, 2, 2, 3], [1, 2, 2, 4, 4], [1, 2, 2, 4], [1, 2, 2], [1, 2, 3, 4, 4], [1, 2, 3, 4], [1, 2, 3], [1, 2, 4, 4], [1, 2, 4], [1, 2], [1, 3, 4, 4], [1, 3, 4], [1, 3], [1, 4, 4], [1, 4], [2, 2, 3, 4, 4], [2, 2, 3, 4], [2, 2, 3], [2, 2, 4, 4], [2, 2, 4], [2, 2], [2, 3, 4, 4], [2, 3, 4], [2, 3], [2, 4, 4], [2, 4], [3, 4, 4], [3, 4], [4, 4]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "[[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], [1, 2, 3, 4, 5, 6, 7, 8, 9], [1, 2, 3, 4, 5, 6, 7, 8, 10], [1, 2, 3, 4, 5, 6, 7, 8], [1, 2, 3, 4, 5, 6, 7, 9, 10], [1, 2, 3, 4, 5, 6, 7, 9], [1, 2, 3, 4, 5, 6, 7, 10], [1, 2, 3, 4, 5, 6, 7], [1, 2, 3, 4, 5, 6, 8, 9, 10], [1, 2, 3, 4, 5, 6, 8, 9], [1, 2, 3, 4, 5, 6, 8, 10], [1, 2, 3, 4, 5, 6, 8], [1, 2, 3, 4, 5, 6, 9, 10], [1, 2, 3, 4, 5, 6, 9], [1, 2, 3, 4, 5, 6, 10], [1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 5, 7, 8, 9, 10], [1, 2, 3, 4, 5, 7, 8, 9], [1, 2, 3, 4, 5, 7, 8, 10], [1, 2, 3, 4, 5, 7, 8], [1, 2, 3, 4, 5, 7, 9, 10], [1, 2, 3, 4, 5, 7, 9], [1, 2, 3, 4, 5, 7, 10], [1, 2, 3, 4, 5, 7], [1, 2, 3, 4, 5, 8, 9, 10], [1, 2, 3, 4, 5, 8, 9], [1, 2, 3, 4, 5, 8, 10], [1, 2, 3, 4, 5, 8], [1, 2, 3, 4, 5, 9, 10], [1, 2, 3, 4, 5, 9], [1, 2, 3, 4, 5, 10], [1, 2, 3, 4, 5], [1, 2, 3, 4, 6, 7, 8, 9, 10], [1, 2, 3, 4, 6, 7, 8, 9], [1, 2, 3, 4, 6, 7, 8, 10], [1, 2, 3, 4, 6, 7, 8], [1, 2, 3, 4, 6, 7, 9, 10], [1, 2, 3, 4, 6, 7, 9], [1, 2, 3, 4, 6, 7, 10], [1, 2, 3, 4, 6, 7], [1, 2, 3, 4, 6, 8, 9, 10], [1, 2, 3, 4, 6, 8, 9], [1, 2, 3, 4, 6, 8, 10], [1, 2, 3, 4, 6, 8], [1, 2, 3, 4, 6, 9, 10], [1, 2, 3, 4, 6, 9], [1, 2, 3, 4, 6, 10], [1, 2, 3, 4, 6], [1, 2, 3, 4, 7, 8, 9, 10], [1, 2, 3, 4, 7, 8, 9], [1, 2, 3, 4, 7, 8, 10], [1, 2, 3, 4, 7, 8], [1, 2, 3, 4, 7, 9, 10], [1, 2, 3, 4, 7, 9], [1, 2, 3, 4, 7, 10], [1, 2, 3, 4, 7], [1, 2, 3, 4, 8, 9, 10], [1, 2, 3, 4, 8, 9], [1, 2, 3, 4, 8, 10], [1, 2, 3, 4, 8], [1, 2, 3, 4, 9, 10], [1, 2, 3, 4, 9], [1, 2, 3, 4, 10], [1, 2, 3, 4], [1, 2, 3, 5, 6, 7, 8, 9, 10], [1, 2, 3, 5, 6, 7, 8, 9], [1, 2, 3, 5, 6, 7, 8, 10], [1, 2, 3, 5, 6, 7, 8], [1, 2, 3, 5, 6, 7, 9, 10], [1, 2, 3, 5, 6, 7, 9], [1, 2, 3, 5, 6, 7, 10], [1, 2, 3, 5, 6, 7], [1, 2, 3, 5, 6, 8, 9, 10], [1, 2, 3, 5, 6, 8, 9], [1, 2, 3, 5, 6, 8, 10], [1, 2, 3, 5, 6, 8], [1, 2, 3, 5, 6, 9, 10], [1, 2, 3, 5, 6, 9], [1, 2, 3, 5, 6, 10], [1, 2, 3, 5, 6], [1, 2, 3, 5, 7, 8, 9, 10], [1, 2, 3, 5, 7, 8, 9], [1, 2, 3, 5, 7, 8, 10], [1, 2, 3, 5, 7, 8], [1, 2, 3, 5, 7, 9, 10], [1, 2, 3, 5, 7, 9], [1, 2, 3, 5, 7, 10], [1, 2, 3, 5, 7], [1, 2, 3, 5, 8, 9, 10], [1, 2, 3, 5, 8, 9], [1, 2, 3, 5, 8, 10], [1, 2, 3, 5, 8], [1, 2, 3, 5, 9, 10], [1, 2, 3, 5, 9], [1, 2, 3, 5, 10], [1, 2, 3, 5], [1, 2, 3, 6, 7, 8, 9, 10], [1, 2, 3, 6, 7, 8, 9], [1, 2, 3, 6, 7, 8, 10], [1, 2, 3, 6, 7, 8], [1, 2, 3, 6, 7, 9, 10], [1, 2, 3, 6, 7, 9], [1, 2, 3, 6, 7, 10], [1, 2, 3, 6, 7], [1, 2, 3, 6, 8, 9, 10], [1, 2, 3, 6, 8, 9], [1, 2, 3, 6, 8, 10], [1, 2, 3, 6, 8], [1, 2, 3, 6, 9, 10], [1, 2, 3, 6, 9], [1, 2, 3, 6, 10], [1, 2, 3, 6], [1, 2, 3, 7, 8, 9, 10], [1, 2, 3, 7, 8, 9], [1, 2, 3, 7, 8, 10], [1, 2, 3, 7, 8], [1, 2, 3, 7, 9, 10], [1, 2, 3, 7, 9], [1, 2, 3, 7, 10], [1, 2, 3, 7], [1, 2, 3, 8, 9, 10], [1, 2, 3, 8, 9], [1, 2, 3, 8, 10], [1, 2, 3, 8], [1, 2, 3, 9, 10], [1, 2, 3, 9], [1, 2, 3, 10], [1, 2, 3], [1, 2, 4, 5, 6, 7, 8, 9, 10], [1, 2, 4, 5, 6, 7, 8, 9], [1, 2, 4, 5, 6, 7, 8, 10], [1, 2, 4, 5, 6, 7, 8], [1, 2, 4, 5, 6, 7, 9, 10], [1, 2, 4, 5, 6, 7, 9], [1, 2, 4, 5, 6, 7, 10], [1, 2, 4, 5, 6, 7], [1, 2, 4, 5, 6, 8, 9, 10], [1, 2, 4, 5, 6, 8, 9], [1, 2, 4, 5, 6, 8, 10], [1, 2, 4, 5, 6, 8], [1, 2, 4, 5, 6, 9, 10], [1, 2, 4, 5, 6, 9], [1, 2, 4, 5, 6, 10], [1, 2, 4, 5, 6], [1, 2, 4, 5, 7, 8, 9, 10], [1, 2, 4, 5, 7, 8, 9], [1, 2, 4, 5, 7, 8, 10], [1, 2, 4, 5, 7, 8], [1, 2, 4, 5, 7, 9, 10], [1, 2, 4, 5, 7, 9], [1, 2, 4, 5, 7, 10], [1, 2, 4, 5, 7], [1, 2, 4, 5, 8, 9, 10], [1, 2, 4, 5, 8, 9], [1, 2, 4, 5, 8, 10], [1, 2, 4, 5, 8], [1, 2, 4, 5, 9, 10], [1, 2, 4, 5, 9], [1, 2, 4, 5, 10], [1, 2, 4, 5], [1, 2, 4, 6, 7, 8, 9, 10], [1, 2, 4, 6, 7, 8, 9], [1, 2, 4, 6, 7, 8, 10], [1, 2, 4, 6, 7, 8], [1, 2, 4, 6, 7, 9, 10], [1, 2, 4, 6, 7, 9], [1, 2, 4, 6, 7, 10], [1, 2, 4, 6, 7], [1, 2, 4, 6, 8, 9, 10], [1, 2, 4, 6, 8, 9], [1, 2, 4, 6, 8, 10], [1, 2, 4, 6, 8], [1, 2, 4, 6, 9, 10], [1, 2, 4, 6, 9], [1, 2, 4, 6, 10], [1, 2, 4, 6], [1, 2, 4, 7, 8, 9, 10], [1, 2, 4, 7, 8, 9], [1, 2, 4, 7, 8, 10], [1, 2, 4, 7, 8], [1, 2, 4, 7, 9, 10], [1, 2, 4, 7, 9], [1, 2, 4, 7, 10], [1, 2, 4, 7], [1, 2, 4, 8, 9, 10], [1, 2, 4, 8, 9], [1, 2, 4, 8, 10], [1, 2, 4, 8], [1, 2, 4, 9, 10], [1, 2, 4, 9], [1, 2, 4, 10], [1, 2, 4], [1, 2, 5, 6, 7, 8, 9, 10], [1, 2, 5, 6, 7, 8, 9], [1, 2, 5, 6, 7, 8, 10], [1, 2, 5, 6, 7, 8], [1, 2, 5, 6, 7, 9, 10], [1, 2, 5, 6, 7, 9], [1, 2, 5, 6, 7, 10], [1, 2, 5, 6, 7], [1, 2, 5, 6, 8, 9, 10], [1, 2, 5, 6, 8, 9], [1, 2, 5, 6, 8, 10], [1, 2, 5, 6, 8], [1, 2, 5, 6, 9, 10], [1, 2, 5, 6, 9], [1, 2, 5, 6, 10], [1, 2, 5, 6], [1, 2, 5, 7, 8, 9, 10], [1, 2, 5, 7, 8, 9], [1, 2, 5, 7, 8, 10], [1, 2, 5, 7, 8], [1, 2, 5, 7, 9, 10], [1, 2, 5, 7, 9], [1, 2, 5, 7, 10], [1, 2, 5, 7], [1, 2, 5, 8, 9, 10], [1, 2, 5, 8, 9], [1, 2, 5, 8, 10], [1, 2, 5, 8], [1, 2, 5, 9, 10], [1, 2, 5, 9], [1, 2, 5, 10], [1, 2, 5], [1, 2, 6, 7, 8, 9, 10], [1, 2, 6, 7, 8, 9], [1, 2, 6, 7, 8, 10], [1, 2, 6, 7, 8], [1, 2, 6, 7, 9, 10], [1, 2, 6, 7, 9], [1, 2, 6, 7, 10], [1, 2, 6, 7], [1, 2, 6, 8, 9, 10], [1, 2, 6, 8, 9], [1, 2, 6, 8, 10], [1, 2, 6, 8], [1, 2, 6, 9, 10], [1, 2, 6, 9], [1, 2, 6, 10], [1, 2, 6], [1, 2, 7, 8, 9, 10], [1, 2, 7, 8, 9], [1, 2, 7, 8, 10], [1, 2, 7, 8], [1, 2, 7, 9, 10], [1, 2, 7, 9], [1, 2, 7, 10], [1, 2, 7], [1, 2, 8, 9, 10], [1, 2, 8, 9], [1, 2, 8, 10], [1, 2, 8], [1, 2, 9, 10], [1, 2, 9], [1, 2, 10], [1, 2], [1, 3, 4, 5, 6, 7, 8, 9, 10], [1, 3, 4, 5, 6, 7, 8, 9], [1, 3, 4, 5, 6, 7, 8, 10], [1, 3, 4, 5, 6, 7, 8], [1, 3, 4, 5, 6, 7, 9, 10], [1, 3, 4, 5, 6, 7, 9], [1, 3, 4, 5, 6, 7, 10], [1, 3, 4, 5, 6, 7], [1, 3, 4, 5, 6, 8, 9, 10], [1, 3, 4, 5, 6, 8, 9], [1, 3, 4, 5, 6, 8, 10], [1, 3, 4, 5, 6, 8], [1, 3, 4, 5, 6, 9, 10], [1, 3, 4, 5, 6, 9], [1, 3, 4, 5, 6, 10], [1, 3, 4, 5, 6], [1, 3, 4, 5, 7, 8, 9, 10], [1, 3, 4, 5, 7, 8, 9], [1, 3, 4, 5, 7, 8, 10], [1, 3, 4, 5, 7, 8], [1, 3, 4, 5, 7, 9, 10], [1, 3, 4, 5, 7, 9], [1, 3, 4, 5, 7, 10], [1, 3, 4, 5, 7], [1, 3, 4, 5, 8, 9, 10], [1, 3, 4, 5, 8, 9], [1, 3, 4, 5, 8, 10], [1, 3, 4, 5, 8], [1, 3, 4, 5, 9, 10], [1, 3, 4, 5, 9], [1, 3, 4, 5, 10], [1, 3, 4, 5], [1, 3, 4, 6, 7, 8, 9, 10], [1, 3, 4, 6, 7, 8, 9], [1, 3, 4, 6, 7, 8, 10], [1, 3, 4, 6, 7, 8], [1, 3, 4, 6, 7, 9, 10], [1, 3, 4, 6, 7, 9], [1, 3, 4, 6, 7, 10], [1, 3, 4, 6, 7], [1, 3, 4, 6, 8, 9, 10], [1, 3, 4, 6, 8, 9], [1, 3, 4, 6, 8, 10], [1, 3, 4, 6, 8], [1, 3, 4, 6, 9, 10], [1, 3, 4, 6, 9], [1, 3, 4, 6, 10], [1, 3, 4, 6], [1, 3, 4, 7, 8, 9, 10], [1, 3, 4, 7, 8, 9], [1, 3, 4, 7, 8, 10], [1, 3, 4, 7, 8], [1, 3, 4, 7, 9, 10], [1, 3, 4, 7, 9], [1, 3, 4, 7, 10], [1, 3, 4, 7], [1, 3, 4, 8, 9, 10], [1, 3, 4, 8, 9], [1, 3, 4, 8, 10], [1, 3, 4, 8], [1, 3, 4, 9, 10], [1, 3, 4, 9], [1, 3, 4, 10], [1, 3, 4], [1, 3, 5, 6, 7, 8, 9, 10], [1, 3, 5, 6, 7, 8, 9], [1, 3, 5, 6, 7, 8, 10], [1, 3, 5, 6, 7, 8], [1, 3, 5, 6, 7, 9, 10], [1, 3, 5, 6, 7, 9], [1, 3, 5, 6, 7, 10], [1, 3, 5, 6, 7], [1, 3, 5, 6, 8, 9, 10], [1, 3, 5, 6, 8, 9], [1, 3, 5, 6, 8, 10], [1, 3, 5, 6, 8], [1, 3, 5, 6, 9, 10], [1, 3, 5, 6, 9], [1, 3, 5, 6, 10], [1, 3, 5, 6], [1, 3, 5, 7, 8, 9, 10], [1, 3, 5, 7, 8, 9], [1, 3, 5, 7, 8, 10], [1, 3, 5, 7, 8], [1, 3, 5, 7, 9, 10], [1, 3, 5, 7, 9], [1, 3, 5, 7, 10], [1, 3, 5, 7], [1, 3, 5, 8, 9, 10], [1, 3, 5, 8, 9], [1, 3, 5, 8, 10], [1, 3, 5, 8], [1, 3, 5, 9, 10], [1, 3, 5, 9], [1, 3, 5, 10], [1, 3, 5], [1, 3, 6, 7, 8, 9, 10], [1, 3, 6, 7, 8, 9], [1, 3, 6, 7, 8, 10], [1, 3, 6, 7, 8], [1, 3, 6, 7, 9, 10], [1, 3, 6, 7, 9], [1, 3, 6, 7, 10], [1, 3, 6, 7], [1, 3, 6, 8, 9, 10], [1, 3, 6, 8, 9], [1, 3, 6, 8, 10], [1, 3, 6, 8], [1, 3, 6, 9, 10], [1, 3, 6, 9], [1, 3, 6, 10], [1, 3, 6], [1, 3, 7, 8, 9, 10], [1, 3, 7, 8, 9], [1, 3, 7, 8, 10], [1, 3, 7, 8], [1, 3, 7, 9, 10], [1, 3, 7, 9], [1, 3, 7, 10], [1, 3, 7], [1, 3, 8, 9, 10], [1, 3, 8, 9], [1, 3, 8, 10], [1, 3, 8], [1, 3, 9, 10], [1, 3, 9], [1, 3, 10], [1, 3], [1, 4, 5, 6, 7, 8, 9, 10], [1, 4, 5, 6, 7, 8, 9], [1, 4, 5, 6, 7, 8, 10], [1, 4, 5, 6, 7, 8], [1, 4, 5, 6, 7, 9, 10], [1, 4, 5, 6, 7, 9], [1, 4, 5, 6, 7, 10], [1, 4, 5, 6, 7], [1, 4, 5, 6, 8, 9, 10], [1, 4, 5, 6, 8, 9], [1, 4, 5, 6, 8, 10], [1, 4, 5, 6, 8], [1, 4, 5, 6, 9, 10], [1, 4, 5, 6, 9], [1, 4, 5, 6, 10], [1, 4, 5, 6], [1, 4, 5, 7, 8, 9, 10], [1, 4, 5, 7, 8, 9], [1, 4, 5, 7, 8, 10], [1, 4, 5, 7, 8], [1, 4, 5, 7, 9, 10], [1, 4, 5, 7, 9], [1, 4, 5, 7, 10], [1, 4, 5, 7], [1, 4, 5, 8, 9, 10], [1, 4, 5, 8, 9], [1, 4, 5, 8, 10], [1, 4, 5, 8], [1, 4, 5, 9, 10], [1, 4, 5, 9], [1, 4, 5, 10], [1, 4, 5], [1, 4, 6, 7, 8, 9, 10], [1, 4, 6, 7, 8, 9], [1, 4, 6, 7, 8, 10], [1, 4, 6, 7, 8], [1, 4, 6, 7, 9, 10], [1, 4, 6, 7, 9], [1, 4, 6, 7, 10], [1, 4, 6, 7], [1, 4, 6, 8, 9, 10], [1, 4, 6, 8, 9], [1, 4, 6, 8, 10], [1, 4, 6, 8], [1, 4, 6, 9, 10], [1, 4, 6, 9], [1, 4, 6, 10], [1, 4, 6], [1, 4, 7, 8, 9, 10], [1, 4, 7, 8, 9], [1, 4, 7, 8, 10], [1, 4, 7, 8], [1, 4, 7, 9, 10], [1, 4, 7, 9], [1, 4, 7, 10], [1, 4, 7], [1, 4, 8, 9, 10], [1, 4, 8, 9], [1, 4, 8, 10], [1, 4, 8], [1, 4, 9, 10], [1, 4, 9], [1, 4, 10], [1, 4], [1, 5, 6, 7, 8, 9, 10], [1, 5, 6, 7, 8, 9], [1, 5, 6, 7, 8, 10], [1, 5, 6, 7, 8], [1, 5, 6, 7, 9, 10], [1, 5, 6, 7, 9], [1, 5, 6, 7, 10], [1, 5, 6, 7], [1, 5, 6, 8, 9, 10], [1, 5, 6, 8, 9], [1, 5, 6, 8, 10], [1, 5, 6, 8], [1, 5, 6, 9, 10], [1, 5, 6, 9], [1, 5, 6, 10], [1, 5, 6], [1, 5, 7, 8, 9, 10], [1, 5, 7, 8, 9], [1, 5, 7, 8, 10], [1, 5, 7, 8], [1, 5, 7, 9, 10], [1, 5, 7, 9], [1, 5, 7, 10], [1, 5, 7], [1, 5, 8, 9, 10], [1, 5, 8, 9], [1, 5, 8, 10], [1, 5, 8], [1, 5, 9, 10], [1, 5, 9], [1, 5, 10], [1, 5], [1, 6, 7, 8, 9, 10], [1, 6, 7, 8, 9], [1, 6, 7, 8, 10], [1, 6, 7, 8], [1, 6, 7, 9, 10], [1, 6, 7, 9], [1, 6, 7, 10], [1, 6, 7], [1, 6, 8, 9, 10], [1, 6, 8, 9], [1, 6, 8, 10], [1, 6, 8], [1, 6, 9, 10], [1, 6, 9], [1, 6, 10], [1, 6], [1, 7, 8, 9, 10], [1, 7, 8, 9], [1, 7, 8, 10], [1, 7, 8], [1, 7, 9, 10], [1, 7, 9], [1, 7, 10], [1, 7], [1, 8, 9, 10], [1, 8, 9], [1, 8, 10], [1, 8], [1, 9, 10], [1, 9], [1, 10], [2, 3, 4, 5, 6, 7, 8, 9, 10], [2, 3, 4, 5, 6, 7, 8, 9], [2, 3, 4, 5, 6, 7, 8, 10], [2, 3, 4, 5, 6, 7, 8], [2, 3, 4, 5, 6, 7, 9, 10], [2, 3, 4, 5, 6, 7, 9], [2, 3, 4, 5, 6, 7, 10], [2, 3, 4, 5, 6, 7], [2, 3, 4, 5, 6, 8, 9, 10], [2, 3, 4, 5, 6, 8, 9], [2, 3, 4, 5, 6, 8, 10], [2, 3, 4, 5, 6, 8], [2, 3, 4, 5, 6, 9, 10], [2, 3, 4, 5, 6, 9], [2, 3, 4, 5, 6, 10], [2, 3, 4, 5, 6], [2, 3, 4, 5, 7, 8, 9, 10], [2, 3, 4, 5, 7, 8, 9], [2, 3, 4, 5, 7, 8, 10], [2, 3, 4, 5, 7, 8], [2, 3, 4, 5, 7, 9, 10], [2, 3, 4, 5, 7, 9], [2, 3, 4, 5, 7, 10], [2, 3, 4, 5, 7], [2, 3, 4, 5, 8, 9, 10], [2, 3, 4, 5, 8, 9], [2, 3, 4, 5, 8, 10], [2, 3, 4, 5, 8], [2, 3, 4, 5, 9, 10], [2, 3, 4, 5, 9], [2, 3, 4, 5, 10], [2, 3, 4, 5], [2, 3, 4, 6, 7, 8, 9, 10], [2, 3, 4, 6, 7, 8, 9], [2, 3, 4, 6, 7, 8, 10], [2, 3, 4, 6, 7, 8], [2, 3, 4, 6, 7, 9, 10], [2, 3, 4, 6, 7, 9], [2, 3, 4, 6, 7, 10], [2, 3, 4, 6, 7], [2, 3, 4, 6, 8, 9, 10], [2, 3, 4, 6, 8, 9], [2, 3, 4, 6, 8, 10], [2, 3, 4, 6, 8], [2, 3, 4, 6, 9, 10], [2, 3, 4, 6, 9], [2, 3, 4, 6, 10], [2, 3, 4, 6], [2, 3, 4, 7, 8, 9, 10], [2, 3, 4, 7, 8, 9], [2, 3, 4, 7, 8, 10], [2, 3, 4, 7, 8], [2, 3, 4, 7, 9, 10], [2, 3, 4, 7, 9], [2, 3, 4, 7, 10], [2, 3, 4, 7], [2, 3, 4, 8, 9, 10], [2, 3, 4, 8, 9], [2, 3, 4, 8, 10], [2, 3, 4, 8], [2, 3, 4, 9, 10], [2, 3, 4, 9], [2, 3, 4, 10], [2, 3, 4], [2, 3, 5, 6, 7, 8, 9, 10], [2, 3, 5, 6, 7, 8, 9], [2, 3, 5, 6, 7, 8, 10], [2, 3, 5, 6, 7, 8], [2, 3, 5, 6, 7, 9, 10], [2, 3, 5, 6, 7, 9], [2, 3, 5, 6, 7, 10], [2, 3, 5, 6, 7], [2, 3, 5, 6, 8, 9, 10], [2, 3, 5, 6, 8, 9], [2, 3, 5, 6, 8, 10], [2, 3, 5, 6, 8], [2, 3, 5, 6, 9, 10], [2, 3, 5, 6, 9], [2, 3, 5, 6, 10], [2, 3, 5, 6], [2, 3, 5, 7, 8, 9, 10], [2, 3, 5, 7, 8, 9], [2, 3, 5, 7, 8, 10], [2, 3, 5, 7, 8], [2, 3, 5, 7, 9, 10], [2, 3, 5, 7, 9], [2, 3, 5, 7, 10], [2, 3, 5, 7], [2, 3, 5, 8, 9, 10], [2, 3, 5, 8, 9], [2, 3, 5, 8, 10], [2, 3, 5, 8], [2, 3, 5, 9, 10], [2, 3, 5, 9], [2, 3, 5, 10], [2, 3, 5], [2, 3, 6, 7, 8, 9, 10], [2, 3, 6, 7, 8, 9], [2, 3, 6, 7, 8, 10], [2, 3, 6, 7, 8], [2, 3, 6, 7, 9, 10], [2, 3, 6, 7, 9], [2, 3, 6, 7, 10], [2, 3, 6, 7], [2, 3, 6, 8, 9, 10], [2, 3, 6, 8, 9], [2, 3, 6, 8, 10], [2, 3, 6, 8], [2, 3, 6, 9, 10], [2, 3, 6, 9], [2, 3, 6, 10], [2, 3, 6], [2, 3, 7, 8, 9, 10], [2, 3, 7, 8, 9], [2, 3, 7, 8, 10], [2, 3, 7, 8], [2, 3, 7, 9, 10], [2, 3, 7, 9], [2, 3, 7, 10], [2, 3, 7], [2, 3, 8, 9, 10], [2, 3, 8, 9], [2, 3, 8, 10], [2, 3, 8], [2, 3, 9, 10], [2, 3, 9], [2, 3, 10], [2, 3], [2, 4, 5, 6, 7, 8, 9, 10], [2, 4, 5, 6, 7, 8, 9], [2, 4, 5, 6, 7, 8, 10], [2, 4, 5, 6, 7, 8], [2, 4, 5, 6, 7, 9, 10], [2, 4, 5, 6, 7, 9], [2, 4, 5, 6, 7, 10], [2, 4, 5, 6, 7], [2, 4, 5, 6, 8, 9, 10], [2, 4, 5, 6, 8, 9], [2, 4, 5, 6, 8, 10], [2, 4, 5, 6, 8], [2, 4, 5, 6, 9, 10], [2, 4, 5, 6, 9], [2, 4, 5, 6, 10], [2, 4, 5, 6], [2, 4, 5, 7, 8, 9, 10], [2, 4, 5, 7, 8, 9], [2, 4, 5, 7, 8, 10], [2, 4, 5, 7, 8], [2, 4, 5, 7, 9, 10], [2, 4, 5, 7, 9], [2, 4, 5, 7, 10], [2, 4, 5, 7], [2, 4, 5, 8, 9, 10], [2, 4, 5, 8, 9], [2, 4, 5, 8, 10], [2, 4, 5, 8], [2, 4, 5, 9, 10], [2, 4, 5, 9], [2, 4, 5, 10], [2, 4, 5], [2, 4, 6, 7, 8, 9, 10], [2, 4, 6, 7, 8, 9], [2, 4, 6, 7, 8, 10], [2, 4, 6, 7, 8], [2, 4, 6, 7, 9, 10], [2, 4, 6, 7, 9], [2, 4, 6, 7, 10], [2, 4, 6, 7], [2, 4, 6, 8, 9, 10], [2, 4, 6, 8, 9], [2, 4, 6, 8, 10], [2, 4, 6, 8], [2, 4, 6, 9, 10], [2, 4, 6, 9], [2, 4, 6, 10], [2, 4, 6], [2, 4, 7, 8, 9, 10], [2, 4, 7, 8, 9], [2, 4, 7, 8, 10], [2, 4, 7, 8], [2, 4, 7, 9, 10], [2, 4, 7, 9], [2, 4, 7, 10], [2, 4, 7], [2, 4, 8, 9, 10], [2, 4, 8, 9], [2, 4, 8, 10], [2, 4, 8], [2, 4, 9, 10], [2, 4, 9], [2, 4, 10], [2, 4], [2, 5, 6, 7, 8, 9, 10], [2, 5, 6, 7, 8, 9], [2, 5, 6, 7, 8, 10], [2, 5, 6, 7, 8], [2, 5, 6, 7, 9, 10], [2, 5, 6, 7, 9], [2, 5, 6, 7, 10], [2, 5, 6, 7], [2, 5, 6, 8, 9, 10], [2, 5, 6, 8, 9], [2, 5, 6, 8, 10], [2, 5, 6, 8], [2, 5, 6, 9, 10], [2, 5, 6, 9], [2, 5, 6, 10], [2, 5, 6], [2, 5, 7, 8, 9, 10], [2, 5, 7, 8, 9], [2, 5, 7, 8, 10], [2, 5, 7, 8], [2, 5, 7, 9, 10], [2, 5, 7, 9], [2, 5, 7, 10], [2, 5, 7], [2, 5, 8, 9, 10], [2, 5, 8, 9], [2, 5, 8, 10], [2, 5, 8], [2, 5, 9, 10], [2, 5, 9], [2, 5, 10], [2, 5], [2, 6, 7, 8, 9, 10], [2, 6, 7, 8, 9], [2, 6, 7, 8, 10], [2, 6, 7, 8], [2, 6, 7, 9, 10], [2, 6, 7, 9], [2, 6, 7, 10], [2, 6, 7], [2, 6, 8, 9, 10], [2, 6, 8, 9], [2, 6, 8, 10], [2, 6, 8], [2, 6, 9, 10], [2, 6, 9], [2, 6, 10], [2, 6], [2, 7, 8, 9, 10], [2, 7, 8, 9], [2, 7, 8, 10], [2, 7, 8], [2, 7, 9, 10], [2, 7, 9], [2, 7, 10], [2, 7], [2, 8, 9, 10], [2, 8, 9], [2, 8, 10], [2, 8], [2, 9, 10], [2, 9], [2, 10], [3, 4, 5, 6, 7, 8, 9, 10], [3, 4, 5, 6, 7, 8, 9], [3, 4, 5, 6, 7, 8, 10], [3, 4, 5, 6, 7, 8], [3, 4, 5, 6, 7, 9, 10], [3, 4, 5, 6, 7, 9], [3, 4, 5, 6, 7, 10], [3, 4, 5, 6, 7], [3, 4, 5, 6, 8, 9, 10], [3, 4, 5, 6, 8, 9], [3, 4, 5, 6, 8, 10], [3, 4, 5, 6, 8], [3, 4, 5, 6, 9, 10], [3, 4, 5, 6, 9], [3, 4, 5, 6, 10], [3, 4, 5, 6], [3, 4, 5, 7, 8, 9, 10], [3, 4, 5, 7, 8, 9], [3, 4, 5, 7, 8, 10], [3, 4, 5, 7, 8], [3, 4, 5, 7, 9, 10], [3, 4, 5, 7, 9], [3, 4, 5, 7, 10], [3, 4, 5, 7], [3, 4, 5, 8, 9, 10], [3, 4, 5, 8, 9], [3, 4, 5, 8, 10], [3, 4, 5, 8], [3, 4, 5, 9, 10], [3, 4, 5, 9], [3, 4, 5, 10], [3, 4, 5], [3, 4, 6, 7, 8, 9, 10], [3, 4, 6, 7, 8, 9], [3, 4, 6, 7, 8, 10], [3, 4, 6, 7, 8], [3, 4, 6, 7, 9, 10], [3, 4, 6, 7, 9], [3, 4, 6, 7, 10], [3, 4, 6, 7], [3, 4, 6, 8, 9, 10], [3, 4, 6, 8, 9], [3, 4, 6, 8, 10], [3, 4, 6, 8], [3, 4, 6, 9, 10], [3, 4, 6, 9], [3, 4, 6, 10], [3, 4, 6], [3, 4, 7, 8, 9, 10], [3, 4, 7, 8, 9], [3, 4, 7, 8, 10], [3, 4, 7, 8], [3, 4, 7, 9, 10], [3, 4, 7, 9], [3, 4, 7, 10], [3, 4, 7], [3, 4, 8, 9, 10], [3, 4, 8, 9], [3, 4, 8, 10], [3, 4, 8], [3, 4, 9, 10], [3, 4, 9], [3, 4, 10], [3, 4], [3, 5, 6, 7, 8, 9, 10], [3, 5, 6, 7, 8, 9], [3, 5, 6, 7, 8, 10], [3, 5, 6, 7, 8], [3, 5, 6, 7, 9, 10], [3, 5, 6, 7, 9], [3, 5, 6, 7, 10], [3, 5, 6, 7], [3, 5, 6, 8, 9, 10], [3, 5, 6, 8, 9], [3, 5, 6, 8, 10], [3, 5, 6, 8], [3, 5, 6, 9, 10], [3, 5, 6, 9], [3, 5, 6, 10], [3, 5, 6], [3, 5, 7, 8, 9, 10], [3, 5, 7, 8, 9], [3, 5, 7, 8, 10], [3, 5, 7, 8], [3, 5, 7, 9, 10], [3, 5, 7, 9], [3, 5, 7, 10], [3, 5, 7], [3, 5, 8, 9, 10], [3, 5, 8, 9], [3, 5, 8, 10], [3, 5, 8], [3, 5, 9, 10], [3, 5, 9], [3, 5, 10], [3, 5], [3, 6, 7, 8, 9, 10], [3, 6, 7, 8, 9], [3, 6, 7, 8, 10], [3, 6, 7, 8], [3, 6, 7, 9, 10], [3, 6, 7, 9], [3, 6, 7, 10], [3, 6, 7], [3, 6, 8, 9, 10], [3, 6, 8, 9], [3, 6, 8, 10], [3, 6, 8], [3, 6, 9, 10], [3, 6, 9], [3, 6, 10], [3, 6], [3, 7, 8, 9, 10], [3, 7, 8, 9], [3, 7, 8, 10], [3, 7, 8], [3, 7, 9, 10], [3, 7, 9], [3, 7, 10], [3, 7], [3, 8, 9, 10], [3, 8, 9], [3, 8, 10], [3, 8], [3, 9, 10], [3, 9], [3, 10], [4, 5, 6, 7, 8, 9, 10], [4, 5, 6, 7, 8, 9], [4, 5, 6, 7, 8, 10], [4, 5, 6, 7, 8], [4, 5, 6, 7, 9, 10], [4, 5, 6, 7, 9], [4, 5, 6, 7, 10], [4, 5, 6, 7], [4, 5, 6, 8, 9, 10], [4, 5, 6, 8, 9], [4, 5, 6, 8, 10], [4, 5, 6, 8], [4, 5, 6, 9, 10], [4, 5, 6, 9], [4, 5, 6, 10], [4, 5, 6], [4, 5, 7, 8, 9, 10], [4, 5, 7, 8, 9], [4, 5, 7, 8, 10], [4, 5, 7, 8], [4, 5, 7, 9, 10], [4, 5, 7, 9], [4, 5, 7, 10], [4, 5, 7], [4, 5, 8, 9, 10], [4, 5, 8, 9], [4, 5, 8, 10], [4, 5, 8], [4, 5, 9, 10], [4, 5, 9], [4, 5, 10], [4, 5], [4, 6, 7, 8, 9, 10], [4, 6, 7, 8, 9], [4, 6, 7, 8, 10], [4, 6, 7, 8], [4, 6, 7, 9, 10], [4, 6, 7, 9], [4, 6, 7, 10], [4, 6, 7], [4, 6, 8, 9, 10], [4, 6, 8, 9], [4, 6, 8, 10], [4, 6, 8], [4, 6, 9, 10], [4, 6, 9], [4, 6, 10], [4, 6], [4, 7, 8, 9, 10], [4, 7, 8, 9], [4, 7, 8, 10], [4, 7, 8], [4, 7, 9, 10], [4, 7, 9], [4, 7, 10], [4, 7], [4, 8, 9, 10], [4, 8, 9], [4, 8, 10], [4, 8], [4, 9, 10], [4, 9], [4, 10], [5, 6, 7, 8, 9, 10], [5, 6, 7, 8, 9], [5, 6, 7, 8, 10], [5, 6, 7, 8], [5, 6, 7, 9, 10], [5, 6, 7, 9], [5, 6, 7, 10], [5, 6, 7], [5, 6, 8, 9, 10], [5, 6, 8, 9], [5, 6, 8, 10], [5, 6, 8], [5, 6, 9, 10], [5, 6, 9], [5, 6, 10], [5, 6], [5, 7, 8, 9, 10], [5, 7, 8, 9], [5, 7, 8, 10], [5, 7, 8], [5, 7, 9, 10], [5, 7, 9], [5, 7, 10], [5, 7], [5, 8, 9, 10], [5, 8, 9], [5, 8, 10], [5, 8], [5, 9, 10], [5, 9], [5, 10], [6, 7, 8, 9, 10], [6, 7, 8, 9], [6, 7, 8, 10], [6, 7, 8], [6, 7, 9, 10], [6, 7, 9], [6, 7, 10], [6, 7], [6, 8, 9, 10], [6, 8, 9], [6, 8, 10], [6, 8], [6, 9, 10], [6, 9], [6, 10], [7, 8, 9, 10], [7, 8, 9], [7, 8, 10], [7, 8], [7, 9, 10], [7, 9], [7, 10], [8, 9, 10], [8, 9], [8, 10], [9, 10]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [4,6,7,7]",
+        "expectedOutput": "[[4, 6, 7, 7], [4, 6, 7], [4, 6], [4, 7, 7], [4, 7], [6, 7, 7], [6, 7], [7, 7]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,4]",
+        "expectedOutput": "[[1, 2, 3, 4], [1, 2, 3], [1, 2, 4], [1, 2], [1, 3, 4], [1, 3], [1, 4], [2, 3, 4], [2, 3], [2, 4], [3, 4]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [-1,0,1,0,-1]",
+        "expectedOutput": "[[-1, 0, 1], [-1, 0, 0], [-1, 1], [-1, 0], [-1, -1], [0, 1], [0, 0]]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,3,2,4,3,5]",
+        "expectedOutput": "[[1, 3, 4, 5], [1, 3, 4], [1, 3, 3, 5], [1, 3, 3], [1, 2, 4, 5], [1, 2, 4], [1, 2, 3, 5], [1, 2, 3], [1, 2, 5], [1, 2], [1, 4, 5], [1, 4], [1, 3, 5], [1, 3], [1, 5], [3, 4, 5], [3, 4], [3, 3, 5], [3, 3], [2, 4, 5], [2, 4], [2, 3, 5], [2, 3], [2, 5], [4, 5], [3, 5]]",
+        "isHidden": true
       }
     ]
   },
@@ -11479,6 +32420,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "area = 122122",
         "expectedOutput": "[427,286]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "area = 37",
+        "expectedOutput": "[37, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "area = 10000000",
+        "expectedOutput": "[3200, 3125]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "area = 1",
+        "expectedOutput": "[1, 1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "area = 4",
+        "expectedOutput": "[2, 2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "area = 50",
+        "expectedOutput": "[10, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "area = 10000",
+        "expectedOutput": "[100, 100]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "area = 999999",
+        "expectedOutput": "[1001, 999]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "area = 60",
+        "expectedOutput": "[10, 6]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "area = 987654321",
+        "expectedOutput": "[379721, 2601]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "area = 314159",
+        "expectedOutput": "[314159, 1]",
+        "isHidden": true
       }
     ]
   },
@@ -11518,6 +32519,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [2,4,3,5,1]",
         "expectedOutput": "3"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "20",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1, 5, 3, 4, 2]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,3,2,3,1]",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,2,3,0,-1,-2,-3]",
+        "expectedOutput": "18",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [1]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1]",
+        "expectedOutput": "90",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [-1, -2, -3, -4, -5]",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [10,20,30,40,50]",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   },
@@ -11549,6 +32610,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1], target = 1",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [0,0,0,0,0], target = 0",
+        "expectedOutput": "32",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [1000], target = 1000",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1], target = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [1,2,3,4,5], target = 10",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [0,0,0,0,0,0,0,0,0,0], target = 0",
+        "expectedOutput": "1024",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [10,20,30,40,50], target = 100",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [1,2,3,4,5], target = 3",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [5,5,5,5,5], target = 15",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [10,20,30,40,50], target = 15",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [1,1,1,1,1], target = 3",
+        "expectedOutput": "5",
+        "isHidden": true
       }
     ]
   },
@@ -11579,6 +32700,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "timeSeries = [1,2], duration = 2",
         "expectedOutput": "3"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "timeSeries = [1], duration = 5",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "timeSeries = [10,14,15], duration = 5",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "timeSeries = [0,1,2,3,4], duration = 1",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "timeSeries = [1,2,3,4,5,6,7,8,9,10], duration = 1",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "timeSeries = [1,2,3,4,5], duration = 1",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "timeSeries = [0,5,10,15], duration = 5",
+        "expectedOutput": "20",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "timeSeries = [0,1,2,3,4,5,6,7,8,9], duration = 1",
+        "expectedOutput": "10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "timeSeries = [10,14,15], duration = 4",
+        "expectedOutput": "9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "timeSeries = [1,1,1,1], duration = 2",
+        "expectedOutput": "2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "timeSeries = [1,2], duration = 2",
+        "expectedOutput": "3",
+        "isHidden": true
       }
     ]
   },
@@ -11611,6 +32792,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums1 = [2,4], nums2 = [1,2,3,4]",
         "expectedOutput": "[3,-1]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums1 = [1,2,3,4], nums2 = [4,3,2,1]",
+        "expectedOutput": "[-1, -1, -1, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums1 = [5], nums2 = [5]",
+        "expectedOutput": "[-1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums1 = [1,6,4,8], nums2 = [4,5,1,8,6,7,9]",
+        "expectedOutput": "[8, 7, 5, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums1 = [5,2,6], nums2 = [4,1,5,2,3,6]",
+        "expectedOutput": "[6, 3, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums1 = [2,4], nums2 = [1,2,3,4]",
+        "expectedOutput": "[3, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums1 = [4,1,2], nums2 = [1,3,4,2]",
+        "expectedOutput": "[-1, 3, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums1 = [10,5,6], nums2 = [3,4,2,1,5,7,8,9,10,6]",
+        "expectedOutput": "[-1, 7, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums1 = [2], nums2 = [1,2]",
+        "expectedOutput": "[-1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums1 = [1,3,5,7], nums2 = [1,2,3,4,5,6,7,8]",
+        "expectedOutput": "[2, 4, 6, 8]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums1 = [3,5,8], nums2 = [2,3,4,5,7,8,10]",
+        "expectedOutput": "[4, 7, 10]",
+        "isHidden": true
       }
     ]
   },
@@ -11641,6 +32882,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "Hidden Input 1",
+        "expectedOutput": "Hidden Expected Output 1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "Hidden Input 2",
+        "expectedOutput": "Hidden Expected Output 2",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "Hidden Input 3",
+        "expectedOutput": "Hidden Expected Output 3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "Hidden Input 4",
+        "expectedOutput": "Hidden Expected Output 4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "Hidden Input 5",
+        "expectedOutput": "Hidden Expected Output 5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "Hidden Input 6",
+        "expectedOutput": "Hidden Expected Output 6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "Hidden Input 7",
+        "expectedOutput": "Hidden Expected Output 7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "Hidden Input 8",
+        "expectedOutput": "Hidden Expected Output 8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "Hidden Input 9",
+        "expectedOutput": "Hidden Expected Output 9",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "Hidden Input 10",
+        "expectedOutput": "Hidden Expected Output 10",
+        "isHidden": true
       }
     ]
   },
@@ -11672,6 +32973,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "mat = [[1,2],[3,4]]",
         "expectedOutput": "[1,2,3,4]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "mat = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]",
+        "expectedOutput": "[1, 2, 5, 9, 6, 3, 4, 7, 10, 11, 8, 12]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "mat = [[1,2,3],[4,5,6],[7,8,9]]",
+        "expectedOutput": "[1, 2, 4, 7, 5, 3, 6, 8, 9]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "mat = [[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15],[16,17,18,19,20]]",
+        "expectedOutput": "[1, 2, 6, 11, 7, 3, 4, 8, 12, 16, 17, 13, 9, 5, 10, 14, 18, 19, 15, 20]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "mat = [[1,3,5,7],[10,11,16,20],[23,30,34,60]]",
+        "expectedOutput": "[1, 3, 10, 23, 11, 5, 7, 16, 30, 34, 20, 60]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "mat = [[10000,9999,9998],[9997,9996,9995],[9994,9993,9992],[9991,9990,9989]]",
+        "expectedOutput": "[10000, 9999, 9997, 9994, 9996, 9998, 9995, 9993, 9991, 9990, 9992, 9989]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "mat = [[1000,2000,3000],[4000,5000,6000],[7000,8000,9000],[10000,11000,12000]]",
+        "expectedOutput": "[1000, 2000, 4000, 7000, 5000, 3000, 6000, 8000, 10000, 11000, 9000, 12000]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "mat = [[-10,20,-30,40],[-50,60,-70,80],[-90,100,-110,120]]",
+        "expectedOutput": "[-10, 20, -50, -90, 60, -30, 40, -70, 100, -110, 80, 120]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "mat = [[1,2,3,4,5,6,7],[8,9,10,11,12,13,14],[15,16,17,18,19,20,21],[22,23,24,25,26,27,28],[29,30,31,32,33,34,35]]",
+        "expectedOutput": "[1, 2, 8, 15, 9, 3, 4, 10, 16, 22, 29, 23, 17, 11, 5, 6, 12, 18, 24, 30, 31, 25, 19, 13, 7, 14, 20, 26, 32, 33, 27, 21, 28, 34, 35]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "mat = [[100,200,300,400,500],[600,700,800,900,1000],[1100,1200,1300,1400,1500]]",
+        "expectedOutput": "[100, 200, 600, 1100, 700, 300, 400, 800, 1200, 1300, 900, 500, 1000, 1400, 1500]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "mat = [[10,20,30,40,50,60,70],[80,90,100,110,120,130,140],[150,160,170,180,190,200,210],[220,230,240,250,260,270,280]]",
+        "expectedOutput": "[10, 20, 80, 150, 90, 30, 40, 100, 160, 220, 230, 170, 110, 50, 60, 120, 180, 240, 250, 190, 130, 70, 140, 200, 260, 270, 210, 280]",
+        "isHidden": true
       }
     ]
   },
@@ -11698,6 +33059,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc1",
         "input": "sample_input",
         "expectedOutput": "sample_output"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "words = [\"QwErTy\",\"aSdF\",\"zXcV\"]",
+        "expectedOutput": "['QwErTy', 'aSdF', 'zXcV']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "words = [\"AAAAA\",\"eeeee\",\"QQQqq\",\"zzzzz\"]",
+        "expectedOutput": "['AAAAA', 'eeeee', 'QQQqq', 'zzzzz']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "words = [\"QwErTy\",\"AsDfGh\",\"ZxCvBn\"]",
+        "expectedOutput": "['QwErTy', 'AsDfGh', 'ZxCvBn']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "words = [\"omk\"]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "words = [\"adsdf\",\"sfd\"]",
+        "expectedOutput": "['adsdf', 'sfd']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "words = [\"Flask\",\"kite\",\"BAT\"]",
+        "expectedOutput": "['Flask']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "words = [\"Unbelievable\",\"Incomprehensible\",\"Supernatural\",\"Phenomenal\",\"Transcendent\",\"Metaphysical\",\"Ethereal\",\"Mystical\",\"Enigmatic\",\"Paradoxical\"]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "words = [\"MixedCASE\", \"Keyboard\", \"TESTING\", \"qwerty\", \"ASDF\", \"ZXCV\", \"QwErTy\", \"AsDf\", \"ZxCv\"]",
+        "expectedOutput": "['qwerty', 'ASDF', 'ZXCV', 'QwErTy', 'AsDf', 'ZxCv']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "words = [\"Programming\",\"Python\",\"Keyboard\",\"Typing\",\"Challenge\"]",
+        "expectedOutput": "[]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "words = [\"quick\", \"brown\", \"fox\", \"jumps\", \"over\", \"lazy\", \"dogs\", \"cat\", \"bat\", \"rat\", \"mat\", \"hat\", \"sat\", \"van\", \"pan\", \"tan\", \"man\", \"can\", \"fan\", \"fan\"]",
+        "expectedOutput": "[]",
+        "isHidden": true
       }
     ]
   },
@@ -11730,6 +33151,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "root = [0]",
         "expectedOutput": "[0]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "root = [1,null,2,null,3,null,4,null,5]",
+        "expectedOutput": "[1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "root = [3,1,4,1,3,null,5]",
+        "expectedOutput": "[1, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "root = [2,1,2]",
+        "expectedOutput": "[2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "root = [1,null,2,null,3,null,4]",
+        "expectedOutput": "[1, 2, 3, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "root = [2,2,2]",
+        "expectedOutput": "[2]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "root = [1,null,1,null,1,null,1]",
+        "expectedOutput": "[1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "root = [0]",
+        "expectedOutput": "[0]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "root = [5,2,5,1,3,5,7]",
+        "expectedOutput": "[5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "root = [1,null,3,2,4,null,5,null,null,3,4]",
+        "expectedOutput": "[1, 2, 3, 5, 4, 3, 4]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "root = [1,1,2,2,3]",
+        "expectedOutput": "[2, 1, 3, 1, 2]",
+        "isHidden": true
       }
     ]
   },
@@ -11762,6 +33243,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "k = 3, w = 0, profits = [1,2,3], capital = [0,1,2]",
         "expectedOutput": "6"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "k = 2, w = 3, profits = [8,10,6], capital = [2,5,0]",
+        "expectedOutput": "21",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "k = 4, w = 0, profits = [1,1,1,1], capital = [0,0,0,0]",
+        "expectedOutput": "4",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "k = 5, w = 0, profits = [1,2,3,4,5], capital = [0,1,2,3,4]",
+        "expectedOutput": "15",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "k = 5, w = 0, profits = [10,20,30,40,50], capital = [0,0,0,0,0]",
+        "expectedOutput": "150",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "k = 1, w = 10, profits = [1,2,3], capital = [5,5,5]",
+        "expectedOutput": "13",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "k = 1, w = 5, profits = [1,2,3], capital = [3,4,5]",
+        "expectedOutput": "8",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "k = 3, w = 0, profits = [1,2,3], capital = [0,1,2]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "k = 3, w = 0, profits = [10,20,30], capital = [0,0,0]",
+        "expectedOutput": "60",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "k = 2, w = 1, profits = [1,2,3], capital = [1,1,2]",
+        "expectedOutput": "6",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "k = 1, w = 100, profits = [1000,2000,3000], capital = [1000,2000,3000]",
+        "expectedOutput": "100",
+        "isHidden": true
       }
     ]
   },
@@ -11793,6 +33334,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "nums = [1,2,3,4,3]",
         "expectedOutput": "[2,3,4,-1,4]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "nums = [3,10,4,3,2,1,5]",
+        "expectedOutput": "[10, -1, 5, 5, 5, 5, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "nums = [10,5,7,3,6,2]",
+        "expectedOutput": "[-1, 7, 10, 6, 10, 10]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "nums = [1,5,4,3,2,6]",
+        "expectedOutput": "[5, 6, 6, 6, 6, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "nums = [7,8,9,10,1,2,3,4,5,6]",
+        "expectedOutput": "[8, 9, 10, -1, 2, 3, 4, 5, 6, 7]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "nums = [1,1,1,1,1]",
+        "expectedOutput": "[-1, -1, -1, -1, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "nums = [3,8,4,1,2]",
+        "expectedOutput": "[8, -1, 8, 2, 3]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "nums = [10,5,15,20,25,5,10]",
+        "expectedOutput": "[15, 15, 20, 25, -1, 10, 15]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "nums = [1,2,3,4,5]",
+        "expectedOutput": "[2, 3, 4, 5, -1]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "nums = [5,1,2,3,4]",
+        "expectedOutput": "[-1, 2, 3, 4, 5]",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "nums = [3,1,2]",
+        "expectedOutput": "[-1, 2, 3]",
+        "isHidden": true
       }
     ]
   },
@@ -11823,6 +33424,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "num = -7",
         "expectedOutput": "\"-10\""
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "num = 165",
+        "expectedOutput": "324",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "num = -10000000",
+        "expectedOutput": "-150666343",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "num = 0",
+        "expectedOutput": "0",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "num = 10000000",
+        "expectedOutput": "150666343",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "num = 16807",
+        "expectedOutput": "100000",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "num = 100",
+        "expectedOutput": "202",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "num = -7",
+        "expectedOutput": "-10",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "num = 16",
+        "expectedOutput": "22",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "num = 500000",
+        "expectedOutput": "4151504",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "num = -40353607",
+        "expectedOutput": "-1000000000",
+        "isHidden": true
       }
     ]
   },
@@ -11854,6 +33515,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "score = [10,3,8,9,4]",
         "expectedOutput": "[&quot;Gold Medal&quot;,&quot;5&quot;,&quot;Bronze Medal&quot;,&quot;Silver Medal&quot;,&quot;4&quot;]"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "score = [0,1000000]",
+        "expectedOutput": "['Silver Medal', 'Gold Medal']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "score = [100,90,95,80,75]",
+        "expectedOutput": "['Gold Medal', 'Bronze Medal', 'Silver Medal', '4', '5']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "score = [10,3,8,9,4]",
+        "expectedOutput": "['Gold Medal', '5', 'Bronze Medal', 'Silver Medal', '4']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "score = [100]",
+        "expectedOutput": "['Gold Medal']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "score = [1,2,3,4,5,6,7,8,9,10]",
+        "expectedOutput": "['10', '9', '8', '7', '6', '5', '4', 'Bronze Medal', 'Silver Medal', 'Gold Medal']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "score = [40,10,30,20]",
+        "expectedOutput": "['Gold Medal', '4', 'Silver Medal', 'Bronze Medal']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "score = [42]",
+        "expectedOutput": "['Gold Medal']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "score = [20,10,30,50,40]",
+        "expectedOutput": "['4', '5', 'Bronze Medal', 'Gold Medal', 'Silver Medal']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "score = [40,10,20,30]",
+        "expectedOutput": "['Gold Medal', '4', 'Bronze Medal', 'Silver Medal']",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "score = [1000000,0,500000,250000,750000]",
+        "expectedOutput": "['Gold Medal', '5', 'Bronze Medal', '4', 'Silver Medal']",
+        "isHidden": true
       }
     ]
   },
@@ -11883,6 +33604,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc2",
         "input": "num = 7",
         "expectedOutput": "false"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "num = 100000000",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "num = 28",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "num = 12",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "num = 7",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "num = 6",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "num = 33550336",
+        "expectedOutput": "True",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "num = 27",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "num = 1",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "num = 100",
+        "expectedOutput": "False",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "num = 496",
+        "expectedOutput": "True",
+        "isHidden": true
       }
     ]
   },
@@ -11920,6 +33701,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "n = 4",
         "expectedOutput": "3"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "n = 30",
+        "expectedOutput": "832040",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "n = 4",
+        "expectedOutput": "3",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "n = 2",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "n = 20",
+        "expectedOutput": "6765",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "n = 1",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "n = 10",
+        "expectedOutput": "55",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "n = 5",
+        "expectedOutput": "5",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "n = 8",
+        "expectedOutput": "21",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "n = 29",
+        "expectedOutput": "514229",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "n = 15",
+        "expectedOutput": "610",
+        "isHidden": true
       }
     ]
   },
@@ -11955,6 +33796,66 @@ export const codingProblems: CodingProblem[] = [
         "id": "tc3",
         "input": "amount = 10, coins = [10]",
         "expectedOutput": "1"
+      },
+      {
+        "id": "hidden_tc1",
+        "input": "amount = 0, coins = [1,2,5]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc2",
+        "input": "amount = 5000, coins = [1,5,10,25,50]",
+        "expectedOutput": "432699251",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc3",
+        "input": "amount = 100, coins = [3,7,40,9]",
+        "expectedOutput": "48",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc4",
+        "input": "amount = 6249, coins = [186,419,83,408]",
+        "expectedOutput": "19",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc5",
+        "input": "amount = 15, coins = [1,3,5,7]",
+        "expectedOutput": "19",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc6",
+        "input": "amount = 10, coins = [1,3,4,5]",
+        "expectedOutput": "12",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc7",
+        "input": "amount = 10, coins = [10]",
+        "expectedOutput": "1",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc8",
+        "input": "amount = 50, coins = [1,18,27,34,50]",
+        "expectedOutput": "7",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc9",
+        "input": "amount = 5000, coins = [3,5,7,8,9,10]",
+        "expectedOutput": "351757492460",
+        "isHidden": true
+      },
+      {
+        "id": "hidden_tc10",
+        "input": "amount = 100, coins = [3,6,9]",
+        "expectedOutput": "0",
+        "isHidden": true
       }
     ]
   }
