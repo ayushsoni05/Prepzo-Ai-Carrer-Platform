@@ -28,7 +28,8 @@ import {
   Search,
   Layers,
   TrendingUp,
-  Code
+  Code,
+  Star
 } from 'lucide-react';
 import { type Job } from '@/api/jobs';
 import { showSuccess } from '@/utils/toastManager';
@@ -485,6 +486,43 @@ export function Dashboard() {
                   <p className="text-[9px] font-bold text-white/30 uppercase tracking-widest italic">{feature.sub}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* STAR Story Builder Entry Card */}
+      <div className="mt-10">
+        <div 
+          onClick={() => { window.location.hash = 'star-builder'; }}
+          className="rounded-[40px] p-10 bg-gradient-to-br from-[#13171d] to-black border border-yellow-500/30 shadow-2xl relative overflow-hidden group hover:border-yellow-500/50 transition-colors cursor-pointer"
+        >
+          <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:opacity-20 transition-opacity duration-700 transform group-hover:scale-125">
+            <Star size={240} className="text-yellow-500" />
+          </div>
+          
+          <div className="relative z-10 grid md:grid-cols-2 gap-10 items-center pointer-events-none">
+            <div className="pointer-events-auto">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-full">
+                  <span className="text-[10px] font-black text-yellow-500 uppercase tracking-widest">Behavioral Prep</span>
+                </div>
+              </div>
+              
+              <h2 className="text-3xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic mb-6 leading-none">
+                STAR Story <span className="text-white/40">Builder.</span>
+              </h2>
+              
+              <p className="text-white/50 font-medium tracking-tight leading-relaxed max-w-md mb-8">
+                Format your past experiences into perfect Situation, Task, Action, Result narratives. Build a robust library of behavioral answers that interviewers love.
+              </p>
+              
+              <button 
+                className="group/btn relative h-[55px] px-8 bg-yellow-500 text-black rounded-2xl flex items-center gap-3 overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-xl shadow-yellow-500/20"
+              >
+                <span className="relative z-10 font-black uppercase tracking-widest text-xs">Start Building</span>
+                <ArrowUpRight size={18} className="relative z-10 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+              </button>
             </div>
           </div>
         </div>

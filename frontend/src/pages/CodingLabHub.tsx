@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2 } from 'lucide-react';
+import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2, ChevronLeft } from 'lucide-react';
 import { getCodingProblems, CodingProblem } from '@/api/codingLab';
 import { GridBeam } from '@/components/ui/background-grid-beam';
 
@@ -44,6 +44,12 @@ export const CodingLabHub: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
+            <button 
+              onClick={() => window.location.hash = 'dashboard'} 
+              className="flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-8 text-[10px] font-black uppercase tracking-widest"
+            >
+              <ChevronLeft size={16} /> Back to Dashboard
+            </button>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-2 h-2 bg-[#5ed29c] rounded-full animate-pulse" />
               <span className="text-[10px] font-black text-[#5ed29c] uppercase tracking-[0.4em]">Technical Prep</span>
