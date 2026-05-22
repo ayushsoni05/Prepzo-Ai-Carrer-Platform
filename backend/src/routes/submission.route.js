@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { verifyJWT } from "../middleware/auth.middleware.js";
+import { protect } from "../middleware/auth.middleware.js";
 import {
   createSubmission,
   getProblemSubmissions,
@@ -7,7 +7,7 @@ import {
 
 const router = Router();
 
-router.use(verifyJWT);
+router.use(protect);
 
 router.route("/").post(createSubmission);
 router.route("/problem/:problemId").get(getProblemSubmissions);
