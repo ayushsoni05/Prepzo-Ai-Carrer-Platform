@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2, ChevronLeft } from 'lucide-react';
+import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2, ChevronLeft, Trophy, UserCircle } from 'lucide-react';
 import { getCodingProblems, CodingProblem } from '@/api/codingLab';
 import { GridBeam } from '@/components/ui/background-grid-beam';
+import { useAuthStore } from '@/store/authStore';
 
 export const CodingLabHub: React.FC = () => {
   const [problems, setProblems] = useState<CodingProblem[]>([]);
@@ -11,6 +12,8 @@ export const CodingLabHub: React.FC = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);
   const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
   const [solvedIds, setSolvedIds] = useState<string[]>([]);
+  
+  const { user } = useAuthStore();
 
   useEffect(() => {
     const fetchProblems = async () => {
@@ -65,6 +68,26 @@ export const CodingLabHub: React.FC = () => {
           </div>
           
           <div className="flex flex-col gap-4">
+             {/* Gamification Links */}
+             <div className="flex gap-4 w-full">
+                <button 
+                  onClick={() => window.location.hash = 'leaderboard'}
+                  className="flex-1 px-4 py-3 bg-gradient-to-br from-yellow-500/20 to-yellow-600/5 border border-yellow-500/30 rounded-xl flex items-center justify-center gap-2 hover:bg-yellow-500/30 transition-colors shadow-lg shadow-yellow-500/10 group backdrop-blur-md"
+                >
+                  <Trophy size={16} className="text-yellow-500 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(234,179,8,0.8)]" />
+                  <span className="text-[10px] font-black text-yellow-500 uppercase tracking-widest">Leaderboard</span>
+                </button>
+                <button 
+                  onClick={() => {
+                    if (user?._id) window.location.hash = `portfolio/${user._id}`;
+                  }}
+                  className="flex-1 px-4 py-3 bg-gradient-to-br from-blue-500/20 to-blue-600/5 border border-blue-500/30 rounded-xl flex items-center justify-center gap-2 hover:bg-blue-500/30 transition-colors shadow-lg shadow-blue-500/10 group backdrop-blur-md"
+                >
+                  <UserCircle size={16} className="text-blue-500 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
+                  <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">My Profile</span>
+                </button>
+             </div>
+
              <div className="px-6 py-4 rounded-2xl bg-[#0a0c10] border border-white/5 shadow-2xl flex items-center gap-4">
                 <Code2 className="text-[#5ed29c]" />
                 <div>
