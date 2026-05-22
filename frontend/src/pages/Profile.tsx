@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ActivityCalendar } from 'react-activity-calendar';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
-import { Trophy, Code2, Flame, Award, Loader2, ArrowLeft } from 'lucide-react';
+import { Trophy, Code2, Flame, Award, Loader2, ChevronLeft } from 'lucide-react';
 import api from '../api/axios';
+import { GridBeam } from '@/components/ui/background-grid-beam';
 
 interface ProfileData {
   fullName: string;
@@ -97,170 +98,184 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 font-sans">
-      
-      <main className="max-w-6xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-[#0a0c10] text-white font-rubik selection:bg-[#5ed29c] selection:text-black relative overflow-hidden">
+      <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+        <GridBeam className="w-full h-full" />
+      </div>
+
+      <main className="max-w-6xl mx-auto px-4 py-12 relative z-10">
         <button 
           onClick={() => navigate(-1)}
-          className="flex items-center text-gray-400 hover:text-white mb-6 transition-colors"
+          className="flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-10 text-[10px] font-black uppercase tracking-widest"
         >
-          <ArrowLeft className="w-4 h-4 mr-2" /> Back
+          <ChevronLeft size={16} /> Back
         </button>
 
         {/* Profile Header */}
-        <div className="bg-gray-800 rounded-2xl p-8 border border-gray-700 shadow-xl mb-8 flex flex-col md:flex-row items-center md:items-start gap-8">
+        <div className="bg-[#161a20] rounded-[40px] p-8 md:p-12 border border-white/5 shadow-2xl mb-12 flex flex-col md:flex-row items-center md:items-start gap-10 backdrop-blur-3xl relative overflow-hidden group hover:border-white/20 transition-all">
+          <div className="absolute top-0 right-0 p-6">
+              <div className="text-[10px] text-[#5ed29c] font-bold bg-[#5ed29c]/10 px-3 py-1.5 rounded uppercase tracking-[0.3em]">Verified Profile</div>
+          </div>
           <img 
             src={profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.fullName}`} 
             alt={profile.fullName}
-            className="w-32 h-32 rounded-full border-4 border-gray-700"
+            className="w-32 h-32 md:w-40 md:h-40 rounded-full border-[6px] border-[#0a0c10] shadow-2xl z-10 relative"
           />
-          <div className="flex-1 text-center md:text-left">
-            <h1 className="text-3xl font-bold text-white mb-2">{profile.fullName}</h1>
-            <p className={`text-lg font-semibold ${rank.color} mb-4`}>{rank.title} Developer</p>
+          <div className="flex-1 text-center md:text-left z-10 relative">
+            <h1 className="text-4xl md:text-6xl font-[900] text-white uppercase tracking-tighter italic mb-2">{profile.fullName}</h1>
+            <p className={`text-[12px] font-black uppercase tracking-[0.4em] ${rank.color} mb-8`}>{rank.title} Developer</p>
             
-            <div className="flex flex-wrap justify-center md:justify-start gap-6">
-              <div className="flex items-center gap-2">
-                <div className="p-2 bg-yellow-500/10 rounded-lg">
-                  <Trophy className="w-5 h-5 text-yellow-500" />
+            <div className="flex flex-wrap justify-center md:justify-start gap-8">
+              <div className="flex items-center gap-4">
+                <div className="p-4 bg-[#0a0c10] border border-white/5 shadow-inner rounded-2xl">
+                  <Trophy className="w-6 h-6 text-yellow-500" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400">Total XP</p>
-                  <p className="font-bold text-white">{profile.xp.toLocaleString()}</p>
+                  <p className="text-[9px] font-black text-white/40 uppercase tracking-[0.3em]">Total XP</p>
+                  <p className="text-2xl font-[900] text-white italic">{profile.xp.toLocaleString()}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="p-2 bg-orange-500/10 rounded-lg">
-                  <Flame className="w-5 h-5 text-orange-500" />
+              <div className="flex items-center gap-4">
+                <div className="p-4 bg-[#0a0c10] border border-white/5 shadow-inner rounded-2xl">
+                  <Flame className="w-6 h-6 text-orange-500" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400">Current Streak</p>
-                  <p className="font-bold text-white">{profile.streak} Days</p>
+                  <p className="text-[9px] font-black text-white/40 uppercase tracking-[0.3em]">Current Streak</p>
+                  <p className="text-2xl font-[900] text-white italic">{profile.streak} Days</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="p-2 bg-blue-500/10 rounded-lg">
-                  <Code2 className="w-5 h-5 text-blue-500" />
+              <div className="flex items-center gap-4">
+                <div className="p-4 bg-[#0a0c10] border border-white/5 shadow-inner rounded-2xl">
+                  <Code2 className="w-6 h-6 text-[#5ed29c]" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400">Problems Solved</p>
-                  <p className="font-bold text-white">{profile.stats.totalSolved}</p>
+                  <p className="text-[9px] font-black text-white/40 uppercase tracking-[0.3em]">Problems Solved</p>
+                  <p className="text-2xl font-[900] text-white italic">{profile.stats.totalSolved}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           
           {/* Left Column */}
-          <div className="space-y-8">
+          <div className="space-y-10">
             {/* Badges */}
-            <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700 shadow-xl">
-              <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                <Award className="w-5 h-5 text-purple-400" /> 
+            <div className="bg-[#161a20] rounded-[36px] p-8 border border-white/5 shadow-2xl hover:border-white/20 transition-all group overflow-hidden relative">
+              <div className="absolute -bottom-10 -right-10 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
+                  <Award size={180} />
+              </div>
+              <h2 className="text-2xl font-[900] text-white mb-8 flex items-center gap-3 uppercase tracking-tight italic relative z-10">
+                <Award className="w-6 h-6 text-[#5ed29c]" /> 
                 Badges Earned
               </h2>
               {profile.badges.length > 0 ? (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 relative z-10">
                   {profile.badges.map((b, i) => (
-                    <div key={i} className="bg-gray-700/50 p-4 rounded-xl text-center border border-gray-600 hover:border-purple-500 transition-colors">
-                      <div className="w-10 h-10 mx-auto bg-purple-500/20 rounded-full flex items-center justify-center mb-2">
-                        <Award className="w-6 h-6 text-purple-400" />
+                    <div key={i} className="bg-[#0a0c10] p-5 rounded-2xl text-center border border-white/5 hover:border-[#5ed29c]/50 transition-colors">
+                      <div className="w-12 h-12 mx-auto bg-[#5ed29c]/10 rounded-full flex items-center justify-center mb-3">
+                        <Award className="w-6 h-6 text-[#5ed29c]" />
                       </div>
-                      <p className="text-sm font-semibold text-gray-200">{b.name}</p>
+                      <p className="text-[11px] font-[900] uppercase tracking-widest text-white/80">{b.name}</p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-400 text-center py-4">No badges earned yet. Keep solving!</p>
+                <p className="text-white/30 text-center py-4 text-[10px] uppercase font-bold tracking-widest">No badges earned yet.</p>
               )}
             </div>
           </div>
 
           {/* Right Column */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-10">
             
             {/* Stats Overview */}
-            <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700 shadow-xl">
-              <h2 className="text-xl font-bold text-white mb-6">Solving Stats</h2>
-              <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="bg-[#161a20] rounded-[36px] p-8 border border-white/5 shadow-2xl hover:border-white/20 transition-all">
+              <h2 className="text-2xl font-[900] text-white mb-8 uppercase tracking-tight italic">Solving Signals</h2>
+              <div className="flex flex-col md:flex-row items-center gap-10">
                 <div className="w-48 h-48">
                   {pieData.length > 0 ? (
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <Pie
                           data={pieData}
-                          innerRadius={60}
-                          outerRadius={80}
-                          paddingAngle={5}
+                          innerRadius={65}
+                          outerRadius={90}
+                          paddingAngle={8}
                           dataKey="value"
+                          stroke="none"
                         >
                           {pieData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
                           ))}
                         </Pie>
                         <Tooltip 
-                          contentStyle={{ backgroundColor: '#1F2937', border: 'none', borderRadius: '0.5rem', color: '#fff' }} 
+                          contentStyle={{ backgroundColor: '#0a0c10', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '1rem', color: '#fff', fontWeight: 900, textTransform: 'uppercase' }} 
                           itemStyle={{ color: '#fff' }}
                         />
                       </PieChart>
                     </ResponsiveContainer>
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-500 border-4 border-dashed border-gray-700 rounded-full">
+                    <div className="w-full h-full flex items-center justify-center text-white/30 border-[4px] border-dashed border-white/10 rounded-full text-[10px] font-black uppercase tracking-widest">
                       No Data
                     </div>
                   )}
                 </div>
                 <div className="flex-1 w-full space-y-4">
-                  <div className="flex justify-between items-center p-3 bg-gray-700/30 rounded-lg">
-                    <span className="text-emerald-400 font-medium">Easy</span>
-                    <span className="text-white font-bold">{profile.stats.easy}</span>
+                  <div className="flex justify-between items-center p-4 bg-[#0a0c10] border border-white/5 rounded-[20px]">
+                    <span className="text-emerald-400 font-black uppercase tracking-widest text-[11px]">Easy</span>
+                    <span className="text-white font-[900] text-xl">{profile.stats.easy}</span>
                   </div>
-                  <div className="flex justify-between items-center p-3 bg-gray-700/30 rounded-lg">
-                    <span className="text-yellow-400 font-medium">Medium</span>
-                    <span className="text-white font-bold">{profile.stats.medium}</span>
+                  <div className="flex justify-between items-center p-4 bg-[#0a0c10] border border-white/5 rounded-[20px]">
+                    <span className="text-yellow-400 font-black uppercase tracking-widest text-[11px]">Medium</span>
+                    <span className="text-white font-[900] text-xl">{profile.stats.medium}</span>
                   </div>
-                  <div className="flex justify-between items-center p-3 bg-gray-700/30 rounded-lg">
-                    <span className="text-red-400 font-medium">Hard</span>
-                    <span className="text-white font-bold">{profile.stats.hard}</span>
+                  <div className="flex justify-between items-center p-4 bg-[#0a0c10] border border-white/5 rounded-[20px]">
+                    <span className="text-red-400 font-black uppercase tracking-widest text-[11px]">Hard</span>
+                    <span className="text-white font-[900] text-xl">{profile.stats.hard}</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Heatmap */}
-            <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700 shadow-xl overflow-x-auto">
-              <h2 className="text-xl font-bold text-white mb-6">Contribution Activity</h2>
-              <div className="min-w-[700px]">
+            <div className="bg-[#161a20] rounded-[36px] p-8 border border-white/5 shadow-2xl hover:border-white/20 transition-all overflow-x-auto">
+              <h2 className="text-2xl font-[900] text-white mb-10 uppercase tracking-tight italic">Activity Signal Grid</h2>
+              <div className="min-w-[750px]">
                 <ActivityCalendar 
                   data={heatmapData} 
                   theme={{
-                    light: ['#1f2937', '#064e3b', '#047857', '#10b981', '#34d399'],
-                    dark: ['#1f2937', '#064e3b', '#047857', '#10b981', '#34d399'],
+                    light: ['#0a0c10', '#064e3b', '#047857', '#10b981', '#5ed29c'],
+                    dark: ['#0a0c10', '#064e3b', '#047857', '#10b981', '#5ed29c'],
                   }}
                   colorScheme="dark"
                   labels={{
                     totalCount: `{{count}} submissions in the last 6 months`,
                   }}
+                  blockRadius={4}
+                  blockMargin={6}
+                  blockSize={14}
+                  fontSize={12}
                 />
               </div>
             </div>
 
             {/* Recent Problems */}
-            <div className="bg-gray-800 rounded-2xl p-6 border border-gray-700 shadow-xl">
-              <h2 className="text-xl font-bold text-white mb-4">Recent Submissions</h2>
+            <div className="bg-[#161a20] rounded-[36px] p-8 border border-white/5 shadow-2xl hover:border-white/20 transition-all">
+              <h2 className="text-2xl font-[900] text-white mb-8 uppercase tracking-tight italic">Recent Output</h2>
               {profile.recentProblems.length > 0 ? (
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {profile.recentProblems.map((p, i) => (
-                    <div key={i} className="flex justify-between items-center p-4 bg-gray-700/30 hover:bg-gray-700/50 transition-colors rounded-xl border border-gray-600/50">
+                    <div key={i} className="flex justify-between items-center p-5 bg-[#0a0c10] hover:bg-white/[0.02] transition-colors rounded-[24px] border border-white/5 group">
                       <div>
-                        <p className="font-semibold text-white capitalize">{p.problemId.replace(/-/g, ' ')}</p>
-                        <p className="text-xs text-gray-400">{new Date(p.solvedAt).toLocaleDateString()}</p>
+                        <p className="font-[900] text-[15px] text-white uppercase italic tracking-tight group-hover:text-[#5ed29c] transition-colors">{p.problemId.replace(/-/g, ' ')}</p>
+                        <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest mt-1">{new Date(p.solvedAt).toLocaleDateString()}</p>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        p.difficulty === 'Easy' ? 'bg-emerald-500/10 text-emerald-400' :
-                        p.difficulty === 'Medium' ? 'bg-yellow-500/10 text-yellow-400' :
-                        'bg-red-500/10 text-red-400'
+                      <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
+                        p.difficulty === 'Easy' ? 'bg-emerald-500/5 text-emerald-400 border-emerald-500/20' :
+                        p.difficulty === 'Medium' ? 'bg-yellow-500/5 text-yellow-400 border-yellow-500/20' :
+                        'bg-red-500/5 text-red-400 border-red-500/20'
                       }`}>
                         {p.difficulty}
                       </span>
@@ -268,7 +283,7 @@ const Profile = () => {
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-400 text-center py-4">No recent activity.</p>
+                <p className="text-white/30 text-center py-4 text-[10px] uppercase font-bold tracking-widest">No recent output detected.</p>
               )}
             </div>
 
