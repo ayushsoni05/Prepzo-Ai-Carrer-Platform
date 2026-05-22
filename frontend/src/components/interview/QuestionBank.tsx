@@ -12,8 +12,10 @@ import {
   Filter,
   LayoutGrid,
   List as ListIcon,
-  ChevronDown
+  ChevronDown,
+  Terminal
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { getCategories, getQuestions, InterviewQuestion, CategoryData } from '@/api/questionBank';
 
 interface QuestionBankProps {
@@ -41,6 +43,7 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({
   const [timeLeft, setTimeLeft] = useState(90);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [viewMode, setViewMode] = useState<'flashcard' | 'browse'>(limit ? 'browse' : 'browse');
+  const navigate = useNavigate();
 
   // Fetch categories on mount
   useEffect(() => {
@@ -392,6 +395,17 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({
                       </motion.button>
                     )}
                   </AnimatePresence>
+                  
+                  {/* Solve in Playground Button */}
+                  <button
+                    onClick={() => navigate('/playground', { state: { question: currentQuestion } })}
+                    className="w-full py-4 mt-6 border border-[#5ed29c]/30 rounded-2xl flex items-center justify-center gap-3 bg-[#5ed29c]/5 hover:bg-[#5ed29c]/10 transition-colors group"
+                  >
+                    <Terminal size={16} className="text-[#5ed29c]" />
+                    <span className="text-[10px] font-black text-[#5ed29c] uppercase tracking-widest italic group-hover:scale-105 transition-transform">
+                      Solve in Code Playground
+                    </span>
+                  </button>
                 </div>
 
                 {/* Controls */}
@@ -447,6 +461,16 @@ export const QuestionBank: React.FC<QuestionBankProps> = ({
                       </div>
                       <div className="p-4 bg-white/[0.02] rounded-xl border border-white/5">
                         <p className="text-sm text-white/40 italic leading-relaxed">{q.answer}</p>
+                      </div>
+                      
+                      <div className="mt-4 flex justify-end">
+                        <button
+                          onClick={() => navigate('/playground', { state: { question: q } })}
+                          className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-[#5ed29c]/10 text-white/40 hover:text-[#5ed29c] rounded-xl transition-colors border border-white/5 hover:border-[#5ed29c]/30"
+                        >
+                          <Terminal size={14} />
+                          <span className="text-[10px] font-black uppercase tracking-widest italic">Solve Code</span>
+                        </button>
                       </div>
                     </motion.div>
                   ))}

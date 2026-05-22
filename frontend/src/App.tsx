@@ -27,8 +27,10 @@ import { NotesLibrary } from '@/pages/NotesLibrary';
 import { NoteDetail } from '@/pages/NoteDetail';
 import { NotFound } from '@/components/ui/not-found-2';
 import { PdfReaderPage } from '@/pages/PdfReaderPage';
+import { InteractivePlayground } from '@/pages/InteractivePlayground';
+import { StarStoryBuilder } from '@/pages/StarStoryBuilder';
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'star-builder' | '404';
 
 // Get initial page from URL hash or default to 'landing'
 const getPageFromHash = (): Page => {
@@ -36,7 +38,7 @@ const getPageFromHash = (): Page => {
   if (!hash) return 'landing';
   // Allow parameters in hash like #reader?id=123
   const pageName = hash.split('?')[0];
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'star-builder'];
   return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 
@@ -402,6 +404,9 @@ export default function App() {
         {currentPage === 'onboarding' && <OnboardingPage onNavigate={handleNavigate} />}
         {currentPage === 'tetris-demo' && <TetrisDemo />}
         {currentPage === 'tailwind-awesome' && <TailwindAwesomeDemo />}
+        {currentPage === 'question-bank' && <QuestionBankPage />}
+        {currentPage === 'playground' && <InteractivePlayground />}
+        {currentPage === 'star-builder' && <StarStoryBuilder />}
         {currentPage === 'reader' && <PdfReaderPage />}
         {currentPage === '404' && <NotFound onNavigate={handleNavigate} />}
       </div>

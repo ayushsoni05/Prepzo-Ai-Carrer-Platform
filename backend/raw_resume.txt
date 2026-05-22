@@ -1,0 +1,62 @@
+Ayush Soni
++91-9414548280|aayushsonisoni58@gmail.com|Didwana, Rajasthan, India
+linkedin.com/in/ayush-soni05|github.com/ayushsoni05
+Education
+Chitkara University2022 – 2026 (Expected)
+B.E. in Computer Science| CGPA: 7.89 / 10.0Baddi, Himachal Pradesh
+Ornate EduSystem2021 – 2022
+Senior Secondary (RBSE – XII)Didwana, Rajasthan
+Swami Vivekanand Govt. Model School2019 – 2020
+Secondary (CBSE – X)Didwana, Rajasthan
+Technical Skills
+Languages:C, C++, Java, Python, JavaScript, SQL
+Frontend:HTML5, CSS3, JavaScript (ES6+), React.js, Tailwind CSS, Responsive Design
+Backend:Node.js, Express.js, RESTful APIs, JWT Authentication
+Databases:MongoDB, MySQL, Mongoose ODM
+AI/ML:TensorFlow, Keras, OpenCV, MediaPipe, NumPy, Deep Learning, CNN
+Tools:Git, GitHub, VS Code, Postman, Linux, CI/CD, Render, Vercel
+Core CS:Data Structures & Algorithms, OOP, DBMS, Computer Networks, OS
+Projects
+Glimmr – Jewelry E-Commerce PlatformJun 2025 – Dec 2025
+React.js, Node.js, Express.js, MongoDB, REST APIs, JWT
+–Engineered afull-stack e-commerce applicationwith React.js frontend and Node.js/Express.js backend, serving50+
+product listingswith cart, checkout, and order management.
+–Designed12+ RESTful API endpointswith JWT authentication, input validation, and error handling for secure data flow.
+–IntegratedMongoDB with Mongoose ODMfor data modeling and deployed onRender/Vercelwith CI/CD, achieving
+99.5% uptime.
+Hand Gesture Control for Gaming
+Jan 2025 – May 2025
+Python, OpenCV, MediaPipe, NumPy, Computer Vision
+–Developed areal-time computer vision systemusing OpenCV and MediaPipe translating hand gestures into keyboard
+inputs at30+ FPS.
+–Implemented21-point hand landmark detectionwith gesture-to-action mapping, achieving95%+ recognition accuracy
+across 6 gestures.
+–Optimized pipeline withmulti-threaded video captureand ROI-based detection, reducing latency by30%(120ms to
+84ms).
+EmoVision – Emotion & Gender Detection
+Jun 2024 – Dec 2024
+Python, TensorFlow, Keras, OpenCV, CNN
+–Built adeep learning facial analysis systemusing CNNs for emotion classification (7 classes) and gender prediction from
+live webcam.
+–Trained CNN models onFER-2013 (35K+ images), achieving68% emotionand93% gender accuracyvia
+hyperparameter tuning and data augmentation.
+–IntegratedHaar Cascade + TensorFlow inference pipelineprocessing25+ FPSwith grayscale normalization for
+real-time prediction.
+Certifications
+•
+Introduction to Software Product Management– Coursera (University of Alberta)
+•
+Agile Planning for Software Products– Coursera (University of Alberta)
+•
+Client Needs and Software Requirements– Coursera (University of Alberta)
+Achievements & Leadership
+•
+Securedpodium finish (Top 3)in inter-collegeCoding Ninjas Competitive Programming Contestamong200+
+participants.
+•
+Solved300+ DSA problemsacross multiple competitive programming and coding practice platforms, strengthening
+problem-solving skills.
+•
+Led3+ team-based academic projects, contributing to planning, architecture design, coding, and code review processes.
+•
+Completed5+ technical workshopson full-stack development, Python, and cloud technologies at university level.

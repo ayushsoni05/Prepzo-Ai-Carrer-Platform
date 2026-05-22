@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavItem } from './NavItem';
-import { Home, FileText, Brain, Briefcase, Settings, Lock } from 'lucide-react';
+import { Home, FileText, Brain, Briefcase, Settings, Lock, Terminal, Star } from 'lucide-react';
 
 interface MobileNavProps {
   active: string;
@@ -14,6 +14,8 @@ const navItems = [
   { label: 'Resume', icon: FileText, id: 'resume' },
   { label: 'Assessment', icon: Brain, id: 'assessment' },
   { label: 'Jobs', icon: Briefcase, id: 'jobs' },
+  { label: 'Code', icon: Terminal, id: 'playground' },
+  { label: 'STAR', icon: Star, id: 'star-builder' },
   { label: 'Settings', icon: Settings, id: 'settings' },
 ];
 

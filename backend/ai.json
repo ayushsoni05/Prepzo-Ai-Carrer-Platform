@@ -1,0 +1,176 @@
+{
+  "name": "Ayush Soni",
+  "email": "aayushsonisoni58@gmail.com",
+  "phone": "+91-9414548280",
+  "linkedin": "https://linkedin.com/in/ayush-soni05",
+  "github": "https://github.com/ayushsoni05",
+  "summary": "",
+  "education": [
+    {
+      "degree": "B.E. in Computer Science",
+      "fieldOfStudy": "",
+      "institution": "Chitkara University",
+      "location": "Baddi, Himachal Pradesh",
+      "gpa": "7.89 / 10.0",
+      "startDate": "2022",
+      "endDate": "2026 (Expected)"
+    },
+    {
+      "degree": "Senior Secondary RBSE XII",
+      "fieldOfStudy": "",
+      "institution": "Ornate EduSystem",
+      "location": "Didwana, Rajasthan",
+      "gpa": "",
+      "startDate": "2021",
+      "endDate": "2022"
+    },
+    {
+      "degree": "Secondary CBSE X",
+      "fieldOfStudy": "",
+      "institution": "Swami Vivekan and Govt. Model School",
+      "location": "Didwana, Rajasthan",
+      "gpa": "",
+      "startDate": "2019",
+      "endDate": "2020"
+    }
+  ],
+  "experience": [],
+  "projects": [
+    {
+      "name": "Glimmr – Jewelry E-Commerce Platform",
+      "description": [
+        "Engineered a full-stack e-commerce application with React.js frontend and Node.js/Express.js backend, serving 50+ product listings with cart, checkout, and order management.",
+        "Designed 12+ RESTful API endpoints with JWT authentication, input validation, and error handling for secure data flow.",
+        "Integrated MongoDB with Mongoose ODM for data modeling and deployed onRender/Vercel with CI/CD, achieving 99.5% uptime."
+      ],
+      "technologies": [
+        "React.js",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "REST APIs",
+        "JWT"
+      ],
+      "highlights": [
+        "Engineered a full-stack e-commerce application with React.js frontend and Node.js/Express.js backend, serving 50+ product listings with cart, checkout, and order management.",
+        "Designed 12+ RESTful API endpoints with JWT authentication, input validation, and error handling for secure data flow.",
+        "Integrated MongoDB with Mongoose ODM for data modeling and deployed onRender/Vercel with CI/CD, achieving 99.5% uptime."
+      ],
+      "link": "",
+      "date": "Jun 2025 – Dec 2025"
+    },
+    {
+      "name": "Hand Gesture Control for Gaming",
+      "description": [
+        "Developed a real-time computer vision system using OpenCV and MediaPipe translating hand gestures into keyboard inputs at 30+ FPS.",
+        "Implemented 21- point hand landmark detection with gesture-to-action mapping, achieving 95%+ recognition accuracy across 6 gestures.",
+        "Optimized pipeline with multi-threaded video capture and ROI-based detection, reducing latency by 30%(120 ms to 84 ms)."
+      ],
+      "technologies": [
+        "Python",
+        "OpenCV",
+        "MediaPipe",
+        "NumPy",
+        "Computer Vision"
+      ],
+      "highlights": [
+        "Developed a real-time computer vision system using OpenCV and MediaPipe translating hand gestures into keyboard inputs at 30+ FPS.",
+        "Implemented 21- point hand landmark detection with gesture-to-action mapping, achieving 95%+ recognition accuracy across 6 gestures.",
+        "Optimized pipeline with multi-threaded video capture and ROI-based detection, reducing latency by 30%(120 ms to 84 ms)."
+      ],
+      "link": "",
+      "date": "Jan 2025 – May 2025"
+    },
+    {
+      "name": "EmoVision – Emotion & Gender Detection",
+      "description": [
+        "Built a deep learning facial analysis system using CNNs for emotion classification (7 classes) and gender prediction from live webcam.",
+        "Trained CNN models onFER-2013 (35 K+ images), achieving 68% emotion and 93% gender accuracy via hyperparameter tuning and data augmentation.",
+        "Integrated Haar Cascade + TensorFlow inference pipelineprocessing 25+ FPS with grayscale normalization for real-time prediction."
+      ],
+      "technologies": [
+        "Python",
+        "TensorFlow",
+        "Keras",
+        "OpenCV",
+        "CNN"
+      ],
+      "highlights": [
+        "Built a deep learning facial analysis system using CNNs for emotion classification (7 classes) and gender prediction from live webcam.",
+        "Trained CNN models onFER-2013 (35 K+ images), achieving 68% emotion and 93% gender accuracy via hyperparameter tuning and data augmentation.",
+        "Integrated Haar Cascade + TensorFlow inference pipelineprocessing 25+ FPS with grayscale normalization for real-time prediction."
+      ],
+      "link": "",
+      "date": "Jun 2024 – Dec 2024"
+    }
+  ],
+  "skills": [
+    "JavaScript",
+    "Python",
+    "Java",
+    "CSS",
+    "React",
+    "Node.js",
+    "Express",
+    "MongoDB",
+    "MySQL",
+    "Git",
+    "GitHub",
+    "CI/CD",
+    "Deep Learning",
+    "Data Structures",
+    "Algorithms",
+    "C",
+    "C++",
+    "SQL",
+    "HTML 5",
+    "CSS 3",
+    "JavaScript (ES 6+)",
+    "React.js",
+    "Tailwind CSS",
+    "Responsive Design",
+    "Express.js",
+    "RESTful APIs",
+    "JWT Authentication",
+    "Mongoose ODM",
+    "TensorFlow",
+    "Keras",
+    "OpenCV",
+    "MediaPipe",
+    "NumPy",
+    "CNN",
+    "VS Code",
+    "Postman",
+    "Linux",
+    "Render",
+    "Vercel",
+    "Data Structures & Algorithms",
+    "OOP",
+    "DBMS",
+    "Computer Networks",
+    "OS"
+  ],
+  "certifications": [
+    {
+      "name": "Introduction to Software Product Management",
+      "issuer": "Coursera (University of Alberta)",
+      "date": ""
+    },
+    {
+      "name": "Agile Planning for Software Products",
+      "issuer": "Coursera (University of Alberta)",
+      "date": ""
+    },
+    {
+      "name": "Client Needs and Software Requirements",
+      "issuer": "Coursera (University of Alberta)",
+      "date": ""
+    }
+  ],
+  "achievements": [
+    "Securedpodium finish (Top 3)in inter-collegeCoding Ninjas Competitive Programming Contestamong 200+ participants.",
+    "Solved 300+ DSA problemsacross multiple competitive programming and coding practice platforms, strengthening problem-solving skills.",
+    "Led 3+ team-based academic projects, contributing to planning, architecture design, coding, and code review processes.",
+    "Completed 5+ technical workshopson full-stack development, Python, and cloud technologies at university level."
+  ]
+}
