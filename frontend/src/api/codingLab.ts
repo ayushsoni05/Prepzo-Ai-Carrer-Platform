@@ -40,7 +40,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[]}\n */\nfunction twoSum(nums, target) {\n    \n}",
       "python": "class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        pass",
-      "cpp": "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        \n    }\n};"
+      "cpp": "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -64,10 +65,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-1",
     "title": "Reverse a Substring 1",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 59.2,
+    "difficulty": "Easy",
+    "acceptanceRate": 36.7,
     "companyTags": [
-      "Uber"
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -76,7 +77,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -95,11 +97,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-2",
     "title": "Detect Cycle in Graph 2",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 40.8,
+    "difficulty": "Hard",
+    "acceptanceRate": 30.9,
     "companyTags": [
-      "Apple",
-      "Uber"
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -108,7 +109,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -127,10 +129,9 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-3",
     "title": "Maximum Path Sum 3",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 62.9,
+    "difficulty": "Easy",
+    "acceptanceRate": 33.9,
     "companyTags": [
-      "Uber",
       "Google"
     ],
     "hints": [
@@ -140,7 +141,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -159,10 +161,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-4",
     "title": "Coin Change Variant 4",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 52.6,
+    "difficulty": "Medium",
+    "acceptanceRate": 53.2,
     "companyTags": [
-      "Microsoft"
+      "Uber",
+      "Netflix"
     ],
     "hints": [
       "Think about edge cases.",
@@ -171,7 +174,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -191,9 +195,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Longest Increasing Subsequence 5",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 32.6,
+    "acceptanceRate": 35,
     "companyTags": [
-      "Meta"
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -202,7 +206,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -221,10 +226,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-6",
     "title": "Merge Overlapping Intervals 6",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 68.1,
+    "difficulty": "Easy",
+    "acceptanceRate": 54,
     "companyTags": [
-      "Meta"
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -233,7 +238,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -252,11 +258,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-7",
     "title": "Valid Parentheses Combination 7",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 65.9,
+    "difficulty": "Hard",
+    "acceptanceRate": 60.8,
     "companyTags": [
-      "Google",
-      "Tesla"
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -265,7 +270,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -284,11 +290,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-8",
     "title": "Word Break 8",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 66.4,
+    "difficulty": "Hard",
+    "acceptanceRate": 35.9,
     "companyTags": [
-      "Meta",
-      "Stripe"
+      "Apple",
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -297,7 +303,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -317,10 +324,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Kth Largest Element 9",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 57.5,
+    "acceptanceRate": 49.1,
     "companyTags": [
       "Apple",
-      "Meta"
+      "Tesla"
     ],
     "hints": [
       "Think about edge cases.",
@@ -329,7 +336,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -349,9 +357,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Find the Missing Element in Array 10",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 63.6,
+    "acceptanceRate": 56.5,
     "companyTags": [
-      "Stripe"
+      "Apple",
+      "Microsoft",
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -360,7 +370,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -380,10 +391,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Reverse a Substring 11",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 41.5,
+    "acceptanceRate": 30.1,
     "companyTags": [
+      "Amazon",
       "Apple",
-      "Airbnb"
+      "Netflix"
     ],
     "hints": [
       "Think about edge cases.",
@@ -392,7 +404,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -411,11 +424,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-12",
     "title": "Detect Cycle in Graph 12",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 56.9,
+    "difficulty": "Easy",
+    "acceptanceRate": 49.8,
     "companyTags": [
-      "Airbnb",
-      "Apple"
+      "Meta",
+      "Tesla",
+      "Stripe"
     ],
     "hints": [
       "Think about edge cases.",
@@ -424,7 +438,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -444,10 +459,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Maximum Path Sum 13",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 51.2,
+    "acceptanceRate": 30.2,
     "companyTags": [
-      "Microsoft",
-      "Netflix"
+      "Google",
+      "Airbnb",
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -456,7 +472,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -475,11 +492,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-14",
     "title": "Coin Change Variant 14",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 45.8,
+    "difficulty": "Hard",
+    "acceptanceRate": 62.3,
     "companyTags": [
       "Apple",
-      "Uber"
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -488,7 +505,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -507,12 +525,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-15",
     "title": "Longest Increasing Subsequence 15",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 68.5,
+    "difficulty": "Hard",
+    "acceptanceRate": 32.7,
     "companyTags": [
-      "ByteDance",
+      "Netflix",
       "Apple",
-      "Stripe"
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -521,7 +539,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -541,8 +560,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Merge Overlapping Intervals 16",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 39.1,
+    "acceptanceRate": 46.5,
     "companyTags": [
+      "Uber",
       "Airbnb"
     ],
     "hints": [
@@ -552,7 +572,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -571,10 +592,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-17",
     "title": "Valid Parentheses Combination 17",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 42.8,
+    "difficulty": "Easy",
+    "acceptanceRate": 32.7,
     "companyTags": [
-      "Airbnb"
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -583,7 +604,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -603,9 +625,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Word Break 18",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 37.5,
+    "acceptanceRate": 37.7,
     "companyTags": [
-      "Google"
+      "ByteDance"
     ],
     "hints": [
       "Think about edge cases.",
@@ -614,7 +636,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -633,11 +656,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-19",
     "title": "Kth Largest Element 19",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 43.4,
+    "difficulty": "Medium",
+    "acceptanceRate": 42.7,
     "companyTags": [
       "Airbnb",
-      "Microsoft",
+      "Tesla",
       "Meta"
     ],
     "hints": [
@@ -647,7 +670,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -667,9 +691,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Find the Missing Element in Array 20",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 48.7,
+    "acceptanceRate": 34.7,
     "companyTags": [
-      "Tesla"
+      "Google",
+      "Apple",
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -678,7 +704,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -698,8 +725,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Reverse a Substring 21",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 53.1,
+    "acceptanceRate": 56,
     "companyTags": [
+      "Apple",
       "ByteDance"
     ],
     "hints": [
@@ -709,7 +737,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -728,10 +757,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-22",
     "title": "Detect Cycle in Graph 22",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 54.5,
+    "difficulty": "Medium",
+    "acceptanceRate": 45.7,
     "companyTags": [
-      "ByteDance"
+      "Apple",
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -740,7 +770,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -759,11 +790,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-23",
     "title": "Maximum Path Sum 23",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 42.7,
+    "difficulty": "Hard",
+    "acceptanceRate": 54.4,
     "companyTags": [
       "Stripe",
-      "Apple",
       "Meta"
     ],
     "hints": [
@@ -773,7 +803,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -792,12 +823,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-24",
     "title": "Coin Change Variant 24",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 52.4,
+    "difficulty": "Hard",
+    "acceptanceRate": 50,
     "companyTags": [
-      "Meta",
       "Amazon",
-      "Apple"
+      "Google",
+      "ByteDance"
     ],
     "hints": [
       "Think about edge cases.",
@@ -806,7 +837,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -826,10 +858,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Longest Increasing Subsequence 25",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 60.6,
+    "acceptanceRate": 39.9,
     "companyTags": [
-      "Netflix",
-      "Airbnb"
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -838,7 +869,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -857,10 +889,9 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-26",
     "title": "Merge Overlapping Intervals 26",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 43.3,
+    "difficulty": "Easy",
+    "acceptanceRate": 43.5,
     "companyTags": [
-      "Amazon",
       "Netflix"
     ],
     "hints": [
@@ -870,7 +901,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -889,11 +921,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-27",
     "title": "Valid Parentheses Combination 27",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 56.9,
+    "difficulty": "Easy",
+    "acceptanceRate": 33,
     "companyTags": [
-      "Google",
-      "Tesla"
+      "Uber",
+      "Airbnb",
+      "ByteDance"
     ],
     "hints": [
       "Think about edge cases.",
@@ -902,7 +935,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -922,9 +956,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Word Break 28",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 47.3,
+    "acceptanceRate": 50.8,
     "companyTags": [
-      "Airbnb"
+      "Amazon",
+      "Netflix"
     ],
     "hints": [
       "Think about edge cases.",
@@ -933,7 +968,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -952,10 +988,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-29",
     "title": "Kth Largest Element 29",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 50.2,
+    "difficulty": "Hard",
+    "acceptanceRate": 67.3,
     "companyTags": [
-      "Airbnb"
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -964,7 +1000,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -983,12 +1020,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-30",
     "title": "Find the Missing Element in Array 30",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 50.6,
+    "difficulty": "Easy",
+    "acceptanceRate": 49.4,
     "companyTags": [
-      "Google",
       "Apple",
-      "Airbnb"
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -997,7 +1033,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1016,12 +1053,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-31",
     "title": "Reverse a Substring 31",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 57.9,
+    "difficulty": "Hard",
+    "acceptanceRate": 45.7,
     "companyTags": [
-      "Netflix",
       "Apple",
-      "ByteDance"
+      "Netflix",
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1030,7 +1067,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1049,11 +1087,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-32",
     "title": "Detect Cycle in Graph 32",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 31.1,
+    "difficulty": "Hard",
+    "acceptanceRate": 67.1,
     "companyTags": [
-      "Uber",
-      "Google"
+      "Google",
+      "Amazon",
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1062,7 +1101,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1081,11 +1121,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-33",
     "title": "Maximum Path Sum 33",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 62.4,
+    "difficulty": "Medium",
+    "acceptanceRate": 41.8,
     "companyTags": [
-      "Stripe",
-      "Meta"
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1094,7 +1133,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1113,12 +1153,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-34",
     "title": "Coin Change Variant 34",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 53.3,
+    "difficulty": "Easy",
+    "acceptanceRate": 36.1,
     "companyTags": [
-      "Apple",
-      "Meta",
-      "Microsoft"
+      "Microsoft",
+      "Netflix"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1127,7 +1166,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1146,10 +1186,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-35",
     "title": "Longest Increasing Subsequence 35",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 34.4,
+    "difficulty": "Medium",
+    "acceptanceRate": 37.8,
     "companyTags": [
-      "Apple"
+      "Apple",
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1158,7 +1199,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1177,12 +1219,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-36",
     "title": "Merge Overlapping Intervals 36",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 60.1,
+    "difficulty": "Medium",
+    "acceptanceRate": 42,
     "companyTags": [
+      "ByteDance",
       "Google",
-      "Apple",
-      "Uber"
+      "Tesla"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1191,7 +1233,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1210,10 +1253,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-37",
     "title": "Valid Parentheses Combination 37",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 50.8,
+    "difficulty": "Hard",
+    "acceptanceRate": 66.8,
     "companyTags": [
-      "Meta"
+      "Google",
+      "Microsoft",
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1222,7 +1267,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1242,10 +1288,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Word Break 38",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 30.4,
+    "acceptanceRate": 42.7,
     "companyTags": [
-      "Amazon",
-      "Uber"
+      "Uber",
+      "Meta",
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1254,7 +1301,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1273,11 +1321,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-39",
     "title": "Kth Largest Element 39",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 38.4,
+    "difficulty": "Easy",
+    "acceptanceRate": 46.1,
     "companyTags": [
-      "Stripe",
-      "Uber"
+      "Amazon",
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1286,7 +1334,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1305,10 +1354,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-40",
     "title": "Find the Missing Element in Array 40",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 57.5,
+    "difficulty": "Easy",
+    "acceptanceRate": 31.2,
     "companyTags": [
-      "Airbnb"
+      "Apple",
+      "Stripe",
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1317,7 +1368,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1336,11 +1388,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-41",
     "title": "Reverse a Substring 41",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 54.6,
+    "difficulty": "Hard",
+    "acceptanceRate": 39.2,
     "companyTags": [
+      "Meta",
       "Microsoft",
-      "Google"
+      "Tesla"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1349,7 +1402,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1368,10 +1422,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-42",
     "title": "Detect Cycle in Graph 42",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 33.2,
+    "difficulty": "Hard",
+    "acceptanceRate": 66.2,
     "companyTags": [
-      "Airbnb"
+      "Tesla",
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1380,7 +1435,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1400,10 +1456,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Maximum Path Sum 43",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 65.1,
+    "acceptanceRate": 55,
     "companyTags": [
       "Google",
-      "Amazon"
+      "Uber",
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1412,7 +1469,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1432,10 +1490,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Coin Change Variant 44",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 39.3,
+    "acceptanceRate": 32.1,
     "companyTags": [
-      "Microsoft",
-      "Amazon"
+      "Airbnb",
+      "ByteDance"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1444,7 +1502,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1463,11 +1522,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-45",
     "title": "Longest Increasing Subsequence 45",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 65.6,
+    "difficulty": "Easy",
+    "acceptanceRate": 64.7,
     "companyTags": [
-      "Tesla",
-      "Meta"
+      "Apple"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1476,7 +1534,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1495,11 +1554,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-46",
     "title": "Merge Overlapping Intervals 46",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 51.1,
+    "difficulty": "Easy",
+    "acceptanceRate": 39.9,
     "companyTags": [
-      "Tesla",
-      "Airbnb"
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1508,7 +1566,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1527,10 +1586,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-47",
     "title": "Valid Parentheses Combination 47",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 57.2,
+    "difficulty": "Hard",
+    "acceptanceRate": 39.3,
     "companyTags": [
-      "Microsoft"
+      "Meta",
+      "Stripe"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1539,7 +1599,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1558,12 +1619,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-48",
     "title": "Word Break 48",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 44.9,
+    "difficulty": "Hard",
+    "acceptanceRate": 50.5,
     "companyTags": [
-      "Uber",
-      "Apple",
-      "Airbnb"
+      "Apple"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1572,7 +1631,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1591,11 +1651,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-49",
     "title": "Kth Largest Element 49",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 37.3,
+    "difficulty": "Hard",
+    "acceptanceRate": 45.1,
     "companyTags": [
-      "Amazon",
-      "Google"
+      "Tesla",
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1604,7 +1664,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1624,11 +1685,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Find the Missing Element in Array 50",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 53.8,
+    "acceptanceRate": 61.2,
     "companyTags": [
-      "Apple",
-      "Airbnb",
-      "Tesla"
+      "Microsoft",
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1637,7 +1697,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1657,11 +1718,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Reverse a Substring 51",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 39.6,
+    "acceptanceRate": 41.7,
     "companyTags": [
-      "Meta",
-      "Netflix",
-      "Tesla"
+      "Apple",
+      "Microsoft",
+      "Stripe"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1670,7 +1731,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1689,10 +1751,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-52",
     "title": "Detect Cycle in Graph 52",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 37,
+    "difficulty": "Easy",
+    "acceptanceRate": 32.8,
     "companyTags": [
-      "Google"
+      "Airbnb",
+      "Netflix",
+      "Apple"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1701,7 +1765,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1720,11 +1785,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-53",
     "title": "Maximum Path Sum 53",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 60.3,
+    "difficulty": "Easy",
+    "acceptanceRate": 32.1,
     "companyTags": [
-      "Uber",
-      "Google"
+      "Apple",
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1733,7 +1798,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1753,11 +1819,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Coin Change Variant 54",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 60.8,
+    "acceptanceRate": 50,
     "companyTags": [
-      "Tesla",
-      "Apple",
-      "Amazon"
+      "Google",
+      "Amazon",
+      "Tesla"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1766,7 +1832,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1785,10 +1852,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-55",
     "title": "Longest Increasing Subsequence 55",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 64.5,
+    "difficulty": "Hard",
+    "acceptanceRate": 55.6,
     "companyTags": [
-      "Airbnb"
+      "Stripe"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1797,7 +1864,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1817,10 +1885,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Merge Overlapping Intervals 56",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 65.3,
+    "acceptanceRate": 54.9,
     "companyTags": [
+      "Stripe",
       "Airbnb",
-      "Meta"
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1829,7 +1898,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1849,11 +1919,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Valid Parentheses Combination 57",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 30.3,
+    "acceptanceRate": 58,
     "companyTags": [
-      "Netflix",
-      "Airbnb",
-      "Microsoft"
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1862,7 +1930,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1881,11 +1950,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-58",
     "title": "Word Break 58",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 61,
+    "difficulty": "Medium",
+    "acceptanceRate": 36.5,
     "companyTags": [
-      "ByteDance",
-      "Apple",
+      "Uber",
+      "Tesla",
       "Meta"
     ],
     "hints": [
@@ -1895,7 +1964,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1914,10 +1984,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-59",
     "title": "Kth Largest Element 59",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 64.3,
+    "difficulty": "Easy",
+    "acceptanceRate": 40.1,
     "companyTags": [
-      "Stripe"
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1926,7 +1996,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1945,10 +2016,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-60",
     "title": "Find the Missing Element in Array 60",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 40.3,
+    "difficulty": "Easy",
+    "acceptanceRate": 30.7,
     "companyTags": [
-      "Amazon"
+      "Uber",
+      "ByteDance",
+      "Tesla"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1957,7 +2030,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -1976,12 +2050,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-61",
     "title": "Reverse a Substring 61",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 53.5,
+    "difficulty": "Medium",
+    "acceptanceRate": 44.9,
     "companyTags": [
-      "Meta",
-      "Google",
-      "Stripe"
+      "Apple"
     ],
     "hints": [
       "Think about edge cases.",
@@ -1990,7 +2062,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2009,12 +2082,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-62",
     "title": "Detect Cycle in Graph 62",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 42.9,
+    "difficulty": "Medium",
+    "acceptanceRate": 41.8,
     "companyTags": [
-      "Microsoft",
-      "Apple",
-      "Tesla"
+      "ByteDance",
+      "Airbnb",
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2023,7 +2096,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2042,12 +2116,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-63",
     "title": "Maximum Path Sum 63",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 39.8,
+    "difficulty": "Easy",
+    "acceptanceRate": 36.4,
     "companyTags": [
-      "Google",
-      "Amazon",
-      "Apple"
+      "Netflix"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2056,7 +2128,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2076,10 +2149,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Coin Change Variant 64",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 38.3,
+    "acceptanceRate": 65,
     "companyTags": [
-      "Airbnb",
-      "Meta"
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2088,7 +2160,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2107,10 +2180,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-65",
     "title": "Longest Increasing Subsequence 65",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 41.5,
+    "difficulty": "Medium",
+    "acceptanceRate": 36.9,
     "companyTags": [
-      "Meta"
+      "Microsoft",
+      "Google",
+      "Apple"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2119,7 +2194,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2138,11 +2214,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-66",
     "title": "Merge Overlapping Intervals 66",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 55.4,
+    "difficulty": "Easy",
+    "acceptanceRate": 37.9,
     "companyTags": [
-      "Meta",
-      "Microsoft"
+      "Google",
+      "Stripe",
+      "ByteDance"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2151,7 +2228,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2170,12 +2248,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-67",
     "title": "Valid Parentheses Combination 67",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 37.6,
+    "difficulty": "Easy",
+    "acceptanceRate": 61.3,
     "companyTags": [
-      "Stripe",
-      "Airbnb",
-      "Google"
+      "Tesla"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2184,7 +2260,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2203,11 +2280,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-68",
     "title": "Word Break 68",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 48,
+    "difficulty": "Hard",
+    "acceptanceRate": 35.8,
     "companyTags": [
-      "Google",
-      "Amazon"
+      "Tesla",
+      "Meta",
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2216,7 +2294,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2235,12 +2314,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-69",
     "title": "Kth Largest Element 69",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 46.6,
+    "difficulty": "Easy",
+    "acceptanceRate": 62.9,
     "companyTags": [
-      "Meta",
-      "Amazon",
-      "Uber"
+      "Tesla"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2249,7 +2326,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2268,10 +2346,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-70",
     "title": "Find the Missing Element in Array 70",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 45.1,
+    "difficulty": "Medium",
+    "acceptanceRate": 54.5,
     "companyTags": [
-      "Uber"
+      "Apple"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2280,7 +2358,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2299,12 +2378,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-71",
     "title": "Reverse a Substring 71",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 44.1,
+    "difficulty": "Easy",
+    "acceptanceRate": 69.8,
     "companyTags": [
-      "Airbnb",
+      "Google",
       "Amazon",
-      "Stripe"
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2313,7 +2392,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2333,10 +2413,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Detect Cycle in Graph 72",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 31.4,
+    "acceptanceRate": 43.7,
     "companyTags": [
-      "Uber",
-      "Netflix"
+      "Netflix",
+      "Amazon",
+      "Apple"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2345,7 +2426,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2365,11 +2447,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Maximum Path Sum 73",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 53.5,
+    "acceptanceRate": 50,
     "companyTags": [
-      "Meta",
+      "Google",
       "Apple",
-      "Airbnb"
+      "Tesla"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2378,7 +2460,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2397,10 +2480,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-74",
     "title": "Coin Change Variant 74",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 56.2,
+    "difficulty": "Medium",
+    "acceptanceRate": 39.5,
     "companyTags": [
-      "Amazon"
+      "Google",
+      "Amazon",
+      "Tesla"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2409,7 +2494,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2428,11 +2514,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-75",
     "title": "Longest Increasing Subsequence 75",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 53.1,
+    "difficulty": "Medium",
+    "acceptanceRate": 36,
     "companyTags": [
-      "Netflix",
-      "Apple"
+      "Tesla",
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2441,7 +2527,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2460,12 +2547,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-76",
     "title": "Merge Overlapping Intervals 76",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 60.8,
+    "difficulty": "Medium",
+    "acceptanceRate": 34.4,
     "companyTags": [
-      "Google",
-      "Stripe",
-      "Amazon"
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2474,7 +2559,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2493,12 +2579,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-77",
     "title": "Valid Parentheses Combination 77",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 61.3,
+    "difficulty": "Easy",
+    "acceptanceRate": 62.7,
     "companyTags": [
-      "Apple",
-      "Netflix",
-      "Meta"
+      "Apple"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2507,7 +2591,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2526,12 +2611,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-78",
     "title": "Word Break 78",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 46.5,
+    "difficulty": "Medium",
+    "acceptanceRate": 51.5,
     "companyTags": [
-      "Netflix",
-      "Apple",
-      "Microsoft"
+      "Apple"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2540,7 +2623,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2559,12 +2643,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-79",
     "title": "Kth Largest Element 79",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 41.9,
+    "difficulty": "Hard",
+    "acceptanceRate": 43.9,
     "companyTags": [
-      "Meta",
-      "Amazon",
-      "Google"
+      "Google",
+      "Uber"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2573,7 +2656,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2592,11 +2676,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-80",
     "title": "Find the Missing Element in Array 80",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 52.1,
+    "difficulty": "Hard",
+    "acceptanceRate": 45.3,
     "companyTags": [
       "Stripe",
-      "Uber"
+      "Airbnb",
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2605,7 +2690,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2625,9 +2711,10 @@ export const codingProblems: CodingProblem[] = [
     "title": "Reverse a Substring 81",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 55.7,
+    "acceptanceRate": 52.6,
     "companyTags": [
-      "Google"
+      "Meta",
+      "ByteDance"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2636,7 +2723,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2655,11 +2743,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-82",
     "title": "Detect Cycle in Graph 82",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 47,
+    "difficulty": "Easy",
+    "acceptanceRate": 39.6,
     "companyTags": [
       "Meta",
-      "Amazon"
+      "Amazon",
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2668,7 +2757,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2687,11 +2777,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-83",
     "title": "Maximum Path Sum 83",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 31.1,
+    "difficulty": "Easy",
+    "acceptanceRate": 40.1,
     "companyTags": [
-      "Uber",
-      "Amazon"
+      "Airbnb"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2700,7 +2789,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2720,10 +2810,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Coin Change Variant 84",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 66.4,
+    "acceptanceRate": 62.1,
     "companyTags": [
-      "Meta",
-      "Uber"
+      "ByteDance",
+      "Uber",
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2732,7 +2823,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2752,9 +2844,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Longest Increasing Subsequence 85",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
     "difficulty": "Hard",
-    "acceptanceRate": 61.1,
+    "acceptanceRate": 30.4,
     "companyTags": [
-      "Uber"
+      "Google",
+      "Stripe",
+      "Apple"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2763,7 +2857,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2782,10 +2877,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-86",
     "title": "Merge Overlapping Intervals 86",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 56.8,
+    "difficulty": "Easy",
+    "acceptanceRate": 59.9,
     "companyTags": [
-      "Microsoft"
+      "Amazon",
+      "ByteDance"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2794,7 +2890,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2814,11 +2911,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Valid Parentheses Combination 87",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 36,
+    "acceptanceRate": 68.8,
     "companyTags": [
-      "Google",
-      "Amazon",
-      "ByteDance"
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2827,7 +2922,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2847,9 +2943,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Word Break 88",
     "description": "Given a string <code>s</code> and a dictionary of strings <code>wordDict</code>, return <code>true</code> if <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"leetcode\", [\"leet\",\"code\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"applepenapple\", [\"apple\",\"pen\"]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 300</code></li><li><code>1 <= wordDict.length <= 1000</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 64.5,
+    "acceptanceRate": 55.7,
     "companyTags": [
-      "Netflix"
+      "Netflix",
+      "Google",
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2858,7 +2956,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2877,10 +2976,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-89",
     "title": "Kth Largest Element 89",
     "description": "Given an integer array <code>nums</code> and an integer <code>k</code>, return the <code>kth</code> largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,2,1,5,6,4], 2\n<strong>Output:</strong> 5</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [3,2,3,1,2,4,5,5,6], 4\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= k <= nums.length <= 10^5</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
-    "difficulty": "Medium",
-    "acceptanceRate": 58.9,
+    "difficulty": "Easy",
+    "acceptanceRate": 54.3,
     "companyTags": [
-      "Apple"
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2889,7 +2988,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2908,11 +3008,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-90",
     "title": "Find the Missing Element in Array 90",
     "description": "Given an array containing <code>n</code> distinct numbers taken from <code>0, 1, 2, ..., n</code>, find the one that is missing from the array.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [3,0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1]\n<strong>Output:</strong> 2</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>n == nums.length</code></li><li><code>1 <= n <= 10^4</code></li><li><code>0 <= nums[i] <= n</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 62.6,
+    "difficulty": "Hard",
+    "acceptanceRate": 45.9,
     "companyTags": [
-      "Google",
-      "Amazon"
+      "Microsoft",
+      "Netflix"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2921,7 +3021,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2940,12 +3041,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-91",
     "title": "Reverse a Substring 91",
     "description": "Given a string <code>s</code>, reverse a specific substring within it and return the modified string.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> \"abcdef\", 1, 3\n<strong>Output:</strong> \"adcbef\"</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> \"hello\", 0, 4\n<strong>Output:</strong> \"olleh\"</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= s.length <= 10^5</code></li><li><code>s</code> consists of printable ASCII characters.</li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 60.7,
+    "difficulty": "Hard",
+    "acceptanceRate": 38,
     "companyTags": [
-      "Netflix",
-      "Apple",
-      "Meta"
+      "ByteDance",
+      "Tesla",
+      "Microsoft"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2954,7 +3055,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -2973,10 +3075,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-92",
     "title": "Detect Cycle in Graph 92",
     "description": "Given a directed graph, determine if it contains a cycle. Return <code>true</code> if there is a cycle, otherwise <code>false</code>.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,0]]\n<strong>Output:</strong> true</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[0,1],[1,2],[2,3]]\n<strong>Output:</strong> false</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= numNodes <= 10^4</code></li><li><code>0 <= edges.length <= 10^4</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 49.6,
+    "difficulty": "Medium",
+    "acceptanceRate": 36.5,
     "companyTags": [
-      "Netflix"
+      "ByteDance",
+      "Apple",
+      "Tesla"
     ],
     "hints": [
       "Think about edge cases.",
@@ -2985,7 +3089,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -3004,10 +3109,10 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-93",
     "title": "Maximum Path Sum 93",
     "description": "A path in a binary tree is a sequence of nodes where each pair of adjacent nodes in the sequence has an edge connecting them. Find the maximum path sum.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,3]\n<strong>Output:</strong> 6</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [-10,9,20,null,null,15,7]\n<strong>Output:</strong> 42</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li>The number of nodes in the tree is in the range <code>[1, 3 * 10^4]</code>.</li><li><code>-1000 <= Node.val <= 1000</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 33.5,
+    "difficulty": "Hard",
+    "acceptanceRate": 31.1,
     "companyTags": [
-      "Uber"
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -3016,7 +3121,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -3035,11 +3141,12 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-94",
     "title": "Coin Change Variant 94",
     "description": "You are given an integer array <code>coins</code> representing coins of different denominations and an integer <code>amount</code> representing a total amount of money. Return the fewest number of coins that you need to make up that amount.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [1,2,5], 11\n<strong>Output:</strong> 3</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [2], 3\n<strong>Output:</strong> -1</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= coins.length <= 12</code></li><li><code>1 <= coins[i] <= 2^31 - 1</code></li><li><code>0 <= amount <= 10^4</code></li>\n</ul>",
-    "difficulty": "Easy",
-    "acceptanceRate": 64.4,
+    "difficulty": "Hard",
+    "acceptanceRate": 48.7,
     "companyTags": [
-      "Uber",
-      "Apple"
+      "Amazon",
+      "Apple",
+      "Netflix"
     ],
     "hints": [
       "Think about edge cases.",
@@ -3048,7 +3155,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -3068,9 +3176,9 @@ export const codingProblems: CodingProblem[] = [
     "title": "Longest Increasing Subsequence 95",
     "description": "Given an integer array <code>nums</code>, return the length of the longest strictly increasing subsequence.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [10,9,2,5,3,7,101,18]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [0,1,0,3,2,3]\n<strong>Output:</strong> 4</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= nums.length <= 2500</code></li><li><code>-10^4 <= nums[i] <= 10^4</code></li>\n</ul>",
     "difficulty": "Medium",
-    "acceptanceRate": 36.2,
+    "acceptanceRate": 66.6,
     "companyTags": [
-      "Meta"
+      "Amazon"
     ],
     "hints": [
       "Think about edge cases.",
@@ -3079,7 +3187,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -3099,10 +3208,11 @@ export const codingProblems: CodingProblem[] = [
     "title": "Merge Overlapping Intervals 96",
     "description": "Given an array of <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, merge all overlapping intervals, and return an array of the non-overlapping intervals.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> [[1,3],[2,6],[8,10],[15,18]]\n<strong>Output:</strong> [[1,6],[8,10],[15,18]]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> [[1,4],[4,5]]\n<strong>Output:</strong> [[1,5]]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= intervals.length <= 10^4</code></li><li><code>intervals[i].length == 2</code></li>\n</ul>",
     "difficulty": "Easy",
-    "acceptanceRate": 40.2,
+    "acceptanceRate": 33.9,
     "companyTags": [
-      "Airbnb",
-      "Apple"
+      "ByteDance",
+      "Apple",
+      "Meta"
     ],
     "hints": [
       "Think about edge cases.",
@@ -3111,7 +3221,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
@@ -3130,10 +3241,11 @@ export const codingProblems: CodingProblem[] = [
     "id": "mock-problem-97",
     "title": "Valid Parentheses Combination 97",
     "description": "Given <code>n</code> pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n<br/><br/>\n<p><strong>Example 1:</strong></p>\n<pre><strong>Input:</strong> 3\n<strong>Output:</strong> [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]</pre>\n\n<p><strong>Example 2:</strong></p>\n<pre><strong>Input:</strong> 1\n<strong>Output:</strong> [\"()\"]</pre>\n\n<p><strong>Constraints:</strong></p>\n<ul>\n  <li><code>1 <= n <= 8</code></li>\n</ul>",
-    "difficulty": "Hard",
-    "acceptanceRate": 33.8,
+    "difficulty": "Medium",
+    "acceptanceRate": 41.7,
     "companyTags": [
-      "ByteDance"
+      "Tesla",
+      "Google"
     ],
     "hints": [
       "Think about edge cases.",
@@ -3142,7 +3254,8 @@ export const codingProblems: CodingProblem[] = [
     "starterCode": {
       "javascript": "/**\n * @param {any} input\n * @return {any}\n */\nfunction solve(input) {\n    // Write your code here\n    return input;\n}",
       "python": "def solve(input):\n    # Write your code here\n    return input",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};"
+      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        // Write your code here\n        return input;\n    }\n};",
+      "java": "class Solution {\n    public int solve(int input) {\n        // Write your code here\n        return input;\n    }\n}"
     },
     "testCases": [
       {
