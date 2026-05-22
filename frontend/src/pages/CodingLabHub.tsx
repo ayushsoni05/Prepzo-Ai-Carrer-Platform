@@ -79,7 +79,12 @@ export const CodingLabHub: React.FC = () => {
                 </button>
                 <button 
                   onClick={() => {
-                    if (user?._id) window.location.hash = `portfolio/${user._id}`;
+                    const profileId = user?._id || user?.id;
+                    if (profileId) {
+                      window.location.hash = `portfolio/${profileId}`;
+                    } else {
+                      alert('Please sign in to view your profile');
+                    }
                   }}
                   className="flex-1 px-4 py-3 bg-gradient-to-br from-blue-500/20 to-blue-600/5 border border-blue-500/30 rounded-xl flex items-center justify-center gap-2 hover:bg-blue-500/30 transition-colors shadow-lg shadow-blue-500/10 group backdrop-blur-md"
                 >
