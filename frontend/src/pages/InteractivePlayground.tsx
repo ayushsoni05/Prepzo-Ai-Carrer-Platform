@@ -74,6 +74,9 @@ export const InteractivePlayground: React.FC = () => {
     const lang = e.target.value as 'javascript' | 'python' | 'cpp';
     setLanguage(lang);
     setTestResults(null);
+    if (problem) {
+      setCode(problem.starterCode[lang]);
+    }
   };
 
   const executeCode = async (isSubmit: boolean) => {
@@ -227,7 +230,7 @@ export const InteractivePlayground: React.FC = () => {
             </div>
             <div className="flex-1 overflow-y-auto p-6 space-y-8">
               <div className="prose prose-invert prose-p:text-white/70 prose-p:leading-relaxed prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10 prose-code:text-[#5ed29c]">
-                <div dangerouslySetInnerHTML={{ __html: problem.description.replace(/\\n/g, '<br/>') }} />
+                <div dangerouslySetInnerHTML={{ __html: problem.description }} />
               </div>
               
               <div className="space-y-4">
