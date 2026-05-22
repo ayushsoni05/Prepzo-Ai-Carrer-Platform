@@ -10,6 +10,7 @@ export const CodingLabHub: React.FC = () => {
   const [search, setSearch] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);
   const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
+  const [solvedIds, setSolvedIds] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchProblems = async () => {
@@ -23,6 +24,9 @@ export const CodingLabHub: React.FC = () => {
       }
     };
     fetchProblems();
+
+    const solved = JSON.parse(localStorage.getItem('coding-lab-solved') || '[]');
+    setSolvedIds(solved);
   }, []);
 
   const allCompanies = Array.from(new Set(problems.flatMap(p => p.companyTags)));
@@ -60,7 +64,7 @@ export const CodingLabHub: React.FC = () => {
             <p className="mt-4 text-white/40 italic max-w-xl">Master data structures and algorithms with company-specific challenges. Train for the "Hard" interviews in our interactive IDE.</p>
           </div>
           
-          <div className="flex gap-4">
+          <div className="flex flex-col gap-4">
              <div className="px-6 py-4 rounded-2xl bg-[#0a0c10] border border-white/5 shadow-2xl flex items-center gap-4">
                 <Code2 className="text-[#5ed29c]" />
                 <div>
@@ -68,6 +72,21 @@ export const CodingLabHub: React.FC = () => {
                    <p className="text-2xl font-[900] text-white italic">{problems.length}</p>
                 </div>
              </div>
+             
+             {problems.length > 0 && (
+               <div className="px-6 py-4 rounded-2xl bg-[#0a0c10] border border-white/5 shadow-2xl flex flex-col gap-2">
+                 <div className="flex justify-between items-center">
+                   <p className="text-[9px] font-black text-[#5ed29c] uppercase tracking-[0.3em]">Your Progress</p>
+                   <p className="text-xs font-[900] text-white">{solvedIds.length} <span className="text-white/30 text-[10px]">/ {problems.length}</span></p>
+                 </div>
+                 <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                   <div 
+                     className="h-full bg-[#5ed29c] transition-all duration-1000 ease-out" 
+                     style={{ width: `${Math.min(100, Math.max(0, (solvedIds.length / problems.length) * 100))}%` }}
+                   />
+                 </div>
+               </div>
+             )}
           </div>
         </div>
 
@@ -149,7 +168,7 @@ export const CodingLabHub: React.FC = () => {
                       className="border-b border-white/5 hover:bg-white/[0.02] transition-colors group"
                     >
                       <td className="py-6 px-8">
-                        <CheckCircle2 size={18} className="text-white/10 group-hover:text-white/20" />
+                        <CheckCircle2 size={18} className={`transition-colors ${solvedIds.includes(problem.id) ? 'text-[#5ed29c]' : 'text-white/10 group-hover:text-white/20'}`} />
                       </td>
                       <td className="py-6 px-8">
                         <span className="text-lg font-[900] text-white italic hover:text-[#5ed29c] cursor-pointer transition-colors" onClick={() => window.location.hash = `playground?id=${problem.id}`}>

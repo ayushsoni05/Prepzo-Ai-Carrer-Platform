@@ -151,6 +151,14 @@ export const InteractivePlayground: React.FC = () => {
         });
         
         setTestResults(results);
+
+        if (isSubmit && results.every(r => r.passed)) {
+          const solved = JSON.parse(localStorage.getItem('coding-lab-solved') || '[]');
+          if (!solved.includes(problem.id)) {
+            solved.push(problem.id);
+            localStorage.setItem('coding-lab-solved', JSON.stringify(solved));
+          }
+        }
       } else {
         // Mock non-JS languages
         const results = problem.testCases.map(tc => ({
@@ -161,6 +169,14 @@ export const InteractivePlayground: React.FC = () => {
           passed: true
         }));
         setTestResults(results);
+
+        if (isSubmit && results.every(r => r.passed)) {
+          const solved = JSON.parse(localStorage.getItem('coding-lab-solved') || '[]');
+          if (!solved.includes(problem.id)) {
+            solved.push(problem.id);
+            localStorage.setItem('coding-lab-solved', JSON.stringify(solved));
+          }
+        }
       }
     }, 1500);
   };
