@@ -30,8 +30,10 @@ import { PdfReaderPage } from '@/pages/PdfReaderPage';
 import { InteractivePlayground } from '@/pages/InteractivePlayground';
 import { StarStoryBuilder } from '@/pages/StarStoryBuilder';
 import { CodingLabHub } from '@/pages/CodingLabHub';
+import Profile from '@/pages/Profile';
+import Leaderboard from '@/pages/Leaderboard';
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'portfolio' | 'leaderboard' | '404';
 
 // Get initial page from URL hash or default to 'landing'
 const getPageFromHash = (): Page => {
@@ -43,7 +45,10 @@ const getPageFromHash = (): Page => {
   }
   // Allow parameters in hash like #reader?id=123
   const pageName = hash.split('?')[0];
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder'];
+  
+  if (pageName.startsWith('portfolio/')) return 'portfolio';
+  
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'leaderboard'];
   return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 
@@ -412,6 +417,8 @@ export default function App() {
         {currentPage === 'question-bank' && <QuestionBankPage />}
         {currentPage === 'coding-lab' && <CodingLabHub />}
         {currentPage === 'playground' && <InteractivePlayground />}
+        {currentPage === 'portfolio' && <Profile />}
+        {currentPage === 'leaderboard' && <Leaderboard />}
         {currentPage === 'star-builder' && <StarStoryBuilder />}
         {currentPage === 'reader' && <PdfReaderPage />}
         {currentPage === '404' && <NotFound onNavigate={handleNavigate} />}

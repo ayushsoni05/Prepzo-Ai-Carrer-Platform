@@ -7,6 +7,7 @@ export interface SubmissionData {
   status: string;
   testCasesPassed: number;
   totalTestCases: number;
+  difficulty?: string;
 }
 
 export const createSubmission = async (data: SubmissionData) => {

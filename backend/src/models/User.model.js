@@ -430,6 +430,29 @@ const userSchema = new mongoose.Schema({
     default: [],
   },
 
+  // ========== GAMIFICATION FIELDS ==========
+  xp: {
+    type: Number,
+    default: 0,
+  },
+  solvedProblems: [{
+    problemId: String,
+    difficulty: { type: String, enum: ['Easy', 'Medium', 'Hard'] },
+    solvedAt: { type: Date, default: Date.now },
+  }],
+  streak: {
+    type: Number,
+    default: 0,
+  },
+  lastActiveDate: {
+    type: Date,
+    default: null,
+  },
+  badges: [{
+    name: String,
+    earnedAt: { type: Date, default: Date.now },
+  }],
+
   // ========== SECURITY FIELDS ==========
   
   // Email Verification

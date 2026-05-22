@@ -12,6 +12,7 @@ import { getCodingProblemById, CodingProblem } from '@/api/codingLab';
 import { generateTranspiledPayload } from '../utils/generateTranspiledPayload';
 import { SubmissionsTab, Submission } from '../components/SubmissionsTab';
 import { createSubmission, getSubmissionsByProblem } from '../api/submissions';
+import toast from 'react-hot-toast';
 
 const LANGUAGE_EXTENSIONS: Record<string, any> = {
   javascript: javascript({ jsx: true }),
@@ -168,14 +169,29 @@ export const InteractivePlayground: React.FC = () => {
           const status = results.every(r => r.passed) ? 'Accepted' : 'Wrong Answer';
           
           try {
-            await createSubmission({
+            const submitResponse = await createSubmission({
               problemId: problem.id,
               language,
               code,
               status,
               testCasesPassed,
-              totalTestCases: testCasesToRun.length
+              totalTestCases: testCasesToRun.length,
+              difficulty: problem.difficulty
             });
+
+            // Handle Gamification popups
+            if (submitResponse?.gamification) {
+              const g = submitResponse.gamification;
+              toast.success(`+${g.xpGained} XP Earned! Total: ${g.newTotalXp} XP`);
+              if (g.newStreak > 1) {
+                toast(`🔥 ${g.newStreak} Day Streak! Keep it up!`, { icon: '🔥' });
+              }
+              if (g.newBadges && g.newBadges.length > 0) {
+                g.newBadges.forEach((b: string) => {
+                  toast(`🏆 Badge Unlocked: ${b}!`, { icon: '🏆' });
+                });
+              }
+            }
           } catch(e) {
             console.error('Failed to save submission', e);
           }

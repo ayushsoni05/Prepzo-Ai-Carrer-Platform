@@ -1,4 +1,5 @@
 import express from 'express';
+import { getUserProfile, getLeaderboard } from '../controllers/profile.controller.js';
 import {
   getProfile,
   updateProfile,
@@ -11,6 +12,10 @@ import {
 import { protect, admin } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
+
+// Public Gamification routes
+router.get('/portfolio/:userId', getUserProfile);
+router.get('/leaderboard/global', getLeaderboard);
 
 // Protected routes (logged in users)
 router.get('/profile', protect, getProfile);
