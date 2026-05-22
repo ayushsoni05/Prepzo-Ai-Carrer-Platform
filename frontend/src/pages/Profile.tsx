@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ActivityCalendar } from 'react-activity-calendar';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { Trophy, Code2, Flame, Award, Loader2, ArrowLeft } from 'lucide-react';
+import api from '../api/axios';
 
 interface ProfileData {
   fullName: string;
@@ -40,10 +41,9 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/users/portfolio/${userId}`);
-        const data = await res.json();
-        if (data.success) {
-          setProfile(data.data);
+        const res = await api.get(`/users/portfolio/${userId}`);
+        if (res.data.success) {
+          setProfile(res.data.data);
         }
       } catch (error) {
         console.error("Failed to fetch profile", error);

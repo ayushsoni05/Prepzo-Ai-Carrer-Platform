@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Trophy, Medal, Star, Loader2, ArrowLeft } from 'lucide-react';
+import api from '../api/axios';
 
 interface LeaderboardUser {
   _id: string;
@@ -27,10 +28,9 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/users/leaderboard/global');
-        const data = await res.json();
-        if (data.success) {
-          setUsers(data.data);
+        const res = await api.get('/users/leaderboard/global');
+        if (res.data.success) {
+          setUsers(res.data.data);
         }
       } catch (error) {
         console.error("Failed to fetch leaderboard", error);
