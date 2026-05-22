@@ -209,8 +209,11 @@ public class Main {
         const outputs = output.split('---SPLIT---').slice(1).map((s: string) => s.trim());
         
         const results = testCasesToRun.map((tc, idx) => {
-          const outStr = outputs[idx] || 'undefined';
-          const passed = outStr.replace(/\s+/g, '') === tc.expectedOutput.replace(/\s+/g, '');
+          // If outputs is empty, it means the code crashed (compilation error, syntax error, etc.)
+          // before reaching the execution loop. In this case, we output the raw error message.
+          const outStr = outputs.length > 0 ? (outputs[idx] || 'undefined') : output.trim();
+          const passed = outputs.length > 0 && outStr.replace(/\s+/g, '') === tc.expectedOutput.replace(/\s+/g, '');
+          
           return {
             id: tc.id,
             input: tc.input,
