@@ -9,6 +9,7 @@ import { java } from '@codemirror/lang-java';
 import { Play, RotateCcw, ChevronLeft, CheckCircle2, XCircle, Layout, Info, Lightbulb, Building2, Send, ChevronDown } from 'lucide-react';
 import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from 'react-resizable-panels';
 import { getCodingProblemById, CodingProblem } from '@/api/codingLab';
+import { generateTranspiledPayload } from '../utils/generateTranspiledPayload';
 
 const LANGUAGE_EXTENSIONS: Record<string, any> = {
   javascript: javascript({ jsx: true }),
@@ -99,86 +100,7 @@ export const InteractivePlayground: React.FC = () => {
       }
 
       try {
-        let wrapperCode = '';
-        const inputsArrayStr = JSON.stringify(testCasesToRun.map(tc => tc.input));
-
-        if (language === 'javascript') {
-          wrapperCode = `
-${code}
-const inputs = ${inputsArrayStr};
-for (const input of inputs) {
-  console.log("---SPLIT---");
-  try {
-    const res = typeof solve === 'function' ? solve(input) : eval(input);
-    console.log(typeof res === 'object' ? JSON.stringify(res) : String(res));
-  } catch(e) {
-    console.log("Error: " + e.message);
-  }
-}
-`;
-        } else if (language === 'python') {
-          const pyInputsStr = inputsArrayStr.replace(/'/g, "\\'");
-          wrapperCode = `
-import json
-${code}
-inputs = json.loads('${pyInputsStr}')
-try:
-    sol = Solution()
-except:
-    sol = None
-
-for inp in inputs:
-    print("---SPLIT---")
-    try:
-        res = sol.solve(inp) if sol else solve(inp)
-        print(json.dumps(res) if isinstance(res, (dict, list)) else str(res))
-    except Exception as e:
-        print("Error:", str(e))
-`;
-        } else if (language === 'cpp') {
-          const cppInputs = testCasesToRun.map(tc => `R"DELIM(${tc.input})DELIM"`).join(', ');
-          wrapperCode = `
-#include <iostream>
-#include <string>
-#include <vector>
-using namespace std;
-${code}
-int main() {
-    vector<string> inputs = { ${cppInputs} };
-    Solution sol;
-    for (const string& inp : inputs) {
-        cout << "---SPLIT---\n";
-        try {
-            cout << sol.solve(inp) << "\n";
-        } catch(...) {
-            cout << "Error\n";
-        }
-    }
-    return 0;
-}
-`;
-        } else if (language === 'java') {
-          const javaInputs = testCasesToRun.map(tc => `"${tc.input.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`).join(', ');
-          const sanitizedCode = code.replace(/public\s+class\s+Solution/, 'class Solution');
-          wrapperCode = `
-import java.util.*;
-${sanitizedCode}
-public class Main {
-    public static void main(String[] args) {
-        String[] inputs = { ${javaInputs} };
-        Solution sol = new Solution();
-        for (String inp : inputs) {
-            System.out.println("---SPLIT---");
-            try {
-                System.out.println(sol.solve(inp));
-            } catch(Exception e) {
-                System.out.println("Error: " + e.getMessage());
-            }
-        }
-    }
-}
-`;
-        }
+        const wrapperCode = generateTranspiledPayload(language, code, testCasesToRun);
 
         // Judge0 Language IDs
         const langMap: Record<string, number> = {
