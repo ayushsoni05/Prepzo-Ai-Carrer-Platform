@@ -50,10 +50,10 @@ export const InteractivePlayground: React.FC = () => {
             acceptanceRate: 100,
             companyTags: ['Practice'],
             hints: [stateQuestion.answer],
-            starterCode: { javascript: '// Write your solution here\\n', python: '# Write your solution here\\n', cpp: '// Write your solution here\\n', java: '// Write your solution here\\n' },
+            starterCode: { javascript: '// Write your solution here\n', python: '# Write your solution here\n', cpp: '// Write your solution here\n', java: '// Write your solution here\n' },
             testCases: []
           });
-          setCode('// Write your solution here\\n');
+          setCode('// Write your solution here\n');
         }
         setLoading(false);
         return;
@@ -98,51 +98,124 @@ export const InteractivePlayground: React.FC = () => {
         testCasesToRun = problem.testCases.filter(tc => !tc.isHidden);
       }
 
-      if (language === 'javascript') {
-        const results = testCasesToRun.map((tc) => {
-          let outputStr = '';
-          let passed = false;
-          try {
-            // Find function definition and parameter names
-            const funcMatch = code.match(/function\s+([a-zA-Z0-9_]+)\s*\(([^)]*)\)/) || code.match(/(?:const|let|var)\s+([a-zA-Z0-9_]+)\s*=\s*(?:function)?\s*\(([^)]*)\)/);
-            
-            if (funcMatch) {
-              const fnName = funcMatch[1];
-              const paramsStr = funcMatch[2]; // e.g. "nums, target"
-              
-              // We inject the raw input as let variables inside the function scope
-              // tc.input is like 'nums = [2,7,11,15], target = 9'
-              // so `let ${tc.input};` becomes `let nums = [2,7,11,15], target = 9;`
-              // If the input doesn't have an equals sign, we fallback to just passing it as arguments.
-              const isAssignment = tc.input.includes('=');
-              
-              const executionFn = new Function(`
-                ${code}
-                try {
-                  ${isAssignment ? `let ${tc.input};` : ''}
-                  const res = ${fnName}(${isAssignment ? paramsStr : tc.input});
-                  return typeof res === 'object' && res !== null ? JSON.stringify(res) : String(res);
-                } catch(e) {
-                  return "Error: " + e.message;
-                }
-              `);
-              
-              outputStr = executionFn();
-              
-              // Remove whitespace for comparison
-              passed = outputStr?.replace(/\s+/g, '') === tc.expectedOutput.replace(/\s+/g, '');
-            } else {
-              outputStr = 'Error: Could not find function definition.';
-            }
-          } catch (err: any) {
-            outputStr = `Execution Error: ${err.message}`;
-          }
+      try {
+        let wrapperCode = '';
+        const inputsArrayStr = JSON.stringify(testCasesToRun.map(tc => tc.input));
 
+        if (language === 'javascript') {
+          wrapperCode = `
+${code}
+const inputs = ${inputsArrayStr};
+for (const input of inputs) {
+  console.log("---SPLIT---");
+  try {
+    const res = typeof solve === 'function' ? solve(input) : eval(input);
+    console.log(typeof res === 'object' ? JSON.stringify(res) : String(res));
+  } catch(e) {
+    console.log("Error: " + e.message);
+  }
+}
+`;
+        } else if (language === 'python') {
+          const pyInputsStr = inputsArrayStr.replace(/'/g, "\\'");
+          wrapperCode = `
+import json
+${code}
+inputs = json.loads('${pyInputsStr}')
+try:
+    sol = Solution()
+except:
+    sol = None
+
+for inp in inputs:
+    print("---SPLIT---")
+    try:
+        res = sol.solve(inp) if sol else solve(inp)
+        print(json.dumps(res) if isinstance(res, (dict, list)) else str(res))
+    except Exception as e:
+        print("Error:", str(e))
+`;
+        } else if (language === 'cpp') {
+          const cppInputs = testCasesToRun.map(tc => `R"DELIM(${tc.input})DELIM"`).join(', ');
+          wrapperCode = `
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+${code}
+int main() {
+    vector<string> inputs = { ${cppInputs} };
+    Solution sol;
+    for (const string& inp : inputs) {
+        cout << "---SPLIT---\n";
+        try {
+            cout << sol.solve(inp) << "\n";
+        } catch(...) {
+            cout << "Error\n";
+        }
+    }
+    return 0;
+}
+`;
+        } else if (language === 'java') {
+          const javaInputs = testCasesToRun.map(tc => `"${tc.input.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`).join(', ');
+          const sanitizedCode = code.replace(/public\s+class\s+Solution/, 'class Solution');
+          wrapperCode = `
+import java.util.*;
+${sanitizedCode}
+public class Main {
+    public static void main(String[] args) {
+        String[] inputs = { ${javaInputs} };
+        Solution sol = new Solution();
+        for (String inp : inputs) {
+            System.out.println("---SPLIT---");
+            try {
+                System.out.println(sol.solve(inp));
+            } catch(Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+    }
+}
+`;
+        }
+
+        // Judge0 Language IDs
+        const langMap: Record<string, number> = {
+          javascript: 63,
+          python: 71,
+          cpp: 54,
+          java: 62
+        };
+
+        const res = await fetch('https://ce.judge0.com/submissions?base64_encoded=false&wait=true', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            language_id: langMap[language] || 63,
+            source_code: wrapperCode
+          })
+        });
+        
+        const data = await res.json();
+        
+        let output = 'Error executing code';
+        if (data.stdout) output = data.stdout;
+        else if (data.stderr) output = data.stderr;
+        else if (data.compile_output) output = data.compile_output;
+        else if (data.message) output = data.message;
+        
+        // Parse output
+        const outputs = output.split('---SPLIT---').slice(1).map((s: string) => s.trim());
+        
+        const results = testCasesToRun.map((tc, idx) => {
+          const outStr = outputs[idx] || 'undefined';
+          const passed = outStr.replace(/\s+/g, '') === tc.expectedOutput.replace(/\s+/g, '');
           return {
             id: tc.id,
             input: tc.input,
             expected: tc.expectedOutput,
-            output: outputStr || 'undefined',
+            output: outStr,
             passed,
             isHidden: tc.isHidden
           };
@@ -157,21 +230,16 @@ export const InteractivePlayground: React.FC = () => {
             localStorage.setItem('coding-lab-solved', JSON.stringify(solved));
           }
         }
-      } else {
-        // Fallback for languages that require a backend compiler
-        const results = testCasesToRun.map(tc => ({
-          id: tc.id,
-          input: tc.input,
-          expected: tc.expectedOutput,
-          output: "Compiler Offline (Remote API disabled). Please use JavaScript for local evaluation.",
-          passed: false,
-          isHidden: tc.isHidden
-        }));
-        setTestResults(results);
+
+      } catch (err: any) {
+        console.error(err);
+        setTestResults(testCasesToRun.map(tc => ({
+          id: tc.id, input: tc.input, expected: tc.expectedOutput, output: 'Compiler Offline / API Error', passed: false, isHidden: tc.isHidden
+        })));
+      } finally {
+        if (isSubmit) setIsSubmitting(false);
+        else setIsRunning(false);
       }
-      
-      if (isSubmit) setIsSubmitting(false);
-      else setIsRunning(false);
     }, 500);
   };
 
@@ -289,7 +357,7 @@ export const InteractivePlayground: React.FC = () => {
                       onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}
                       className="flex items-center gap-2 px-3 py-1.5 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition-all text-white/70 text-xs font-bold uppercase tracking-widest"
                     >
-                      {language === 'cpp' ? 'C++' : language} <ChevronDown size={14} className={`transition-transform \${languageDropdownOpen ? 'rotate-180' : ''}`} />
+                      {language === 'cpp' ? 'C++' : language} <ChevronDown size={14} className={`transition-transform ${languageDropdownOpen ? 'rotate-180' : ''}`} />
                     </button>
                     
                     {languageDropdownOpen && (
@@ -300,7 +368,7 @@ export const InteractivePlayground: React.FC = () => {
                             <button
                               key={l}
                               onClick={() => handleLanguageChange(l)}
-                              className={`w-full text-left px-4 py-2 text-xs font-bold uppercase tracking-widest hover:bg-[#5ed29c]/10 transition-colors \${language === l ? 'text-[#5ed29c] bg-[#5ed29c]/5' : 'text-white/60 hover:text-white'}`}
+                              className={`w-full text-left px-4 py-2 text-xs font-bold uppercase tracking-widest hover:bg-[#5ed29c]/10 transition-colors ${language === l ? 'text-[#5ed29c] bg-[#5ed29c]/5' : 'text-white/60 hover:text-white'}`}
                             >
                               {l === 'cpp' ? 'C++' : l}
                             </button>
