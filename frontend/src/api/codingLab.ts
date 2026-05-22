@@ -39,10 +39,10 @@ export const codingProblems: CodingProblem[] = [
       "The second train of thought is, without changing the array, can we use additional space somehow? Like maybe a hash map to speed up the search?"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[]}\n */\nvar twoSum = function(nums, target) {\n    \n};",
+      "python": "class Solution(object):\n    def twoSum(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -135,10 +135,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} l1\n * @param {ListNode} l2\n * @return {ListNode}\n */\nvar addTwoNumbers = function(l1, l2) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def addTwoNumbers(self, l1, l2):\n        \"\"\"\n        :type l1: Optional[ListNode]\n        :type l2: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -233,10 +233,10 @@ export const codingProblems: CodingProblem[] = [
       "Since maximum string size is at most 26, generate and check all possible substrings with length at most 26."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {number}\n */\nvar lengthOfLongestSubstring = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def lengthOfLongestSubstring(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int lengthOfLongestSubstring(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int lengthOfLongestSubstring(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -329,10 +329,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums1\n * @param {number[]} nums2\n * @return {number}\n */\nvar findMedianSortedArrays = function(nums1, nums2) {\n    \n};",
+      "python": "class Solution(object):\n    def findMedianSortedArrays(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :rtype: float\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {\n        \n    }\n};",
+      "java": "class Solution {\n    public double findMedianSortedArrays(int[] nums1, int[] nums2) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -424,10 +424,10 @@ export const codingProblems: CodingProblem[] = [
       "Complexity based hint:</br>\r\nIf we use brute-force and check whether for every start and end position a substring is a palindrome we have O(n^2) start - end pairs and O(n) palindromic checks. Can we reduce the time for palindromic checks to O(1) by reusing some previous computation."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {string}\n */\nvar longestPalindrome = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def longestPalindrome(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string longestPalindrome(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String longestPalindrome(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -513,10 +513,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @param {number} numRows\n * @return {string}\n */\nvar convert = function(s, numRows) {\n    \n};",
+      "python": "class Solution(object):\n    def convert(self, s, numRows):\n        \"\"\"\n        :type s: str\n        :type numRows: int\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string convert(string s, int numRows) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String convert(String s, int numRows) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -607,10 +607,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} x\n * @return {number}\n */\nvar reverse = function(x) {\n    \n};",
+      "python": "class Solution(object):\n    def reverse(self, x):\n        \"\"\"\n        :type x: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int reverse(int x) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int reverse(int x) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -701,10 +701,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {number}\n */\nvar myAtoi = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def myAtoi(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int myAtoi(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int myAtoi(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -787,10 +787,10 @@ export const codingProblems: CodingProblem[] = [
       "Beware of overflow when you reverse the integer."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} x\n * @return {boolean}\n */\nvar isPalindrome = function(x) {\n    \n};",
+      "python": "class Solution(object):\n    def isPalindrome(self, x):\n        \"\"\"\n        :type x: int\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isPalindrome(int x) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isPalindrome(int x) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -883,10 +883,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @param {string} p\n * @return {boolean}\n */\nvar isMatch = function(s, p) {\n    \n};",
+      "python": "class Solution(object):\n    def isMatch(self, s, p):\n        \"\"\"\n        :type s: str\n        :type p: str\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isMatch(string s, string p) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isMatch(String s, String p) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -983,10 +983,10 @@ export const codingProblems: CodingProblem[] = [
       "How can you calculate the amount of water at each step?"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} height\n * @return {number}\n */\nvar maxArea = function(height) {\n    \n};",
+      "python": "class Solution(object):\n    def maxArea(self, height):\n        \"\"\"\n        :type height: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int maxArea(vector<int>& height) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int maxArea(int[] height) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -1074,10 +1074,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} num\n * @return {string}\n */\nvar intToRoman = function(num) {\n    \n};",
+      "python": "class Solution(object):\n    def intToRoman(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string intToRoman(int num) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String intToRoman(int num) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -1162,10 +1162,10 @@ export const codingProblems: CodingProblem[] = [
       "Problem is simpler to solve by working the string from back to front and using a map."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {number}\n */\nvar romanToInt = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def romanToInt(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int romanToInt(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int romanToInt(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -1258,10 +1258,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string[]} strs\n * @return {string}\n */\nvar longestCommonPrefix = function(strs) {\n    \n};",
+      "python": "class Solution(object):\n    def longestCommonPrefix(self, strs):\n        \"\"\"\n        :type strs: List[str]\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string longestCommonPrefix(vector<string>& strs) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String longestCommonPrefix(String[] strs) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -1353,10 +1353,10 @@ export const codingProblems: CodingProblem[] = [
       "The second train of thought for two-sum is, without changing the array, can we use additional space somehow? Like maybe a hash map to speed up the search?"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[][]}\n */\nvar threeSum = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def threeSum(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> threeSum(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<Integer>> threeSum(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -1449,10 +1449,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number}\n */\nvar threeSumClosest = function(nums, target) {\n    \n};",
+      "python": "class Solution(object):\n    def threeSumClosest(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int threeSumClosest(vector<int>& nums, int target) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int threeSumClosest(int[] nums, int target) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -1540,10 +1540,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} digits\n * @return {string[]}\n */\nvar letterCombinations = function(digits) {\n    \n};",
+      "python": "class Solution(object):\n    def letterCombinations(self, digits):\n        \"\"\"\n        :type digits: str\n        :rtype: List[str]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<string> letterCombinations(string digits) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<String> letterCombinations(String digits) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -1631,10 +1631,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[][]}\n */\nvar fourSum = function(nums, target) {\n    \n};",
+      "python": "class Solution(object):\n    def fourSum(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> fourSum(vector<int>& nums, int target) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<Integer>> fourSum(int[] nums, int target) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -1723,10 +1723,10 @@ export const codingProblems: CodingProblem[] = [
       "Maintain two pointers and update one with a delay of n steps."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @param {number} n\n * @return {ListNode}\n */\nvar removeNthFromEnd = function(head, n) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def removeNthFromEnd(self, head, n):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :type n: int\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* removeNthFromEnd(ListNode* head, int n) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -1822,10 +1822,10 @@ export const codingProblems: CodingProblem[] = [
       "When you encounter a closing bracket, check if the top of the stack was the opening for it. If yes, pop it from the stack. Otherwise, return false."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {boolean}\n */\nvar isValid = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def isValid(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isValid(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isValid(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -1907,10 +1907,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} list1\n * @param {ListNode} list2\n * @return {ListNode}\n */\nvar mergeTwoLists = function(list1, list2) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def mergeTwoLists(self, list1, list2):\n        \"\"\"\n        :type list1: Optional[ListNode]\n        :type list2: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -2003,10 +2003,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {string[]}\n */\nvar generateParenthesis = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def generateParenthesis(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[str]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<string> generateParenthesis(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<String> generateParenthesis(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -2095,10 +2095,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode[]} lists\n * @return {ListNode}\n */\nvar mergeKLists = function(lists) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def mergeKLists(self, lists):\n        \"\"\"\n        :type lists: List[Optional[ListNode]]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* mergeKLists(vector<ListNode*>& lists) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode mergeKLists(ListNode[] lists) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -2190,10 +2190,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @return {ListNode}\n */\nvar swapPairs = function(head) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def swapPairs(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* swapPairs(ListNode* head) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode swapPairs(ListNode head) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -2275,10 +2275,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @param {number} k\n * @return {ListNode}\n */\nvar reverseKGroup = function(head, k) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def reverseKGroup(self, head, k):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :type k: int\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* reverseKGroup(ListNode* head, int k) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode reverseKGroup(ListNode head, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -2369,10 +2369,10 @@ export const codingProblems: CodingProblem[] = [
       "Essentially, once an element is encountered, you simply need to <b>bypass</b> its duplicates and move on to the next unique element."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar removeDuplicates = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def removeDuplicates(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int removeDuplicates(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int removeDuplicates(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -2463,10 +2463,10 @@ export const codingProblems: CodingProblem[] = [
       "Yet another direction of thought is to consider the elements to be removed as non-existent. In a single pass, if we keep copying the visible elements in-place, that should also solve this problem for us."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} val\n * @return {number}\n */\nvar removeElement = function(nums, val) {\n    \n};",
+      "python": "class Solution(object):\n    def removeElement(self, nums, val):\n        \"\"\"\n        :type nums: List[int]\n        :type val: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int removeElement(vector<int>& nums, int val) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int removeElement(int[] nums, int val) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -2554,10 +2554,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} haystack\n * @param {string} needle\n * @return {number}\n */\nvar strStr = function(haystack, needle) {\n    \n};",
+      "python": "class Solution(object):\n    def strStr(self, haystack, needle):\n        \"\"\"\n        :type haystack: str\n        :type needle: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int strStr(string haystack, string needle) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int strStr(String haystack, String needle) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -2644,10 +2644,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} dividend\n * @param {number} divisor\n * @return {number}\n */\nvar divide = function(dividend, divisor) {\n    \n};",
+      "python": "class Solution(object):\n    def divide(self, dividend, divisor):\n        \"\"\"\n        :type dividend: int\n        :type divisor: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int divide(int dividend, int divisor) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int divide(int dividend, int divisor) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -2735,10 +2735,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @param {string[]} words\n * @return {number[]}\n */\nvar findSubstring = function(s, words) {\n    \n};",
+      "python": "class Solution(object):\n    def findSubstring(self, s, words):\n        \"\"\"\n        :type s: str\n        :type words: List[str]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> findSubstring(string s, vector<string>& words) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<Integer> findSubstring(String s, String[] words) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -2820,10 +2820,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {void} Do not return anything, modify nums in-place instead.\n */\nvar nextPermutation = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def nextPermutation(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: None Do not return anything, modify nums in-place instead.\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    void nextPermutation(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public void nextPermutation(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -2916,10 +2916,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {number}\n */\nvar longestValidParentheses = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def longestValidParentheses(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int longestValidParentheses(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int longestValidParentheses(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -3011,10 +3011,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number}\n */\nvar search = function(nums, target) {\n    \n};",
+      "python": "class Solution(object):\n    def search(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int search(vector<int>& nums, int target) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int search(int[] nums, int target) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -3106,10 +3106,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[]}\n */\nvar searchRange = function(nums, target) {\n    \n};",
+      "python": "class Solution(object):\n    def searchRange(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> searchRange(vector<int>& nums, int target) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[] searchRange(int[] nums, int target) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -3202,10 +3202,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {character[][]} board\n * @return {boolean}\n */\nvar isValidSudoku = function(board) {\n    \n};",
+      "python": "class Solution(object):\n    def isValidSudoku(self, board):\n        \"\"\"\n        :type board: List[List[str]]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isValidSudoku(vector<vector<char>>& board) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isValidSudoku(char[][] board) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -3292,10 +3292,10 @@ export const codingProblems: CodingProblem[] = [
       "If stuck, undo (backtrack) and try another valid number."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {character[][]} board\n * @return {void} Do not return anything, modify board in-place instead.\n */\nvar solveSudoku = function(board) {\n    \n};",
+      "python": "class Solution(object):\n    def solveSudoku(self, board):\n        \"\"\"\n        :type board: List[List[str]]\n        :rtype: None Do not return anything, modify board in-place instead.\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    void solveSudoku(vector<vector<char>>& board) {\n        \n    }\n};",
+      "java": "class Solution {\n    public void solveSudoku(char[][] board) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -3380,10 +3380,10 @@ export const codingProblems: CodingProblem[] = [
       "Now, with the two helper functions, you can start with \"1\" and call the two functions alternatively n-1 times. The answer is the last integer you will obtain."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {string}\n */\nvar countAndSay = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def countAndSay(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string countAndSay(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String countAndSay(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -3465,10 +3465,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} candidates\n * @param {number} target\n * @return {number[][]}\n */\nvar combinationSum = function(candidates, target) {\n    \n};",
+      "python": "class Solution(object):\n    def combinationSum(self, candidates, target):\n        \"\"\"\n        :type candidates: List[int]\n        :type target: int\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -3560,10 +3560,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} candidates\n * @param {number} target\n * @return {number[][]}\n */\nvar combinationSum2 = function(candidates, target) {\n    \n};",
+      "python": "class Solution(object):\n    def combinationSum2(self, candidates, target):\n        \"\"\"\n        :type candidates: List[int]\n        :type target: int\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<Integer>> combinationSum2(int[] candidates, int target) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -3654,10 +3654,10 @@ export const codingProblems: CodingProblem[] = [
       "Remember that O(2n) = O(n)"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar firstMissingPositive = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def firstMissingPositive(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int firstMissingPositive(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int firstMissingPositive(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -3752,10 +3752,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} height\n * @return {number}\n */\nvar trap = function(height) {\n    \n};",
+      "python": "class Solution(object):\n    def trap(self, height):\n        \"\"\"\n        :type height: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int trap(vector<int>& height) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int trap(int[] height) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -3843,10 +3843,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} num1\n * @param {string} num2\n * @return {string}\n */\nvar multiply = function(num1, num2) {\n    \n};",
+      "python": "class Solution(object):\n    def multiply(self, num1, num2):\n        \"\"\"\n        :type num1: str\n        :type num2: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string multiply(string num1, string num2) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String multiply(String num1, String num2) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -3935,10 +3935,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @param {string} p\n * @return {boolean}\n */\nvar isMatch = function(s, p) {\n    \n};",
+      "python": "class Solution(object):\n    def isMatch(self, s, p):\n        \"\"\"\n        :type s: str\n        :type p: str\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isMatch(string s, string p) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isMatch(String s, String p) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -4031,10 +4031,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar jump = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def jump(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int jump(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int jump(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -4121,10 +4121,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[][]}\n */\nvar permute = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def permute(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> permute(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -4217,10 +4217,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[][]}\n */\nvar permuteUnique = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def permuteUnique(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> permuteUnique(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<Integer>> permuteUnique(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -4308,10 +4308,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} matrix\n * @return {void} Do not return anything, modify matrix in-place instead.\n */\nvar rotate = function(matrix) {\n    \n};",
+      "python": "class Solution(object):\n    def rotate(self, matrix):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :rtype: None Do not return anything, modify matrix in-place instead.\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    void rotate(vector<vector<int>>& matrix) {\n        \n    }\n};",
+      "java": "class Solution {\n    public void rotate(int[][] matrix) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -4400,10 +4400,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string[]} strs\n * @return {string[][]}\n */\nvar groupAnagrams = function(strs) {\n    \n};",
+      "python": "class Solution(object):\n    def groupAnagrams(self, strs):\n        \"\"\"\n        :type strs: List[str]\n        :rtype: List[List[str]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<string>> groupAnagrams(vector<string>& strs) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -4485,10 +4485,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} x\n * @param {number} n\n * @return {number}\n */\nvar myPow = function(x, n) {\n    \n};",
+      "python": "class Solution(object):\n    def myPow(self, x, n):\n        \"\"\"\n        :type x: float\n        :type n: int\n        :rtype: float\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    double myPow(double x, int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public double myPow(double x, int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -4580,10 +4580,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {string[][]}\n */\nvar solveNQueens = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def solveNQueens(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[List[str]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<string>> solveNQueens(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<String>> solveNQueens(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -4669,10 +4669,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar totalNQueens = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def totalNQueens(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int totalNQueens(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int totalNQueens(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -4760,10 +4760,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar maxSubArray = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def maxSubArray(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int maxSubArray(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int maxSubArray(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -4860,10 +4860,10 @@ export const codingProblems: CodingProblem[] = [
       "Think about when you want to switch the progress on one of the indexes. If you progress on i out of [i, j], you'll shift in the same column. Similarly, by changing values for j, you'd be shifting in the same row.\r\nAlso, keep track of the end of a boundary so that you can move inwards and then keep repeating. It's always best to simulate edge cases like a single column or a single row to see if anything breaks or not."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} matrix\n * @return {number[]}\n */\nvar spiralOrder = function(matrix) {\n    \n};",
+      "python": "class Solution(object):\n    def spiralOrder(self, matrix):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> spiralOrder(vector<vector<int>>& matrix) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<Integer> spiralOrder(int[][] matrix) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -4951,10 +4951,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {boolean}\n */\nvar canJump = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def canJump(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool canJump(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean canJump(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -5041,10 +5041,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} intervals\n * @return {number[][]}\n */\nvar merge = function(intervals) {\n    \n};",
+      "python": "class Solution(object):\n    def merge(self, intervals):\n        \"\"\"\n        :type intervals: List[List[int]]\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> merge(vector<vector<int>>& intervals) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[][] merge(int[][] intervals) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -5139,10 +5139,10 @@ export const codingProblems: CodingProblem[] = [
       "This can be done by comparing the end of the last interval with the start of the new interval and vice versa."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} intervals\n * @param {number[]} newInterval\n * @return {number[][]}\n */\nvar insert = function(intervals, newInterval) {\n    \n};",
+      "python": "class Solution(object):\n    def insert(self, intervals, newInterval):\n        \"\"\"\n        :type intervals: List[List[int]]\n        :type newInterval: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[][] insert(int[][] intervals, int[] newInterval) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -5228,10 +5228,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {number}\n */\nvar lengthOfLastWord = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def lengthOfLastWord(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int lengthOfLastWord(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int lengthOfLastWord(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -5324,10 +5324,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number[][]}\n */\nvar generateMatrix = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def generateMatrix(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> generateMatrix(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[][] generateMatrix(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -5414,10 +5414,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @param {number} k\n * @return {string}\n */\nvar getPermutation = function(n, k) {\n    \n};",
+      "python": "class Solution(object):\n    def getPermutation(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string getPermutation(int n, int k) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String getPermutation(int n, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -5509,10 +5509,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @param {number} k\n * @return {ListNode}\n */\nvar rotateRight = function(head, k) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def rotateRight(self, head, k):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :type k: int\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* rotateRight(ListNode* head, int k) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode rotateRight(ListNode head, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -5600,10 +5600,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} m\n * @param {number} n\n * @return {number}\n */\nvar uniquePaths = function(m, n) {\n    \n};",
+      "python": "class Solution(object):\n    def uniquePaths(self, m, n):\n        \"\"\"\n        :type m: int\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int uniquePaths(int m, int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int uniquePaths(int m, int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -5694,10 +5694,10 @@ export const codingProblems: CodingProblem[] = [
       "assume dp[i][j] is the number of unique paths to reach (i, j). dp[i][j] = dp[i][j -1] + dp[i - 1][j]. Be careful when you encounter an obstacle. set its value in dp to 0."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} obstacleGrid\n * @return {number}\n */\nvar uniquePathsWithObstacles = function(obstacleGrid) {\n    \n};",
+      "python": "class Solution(object):\n    def uniquePathsWithObstacles(self, obstacleGrid):\n        \"\"\"\n        :type obstacleGrid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int uniquePathsWithObstacles(int[][] obstacleGrid) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -5785,10 +5785,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} grid\n * @return {number}\n */\nvar minPathSum = function(grid) {\n    \n};",
+      "python": "class Solution(object):\n    def minPathSum(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int minPathSum(vector<vector<int>>& grid) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int minPathSum(int[][] grid) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -5874,10 +5874,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {boolean}\n */\nvar isNumber = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def isNumber(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isNumber(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isNumber(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -5959,10 +5959,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} digits\n * @return {number[]}\n */\nvar plusOne = function(digits) {\n    \n};",
+      "python": "class Solution(object):\n    def plusOne(self, digits):\n        \"\"\"\n        :type digits: List[int]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> plusOne(vector<int>& digits) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[] plusOne(int[] digits) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -6056,10 +6056,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} a\n * @param {string} b\n * @return {string}\n */\nvar addBinary = function(a, b) {\n    \n};",
+      "python": "class Solution(object):\n    def addBinary(self, a, b):\n        \"\"\"\n        :type a: str\n        :type b: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string addBinary(string a, string b) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String addBinary(String a, String b) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -6147,10 +6147,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string[]} words\n * @param {number} maxWidth\n * @return {string[]}\n */\nvar fullJustify = function(words, maxWidth) {\n    \n};",
+      "python": "class Solution(object):\n    def fullJustify(self, words, maxWidth):\n        \"\"\"\n        :type words: List[str]\n        :type maxWidth: int\n        :rtype: List[str]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<string> fullJustify(vector<string>& words, int maxWidth) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<String> fullJustify(String[] words, int maxWidth) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -6245,10 +6245,10 @@ export const codingProblems: CodingProblem[] = [
       "Use the sorted property of integers to reduced the search space. (Credits: @annujoshi)"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} x\n * @return {number}\n */\nvar mySqrt = function(x) {\n    \n};",
+      "python": "class Solution(object):\n    def mySqrt(self, x):\n        \"\"\"\n        :type x: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int mySqrt(int x) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int mySqrt(int x) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -6338,10 +6338,10 @@ export const codingProblems: CodingProblem[] = [
       "To reach nth step, what could have been your previous steps? (Think about the step sizes)"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar climbStairs = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def climbStairs(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int climbStairs(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int climbStairs(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -6428,10 +6428,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} path\n * @return {string}\n */\nvar simplifyPath = function(path) {\n    \n};",
+      "python": "class Solution(object):\n    def simplifyPath(self, path):\n        \"\"\"\n        :type path: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string simplifyPath(string path) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String simplifyPath(String path) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -6513,10 +6513,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} word1\n * @param {string} word2\n * @return {number}\n */\nvar minDistance = function(word1, word2) {\n    \n};",
+      "python": "class Solution(object):\n    def minDistance(self, word1, word2):\n        \"\"\"\n        :type word1: str\n        :type word2: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int minDistance(string word1, string word2) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int minDistance(String word1, String word2) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -6609,10 +6609,10 @@ export const codingProblems: CodingProblem[] = [
       "We can use the first cell of every row and column as a flag. This flag would determine whether a row or column has been set to zero."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} matrix\n * @return {void} Do not return anything, modify matrix in-place instead.\n */\nvar setZeroes = function(matrix) {\n    \n};",
+      "python": "class Solution(object):\n    def setZeroes(self, matrix):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :rtype: None Do not return anything, modify matrix in-place instead.\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    void setZeroes(vector<vector<int>>& matrix) {\n        \n    }\n};",
+      "java": "class Solution {\n    public void setZeroes(int[][] matrix) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -6700,10 +6700,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} matrix\n * @param {number} target\n * @return {boolean}\n */\nvar searchMatrix = function(matrix, target) {\n    \n};",
+      "python": "class Solution(object):\n    def searchMatrix(self, matrix, target):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :type target: int\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool searchMatrix(vector<vector<int>>& matrix, int target) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean searchMatrix(int[][] matrix, int target) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -6795,10 +6795,10 @@ export const codingProblems: CodingProblem[] = [
       "Overwrite array with the total number of 0's, then 1's and followed by 2's."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {void} Do not return anything, modify nums in-place instead.\n */\nvar sortColors = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def sortColors(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: None Do not return anything, modify nums in-place instead.\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    void sortColors(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public void sortColors(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -6891,10 +6891,10 @@ export const codingProblems: CodingProblem[] = [
       "Continue expanding the right and left pointers until you reach the end of s."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @param {string} t\n * @return {string}\n */\nvar minWindow = function(s, t) {\n    \n};",
+      "python": "class Solution(object):\n    def minWindow(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string minWindow(string s, string t) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String minWindow(String s, String t) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -6985,10 +6985,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @param {number} k\n * @return {number[][]}\n */\nvar combine = function(n, k) {\n    \n};",
+      "python": "class Solution(object):\n    def combine(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> combine(int n, int k) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<Integer>> combine(int n, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -7076,10 +7076,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[][]}\n */\nvar subsets = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def subsets(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> subsets(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<Integer>> subsets(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -7169,10 +7169,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {character[][]} board\n * @param {string} word\n * @return {boolean}\n */\nvar exist = function(board, word) {\n    \n};",
+      "python": "class Solution(object):\n    def exist(self, board, word):\n        \"\"\"\n        :type board: List[List[str]]\n        :type word: str\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool exist(vector<vector<char>>& board, string word) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean exist(char[][] board, String word) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -7264,10 +7264,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar removeDuplicates = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def removeDuplicates(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int removeDuplicates(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int removeDuplicates(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -7354,10 +7354,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {boolean}\n */\nvar search = function(nums, target) {\n    \n};",
+      "python": "class Solution(object):\n    def search(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool search(vector<int>& nums, int target) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean search(int[] nums, int target) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -7444,10 +7444,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @return {ListNode}\n */\nvar deleteDuplicates = function(head) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def deleteDuplicates(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* deleteDuplicates(ListNode* head) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode deleteDuplicates(ListNode head) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -7533,10 +7533,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @return {ListNode}\n */\nvar deleteDuplicates = function(head) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def deleteDuplicates(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* deleteDuplicates(ListNode* head) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode deleteDuplicates(ListNode head) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -7624,10 +7624,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} heights\n * @return {number}\n */\nvar largestRectangleArea = function(heights) {\n    \n};",
+      "python": "class Solution(object):\n    def largestRectangleArea(self, heights):\n        \"\"\"\n        :type heights: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int largestRectangleArea(vector<int>& heights) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int largestRectangleArea(int[] heights) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -7717,10 +7717,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {character[][]} matrix\n * @return {number}\n */\nvar maximalRectangle = function(matrix) {\n    \n};",
+      "python": "class Solution(object):\n    def maximalRectangle(self, matrix):\n        \"\"\"\n        :type matrix: List[List[str]]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int maximalRectangle(vector<vector<char>>& matrix) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int maximalRectangle(char[][] matrix) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -7812,10 +7812,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @param {number} x\n * @return {ListNode}\n */\nvar partition = function(head, x) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def partition(self, head, x):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :type x: int\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* partition(ListNode* head, int x) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode partition(ListNode head, int x) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -7902,10 +7902,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s1\n * @param {string} s2\n * @return {boolean}\n */\nvar isScramble = function(s1, s2) {\n    \n};",
+      "python": "class Solution(object):\n    def isScramble(self, s1, s2):\n        \"\"\"\n        :type s1: str\n        :type s2: str\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isScramble(string s1, string s2) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isScramble(String s1, String s2) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -8001,10 +8001,10 @@ export const codingProblems: CodingProblem[] = [
       "If you simply consider one element each at a time from the two arrays and make a decision and proceed accordingly, you will arrive at the optimal solution."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums1\n * @param {number} m\n * @param {number[]} nums2\n * @param {number} n\n * @return {void} Do not return anything, modify nums1 in-place instead.\n */\nvar merge = function(nums1, m, nums2, n) {\n    \n};",
+      "python": "class Solution(object):\n    def merge(self, nums1, m, nums2, n):\n        \"\"\"\n        :type nums1: List[int]\n        :type m: int\n        :type nums2: List[int]\n        :type n: int\n        :rtype: None Do not return anything, modify nums1 in-place instead.\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public void merge(int[] nums1, int m, int[] nums2, int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -8097,10 +8097,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number[]}\n */\nvar grayCode = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def grayCode(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> grayCode(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<Integer> grayCode(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -8188,10 +8188,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[][]}\n */\nvar subsetsWithDup = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def subsetsWithDup(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> subsetsWithDup(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<Integer>> subsetsWithDup(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -8278,10 +8278,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {number}\n */\nvar numDecodings = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def numDecodings(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int numDecodings(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int numDecodings(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -8362,10 +8362,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @param {number} left\n * @param {number} right\n * @return {ListNode}\n */\nvar reverseBetween = function(head, left, right) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def reverseBetween(self, head, left, right):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :type left: int\n        :type right: int\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* reverseBetween(ListNode* head, int left, int right) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode reverseBetween(ListNode head, int left, int right) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -8452,10 +8452,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {string[]}\n */\nvar restoreIpAddresses = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def restoreIpAddresses(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[str]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<string> restoreIpAddresses(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<String> restoreIpAddresses(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -8549,10 +8549,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number[]}\n */\nvar inorderTraversal = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def inorderTraversal(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<int> inorderTraversal(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public List<Integer> inorderTraversal(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -8637,10 +8637,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {number} n\n * @return {TreeNode[]}\n */\nvar generateTrees = function(n) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def generateTrees(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[Optional[TreeNode]]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<TreeNode*> generateTrees(int n) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public List<TreeNode> generateTrees(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -8730,10 +8730,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar numTrees = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def numTrees(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int numTrees(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int numTrees(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -8820,10 +8820,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s1\n * @param {string} s2\n * @param {string} s3\n * @return {boolean}\n */\nvar isInterleave = function(s1, s2, s3) {\n    \n};",
+      "python": "class Solution(object):\n    def isInterleave(self, s1, s2, s3):\n        \"\"\"\n        :type s1: str\n        :type s2: str\n        :type s3: str\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isInterleave(string s1, string s2, string s3) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isInterleave(String s1, String s2, String s3) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -8917,10 +8917,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {boolean}\n */\nvar isValidBST = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def isValidBST(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    bool isValidBST(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public boolean isValidBST(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -9009,10 +9009,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {void} Do not return anything, modify root in-place instead.\n */\nvar recoverTree = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def recoverTree(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: None Do not return anything, modify root in-place instead.\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    void recoverTree(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public void recoverTree(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -9101,10 +9101,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} p\n * @param {TreeNode} q\n * @return {boolean}\n */\nvar isSameTree = function(p, q) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def isSameTree(self, p, q):\n        \"\"\"\n        :type p: Optional[TreeNode]\n        :type q: Optional[TreeNode]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    bool isSameTree(TreeNode* p, TreeNode* q) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public boolean isSameTree(TreeNode p, TreeNode q) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -9198,10 +9198,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {boolean}\n */\nvar isSymmetric = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def isSymmetric(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    bool isSymmetric(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public boolean isSymmetric(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -9291,10 +9291,10 @@ export const codingProblems: CodingProblem[] = [
       "Use a queue to perform BFS."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number[][]}\n */\nvar levelOrder = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def levelOrder(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<vector<int>> levelOrder(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -9387,10 +9387,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number[][]}\n */\nvar zigzagLevelOrder = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def zigzagLevelOrder(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -9484,10 +9484,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number}\n */\nvar maxDepth = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def maxDepth(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    int maxDepth(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public int maxDepth(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -9577,10 +9577,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {number[]} preorder\n * @param {number[]} inorder\n * @return {TreeNode}\n */\nvar buildTree = function(preorder, inorder) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def buildTree(self, preorder, inorder):\n        \"\"\"\n        :type preorder: List[int]\n        :type inorder: List[int]\n        :rtype: Optional[TreeNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public TreeNode buildTree(int[] preorder, int[] inorder) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -9670,10 +9670,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {number[]} inorder\n * @param {number[]} postorder\n * @return {TreeNode}\n */\nvar buildTree = function(inorder, postorder) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def buildTree(self, inorder, postorder):\n        \"\"\"\n        :type inorder: List[int]\n        :type postorder: List[int]\n        :rtype: Optional[TreeNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public TreeNode buildTree(int[] inorder, int[] postorder) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -9761,10 +9761,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number[][]}\n */\nvar levelOrderBottom = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def levelOrderBottom(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<vector<int>> levelOrderBottom(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public List<List<Integer>> levelOrderBottom(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -9859,10 +9859,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {number[]} nums\n * @return {TreeNode}\n */\nvar sortedArrayToBST = function(nums) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def sortedArrayToBST(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: Optional[TreeNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    TreeNode* sortedArrayToBST(vector<int>& nums) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public TreeNode sortedArrayToBST(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -9952,10 +9952,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {ListNode} head\n * @return {TreeNode}\n */\nvar sortedListToBST = function(head) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\n# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def sortedListToBST(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[TreeNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\n/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    TreeNode* sortedListToBST(ListNode* head) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\n/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public TreeNode sortedListToBST(ListNode head) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -10043,10 +10043,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {boolean}\n */\nvar isBalanced = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def isBalanced(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    bool isBalanced(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public boolean isBalanced(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -10140,10 +10140,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number}\n */\nvar minDepth = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def minDepth(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    int minDepth(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public int minDepth(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -10232,10 +10232,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @param {number} targetSum\n * @return {boolean}\n */\nvar hasPathSum = function(root, targetSum) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def hasPathSum(self, root, targetSum):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type targetSum: int\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    bool hasPathSum(TreeNode* root, int targetSum) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public boolean hasPathSum(TreeNode root, int targetSum) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -10329,10 +10329,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @param {number} targetSum\n * @return {number[][]}\n */\nvar pathSum = function(root, targetSum) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def pathSum(self, root, targetSum):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type targetSum: int\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -10429,10 +10429,10 @@ export const codingProblems: CodingProblem[] = [
       "If you notice carefully in the flattened tree, each node's right child points to the next node of a pre-order traversal."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {void} Do not return anything, modify root in-place instead.\n */\nvar flatten = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def flatten(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: None Do not return anything, modify root in-place instead.\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    void flatten(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public void flatten(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -10524,10 +10524,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @param {string} t\n * @return {number}\n */\nvar numDistinct = function(s, t) {\n    \n};",
+      "python": "class Solution(object):\n    def numDistinct(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int numDistinct(string s, string t) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int numDistinct(String s, String t) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -10617,10 +10617,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * // Definition for a _Node.\n * function _Node(val, left, right, next) {\n *    this.val = val === undefined ? null : val;\n *    this.left = left === undefined ? null : left;\n *    this.right = right === undefined ? null : right;\n *    this.next = next === undefined ? null : next;\n * };\n */\n\n/**\n * @param {_Node} root\n * @return {_Node}\n */\nvar connect = function(root) {\n    \n};",
+      "python": "\"\"\"\n# Definition for a Node.\nclass Node(object):\n    def __init__(self, val=0, left=None, right=None, next=None):\n        self.val = val\n        self.left = left\n        self.right = right\n        self.next = next\n\"\"\"\n\nclass Solution(object):\n    def connect(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: Node\n        \"\"\"\n        ",
+      "cpp": "/*\n// Definition for a Node.\nclass Node {\npublic:\n    int val;\n    Node* left;\n    Node* right;\n    Node* next;\n\n    Node() : val(0), left(NULL), right(NULL), next(NULL) {}\n\n    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}\n\n    Node(int _val, Node* _left, Node* _right, Node* _next)\n        : val(_val), left(_left), right(_right), next(_next) {}\n};\n*/\n\nclass Solution {\npublic:\n    Node* connect(Node* root) {\n        \n    }\n};",
+      "java": "/*\n// Definition for a Node.\nclass Node {\n    public int val;\n    public Node left;\n    public Node right;\n    public Node next;\n\n    public Node() {}\n    \n    public Node(int _val) {\n        val = _val;\n    }\n\n    public Node(int _val, Node _left, Node _right, Node _next) {\n        val = _val;\n        left = _left;\n        right = _right;\n        next = _next;\n    }\n};\n*/\n\nclass Solution {\n    public Node connect(Node root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -10710,10 +10710,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * // Definition for a _Node.\n * function _Node(val, left, right, next) {\n *    this.val = val === undefined ? null : val;\n *    this.left = left === undefined ? null : left;\n *    this.right = right === undefined ? null : right;\n *    this.next = next === undefined ? null : next;\n * };\n */\n\n/**\n * @param {_Node} root\n * @return {_Node}\n */\nvar connect = function(root) {\n    \n};",
+      "python": "\"\"\"\n# Definition for a Node.\nclass Node(object):\n    def __init__(self, val=0, left=None, right=None, next=None):\n        self.val = val\n        self.left = left\n        self.right = right\n        self.next = next\n\"\"\"\n\nclass Solution(object):\n    def connect(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: Node\n        \"\"\"\n        ",
+      "cpp": "/*\n// Definition for a Node.\nclass Node {\npublic:\n    int val;\n    Node* left;\n    Node* right;\n    Node* next;\n\n    Node() : val(0), left(NULL), right(NULL), next(NULL) {}\n\n    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}\n\n    Node(int _val, Node* _left, Node* _right, Node* _next)\n        : val(_val), left(_left), right(_right), next(_next) {}\n};\n*/\n\nclass Solution {\npublic:\n    Node* connect(Node* root) {\n        \n    }\n};",
+      "java": "/*\n// Definition for a Node.\nclass Node {\n    public int val;\n    public Node left;\n    public Node right;\n    public Node next;\n\n    public Node() {}\n    \n    public Node(int _val) {\n        val = _val;\n    }\n\n    public Node(int _val, Node _left, Node _right, Node _next) {\n        val = _val;\n        left = _left;\n        right = _right;\n        next = _next;\n    }\n};\n*/\n\nclass Solution {\n    public Node connect(Node root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -10800,10 +10800,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} numRows\n * @return {number[][]}\n */\nvar generate = function(numRows) {\n    \n};",
+      "python": "class Solution(object):\n    def generate(self, numRows):\n        \"\"\"\n        :type numRows: int\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> generate(int numRows) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<Integer>> generate(int numRows) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -10890,10 +10890,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} rowIndex\n * @return {number[]}\n */\nvar getRow = function(rowIndex) {\n    \n};",
+      "python": "class Solution(object):\n    def getRow(self, rowIndex):\n        \"\"\"\n        :type rowIndex: int\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> getRow(int rowIndex) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<Integer> getRow(int rowIndex) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -10985,10 +10985,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} triangle\n * @return {number}\n */\nvar minimumTotal = function(triangle) {\n    \n};",
+      "python": "class Solution(object):\n    def minimumTotal(self, triangle):\n        \"\"\"\n        :type triangle: List[List[int]]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int minimumTotal(vector<vector<int>>& triangle) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int minimumTotal(List<List<Integer>> triangle) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -11075,10 +11075,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} prices\n * @return {number}\n */\nvar maxProfit = function(prices) {\n    \n};",
+      "python": "class Solution(object):\n    def maxProfit(self, prices):\n        \"\"\"\n        :type prices: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int maxProfit(int[] prices) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -11166,10 +11166,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} prices\n * @return {number}\n */\nvar maxProfit = function(prices) {\n    \n};",
+      "python": "class Solution(object):\n    def maxProfit(self, prices):\n        \"\"\"\n        :type prices: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int maxProfit(int[] prices) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -11261,10 +11261,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} prices\n * @return {number}\n */\nvar maxProfit = function(prices) {\n    \n};",
+      "python": "class Solution(object):\n    def maxProfit(self, prices):\n        \"\"\"\n        :type prices: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int maxProfit(int[] prices) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -11358,10 +11358,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number}\n */\nvar maxPathSum = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def maxPathSum(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    int maxPathSum(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public int maxPathSum(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -11448,10 +11448,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {boolean}\n */\nvar isPalindrome = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def isPalindrome(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isPalindrome(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isPalindrome(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -11545,10 +11545,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} beginWord\n * @param {string} endWord\n * @param {string[]} wordList\n * @return {string[][]}\n */\nvar findLadders = function(beginWord, endWord, wordList) {\n    \n};",
+      "python": "class Solution(object):\n    def findLadders(self, beginWord, endWord, wordList):\n        \"\"\"\n        :type beginWord: str\n        :type endWord: str\n        :type wordList: List[str]\n        :rtype: List[List[str]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -11636,10 +11636,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} beginWord\n * @param {string} endWord\n * @param {string[]} wordList\n * @return {number}\n */\nvar ladderLength = function(beginWord, endWord, wordList) {\n    \n};",
+      "python": "class Solution(object):\n    def ladderLength(self, beginWord, endWord, wordList):\n        \"\"\"\n        :type beginWord: str\n        :type endWord: str\n        :type wordList: List[str]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int ladderLength(String beginWord, String endWord, List<String> wordList) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -11727,10 +11727,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar longestConsecutive = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def longestConsecutive(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int longestConsecutive(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int longestConsecutive(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -11823,10 +11823,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number}\n */\nvar sumNumbers = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def sumNumbers(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    int sumNumbers(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public int sumNumbers(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -11916,10 +11916,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {character[][]} board\n * @return {void} Do not return anything, modify board in-place instead.\n */\nvar solve = function(board) {\n    \n};",
+      "python": "class Solution(object):\n    def solve(self, board):\n        \"\"\"\n        :type board: List[List[str]]\n        :rtype: None Do not return anything, modify board in-place instead.\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    void solve(vector<vector<char>>& board) {\n        \n    }\n};",
+      "java": "class Solution {\n    public void solve(char[][] board) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -12002,10 +12002,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {string[][]}\n */\nvar partition = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def partition(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[List[str]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<string>> partition(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<String>> partition(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -12092,10 +12092,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {number}\n */\nvar minCut = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def minCut(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int minCut(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int minCut(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -12189,10 +12189,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * // Definition for a _Node.\n * function _Node(val, neighbors) {\n *    this.val = val === undefined ? 0 : val;\n *    this.neighbors = neighbors === undefined ? [] : neighbors;\n * };\n */\n\n/**\n * @param {_Node} node\n * @return {_Node}\n */\nvar cloneGraph = function(node) {\n    \n};",
+      "python": "\"\"\"\n# Definition for a Node.\nclass Node(object):\n    def __init__(self, val = 0, neighbors = None):\n        self.val = val\n        self.neighbors = neighbors if neighbors is not None else []\n\"\"\"\n\nclass Solution(object):\n    def cloneGraph(self, node):\n        \"\"\"\n        :type node: Node\n        :rtype: Node\n        \"\"\"\n        ",
+      "cpp": "/*\n// Definition for a Node.\nclass Node {\npublic:\n    int val;\n    vector<Node*> neighbors;\n    Node() {\n        val = 0;\n        neighbors = vector<Node*>();\n    }\n    Node(int _val) {\n        val = _val;\n        neighbors = vector<Node*>();\n    }\n    Node(int _val, vector<Node*> _neighbors) {\n        val = _val;\n        neighbors = _neighbors;\n    }\n};\n*/\n\nclass Solution {\npublic:\n    Node* cloneGraph(Node* node) {\n        \n    }\n};",
+      "java": "/*\n// Definition for a Node.\nclass Node {\n    public int val;\n    public List<Node> neighbors;\n    public Node() {\n        val = 0;\n        neighbors = new ArrayList<Node>();\n    }\n    public Node(int _val) {\n        val = _val;\n        neighbors = new ArrayList<Node>();\n    }\n    public Node(int _val, ArrayList<Node> _neighbors) {\n        val = _val;\n        neighbors = _neighbors;\n    }\n}\n*/\n\nclass Solution {\n    public Node cloneGraph(Node node) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -12284,10 +12284,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} gas\n * @param {number[]} cost\n * @return {number}\n */\nvar canCompleteCircuit = function(gas, cost) {\n    \n};",
+      "python": "class Solution(object):\n    def canCompleteCircuit(self, gas, cost):\n        \"\"\"\n        :type gas: List[int]\n        :type cost: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int canCompleteCircuit(int[] gas, int[] cost) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -12374,10 +12374,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} ratings\n * @return {number}\n */\nvar candy = function(ratings) {\n    \n};",
+      "python": "class Solution(object):\n    def candy(self, ratings):\n        \"\"\"\n        :type ratings: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int candy(vector<int>& ratings) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int candy(int[] ratings) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -12466,10 +12466,10 @@ export const codingProblems: CodingProblem[] = [
       "Think about the XOR (^) operator's property."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar singleNumber = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def singleNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int singleNumber(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -12551,10 +12551,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar singleNumber = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def singleNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int singleNumber(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -12646,10 +12646,10 @@ export const codingProblems: CodingProblem[] = [
       "The interweaving is done using next</b> pointers and we can make use of interweaved structure to get the correct reference nodes for random</b> pointers."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * // Definition for a _Node.\n * function _Node(val, next, random) {\n *    this.val = val;\n *    this.next = next;\n *    this.random = random;\n * };\n */\n\n/**\n * @param {_Node} head\n * @return {_Node}\n */\nvar copyRandomList = function(head) {\n    \n};",
+      "python": "\"\"\"\n# Definition for a Node.\nclass Node:\n    def __init__(self, x, next=None, random=None):\n        self.val = int(x)\n        self.next = next\n        self.random = random\n\"\"\"\n\nclass Solution(object):\n    def copyRandomList(self, head):\n        \"\"\"\n        :type head: Node\n        :rtype: Node\n        \"\"\"\n        ",
+      "cpp": "/*\n// Definition for a Node.\nclass Node {\npublic:\n    int val;\n    Node* next;\n    Node* random;\n    \n    Node(int _val) {\n        val = _val;\n        next = NULL;\n        random = NULL;\n    }\n};\n*/\n\nclass Solution {\npublic:\n    Node* copyRandomList(Node* head) {\n        \n    }\n};",
+      "java": "/*\n// Definition for a Node.\nclass Node {\n    int val;\n    Node next;\n    Node random;\n\n    public Node(int val) {\n        this.val = val;\n        this.next = null;\n        this.random = null;\n    }\n}\n*/\n\nclass Solution {\n    public Node copyRandomList(Node head) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -12745,10 +12745,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @param {string[]} wordDict\n * @return {boolean}\n */\nvar wordBreak = function(s, wordDict) {\n    \n};",
+      "python": "class Solution(object):\n    def wordBreak(self, s, wordDict):\n        \"\"\"\n        :type s: str\n        :type wordDict: List[str]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool wordBreak(string s, vector<string>& wordDict) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -12845,10 +12845,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @param {string[]} wordDict\n * @return {string[]}\n */\nvar wordBreak = function(s, wordDict) {\n    \n};",
+      "python": "class Solution(object):\n    def wordBreak(self, s, wordDict):\n        \"\"\"\n        :type s: str\n        :type wordDict: List[str]\n        :rtype: List[str]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<string> wordBreak(string s, vector<string>& wordDict) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<String> wordBreak(String s, List<String> wordDict) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -12941,10 +12941,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\n\n/**\n * @param {ListNode} head\n * @return {boolean}\n */\nvar hasCycle = function(head) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def hasCycle(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode(int x) : val(x), next(NULL) {}\n * };\n */\nclass Solution {\npublic:\n    bool hasCycle(ListNode *head) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public boolean hasCycle(ListNode head) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -13037,10 +13037,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\n\n/**\n * @param {ListNode} head\n * @return {ListNode}\n */\nvar detectCycle = function(head) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def detectCycle(self, head):\n        \"\"\"\n        :type head: ListNode\n        :rtype: ListNode\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode(int x) : val(x), next(NULL) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode *detectCycle(ListNode *head) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public ListNode detectCycle(ListNode head) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -13134,10 +13134,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @return {void} Do not return anything, modify head in-place instead.\n */\nvar reorderList = function(head) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def reorderList(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: None Do not return anything, modify head in-place instead.\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    void reorderList(ListNode* head) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public void reorderList(ListNode head) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -13226,10 +13226,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number[]}\n */\nvar preorderTraversal = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def preorderTraversal(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<int> preorderTraversal(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public List<Integer> preorderTraversal(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -13313,10 +13313,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number[]}\n */\nvar postorderTraversal = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def postorderTraversal(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<int> postorderTraversal(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public List<Integer> postorderTraversal(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -13400,10 +13400,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} capacity\n */\nvar LRUCache = function(capacity) {\n    \n};\n\n/** \n * @param {number} key\n * @return {number}\n */\nLRUCache.prototype.get = function(key) {\n    \n};\n\n/** \n * @param {number} key \n * @param {number} value\n * @return {void}\n */\nLRUCache.prototype.put = function(key, value) {\n    \n};\n\n/** \n * Your LRUCache object will be instantiated and called as such:\n * var obj = new LRUCache(capacity)\n * var param_1 = obj.get(key)\n * obj.put(key,value)\n */",
+      "python": "class LRUCache(object):\n\n    def __init__(self, capacity):\n        \"\"\"\n        :type capacity: int\n        \"\"\"\n        \n\n    def get(self, key):\n        \"\"\"\n        :type key: int\n        :rtype: int\n        \"\"\"\n        \n\n    def put(self, key, value):\n        \"\"\"\n        :type key: int\n        :type value: int\n        :rtype: None\n        \"\"\"\n        \n\n\n# Your LRUCache object will be instantiated and called as such:\n# obj = LRUCache(capacity)\n# param_1 = obj.get(key)\n# obj.put(key,value)",
+      "cpp": "class LRUCache {\npublic:\n    LRUCache(int capacity) {\n        \n    }\n    \n    int get(int key) {\n        \n    }\n    \n    void put(int key, int value) {\n        \n    }\n};\n\n/**\n * Your LRUCache object will be instantiated and called as such:\n * LRUCache* obj = new LRUCache(capacity);\n * int param_1 = obj->get(key);\n * obj->put(key,value);\n */",
+      "java": "class LRUCache {\n\n    public LRUCache(int capacity) {\n        \n    }\n    \n    public int get(int key) {\n        \n    }\n    \n    public void put(int key, int value) {\n        \n    }\n}\n\n/**\n * Your LRUCache object will be instantiated and called as such:\n * LRUCache obj = new LRUCache(capacity);\n * int param_1 = obj.get(key);\n * obj.put(key,value);\n */"
     },
     "testCases": [
       {
@@ -13485,10 +13485,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @return {ListNode}\n */\nvar insertionSortList = function(head) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def insertionSortList(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* insertionSortList(ListNode* head) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode insertionSortList(ListNode head) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -13578,10 +13578,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @return {ListNode}\n */\nvar sortList = function(head) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def sortList(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* sortList(ListNode* head) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode sortList(ListNode head) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -13675,10 +13675,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} points\n * @return {number}\n */\nvar maxPoints = function(points) {\n    \n};",
+      "python": "class Solution(object):\n    def maxPoints(self, points):\n        \"\"\"\n        :type points: List[List[int]]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int maxPoints(vector<vector<int>>& points) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int maxPoints(int[][] points) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -13766,10 +13766,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string[]} tokens\n * @return {number}\n */\nvar evalRPN = function(tokens) {\n    \n};",
+      "python": "class Solution(object):\n    def evalRPN(self, tokens):\n        \"\"\"\n        :type tokens: List[str]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int evalRPN(vector<string>& tokens) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int evalRPN(String[] tokens) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -13861,10 +13861,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {string}\n */\nvar reverseWords = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def reverseWords(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string reverseWords(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String reverseWords(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -13956,10 +13956,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar maxProduct = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def maxProduct(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int maxProduct(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int maxProduct(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -14050,10 +14050,10 @@ export const codingProblems: CodingProblem[] = [
       "<ol>\r\n<li>All the elements to the left of inflection point > first element of the array.</li>\r\n<li>All the elements to the right of inflection point < first element of the array.</li>\r\n<ol>"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar findMin = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def findMin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findMin(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findMin(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -14145,10 +14145,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar findMin = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def findMin(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findMin(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findMin(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -14237,10 +14237,10 @@ export const codingProblems: CodingProblem[] = [
       "Consider each node in the stack having a minimum value. (Credits to @aakarshmadhavan)"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "\nvar MinStack = function() {\n    \n};\n\n/** \n * @param {number} val\n * @return {void}\n */\nMinStack.prototype.push = function(val) {\n    \n};\n\n/**\n * @return {void}\n */\nMinStack.prototype.pop = function() {\n    \n};\n\n/**\n * @return {number}\n */\nMinStack.prototype.top = function() {\n    \n};\n\n/**\n * @return {number}\n */\nMinStack.prototype.getMin = function() {\n    \n};\n\n/** \n * Your MinStack object will be instantiated and called as such:\n * var obj = new MinStack()\n * obj.push(val)\n * obj.pop()\n * var param_3 = obj.top()\n * var param_4 = obj.getMin()\n */",
+      "python": "class MinStack(object):\n\n    def __init__(self):\n        \n\n    def push(self, val):\n        \"\"\"\n        :type val: int\n        :rtype: None\n        \"\"\"\n        \n\n    def pop(self):\n        \"\"\"\n        :rtype: None\n        \"\"\"\n        \n\n    def top(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        \n\n    def getMin(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        \n\n\n# Your MinStack object will be instantiated and called as such:\n# obj = MinStack()\n# obj.push(val)\n# obj.pop()\n# param_3 = obj.top()\n# param_4 = obj.getMin()",
+      "cpp": "class MinStack {\npublic:\n    MinStack() {\n        \n    }\n    \n    void push(int val) {\n        \n    }\n    \n    void pop() {\n        \n    }\n    \n    int top() {\n        \n    }\n    \n    int getMin() {\n        \n    }\n};\n\n/**\n * Your MinStack object will be instantiated and called as such:\n * MinStack* obj = new MinStack();\n * obj->push(val);\n * obj->pop();\n * int param_3 = obj->top();\n * int param_4 = obj->getMin();\n */",
+      "java": "class MinStack {\n\n    public MinStack() {\n        \n    }\n    \n    public void push(int val) {\n        \n    }\n    \n    public void pop() {\n        \n    }\n    \n    public int top() {\n        \n    }\n    \n    public int getMin() {\n        \n    }\n}\n\n/**\n * Your MinStack object will be instantiated and called as such:\n * MinStack obj = new MinStack();\n * obj.push(val);\n * obj.pop();\n * int param_3 = obj.top();\n * int param_4 = obj.getMin();\n */"
     },
     "testCases": [
       {
@@ -14323,10 +14323,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val) {\n *     this.val = val;\n *     this.next = null;\n * }\n */\n\n/**\n * @param {ListNode} headA\n * @param {ListNode} headB\n * @return {ListNode}\n */\nvar getIntersectionNode = function(headA, headB) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution(object):\n    def getIntersectionNode(self, headA, headB):\n        \"\"\"\n        :type head1, head1: ListNode\n        :rtype: ListNode\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode(int x) : val(x), next(NULL) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode(int x) {\n *         val = x;\n *         next = null;\n *     }\n * }\n */\npublic class Solution {\n    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -14418,10 +14418,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar findPeakElement = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def findPeakElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findPeakElement(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findPeakElement(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -14511,10 +14511,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar majorityElement = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int majorityElement(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int majorityElement(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -14602,10 +14602,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} numbers\n * @param {number} target\n * @return {number[]}\n */\nvar twoSum = function(numbers, target) {\n    \n};",
+      "python": "class Solution(object):\n    def twoSum(self, numbers, target):\n        \"\"\"\n        :type numbers: List[int]\n        :type target: int\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& numbers, int target) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[] twoSum(int[] numbers, int target) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -14697,10 +14697,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} columnNumber\n * @return {string}\n */\nvar convertToTitle = function(columnNumber) {\n    \n};",
+      "python": "class Solution(object):\n    def convertToTitle(self, columnNumber):\n        \"\"\"\n        :type columnNumber: int\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string convertToTitle(int columnNumber) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String convertToTitle(int columnNumber) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -14792,10 +14792,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} columnTitle\n * @return {number}\n */\nvar titleToNumber = function(columnTitle) {\n    \n};",
+      "python": "class Solution(object):\n    def titleToNumber(self, columnTitle):\n        \"\"\"\n        :type columnTitle: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int titleToNumber(string columnTitle) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int titleToNumber(String columnTitle) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -14886,10 +14886,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar trailingZeroes = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def trailingZeroes(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int trailingZeroes(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int trailingZeroes(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -14985,10 +14985,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n */\nvar BSTIterator = function(root) {\n    \n};\n\n/**\n * @return {number}\n */\nBSTIterator.prototype.next = function() {\n    \n};\n\n/**\n * @return {boolean}\n */\nBSTIterator.prototype.hasNext = function() {\n    \n};\n\n/** \n * Your BSTIterator object will be instantiated and called as such:\n * var obj = new BSTIterator(root)\n * var param_1 = obj.next()\n * var param_2 = obj.hasNext()\n */",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass BSTIterator(object):\n\n    def __init__(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        \"\"\"\n        \n\n    def next(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        \n\n    def hasNext(self):\n        \"\"\"\n        :rtype: bool\n        \"\"\"\n        \n\n\n# Your BSTIterator object will be instantiated and called as such:\n# obj = BSTIterator(root)\n# param_1 = obj.next()\n# param_2 = obj.hasNext()",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass BSTIterator {\npublic:\n    BSTIterator(TreeNode* root) {\n        \n    }\n    \n    int next() {\n        \n    }\n    \n    bool hasNext() {\n        \n    }\n};\n\n/**\n * Your BSTIterator object will be instantiated and called as such:\n * BSTIterator* obj = new BSTIterator(root);\n * int param_1 = obj->next();\n * bool param_2 = obj->hasNext();\n */",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass BSTIterator {\n\n    public BSTIterator(TreeNode root) {\n        \n    }\n    \n    public int next() {\n        \n    }\n    \n    public boolean hasNext() {\n        \n    }\n}\n\n/**\n * Your BSTIterator object will be instantiated and called as such:\n * BSTIterator obj = new BSTIterator(root);\n * int param_1 = obj.next();\n * boolean param_2 = obj.hasNext();\n */"
     },
     "testCases": [
       {
@@ -15071,10 +15071,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} dungeon\n * @return {number}\n */\nvar calculateMinimumHP = function(dungeon) {\n    \n};",
+      "python": "class Solution(object):\n    def calculateMinimumHP(self, dungeon):\n        \"\"\"\n        :type dungeon: List[List[int]]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int calculateMinimumHP(vector<vector<int>>& dungeon) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int calculateMinimumHP(int[][] dungeon) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -15163,10 +15163,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {string}\n */\nvar largestNumber = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def largestNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string largestNumber(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String largestNumber(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -15257,10 +15257,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {string[]}\n */\nvar findRepeatedDnaSequences = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def findRepeatedDnaSequences(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[str]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<string> findRepeatedDnaSequences(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<String> findRepeatedDnaSequences(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -15353,10 +15353,10 @@ export const codingProblems: CodingProblem[] = [
       "The other line of thought is a tad bit complicated but essentially it builds on the idea of placing each element in its original position while keeping track of the element originally in that position. Basically, at every step, we place an element in its rightful position and keep track of the element already there or the one being overwritten in an additional variable. We can't do this in one linear pass and the idea here is based on <b>cyclic-dependencies</b> between elements."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {void} Do not return anything, modify nums in-place instead.\n */\nvar rotate = function(nums, k) {\n    \n};",
+      "python": "class Solution(object):\n    def rotate(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: None Do not return anything, modify nums in-place instead.\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    void rotate(vector<int>& nums, int k) {\n        \n    }\n};",
+      "java": "class Solution {\n    public void rotate(int[] nums, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -15443,10 +15443,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar reverseBits = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def reverseBits(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int reverseBits(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int reverseBits(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -15528,10 +15528,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar hammingWeight = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def hammingWeight(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int hammingWeight(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int hammingWeight(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -15613,10 +15613,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar rob = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def rob(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int rob(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int rob(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -15705,10 +15705,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number[]}\n */\nvar rightSideView = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def rightSideView(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<int> rightSideView(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public List<Integer> rightSideView(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -15793,10 +15793,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {character[][]} grid\n * @return {number}\n */\nvar numIslands = function(grid) {\n    \n};",
+      "python": "class Solution(object):\n    def numIslands(self, grid):\n        \"\"\"\n        :type grid: List[List[str]]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int numIslands(vector<vector<char>>& grid) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int numIslands(char[][] grid) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -15877,10 +15877,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} left\n * @param {number} right\n * @return {number}\n */\nvar rangeBitwiseAnd = function(left, right) {\n    \n};",
+      "python": "class Solution(object):\n    def rangeBitwiseAnd(self, left, right):\n        \"\"\"\n        :type left: int\n        :type right: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int rangeBitwiseAnd(int left, int right) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int rangeBitwiseAnd(int left, int right) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -15973,10 +15973,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {boolean}\n */\nvar isHappy = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def isHappy(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isHappy(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isHappy(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -16063,10 +16063,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @param {number} val\n * @return {ListNode}\n */\nvar removeElements = function(head, val) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def removeElements(self, head, val):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :type val: int\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* removeElements(ListNode* head, int val) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode removeElements(ListNode head, int val) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -16164,10 +16164,10 @@ export const codingProblems: CodingProblem[] = [
       "Use Sieve of Eratosthenes."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar countPrimes = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def countPrimes(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int countPrimes(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int countPrimes(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -16259,10 +16259,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @param {string} t\n * @return {boolean}\n */\nvar isIsomorphic = function(s, t) {\n    \n};",
+      "python": "class Solution(object):\n    def isIsomorphic(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isIsomorphic(string s, string t) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isIsomorphic(String s, String t) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -16344,10 +16344,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @return {ListNode}\n */\nvar reverseList = function(head) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def reverseList(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* reverseList(ListNode* head) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode reverseList(ListNode head) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -16445,10 +16445,10 @@ export const codingProblems: CodingProblem[] = [
       "Topological sort could also be done via <a href=\"http://en.wikipedia.org/wiki/Topological_sorting#Algorithms\" target=\"_blank\">BFS</a>."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} numCourses\n * @param {number[][]} prerequisites\n * @return {boolean}\n */\nvar canFinish = function(numCourses, prerequisites) {\n    \n};",
+      "python": "class Solution(object):\n    def canFinish(self, numCourses, prerequisites):\n        \"\"\"\n        :type numCourses: int\n        :type prerequisites: List[List[int]]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean canFinish(int numCourses, int[][] prerequisites) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -16537,10 +16537,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "\nvar Trie = function() {\n    \n};\n\n/** \n * @param {string} word\n * @return {void}\n */\nTrie.prototype.insert = function(word) {\n    \n};\n\n/** \n * @param {string} word\n * @return {boolean}\n */\nTrie.prototype.search = function(word) {\n    \n};\n\n/** \n * @param {string} prefix\n * @return {boolean}\n */\nTrie.prototype.startsWith = function(prefix) {\n    \n};\n\n/** \n * Your Trie object will be instantiated and called as such:\n * var obj = new Trie()\n * obj.insert(word)\n * var param_2 = obj.search(word)\n * var param_3 = obj.startsWith(prefix)\n */",
+      "python": "class Trie(object):\n\n    def __init__(self):\n        \n\n    def insert(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: None\n        \"\"\"\n        \n\n    def search(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: bool\n        \"\"\"\n        \n\n    def startsWith(self, prefix):\n        \"\"\"\n        :type prefix: str\n        :rtype: bool\n        \"\"\"\n        \n\n\n# Your Trie object will be instantiated and called as such:\n# obj = Trie()\n# obj.insert(word)\n# param_2 = obj.search(word)\n# param_3 = obj.startsWith(prefix)",
+      "cpp": "class Trie {\npublic:\n    Trie() {\n        \n    }\n    \n    void insert(string word) {\n        \n    }\n    \n    bool search(string word) {\n        \n    }\n    \n    bool startsWith(string prefix) {\n        \n    }\n};\n\n/**\n * Your Trie object will be instantiated and called as such:\n * Trie* obj = new Trie();\n * obj->insert(word);\n * bool param_2 = obj->search(word);\n * bool param_3 = obj->startsWith(prefix);\n */",
+      "java": "class Trie {\n\n    public Trie() {\n        \n    }\n    \n    public void insert(String word) {\n        \n    }\n    \n    public boolean search(String word) {\n        \n    }\n    \n    public boolean startsWith(String prefix) {\n        \n    }\n}\n\n/**\n * Your Trie object will be instantiated and called as such:\n * Trie obj = new Trie();\n * obj.insert(word);\n * boolean param_2 = obj.search(word);\n * boolean param_3 = obj.startsWith(prefix);\n */"
     },
     "testCases": [
       {
@@ -16624,10 +16624,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} target\n * @param {number[]} nums\n * @return {number}\n */\nvar minSubArrayLen = function(target, nums) {\n    \n};",
+      "python": "class Solution(object):\n    def minSubArrayLen(self, target, nums):\n        \"\"\"\n        :type target: int\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int minSubArrayLen(int target, vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int minSubArrayLen(int target, int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -16725,10 +16725,10 @@ export const codingProblems: CodingProblem[] = [
       "Topological sort could also be done via <a href=\"http://en.wikipedia.org/wiki/Topological_sorting#Algorithms\" target=\"_blank\">BFS</a>."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} numCourses\n * @param {number[][]} prerequisites\n * @return {number[]}\n */\nvar findOrder = function(numCourses, prerequisites) {\n    \n};",
+      "python": "class Solution(object):\n    def findOrder(self, numCourses, prerequisites):\n        \"\"\"\n        :type numCourses: int\n        :type prerequisites: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[] findOrder(int numCourses, int[][] prerequisites) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -16824,10 +16824,10 @@ export const codingProblems: CodingProblem[] = [
       "You should be familiar with how a Trie works. If not, please work on this problem: <a href=\"https://leetcode.com/problems/implement-trie-prefix-tree/\">Implement Trie (Prefix Tree)</a> first."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "\nvar WordDictionary = function() {\n    \n};\n\n/** \n * @param {string} word\n * @return {void}\n */\nWordDictionary.prototype.addWord = function(word) {\n    \n};\n\n/** \n * @param {string} word\n * @return {boolean}\n */\nWordDictionary.prototype.search = function(word) {\n    \n};\n\n/** \n * Your WordDictionary object will be instantiated and called as such:\n * var obj = new WordDictionary()\n * obj.addWord(word)\n * var param_2 = obj.search(word)\n */",
+      "python": "class WordDictionary(object):\n\n    def __init__(self):\n        \n\n    def addWord(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: None\n        \"\"\"\n        \n\n    def search(self, word):\n        \"\"\"\n        :type word: str\n        :rtype: bool\n        \"\"\"\n        \n\n\n# Your WordDictionary object will be instantiated and called as such:\n# obj = WordDictionary()\n# obj.addWord(word)\n# param_2 = obj.search(word)",
+      "cpp": "class WordDictionary {\npublic:\n    WordDictionary() {\n        \n    }\n    \n    void addWord(string word) {\n        \n    }\n    \n    bool search(string word) {\n        \n    }\n};\n\n/**\n * Your WordDictionary object will be instantiated and called as such:\n * WordDictionary* obj = new WordDictionary();\n * obj->addWord(word);\n * bool param_2 = obj->search(word);\n */",
+      "java": "class WordDictionary {\n\n    public WordDictionary() {\n        \n    }\n    \n    public void addWord(String word) {\n        \n    }\n    \n    public boolean search(String word) {\n        \n    }\n}\n\n/**\n * Your WordDictionary object will be instantiated and called as such:\n * WordDictionary obj = new WordDictionary();\n * obj.addWord(word);\n * boolean param_2 = obj.search(word);\n */"
     },
     "testCases": [
       {
@@ -16915,10 +16915,10 @@ export const codingProblems: CodingProblem[] = [
       "If the current candidate does not exist in all words&#39; prefix, you could stop backtracking immediately. What kind of data structure could answer such query efficiently? Does a hash table work? Why or why not? How about a Trie? If you would like to learn how to implement a basic trie, please work on this problem: <a href=\"https://leetcode.com/problems/implement-trie-prefix-tree/\">Implement Trie (Prefix Tree)</a> first."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {character[][]} board\n * @param {string[]} words\n * @return {string[]}\n */\nvar findWords = function(board, words) {\n    \n};",
+      "python": "class Solution(object):\n    def findWords(self, board, words):\n        \"\"\"\n        :type board: List[List[str]]\n        :type words: List[str]\n        :rtype: List[str]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<String> findWords(char[][] board, String[] words) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -17007,10 +17007,10 @@ export const codingProblems: CodingProblem[] = [
       "Since House[1] and House[n] are adjacent, they cannot be robbed together. Therefore, the problem becomes to rob either House[1]-House[n-1] or House[2]-House[n], depending on which choice offers more money. Now the problem has degenerated to the <a href =\"https://leetcode.com/problems/house-robber/description/\">House Robber</a>, which is already been solved."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar rob = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def rob(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int rob(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int rob(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -17104,10 +17104,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {string}\n */\nvar shortestPalindrome = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def shortestPalindrome(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string shortestPalindrome(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String shortestPalindrome(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -17197,10 +17197,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {number}\n */\nvar findKthLargest = function(nums, k) {\n    \n};",
+      "python": "class Solution(object):\n    def findKthLargest(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findKthLargest(vector<int>& nums, int k) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findKthLargest(int[] nums, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -17287,10 +17287,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} k\n * @param {number} n\n * @return {number[][]}\n */\nvar combinationSum3 = function(k, n) {\n    \n};",
+      "python": "class Solution(object):\n    def combinationSum3(self, k, n):\n        \"\"\"\n        :type k: int\n        :type n: int\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> combinationSum3(int k, int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<Integer>> combinationSum3(int k, int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -17383,10 +17383,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {boolean}\n */\nvar containsDuplicate = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def containsDuplicate(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool containsDuplicate(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean containsDuplicate(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -17469,10 +17469,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {boolean}\n */\nvar containsNearbyDuplicate = function(nums, k) {\n    \n};",
+      "python": "class Solution(object):\n    def containsNearbyDuplicate(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool containsNearbyDuplicate(vector<int>& nums, int k) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean containsNearbyDuplicate(int[] nums, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -17570,10 +17570,10 @@ export const codingProblems: CodingProblem[] = [
       "Use already existing state to evaluate next state  -  Like, a set of k sorted numbers are only needed to be tracked. When we are processing the next number in array, then we can utilize the existing sorted state and it is not necessary to sort next overlapping set of k numbers again."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} indexDiff\n * @param {number} valueDiff\n * @return {boolean}\n */\nvar containsNearbyAlmostDuplicate = function(nums, indexDiff, valueDiff) {\n    \n};",
+      "python": "class Solution(object):\n    def containsNearbyAlmostDuplicate(self, nums, indexDiff, valueDiff):\n        \"\"\"\n        :type nums: List[int]\n        :type indexDiff: int\n        :type valueDiff: int\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool containsNearbyAlmostDuplicate(vector<int>& nums, int indexDiff, int valueDiff) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean containsNearbyAlmostDuplicate(int[] nums, int indexDiff, int valueDiff) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -17661,10 +17661,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {character[][]} matrix\n * @return {number}\n */\nvar maximalSquare = function(matrix) {\n    \n};",
+      "python": "class Solution(object):\n    def maximalSquare(self, matrix):\n        \"\"\"\n        :type matrix: List[List[str]]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int maximalSquare(vector<vector<char>>& matrix) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int maximalSquare(char[][] matrix) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -17758,10 +17758,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number}\n */\nvar countNodes = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def countNodes(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    int countNodes(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public int countNodes(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -17853,10 +17853,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} ax1\n * @param {number} ay1\n * @param {number} ax2\n * @param {number} ay2\n * @param {number} bx1\n * @param {number} by1\n * @param {number} bx2\n * @param {number} by2\n * @return {number}\n */\nvar computeArea = function(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2) {\n    \n};",
+      "python": "class Solution(object):\n    def computeArea(self, ax1, ay1, ax2, ay2, bx1, by1, bx2, by2):\n        \"\"\"\n        :type ax1: int\n        :type ay1: int\n        :type ax2: int\n        :type ay2: int\n        :type bx1: int\n        :type by1: int\n        :type bx2: int\n        :type by2: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int computeArea(int ax1, int ay1, int ax2, int ay2, int bx1, int by1, int bx2, int by2) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int computeArea(int ax1, int ay1, int ax2, int ay2, int bx1, int by1, int bx2, int by2) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -17945,10 +17945,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {number}\n */\nvar calculate = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def calculate(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int calculate(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int calculate(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -18041,10 +18041,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "\nvar MyStack = function() {\n    \n};\n\n/** \n * @param {number} x\n * @return {void}\n */\nMyStack.prototype.push = function(x) {\n    \n};\n\n/**\n * @return {number}\n */\nMyStack.prototype.pop = function() {\n    \n};\n\n/**\n * @return {number}\n */\nMyStack.prototype.top = function() {\n    \n};\n\n/**\n * @return {boolean}\n */\nMyStack.prototype.empty = function() {\n    \n};\n\n/** \n * Your MyStack object will be instantiated and called as such:\n * var obj = new MyStack()\n * obj.push(x)\n * var param_2 = obj.pop()\n * var param_3 = obj.top()\n * var param_4 = obj.empty()\n */",
+      "python": "class MyStack(object):\n\n    def __init__(self):\n        \n\n    def push(self, x):\n        \"\"\"\n        :type x: int\n        :rtype: None\n        \"\"\"\n        \n\n    def pop(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        \n\n    def top(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        \n\n    def empty(self):\n        \"\"\"\n        :rtype: bool\n        \"\"\"\n        \n\n\n# Your MyStack object will be instantiated and called as such:\n# obj = MyStack()\n# obj.push(x)\n# param_2 = obj.pop()\n# param_3 = obj.top()\n# param_4 = obj.empty()",
+      "cpp": "class MyStack {\npublic:\n    MyStack() {\n        \n    }\n    \n    void push(int x) {\n        \n    }\n    \n    int pop() {\n        \n    }\n    \n    int top() {\n        \n    }\n    \n    bool empty() {\n        \n    }\n};\n\n/**\n * Your MyStack object will be instantiated and called as such:\n * MyStack* obj = new MyStack();\n * obj->push(x);\n * int param_2 = obj->pop();\n * int param_3 = obj->top();\n * bool param_4 = obj->empty();\n */",
+      "java": "class MyStack {\n\n    public MyStack() {\n        \n    }\n    \n    public void push(int x) {\n        \n    }\n    \n    public int pop() {\n        \n    }\n    \n    public int top() {\n        \n    }\n    \n    public boolean empty() {\n        \n    }\n}\n\n/**\n * Your MyStack object will be instantiated and called as such:\n * MyStack obj = new MyStack();\n * obj.push(x);\n * int param_2 = obj.pop();\n * int param_3 = obj.top();\n * boolean param_4 = obj.empty();\n */"
     },
     "testCases": [
       {
@@ -18128,10 +18128,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {TreeNode}\n */\nvar invertTree = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def invertTree(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: Optional[TreeNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    TreeNode* invertTree(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public TreeNode invertTree(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -18224,10 +18224,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {number}\n */\nvar calculate = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def calculate(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int calculate(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int calculate(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -18318,10 +18318,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {string[]}\n */\nvar summaryRanges = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def summaryRanges(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[str]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<string> summaryRanges(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<String> summaryRanges(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -18414,10 +18414,10 @@ export const codingProblems: CodingProblem[] = [
       "Consider using Boyer-Moore Voting Algorithm, which is efficient for finding elements that appear more than a certain threshold."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[]}\n */\nvar majorityElement = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> majorityElement(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<Integer> majorityElement(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -18516,10 +18516,10 @@ export const codingProblems: CodingProblem[] = [
       "The optimal runtime complexity is O(height of BST)."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @param {number} k\n * @return {number}\n */\nvar kthSmallest = function(root, k) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def kthSmallest(self, root, k):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    int kthSmallest(TreeNode* root, int k) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public int kthSmallest(TreeNode root, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -18607,10 +18607,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {boolean}\n */\nvar isPowerOfTwo = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def isPowerOfTwo(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isPowerOfTwo(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isPowerOfTwo(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -18703,10 +18703,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "\nvar MyQueue = function() {\n    \n};\n\n/** \n * @param {number} x\n * @return {void}\n */\nMyQueue.prototype.push = function(x) {\n    \n};\n\n/**\n * @return {number}\n */\nMyQueue.prototype.pop = function() {\n    \n};\n\n/**\n * @return {number}\n */\nMyQueue.prototype.peek = function() {\n    \n};\n\n/**\n * @return {boolean}\n */\nMyQueue.prototype.empty = function() {\n    \n};\n\n/** \n * Your MyQueue object will be instantiated and called as such:\n * var obj = new MyQueue()\n * obj.push(x)\n * var param_2 = obj.pop()\n * var param_3 = obj.peek()\n * var param_4 = obj.empty()\n */",
+      "python": "class MyQueue(object):\n\n    def __init__(self):\n        \n\n    def push(self, x):\n        \"\"\"\n        :type x: int\n        :rtype: None\n        \"\"\"\n        \n\n    def pop(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        \n\n    def peek(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        \n\n    def empty(self):\n        \"\"\"\n        :rtype: bool\n        \"\"\"\n        \n\n\n# Your MyQueue object will be instantiated and called as such:\n# obj = MyQueue()\n# obj.push(x)\n# param_2 = obj.pop()\n# param_3 = obj.peek()\n# param_4 = obj.empty()",
+      "cpp": "class MyQueue {\npublic:\n    MyQueue() {\n        \n    }\n    \n    void push(int x) {\n        \n    }\n    \n    int pop() {\n        \n    }\n    \n    int peek() {\n        \n    }\n    \n    bool empty() {\n        \n    }\n};\n\n/**\n * Your MyQueue object will be instantiated and called as such:\n * MyQueue* obj = new MyQueue();\n * obj->push(x);\n * int param_2 = obj->pop();\n * int param_3 = obj->peek();\n * bool param_4 = obj->empty();\n */",
+      "java": "class MyQueue {\n\n    public MyQueue() {\n        \n    }\n    \n    public void push(int x) {\n        \n    }\n    \n    public int pop() {\n        \n    }\n    \n    public int peek() {\n        \n    }\n    \n    public boolean empty() {\n        \n    }\n}\n\n/**\n * Your MyQueue object will be instantiated and called as such:\n * MyQueue obj = new MyQueue();\n * obj.push(x);\n * int param_2 = obj.pop();\n * int param_3 = obj.peek();\n * boolean param_4 = obj.empty();\n */"
     },
     "testCases": [
       {
@@ -18791,10 +18791,10 @@ export const codingProblems: CodingProblem[] = [
       "Beware of overflow."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar countDigitOne = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def countDigitOne(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int countDigitOne(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int countDigitOne(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -18883,10 +18883,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @return {boolean}\n */\nvar isPalindrome = function(head) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def isPalindrome(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    bool isPalindrome(ListNode* head) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public boolean isPalindrome(ListNode head) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -18975,10 +18975,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val) {\n *     this.val = val;\n *     this.left = this.right = null;\n * }\n */\n\n/**\n * @param {TreeNode} root\n * @param {TreeNode} p\n * @param {TreeNode} q\n * @return {TreeNode}\n */\nvar lowestCommonAncestor = function(root, p, q) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution(object):\n    def lowestCommonAncestor(self, root, p, q):\n        \"\"\"\n        :type root: TreeNode\n        :type p: TreeNode\n        :type q: TreeNode\n        :rtype: TreeNode\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}\n * };\n */\n\nclass Solution {\npublic:\n    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode(int x) { val = x; }\n * }\n */\n\nclass Solution {\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -19071,10 +19071,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val) {\n *     this.val = val;\n *     this.left = this.right = null;\n * }\n */\n/**\n * @param {TreeNode} root\n * @param {TreeNode} p\n * @param {TreeNode} q\n * @return {TreeNode}\n */\nvar lowestCommonAncestor = function(root, p, q) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Solution(object):\n    def lowestCommonAncestor(self, root, p, q):\n        \"\"\"\n        :type root: TreeNode\n        :type p: TreeNode\n        :type q: TreeNode\n        :rtype: TreeNode\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}\n * };\n */\nclass Solution {\npublic:\n    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode(int x) { val = x; }\n * }\n */\nclass Solution {\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -19168,10 +19168,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} matrix\n * @param {number} target\n * @return {boolean}\n */\nvar searchMatrix = function(matrix, target) {\n    \n};",
+      "python": "class Solution(object):\n    def searchMatrix(self, matrix, target):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :type target: int\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool searchMatrix(vector<vector<int>>& matrix, int target) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean searchMatrix(int[][] matrix, int target) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -19264,10 +19264,10 @@ export const codingProblems: CodingProblem[] = [
       "You may find this <a href=\"https://en.wikipedia.org/wiki/Digital_root\" target=\"_blank\">Wikipedia article</a> useful."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} num\n * @return {number}\n */\nvar addDigits = function(num) {\n    \n};",
+      "python": "class Solution(object):\n    def addDigits(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int addDigits(int num) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int addDigits(int num) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -19354,10 +19354,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[]}\n */\nvar singleNumber = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def singleNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> singleNumber(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[] singleNumber(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -19448,10 +19448,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {boolean}\n */\nvar isUgly = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def isUgly(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isUgly(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isUgly(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -19550,10 +19550,10 @@ export const codingProblems: CodingProblem[] = [
       "Assume you have U<sub>k</sub>, the k<sup>th</sup> ugly number. Then U<sub>k+1</sub> must be Min(L<sub>1</sub> * 2, L<sub>2</sub> * 3, L<sub>3</sub> * 5)."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar nthUglyNumber = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def nthUglyNumber(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int nthUglyNumber(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int nthUglyNumber(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -19644,10 +19644,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar missingNumber = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def missingNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int missingNumber(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int missingNumber(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -19734,10 +19734,10 @@ export const codingProblems: CodingProblem[] = [
       "There are many edge cases. What are some good test cases? Does your code work with input such as 0? Or 1000010? (middle chunk is zero and should not be printed out)"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} num\n * @return {string}\n */\nvar numberToWords = function(num) {\n    \n};",
+      "python": "class Solution(object):\n    def numberToWords(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string numberToWords(int num) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String numberToWords(int num) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -19834,10 +19834,10 @@ export const codingProblems: CodingProblem[] = [
       "A faster approach is to use extra space."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} citations\n * @return {number}\n */\nvar hIndex = function(citations) {\n    \n};",
+      "python": "class Solution(object):\n    def hIndex(self, citations):\n        \"\"\"\n        :type citations: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int hIndex(vector<int>& citations) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int hIndex(int[] citations) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -19926,10 +19926,10 @@ export const codingProblems: CodingProblem[] = [
       "Expected runtime complexity is in <i>O</i>(log <i>n</i>) and the input is sorted."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} citations\n * @return {number}\n */\nvar hIndex = function(citations) {\n    \n};",
+      "python": "class Solution(object):\n    def hIndex(self, citations):\n        \"\"\"\n        :type citations: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int hIndex(vector<int>& citations) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int hIndex(int[] citations) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -20016,10 +20016,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for isBadVersion()\n * \n * @param {integer} version number\n * @return {boolean} whether the version is bad\n * isBadVersion = function(version) {\n *     ...\n * };\n */\n\n/**\n * @param {function} isBadVersion()\n * @return {function}\n */\nvar solution = function(isBadVersion) {\n    /**\n     * @param {integer} n Total versions\n     * @return {integer} The first bad version\n     */\n    return function(n) {\n        \n    };\n};",
+      "python": "# The isBadVersion API is already defined for you.\n# @param version, an integer\n# @return a bool\n# def isBadVersion(version):\n\nclass Solution(object):\n    def firstBadVersion(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "// The API isBadVersion is defined for you.\n// bool isBadVersion(int version);\n\nclass Solution {\npublic:\n    int firstBadVersion(int n) {\n        \n    }\n};",
+      "java": "/* The isBadVersion API is defined in the parent class VersionControl.\n      boolean isBadVersion(int version); */\n\npublic class Solution extends VersionControl {\n    public int firstBadVersion(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -20107,10 +20107,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar numSquares = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def numSquares(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int numSquares(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int numSquares(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -20200,10 +20200,10 @@ export const codingProblems: CodingProblem[] = [
       "A <b>two-pointer</b> approach could be helpful here. The idea would be to have one pointer for iterating the array and another pointer that just works on the non-zero elements of the array."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {void} Do not return anything, modify nums in-place instead.\n */\nvar moveZeroes = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def moveZeroes(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: None Do not return anything, modify nums in-place instead.\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    void moveZeroes(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public void moveZeroes(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -20296,10 +20296,10 @@ export const codingProblems: CodingProblem[] = [
       "For a clean implementation, check out <a href=\"https://github.com/google/guava/blob/703ef758b8621cfbab16814f01ddcc5324bdea33/guava-gwt/src-super/com/google/common/collect/super/com/google/common/collect/Iterators.java#L1125\" target=\"_blank\">Google's guava library source code</a>."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * // This is the Iterator's API interface.\n * // You should not implement it, or speculate about its implementation.\n * function Iterator() {\n *    @ return {number}\n *    this.next = function() { // return the next number of the iterator\n *       ...\n *    }; \n *\n *    @return {boolean}\n *    this.hasNext = function() { // return true if it still has numbers\n *       ...\n *    };\n * };\n */\n\n/**\n * @param {Iterator} iterator\n */\nvar PeekingIterator = function(iterator) {\n    \n};\n\n/**\n * @return {number}\n */\nPeekingIterator.prototype.peek = function() {\n    \n};\n\n/**\n * @return {number}\n */\nPeekingIterator.prototype.next = function() {\n    \n};\n\n/**\n * @return {boolean}\n */\nPeekingIterator.prototype.hasNext = function() {\n    \n};\n\n/** \n * Your PeekingIterator object will be instantiated and called as such:\n * var obj = new PeekingIterator(arr)\n * var param_1 = obj.peek()\n * var param_2 = obj.next()\n * var param_3 = obj.hasNext()\n */",
+      "python": "# Below is the interface for Iterator, which is already defined for you.\n#\n# class Iterator(object):\n#     def __init__(self, nums):\n#         \"\"\"\n#         Initializes an iterator object to the beginning of a list.\n#         :type nums: List[int]\n#         \"\"\"\n#\n#     def hasNext(self):\n#         \"\"\"\n#         Returns true if the iteration has more elements.\n#         :rtype: bool\n#         \"\"\"\n#\n#     def next(self):\n#         \"\"\"\n#         Returns the next element in the iteration.\n#         :rtype: int\n#         \"\"\"\n\nclass PeekingIterator(object):\n    def __init__(self, iterator):\n        \"\"\"\n        Initialize your data structure here.\n        :type iterator: Iterator\n        \"\"\"\n        \n\n    def peek(self):\n        \"\"\"\n        Returns the next element in the iteration without advancing the iterator.\n        :rtype: int\n        \"\"\"\n        \n\n    def next(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        \n\n    def hasNext(self):\n        \"\"\"\n        :rtype: bool\n        \"\"\"\n        \n\n# Your PeekingIterator object will be instantiated and called as such:\n# iter = PeekingIterator(Iterator(nums))\n# while iter.hasNext():\n#     val = iter.peek()   # Get the next element but not advance the iterator.\n#     iter.next()         # Should return the same value as [val].",
+      "cpp": "/*\n * Below is the interface for Iterator, which is already defined for you.\n * **DO NOT** modify the interface for Iterator.\n *\n *  class Iterator {\n *\t\tstruct Data;\n * \t\tData* data;\n *  public:\n *\t\tIterator(const vector<int>& nums);\n * \t\tIterator(const Iterator& iter);\n *\n * \t\t// Returns the next element in the iteration.\n *\t\tint next();\n *\n *\t\t// Returns true if the iteration has more elements.\n *\t\tbool hasNext() const;\n *\t};\n */\n\nclass PeekingIterator : public Iterator {\npublic:\n\tPeekingIterator(const vector<int>& nums) : Iterator(nums) {\n\t    // Initialize any member here.\n\t    // **DO NOT** save a copy of nums and manipulate it directly.\n\t    // You should only use the Iterator interface methods.\n\t    \n\t}\n\t\n    // Returns the next element in the iteration without advancing the iterator.\n\tint peek() {\n        \n\t}\n\t\n\t// hasNext() and next() should behave the same as in the Iterator interface.\n\t// Override them if needed.\n\tint next() {\n\t    \n\t}\n\t\n\tbool hasNext() const {\n\t    \n\t}\n};",
+      "java": "// Java Iterator interface reference:\n// https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html\n\nclass PeekingIterator implements Iterator<Integer> {\n\tpublic PeekingIterator(Iterator<Integer> iterator) {\n\t    // initialize any member here.\n\t    \n\t}\n\t\n    // Returns the next element in the iteration without advancing the iterator.\n\tpublic Integer peek() {\n        \n\t}\n\t\n\t// hasNext() and next() should behave the same as in the Iterator interface.\n\t// Override them if needed.\n\t@Override\n\tpublic Integer next() {\n\t    \n\t}\n\t\n\t@Override\n\tpublic boolean hasNext() {\n\t    \n\t}\n}"
     },
     "testCases": [
       {
@@ -20383,10 +20383,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar findDuplicate = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def findDuplicate(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findDuplicate(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findDuplicate(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -20479,10 +20479,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} board\n * @return {void} Do not return anything, modify board in-place instead.\n */\nvar gameOfLife = function(board) {\n    \n};",
+      "python": "class Solution(object):\n    def gameOfLife(self, board):\n        \"\"\"\n        :type board: List[List[int]]\n        :rtype: None Do not return anything, modify board in-place instead.\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    void gameOfLife(vector<vector<int>>& board) {\n        \n    }\n};",
+      "java": "class Solution {\n    public void gameOfLife(int[][] board) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -20569,10 +20569,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} pattern\n * @param {string} s\n * @return {boolean}\n */\nvar wordPattern = function(pattern, s) {\n    \n};",
+      "python": "class Solution(object):\n    def wordPattern(self, pattern, s):\n        \"\"\"\n        :type pattern: str\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool wordPattern(string pattern, string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean wordPattern(String pattern, String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -20657,10 +20657,10 @@ export const codingProblems: CodingProblem[] = [
       "If there are 5 stones in the heap, could you figure out a way to remove the stones such that you will always be the winner?"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {boolean}\n */\nvar canWinNim = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def canWinNim(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool canWinNim(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean canWinNim(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -20755,10 +20755,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "\nvar MedianFinder = function() {\n    \n};\n\n/** \n * @param {number} num\n * @return {void}\n */\nMedianFinder.prototype.addNum = function(num) {\n    \n};\n\n/**\n * @return {number}\n */\nMedianFinder.prototype.findMedian = function() {\n    \n};\n\n/** \n * Your MedianFinder object will be instantiated and called as such:\n * var obj = new MedianFinder()\n * obj.addNum(num)\n * var param_2 = obj.findMedian()\n */",
+      "python": "class MedianFinder(object):\n\n    def __init__(self):\n        \n\n    def addNum(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: None\n        \"\"\"\n        \n\n    def findMedian(self):\n        \"\"\"\n        :rtype: float\n        \"\"\"\n        \n\n\n# Your MedianFinder object will be instantiated and called as such:\n# obj = MedianFinder()\n# obj.addNum(num)\n# param_2 = obj.findMedian()",
+      "cpp": "class MedianFinder {\npublic:\n    MedianFinder() {\n        \n    }\n    \n    void addNum(int num) {\n        \n    }\n    \n    double findMedian() {\n        \n    }\n};\n\n/**\n * Your MedianFinder object will be instantiated and called as such:\n * MedianFinder* obj = new MedianFinder();\n * obj->addNum(num);\n * double param_2 = obj->findMedian();\n */",
+      "java": "class MedianFinder {\n\n    public MedianFinder() {\n        \n    }\n    \n    public void addNum(int num) {\n        \n    }\n    \n    public double findMedian() {\n        \n    }\n}\n\n/**\n * Your MedianFinder object will be instantiated and called as such:\n * MedianFinder obj = new MedianFinder();\n * obj.addNum(num);\n * double param_2 = obj.findMedian();\n */"
     },
     "testCases": [
       {
@@ -20844,10 +20844,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val) {\n *     this.val = val;\n *     this.left = this.right = null;\n * }\n */\n\n/**\n * Encodes a tree to a single string.\n *\n * @param {TreeNode} root\n * @return {string}\n */\nvar serialize = function(root) {\n    \n};\n\n/**\n * Decodes your encoded data to tree.\n *\n * @param {string} data\n * @return {TreeNode}\n */\nvar deserialize = function(data) {\n    \n};\n\n/**\n * Your functions will be called as such:\n * deserialize(serialize(root));\n */",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Codec:\n\n    def serialize(self, root):\n        \"\"\"Encodes a tree to a single string.\n        \n        :type root: TreeNode\n        :rtype: str\n        \"\"\"\n        \n\n    def deserialize(self, data):\n        \"\"\"Decodes your encoded data to tree.\n        \n        :type data: str\n        :rtype: TreeNode\n        \"\"\"\n        \n\n# Your Codec object will be instantiated and called as such:\n# ser = Codec()\n# deser = Codec()\n# ans = deser.deserialize(ser.serialize(root))",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}\n * };\n */\nclass Codec {\npublic:\n\n    // Encodes a tree to a single string.\n    string serialize(TreeNode* root) {\n        \n    }\n\n    // Decodes your encoded data to tree.\n    TreeNode* deserialize(string data) {\n        \n    }\n};\n\n// Your Codec object will be instantiated and called as such:\n// Codec ser, deser;\n// TreeNode* ans = deser.deserialize(ser.serialize(root));",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode(int x) { val = x; }\n * }\n */\npublic class Codec {\n\n    // Encodes a tree to a single string.\n    public String serialize(TreeNode root) {\n        \n    }\n\n    // Decodes your encoded data to tree.\n    public TreeNode deserialize(String data) {\n        \n    }\n}\n\n// Your Codec object will be instantiated and called as such:\n// Codec ser = new Codec();\n// Codec deser = new Codec();\n// TreeNode ans = deser.deserialize(ser.serialize(root));"
     },
     "testCases": [
       {
@@ -20935,10 +20935,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} secret\n * @param {string} guess\n * @return {string}\n */\nvar getHint = function(secret, guess) {\n    \n};",
+      "python": "class Solution(object):\n    def getHint(self, secret, guess):\n        \"\"\"\n        :type secret: str\n        :type guess: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string getHint(string secret, string guess) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String getHint(String secret, String guess) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -21026,10 +21026,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar lengthOfLIS = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def lengthOfLIS(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int lengthOfLIS(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int lengthOfLIS(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -21127,10 +21127,10 @@ export const codingProblems: CodingProblem[] = [
       "We can count the number of invalid brackets to be deleted and only generate the valid strings in the recusrion."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {string[]}\n */\nvar removeInvalidParentheses = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def removeInvalidParentheses(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: List[str]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<string> removeInvalidParentheses(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<String> removeInvalidParentheses(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -21223,10 +21223,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n */\nvar NumArray = function(nums) {\n    \n};\n\n/** \n * @param {number} left \n * @param {number} right\n * @return {number}\n */\nNumArray.prototype.sumRange = function(left, right) {\n    \n};\n\n/** \n * Your NumArray object will be instantiated and called as such:\n * var obj = new NumArray(nums)\n * var param_1 = obj.sumRange(left,right)\n */",
+      "python": "class NumArray(object):\n\n    def __init__(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        \"\"\"\n        \n\n    def sumRange(self, left, right):\n        \"\"\"\n        :type left: int\n        :type right: int\n        :rtype: int\n        \"\"\"\n        \n\n\n# Your NumArray object will be instantiated and called as such:\n# obj = NumArray(nums)\n# param_1 = obj.sumRange(left,right)",
+      "cpp": "class NumArray {\npublic:\n    NumArray(vector<int>& nums) {\n        \n    }\n    \n    int sumRange(int left, int right) {\n        \n    }\n};\n\n/**\n * Your NumArray object will be instantiated and called as such:\n * NumArray* obj = new NumArray(nums);\n * int param_1 = obj->sumRange(left,right);\n */",
+      "java": "class NumArray {\n\n    public NumArray(int[] nums) {\n        \n    }\n    \n    public int sumRange(int left, int right) {\n        \n    }\n}\n\n/**\n * Your NumArray object will be instantiated and called as such:\n * NumArray obj = new NumArray(nums);\n * int param_1 = obj.sumRange(left,right);\n */"
     },
     "testCases": [
       {
@@ -21310,10 +21310,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} matrix\n */\nvar NumMatrix = function(matrix) {\n    \n};\n\n/** \n * @param {number} row1 \n * @param {number} col1 \n * @param {number} row2 \n * @param {number} col2\n * @return {number}\n */\nNumMatrix.prototype.sumRegion = function(row1, col1, row2, col2) {\n    \n};\n\n/** \n * Your NumMatrix object will be instantiated and called as such:\n * var obj = new NumMatrix(matrix)\n * var param_1 = obj.sumRegion(row1,col1,row2,col2)\n */",
+      "python": "class NumMatrix(object):\n\n    def __init__(self, matrix):\n        \"\"\"\n        :type matrix: List[List[int]]\n        \"\"\"\n        \n\n    def sumRegion(self, row1, col1, row2, col2):\n        \"\"\"\n        :type row1: int\n        :type col1: int\n        :type row2: int\n        :type col2: int\n        :rtype: int\n        \"\"\"\n        \n\n\n# Your NumMatrix object will be instantiated and called as such:\n# obj = NumMatrix(matrix)\n# param_1 = obj.sumRegion(row1,col1,row2,col2)",
+      "cpp": "class NumMatrix {\npublic:\n    NumMatrix(vector<vector<int>>& matrix) {\n        \n    }\n    \n    int sumRegion(int row1, int col1, int row2, int col2) {\n        \n    }\n};\n\n/**\n * Your NumMatrix object will be instantiated and called as such:\n * NumMatrix* obj = new NumMatrix(matrix);\n * int param_1 = obj->sumRegion(row1,col1,row2,col2);\n */",
+      "java": "class NumMatrix {\n\n    public NumMatrix(int[][] matrix) {\n        \n    }\n    \n    public int sumRegion(int row1, int col1, int row2, int col2) {\n        \n    }\n}\n\n/**\n * Your NumMatrix object will be instantiated and called as such:\n * NumMatrix obj = new NumMatrix(matrix);\n * int param_1 = obj.sumRegion(row1,col1,row2,col2);\n */"
     },
     "testCases": [
       {
@@ -21398,10 +21398,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n */\nvar NumArray = function(nums) {\n    \n};\n\n/** \n * @param {number} index \n * @param {number} val\n * @return {void}\n */\nNumArray.prototype.update = function(index, val) {\n    \n};\n\n/** \n * @param {number} left \n * @param {number} right\n * @return {number}\n */\nNumArray.prototype.sumRange = function(left, right) {\n    \n};\n\n/** \n * Your NumArray object will be instantiated and called as such:\n * var obj = new NumArray(nums)\n * obj.update(index,val)\n * var param_2 = obj.sumRange(left,right)\n */",
+      "python": "class NumArray(object):\n\n    def __init__(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        \"\"\"\n        \n\n    def update(self, index, val):\n        \"\"\"\n        :type index: int\n        :type val: int\n        :rtype: None\n        \"\"\"\n        \n\n    def sumRange(self, left, right):\n        \"\"\"\n        :type left: int\n        :type right: int\n        :rtype: int\n        \"\"\"\n        \n\n\n# Your NumArray object will be instantiated and called as such:\n# obj = NumArray(nums)\n# obj.update(index,val)\n# param_2 = obj.sumRange(left,right)",
+      "cpp": "class NumArray {\npublic:\n    NumArray(vector<int>& nums) {\n        \n    }\n    \n    void update(int index, int val) {\n        \n    }\n    \n    int sumRange(int left, int right) {\n        \n    }\n};\n\n/**\n * Your NumArray object will be instantiated and called as such:\n * NumArray* obj = new NumArray(nums);\n * obj->update(index,val);\n * int param_2 = obj->sumRange(left,right);\n */",
+      "java": "class NumArray {\n\n    public NumArray(int[] nums) {\n        \n    }\n    \n    public void update(int index, int val) {\n        \n    }\n    \n    public int sumRange(int left, int right) {\n        \n    }\n}\n\n/**\n * Your NumArray object will be instantiated and called as such:\n * NumArray obj = new NumArray(nums);\n * obj.update(index,val);\n * int param_2 = obj.sumRange(left,right);\n */"
     },
     "testCases": [
       {
@@ -21483,10 +21483,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} num\n * @return {boolean}\n */\nvar isAdditiveNumber = function(num) {\n    \n};",
+      "python": "class Solution(object):\n    def isAdditiveNumber(self, num):\n        \"\"\"\n        :type num: str\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isAdditiveNumber(string num) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isAdditiveNumber(String num) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -21573,10 +21573,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} prices\n * @return {number}\n */\nvar maxProfit = function(prices) {\n    \n};",
+      "python": "class Solution(object):\n    def maxProfit(self, prices):\n        \"\"\"\n        :type prices: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int maxProfit(int[] prices) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -21667,10 +21667,10 @@ export const codingProblems: CodingProblem[] = [
       "How many MHTs can a graph have at most?"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @param {number[][]} edges\n * @return {number[]}\n */\nvar findMinHeightTrees = function(n, edges) {\n    \n};",
+      "python": "class Solution(object):\n    def findMinHeightTrees(self, n, edges):\n        \"\"\"\n        :type n: int\n        :type edges: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<Integer> findMinHeightTrees(int n, int[][] edges) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -21757,10 +21757,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar maxCoins = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def maxCoins(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int maxCoins(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int maxCoins(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -21848,10 +21848,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @param {number[]} primes\n * @return {number}\n */\nvar nthSuperUglyNumber = function(n, primes) {\n    \n};",
+      "python": "class Solution(object):\n    def nthSuperUglyNumber(self, n, primes):\n        \"\"\"\n        :type n: int\n        :type primes: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int nthSuperUglyNumber(int n, vector<int>& primes) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int nthSuperUglyNumber(int n, int[] primes) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -21943,10 +21943,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[]}\n */\nvar countSmaller = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def countSmaller(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> countSmaller(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<Integer> countSmaller(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -22042,10 +22042,10 @@ export const codingProblems: CodingProblem[] = [
       "Greedily try to add one missing character. How to check if adding some character will not cause problems ? Use bit-masks to check whether you will be able to complete the sub-sequence if you add the character at some index i."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {string}\n */\nvar removeDuplicateLetters = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def removeDuplicateLetters(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string removeDuplicateLetters(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String removeDuplicateLetters(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -22133,10 +22133,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string[]} words\n * @return {number}\n */\nvar maxProduct = function(words) {\n    \n};",
+      "python": "class Solution(object):\n    def maxProduct(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int maxProduct(vector<string>& words) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int maxProduct(String[] words) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -22228,10 +22228,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar bulbSwitch = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def bulbSwitch(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int bulbSwitch(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int bulbSwitch(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -22324,10 +22324,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} coins\n * @param {number} amount\n * @return {number}\n */\nvar coinChange = function(coins, amount) {\n    \n};",
+      "python": "class Solution(object):\n    def coinChange(self, coins, amount):\n        \"\"\"\n        :type coins: List[int]\n        :type amount: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int coinChange(vector<int>& coins, int amount) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int coinChange(int[] coins, int amount) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -22422,10 +22422,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {void} Do not return anything, modify nums in-place instead.\n */\nvar wiggleSort = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def wiggleSort(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: None Do not return anything, modify nums in-place instead.\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    void wiggleSort(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public void wiggleSort(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -22511,10 +22511,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n * @return {ListNode}\n */\nvar oddEvenList = function(head) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def oddEvenList(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* oddEvenList(ListNode* head) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode oddEvenList(ListNode head) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -22606,10 +22606,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} lower\n * @param {number} upper\n * @return {number}\n */\nvar countRangeSum = function(nums, lower, upper) {\n    \n};",
+      "python": "class Solution(object):\n    def countRangeSum(self, nums, lower, upper):\n        \"\"\"\n        :type nums: List[int]\n        :type lower: int\n        :type upper: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int countRangeSum(vector<int>& nums, int lower, int upper) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int countRangeSum(int[] nums, int lower, int upper) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -22696,10 +22696,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {boolean}\n */\nvar isPowerOfThree = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def isPowerOfThree(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isPowerOfThree(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isPowerOfThree(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -22792,10 +22792,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {boolean}\n */\nvar isPowerOfFour = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def isPowerOfFour(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isPowerOfFour(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isPowerOfFour(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -22890,10 +22890,10 @@ export const codingProblems: CodingProblem[] = [
       "You may check the breaking results of <i>n</i> ranging from 7 to 10 to discover the regularities."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar integerBreak = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def integerBreak(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int integerBreak(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int integerBreak(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -22982,10 +22982,10 @@ export const codingProblems: CodingProblem[] = [
       "The entire logic for reversing a string is based on using the opposite directional two-pointer approach!"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {character[]} s\n * @return {void} Do not return anything, modify s in-place instead.\n */\nvar reverseString = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def reverseString(self, s):\n        \"\"\"\n        :type s: List[str]\n        :rtype: None Do not return anything, modify s in-place instead.\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    void reverseString(vector<char>& s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public void reverseString(char[] s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -23072,10 +23072,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {string}\n */\nvar reverseVowels = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def reverseVowels(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string reverseVowels(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String reverseVowels(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -23163,10 +23163,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {number[]}\n */\nvar topKFrequent = function(nums, k) {\n    \n};",
+      "python": "class Solution(object):\n    def topKFrequent(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> topKFrequent(vector<int>& nums, int k) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[] topKFrequent(int[] nums, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -23251,10 +23251,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums1\n * @param {number[]} nums2\n * @return {number[]}\n */\nvar intersection = function(nums1, nums2) {\n    \n};",
+      "python": "class Solution(object):\n    def intersection(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[] intersection(int[] nums1, int[] nums2) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -23344,10 +23344,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums1\n * @param {number[]} nums2\n * @return {number[]}\n */\nvar intersect = function(nums1, nums2) {\n    \n};",
+      "python": "class Solution(object):\n    def intersect(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[] intersect(int[] nums1, int[] nums2) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -23438,10 +23438,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "\nvar SummaryRanges = function() {\n    \n};\n\n/** \n * @param {number} value\n * @return {void}\n */\nSummaryRanges.prototype.addNum = function(value) {\n    \n};\n\n/**\n * @return {number[][]}\n */\nSummaryRanges.prototype.getIntervals = function() {\n    \n};\n\n/** \n * Your SummaryRanges object will be instantiated and called as such:\n * var obj = new SummaryRanges()\n * obj.addNum(value)\n * var param_2 = obj.getIntervals()\n */",
+      "python": "class SummaryRanges(object):\n\n    def __init__(self):\n        \n\n    def addNum(self, value):\n        \"\"\"\n        :type value: int\n        :rtype: None\n        \"\"\"\n        \n\n    def getIntervals(self):\n        \"\"\"\n        :rtype: List[List[int]]\n        \"\"\"\n        \n\n\n# Your SummaryRanges object will be instantiated and called as such:\n# obj = SummaryRanges()\n# obj.addNum(value)\n# param_2 = obj.getIntervals()",
+      "cpp": "class SummaryRanges {\npublic:\n    SummaryRanges() {\n        \n    }\n    \n    void addNum(int value) {\n        \n    }\n    \n    vector<vector<int>> getIntervals() {\n        \n    }\n};\n\n/**\n * Your SummaryRanges object will be instantiated and called as such:\n * SummaryRanges* obj = new SummaryRanges();\n * obj->addNum(value);\n * vector<vector<int>> param_2 = obj->getIntervals();\n */",
+      "java": "class SummaryRanges {\n\n    public SummaryRanges() {\n        \n    }\n    \n    public void addNum(int value) {\n        \n    }\n    \n    public int[][] getIntervals() {\n        \n    }\n}\n\n/**\n * Your SummaryRanges object will be instantiated and called as such:\n * SummaryRanges obj = new SummaryRanges();\n * obj.addNum(value);\n * int[][] param_2 = obj.getIntervals();\n */"
     },
     "testCases": [
       {
@@ -23525,10 +23525,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} envelopes\n * @return {number}\n */\nvar maxEnvelopes = function(envelopes) {\n    \n};",
+      "python": "class Solution(object):\n    def maxEnvelopes(self, envelopes):\n        \"\"\"\n        :type envelopes: List[List[int]]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int maxEnvelopes(vector<vector<int>>& envelopes) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int maxEnvelopes(int[][] envelopes) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -23617,10 +23617,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "\nvar Twitter = function() {\n    \n};\n\n/** \n * @param {number} userId \n * @param {number} tweetId\n * @return {void}\n */\nTwitter.prototype.postTweet = function(userId, tweetId) {\n    \n};\n\n/** \n * @param {number} userId\n * @return {number[]}\n */\nTwitter.prototype.getNewsFeed = function(userId) {\n    \n};\n\n/** \n * @param {number} followerId \n * @param {number} followeeId\n * @return {void}\n */\nTwitter.prototype.follow = function(followerId, followeeId) {\n    \n};\n\n/** \n * @param {number} followerId \n * @param {number} followeeId\n * @return {void}\n */\nTwitter.prototype.unfollow = function(followerId, followeeId) {\n    \n};\n\n/** \n * Your Twitter object will be instantiated and called as such:\n * var obj = new Twitter()\n * obj.postTweet(userId,tweetId)\n * var param_2 = obj.getNewsFeed(userId)\n * obj.follow(followerId,followeeId)\n * obj.unfollow(followerId,followeeId)\n */",
+      "python": "class Twitter(object):\n\n    def __init__(self):\n        \n\n    def postTweet(self, userId, tweetId):\n        \"\"\"\n        :type userId: int\n        :type tweetId: int\n        :rtype: None\n        \"\"\"\n        \n\n    def getNewsFeed(self, userId):\n        \"\"\"\n        :type userId: int\n        :rtype: List[int]\n        \"\"\"\n        \n\n    def follow(self, followerId, followeeId):\n        \"\"\"\n        :type followerId: int\n        :type followeeId: int\n        :rtype: None\n        \"\"\"\n        \n\n    def unfollow(self, followerId, followeeId):\n        \"\"\"\n        :type followerId: int\n        :type followeeId: int\n        :rtype: None\n        \"\"\"\n        \n\n\n# Your Twitter object will be instantiated and called as such:\n# obj = Twitter()\n# obj.postTweet(userId,tweetId)\n# param_2 = obj.getNewsFeed(userId)\n# obj.follow(followerId,followeeId)\n# obj.unfollow(followerId,followeeId)",
+      "cpp": "class Twitter {\npublic:\n    Twitter() {\n        \n    }\n    \n    void postTweet(int userId, int tweetId) {\n        \n    }\n    \n    vector<int> getNewsFeed(int userId) {\n        \n    }\n    \n    void follow(int followerId, int followeeId) {\n        \n    }\n    \n    void unfollow(int followerId, int followeeId) {\n        \n    }\n};\n\n/**\n * Your Twitter object will be instantiated and called as such:\n * Twitter* obj = new Twitter();\n * obj->postTweet(userId,tweetId);\n * vector<int> param_2 = obj->getNewsFeed(userId);\n * obj->follow(followerId,followeeId);\n * obj->unfollow(followerId,followeeId);\n */",
+      "java": "class Twitter {\n\n    public Twitter() {\n        \n    }\n    \n    public void postTweet(int userId, int tweetId) {\n        \n    }\n    \n    public List<Integer> getNewsFeed(int userId) {\n        \n    }\n    \n    public void follow(int followerId, int followeeId) {\n        \n    }\n    \n    public void unfollow(int followerId, int followeeId) {\n        \n    }\n}\n\n/**\n * Your Twitter object will be instantiated and called as such:\n * Twitter obj = new Twitter();\n * obj.postTweet(userId,tweetId);\n * List<Integer> param_2 = obj.getNewsFeed(userId);\n * obj.follow(followerId,followeeId);\n * obj.unfollow(followerId,followeeId);\n */"
     },
     "testCases": [
       {
@@ -23702,10 +23702,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} num\n * @return {boolean}\n */\nvar isPerfectSquare = function(num) {\n    \n};",
+      "python": "class Solution(object):\n    def isPerfectSquare(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isPerfectSquare(int num) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isPerfectSquare(int num) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -23794,10 +23794,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[]}\n */\nvar largestDivisibleSubset = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def largestDivisibleSubset(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> largestDivisibleSubset(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<Integer> largestDivisibleSubset(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -23884,10 +23884,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} a\n * @param {number} b\n * @return {number}\n */\nvar getSum = function(a, b) {\n    \n};",
+      "python": "class Solution(object):\n    def getSum(self, a, b):\n        \"\"\"\n        :type a: int\n        :type b: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int getSum(int a, int b) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int getSum(int a, int b) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -23974,10 +23974,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} a\n * @param {number[]} b\n * @return {number}\n */\nvar superPow = function(a, b) {\n    \n};",
+      "python": "class Solution(object):\n    def superPow(self, a, b):\n        \"\"\"\n        :type a: int\n        :type b: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int superPow(int a, vector<int>& b) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int superPow(int a, int[] b) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -24069,10 +24069,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums1\n * @param {number[]} nums2\n * @param {number} k\n * @return {number[][]}\n */\nvar kSmallestPairs = function(nums1, nums2, k) {\n    \n};",
+      "python": "class Solution(object):\n    def kSmallestPairs(self, nums1, nums2, k):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :type k: int\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -24159,10 +24159,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/** \n * Forward declaration of guess API.\n * @param {number} num   your guess\n * @return \t     -1 if num is higher than the picked number\n *\t\t\t      1 if num is lower than the picked number\n *               otherwise return 0\n * var guess = function(num) {}\n */\n\n/**\n * @param {number} n\n * @return {number}\n */\nvar guessNumber = function(n) {\n    \n};",
+      "python": "# The guess API is already defined for you.\n# @param num, your guess\n# @return -1 if num is higher than the picked number\n#          1 if num is lower than the picked number\n#          otherwise return 0\n# def guess(num):\n\nclass Solution(object):\n    def guessNumber(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "/** \n * Forward declaration of guess API.\n * @param  num   your guess\n * @return \t     -1 if num is higher than the picked number\n *\t\t\t      1 if num is lower than the picked number\n *               otherwise return 0\n * int guess(int num);\n */\n\nclass Solution {\npublic:\n    int guessNumber(int n) {\n        \n    }\n};",
+      "java": "/** \n * Forward declaration of guess API.\n * @param  num   your guess\n * @return \t     -1 if num is higher than the picked number\n *\t\t\t      1 if num is lower than the picked number\n *               otherwise return 0\n * int guess(int num);\n */\n\npublic class Solution extends GuessGame {\n    public int guessNumber(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -24261,10 +24261,10 @@ export const codingProblems: CodingProblem[] = [
       "As a follow-up, how would you modify your code to solve the problem of minimizing the expected loss, instead of the worst-case loss?"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar getMoneyAmount = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def getMoneyAmount(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int getMoneyAmount(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int getMoneyAmount(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -24357,10 +24357,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar wiggleMaxLength = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def wiggleMaxLength(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int wiggleMaxLength(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int wiggleMaxLength(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -24452,10 +24452,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number}\n */\nvar combinationSum4 = function(nums, target) {\n    \n};",
+      "python": "class Solution(object):\n    def combinationSum4(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int combinationSum4(vector<int>& nums, int target) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int combinationSum4(int[] nums, int target) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -24545,10 +24545,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} matrix\n * @param {number} k\n * @return {number}\n */\nvar kthSmallest = function(matrix, k) {\n    \n};",
+      "python": "class Solution(object):\n    def kthSmallest(self, matrix, k):\n        \"\"\"\n        :type matrix: List[List[int]]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int kthSmallest(vector<vector<int>>& matrix, int k) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int kthSmallest(int[][] matrix, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -24638,10 +24638,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "\nvar RandomizedSet = function() {\n    \n};\n\n/** \n * @param {number} val\n * @return {boolean}\n */\nRandomizedSet.prototype.insert = function(val) {\n    \n};\n\n/** \n * @param {number} val\n * @return {boolean}\n */\nRandomizedSet.prototype.remove = function(val) {\n    \n};\n\n/**\n * @return {number}\n */\nRandomizedSet.prototype.getRandom = function() {\n    \n};\n\n/** \n * Your RandomizedSet object will be instantiated and called as such:\n * var obj = new RandomizedSet()\n * var param_1 = obj.insert(val)\n * var param_2 = obj.remove(val)\n * var param_3 = obj.getRandom()\n */",
+      "python": "class RandomizedSet(object):\n\n    def __init__(self):\n        \n\n    def insert(self, val):\n        \"\"\"\n        :type val: int\n        :rtype: bool\n        \"\"\"\n        \n\n    def remove(self, val):\n        \"\"\"\n        :type val: int\n        :rtype: bool\n        \"\"\"\n        \n\n    def getRandom(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        \n\n\n# Your RandomizedSet object will be instantiated and called as such:\n# obj = RandomizedSet()\n# param_1 = obj.insert(val)\n# param_2 = obj.remove(val)\n# param_3 = obj.getRandom()",
+      "cpp": "class RandomizedSet {\npublic:\n    RandomizedSet() {\n        \n    }\n    \n    bool insert(int val) {\n        \n    }\n    \n    bool remove(int val) {\n        \n    }\n    \n    int getRandom() {\n        \n    }\n};\n\n/**\n * Your RandomizedSet object will be instantiated and called as such:\n * RandomizedSet* obj = new RandomizedSet();\n * bool param_1 = obj->insert(val);\n * bool param_2 = obj->remove(val);\n * int param_3 = obj->getRandom();\n */",
+      "java": "class RandomizedSet {\n\n    public RandomizedSet() {\n        \n    }\n    \n    public boolean insert(int val) {\n        \n    }\n    \n    public boolean remove(int val) {\n        \n    }\n    \n    public int getRandom() {\n        \n    }\n}\n\n/**\n * Your RandomizedSet object will be instantiated and called as such:\n * RandomizedSet obj = new RandomizedSet();\n * boolean param_1 = obj.insert(val);\n * boolean param_2 = obj.remove(val);\n * int param_3 = obj.getRandom();\n */"
     },
     "testCases": [
       {
@@ -24726,10 +24726,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "\nvar RandomizedCollection = function() {\n    \n};\n\n/** \n * @param {number} val\n * @return {boolean}\n */\nRandomizedCollection.prototype.insert = function(val) {\n    \n};\n\n/** \n * @param {number} val\n * @return {boolean}\n */\nRandomizedCollection.prototype.remove = function(val) {\n    \n};\n\n/**\n * @return {number}\n */\nRandomizedCollection.prototype.getRandom = function() {\n    \n};\n\n/** \n * Your RandomizedCollection object will be instantiated and called as such:\n * var obj = new RandomizedCollection()\n * var param_1 = obj.insert(val)\n * var param_2 = obj.remove(val)\n * var param_3 = obj.getRandom()\n */",
+      "python": "class RandomizedCollection(object):\n\n    def __init__(self):\n        \n\n    def insert(self, val):\n        \"\"\"\n        :type val: int\n        :rtype: bool\n        \"\"\"\n        \n\n    def remove(self, val):\n        \"\"\"\n        :type val: int\n        :rtype: bool\n        \"\"\"\n        \n\n    def getRandom(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        \n\n\n# Your RandomizedCollection object will be instantiated and called as such:\n# obj = RandomizedCollection()\n# param_1 = obj.insert(val)\n# param_2 = obj.remove(val)\n# param_3 = obj.getRandom()",
+      "cpp": "class RandomizedCollection {\npublic:\n    RandomizedCollection() {\n        \n    }\n    \n    bool insert(int val) {\n        \n    }\n    \n    bool remove(int val) {\n        \n    }\n    \n    int getRandom() {\n        \n    }\n};\n\n/**\n * Your RandomizedCollection object will be instantiated and called as such:\n * RandomizedCollection* obj = new RandomizedCollection();\n * bool param_1 = obj->insert(val);\n * bool param_2 = obj->remove(val);\n * int param_3 = obj->getRandom();\n */",
+      "java": "class RandomizedCollection {\n\n    public RandomizedCollection() {\n        \n    }\n    \n    public boolean insert(int val) {\n        \n    }\n    \n    public boolean remove(int val) {\n        \n    }\n    \n    public int getRandom() {\n        \n    }\n}\n\n/**\n * Your RandomizedCollection object will be instantiated and called as such:\n * RandomizedCollection obj = new RandomizedCollection();\n * boolean param_1 = obj.insert(val);\n * boolean param_2 = obj.remove(val);\n * int param_3 = obj.getRandom();\n */"
     },
     "testCases": [
       {
@@ -24813,10 +24813,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} head\n */\nvar Solution = function(head) {\n    \n};\n\n/**\n * @return {number}\n */\nSolution.prototype.getRandom = function() {\n    \n};\n\n/** \n * Your Solution object will be instantiated and called as such:\n * var obj = new Solution(head)\n * var param_1 = obj.getRandom()\n */",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n\n    def __init__(self, head):\n        \"\"\"\n        :type head: Optional[ListNode]\n        \"\"\"\n        \n\n    def getRandom(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        \n\n\n# Your Solution object will be instantiated and called as such:\n# obj = Solution(head)\n# param_1 = obj.getRandom()",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    Solution(ListNode* head) {\n        \n    }\n    \n    int getRandom() {\n        \n    }\n};\n\n/**\n * Your Solution object will be instantiated and called as such:\n * Solution* obj = new Solution(head);\n * int param_1 = obj->getRandom();\n */",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n\n    public Solution(ListNode head) {\n        \n    }\n    \n    public int getRandom() {\n        \n    }\n}\n\n/**\n * Your Solution object will be instantiated and called as such:\n * Solution obj = new Solution(head);\n * int param_1 = obj.getRandom();\n */"
     },
     "testCases": [
       {
@@ -24899,10 +24899,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} ransomNote\n * @param {string} magazine\n * @return {boolean}\n */\nvar canConstruct = function(ransomNote, magazine) {\n    \n};",
+      "python": "class Solution(object):\n    def canConstruct(self, ransomNote, magazine):\n        \"\"\"\n        :type ransomNote: str\n        :type magazine: str\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool canConstruct(string ransomNote, string magazine) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean canConstruct(String ransomNote, String magazine) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -24998,10 +24998,10 @@ export const codingProblems: CodingProblem[] = [
       "The solution expects that we always use the original array to shuffle() else some of the test cases fail. (Credits; @snehasingh31)"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n */\nvar Solution = function(nums) {\n    \n};\n\n/**\n * @return {number[]}\n */\nSolution.prototype.reset = function() {\n    \n};\n\n/**\n * @return {number[]}\n */\nSolution.prototype.shuffle = function() {\n    \n};\n\n/** \n * Your Solution object will be instantiated and called as such:\n * var obj = new Solution(nums)\n * var param_1 = obj.reset()\n * var param_2 = obj.shuffle()\n */",
+      "python": "class Solution(object):\n\n    def __init__(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        \"\"\"\n        \n\n    def reset(self):\n        \"\"\"\n        :rtype: List[int]\n        \"\"\"\n        \n\n    def shuffle(self):\n        \"\"\"\n        :rtype: List[int]\n        \"\"\"\n        \n\n\n# Your Solution object will be instantiated and called as such:\n# obj = Solution(nums)\n# param_1 = obj.reset()\n# param_2 = obj.shuffle()",
+      "cpp": "class Solution {\npublic:\n    Solution(vector<int>& nums) {\n        \n    }\n    \n    vector<int> reset() {\n        \n    }\n    \n    vector<int> shuffle() {\n        \n    }\n};\n\n/**\n * Your Solution object will be instantiated and called as such:\n * Solution* obj = new Solution(nums);\n * vector<int> param_1 = obj->reset();\n * vector<int> param_2 = obj->shuffle();\n */",
+      "java": "class Solution {\n\n    public Solution(int[] nums) {\n        \n    }\n    \n    public int[] reset() {\n        \n    }\n    \n    public int[] shuffle() {\n        \n    }\n}\n\n/**\n * Your Solution object will be instantiated and called as such:\n * Solution obj = new Solution(nums);\n * int[] param_1 = obj.reset();\n * int[] param_2 = obj.shuffle();\n */"
     },
     "testCases": [
       {
@@ -25084,10 +25084,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * // This is the interface that allows for creating nested lists.\n * // You should not implement it, or speculate about its implementation\n * function NestedInteger() {\n *\n *     Return true if this NestedInteger holds a single integer, rather than a nested list.\n *     @return {boolean}\n *     this.isInteger = function() {\n *         ...\n *     };\n *\n *     Return the single integer that this NestedInteger holds, if it holds a single integer\n *     Return null if this NestedInteger holds a nested list\n *     @return {integer}\n *     this.getInteger = function() {\n *         ...\n *     };\n *\n *     Set this NestedInteger to hold a single integer equal to value.\n *     @return {void}\n *     this.setInteger = function(value) {\n *         ...\n *     };\n *\n *     Set this NestedInteger to hold a nested list and adds a nested integer elem to it.\n *     @return {void}\n *     this.add = function(elem) {\n *         ...\n *     };\n *\n *     Return the nested list that this NestedInteger holds, if it holds a nested list\n *     Return null if this NestedInteger holds a single integer\n *     @return {NestedInteger[]}\n *     this.getList = function() {\n *         ...\n *     };\n * };\n */\n/**\n * @param {string} s\n * @return {NestedInteger}\n */\nvar deserialize = function(s) {\n    \n};",
+      "python": "# \"\"\"\n# This is the interface that allows for creating nested lists.\n# You should not implement it, or speculate about its implementation\n# \"\"\"\n#class NestedInteger(object):\n#    def __init__(self, value=None):\n#        \"\"\"\n#        If value is not specified, initializes an empty list.\n#        Otherwise initializes a single integer equal to value.\n#        \"\"\"\n#\n#    def isInteger(self):\n#        \"\"\"\n#        @return True if this NestedInteger holds a single integer, rather than a nested list.\n#        :rtype bool\n#        \"\"\"\n#\n#    def add(self, elem):\n#        \"\"\"\n#        Set this NestedInteger to hold a nested list and adds a nested integer elem to it.\n#        :rtype void\n#        \"\"\"\n#\n#    def setInteger(self, value):\n#        \"\"\"\n#        Set this NestedInteger to hold a single integer equal to value.\n#        :rtype void\n#        \"\"\"\n#\n#    def getInteger(self):\n#        \"\"\"\n#        @return the single integer that this NestedInteger holds, if it holds a single integer\n#        Return None if this NestedInteger holds a nested list\n#        :rtype int\n#        \"\"\"\n#\n#    def getList(self):\n#        \"\"\"\n#        @return the nested list that this NestedInteger holds, if it holds a nested list\n#        Return None if this NestedInteger holds a single integer\n#        :rtype List[NestedInteger]\n#        \"\"\"\n\nclass Solution(object):\n    def deserialize(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: NestedInteger\n        \"\"\"\n        ",
+      "cpp": "/**\n * // This is the interface that allows for creating nested lists.\n * // You should not implement it, or speculate about its implementation\n * class NestedInteger {\n *   public:\n *     // Constructor initializes an empty nested list.\n *     NestedInteger();\n *\n *     // Constructor initializes a single integer.\n *     NestedInteger(int value);\n *\n *     // Return true if this NestedInteger holds a single integer, rather than a nested list.\n *     bool isInteger() const;\n *\n *     // Return the single integer that this NestedInteger holds, if it holds a single integer\n *     // The result is undefined if this NestedInteger holds a nested list\n *     int getInteger() const;\n *\n *     // Set this NestedInteger to hold a single integer.\n *     void setInteger(int value);\n *\n *     // Set this NestedInteger to hold a nested list and adds a nested integer to it.\n *     void add(const NestedInteger &ni);\n *\n *     // Return the nested list that this NestedInteger holds, if it holds a nested list\n *     // The result is undefined if this NestedInteger holds a single integer\n *     const vector<NestedInteger> &getList() const;\n * };\n */\nclass Solution {\npublic:\n    NestedInteger deserialize(string s) {\n        \n    }\n};",
+      "java": "/**\n * // This is the interface that allows for creating nested lists.\n * // You should not implement it, or speculate about its implementation\n * public interface NestedInteger {\n *     // Constructor initializes an empty nested list.\n *     public NestedInteger();\n *\n *     // Constructor initializes a single integer.\n *     public NestedInteger(int value);\n *\n *     // @return true if this NestedInteger holds a single integer, rather than a nested list.\n *     public boolean isInteger();\n *\n *     // @return the single integer that this NestedInteger holds, if it holds a single integer\n *     // Return null if this NestedInteger holds a nested list\n *     public Integer getInteger();\n *\n *     // Set this NestedInteger to hold a single integer.\n *     public void setInteger(int value);\n *\n *     // Set this NestedInteger to hold a nested list and adds a nested integer to it.\n *     public void add(NestedInteger ni);\n *\n *     // @return the nested list that this NestedInteger holds, if it holds a nested list\n *     // Return empty list if this NestedInteger holds a single integer\n *     public List<NestedInteger> getList();\n * }\n */\nclass Solution {\n    public NestedInteger deserialize(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -25174,10 +25174,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number[]}\n */\nvar lexicalOrder = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def lexicalOrder(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> lexicalOrder(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<Integer> lexicalOrder(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -25266,10 +25266,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {number}\n */\nvar firstUniqChar = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def firstUniqChar(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int firstUniqChar(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int firstUniqChar(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -25352,10 +25352,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} input\n * @return {number}\n */\nvar lengthLongestPath = function(input) {\n    \n};",
+      "python": "class Solution(object):\n    def lengthLongestPath(self, input):\n        \"\"\"\n        :type input: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int lengthLongestPath(string input) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int lengthLongestPath(String input) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -25449,10 +25449,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @param {string} t\n * @return {character}\n */\nvar findTheDifference = function(s, t) {\n    \n};",
+      "python": "class Solution(object):\n    def findTheDifference(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    char findTheDifference(string s, string t) {\n        \n    }\n};",
+      "java": "class Solution {\n    public char findTheDifference(String s, String t) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -25539,10 +25539,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar lastRemaining = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def lastRemaining(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int lastRemaining(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int lastRemaining(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -25632,10 +25632,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} rectangles\n * @return {boolean}\n */\nvar isRectangleCover = function(rectangles) {\n    \n};",
+      "python": "class Solution(object):\n    def isRectangleCover(self, rectangles):\n        \"\"\"\n        :type rectangles: List[List[int]]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isRectangleCover(vector<vector<int>>& rectangles) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isRectangleCover(int[][] rectangles) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -25728,10 +25728,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @param {string} t\n * @return {boolean}\n */\nvar isSubsequence = function(s, t) {\n    \n};",
+      "python": "class Solution(object):\n    def isSubsequence(self, s, t):\n        \"\"\"\n        :type s: str\n        :type t: str\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool isSubsequence(string s, string t) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean isSubsequence(String s, String t) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -25822,10 +25822,10 @@ export const codingProblems: CodingProblem[] = [
       "Similarly, if it is not 2-bytes data, try 3-bytes then 4-bytes. If you read four integers and it still does not match any pattern, return false."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} data\n * @return {boolean}\n */\nvar validUtf8 = function(data) {\n    \n};",
+      "python": "class Solution(object):\n    def validUtf8(self, data):\n        \"\"\"\n        :type data: List[int]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool validUtf8(vector<int>& data) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean validUtf8(int[] data) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -25913,10 +25913,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {string}\n */\nvar decodeString = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def decodeString(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string decodeString(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String decodeString(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -26010,10 +26010,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @param {number} k\n * @return {number}\n */\nvar longestSubstring = function(s, k) {\n    \n};",
+      "python": "class Solution(object):\n    def longestSubstring(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int longestSubstring(string s, int k) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int longestSubstring(String s, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -26101,10 +26101,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar maxRotateFunction = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def maxRotateFunction(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int maxRotateFunction(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int maxRotateFunction(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -26193,10 +26193,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar integerReplacement = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def integerReplacement(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int integerReplacement(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int integerReplacement(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -26290,10 +26290,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n */\nvar Solution = function(nums) {\n    \n};\n\n/** \n * @param {number} target\n * @return {number}\n */\nSolution.prototype.pick = function(target) {\n    \n};\n\n/** \n * Your Solution object will be instantiated and called as such:\n * var obj = new Solution(nums)\n * var param_1 = obj.pick(target)\n */",
+      "python": "class Solution(object):\n\n    def __init__(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        \"\"\"\n        \n\n    def pick(self, target):\n        \"\"\"\n        :type target: int\n        :rtype: int\n        \"\"\"\n        \n\n\n# Your Solution object will be instantiated and called as such:\n# obj = Solution(nums)\n# param_1 = obj.pick(target)",
+      "cpp": "class Solution {\npublic:\n    Solution(vector<int>& nums) {\n        \n    }\n    \n    int pick(int target) {\n        \n    }\n};\n\n/**\n * Your Solution object will be instantiated and called as such:\n * Solution* obj = new Solution(nums);\n * int param_1 = obj->pick(target);\n */",
+      "java": "class Solution {\n\n    public Solution(int[] nums) {\n        \n    }\n    \n    public int pick(int target) {\n        \n    }\n}\n\n/**\n * Your Solution object will be instantiated and called as such:\n * Solution obj = new Solution(nums);\n * int param_1 = obj.pick(target);\n */"
     },
     "testCases": [
       {
@@ -26382,10 +26382,10 @@ export const codingProblems: CodingProblem[] = [
       "Do you recognize this as a graph problem?"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string[][]} equations\n * @param {number[]} values\n * @param {string[][]} queries\n * @return {number[]}\n */\nvar calcEquation = function(equations, values, queries) {\n    \n};",
+      "python": "class Solution(object):\n    def calcEquation(self, equations, values, queries):\n        \"\"\"\n        :type equations: List[List[str]]\n        :type values: List[float]\n        :type queries: List[List[str]]\n        :rtype: List[float]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {\n        \n    }\n};",
+      "java": "class Solution {\n    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -26477,10 +26477,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar findNthDigit = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def findNthDigit(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findNthDigit(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findNthDigit(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -26570,10 +26570,10 @@ export const codingProblems: CodingProblem[] = [
       "Consider precomputing all possible times for comparison."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} turnedOn\n * @return {string[]}\n */\nvar readBinaryWatch = function(turnedOn) {\n    \n};",
+      "python": "class Solution(object):\n    def readBinaryWatch(self, turnedOn):\n        \"\"\"\n        :type turnedOn: int\n        :rtype: List[str]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<string> readBinaryWatch(int turnedOn) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<String> readBinaryWatch(int turnedOn) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -26662,10 +26662,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} num\n * @param {number} k\n * @return {string}\n */\nvar removeKdigits = function(num, k) {\n    \n};",
+      "python": "class Solution(object):\n    def removeKdigits(self, num, k):\n        \"\"\"\n        :type num: str\n        :type k: int\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string removeKdigits(string num, int k) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String removeKdigits(String num, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -26757,10 +26757,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} stones\n * @return {boolean}\n */\nvar canCross = function(stones) {\n    \n};",
+      "python": "class Solution(object):\n    def canCross(self, stones):\n        \"\"\"\n        :type stones: List[int]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool canCross(vector<int>& stones) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean canCross(int[] stones) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -26849,10 +26849,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number}\n */\nvar sumOfLeftLeaves = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def sumOfLeftLeaves(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    int sumOfLeftLeaves(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public int sumOfLeftLeaves(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -26940,10 +26940,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} num\n * @return {string}\n */\nvar toHex = function(num) {\n    \n};",
+      "python": "class Solution(object):\n    def toHex(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string toHex(int num) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String toHex(int num) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -27035,10 +27035,10 @@ export const codingProblems: CodingProblem[] = [
       "Once you fix the position of the shortest person, what can you say about the position of the second shortest person?"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} people\n * @return {number[][]}\n */\nvar reconstructQueue = function(people) {\n    \n};",
+      "python": "class Solution(object):\n    def reconstructQueue(self, people):\n        \"\"\"\n        :type people: List[List[int]]\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[][] reconstructQueue(int[][] people) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -27127,10 +27127,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} heightMap\n * @return {number}\n */\nvar trapRainWater = function(heightMap) {\n    \n};",
+      "python": "class Solution(object):\n    def trapRainWater(self, heightMap):\n        \"\"\"\n        :type heightMap: List[List[int]]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int trapRainWater(vector<vector<int>>& heightMap) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int trapRainWater(int[][] heightMap) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -27303,10 +27303,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {number}\n */\nvar longestPalindrome = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def longestPalindrome(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int longestPalindrome(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int longestPalindrome(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -27396,10 +27396,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {number}\n */\nvar splitArray = function(nums, k) {\n    \n};",
+      "python": "class Solution(object):\n    def splitArray(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int splitArray(vector<int>& nums, int k) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int splitArray(int[] nums, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -27487,10 +27487,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {string[]}\n */\nvar fizzBuzz = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def fizzBuzz(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: List[str]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<string> fizzBuzz(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<String> fizzBuzz(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -27583,10 +27583,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar numberOfArithmeticSlices = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def numberOfArithmeticSlices(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int numberOfArithmeticSlices(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int numberOfArithmeticSlices(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -27673,10 +27673,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar thirdMax = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def thirdMax(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int thirdMax(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int thirdMax(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -27769,10 +27769,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} num1\n * @param {string} num2\n * @return {string}\n */\nvar addStrings = function(num1, num2) {\n    \n};",
+      "python": "class Solution(object):\n    def addStrings(self, num1, num2):\n        \"\"\"\n        :type num1: str\n        :type num2: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string addStrings(string num1, string num2) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String addStrings(String num1, String num2) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -27864,10 +27864,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {boolean}\n */\nvar canPartition = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def canPartition(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool canPartition(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean canPartition(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -27956,10 +27956,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} heights\n * @return {number[][]}\n */\nvar pacificAtlantic = function(heights) {\n    \n};",
+      "python": "class Solution(object):\n    def pacificAtlantic(self, heights):\n        \"\"\"\n        :type heights: List[List[int]]\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<Integer>> pacificAtlantic(int[][] heights) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -28047,10 +28047,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {character[][]} board\n * @return {number}\n */\nvar countBattleships = function(board) {\n    \n};",
+      "python": "class Solution(object):\n    def countBattleships(self, board):\n        \"\"\"\n        :type board: List[List[str]]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int countBattleships(vector<vector<char>>& board) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int countBattleships(char[][] board) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -28138,10 +28138,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} password\n * @return {number}\n */\nvar strongPasswordChecker = function(password) {\n    \n};",
+      "python": "class Solution(object):\n    def strongPasswordChecker(self, password):\n        \"\"\"\n        :type password: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int strongPasswordChecker(string password) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int strongPasswordChecker(String password) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -28235,10 +28235,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar findMaximumXOR = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def findMaximumXOR(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findMaximumXOR(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findMaximumXOR(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -28326,10 +28326,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {string}\n */\nvar originalDigits = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def originalDigits(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string originalDigits(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String originalDigits(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -28417,10 +28417,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @param {number} k\n * @return {number}\n */\nvar characterReplacement = function(s, k) {\n    \n};",
+      "python": "class Solution(object):\n    def characterReplacement(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int characterReplacement(string s, int k) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int characterReplacement(String s, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -28509,10 +28509,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * // Definition for a QuadTree node.\n * function _Node(val,isLeaf,topLeft,topRight,bottomLeft,bottomRight) {\n *    this.val = val;\n *    this.isLeaf = isLeaf;\n *    this.topLeft = topLeft;\n *    this.topRight = topRight;\n *    this.bottomLeft = bottomLeft;\n *    this.bottomRight = bottomRight;\n * };\n */\n\n/**\n * @param {number[][]} grid\n * @return {_Node}\n */\nvar construct = function(grid) {\n    \n};",
+      "python": "\"\"\"\n# Definition for a QuadTree node.\nclass Node(object):\n    def __init__(self, val=False, isLeaf=False, topLeft=None, topRight=None, bottomLeft=None, bottomRight=None):\n        self.val = val\n        self.isLeaf = isLeaf\n        self.topLeft = topLeft\n        self.topRight = topRight\n        self.bottomLeft = bottomLeft\n        self.bottomRight = bottomRight\n\"\"\"\n\nclass Solution(object):\n    def construct(self, grid):\n        \"\"\"\n        :type grid: List[List[int]]\n        :rtype: Node\n        \"\"\"\n        ",
+      "cpp": "/*\n// Definition for a QuadTree node.\nclass Node {\npublic:\n    bool val;\n    bool isLeaf;\n    Node* topLeft;\n    Node* topRight;\n    Node* bottomLeft;\n    Node* bottomRight;\n    \n    Node() {\n        val = false;\n        isLeaf = false;\n        topLeft = NULL;\n        topRight = NULL;\n        bottomLeft = NULL;\n        bottomRight = NULL;\n    }\n    \n    Node(bool _val, bool _isLeaf) {\n        val = _val;\n        isLeaf = _isLeaf;\n        topLeft = NULL;\n        topRight = NULL;\n        bottomLeft = NULL;\n        bottomRight = NULL;\n    }\n    \n    Node(bool _val, bool _isLeaf, Node* _topLeft, Node* _topRight, Node* _bottomLeft, Node* _bottomRight) {\n        val = _val;\n        isLeaf = _isLeaf;\n        topLeft = _topLeft;\n        topRight = _topRight;\n        bottomLeft = _bottomLeft;\n        bottomRight = _bottomRight;\n    }\n};\n*/\n\nclass Solution {\npublic:\n    Node* construct(vector<vector<int>>& grid) {\n        \n    }\n};",
+      "java": "/*\n// Definition for a QuadTree node.\nclass Node {\n    public boolean val;\n    public boolean isLeaf;\n    public Node topLeft;\n    public Node topRight;\n    public Node bottomLeft;\n    public Node bottomRight;\n\n    \n    public Node() {\n        this.val = false;\n        this.isLeaf = false;\n        this.topLeft = null;\n        this.topRight = null;\n        this.bottomLeft = null;\n        this.bottomRight = null;\n    }\n    \n    public Node(boolean val, boolean isLeaf) {\n        this.val = val;\n        this.isLeaf = isLeaf;\n        this.topLeft = null;\n        this.topRight = null;\n        this.bottomLeft = null;\n        this.bottomRight = null;\n    }\n    \n    public Node(boolean val, boolean isLeaf, Node topLeft, Node topRight, Node bottomLeft, Node bottomRight) {\n        this.val = val;\n        this.isLeaf = isLeaf;\n        this.topLeft = topLeft;\n        this.topRight = topRight;\n        this.bottomLeft = bottomLeft;\n        this.bottomRight = bottomRight;\n    }\n}\n*/\n\nclass Solution {\n    public Node construct(int[][] grid) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -28599,10 +28599,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * // Definition for a _Node.\n * function _Node(val,children) {\n *    this.val = val;\n *    this.children = children;\n * };\n */\n\n/**\n * @param {_Node|null} root\n * @return {number[][]}\n */\nvar levelOrder = function(root) {\n    \n};",
+      "python": "\"\"\"\n# Definition for a Node.\nclass Node(object):\n    def __init__(self, val=None, children=None):\n        self.val = val\n        self.children = children\n\"\"\"\n\nclass Solution(object):\n    def levelOrder(self, root):\n        \"\"\"\n        :type root: Node\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "/*\n// Definition for a Node.\nclass Node {\npublic:\n    int val;\n    vector<Node*> children;\n\n    Node() {}\n\n    Node(int _val) {\n        val = _val;\n    }\n\n    Node(int _val, vector<Node*> _children) {\n        val = _val;\n        children = _children;\n    }\n};\n*/\n\nclass Solution {\npublic:\n    vector<vector<int>> levelOrder(Node* root) {\n        \n    }\n};",
+      "java": "/*\n// Definition for a Node.\nclass Node {\n    public int val;\n    public List<Node> children;\n\n    public Node() {}\n\n    public Node(int _val) {\n        val = _val;\n    }\n\n    public Node(int _val, List<Node> _children) {\n        val = _val;\n        children = _children;\n    }\n};\n*/\n\nclass Solution {\n    public List<List<Integer>> levelOrder(Node root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -28690,10 +28690,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * // Definition for a _Node.\n * function _Node(val,prev,next,child) {\n *    this.val = val;\n *    this.prev = prev;\n *    this.next = next;\n *    this.child = child;\n * };\n */\n\n/**\n * @param {_Node} head\n * @return {_Node}\n */\nvar flatten = function(head) {\n    \n};",
+      "python": "\"\"\"\n# Definition for a Node.\nclass Node(object):\n    def __init__(self, val, prev, next, child):\n        self.val = val\n        self.prev = prev\n        self.next = next\n        self.child = child\n\"\"\"\n\nclass Solution(object):\n    def flatten(self, head):\n        \"\"\"\n        :type head: Node\n        :rtype: Node\n        \"\"\"\n        ",
+      "cpp": "/*\n// Definition for a Node.\nclass Node {\npublic:\n    int val;\n    Node* prev;\n    Node* next;\n    Node* child;\n};\n*/\n\nclass Solution {\npublic:\n    Node* flatten(Node* head) {\n        \n    }\n};",
+      "java": "/*\n// Definition for a Node.\nclass Node {\n    public int val;\n    public Node prev;\n    public Node next;\n    public Node child;\n};\n*/\n\nclass Solution {\n    public Node flatten(Node head) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -28789,10 +28789,10 @@ export const codingProblems: CodingProblem[] = [
       "The problem specifies that the numbers in the array will be in the range [1, n] where n is the number of elements in the array. Can we use this information and modify the array in-place somehow to find what we need?"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[]}\n */\nvar findDisappearedNumbers = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def findDisappearedNumbers(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> findDisappearedNumbers(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<Integer> findDisappearedNumbers(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -28883,10 +28883,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @return {string}\n */\nvar frequencySort = function(s) {\n    \n};",
+      "python": "class Solution(object):\n    def frequencySort(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string frequencySort(string s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String frequencySort(String s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -28979,10 +28979,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} points\n * @return {number}\n */\nvar findMinArrowShots = function(points) {\n    \n};",
+      "python": "class Solution(object):\n    def findMinArrowShots(self, points):\n        \"\"\"\n        :type points: List[List[int]]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findMinArrowShots(vector<vector<int>>& points) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findMinArrowShots(int[][] points) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -29074,10 +29074,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar minMoves = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def minMoves(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int minMoves(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int minMoves(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -29164,10 +29164,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums1\n * @param {number[]} nums2\n * @param {number[]} nums3\n * @param {number[]} nums4\n * @return {number}\n */\nvar fourSumCount = function(nums1, nums2, nums3, nums4) {\n    \n};",
+      "python": "class Solution(object):\n    def fourSumCount(self, nums1, nums2, nums3, nums4):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :type nums3: List[int]\n        :type nums4: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3, vector<int>& nums4) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -29256,10 +29256,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} g\n * @param {number[]} s\n * @return {number}\n */\nvar findContentChildren = function(g, s) {\n    \n};",
+      "python": "class Solution(object):\n    def findContentChildren(self, g, s):\n        \"\"\"\n        :type g: List[int]\n        :type s: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findContentChildren(vector<int>& g, vector<int>& s) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findContentChildren(int[] g, int[] s) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -29349,10 +29349,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {boolean}\n */\nvar find132pattern = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def find132pattern(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool find132pattern(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean find132pattern(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -29445,10 +29445,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {boolean}\n */\nvar circularArrayLoop = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def circularArrayLoop(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool circularArrayLoop(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean circularArrayLoop(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -29545,10 +29545,10 @@ export const codingProblems: CodingProblem[] = [
       "Find minimum <code>x</code> such that <code>(T+1)^x >= N</code>"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} buckets\n * @param {number} minutesToDie\n * @param {number} minutesToTest\n * @return {number}\n */\nvar poorPigs = function(buckets, minutesToDie, minutesToTest) {\n    \n};",
+      "python": "class Solution(object):\n    def poorPigs(self, buckets, minutesToDie, minutesToTest):\n        \"\"\"\n        :type buckets: int\n        :type minutesToDie: int\n        :type minutesToTest: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int poorPigs(int buckets, int minutesToDie, int minutesToTest) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int poorPigs(int buckets, int minutesToDie, int minutesToTest) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -29637,10 +29637,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} intervals\n * @return {number}\n */\nvar eraseOverlapIntervals = function(intervals) {\n    \n};",
+      "python": "class Solution(object):\n    def eraseOverlapIntervals(self, intervals):\n        \"\"\"\n        :type intervals: List[List[int]]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int eraseOverlapIntervals(vector<vector<int>>& intervals) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int eraseOverlapIntervals(int[][] intervals) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -29733,10 +29733,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} intervals\n * @return {number[]}\n */\nvar findRightInterval = function(intervals) {\n    \n};",
+      "python": "class Solution(object):\n    def findRightInterval(self, intervals):\n        \"\"\"\n        :type intervals: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> findRightInterval(vector<vector<int>>& intervals) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[] findRightInterval(int[][] intervals) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -29829,10 +29829,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @param {number} targetSum\n * @return {number}\n */\nvar pathSum = function(root, targetSum) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def pathSum(self, root, targetSum):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :type targetSum: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    int pathSum(TreeNode* root, int targetSum) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public int pathSum(TreeNode root, int targetSum) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -29920,10 +29920,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @param {string} p\n * @return {number[]}\n */\nvar findAnagrams = function(s, p) {\n    \n};",
+      "python": "class Solution(object):\n    def findAnagrams(self, s, p):\n        \"\"\"\n        :type s: str\n        :type p: str\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> findAnagrams(string s, string p) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<Integer> findAnagrams(String s, String p) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -30009,10 +30009,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @param {number} k\n * @return {number}\n */\nvar findKthNumber = function(n, k) {\n    \n};",
+      "python": "class Solution(object):\n    def findKthNumber(self, n, k):\n        \"\"\"\n        :type n: int\n        :type k: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findKthNumber(int n, int k) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findKthNumber(int n, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -30099,10 +30099,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar arrangeCoins = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def arrangeCoins(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int arrangeCoins(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int arrangeCoins(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -30190,10 +30190,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[]}\n */\nvar findDuplicates = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def findDuplicates(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> findDuplicates(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<Integer> findDuplicates(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -30287,10 +30287,10 @@ export const codingProblems: CodingProblem[] = [
       "How do you know if you are at the end of a consecutive group of characters?"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {character[]} chars\n * @return {number}\n */\nvar compress = function(chars) {\n    \n};",
+      "python": "class Solution(object):\n    def compress(self, chars):\n        \"\"\"\n        :type chars: List[str]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int compress(vector<char>& chars) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int compress(char[] chars) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -30383,10 +30383,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for singly-linked list.\n * function ListNode(val, next) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.next = (next===undefined ? null : next)\n * }\n */\n/**\n * @param {ListNode} l1\n * @param {ListNode} l2\n * @return {ListNode}\n */\nvar addTwoNumbers = function(l1, l2) {\n    \n};",
+      "python": "# Definition for singly-linked list.\n# class ListNode(object):\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution(object):\n    def addTwoNumbers(self, l1, l2):\n        \"\"\"\n        :type l1: Optional[ListNode]\n        :type l2: Optional[ListNode]\n        :rtype: Optional[ListNode]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr) {}\n *     ListNode(int x, ListNode *next) : val(x), next(next) {}\n * };\n */\nclass Solution {\npublic:\n    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n        \n    }\n};",
+      "java": "/**\n * Definition for singly-linked list.\n * public class ListNode {\n *     int val;\n *     ListNode next;\n *     ListNode() {}\n *     ListNode(int val) { this.val = val; }\n *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }\n * }\n */\nclass Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -30479,10 +30479,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} points\n * @return {number}\n */\nvar numberOfBoomerangs = function(points) {\n    \n};",
+      "python": "class Solution(object):\n    def numberOfBoomerangs(self, points):\n        \"\"\"\n        :type points: List[List[int]]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int numberOfBoomerangs(vector<vector<int>>& points) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int numberOfBoomerangs(int[][] points) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -30576,10 +30576,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number[]}\n */\nvar largestValues = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def largestValues(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<int> largestValues(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public List<Integer> largestValues(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -30675,10 +30675,10 @@ export const codingProblems: CodingProblem[] = [
       "When all matchsticks have been used we simply need to see the length of all 4 sides. If they're equal, we have a square on our hands!"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} matchsticks\n * @return {boolean}\n */\nvar makesquare = function(matchsticks) {\n    \n};",
+      "python": "class Solution(object):\n    def makesquare(self, matchsticks):\n        \"\"\"\n        :type matchsticks: List[int]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool makesquare(vector<int>& matchsticks) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean makesquare(int[] matchsticks) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -30766,10 +30766,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string[]} strs\n * @param {number} m\n * @param {number} n\n * @return {number}\n */\nvar findMaxForm = function(strs, m, n) {\n    \n};",
+      "python": "class Solution(object):\n    def findMaxForm(self, strs, m, n):\n        \"\"\"\n        :type strs: List[str]\n        :type m: int\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findMaxForm(vector<string>& strs, int m, int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findMaxForm(String[] strs, int m, int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -30858,10 +30858,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} houses\n * @param {number[]} heaters\n * @return {number}\n */\nvar findRadius = function(houses, heaters) {\n    \n};",
+      "python": "class Solution(object):\n    def findRadius(self, houses, heaters):\n        \"\"\"\n        :type houses: List[int]\n        :type heaters: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findRadius(vector<int>& houses, vector<int>& heaters) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findRadius(int[] houses, int[] heaters) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -30952,10 +30952,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} num\n * @return {number}\n */\nvar findComplement = function(num) {\n    \n};",
+      "python": "class Solution(object):\n    def findComplement(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findComplement(int num) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findComplement(int num) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -31043,10 +31043,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar totalHammingDistance = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def totalHammingDistance(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int totalHammingDistance(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int totalHammingDistance(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -31135,10 +31135,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} radius\n * @param {number} x_center\n * @param {number} y_center\n */\nvar Solution = function(radius, x_center, y_center) {\n    \n};\n\n/**\n * @return {number[]}\n */\nSolution.prototype.randPoint = function() {\n    \n};\n\n/** \n * Your Solution object will be instantiated and called as such:\n * var obj = new Solution(radius, x_center, y_center)\n * var param_1 = obj.randPoint()\n */",
+      "python": "class Solution(object):\n\n    def __init__(self, radius, x_center, y_center):\n        \"\"\"\n        :type radius: float\n        :type x_center: float\n        :type y_center: float\n        \"\"\"\n        \n\n    def randPoint(self):\n        \"\"\"\n        :rtype: List[float]\n        \"\"\"\n        \n\n\n# Your Solution object will be instantiated and called as such:\n# obj = Solution(radius, x_center, y_center)\n# param_1 = obj.randPoint()",
+      "cpp": "class Solution {\npublic:\n    Solution(double radius, double x_center, double y_center) {\n        \n    }\n    \n    vector<double> randPoint() {\n        \n    }\n};\n\n/**\n * Your Solution object will be instantiated and called as such:\n * Solution* obj = new Solution(radius, x_center, y_center);\n * vector<double> param_1 = obj->randPoint();\n */",
+      "java": "class Solution {\n\n    public Solution(double radius, double x_center, double y_center) {\n        \n    }\n    \n    public double[] randPoint() {\n        \n    }\n}\n\n/**\n * Your Solution object will be instantiated and called as such:\n * Solution obj = new Solution(radius, x_center, y_center);\n * double[] param_1 = obj.randPoint();\n */"
     },
     "testCases": [
       {
@@ -31220,10 +31220,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar largestPalindrome = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def largestPalindrome(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int largestPalindrome(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int largestPalindrome(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -31316,10 +31316,10 @@ export const codingProblems: CodingProblem[] = [
       "The third line of thought is also based on this same idea but achieving the result in a different way. We obviously need the window to be sorted for us to be able to find the median. Is there a data-structure out there that we can use (in one or more quantities) to obtain the median element extremely fast, say O(1) time while having the ability to perform the other operations fairly efficiently as well?"
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {number[]}\n */\nvar medianSlidingWindow = function(nums, k) {\n    \n};",
+      "python": "class Solution(object):\n    def medianSlidingWindow(self, nums, k):\n        \"\"\"\n        :type nums: List[int]\n        :type k: int\n        :rtype: List[float]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<double> medianSlidingWindow(vector<int>& nums, int k) {\n        \n    }\n};",
+      "java": "class Solution {\n    public double[] medianSlidingWindow(int[] nums, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -31406,10 +31406,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar magicalString = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def magicalString(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int magicalString(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int magicalString(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -31495,10 +31495,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} s\n * @param {number} k\n * @return {string}\n */\nvar licenseKeyFormatting = function(s, k) {\n    \n};",
+      "python": "class Solution(object):\n    def licenseKeyFormatting(self, s, k):\n        \"\"\"\n        :type s: str\n        :type k: int\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string licenseKeyFormatting(string s, int k) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String licenseKeyFormatting(String s, int k) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -31585,10 +31585,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} n\n * @return {string}\n */\nvar smallestGoodBase = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def smallestGoodBase(self, n):\n        \"\"\"\n        :type n: str\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string smallestGoodBase(string n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String smallestGoodBase(String n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -31768,10 +31768,10 @@ export const codingProblems: CodingProblem[] = [
       "You need to think about two things as far as any window is concerned. One is the starting point for the window. How do you detect that a new window of 1s has started? The next part is detecting the ending point for this window.\r\n\r\nHow do you detect the ending point for an existing window? If you figure these two things out, you will be able to detect the windows of consecutive ones. All that remains afterward is to find the longest such window and return the size."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar findMaxConsecutiveOnes = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def findMaxConsecutiveOnes(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findMaxConsecutiveOnes(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findMaxConsecutiveOnes(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -31861,10 +31861,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {boolean}\n */\nvar predictTheWinner = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def predictTheWinner(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool predictTheWinner(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean predictTheWinner(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -32040,10 +32040,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string} board\n * @param {string} hand\n * @return {number}\n */\nvar findMinStep = function(board, hand) {\n    \n};",
+      "python": "class Solution(object):\n    def findMinStep(self, board, hand):\n        \"\"\"\n        :type board: str\n        :type hand: str\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findMinStep(string board, string hand) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findMinStep(String board, String hand) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -32309,10 +32309,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[][]}\n */\nvar findSubsequences = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def findSubsequences(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[List[int]]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> findSubsequences(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public List<List<Integer>> findSubsequences(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -32400,10 +32400,10 @@ export const codingProblems: CodingProblem[] = [
       "The W is always less than or equal to the square root of the area, so we start searching at sqrt(area) till we find the result."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} area\n * @return {number[]}\n */\nvar constructRectangle = function(area) {\n    \n};",
+      "python": "class Solution(object):\n    def constructRectangle(self, area):\n        \"\"\"\n        :type area: int\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> constructRectangle(int area) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[] constructRectangle(int area) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -32504,10 +32504,10 @@ export const codingProblems: CodingProblem[] = [
       "For each integer in the first part, count the number of integers that satisfy the condition from the second part. Use the pointer to help you in the counting process."
     ],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number}\n */\nvar reversePairs = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def reversePairs(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int reversePairs(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int reversePairs(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -32595,10 +32595,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number}\n */\nvar findTargetSumWays = function(nums, target) {\n    \n};",
+      "python": "class Solution(object):\n    def findTargetSumWays(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findTargetSumWays(vector<int>& nums, int target) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findTargetSumWays(int[] nums, int target) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -32685,10 +32685,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} timeSeries\n * @param {number} duration\n * @return {number}\n */\nvar findPoisonedDuration = function(timeSeries, duration) {\n    \n};",
+      "python": "class Solution(object):\n    def findPoisonedDuration(self, timeSeries, duration):\n        \"\"\"\n        :type timeSeries: List[int]\n        :type duration: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findPoisonedDuration(vector<int>& timeSeries, int duration) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findPoisonedDuration(int[] timeSeries, int duration) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -32777,10 +32777,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums1\n * @param {number[]} nums2\n * @return {number[]}\n */\nvar nextGreaterElement = function(nums1, nums2) {\n    \n};",
+      "python": "class Solution(object):\n    def nextGreaterElement(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[] nextGreaterElement(int[] nums1, int[] nums2) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -32872,10 +32872,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} rects\n */\nvar Solution = function(rects) {\n    \n};\n\n/**\n * @return {number[]}\n */\nSolution.prototype.pick = function() {\n    \n};\n\n/** \n * Your Solution object will be instantiated and called as such:\n * var obj = new Solution(rects)\n * var param_1 = obj.pick()\n */",
+      "python": "class Solution(object):\n\n    def __init__(self, rects):\n        \"\"\"\n        :type rects: List[List[int]]\n        \"\"\"\n        \n\n    def pick(self):\n        \"\"\"\n        :rtype: List[int]\n        \"\"\"\n        \n\n\n# Your Solution object will be instantiated and called as such:\n# obj = Solution(rects)\n# param_1 = obj.pick()",
+      "cpp": "class Solution {\npublic:\n    Solution(vector<vector<int>>& rects) {\n        \n    }\n    \n    vector<int> pick() {\n        \n    }\n};\n\n/**\n * Your Solution object will be instantiated and called as such:\n * Solution* obj = new Solution(rects);\n * vector<int> param_1 = obj->pick();\n */",
+      "java": "class Solution {\n\n    public Solution(int[][] rects) {\n        \n    }\n    \n    public int[] pick() {\n        \n    }\n}\n\n/**\n * Your Solution object will be instantiated and called as such:\n * Solution obj = new Solution(rects);\n * int[] param_1 = obj.pick();\n */"
     },
     "testCases": [
       {
@@ -32958,10 +32958,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[][]} mat\n * @return {number[]}\n */\nvar findDiagonalOrder = function(mat) {\n    \n};",
+      "python": "class Solution(object):\n    def findDiagonalOrder(self, mat):\n        \"\"\"\n        :type mat: List[List[int]]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> findDiagonalOrder(vector<vector<int>>& mat) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[] findDiagonalOrder(int[][] mat) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -33049,10 +33049,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {string[]} words\n * @return {string[]}\n */\nvar findWords = function(words) {\n    \n};",
+      "python": "class Solution(object):\n    def findWords(self, words):\n        \"\"\"\n        :type words: List[str]\n        :rtype: List[str]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<string> findWords(vector<string>& words) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String[] findWords(String[] words) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -33136,10 +33136,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * Definition for a binary tree node.\n * function TreeNode(val, left, right) {\n *     this.val = (val===undefined ? 0 : val)\n *     this.left = (left===undefined ? null : left)\n *     this.right = (right===undefined ? null : right)\n * }\n */\n/**\n * @param {TreeNode} root\n * @return {number[]}\n */\nvar findMode = function(root) {\n    \n};",
+      "python": "# Definition for a binary tree node.\n# class TreeNode(object):\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution(object):\n    def findMode(self, root):\n        \"\"\"\n        :type root: Optional[TreeNode]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "/**\n * Definition for a binary tree node.\n * struct TreeNode {\n *     int val;\n *     TreeNode *left;\n *     TreeNode *right;\n *     TreeNode() : val(0), left(nullptr), right(nullptr) {}\n *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}\n * };\n */\nclass Solution {\npublic:\n    vector<int> findMode(TreeNode* root) {\n        \n    }\n};",
+      "java": "/**\n * Definition for a binary tree node.\n * public class TreeNode {\n *     int val;\n *     TreeNode left;\n *     TreeNode right;\n *     TreeNode() {}\n *     TreeNode(int val) { this.val = val; }\n *     TreeNode(int val, TreeNode left, TreeNode right) {\n *         this.val = val;\n *         this.left = left;\n *         this.right = right;\n *     }\n * }\n */\nclass Solution {\n    public int[] findMode(TreeNode root) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -33228,10 +33228,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} k\n * @param {number} w\n * @param {number[]} profits\n * @param {number[]} capital\n * @return {number}\n */\nvar findMaximizedCapital = function(k, w, profits, capital) {\n    \n};",
+      "python": "class Solution(object):\n    def findMaximizedCapital(self, k, w, profits, capital):\n        \"\"\"\n        :type k: int\n        :type w: int\n        :type profits: List[int]\n        :type capital: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -33319,10 +33319,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} nums\n * @return {number[]}\n */\nvar nextGreaterElements = function(nums) {\n    \n};",
+      "python": "class Solution(object):\n    def nextGreaterElements(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: List[int]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<int> nextGreaterElements(vector<int>& nums) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int[] nextGreaterElements(int[] nums) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -33409,10 +33409,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} num\n * @return {string}\n */\nvar convertToBase7 = function(num) {\n    \n};",
+      "python": "class Solution(object):\n    def convertToBase7(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: str\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    string convertToBase7(int num) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String convertToBase7(int num) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -33500,10 +33500,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number[]} score\n * @return {string[]}\n */\nvar findRelativeRanks = function(score) {\n    \n};",
+      "python": "class Solution(object):\n    def findRelativeRanks(self, score):\n        \"\"\"\n        :type score: List[int]\n        :rtype: List[str]\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    vector<string> findRelativeRanks(vector<int>& score) {\n        \n    }\n};",
+      "java": "class Solution {\n    public String[] findRelativeRanks(int[] score) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -33589,10 +33589,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} num\n * @return {boolean}\n */\nvar checkPerfectNumber = function(num) {\n    \n};",
+      "python": "class Solution(object):\n    def checkPerfectNumber(self, num):\n        \"\"\"\n        :type num: int\n        :rtype: bool\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    bool checkPerfectNumber(int num) {\n        \n    }\n};",
+      "java": "class Solution {\n    public boolean checkPerfectNumber(int num) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -33681,10 +33681,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} n\n * @return {number}\n */\nvar fib = function(n) {\n    \n};",
+      "python": "class Solution(object):\n    def fib(self, n):\n        \"\"\"\n        :type n: int\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int fib(int n) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int fib(int n) {\n        \n    }\n}"
     },
     "testCases": [
       {
@@ -33776,10 +33776,10 @@ export const codingProblems: CodingProblem[] = [
     ],
     "hints": [],
     "starterCode": {
-      "javascript": "/**\n * Write your JavaScript solution here.\n */\nfunction solve(input) {\n    \n}",
-      "python": "class Solution:\n    def solve(self, input):\n        pass",
-      "cpp": "class Solution {\npublic:\n    int solve(int input) {\n        return 0;\n    }\n};",
-      "java": "class Solution {\n    public int solve(int input) {\n        return 0;\n    }\n}"
+      "javascript": "/**\n * @param {number} amount\n * @param {number[]} coins\n * @return {number}\n */\nvar change = function(amount, coins) {\n    \n};",
+      "python": "class Solution(object):\n    def change(self, amount, coins):\n        \"\"\"\n        :type amount: int\n        :type coins: List[int]\n        :rtype: int\n        \"\"\"\n        ",
+      "cpp": "class Solution {\npublic:\n    int change(int amount, vector<int>& coins) {\n        \n    }\n};",
+      "java": "class Solution {\n    public int change(int amount, int[] coins) {\n        \n    }\n}"
     },
     "testCases": [
       {
