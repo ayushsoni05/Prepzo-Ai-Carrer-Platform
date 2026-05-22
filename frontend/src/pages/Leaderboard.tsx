@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Trophy, Medal, Star, Loader2 } from 'lucide-react';
-import Navbar from '../components/layout/Navbar';
+import { Trophy, Medal, Star, Loader2, ArrowLeft } from 'lucide-react';
 
 interface LeaderboardUser {
   _id: string;
@@ -44,9 +43,14 @@ const Leaderboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 font-sans">
-      <Navbar />
-      
-      <main className="max-w-5xl mx-auto px-4 py-12">
+      <main className="max-w-5xl mx-auto px-4 py-8">
+        <button 
+          onClick={() => window.location.hash = 'coding-lab'}
+          className="flex items-center text-gray-400 hover:text-white mb-6 transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" /> Back to Coding Lab
+        </button>
+
         <div className="text-center mb-12">
           <h1 className="text-4xl font-extrabold text-white flex items-center justify-center gap-3 mb-4">
             <Trophy className="w-10 h-10 text-yellow-500" />

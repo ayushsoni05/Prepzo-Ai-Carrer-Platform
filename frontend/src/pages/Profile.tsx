@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import ActivityCalendar from 'react-activity-calendar';
+import { ActivityCalendar } from 'react-activity-calendar';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { Trophy, Code2, Flame, Award, Loader2, ArrowLeft } from 'lucide-react';
-import Navbar from '../components/layout/Navbar';
 
 interface ProfileData {
   fullName: string;
@@ -99,7 +98,6 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 font-sans">
-      <Navbar />
       
       <main className="max-w-6xl mx-auto px-4 py-8">
         <button 
