@@ -10,6 +10,8 @@ import { Play, RotateCcw, ChevronLeft, CheckCircle2, XCircle, Layout, Info, Ligh
 import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from 'react-resizable-panels';
 import { getCodingProblemById, CodingProblem } from '@/api/codingLab';
 import { generateTranspiledPayload } from '../utils/generateTranspiledPayload';
+import { SubmissionsTab, Submission } from '../components/SubmissionsTab';
+import { createSubmission, getSubmissionsByProblem } from '../api/submissions';
 
 const LANGUAGE_EXTENSIONS: Record<string, any> = {
   javascript: javascript({ jsx: true }),
@@ -32,10 +34,23 @@ export const InteractivePlayground: React.FC = () => {
   const [code, setCode] = useState('');
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   
-  const [activeTab, setActiveTab] = useState<'testcases' | 'result'>('testcases');
+  const [activeTab, setActiveTab] = useState<'testcases' | 'result' | 'submissions'>('testcases');
   const [testResults, setTestResults] = useState<{ id: string, passed: boolean, output: string, expected: string, input: string, isHidden?: boolean }[] | null>(null);
   const [isRunning, setIsRunning] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [submissions, setSubmissions] = useState<Submission[]>([]);
+  const [loadingSubmissions, setLoadingSubmissions] = useState(false);
+
+  useEffect(() => {
+    if (problemId && activeTab === 'submissions') {
+      setLoadingSubmissions(true);
+      getSubmissionsByProblem(problemId)
+        .then(data => setSubmissions(data))
+        .catch(err => console.error(err))
+        .finally(() => setLoadingSubmissions(false));
+    }
+  }, [problemId, activeTab]);
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -147,12 +162,29 @@ export const InteractivePlayground: React.FC = () => {
         });
         
         setTestResults(results);
+        if (isSubmit) {
+          const testCasesPassed = results.filter(r => r.passed).length;
+          const status = results.every(r => r.passed) ? 'Accepted' : 'Wrong Answer';
+          
+          try {
+            await createSubmission({
+              problemId: problem.id,
+              language,
+              code,
+              status,
+              testCasesPassed,
+              totalTestCases: testCasesToRun.length
+            });
+          } catch(e) {
+            console.error('Failed to save submission', e);
+          }
 
-        if (isSubmit && results.every(r => r.passed)) {
-          const solved = JSON.parse(localStorage.getItem('coding-lab-solved') || '[]');
-          if (!solved.includes(problem.id)) {
-            solved.push(problem.id);
-            localStorage.setItem('coding-lab-solved', JSON.stringify(solved));
+          if (results.every(r => r.passed)) {
+            const solved = JSON.parse(localStorage.getItem('coding-lab-solved') || '[]');
+            if (!solved.includes(problem.id)) {
+              solved.push(problem.id);
+              localStorage.setItem('coding-lab-solved', JSON.stringify(solved));
+            }
           }
         }
 
@@ -343,9 +375,20 @@ export const InteractivePlayground: React.FC = () => {
                       allPassed ? <CheckCircle2 size={12} className="text-green-500" /> : <XCircle size={12} className="text-red-500" />
                     )}
                   </button>
+                  <button 
+                    onClick={() => setActiveTab('submissions')}
+                    className={`px-4 h-full flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${activeTab === 'submissions' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40 hover:text-white/70'}`}
+                  >
+                    Submissions
+                  </button>
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-4">
+                  {activeTab === 'submissions' && (
+                    <div className="h-full -m-4">
+                      <SubmissionsTab submissions={submissions} loading={loadingSubmissions} />
+                    </div>
+                  )}
                   {activeTab === 'testcases' && (
                     <div className="space-y-4">
                       {problem.testCases.filter(tc => !tc.isHidden).map((tc, idx) => (
