@@ -287,13 +287,99 @@ class ResumeAnalyzer:
             cleaned = re.sub(r'^(?:\d+\.(?:\s|$)+|\d+\)(?:\s|$)+)', '', cleaned)
             return cleaned.strip()
 
+        def restore_merged_spaces(text: str) -> str:
+            if not isinstance(text, str):
+                return text
+            
+            words = re.split(r'(\s+)', text)
+            restored_words = []
+            
+            for word in words:
+                if not word or word.isspace():
+                    restored_words.append(word)
+                    continue
+                    
+                if '@' in word or re.search(r'https?://', word, re.IGNORECASE) or re.search(r'\b(?:[a-z0-9]+\.)+[a-z]{2,}\b', word, re.IGNORECASE) or 'linkedin.com' in word.lower() or 'github.com' in word.lower():
+                    restored_words.append(word)
+                    continue
+                    
+                cleaned = word
+                
+                # 1. Separate numbers/percentages from leading/trailing words first
+                cleaned = re.sub(r'([a-zA-Z]+)(\d+)', r'\1 \2', cleaned)
+                cleaned = re.sub(r'(\d+(?:\+|-|%)?)([a-zA-Z]+)', r'\1 \2', cleaned)
+
+                # 2. Separate common articles/adjectives merged at start: a, with, system, etc.
+                cleaned = re.sub(
+                    r'\ba(full-stack|real-time|deep|learning)\b',
+                    lambda m: m.group(0)[0] + ' ' + m.group(0)[1:],
+                    cleaned,
+                    flags=re.IGNORECASE
+                )
+                
+                # 3. Separate technology name or action verb prefix
+                cleaned = re.sub(
+                    r'\b(Integrated|Engineered|Developed|Designed|Optimized|Implemented|Built|Trained|Collaborated|Created|Led)(MongoDB|Haar|OpenCV|TensorFlow|React|Node|Express|Flask|Django|Python|Java|SQL|C\+\+)',
+                    r'\1 \2',
+                    cleaned
+                )
+                
+                # 4. Separate words merged with "with", "using", "for"
+                cleaned = re.sub(
+                    r'([a-zA-Z]{3,})(with|using|for)\b',
+                    r'\1 \2',
+                    cleaned
+                )
+                
+                # 5. Separate words ending in via/and using precise word boundaries & callback list checks
+                def suffix_replacer(match):
+                    full_word = match.group(0)
+                    prefix = match.group(1)
+                    suffix = match.group(2)
+                    lower_word = full_word.lower()
+                    
+                    if suffix.lower() == 'via':
+                        if lower_word in ['trivia', 'olivia', 'salvia', 'via']:
+                            return full_word
+                        return prefix + ' ' + suffix
+                    else: # and
+                        common_and = {
+                            'and', 'hand', 'land', 'band', 'sand', 'brand', 'grand', 'stand', 'command', 'expand', 'demand',
+                            'island', 'thousand', 'husband', 'understand', 'operand', 'garland', 'highland', 'woodland',
+                            'borderland', 'hinterland', 'headband', 'wristband', 'waistband', 'broadband', 'contraband',
+                            'standby', 'candid'
+                        }
+                        if lower_word in common_and:
+                            return full_word
+                        return prefix + ' ' + suffix
+
+                cleaned = re.sub(r'\b([a-zA-Z]+)(and|via)\b', suffix_replacer, cleaned, flags=re.IGNORECASE)
+                
+                cleaned = re.sub(
+                    r'([a-zA-Z]+)and([A-Z][a-zA-Z]*)',
+                    r'\1 and \2',
+                    cleaned
+                )
+                
+                # Handle specific reverse merges
+                cleaned = re.sub(
+                    r'\bwith(multi-threaded|multi-threading|real-time)\b',
+                    r'with \1',
+                    cleaned,
+                    flags=re.IGNORECASE
+                )
+                
+                restored_words.append(cleaned)
+                
+            return ''.join(restored_words)
+
         def is_pure_tech_list(line: str) -> bool:
             trimmed = line.strip()
             if not trimmed:
                 return False
 
             TECH_REG = re.compile(
-                r'\b(?:react(?:\.js)?|angular|vue(?:\.js)?|svelte|next\.js|nuxt\.js|node(?:\.js)?|express(?:\.js)?|koa|django|flask|fastapi|spring\s*boot|laravel|asp\.net|rails|ruby\s*on\s*rails|mongodb|postgres(?:ql)?|mysql|sqlite|redis|cassandra|dynamodb|firebase|supabase|oracle|mssql|docker|kubernetes|k8s|aws|gcp|azure|heroku|vercel|netlify|digital\s*ocean|html(?:5)?|css(?:3)?|javascript|js|typescript|ts|python|java|c\+\+|c\#|go|golang|rust|ruby|php|swift|kotlin|scala|perl|bash|shell|git|github|gitlab|rest\s*apis?|restful|graphql|grpc|socket\.io|jwt|oauth|redux|mobx|recoil|tailwind|bootstrap|material\-ui|mui|chakra|sass|less|webpack|vite|babel|gulp|jest|mocha|cypress|selenium|playwright|jenkins|travis|circleci|github\s*actions|tensorflow|pytorch|keras|scikit\-learn|numpy|pandas|opencv|mediapipe|nltk|spacy|hugging\s*face|transformers|nlp|llm|gan|cnn|rnn|lstm|bert|gpt|gemini|openai|s3|ec2|lambda|serverless|microservices|ci\/cd|dsa|oop|dbms)\b',
+                r'\b(?:react(?:\.js)?|angular|vue(?:\.js)?|svelte|next\.js|nuxt\.js|node(?:\.js)?|express(?:\.js)?|koa|django|flask|fastapi|spring\s*boot|laravel|asp\.net|rails|ruby\s*on\s*rails|mongodb|postgres(?:ql)?|mysql|sqlite|redis|cassandra|dynamodb|firebase|supabase|oracle|mssql|docker|kubernetes|k8s|aws|gcp|azure|heroku|vercel|netlify|digital\s*ocean|html(?:5)?|css(?:3)?|javascript|js|typescript|ts|python|java|c\+\+|c\#|go|golang|rust|ruby|php|swift|kotlin|scala|perl|bash|shell|git|github|gitlab|rest\s*apis?|restful|graphql|grpc|socket\.io|jwt|oauth|redux|mobx|recoil|tailwind|bootstrap|material\-ui|mui|chakra|sass|less|webpack|vite|babel|gulp|jest|mocha|cypress|selenium|playwright|jenkins|travis|circleci|github\s*actions|tensorflow|pytorch|keras|scikit\-learn|numpy|pandas|opencv|mediapipe|nltk|spacy|hugging\s*face|transformers|nlp|llm|gan|cnn|rnn|lstm|bert|gpt|gemini|openai|s3|ec2|lambda|serverless|microservices|ci\/cd|dsa|oop|dbms|expo|native|api|apis|rest|nosql|db|databases)\b',
                 re.IGNORECASE
             )
 
@@ -412,6 +498,8 @@ class ResumeAnalyzer:
                 return False
             if re.search(r'(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b|(?:19|20)\d{2}\b', clean, re.IGNORECASE) and len(clean) < 40:
                 return False
+            if re.match(r'^(?:technologies|tech\s+stack|tools|languages|frameworks|libraries|database|devops|skills)', clean, re.IGNORECASE):
+                return False
             
             ACTION_VERBS = re.compile(
                 r'^(?:engineered|designed|integrated|developed|implemented|optimized|built|trained|led|completed|created|spearheaded|architected|pioneered|managed|formulated|automated|collaborated|conducted|established|improved|enhanced|formulated|contributed|delivered)',
@@ -445,7 +533,8 @@ class ResumeAnalyzer:
             )
 
             for bullet in bullets:
-                trimmed = bullet.strip()
+                restored = restore_merged_spaces(bullet)
+                trimmed = restored.strip()
                 if not trimmed:
                     continue
 
@@ -516,7 +605,7 @@ class ResumeAnalyzer:
         # ---------------------------------------------
         # Real Start of Method
         # ---------------------------------------------
-        lines = [l.strip() for l in resume_text.split('\n') if l.strip()]
+        lines = [restore_merged_spaces(l.strip()) for l in resume_text.split('\n') if l.strip()]
         
         result = {
             "name": "",

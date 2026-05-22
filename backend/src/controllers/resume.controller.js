@@ -11,7 +11,7 @@ import aiService from '../services/aiService.js';
 import { compileLatexToPdf, isPdflatexAvailable } from '../services/latexCompiler.service.js';
 import { extractResumeTextFromStoredFile } from '../services/resumeTextExtractor.service.js';
 import { buildAdvancedResumeReport } from '../services/resumeReport.service.js';
-import { extractResumeDataWithAI, cleanJSONString, cleanProjectBulletsAndExtractTechs } from '../services/resumeDataExtractor.service.js';
+import { extractResumeDataWithAI, cleanJSONString, cleanProjectBulletsAndExtractTechs, restoreMergedSpaces } from '../services/resumeDataExtractor.service.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { getTemplateById } from '../data/latexTemplates.js';
 import { writeFileSync, existsSync, mkdirSync } from 'fs';
@@ -779,6 +779,33 @@ export const generateLatexResume = asyncHandler(async (req, res) => {
   // Merge fresh extracted data (from frontend parsing) with stored user data
   const parsed = extractedData || user.resumeAnalysis?.extractedData || {};
 
+  // Clean and restore merged spaces for all string fields in parsed data
+  if (parsed.name) parsed.name = restoreMergedSpaces(parsed.name);
+  if (parsed.fullName) parsed.fullName = restoreMergedSpaces(parsed.fullName);
+  if (parsed.summary) parsed.summary = restoreMergedSpaces(parsed.summary);
+  if (parsed.objective) parsed.objective = restoreMergedSpaces(parsed.objective);
+  if (parsed.degree) parsed.degree = restoreMergedSpaces(parsed.degree);
+  if (parsed.fieldOfStudy) parsed.fieldOfStudy = restoreMergedSpaces(parsed.fieldOfStudy);
+  if (parsed.institution) parsed.institution = restoreMergedSpaces(parsed.institution);
+  if (parsed.collegeName) parsed.collegeName = restoreMergedSpaces(parsed.collegeName);
+  if (parsed.location) parsed.location = restoreMergedSpaces(parsed.location);
+
+  if (Array.isArray(parsed.skills)) {
+    parsed.skills = parsed.skills.map(sk => restoreMergedSpaces(sk));
+  }
+  if (Array.isArray(parsed.achievements)) {
+    parsed.achievements = parsed.achievements.map(ach => restoreMergedSpaces(ach));
+  }
+  if (Array.isArray(parsed.education)) {
+    parsed.education = parsed.education.map(edu => ({
+      ...edu,
+      institution: restoreMergedSpaces(edu.institution),
+      degree: restoreMergedSpaces(edu.degree),
+      fieldOfStudy: restoreMergedSpaces(edu.fieldOfStudy),
+      location: restoreMergedSpaces(edu.location)
+    }));
+  }
+
   // Clean projects and experience to ensure tech lists do not leak into descriptions/highlights
   let cleanedProjects = [];
   if (Array.isArray(parsed.projects)) {
@@ -793,10 +820,11 @@ export const generateLatexResume = asyncHandler(async (req, res) => {
 
       return {
         ...proj,
+        name: restoreMergedSpaces(proj.name || proj.title || 'Project'),
         link: projLink,
-        description: cleanedBullets,
-        highlights: cleanedBullets,
-        technologies: technologies
+        description: cleanedBullets.map(b => restoreMergedSpaces(b)),
+        highlights: cleanedBullets.map(b => restoreMergedSpaces(b)),
+        technologies: technologies.map(t => restoreMergedSpaces(t))
       };
     });
   }
@@ -808,8 +836,11 @@ export const generateLatexResume = asyncHandler(async (req, res) => {
       const { cleanedBullets } = cleanProjectBulletsAndExtractTechs(highlights, []);
       return {
         ...exp,
-        description: cleanedBullets,
-        highlights: cleanedBullets
+        company: restoreMergedSpaces(exp.company || 'Company'),
+        role: restoreMergedSpaces(exp.role || exp.position || 'Software Engineer'),
+        location: restoreMergedSpaces(exp.location || ''),
+        description: cleanedBullets.map(b => restoreMergedSpaces(b)),
+        highlights: cleanedBullets.map(b => restoreMergedSpaces(b))
       };
     });
   }
@@ -890,6 +921,13 @@ ATS SCORE MAXIMIZATION (90+ ATS SCORE TARGET):
    - If achievements are present in the profile, you MUST create a section named "Achievements & Extra-Curriculars" (or append them to "Certifications" to save space) in the LaTeX code, formatting them as bullet points or a compact list.
 9. PROJECT LINKS:
    - If a project has a link (GitHub repo, demo link, etc.), you MUST render the project name as a clickable hyperlink using \\href{URL}{\\underline{Project Name}} (e.g., \\href{https://github.com/username/project}{\\underline{Project Name}}) inside the project title heading. Never discard project links.
+10. RESTORE MERGED SPACES (CRITICAL):
+    - Some words in the user profile may be missing spaces (e.g., 'accuracyvia' instead of 'accuracy via', 'emotionand93%' instead of 'emotion and 93%'). You MUST restore missing spaces in the output text to ensure correct English spelling, but NEVER alter the original words themselves.
+11. PROJECT TECH STACKS (CRITICAL):
+    - Project technologies must ONLY be placed in the project header as defined in the template (e.g. \\resumeProjectHeading{\\textbf{Project Name} $|$ \\emph{React, Node.js}}). You MUST NOT list the tech stack as a separate bullet point inside the project description.
+12. DYNAMIC MARGINS & SPACING:
+    - For sparse/student profiles, set geometry margins to 0.6in or 0.65in (e.g., \\usepackage[margin=0.65in]{geometry}) and use slightly larger vertical spacings (e.g., \\vspace{4pt plus 2pt minus 1pt}) to fill the page beautifully.
+    - For dense profiles, set geometry margins to 0.45in or 0.5in and use tight vertical spacing to ensure single-page fit.
 `;
 
   if (jobDescription && jobDescription.trim()) {
@@ -1130,35 +1168,83 @@ Instructions:
         }
       }
 
-      const summaryText = userProfile.summary
-        ? escapeLatex(userProfile.summary)
-        : `Results-oriented ${escapeLatex(userProfile.targetRole)} with a strong foundation in modern software engineering principles. Dedicated to writing clean, maintainable, and efficient code to solve complex real-world problems.`;
+      let summaryText = '';
+      if (userProfile.summary) {
+        summaryText = escapeLatex(userProfile.summary);
+      } else {
+        const degreePart = userProfile.degree ? `${userProfile.degree}` : '';
+        const fieldPart = userProfile.fieldOfStudy ? ` in ${userProfile.fieldOfStudy}` : '';
+        const instPart = userProfile.collegeName ? ` from ${userProfile.collegeName}` : '';
+        const eduSentence = degreePart ? `Graduated with a ${degreePart}${fieldPart}${instPart}. ` : '';
+        
+        const skillList = Array.isArray(userProfile.skills) ? userProfile.skills.slice(0, 5).join(', ') : '';
+        const skillSentence = skillList ? `Proficient in ${skillList}. ` : '';
+        
+        summaryText = escapeLatex(`Detail-oriented candidate seeking a ${userProfile.targetRole} position. ${eduSentence}${skillSentence}Passionate about building scalable applications and solving complex problems with clean, efficient code.`);
+      }
+
+      // Adjust geometry margin dynamically based on density
+      const marginSize = hasExperience ? '0.45in' : '0.65in';
+      let latexSource = template.source || '';
+      latexSource = latexSource.replace(/margin=\d+(?:\.\d+)?[a-zA-Z]+/g, `margin=${marginSize}`);
 
       // Define failsafe custom macros to prevent undefined control sequence errors in other templates
-      const customMacros = `
-% Failsafe custom command definitions
-\\providecommand{\\resumeItem}[1]{\\item\\small{#1 \\vspace{1pt plus 0.5pt minus 0.5pt}}}
+      const customMacros = hasExperience ? `
+% Failsafe custom command definitions (Dense Layout)
+\\providecommand{\\resumeItem}[1]{\\item\\small{#1 \\vspace{0.5pt plus 0.25pt minus 0.25pt}}}
 \\providecommand{\\resumeSubheading}[4]{
   \\item
     \\begin{tabular*}{0.97\\textwidth}[t]{l@{\\extracolsep{\\fill}}r}
       \\textbf{#1} & #2 \\\\
       \\textit{\\small#3} & \\textit{\\small #4} \\\\
-    \\end{tabular*}\\vspace{2pt plus 1pt minus 1pt}
+    \\end{tabular*}\\vspace{1pt plus 0.5pt minus 0.5pt}
 }
 \\providecommand{\\resumeProjectHeading}[2]{
   \\item
     \\begin{tabular*}{0.97\\textwidth}[t]{l@{\\extracolsep{\\fill}}r}
       \\parbox[t]{0.83\\textwidth}{\\small#1} & #2 \\\\
-    \\end{tabular*}\\vspace{2pt plus 1pt minus 1pt}
+    \\end{tabular*}\\vspace{1pt plus 0.5pt minus 0.5pt}
 }
-\\providecommand{\\resumeSubItem}[1]{\\resumeItem{#1}\\vspace{1pt plus 0.5pt minus 0.5pt}}
-\\providecommand{\\resumeSubHeadingListStart}{\\begin{itemize}[leftmargin=0.15in, label={}, itemsep=3pt plus 2pt minus 1.5pt, parsep=1.5pt plus 1pt minus 1pt]}
+\\providecommand{\\resumeSubItem}[1]{\\resumeItem{#1}\\vspace{0.5pt plus 0.25pt minus 0.25pt}}
+\\providecommand{\\resumeSubHeadingListStart}{\\begin{itemize}[leftmargin=0.15in, label={}, itemsep=2pt plus 1pt minus 1pt, parsep=1pt plus 0.5pt minus 0.5pt]}
 \\providecommand{\\resumeSubHeadingListEnd}{\\end{itemize}}
-\\providecommand{\\resumeItemListStart}{\\begin{itemize}[itemsep=2pt plus 1.5pt minus 1pt, parsep=1pt plus 1pt minus 0.5pt, topsep=1pt plus 1pt minus 1pt]}
-\\providecommand{\\resumeItemListEnd}{\\end{itemize}\\vspace{2pt plus 1pt minus 1pt}}
-`;
+\\providecommand{\\resumeItemListStart}{\\begin{itemize}[itemsep=1pt plus 0.5pt minus 0.5pt, parsep=0.5pt plus 0.5pt minus 0.25pt, topsep=0.5pt plus 0.5pt minus 0.5pt]}
+\\providecommand{\\resumeItemListEnd}{\\end{itemize}\\vspace{1pt plus 0.5pt minus 0.5pt}}
+` : `
+% Failsafe custom command definitions (Sparse Layout)
+\\providecommand{\\resumeItem}[1]{\\item\\small{#1 \\vspace{2pt plus 1pt minus 0.5pt}}}
+\\providecommand{\\resumeSubheading}[4]{
+  \\item
+    \\begin{tabular*}{0.97\\textwidth}[t]{l@{\\extracolsep{\\fill}}r}
+      \\textbf{#1} & #2 \\\\
+      \\textit{\\small#3} & \\textit{\\small #4} \\\\
+    \\end{tabular*}\\vspace{5pt plus 2pt minus 1pt}
+}
+\\providecommand{\\resumeProjectHeading}[2]{
+  \\item
+    \\begin{tabular*}{0.97\\textwidth}[t]{l@{\\extracolsep{\\fill}}r}
+      \\parbox[t]{0.83\\textwidth}{\\small#1} & #2 \\\\
+    \\end{tabular*}\\vspace{5pt plus 2pt minus 1pt}
+}
+\\providecommand{\\resumeSubItem}[1]{\\resumeItem{#1}\\vspace{2pt plus 1pt minus 0.5pt}}
+\\providecommand{\\resumeSubHeadingListStart}{\\begin{itemize}[leftmargin=0.15in, label={}, itemsep=6pt plus 3pt minus 2pt, parsep=3pt plus 1.5pt minus 1pt]}
+\\providecommand{\\resumeSubHeadingListEnd}{\\end{itemize}}
+\\providecommand{\\resumeItemListStart}{\\begin{itemize}[itemsep=4pt plus 2pt minus 1pt, parsep=2pt plus 1pt minus 0.5pt, topsep=2pt plus 1pt minus 1pt]}
+\\providecommand{\\resumeItemListEnd}{\\end{itemize}\\vspace{3pt plus 2pt minus 1pt}}
 
-      let latexSource = template.source;
+% Redefine \\section to dynamically add \\vfill for sparse profiles
+\\newif\\iffirstsection
+\\firstsectiontrue
+\\let\\oldsection\\section
+\\renewcommand{\\section}[1]{%
+  \\iffirstsection
+    \\firstsectionfalse
+    \\oldsection{#1}%
+  \\else
+    \\vfill\\oldsection{#1}%
+  \\fi
+}
+`;
       if (!hasExperience) {
         // Strip experience section from LaTeX template source completely up to the next section or end of document
         const experienceSectionRegex = /\\section\{(?:Experience|Professional Experience|Research\s+(?:\\\&|\&|\\amp;|\\and)\s+Professional\s+Experience|Work\s+Experience|Employment)\}[\s\S]*?(?=\\section|\s*\\end\{document\})/gi;

@@ -39,6 +39,60 @@ export const cleanTimelineAndSkillsFromName = (name) => {
   return cleaned || name;
 };
 
+export const restoreMergedSpaces = (text) => {
+  if (typeof text !== 'string') return text;
+  
+  // Split by whitespace to process word by word
+  const words = text.split(/(\s+)/);
+  const restoredWords = words.map(word => {
+    // If it looks like an email or a URL, or has @ or http or .com, do not touch it
+    if (word.includes('@') || /https?:\/\//i.test(word) || /\b(?:[a-z0-9]+\.)+[a-z]{2,}\b/i.test(word) || word.includes('linkedin.com') || word.includes('github.com')) {
+      return word;
+    }
+    
+    let cleaned = word;
+    
+    // 1. Separate numbers/percentages from leading/trailing words first
+    cleaned = cleaned.replace(/([a-zA-Z]+)(\d+)/g, '$1 $2');
+    cleaned = cleaned.replace(/(\d+(?:\+|-|%)?)([a-zA-Z]+)/g, '$1 $2');
+
+    // 2. Separate common articles/adjectives merged at start: a, with, system, etc.
+    cleaned = cleaned.replace(/\ba(full-stack|real-time|deep|learning)\b/gi, (match) => {
+      const first = match.charAt(0);
+      const rest = match.slice(1);
+      return first + ' ' + rest;
+    });
+
+    // 3. Separate technology name or action verb prefix
+    cleaned = cleaned.replace(/\b(Integrated|Engineered|Developed|Designed|Optimized|Implemented|Built|Trained|Collaborated|Created|Led)(MongoDB|Haar|OpenCV|TensorFlow|React|Node|Express|Flask|Django|Python|Java|SQL|C\+\+)/g, '$1 $2');
+
+    // 4. Separate words merged with "with", "using", "for"
+    cleaned = cleaned.replace(/([a-zA-Z]{3,})(with|using|for)\b/g, '$1 $2');
+    
+    // 5. Separate words ending in via/and using precise word boundaries & callback list checks
+    cleaned = cleaned.replace(/\b([a-zA-Z]+)(and|via)\b/gi, (match, prefix, suffix) => {
+      const lowerMatch = match.toLowerCase();
+      if (suffix.toLowerCase() === 'via') {
+        if (['trivia', 'olivia', 'salvia', 'via'].includes(lowerMatch)) return match;
+        return prefix + ' ' + suffix;
+      } else {
+        const commonAnd = ['and', 'hand', 'land', 'band', 'sand', 'brand', 'grand', 'stand', 'command', 'expand', 'demand', 'island', 'thousand', 'husband', 'understand', 'operand', 'garland', 'highland', 'woodland', 'borderland', 'hinterland', 'headband', 'wristband', 'waistband', 'broadband', 'contraband', 'standby', 'candid'];
+        if (commonAnd.includes(lowerMatch)) return match;
+        return prefix + ' ' + suffix;
+      }
+    });
+    
+    cleaned = cleaned.replace(/([a-zA-Z]+)and([A-Z][a-zA-Z]*)/g, '$1 and $2');
+    
+    // Handle specific reverse merges
+    cleaned = cleaned.replace(/\bwith(multi-threaded|multi-threading|real-time)\b/gi, 'with $1');
+
+    return cleaned;
+  });
+
+  return restoredWords.join('');
+};
+
 export const cleanLeadingBullets = (line) => {
   if (typeof line !== 'string') return '';
   return line
@@ -290,7 +344,8 @@ export const cleanProjectBulletsAndExtractTechs = (bullets, existingTechs) => {
   const techHeaderRegex = /^(?:technologies|tech\s+stack|tools\s+used|technologies\s+used|built\s+with|stack|tech)\s*[:\-–—\s]+/i;
 
   (bullets || []).forEach(bullet => {
-    const trimmed = bullet.trim();
+    const restored = restoreMergedSpaces(bullet);
+    const trimmed = restored.trim();
     if (!trimmed) return;
 
     // Check if the bullet is a header pattern like "Technologies: React, Node.js"
@@ -329,7 +384,7 @@ export const isPureTechList = (line) => {
   const trimmed = (line || '').trim();
   if (!trimmed) return false;
 
-  const TECH_REG = /\b(?:react(?:\.js)?|angular|vue(?:\.js)?|svelte|next\.js|nuxt\.js|node(?:\.js)?|express(?:\.js)?|koa|django|flask|fastapi|spring\s*boot|laravel|asp\.net|rails|ruby\s*on\s*rails|mongodb|postgres(?:ql)?|mysql|sqlite|redis|cassandra|dynamodb|firebase|supabase|oracle|mssql|docker|kubernetes|k8s|aws|gcp|azure|heroku|vercel|netlify|digital\s*ocean|html(?:5)?|css(?:3)?|javascript|js|typescript|ts|python|java|c\+\+|c\#|go|golang|rust|ruby|php|swift|kotlin|scala|perl|bash|shell|git|github|gitlab|rest\s*apis?|restful|graphql|grpc|socket\.io|jwt|oauth|redux|mobx|recoil|tailwind|bootstrap|material\-ui|mui|chakra|sass|less|webpack|vite|babel|gulp|jest|mocha|cypress|selenium|playwright|jenkins|travis|circleci|github\s*actions|tensorflow|pytorch|keras|scikit\-learn|numpy|pandas|opencv|mediapipe|nltk|spacy|hugging\s*face|transformers|nlp|llm|gan|cnn|rnn|lstm|bert|gpt|gemini|openai|s3|ec2|lambda|serverless|microservices|ci\/cd|dsa|oop|dbms)\b/i;
+  const TECH_REG = /\b(?:react(?:\.js)?|angular|vue(?:\.js)?|svelte|next\.js|nuxt\.js|node(?:\.js)?|express(?:\.js)?|koa|django|flask|fastapi|spring\s*boot|laravel|asp\.net|rails|ruby\s*on\s*rails|mongodb|postgres(?:ql)?|mysql|sqlite|redis|cassandra|dynamodb|firebase|supabase|oracle|mssql|docker|kubernetes|k8s|aws|gcp|azure|heroku|vercel|netlify|digital\s*ocean|html(?:5)?|css(?:3)?|javascript|js|typescript|ts|python|java|c\+\+|c\#|go|golang|rust|ruby|php|swift|kotlin|scala|perl|bash|shell|git|github|gitlab|rest\s*apis?|restful|graphql|grpc|socket\.io|jwt|oauth|redux|mobx|recoil|tailwind|bootstrap|material\-ui|mui|chakra|sass|less|webpack|vite|babel|gulp|jest|mocha|cypress|selenium|playwright|jenkins|travis|circleci|github\s*actions|tensorflow|pytorch|keras|scikit\-learn|numpy|pandas|opencv|mediapipe|nltk|spacy|hugging\s*face|transformers|nlp|llm|gan|cnn|rnn|lstm|bert|gpt|gemini|openai|s3|ec2|lambda|serverless|microservices|ci\/cd|dsa|oop|dbms|expo|native|api|apis|rest|nosql|db|databases)\b/i;
 
   const NON_TECH_PROJECT_WORDS = /\b(?:platform|system|application|app|website|portal|software|tool|dashboard|extension|game|detector|classifier|generator|engine|management|tracker|detection|control|gaming|commerce|executive|professional|experience|project|internship|student|education|university|college|role|engineer|developer|designer|manager|analyst|lead|architect|intern|specialist|consultant|programmer|tester|administrator|exec|executive|director|vp|head|building|scaling|developing|implementing|managing|predict(?:or|ion)?|recommend(?:er|ation)?|solve(?:r)?|recognition|analysis|learning|smart|automatic|smart|intelligent|helper|utility|portfolio|blog)\b/i;
 
@@ -407,6 +462,7 @@ const isNewProjectStart = (cleanLine, currentProj) => {
   if (!isLikelyProjectTitle(clean)) return false;
   if (/^(repo|github|link|http|url|demo|website|source)/i.test(clean)) return false;
   if (/(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b|(?:19|20)\d{2}\b/i.test(clean) && clean.length < 40) return false;
+  if (/^(?:technologies|tech\s+stack|tools|languages|frameworks|libraries|database|devops|skills)/i.test(clean)) return false;
   
   const ACTION_VERBS = /^(?:engineered|designed|integrated|developed|implemented|optimized|built|trained|led|completed|created|spearheaded|architected|pioneered|managed|formulated|automated|collaborated|conducted|established|improved|enhanced|formulated|contributed|delivered)/i;
   if (ACTION_VERBS.test(clean)) return false;
@@ -474,7 +530,7 @@ const isSectionHeader = (line) => {
 };
 
 export const extractLocalFallback = (resumeText) => {
-  const lines = (resumeText || '').split('\n').map(l => l.trim()).filter(Boolean);
+  const lines = (resumeText || '').split('\n').map(l => restoreMergedSpaces(l.trim())).filter(Boolean);
   const result = {
     name: '',
     email: '',
