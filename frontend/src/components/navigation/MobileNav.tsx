@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavItem } from './NavItem';
-import { Home, FileText, Brain, Briefcase, Settings, Lock, Layout } from 'lucide-react';
+import { Home, FileText, Brain, Briefcase, Settings, Lock } from 'lucide-react';
 
 interface MobileNavProps {
   active: string;

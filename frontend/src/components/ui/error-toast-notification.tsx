@@ -1,10 +1,15 @@
 "use client";
 
-import React from "react";
+import { motion } from 'framer-motion';
 
 export default function ErrorToast({ message, description, onClose }: { message: string, description?: string, onClose?: () => void }) {
     return (
-        <div className="bg-white inline-flex items-start space-x-3 p-3 text-sm rounded border border-red-300/60 shadow-xl min-w-[300px]">
+        <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="bg-white inline-flex items-start space-x-3 p-3 text-sm rounded border border-red-300/60 shadow-xl min-w-[300px]"
+        >
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-0.5">
                 <circle cx="9" cy="9" r="7.5" stroke="#EF4444" strokeWidth="1.5" />
                 <path d="M9 6v3M9 12h.01" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" />
@@ -20,6 +25,6 @@ export default function ErrorToast({ message, description, onClose }: { message:
                     </svg>
                 </button>
             )}
-        </div>
+        </motion.div>
     );
 }

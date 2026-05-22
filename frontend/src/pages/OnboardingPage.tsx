@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/SearchableDropdown';
 import { useAuthStore } from '@/store/authStore';
 import { uploadApi } from '@/api/auth';
-import { fieldSkillsMap, softSkills, getMappedField } from '@/data/fieldSkillsData';
+import { softSkills } from '@/data/fieldSkillsData';
 import ThinkingLoader from '@/components/ui/loading';
 import { showSuccess, showError, showInfo } from '@/utils/toastManager';
 import {

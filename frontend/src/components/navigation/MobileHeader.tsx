@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { User, LogOut, Menu } from 'lucide-react';
-import { useAuthStore } from '@/store/authStore';
+import { LogOut } from 'lucide-react';
 
 interface MobileHeaderProps {
   onLogout: () => void;

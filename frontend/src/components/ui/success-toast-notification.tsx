@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 
 export default function SuccessToast({ message, description, onClose }: { message: string, description?: string, onClose?: () => void }) {
     return (

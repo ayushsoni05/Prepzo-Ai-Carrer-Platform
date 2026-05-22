@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 // import { NavItem } from './NavItem';
-import { Home, FileText, Brain, Briefcase, Settings, Lock, Layout } from 'lucide-react';
+import { Home, FileText, Brain, Briefcase, Settings, Lock } from 'lucide-react';
 
 interface SidebarProps {
   active: string;

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 
 import {
@@ -16,8 +16,6 @@ import {
   Award,
   Shield,
   Brain,
-
-  Upload,
   Lock,
   CheckCircle,
   Building2,
@@ -29,92 +27,30 @@ import {
   BookOpen,
   Search,
   Layers,
-  FileCode,
   TrendingUp,
   Code
 } from 'lucide-react';
 import { type Job } from '@/api/jobs';
-import { showSuccess, showError, showInfo } from '@/utils/toastManager';
-import { jsPDF } from 'jspdf';
+import { showSuccess } from '@/utils/toastManager';
 import { GlassButton, GlassCard } from '@/components/ui/GlassCard';
 import { CircularProgress, SkillBar } from '@/components/ui/CircularProgress';
-import { SearchableDropdown } from '@/components/ui/SearchableDropdown';
 import { useAuthStore } from '@/store/authStore';
 import { useAppStore } from '@/store/appStore';
 import QuickInsightsWidget from '@/components/recommendations/QuickInsightsWidget';
 import { ProctoredAssessment } from '@/components/assessment/ProctoredAssessment';
-import { uploadApi, type ResumeInfo } from '@/api/auth';
 import { LaTeXResumeBuilder } from '@/components/resume/LaTeXResumeBuilder';
 import ThinkingLoader from '@/components/ui/loading';
 import { GridBeam } from '@/components/ui/background-grid-beam';
 import { QuestionBank } from '@/components/interview/QuestionBank';
 import { SettingsForm } from '@/components/profile/SettingsForm';
+import { PreparationVelocityChart } from '@/components/dashboard/PreparationVelocityChart';
+import { PeerLeaderboard } from '@/components/dashboard/PeerLeaderboard';
+import { AtsOptimizer } from '@/components/dashboard/AtsOptimizer';
+import { ReferralGenerator } from '@/components/dashboard/ReferralGenerator';
 
 
 
 type DashboardTab = 'home' | 'resume' | 'assessment' | 'opportunities' | 'settings';
-
-
-
-
-
-const resumeRoleOptions = [
-  { value: 'Backend Developer', label: 'Backend Developer', color: 'from-green-500 to-teal-500' },
-  { value: 'Frontend Developer', label: 'Frontend Developer', color: 'from-cyan-500 to-blue-500' },
-  { value: 'Full Stack Developer', label: 'Full Stack Developer', color: 'from-violet-500 to-purple-500' },
-  { value: 'Software Engineer', label: 'Software Engineer', color: 'from-purple-500 to-indigo-500' },
-  { value: 'Data Scientist', label: 'Data Scientist', color: 'from-orange-500 to-red-500' },
-  { value: 'Machine Learning Engineer', label: 'Machine Learning Engineer', color: 'from-pink-500 to-rose-500' },
-];
-
-const demoJDOptions = [
-  { value: 'backend_node', label: 'Backend Developer — Node.js', color: 'from-green-500 to-teal-500' },
-  { value: 'frontend_react', label: 'Frontend Developer — React', color: 'from-cyan-500 to-blue-500' },
-  { value: 'fullstack_web', label: 'Full Stack Developer', color: 'from-violet-500 to-purple-500' },
-  { value: 'ml_engineer', label: 'Machine Learning Engineer', color: 'from-pink-500 to-rose-500' },
-];
-
-const templateOptions = [
-  { value: 'Standard Professional ATS', label: 'Standard ATS (Classic)' },
-  { value: 'Modern Creative', label: 'Modern Creative Template' },
-  { value: 'Executive Leadership', label: 'Executive Leadership' },
-  { value: 'Minimalist Tech', label: 'Minimalist Tech Layout' },
-  { value: 'AltaCV Modern', label: 'AltaCV Modern Design' },
-  { value: 'Jakes Resume', label: 'Jake\'s ATS Resume' },
-  { value: 'Simple Hipster', label: 'Simple Hipster Sidebar' },
-  { value: 'MBZUAI Academic', label: 'MBZUAI Academic Clean' }
-];
-
-const demoJDs = [
-  {
-    id: 'backend_node',
-    label: 'Backend Developer - Node.js',
-    role: 'Backend Developer',
-    description:
-      'Looking for a Backend Developer with strong experience in Node.js, REST APIs, MongoDB, Docker, and microservices architecture. Experience with API security, performance optimization, and cloud deployment is preferred.',
-  },
-  {
-    id: 'frontend_react',
-    label: 'Frontend Developer - React',
-    role: 'Frontend Developer',
-    description:
-      'Looking for a Frontend Developer with expertise in React, TypeScript, performance optimization, responsive UI, and accessibility. Experience with testing frameworks and component architecture is required.',
-  },
-  {
-    id: 'fullstack_web',
-    label: 'Full Stack Developer',
-    role: 'Full Stack Developer',
-    description:
-      'Seeking a Full Stack Developer with React, Node.js, API development, SQL/NoSQL databases, CI/CD, and cloud deployment experience. Strong debugging and system design fundamentals are expected.',
-  },
-  {
-    id: 'ml_engineer',
-    label: 'Machine Learning Engineer',
-    role: 'Machine Learning Engineer',
-    description:
-      'Hiring an ML Engineer with Python, PyTorch or TensorFlow, model serving, feature engineering, MLOps pipelines, Docker, and monitoring experience. Data processing and experimentation rigor is important.',
-  },
-];
 
 export function Dashboard() {
   const { user, completeAssessmentAsync, logout } = useAuthStore();
@@ -123,29 +59,14 @@ export function Dashboard() {
     setDashboardTab,
     resumeAnalysis,
     atsHistory,
-    resumeAnalysisLoading,
-    analyzeResume,
     loadResumeAnalysisFromBackend,
-    generatedResume,
-    resumeGenerationLoading,
-    generateResume,
     setShowFullRecommendations,
     setGlobalLoading,
-    autofillResumeText
   } = useAppStore();
   const [startAssessment, setStartAssessment] = useState<false | 'field' | 'skills'>(false);
-  const [resumeTextInput, setResumeTextInput] = useState('');
-  const [resumeRoleInput, setResumeRoleInput] = useState(user?.targetRole || '');
-  const [jobDescriptionInput, setJobDescriptionInput] = useState('');
-  const [templateInput, setTemplateInput] = useState('Standard Professional ATS');
-  const [selectedDemoJD, setSelectedDemoJD] = useState('');
-  const [resumeInfo, setResumeInfo] = useState<ResumeInfo | null>(null);
-  const [resumeWorkspace, setResumeWorkspace] = useState<'selection' | 'maker' | 'ats' | 'gallery'>('selection');
   const [opportunitiesWorkspace, setOpportunitiesWorkspace] = useState<'selection' | 'jobs' | 'companies' | 'applications' | 'network'>('selection');
-  const [isResumeUploading, setIsResumeUploading] = useState(false);
   const [dashboardJobs, setDashboardJobs] = useState<Job[]>([]);
   const [dashboardJobsLoading, setDashboardJobsLoading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Format helper for 2 decimal places
   const formatVal = (val: any) => {
@@ -161,10 +82,7 @@ export function Dashboard() {
         // Only call protected endpoints if the user has a valid auth token
         const token = localStorage.getItem('prepzo-token');
         if (token && token !== 'null' && token !== 'undefined') {
-          await Promise.all([
-            uploadApi.getResumeInfo().then(setResumeInfo).catch(() => setResumeInfo(null)),
-            loadResumeAnalysisFromBackend()
-          ]);
+          await loadResumeAnalysisFromBackend();
         }
       } finally {
         setGlobalLoading(false);
@@ -174,21 +92,7 @@ export function Dashboard() {
     void initializeDashboard();
   }, [loadResumeAnalysisFromBackend, setGlobalLoading]);
 
-  useEffect(() => {
-    setResumeRoleInput(user?.targetRole || '');
-  }, [user?.targetRole]);
 
-  useEffect(() => {
-    if (!selectedDemoJD) {
-      return;
-    }
-    const selected = demoJDs.find((item) => item.id === selectedDemoJD);
-    if (!selected) {
-      return;
-    }
-    setResumeRoleInput(selected.role);
-    setJobDescriptionInput(selected.description);
-  }, [selectedDemoJD]);
 
   // Load jobs for the opportunities workspace
   useEffect(() => {
@@ -247,18 +151,10 @@ export function Dashboard() {
     },
   ];
 
-  const keywordLens = resumeAnalysis?.keywordAnalysis;
-  const skillGapAnalysis = resumeAnalysis?.skillGapAnalysis;
-  const recruiterSimulation = resumeAnalysis?.recruiterSimulation;
-  const linkedinOptimization = resumeAnalysis?.linkedinOptimization;
   const ranking = resumeAnalysis?.resumeRanking;
-  const interviewSuccess = resumeAnalysis?.interviewSuccess;
-  const scoreSimulation = resumeAnalysis?.scoreSimulation;
-  const rewriteLines = resumeAnalysis?.resumeRewrite?.beforeAfterPairs || resumeAnalysis?.improvedLines || [];
   const isFieldComplete = !!user?.isFieldTestComplete;
   const isSkillComplete = !!user?.isSkillTestComplete;
   const isFullyQualified = isFieldComplete && isSkillComplete;
-  const atsTrend = (atsHistory || []).slice(0, 8).reverse();
 
   // Calculate real metrics for "fancy things"
   const dailyStreak = useMemo(() => {
@@ -306,63 +202,6 @@ export function Dashboard() {
     }
   }, [isFullyQualified, dashboardTab]);
 
-  const exportAtsReportPdf = () => {
-    if (!isFullyQualified) {
-      showError('Complete both assessment stages to unlock ATS reports.');
-      return;
-    }
-    if (!resumeAnalysis) {
-      showError('Run ATS analysis first to export report.');
-      return;
-    }
-
-    const doc = new jsPDF();
-    let y = 16;
-    const lineHeight = 7;
-    const pageWidth = 180;
-
-    const addWrapped = (label: string, content: string) => {
-      if (y > 275) {
-        doc.addPage();
-        y = 16;
-      }
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(12);
-      doc.text(label, 14, y);
-      y += 6;
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
-      const lines = doc.splitTextToSize(content || '-', pageWidth);
-      doc.text(lines, 14, y);
-      y += lines.length * lineHeight + 2;
-    };
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(16);
-    doc.text('Prepzo AI Resume ATS Optimization Report', 14, y);
-    y += 10;
-    doc.setFontSize(11);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Student: ${user?.fullName || 'Student'}`, 14, y);
-    y += 6;
-    doc.text(`Target Role: ${resumeAnalysis.targetRoleUsed || user?.targetRole || 'Software Engineer'}`, 14, y);
-    y += 6;
-    doc.text(`ATS Score: ${formatVal(resumeAnalysis.overallScore || 0)}/100`, 14, y);
-    y += 10;
-
-    addWrapped('Keyword Match Analysis', `Matched: ${(keywordLens?.matchedKeywords || []).join(', ')}\nMissing: ${(keywordLens?.missingKeywords || []).join(', ')}`);
-    addWrapped('Skill Gap Detection', (skillGapAnalysis?.missingSkills || []).join(', '));
-    addWrapped('AI Recommendations', [
-      ...(resumeAnalysis.aiRecommendations?.skillsToLearn || []).slice(0, 4).map((s) => `Learn: ${s}`),
-      ...(resumeAnalysis.aiRecommendations?.projectsToBuild || []).slice(0, 3).map((s) => `Build: ${s}`),
-    ].join('\n'));
-    addWrapped('Recruiter Simulation', `Strengths: ${(recruiterSimulation?.strengths || []).join(', ')}\nConcerns: ${(recruiterSimulation?.concerns || []).join(', ')}\nRecommendation: ${recruiterSimulation?.recommendation || ''}`);
-    addWrapped('Interview Success Probability', `${formatVal(interviewSuccess?.probability || 0)}%`);
-    addWrapped('ATS Score Simulation', `Current: ${formatVal(scoreSimulation?.currentScore || resumeAnalysis.overallScore || 0)}%\nExpected: ${formatVal(scoreSimulation?.expectedScoreAfterImprovements || resumeAnalysis.overallScore || 0)}%`);
-    addWrapped('LinkedIn Optimization Headline', linkedinOptimization?.optimizedHeadline || '-');
-
-    doc.save(`prepzo-ats-report-${Date.now()}.pdf`);
-  };
 
   const renderHome = () => (
     <div className="max-w-7xl mx-auto space-y-10 selection:bg-[#5ed29c] selection:text-black font-rubik pb-20">
@@ -468,6 +307,7 @@ export function Dashboard() {
               </div>
             </div>
           </div>
+          <PreparationVelocityChart score={readinessScore} />
         </div>
 
         {/* Filling Space: Quick Engagement Widget */}
@@ -544,6 +384,20 @@ export function Dashboard() {
 
       <div id="ai-insights" className="mt-12">
          <QuickInsightsWidget onViewFull={() => setShowFullRecommendations(true)} />
+      </div>
+
+      {/* Interactive Career Widgets */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-12 pointer-events-auto">
+        <div className="lg:col-span-7">
+          <AtsOptimizer userSkills={user?.knownTechnologies} currentAtsScore={atsScore} />
+        </div>
+        <div className="lg:col-span-5">
+          <PeerLeaderboard collegeName={user?.collegeName} currentUserScore={readinessScore} currentUserName={user?.fullName} />
+        </div>
+      </div>
+
+      <div className="mt-8 pointer-events-auto">
+        <ReferralGenerator />
       </div>
 
       {/* Row 3: More fancy widgets to fill space */}

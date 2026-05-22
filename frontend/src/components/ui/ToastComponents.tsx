@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import toast, { Toast } from 'react-hot-toast';
 import { X } from 'lucide-react';
 

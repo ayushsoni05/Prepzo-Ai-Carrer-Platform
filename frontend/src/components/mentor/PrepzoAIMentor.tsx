@@ -11,10 +11,9 @@ import {
   FileText, Target, Lightbulb, Sparkles, CheckCircle2,
   RefreshCw, MessageCircle, Award, BookOpen
 } from 'lucide-react';
-import { chatWithMentor, getMentorSessions, getSessionHistory, MentorResource } from '@/api/mentor';
+import { chatWithMentor, MentorResource } from '@/api/mentor';
 import { useAuthStore } from '@/store/authStore';
 import { useAppStore } from '@/store/appStore';
-import toast from 'react-hot-toast';
 
 interface Message {
   id: string;
@@ -46,31 +45,8 @@ export function PrepzoAIMentor() {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(true);
-  const [dailyTip, setDailyTip] = useState<string | null>(null);
-  const [showTipBubble, setShowTipBubble] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  // Get daily tip on mount (only when authenticated)
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    
-    const fetchTip = async () => {
-      try {
-        const response = await getQuickTip('general');
-        if (response.success) {
-          setDailyTip(response.data.tip);
-          // Show tip bubble after 3 seconds
-          setTimeout(() => setShowTipBubble(true), 3000);
-          // Hide tip bubble after 10 seconds
-          setTimeout(() => setShowTipBubble(false), 13000);
-        }
-      } catch {
-        // Silent fail - tip is not critical
-      }
-    };
-    fetchTip();
-  }, [isAuthenticated]);
 
   // Don't render if not authenticated
   if (!isAuthenticated) return null;
@@ -199,9 +175,7 @@ export function PrepzoAIMentor() {
     handleSendMessage(prompt);
   };
 
-  const handleRelatedTopic = (topic: string) => {
-    handleSendMessage(`Tell me more about ${topic}`);
-  };
+
 
   const resetChat = () => {
     setMessages([]);
@@ -211,7 +185,6 @@ export function PrepzoAIMentor() {
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
-    setShowTipBubble(false);
   };
 
   return (
@@ -223,33 +196,7 @@ export function PrepzoAIMentor() {
         animate={{ scale: 1 }}
         transition={{ delay: 0.5, type: 'spring' }}
       >
-        {/* Tip Bubble */}
-        <AnimatePresence>
-          {showTipBubble && dailyTip && !isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.9 }}
-              className="absolute bottom-16 right-0 w-64 p-3 bg-gradient-to-br from-purple-600/90 to-indigo-600/90 
-                         backdrop-blur-lg rounded-lg shadow-xl border border-white/20"
-            >
-              <button
-                onClick={() => setShowTipBubble(false)}
-                className="absolute top-1 right-1 p-1 text-white/60 hover:text-white"
-              >
-                <X className="w-3 h-3" />
-              </button>
-              <div className="flex items-start gap-2">
-                <Sparkles className="w-4 h-4 text-yellow-300 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-xs font-medium text-white/90 mb-1">Quick Tip</p>
-                  <p className="text-xs text-white/80">{dailyTip}</p>
-                </div>
-              </div>
-              <div className="absolute -bottom-2 right-6 w-4 h-4 bg-indigo-600/90 transform rotate-45 border-r border-b border-white/20" />
-            </motion.div>
-          )}
-        </AnimatePresence>
+
 
         {/* Main Button */}
         <motion.button

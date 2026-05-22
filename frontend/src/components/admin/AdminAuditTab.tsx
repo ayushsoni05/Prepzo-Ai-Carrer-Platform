@@ -15,8 +15,7 @@ import {
   CheckCircle,
   Info,
   ChevronLeft,
-  ChevronRight,
-  ExternalLink
+  ChevronRight
 } from 'lucide-react';
 
 const AdminAuditTab: React.FC = () => {
