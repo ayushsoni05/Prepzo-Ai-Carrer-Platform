@@ -21,7 +21,7 @@ const Sidebar: React.FC<SidebarProps> = ({ active, onNavigate, badgeMap, lockedI
         { id: 'resume', icon: FileText, label: 'Resume' },
         { id: 'assessment', icon: Brain, label: 'Skill' },
         { id: 'opportunities', icon: Briefcase, label: 'Jobs' },
-        { id: 'playground', icon: Terminal, label: 'Code' },
+        { id: 'coding-lab', icon: Terminal, label: 'Code' },
         { id: 'star-builder', icon: Star, label: 'STAR' },
         { id: 'settings', icon: Settings, label: 'Settings' },
       ].map((item) => {

@@ -14,7 +14,7 @@ const navItems = [
   { label: 'Resume', icon: FileText, id: 'resume' },
   { label: 'Assessment', icon: Brain, id: 'assessment' },
   { label: 'Jobs', icon: Briefcase, id: 'jobs' },
-  { label: 'Code', icon: Terminal, id: 'playground' },
+  { label: 'Code', icon: Terminal, id: 'coding-lab' },
   { label: 'STAR', icon: Star, id: 'star-builder' },
   { label: 'Settings', icon: Settings, id: 'settings' },
 ];
