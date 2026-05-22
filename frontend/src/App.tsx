@@ -35,8 +35,12 @@ type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding
 
 // Get initial page from URL hash or default to 'landing'
 const getPageFromHash = (): Page => {
-  const hash = window.location.hash.slice(1);
+  let hash = window.location.hash.slice(1);
   if (!hash) return 'landing';
+  // react-router-dom HashRouter prepends a slash (e.g., #/playground)
+  if (hash.startsWith('/')) {
+    hash = hash.slice(1);
+  }
   // Allow parameters in hash like #reader?id=123
   const pageName = hash.split('?')[0];
   const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder'];

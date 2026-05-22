@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2 } from 'lucide-react';
 import { getCodingProblems, CodingProblem } from '@/api/codingLab';
@@ -11,8 +10,6 @@ export const CodingLabHub: React.FC = () => {
   const [search, setSearch] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);
   const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
-  
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProblems = async () => {
@@ -149,7 +146,7 @@ export const CodingLabHub: React.FC = () => {
                         <CheckCircle2 size={18} className="text-white/10 group-hover:text-white/20" />
                       </td>
                       <td className="py-6 px-8">
-                        <span className="text-lg font-[900] text-white italic hover:text-[#5ed29c] cursor-pointer transition-colors" onClick={() => navigate(`/playground?id=${problem.id}`)}>
+                        <span className="text-lg font-[900] text-white italic hover:text-[#5ed29c] cursor-pointer transition-colors" onClick={() => window.location.hash = `playground?id=${problem.id}`}>
                           {problem.title}
                         </span>
                       </td>
@@ -179,7 +176,7 @@ export const CodingLabHub: React.FC = () => {
                       </td>
                       <td className="py-6 px-8 text-right">
                         <button
-                          onClick={() => navigate(`/playground?id=${problem.id}`)}
+                          onClick={() => window.location.hash = `playground?id=${problem.id}`}
                           className="inline-flex items-center gap-2 px-6 py-3 bg-[#5ed29c] text-black font-[900] uppercase tracking-widest rounded-xl hover:scale-105 transition-transform"
                         >
                           <Play size={14} className="fill-black" /> Solve
