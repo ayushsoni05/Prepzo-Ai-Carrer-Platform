@@ -311,8 +311,8 @@ export function Dashboard() {
         </div>
 
         {/* Filling Space: Quick Engagement Widget */}
-        <div className="xl:col-span-4 space-y-8">
-          <div className="rounded-[40px] p-8 bg-[#0a0a0a] border border-white/5 shadow-2xl relative overflow-hidden group hover:border-[#5ed29c]/30 transition-colors duration-500 h-full">
+        <div className="xl:col-span-4 flex flex-col gap-8 h-full">
+          <div className="rounded-[40px] p-8 bg-[#0a0a0a] border border-white/5 shadow-2xl relative overflow-hidden group hover:border-[#5ed29c]/30 transition-colors duration-500 flex-1">
              <div className="absolute -bottom-10 -right-10 opacity-5 group-hover:opacity-10 transition-opacity">
                 <Sparkles size={160} className="text-[#5ed29c]" />
              </div>
