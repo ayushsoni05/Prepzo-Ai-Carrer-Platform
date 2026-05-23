@@ -21,7 +21,7 @@ export interface User {
   github: string;
   resumeUrl?: string;
   resumeText?: string;
-  role: 'student' | 'admin' | 'superadmin';
+  role: 'student' | 'recruiter' | 'admin' | 'superadmin';
   isOnboarded: boolean;
   isAssessmentComplete: boolean;
   isFieldTestComplete: boolean;

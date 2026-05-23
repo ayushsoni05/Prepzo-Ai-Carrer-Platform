@@ -66,6 +66,7 @@ const signupSchema = z.object({
   knownTechnologies: z.string().min(1, "At least one technology is required"),
   linkedin: z.string().url("Invalid LinkedIn URL").optional().or(z.literal("")),
   github: z.string().url("Invalid GitHub URL").optional().or(z.literal("")),
+  role: z.enum(['student', 'recruiter']).default('student'),
   password: passwordSchema,
   confirmPassword: z.string(),
   acceptTerms: z.boolean().refine((val) => val === true, "You must accept the terms"),
@@ -243,6 +244,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
       knownTechnologies: savedSignupData.knownTechnologies || '',
       linkedin: savedSignupData.linkedin || '',
       github: savedSignupData.github || '',
+      role: (savedSignupData.role as 'student' | 'recruiter') || 'student',
       password: '',
       confirmPassword: '',
       acceptTerms: false,
@@ -387,6 +389,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
         linkedin: data.linkedin || '',
         github: data.github || '',
         password: data.password,
+        role: data.role,
       });
       // Clear saved draft data after successful signup
       localStorage.removeItem('prepzo-signup-draft');
@@ -874,6 +877,21 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
                               <div className="h-px flex-1 bg-white/10"></div>
                               <span className="text-[10px] text-white/20 font-bold uppercase tracking-widest">OR</span>
                               <div className="h-px flex-1 bg-white/10"></div>
+                            </div>
+
+                            <div className="flex gap-4 mb-4">
+                              <label className="flex-1 cursor-pointer">
+                                <input type="radio" value="student" {...registerSignup('role')} className="hidden" />
+                                <div className={`text-center py-3 rounded-2xl border text-[11px] font-bold uppercase tracking-widest transition-all ${watch('role') === 'student' ? 'bg-white/10 border-white text-white' : 'bg-transparent border-white/10 text-white/40 hover:border-white/30'}`}>
+                                  I am a Student
+                                </div>
+                              </label>
+                              <label className="flex-1 cursor-pointer">
+                                <input type="radio" value="recruiter" {...registerSignup('role')} className="hidden" />
+                                <div className={`text-center py-3 rounded-2xl border text-[11px] font-bold uppercase tracking-widest transition-all ${watch('role') === 'recruiter' ? 'bg-[#5ed29c]/20 border-[#5ed29c] text-[#5ed29c]' : 'bg-transparent border-white/10 text-white/40 hover:border-[#5ed29c]/50'}`}>
+                                  I am a Recruiter
+                                </div>
+                              </label>
                             </div>
 
                             <div className="relative">

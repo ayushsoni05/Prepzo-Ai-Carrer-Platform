@@ -30,6 +30,7 @@ import interviewRoutes from './routes/interview.routes.js';
 import questionBankRoutes from './routes/questionBank.routes.js';
 import notesRoutes from './routes/notes.routes.js';
 import submissionRoutes from './routes/submission.route.js';
+import recruiterRoutes from './routes/recruiter.routes.js';
 import { seeder } from './services/autonomousSeeder.service.js';
 import { errorHandler, notFound } from './middleware/error.middleware.js';
 import aiValidation from './middleware/aiValidation.middleware.js';
@@ -260,6 +261,7 @@ app.use('/api/resume', aiValidation.aiRequestContext(), resumeRoutes);
 app.use('/api/question-bank', questionBankRoutes);
 app.use('/api/notes', notesRoutes);
 app.use('/api/submissions', submissionRoutes);
+app.use('/api/recruiters', recruiterRoutes);
 
 app.use('/api/admin', adminRoutes);
 app.use('/api/admin/proctoring', adminProctoringRoutes);

@@ -149,7 +149,7 @@ const userSchema = new mongoose.Schema({
   // Platform Data
   role: {
     type: String,
-    enum: ['student', 'admin'],
+    enum: ['student', 'recruiter', 'admin'],
     default: 'student',
   },
   isOnboarded: {
@@ -567,7 +567,7 @@ const userSchema = new mongoose.Schema({
   // Extended Role
   role: {
     type: String,
-    enum: ['student', 'admin', 'superadmin'],
+    enum: ['student', 'recruiter', 'admin', 'superadmin'],
     default: 'student',
   },
 }, {

@@ -32,6 +32,7 @@ import { StarStoryBuilder } from '@/pages/StarStoryBuilder';
 import { CodingLabHub } from '@/pages/CodingLabHub';
 import Profile from '@/pages/Profile';
 import Leaderboard from '@/pages/Leaderboard';
+import { RecruiterDashboard } from '@/pages/RecruiterDashboard';
 
 const PageTransition = ({ children, pageKey }: { children: React.ReactNode, pageKey: string }) => (
   <motion.div
@@ -46,7 +47,7 @@ const PageTransition = ({ children, pageKey }: { children: React.ReactNode, page
   </motion.div>
 );
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'portfolio' | 'leaderboard' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'portfolio' | 'leaderboard' | '404';
 
 // Get initial page from URL hash or default to 'landing'
 const getPageFromHash = (): Page => {
@@ -61,7 +62,7 @@ const getPageFromHash = (): Page => {
   
   if (pageName.startsWith('portfolio/')) return 'portfolio';
   
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'leaderboard'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'leaderboard'];
   return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 
@@ -116,7 +117,7 @@ export default function App() {
     
     const initializeAuth = async () => {
       // Only validate session if user is trying to access a protected page
-      const protectedPages = ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader'];
+      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
       // Safety check: if we think we're authenticated but have no token, sync state
@@ -156,8 +157,9 @@ export default function App() {
         setAuthValidated(false);
       } else if (['landing', 'login', 'signup'].includes(currentPage) && isAuthenticated && hasToken) {
         // Authenticated user on public page - redirect to dashboard
-        setCurrentPage('dashboard');
-        window.location.hash = 'dashboard';
+        const targetDashboard = useAuthStore.getState().user?.role === 'recruiter' ? 'recruiter-dashboard' : 'dashboard';
+        setCurrentPage(targetDashboard);
+        window.location.hash = targetDashboard;
         setAuthValidated(true);
       } else {
         // Not on protected page, no validation needed
@@ -244,6 +246,7 @@ export default function App() {
       // If not authenticated and on protected page, redirect to landing
       if ([
         'dashboard',
+        'recruiter-dashboard',
         'admin',
         'onboarding',
         'jobs',
@@ -265,7 +268,8 @@ export default function App() {
       // If authenticated and on login/signup, redirect to dashboard
       // Note: We allow landing page for authenticated users so they can use "Back to Landing"
       if (['login', 'signup'].includes(currentPage)) {
-        handleNavigate('dashboard');
+        const targetDashboard = user?.role === 'recruiter' ? 'recruiter-dashboard' : 'dashboard';
+        handleNavigate(targetDashboard);
       }
     }
   }, [isInitialized, isAuthenticated, currentPage]);
@@ -426,6 +430,7 @@ export default function App() {
             </PageTransition>
           )}
 
+          {currentPage === 'recruiter-dashboard' && <PageTransition pageKey="recruiter"><RecruiterDashboard /></PageTransition>}
           {currentPage === 'admin' && <PageTransition pageKey="admin"><AdminPanel onNavigate={handleNavigate} /></PageTransition>}
           {currentPage === 'onboarding' && <PageTransition pageKey="onboarding"><OnboardingPage onNavigate={handleNavigate} /></PageTransition>}
           {currentPage === 'tetris-demo' && <PageTransition pageKey="tetris"><TetrisDemo /></PageTransition>}

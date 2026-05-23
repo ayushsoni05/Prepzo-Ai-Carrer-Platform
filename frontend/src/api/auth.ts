@@ -15,6 +15,7 @@ export interface RegisterData {
   linkedin?: string;
   github?: string;
   password: string;
+  role?: 'student' | 'recruiter';
 }
 
 export interface LoginData {
