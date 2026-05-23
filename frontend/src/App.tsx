@@ -9,6 +9,7 @@ import { OnboardingPage } from '@/pages/OnboardingPage';
 import { GlobalAIMentor } from '@/components/mentor/GlobalAIMentor';
 import { useAuthStore } from '@/store/authStore';
 import { useAppStore } from '@/store/appStore';
+import { useSocketStore } from '@/store/socketStore';
 
 import { JobsPage } from '@/pages/JobsPage';
 import { CompaniesPage } from '@/pages/CompaniesPage';
@@ -33,6 +34,7 @@ import { CodingLabHub } from '@/pages/CodingLabHub';
 import Profile from '@/pages/Profile';
 import Leaderboard from '@/pages/Leaderboard';
 import { RecruiterDashboard } from '@/pages/RecruiterDashboard';
+import { BattleArena } from '@/pages/BattleArena';
 
 const PageTransition = ({ children, pageKey }: { children: React.ReactNode, pageKey: string }) => (
   <motion.div
@@ -47,7 +49,7 @@ const PageTransition = ({ children, pageKey }: { children: React.ReactNode, page
   </motion.div>
 );
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'portfolio' | 'leaderboard' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'portfolio' | 'leaderboard' | 'battle' | '404';
 
 // Get initial page from URL hash or default to 'landing'
 const getPageFromHash = (): Page => {
@@ -62,7 +64,7 @@ const getPageFromHash = (): Page => {
   
   if (pageName.startsWith('portfolio/')) return 'portfolio';
   
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'leaderboard'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'leaderboard', 'battle'];
   return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 
@@ -73,6 +75,15 @@ export default function App() {
   const initRef = useRef(false);
   const { isAuthenticated, user, fetchUser } = useAuthStore();
   const { isGlobalLoading, globalLoadingText, setGlobalLoading, loadResumeAnalysisFromBackend, darkMode } = useAppStore();
+  const { connect, disconnect } = useSocketStore();
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      connect(user);
+    } else if (!isAuthenticated) {
+      disconnect();
+    }
+  }, [isAuthenticated, user]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
@@ -117,7 +128,7 @@ export default function App() {
     
     const initializeAuth = async () => {
       // Only validate session if user is trying to access a protected page
-      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader'];
+      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
       // Safety check: if we think we're authenticated but have no token, sync state
@@ -260,7 +271,8 @@ export default function App() {
         'notes',
         'note-detail',
         'question-bank',
-        'reader'
+        'reader',
+        'battle'
       ].includes(currentPage)) {
         handleNavigate('landing');
       }
@@ -441,6 +453,7 @@ export default function App() {
           {currentPage === 'leaderboard' && <PageTransition pageKey="leaderboard"><Leaderboard /></PageTransition>}
           {currentPage === 'star-builder' && <PageTransition pageKey="star"><StarStoryBuilder /></PageTransition>}
           {currentPage === 'reader' && <PageTransition pageKey="reader"><PdfReaderPage /></PageTransition>}
+          {currentPage === 'battle' && <PageTransition pageKey="battle"><BattleArena /></PageTransition>}
           {currentPage === '404' && <PageTransition pageKey="404"><NotFound onNavigate={handleNavigate} /></PageTransition>}
         </AnimatePresence>
       </div>

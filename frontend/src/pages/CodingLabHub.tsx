@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2, ChevronLeft, Trophy, UserCircle } from 'lucide-react';
+import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2, ChevronLeft, Trophy, UserCircle, Swords } from 'lucide-react';
 import { getCodingProblems, CodingProblem } from '@/api/codingLab';
 import { GridBeam } from '@/components/ui/background-grid-beam';
 import { useAuthStore } from '@/store/authStore';
+import { MatchmakingModal } from '@/components/multiplayer/MatchmakingModal';
 
 export const CodingLabHub: React.FC = () => {
   const [problems, setProblems] = useState<CodingProblem[]>([]);
@@ -12,6 +13,7 @@ export const CodingLabHub: React.FC = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);
   const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
   const [solvedIds, setSolvedIds] = useState<string[]>([]);
+  const [isMatchmakingOpen, setIsMatchmakingOpen] = useState(false);
   
   const { user } = useAuthStore();
 
@@ -70,6 +72,13 @@ export const CodingLabHub: React.FC = () => {
           <div className="flex flex-col gap-4">
              {/* Gamification Links */}
              <div className="flex gap-4 w-full">
+                <button 
+                  onClick={() => setIsMatchmakingOpen(true)}
+                  className="flex-1 px-4 py-3 bg-gradient-to-br from-red-500/20 to-red-600/5 border border-red-500/30 rounded-xl flex items-center justify-center gap-2 hover:bg-red-500/30 transition-colors shadow-lg shadow-red-500/10 group backdrop-blur-md"
+                >
+                  <Swords size={16} className="text-red-500 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
+                  <span className="text-[10px] font-black text-red-500 uppercase tracking-widest">Find Match</span>
+                </button>
                 <button 
                   onClick={() => window.location.hash = 'leaderboard'}
                   className="flex-1 px-4 py-3 bg-gradient-to-br from-yellow-500/20 to-yellow-600/5 border border-yellow-500/30 rounded-xl flex items-center justify-center gap-2 hover:bg-yellow-500/30 transition-colors shadow-lg shadow-yellow-500/10 group backdrop-blur-md"
@@ -243,6 +252,11 @@ export const CodingLabHub: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <MatchmakingModal 
+        isOpen={isMatchmakingOpen} 
+        onClose={() => setIsMatchmakingOpen(false)} 
+      />
     </div>
   );
 };

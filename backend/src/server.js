@@ -12,6 +12,9 @@ import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import uploadRoutes from './routes/upload.routes.js';
 import testRoutes from './routes/test.routes.js';
+import http from 'http';
+import { Server as SocketIOServer } from 'socket.io';
+import { initializeSockets } from './socket.handler.js';
 
 import recommendationRoutes from './routes/recommendation.routes.js';
 import mentorRoutes from './routes/mentor.routes.js';
@@ -283,7 +286,19 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
+
+const httpServer = http.createServer(app);
+const io = new SocketIOServer(httpServer, {
+  cors: {
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    methods: ['GET', 'POST'],
+    credentials: true
+  }
+});
+
+initializeSockets(io);
+
+const server = httpServer.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
 
