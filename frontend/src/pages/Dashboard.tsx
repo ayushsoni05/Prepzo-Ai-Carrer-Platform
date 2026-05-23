@@ -876,25 +876,25 @@ export function Dashboard() {
                {/* Premium Pagination */}
                {galleryTotalPages > 1 && (
                  <div className="mt-16 mb-8 flex flex-col items-center justify-center gap-6">
-                   <div className="flex items-center gap-3 bg-[#161a20] p-2 rounded-2xl border border-white/5 shadow-2xl">
+                   <div className="flex items-center gap-3">
                      <button 
                        disabled={galleryPage === 1}
                        onClick={() => setGalleryPage(prev => Math.max(1, prev - 1))}
-                       className="w-10 h-10 rounded-lg border border-transparent hover:bg-white/5 text-white/40 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-white/40 group"
+                       className="w-10 h-10 rounded-lg bg-black border border-[#5ed29c]/20 hover:border-[#5ed29c] text-[#5ed29c]/50 hover:text-[#5ed29c] flex items-center justify-center transition-all duration-300 hover:-translate-x-1 disabled:opacity-30 disabled:hover:translate-x-0 disabled:hover:border-[#5ed29c]/20 disabled:hover:text-[#5ed29c]/50 group"
                      >
-                       <ChevronLeft size={18} className="group-hover:-translate-x-0.5 transition-transform" />
+                       <ChevronLeft size={18} />
                      </button>
                      
-                     <div className="flex items-center gap-1.5">
+                     <div className="flex items-center gap-2">
                        {renderPaginationButtons()}
                      </div>
 
                      <button 
                        disabled={galleryPage === galleryTotalPages}
                        onClick={() => setGalleryPage(prev => Math.min(galleryTotalPages, prev + 1))}
-                       className="w-10 h-10 rounded-lg border border-transparent hover:bg-white/5 text-white/40 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-white/40 group"
+                       className="w-10 h-10 rounded-lg bg-black border border-[#5ed29c]/20 hover:border-[#5ed29c] text-[#5ed29c]/50 hover:text-[#5ed29c] flex items-center justify-center transition-all duration-300 hover:translate-x-1 disabled:opacity-30 disabled:hover:translate-x-0 disabled:hover:border-[#5ed29c]/20 disabled:hover:text-[#5ed29c]/50 group"
                      >
-                       <ChevronRight size={18} className="group-hover:translate-x-0.5 transition-transform" />
+                       <ChevronRight size={18} />
                      </button>
                    </div>
                  </div>
@@ -1086,10 +1086,10 @@ export function Dashboard() {
         onClick={() => p !== '...' && setGalleryPage(p as number)}
         className={`w-10 h-10 rounded-lg font-black text-[13px] flex items-center justify-center transition-all duration-300 ${
           p === galleryPage
-            ? 'bg-[#5ed29c] text-black shadow-[0_0_15px_rgba(94,210,156,0.3)] scale-110'
+            ? 'bg-[#5ed29c] text-black shadow-[0_0_20px_rgba(94,210,156,0.5)] scale-110 z-10'
             : p === '...'
-            ? 'text-white/30 cursor-default'
-            : 'border border-white/5 hover:border-[#5ed29c]/50 hover:bg-[#5ed29c]/5 text-white/50 hover:text-[#5ed29c]'
+            ? 'text-[#5ed29c]/30 cursor-default'
+            : 'bg-black border border-[#5ed29c]/20 hover:border-[#5ed29c] text-[#5ed29c]/50 hover:text-[#5ed29c] hover:-translate-y-1'
         }`}
       >
         {p}
