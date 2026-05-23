@@ -71,6 +71,8 @@ export function Dashboard() {
   const [dashboardJobsLoading, setDashboardJobsLoading] = useState(false);
 
   const [activeGalleryTag, setActiveGalleryTag] = useState('All');
+  const [galleryPage, setGalleryPage] = useState(1);
+  const [galleryTotalPages, setGalleryTotalPages] = useState(1);
   const [overleafTemplates, setOverleafTemplates] = useState<OverleafTemplate[]>([]);
   const [loadingTemplates, setLoadingTemplates] = useState(false);
   const [customSourceInput, setCustomSourceInput] = useState<string | undefined>(undefined);
@@ -622,13 +624,19 @@ export function Dashboard() {
     </div>
   );
 
+  // Reset page when tag changes
+  useEffect(() => {
+    setGalleryPage(1);
+  }, [activeGalleryTag]);
+
   useEffect(() => {
     if (resumeWorkspace === 'gallery') {
       const loadTemplates = async () => {
         setLoadingTemplates(true);
         try {
-          const templates = await fetchOverleafTemplates(activeGalleryTag);
-          setOverleafTemplates(templates);
+          const res = await fetchOverleafTemplates(activeGalleryTag, galleryPage);
+          setOverleafTemplates(res.templates);
+          setGalleryTotalPages(res.totalPages);
         } catch (error) {
           console.error('Failed to load Overleaf templates:', error);
         } finally {
@@ -637,7 +645,7 @@ export function Dashboard() {
       };
       void loadTemplates();
     }
-  }, [resumeWorkspace, activeGalleryTag]);
+  }, [resumeWorkspace, activeGalleryTag, galleryPage]);
 
   const handleOpenOverleafTemplate = async (templateId: string, templateSlug: string) => {
     setIsDownloadingTemplate(templateId);
@@ -865,14 +873,29 @@ export function Dashboard() {
                )}
 
                {/* Pagination */}
-               <div className="mt-12 flex justify-center items-center gap-2">
-                 <button className="w-10 h-10 rounded-lg bg-[#5ed29c]/10 border border-[#5ed29c]/20 text-[#5ed29c] font-black flex items-center justify-center">1</button>
-                 <button className="w-10 h-10 rounded-lg border border-white/5 hover:border-white/10 hover:bg-white/5 text-white/40 font-black flex items-center justify-center transition-colors">2</button>
-                 <button className="w-10 h-10 rounded-lg border border-white/5 hover:border-white/10 hover:bg-white/5 text-white/40 font-black flex items-center justify-center transition-colors">3</button>
-                 <span className="text-white/40 px-2">...</span>
-                 <button className="w-10 h-10 rounded-lg border border-white/5 hover:border-white/10 hover:bg-white/5 text-white/40 font-black flex items-center justify-center transition-colors">36</button>
-                 <button className="px-4 h-10 rounded-lg border border-white/5 hover:border-white/10 hover:bg-white/5 text-white/40 font-black text-[11px] uppercase tracking-widest flex items-center justify-center transition-colors">Next</button>
-               </div>
+               {galleryTotalPages > 1 && (
+                 <div className="mt-12 flex justify-center items-center gap-2">
+                   <button 
+                     disabled={galleryPage === 1}
+                     onClick={() => setGalleryPage(prev => Math.max(1, prev - 1))}
+                     className="px-4 h-10 rounded-lg border border-white/5 hover:border-white/10 hover:bg-white/5 text-white/40 font-black text-[11px] uppercase tracking-widest flex items-center justify-center transition-colors disabled:opacity-50"
+                   >
+                     Prev
+                   </button>
+                   
+                   <div className="flex items-center gap-2">
+                     <span className="text-[#5ed29c] font-black text-[13px]">Page {galleryPage} of {galleryTotalPages}</span>
+                   </div>
+
+                   <button 
+                     disabled={galleryPage === galleryTotalPages}
+                     onClick={() => setGalleryPage(prev => Math.min(galleryTotalPages, prev + 1))}
+                     className="px-4 h-10 rounded-lg border border-white/5 hover:border-white/10 hover:bg-white/5 text-white/40 font-black text-[11px] uppercase tracking-widest flex items-center justify-center transition-colors disabled:opacity-50"
+                   >
+                     Next
+                   </button>
+                 </div>
+               )}
             </div>
           </div>
         </div>

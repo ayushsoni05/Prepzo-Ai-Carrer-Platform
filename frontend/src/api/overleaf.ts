@@ -10,10 +10,10 @@ export interface OverleafTemplate {
   accent: string;
 }
 
-export const fetchOverleafTemplates = async (tag: string = 'All', page: number = 1): Promise<OverleafTemplate[]> => {
+export const fetchOverleafTemplates = async (tag: string = 'All', page: number = 1): Promise<{ templates: OverleafTemplate[], totalPages: number }> => {
   const { data } = await api.get('/overleaf/templates', { params: { tag, page } });
   if (!data.success) throw new Error(data.error || 'Failed to fetch templates');
-  return data.templates;
+  return { templates: data.templates, totalPages: data.totalPages || 1 };
 };
 
 export const downloadOverleafTemplate = async (id: string, slug: string): Promise<string> => {
