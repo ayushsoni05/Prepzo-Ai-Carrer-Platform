@@ -1,16 +1,14 @@
 import User from '../models/User.model.js';
-import { ApiError } from '../utils/ApiError.js';
-import { ApiResponse } from '../utils/ApiResponse.js';
-import { asyncHandler } from '../utils/asyncHandler.js';
 
 /**
  * @desc    Get all students/candidates for the recruiter dashboard
  * @route   GET /api/recruiters/candidates
  * @access  Private (Recruiter only)
  */
-export const getCandidates = asyncHandler(async (req, res) => {
-  // Extract query params for filtering
-  const { techStack, minXp, page = 1, limit = 20 } = req.query;
+export const getCandidates = async (req, res) => {
+  try {
+    // Extract query params for filtering
+    const { techStack, minXp, page = 1, limit = 20 } = req.query;
 
   // Build the match stage
   const matchStage = {
@@ -63,8 +61,10 @@ export const getCandidates = asyncHandler(async (req, res) => {
 
   const total = await User.countDocuments(matchStage);
 
-  res.status(200).json(
-    new ApiResponse(200, {
+  res.status(200).json({
+    success: true,
+    message: 'Candidates fetched successfully',
+    data: {
       candidates,
       pagination: {
         page: pageNum,
@@ -72,26 +72,37 @@ export const getCandidates = asyncHandler(async (req, res) => {
         total,
         pages: Math.ceil(total / limitNum)
       }
-    }, 'Candidates fetched successfully')
-  );
-});
+    }
+  });
+  } catch (error) {
+    console.error('Get candidates error:', error);
+    res.status(500).json({ success: false, message: error.message || 'Server error' });
+  }
+};
 
 /**
  * @desc    Get a single candidate's detailed profile
  * @route   GET /api/recruiters/candidates/:id
  * @access  Private (Recruiter only)
  */
-export const getCandidateById = asyncHandler(async (req, res) => {
-  const candidate = await User.findOne({
-    _id: req.params.id,
-    role: 'student'
-  }).select('-password -twoFactorSecret -passwordHistory');
+export const getCandidateById = async (req, res) => {
+  try {
+    const candidate = await User.findOne({
+      _id: req.params.id,
+      role: 'student'
+    }).select('-password -twoFactorSecret -passwordHistory');
 
-  if (!candidate) {
-    throw new ApiError(404, 'Candidate not found');
+    if (!candidate) {
+      return res.status(404).json({ success: false, message: 'Candidate not found' });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Candidate fetched successfully',
+      data: candidate
+    });
+  } catch (error) {
+    console.error('Get candidate error:', error);
+    res.status(500).json({ success: false, message: error.message || 'Server error' });
   }
-
-  res.status(200).json(
-    new ApiResponse(200, candidate, 'Candidate fetched successfully')
-  );
-});
+};
