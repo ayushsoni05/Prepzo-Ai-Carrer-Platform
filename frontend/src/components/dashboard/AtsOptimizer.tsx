@@ -197,7 +197,7 @@ export function AtsOptimizer({
             )))}
           </div>
 
-          <div className="rounded-[32px] p-8 bg-[#161a20] border border-white/5 shadow-xl">
+          <div className="rounded-[32px] p-8 bg-[#161a20] border border-white/5 shadow-xl flex-1 flex flex-col justify-between">
             <div className="flex items-center justify-between mb-8">
               <p className="text-[10px] font-[900] uppercase tracking-[0.3em] text-white/30">Keyword Delta</p>
               <div className="flex items-center gap-2">
@@ -297,7 +297,7 @@ export function AtsOptimizer({
               </div>
           </div>
           
-          <div className="rounded-[32px] p-8 bg-[#161a20] border border-white/5 shadow-xl">
+          <div className="rounded-[32px] p-8 bg-[#161a20] border border-white/5 shadow-xl flex-1 flex flex-col justify-between">
               <p className="text-[10px] font-[900] uppercase tracking-[0.5em] text-white/30 mb-8">Recruiter Sentiment</p>
               <div className="space-y-4">
                 {recruiterSimulation.strengths.map((s, i) => (
@@ -317,7 +317,7 @@ export function AtsOptimizer({
 
         {/* Right Column (Injected PeerLeaderboard) */}
         {children && (
-          <div className="space-y-8 flex flex-col">
+          <div className="space-y-8 flex flex-col h-full">
             {children}
           </div>
         )}
