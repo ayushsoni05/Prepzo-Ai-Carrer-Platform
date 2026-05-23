@@ -32,7 +32,7 @@ import {
   Star
 } from 'lucide-react';
 import { type Job } from '@/api/jobs';
-import { showSuccess } from '@/utils/toastManager';
+import { showSuccess, showError } from '@/utils/toastManager';
 import { GlassButton, GlassCard } from '@/components/ui/GlassCard';
 import { CircularProgress, SkillBar } from '@/components/ui/CircularProgress';
 import { useAuthStore } from '@/store/authStore';

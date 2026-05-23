@@ -46,6 +46,9 @@ export const getTemplates = async (req, res) => {
       const slug = match[1];
       const id = match[2];
       
+      // Ignore gallery navigation links
+      if (slug === 'tagged' || slug === 'recent') return;
+      
       const title = $(element).find('.caption-title').text().trim();
       const description = $(element).find('.caption-description').text().trim();
       const author = $(element).find('.author-name div').text().trim();
