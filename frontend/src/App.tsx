@@ -21,6 +21,7 @@ import { MobileNav } from '@/components/navigation/MobileNav';
 import { MobileHeader } from '@/components/navigation/MobileHeader';
 import TailwindAwesomeDemo from '@/pages/TailwindAwesomeDemo';
 import Sidebar from '@/components/navigation/Sidebar';
+import { GlobalBreadcrumb } from '@/components/navigation/Breadcrumb';
 import { InterviewPage } from '@/pages/InterviewPage';
 import ThinkingLoader from '@/components/ui/loading';
 import { GridBeam } from '@/components/ui/background-grid-beam';
@@ -423,6 +424,7 @@ export default function App() {
                       handleNavigate('landing');
                     }}
                   />
+                  <GlobalBreadcrumb />
                   {(currentPage === 'dashboard' || currentPage === 'resume' || currentPage === 'settings' || currentPage === 'assessment') && <Dashboard />}
                   {currentPage === 'jobs' && <JobsPage />}
                   {currentPage === 'companies' && <CompaniesPage />}
