@@ -23,6 +23,7 @@ import {
   Briefcase,
   ArrowUpRight,
   ChevronRight,
+  ChevronLeft,
   Mic,
   BookOpen,
   Search,
@@ -872,28 +873,30 @@ export function Dashboard() {
                  </div>
                )}
 
-               {/* Pagination */}
+               {/* Premium Pagination */}
                {galleryTotalPages > 1 && (
-                 <div className="mt-12 flex justify-center items-center gap-2">
-                   <button 
-                     disabled={galleryPage === 1}
-                     onClick={() => setGalleryPage(prev => Math.max(1, prev - 1))}
-                     className="px-4 h-10 rounded-lg border border-white/5 hover:border-white/10 hover:bg-white/5 text-white/40 font-black text-[11px] uppercase tracking-widest flex items-center justify-center transition-colors disabled:opacity-50"
-                   >
-                     Prev
-                   </button>
-                   
-                   <div className="flex items-center gap-2">
-                     <span className="text-[#5ed29c] font-black text-[13px]">Page {galleryPage} of {galleryTotalPages}</span>
-                   </div>
+                 <div className="mt-16 mb-8 flex flex-col items-center justify-center gap-6">
+                   <div className="flex items-center gap-3 bg-[#161a20] p-2 rounded-2xl border border-white/5 shadow-2xl">
+                     <button 
+                       disabled={galleryPage === 1}
+                       onClick={() => setGalleryPage(prev => Math.max(1, prev - 1))}
+                       className="w-10 h-10 rounded-lg border border-transparent hover:bg-white/5 text-white/40 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-white/40 group"
+                     >
+                       <ChevronLeft size={18} className="group-hover:-translate-x-0.5 transition-transform" />
+                     </button>
+                     
+                     <div className="flex items-center gap-1.5">
+                       {renderPaginationButtons()}
+                     </div>
 
-                   <button 
-                     disabled={galleryPage === galleryTotalPages}
-                     onClick={() => setGalleryPage(prev => Math.min(galleryTotalPages, prev + 1))}
-                     className="px-4 h-10 rounded-lg border border-white/5 hover:border-white/10 hover:bg-white/5 text-white/40 font-black text-[11px] uppercase tracking-widest flex items-center justify-center transition-colors disabled:opacity-50"
-                   >
-                     Next
-                   </button>
+                     <button 
+                       disabled={galleryPage === galleryTotalPages}
+                       onClick={() => setGalleryPage(prev => Math.min(galleryTotalPages, prev + 1))}
+                       className="w-10 h-10 rounded-lg border border-transparent hover:bg-white/5 text-white/40 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-white/40 group"
+                     >
+                       <ChevronRight size={18} className="group-hover:translate-x-0.5 transition-transform" />
+                     </button>
+                   </div>
                  </div>
                )}
             </div>
@@ -1053,6 +1056,46 @@ export function Dashboard() {
   };
 
   // Target company handlers moved to dedicated Companies workspace.
+
+  const renderPaginationButtons = () => {
+    const pages = [];
+    const maxVisible = 5;
+    
+    if (galleryTotalPages <= maxVisible) {
+      for (let i = 1; i <= galleryTotalPages; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (galleryPage > 3) pages.push('...');
+      
+      let start = Math.max(2, galleryPage - 1);
+      let end = Math.min(galleryTotalPages - 1, galleryPage + 1);
+      
+      if (galleryPage <= 3) end = 4;
+      if (galleryPage >= galleryTotalPages - 2) start = galleryTotalPages - 3;
+      
+      for (let i = start; i <= end; i++) pages.push(i);
+      
+      if (galleryPage < galleryTotalPages - 2) pages.push('...');
+      pages.push(galleryTotalPages);
+    }
+
+    return pages.map((p, i) => (
+      <button
+        key={i}
+        disabled={p === '...'}
+        onClick={() => p !== '...' && setGalleryPage(p as number)}
+        className={`w-10 h-10 rounded-lg font-black text-[13px] flex items-center justify-center transition-all duration-300 ${
+          p === galleryPage
+            ? 'bg-[#5ed29c] text-black shadow-[0_0_15px_rgba(94,210,156,0.3)] scale-110'
+            : p === '...'
+            ? 'text-white/30 cursor-default'
+            : 'border border-white/5 hover:border-[#5ed29c]/50 hover:bg-[#5ed29c]/5 text-white/50 hover:text-[#5ed29c]'
+        }`}
+      >
+        {p}
+      </button>
+    ));
+  };
 
   const renderOpportunities = () => {
     if (opportunitiesWorkspace === 'selection') {
