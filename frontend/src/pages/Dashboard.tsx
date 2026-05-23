@@ -48,9 +48,7 @@ import { PreparationVelocityChart } from '@/components/dashboard/PreparationVelo
 import { PeerLeaderboard } from '@/components/dashboard/PeerLeaderboard';
 import { AtsOptimizer } from '@/components/dashboard/AtsOptimizer';
 import { ReferralGenerator } from '@/components/dashboard/ReferralGenerator';
-
-
-
+import allTemplates from '@/data/templates.json';
 type DashboardTab = 'home' | 'resume' | 'assessment' | 'opportunities' | 'settings';
 
 export function Dashboard() {
@@ -67,6 +65,7 @@ export function Dashboard() {
   const [startAssessment, setStartAssessment] = useState<false | 'field' | 'skills'>(false);
   const [opportunitiesWorkspace, setOpportunitiesWorkspace] = useState<'selection' | 'jobs' | 'companies' | 'applications' | 'network'>('selection');
   const [resumeWorkspace, setResumeWorkspace] = useState<'selection' | 'maker' | 'optimizer' | 'gallery'>('selection');
+  const [templateInput, setTemplateInput] = useState<string | undefined>(undefined);
   const [dashboardJobs, setDashboardJobs] = useState<Job[]>([]);
   const [dashboardJobsLoading, setDashboardJobsLoading] = useState(false);
 
@@ -688,7 +687,7 @@ export function Dashboard() {
     }
 
     if (resumeWorkspace === 'maker') {
-      return <LaTeXResumeBuilder onExit={() => setResumeWorkspace('selection')} />;
+      return <LaTeXResumeBuilder onExit={() => setResumeWorkspace('selection')} initialTemplate={templateInput} />;
     }
 
     if (resumeWorkspace === 'optimizer') {
@@ -697,16 +696,87 @@ export function Dashboard() {
 
     if (resumeWorkspace === 'gallery') {
       return (
-        <div className="py-20 text-center">
-          <Layers className="w-16 h-16 text-white/20 mx-auto mb-6" />
-          <h3 className="text-2xl font-[900] text-white uppercase tracking-tighter italic mb-2">Gallery Coming Soon</h3>
-          <p className="text-white/40 italic max-w-md mx-auto">We're curating the best ATS-optimized templates for you.</p>
-          <button 
-            onClick={() => setResumeWorkspace('selection')}
-            className="mt-8 px-6 py-3 bg-white/5 hover:bg-white/10 rounded-xl text-xs font-black uppercase tracking-widest text-white transition-all flex items-center gap-2 mx-auto"
-          >
-            <ArrowLeft size={16} /> Back to Hub
-          </button>
+        <div className="space-y-12 pb-20 selection:bg-white selection:text-black pt-6">
+          <div className="mb-10">
+            <div className="w-10 h-[2px] bg-[#5ed29c] mb-6" />
+            <button 
+              onClick={() => setResumeWorkspace('selection')}
+              className="group flex items-center gap-3 text-white/40 hover:text-white transition-all font-black uppercase tracking-[0.3em] text-[10px]"
+            >
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              Exit Workspace
+            </button>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-10">
+            {/* Sidebar Navigation */}
+            <div className="w-full md:w-64 shrink-0 space-y-8 hidden md:block">
+               <div className="space-y-1">
+                 <button className="w-full text-left px-4 py-2 bg-[#5ed29c]/10 text-[#5ed29c] font-black text-xs uppercase tracking-widest rounded-lg">All</button>
+                 <button className="w-full text-left px-4 py-2 text-white/40 hover:text-white hover:bg-white/5 transition-colors font-black text-xs uppercase tracking-widest rounded-lg">Templates</button>
+                 <button className="w-full text-left px-4 py-2 text-white/40 hover:text-white hover:bg-white/5 transition-colors font-black text-xs uppercase tracking-widest rounded-lg">Examples</button>
+               </div>
+
+               <div>
+                 <p className="px-4 text-[10px] font-black text-white/20 uppercase tracking-[0.3em] mb-4">Related Tags</p>
+                 <div className="space-y-1">
+                   {['Cover Letter', 'Math', 'Software', 'University', 'Formal letters', 'Assignments', 'Academic'].map(tag => (
+                     <button key={tag} className="w-full text-left px-4 py-1.5 text-white/40 hover:text-white hover:bg-white/5 transition-colors font-bold text-[11px] tracking-wider rounded-lg">
+                       {tag}
+                     </button>
+                   ))}
+                 </div>
+               </div>
+            </div>
+
+            {/* Main Content Area */}
+            <div className="flex-1">
+               <div className="mb-10">
+                 <h2 className="text-3xl md:text-4xl font-[900] text-white tracking-tighter italic mb-4">
+                   Make a great first impression with our popular LaTeX templates for CVs and résumés.
+                 </h2>
+               </div>
+
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                 {allTemplates.map((template: any) => (
+                   <div key={template.id} className="group bg-[#161a20] border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-all flex flex-col">
+                      <div className="aspect-[1/1.2] bg-[#1a1f26] relative border-b border-white/5 flex items-center justify-center object-cover">
+                         <img src={template.image} alt={template.title} className="w-full h-full object-cover object-top opacity-70 group-hover:opacity-100 transition-opacity" />
+
+                         {template.badge && (
+                           <div className="absolute top-4 left-4 px-2 py-1 bg-[#5ed29c]/20 border border-[#5ed29c]/30 text-[#5ed29c] text-[9px] font-black uppercase tracking-widest rounded shadow-lg backdrop-blur-md">
+                             {template.badge}
+                           </div>
+                         )}
+
+                         {/* Hover Overlay Action */}
+                         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 backdrop-blur-sm">
+                           <button onClick={() => { setTemplateInput(template.id); setResumeWorkspace('maker'); }} className="px-6 py-2 bg-[#5ed29c] hover:bg-[#5ed29c]/80 text-black font-black text-[11px] uppercase tracking-widest rounded-lg transition-colors">
+                             Open as Template
+                           </button>
+                         </div>
+                      </div>
+                      <div className="p-6 flex flex-col flex-1">
+                        <h3 className="text-[14px] font-[900] text-white tracking-widest uppercase mb-3 line-clamp-2">{template.title}</h3>
+                        <p className="text-[12px] text-white/50 italic leading-relaxed line-clamp-3 mb-4 flex-1">
+                          {template.description}
+                        </p>
+                      </div>
+                   </div>
+                 ))}
+               </div>
+
+               {/* Pagination */}
+               <div className="mt-12 flex justify-center items-center gap-2">
+                 <button className="w-10 h-10 rounded-lg bg-[#5ed29c]/10 border border-[#5ed29c]/20 text-[#5ed29c] font-black flex items-center justify-center">1</button>
+                 <button className="w-10 h-10 rounded-lg border border-white/5 hover:border-white/10 hover:bg-white/5 text-white/40 font-black flex items-center justify-center transition-colors">2</button>
+                 <button className="w-10 h-10 rounded-lg border border-white/5 hover:border-white/10 hover:bg-white/5 text-white/40 font-black flex items-center justify-center transition-colors">3</button>
+                 <span className="text-white/40 px-2">...</span>
+                 <button className="w-10 h-10 rounded-lg border border-white/5 hover:border-white/10 hover:bg-white/5 text-white/40 font-black flex items-center justify-center transition-colors">36</button>
+                 <button className="px-4 h-10 rounded-lg border border-white/5 hover:border-white/10 hover:bg-white/5 text-white/40 font-black text-[11px] uppercase tracking-widest flex items-center justify-center transition-colors">Next</button>
+               </div>
+            </div>
+          </div>
         </div>
       );
     }

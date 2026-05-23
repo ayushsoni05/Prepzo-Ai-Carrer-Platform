@@ -103,7 +103,7 @@ const prePopulateTemplate = (source: string, templateId: string, user: any): str
     .replace(/{{SKILLS_ITEMS}}/g, skillsItems);
 };
 
-export function LaTeXResumeBuilder({ onExit }: { onExit?: () => void } = {}) {
+export function LaTeXResumeBuilder({ onExit, initialTemplate }: { onExit?: () => void, initialTemplate?: string } = {}) {
   const { user } = useAuthStore();
   const { resumeAnalysis, setDashboardTab } = useAppStore();
   const confirm = useConfirm();
@@ -111,7 +111,7 @@ export function LaTeXResumeBuilder({ onExit }: { onExit?: () => void } = {}) {
   // State
   const [latexSource, setLatexSource] = useState('');
   const [isTemplateLoading, setIsTemplateLoading] = useState(false);
-  const [selectedTemplate, setSelectedTemplate] = useState(defaultTemplateId);
+  const [selectedTemplate, setSelectedTemplate] = useState(initialTemplate || defaultTemplateId);
   const [targetRole, setTargetRole] = useState(user?.targetRole || 'Software Engineer');
   const [pdfBase64, setPdfBase64] = useState<string | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
