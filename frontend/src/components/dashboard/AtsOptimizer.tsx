@@ -239,7 +239,7 @@ export function AtsOptimizer({
              <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#5ed29c]/5 blur-[50px] rounded-full"></div>
              <p className="text-[10px] font-[900] uppercase tracking-[0.5em] text-white/30 mb-8 self-start w-full text-left">Match Simulator</p>
              <div className="relative w-40 h-28 flex items-center justify-center mt-2">
-              <svg className="w-full h-full transform -rotate-180 drop-shadow-2xl" viewBox="0 0 100 60">
+              <svg className="w-full h-full drop-shadow-2xl" viewBox="0 0 100 60">
                 <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="rgba(255,255,255,0.02)" strokeWidth={strokeWidth} strokeLinecap="round" />
                 <path
                   d="M 10 50 A 40 40 0 0 1 90 50"
@@ -254,7 +254,7 @@ export function AtsOptimizer({
               </svg>
               <div className="absolute bottom-2 flex flex-col items-center justify-center">
                 <span className="text-4xl font-[900] text-white tracking-tighter italic leading-none">
-                  {simulatedScore}%
+                  {formatVal(simulatedScore)}%
                 </span>
               </div>
             </div>
