@@ -33,6 +33,19 @@ import { CodingLabHub } from '@/pages/CodingLabHub';
 import Profile from '@/pages/Profile';
 import Leaderboard from '@/pages/Leaderboard';
 
+const PageTransition = ({ children, pageKey }: { children: React.ReactNode, pageKey: string }) => (
+  <motion.div
+    key={pageKey}
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: -20 }}
+    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+    className="w-full h-full"
+  >
+    {children}
+  </motion.div>
+);
+
 type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'portfolio' | 'leaderboard' | '404';
 
 // Get initial page from URL hash or default to 'landing'
@@ -371,57 +384,60 @@ export default function App() {
       </Toaster>
 
       {/* Page Content - always rendered */}
-      <div className="w-full h-full">
-        {currentPage === 'landing' && <LandingPage onNavigate={handleNavigate} />}
-        {currentPage === 'login' && <AuthPage mode="login" onNavigate={handleNavigate} />}
-        {currentPage === 'signup' && <AuthPage mode="signup" onNavigate={handleNavigate} />}
-        
-        {/* Workspace Pages wrapped in MainLayout */}
-        {isWorkspacePage && (
-          <div className="flex h-screen overflow-hidden bg-[#0a0c10] relative">
-            <Sidebar 
-              active={getSidebarActiveId(currentPage)} 
-              onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
-              lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
-            />
-            <main className="flex-1 h-full overflow-y-auto overflow-x-hidden custom-scrollbar pb-24 md:pb-0 pt-16 md:pt-0">
-              <MobileHeader 
-                user={user || undefined}
-                onLogout={() => {
-                  useAuthStore.getState().logout();
-                  handleNavigate('landing');
-                }}
-              />
-              {(currentPage === 'dashboard' || currentPage === 'resume' || currentPage === 'settings' || currentPage === 'assessment') && <Dashboard />}
-              {currentPage === 'jobs' && <JobsPage />}
-              {currentPage === 'companies' && <CompaniesPage />}
-              {currentPage === 'applications' && <ApplicationsPage />}
-              {currentPage === 'network' && <NetworkPage />}
-              {currentPage === 'ai-interview' && <InterviewPage />}
-              {currentPage === 'notes' && <NotesLibrary />}
-              {currentPage === 'note-detail' && <NoteDetail />}
-              {currentPage === 'question-bank' && <QuestionBankPage />}
-            </main>
-            <MobileNav
-              active={getSidebarActiveId(currentPage)}
-              onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
-              lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
-            />
-          </div>
-        )}
+      <div className="w-full h-full relative">
+        <AnimatePresence mode="wait">
+          {currentPage === 'landing' && <PageTransition pageKey="landing"><LandingPage onNavigate={handleNavigate} /></PageTransition>}
+          {currentPage === 'login' && <PageTransition pageKey="login"><AuthPage mode="login" onNavigate={handleNavigate} /></PageTransition>}
+          {currentPage === 'signup' && <PageTransition pageKey="signup"><AuthPage mode="signup" onNavigate={handleNavigate} /></PageTransition>}
+          
+          {/* Workspace Pages wrapped in MainLayout */}
+          {isWorkspacePage && (
+            <PageTransition pageKey="workspace">
+              <div className="flex h-screen overflow-hidden bg-[#0a0c10] relative">
+                <Sidebar 
+                  active={getSidebarActiveId(currentPage)} 
+                  onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
+                  lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
+                />
+                <main className="flex-1 h-full overflow-y-auto overflow-x-hidden custom-scrollbar pb-24 md:pb-0 pt-16 md:pt-0">
+                  <MobileHeader 
+                    user={user || undefined}
+                    onLogout={() => {
+                      useAuthStore.getState().logout();
+                      handleNavigate('landing');
+                    }}
+                  />
+                  {(currentPage === 'dashboard' || currentPage === 'resume' || currentPage === 'settings' || currentPage === 'assessment') && <Dashboard />}
+                  {currentPage === 'jobs' && <JobsPage />}
+                  {currentPage === 'companies' && <CompaniesPage />}
+                  {currentPage === 'applications' && <ApplicationsPage />}
+                  {currentPage === 'network' && <NetworkPage />}
+                  {currentPage === 'ai-interview' && <InterviewPage />}
+                  {currentPage === 'notes' && <NotesLibrary />}
+                  {currentPage === 'note-detail' && <NoteDetail />}
+                  {currentPage === 'question-bank' && <QuestionBankPage />}
+                </main>
+                <MobileNav
+                  active={getSidebarActiveId(currentPage)}
+                  onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
+                  lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
+                />
+              </div>
+            </PageTransition>
+          )}
 
-        {currentPage === 'admin' && <AdminPanel onNavigate={handleNavigate} />}
-        {currentPage === 'onboarding' && <OnboardingPage onNavigate={handleNavigate} />}
-        {currentPage === 'tetris-demo' && <TetrisDemo />}
-        {currentPage === 'tailwind-awesome' && <TailwindAwesomeDemo />}
-        {currentPage === 'question-bank' && <QuestionBankPage />}
-        {currentPage === 'coding-lab' && <CodingLabHub />}
-        {currentPage === 'playground' && <InteractivePlayground />}
-        {currentPage === 'portfolio' && <Profile />}
-        {currentPage === 'leaderboard' && <Leaderboard />}
-        {currentPage === 'star-builder' && <StarStoryBuilder />}
-        {currentPage === 'reader' && <PdfReaderPage />}
-        {currentPage === '404' && <NotFound onNavigate={handleNavigate} />}
+          {currentPage === 'admin' && <PageTransition pageKey="admin"><AdminPanel onNavigate={handleNavigate} /></PageTransition>}
+          {currentPage === 'onboarding' && <PageTransition pageKey="onboarding"><OnboardingPage onNavigate={handleNavigate} /></PageTransition>}
+          {currentPage === 'tetris-demo' && <PageTransition pageKey="tetris"><TetrisDemo /></PageTransition>}
+          {currentPage === 'tailwind-awesome' && <PageTransition pageKey="tailwind"><TailwindAwesomeDemo /></PageTransition>}
+          {currentPage === 'coding-lab' && <PageTransition pageKey="coding-lab"><CodingLabHub /></PageTransition>}
+          {currentPage === 'playground' && <PageTransition pageKey="playground"><InteractivePlayground /></PageTransition>}
+          {currentPage === 'portfolio' && <PageTransition pageKey="portfolio"><Profile /></PageTransition>}
+          {currentPage === 'leaderboard' && <PageTransition pageKey="leaderboard"><Leaderboard /></PageTransition>}
+          {currentPage === 'star-builder' && <PageTransition pageKey="star"><StarStoryBuilder /></PageTransition>}
+          {currentPage === 'reader' && <PageTransition pageKey="reader"><PdfReaderPage /></PageTransition>}
+          {currentPage === '404' && <PageTransition pageKey="404"><NotFound onNavigate={handleNavigate} /></PageTransition>}
+        </AnimatePresence>
       </div>
 
       {/* Global Loading Overlay - rendered ON TOP of content, never blocks mounting */}

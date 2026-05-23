@@ -5,6 +5,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { Trophy, Code2, Flame, Award, Loader2, ChevronLeft } from 'lucide-react';
 import api from '../api/axios';
 import { GridBeam } from '@/components/ui/background-grid-beam';
+import Tilt from 'react-parallax-tilt';
 
 interface ProfileData {
   fullName: string;
@@ -116,11 +117,13 @@ const Profile = () => {
           <div className="absolute top-0 right-0 p-6">
               <div className="text-[10px] text-[#5ed29c] font-bold bg-[#5ed29c]/10 px-3 py-1.5 rounded uppercase tracking-[0.3em]">Verified Profile</div>
           </div>
-          <img 
-            src={profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.fullName}`} 
-            alt={profile.fullName}
-            className="w-32 h-32 md:w-40 md:h-40 rounded-full border-[6px] border-[#0a0c10] shadow-2xl z-10 relative"
-          />
+          <Tilt glareEnable={true} glareMaxOpacity={0.4} glareColor="#5ed29c" glarePosition="all" scale={1.05} transitionSpeed={2500} className="w-32 h-32 md:w-40 md:h-40 rounded-full z-10 relative">
+            <img 
+              src={profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.fullName}`} 
+              alt={profile.fullName}
+              className="w-full h-full rounded-full border-[6px] border-[#0a0c10] shadow-2xl"
+            />
+          </Tilt>
           <div className="flex-1 text-center md:text-left z-10 relative">
             <h1 className="text-4xl md:text-6xl font-[900] text-white uppercase tracking-tighter italic mb-2">{profile.fullName}</h1>
             <p className={`text-[12px] font-black uppercase tracking-[0.4em] ${rank.color} mb-8`}>{rank.title} Developer</p>
@@ -173,12 +176,14 @@ const Profile = () => {
               {profile.badges.length > 0 ? (
                 <div className="grid grid-cols-2 gap-4 relative z-10">
                   {profile.badges.map((b, i) => (
-                    <div key={i} className="bg-[#0a0c10] p-5 rounded-2xl text-center border border-white/5 hover:border-[#5ed29c]/50 transition-colors">
-                      <div className="w-12 h-12 mx-auto bg-[#5ed29c]/10 rounded-full flex items-center justify-center mb-3">
-                        <Award className="w-6 h-6 text-[#5ed29c]" />
+                    <Tilt key={i} glareEnable={true} glareMaxOpacity={0.3} glareColor="#ffffff" glarePosition="all" scale={1.05} transitionSpeed={2000}>
+                      <div className="bg-[#0a0c10] p-5 h-full rounded-2xl text-center border border-white/5 hover:border-[#5ed29c]/50 transition-colors">
+                        <div className="w-12 h-12 mx-auto bg-[#5ed29c]/10 rounded-full flex items-center justify-center mb-3">
+                          <Award className="w-6 h-6 text-[#5ed29c]" />
+                        </div>
+                        <p className="text-[11px] font-[900] uppercase tracking-widest text-white/80">{b.name}</p>
                       </div>
-                      <p className="text-[11px] font-[900] uppercase tracking-widest text-white/80">{b.name}</p>
-                    </div>
+                    </Tilt>
                   ))}
                 </div>
               ) : (
