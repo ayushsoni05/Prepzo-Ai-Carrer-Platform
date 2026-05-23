@@ -640,8 +640,9 @@ export function Dashboard() {
       ];
 
       return (
-        <div className="relative">
-          <div className="flex items-center justify-between mb-8">
+        <div className="relative pt-6">
+          <div className="mb-10">
+            <div className="w-10 h-[2px] bg-gradient-to-r from-blue-500 to-purple-500 mb-6" />
             <button 
               onClick={() => window.location.hash = 'dashboard'}
               className="group flex items-center gap-3 text-white/40 hover:text-white transition-all font-black uppercase tracking-[0.3em] text-[10px]"
@@ -651,37 +652,39 @@ export function Dashboard() {
             </button>
           </div>
 
-          <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-3 selection:bg-white selection:text-black relative z-10">
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3 selection:bg-white selection:text-black relative z-10 font-rubik">
             {resumeCards.map((card, idx) => (
-              <GlassCard 
+              <div 
                 key={card.title} 
-                className="rounded-[40px] p-10 bg-[#0a0c10]/40 border-white/5 flex flex-col justify-between group h-[450px] hover:bg-white/5 transition-all duration-700 relative overflow-hidden backdrop-blur-3xl"
+                className="bg-[#161a20] rounded-[36px] p-10 border border-white/5 flex flex-col justify-between group h-[500px] hover:bg-[#1a1f26] hover:border-white/10 transition-all duration-700 relative overflow-hidden shadow-2xl"
               >
-                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-700">
-                  <Sparkles size={120} className="text-white" />
+                <div className="absolute top-1/4 -right-10 opacity-[0.03] group-hover:opacity-[0.05] group-hover:rotate-12 group-hover:scale-110 transition-all duration-1000 pointer-events-none">
+                  <Sparkles size={250} strokeWidth={1} className="text-white" />
                 </div>
                 
-                <div>
-                  <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-10 group-hover:border-white/20 transition-colors">
+                <div className="relative z-10">
+                  <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center mb-8 group-hover:border-white/20 transition-colors bg-white/[0.02]">
                     {card.icon}
                   </div>
-                  <p className="text-[10px] font-[900] uppercase tracking-[0.4em] text-white/20 mb-6">
+                  <p className="text-[9px] font-[900] uppercase tracking-[0.4em] text-white/30 mb-3">
                     {idx === 0 ? 'Template Workspace' : idx === 1 ? 'Optimizer Workspace' : 'Gallery Workspace'}
                   </p>
-                  <h3 className="text-4xl font-[900] text-white uppercase tracking-tighter mb-4 italic group-hover:text-blue-400 transition-colors">{card.title}</h3>
-                  <p className="text-[13px] font-medium leading-relaxed text-white/30 italic group-hover:text-white/50 transition-colors">{card.description}</p>
+                  <h3 className="text-4xl md:text-5xl font-[900] text-white uppercase tracking-tighter mb-6 italic leading-[0.9]">{card.title}</h3>
+                  <p className="text-[12px] md:text-[13px] font-medium leading-relaxed text-white/40 tracking-tight pr-4">
+                    {card.description}
+                  </p>
                 </div>
 
                 <button 
                   onClick={card.action}
-                  className="relative h-14 w-full group/btn overflow-hidden rounded-2xl border border-white/5 hover:border-white/20 transition-all"
+                  className="relative z-10 w-full py-5 rounded-[20px] border border-white/5 hover:border-white/20 hover:bg-white/5 transition-all flex items-center justify-center gap-4 group/btn mt-8"
                 >
-                  <div className="absolute inset-0 bg-white opacity-0 group-hover/btn:opacity-5 transition-opacity" />
-                  <span className="relative z-10 flex items-center justify-center h-full text-[10px] font-black uppercase tracking-[0.2em] text-white/60 group-hover/btn:text-white transition-colors gap-3">
-                    Enter Workspace <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                  <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/40 group-hover/btn:text-white transition-colors">
+                    Enter Workspace
                   </span>
+                  <ArrowRight size={12} className="text-white/20 group-hover/btn:text-white group-hover/btn:translate-x-1 transition-all" />
                 </button>
-              </GlassCard>
+              </div>
             ))}
           </div>
         </div>
