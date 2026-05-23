@@ -130,7 +130,7 @@ export function AtsOptimizer({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 items-start">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         {/* Left Column */}
         <div className="space-y-8 flex flex-col">
           <div className="rounded-[40px] p-8 md:p-12 bg-[#161a20] border border-white/5 relative overflow-hidden shadow-2xl">
@@ -317,7 +317,7 @@ export function AtsOptimizer({
 
         {/* Right Column (Injected PeerLeaderboard) */}
         {children && (
-          <div className="space-y-8 flex flex-col h-full">
+          <div className="space-y-8 flex flex-col">
             {children}
           </div>
         )}

@@ -32,12 +32,12 @@ export function PeerLeaderboard({
   }, [currentUserName, currentUserScore]);
 
   return (
-    <div className="rounded-[40px] p-8 bg-black/40 border border-white/5 shadow-2xl relative overflow-hidden group hover:border-[#5ed29c]/20 transition-all duration-500 h-full font-rubik">
+    <div className="rounded-[40px] p-8 bg-[#161a20] border border-white/5 shadow-2xl relative overflow-hidden group hover:border-[#5ed29c]/20 transition-all duration-500 font-rubik">
       {/* Background decorations */}
       <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500/5 blur-[80px] rounded-full" />
       <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-[#5ed29c]/5 blur-[80px] rounded-full" />
 
-      <div className="relative z-10 flex flex-col h-full">
+      <div className="relative z-10 flex flex-col">
         {/* Header */}
         <div className="flex items-start justify-between border-b border-white/5 pb-4 mb-6">
           <div>
@@ -56,7 +56,7 @@ export function PeerLeaderboard({
         </div>
 
         {/* Entries List */}
-        <div className="space-y-3 flex-1">
+        <div className="space-y-3">
           {entries.map((peer) => {
             const isTop3 = peer.rank <= 3;
             const rankIconColor = 
