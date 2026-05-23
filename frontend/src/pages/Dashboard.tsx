@@ -642,13 +642,15 @@ export function Dashboard() {
   const handleOpenOverleafTemplate = async (templateId: string, templateSlug: string) => {
     setIsDownloadingTemplate(templateId);
     try {
-      showSuccess('Downloading template from Overleaf...');
+      showSuccess('Attempting to download template from Overleaf...');
       const source = await downloadOverleafTemplate(templateId, templateSlug);
       setCustomSourceInput(source);
       setTemplateInput(undefined);
       setResumeWorkspace('maker');
     } catch (error) {
       console.error(error);
+      showError('Overleaf restricts public source downloads. Opening in Overleaf instead!');
+      window.open(`https://www.overleaf.com/latex/templates/${templateSlug}/${templateId}`, '_blank');
     } finally {
       setIsDownloadingTemplate(null);
     }
