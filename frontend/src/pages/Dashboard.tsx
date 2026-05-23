@@ -623,26 +623,26 @@ export function Dashboard() {
           title: 'Template Maker',
           description: 'Choose from a wide range of resume templates, similar to Overleaf, covering different fields. Upload your previous resume and the AI will extract all relevant details and automatically generate a new resume in the chosen template with properly formatted information.',
           action: () => setResumeWorkspace('maker'),
-          icon: <Code className="text-blue-400" />,
+          icon: <Code className="text-[#5ed29c]" />,
         },
         {
           title: 'ATS Optimizer',
           description: 'Upload your existing resume or manually enter your details. The AI will then optimize the content and create a high ATS (Applicant Tracking System) score resume automatically.',
           action: () => setResumeWorkspace('optimizer'),
-          icon: <ShieldCheck className="text-emerald-400" />,
+          icon: <ShieldCheck className="text-[#5ed29c]" />,
         },
         {
           title: 'Templates',
           description: 'Explore a vast collection of ATS-optimized resume templates. Browse our gallery inspired by the best professional structures to find the perfect format for your job applications.',
           action: () => setResumeWorkspace('gallery'),
-          icon: <Layers className="text-amber-400" />,
+          icon: <Layers className="text-[#5ed29c]" />,
         },
       ];
 
       return (
         <div className="relative pt-6">
           <div className="mb-10">
-            <div className="w-10 h-[2px] bg-gradient-to-r from-blue-500 to-purple-500 mb-6" />
+            <div className="w-10 h-[2px] bg-[#5ed29c] mb-6" />
             <button 
               onClick={() => window.location.hash = 'dashboard'}
               className="group flex items-center gap-3 text-white/40 hover:text-white transition-all font-black uppercase tracking-[0.3em] text-[10px]"
@@ -669,7 +669,7 @@ export function Dashboard() {
                   <p className="text-[9px] font-[900] uppercase tracking-[0.4em] text-white/30 mb-3">
                     {idx === 0 ? 'Template Workspace' : idx === 1 ? 'Optimizer Workspace' : 'Gallery Workspace'}
                   </p>
-                  <h3 className="text-4xl md:text-5xl font-[900] text-white uppercase tracking-tighter mb-6 italic leading-[0.9]">{card.title}</h3>
+                  <h3 className="text-4xl md:text-5xl font-[900] text-white group-hover:text-[#5ed29c] transition-colors uppercase tracking-tighter mb-6 italic leading-[0.9]">{card.title}</h3>
                   <p className="text-[12px] md:text-[13px] font-medium leading-relaxed text-white/40 tracking-tight pr-4">
                     {card.description}
                   </p>
@@ -682,7 +682,7 @@ export function Dashboard() {
                   <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/40 group-hover/btn:text-white transition-colors">
                     Enter Workspace
                   </span>
-                  <ArrowRight size={12} className="text-white/20 group-hover/btn:text-white group-hover/btn:translate-x-1 transition-all" />
+                  <ArrowRight size={12} className="text-[#5ed29c]/50 group-hover/btn:text-[#5ed29c] group-hover/btn:translate-x-1 transition-all" />
                 </button>
               </div>
             ))}
