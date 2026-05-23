@@ -103,7 +103,7 @@ const prePopulateTemplate = (source: string, templateId: string, user: any): str
     .replace(/{{SKILLS_ITEMS}}/g, skillsItems);
 };
 
-export function LaTeXResumeBuilder() {
+export function LaTeXResumeBuilder({ onExit }: { onExit?: () => void } = {}) {
   const { user } = useAuthStore();
   const { resumeAnalysis, setDashboardTab } = useAppStore();
   const confirm = useConfirm();
@@ -427,7 +427,10 @@ export function LaTeXResumeBuilder() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <button
-          onClick={() => window.location.hash = 'dashboard'}
+          onClick={() => {
+            if (onExit) onExit();
+            else window.location.hash = 'dashboard';
+          }}
           className="group flex items-center gap-3 text-white/40 hover:text-white transition-all font-black uppercase tracking-[0.3em] text-[10px]"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />

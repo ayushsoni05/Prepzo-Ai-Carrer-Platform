@@ -1,15 +1,17 @@
 import { useState, useMemo } from 'react';
-import { Target, CheckCircle2, AlertTriangle, Sparkles, Loader2 } from 'lucide-react';
+import { Target, CheckCircle2, AlertTriangle, Sparkles, Loader2, ArrowLeft } from 'lucide-react';
 import { showSuccess, showInfo } from '@/utils/toastManager';
 
 interface AtsOptimizerProps {
   userSkills?: string[];
   currentAtsScore?: number;
+  onExit?: () => void;
 }
 
 export function AtsOptimizer({
   userSkills = ['React', 'Node.js', 'Express', 'MongoDB', 'JavaScript', 'Python', 'C++', 'SQL'],
-  currentAtsScore = 65
+  currentAtsScore = 65,
+  onExit
 }: AtsOptimizerProps) {
   const [jobDescription, setJobDescription] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -88,6 +90,16 @@ export function AtsOptimizer({
     <div className="rounded-[40px] p-8 bg-black/40 border border-white/5 shadow-2xl relative overflow-hidden group hover:border-[#5ed29c]/20 transition-all duration-500 h-full font-rubik flex flex-col justify-between">
       {/* Background radial highlight */}
       <div className="absolute top-0 left-0 w-64 h-64 bg-emerald-500/5 blur-[80px] rounded-full" />
+
+      {onExit && (
+        <button
+          onClick={onExit}
+          className="group flex items-center gap-3 text-white/40 hover:text-white transition-all font-black uppercase tracking-[0.3em] text-[10px] mb-6 relative z-10"
+        >
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          Exit Workspace
+        </button>
+      )}
 
       <div>
         {/* Header */}

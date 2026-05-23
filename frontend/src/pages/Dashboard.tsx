@@ -66,6 +66,7 @@ export function Dashboard() {
   } = useAppStore();
   const [startAssessment, setStartAssessment] = useState<false | 'field' | 'skills'>(false);
   const [opportunitiesWorkspace, setOpportunitiesWorkspace] = useState<'selection' | 'jobs' | 'companies' | 'applications' | 'network'>('selection');
+  const [resumeWorkspace, setResumeWorkspace] = useState<'selection' | 'maker' | 'optimizer' | 'gallery'>('selection');
   const [dashboardJobs, setDashboardJobs] = useState<Job[]>([]);
   const [dashboardJobsLoading, setDashboardJobsLoading] = useState(false);
 
@@ -616,7 +617,100 @@ export function Dashboard() {
   );
 
   const renderResumeLab = () => {
-    return <LaTeXResumeBuilder />;
+    if (resumeWorkspace === 'selection') {
+      const resumeCards = [
+        {
+          title: 'Template Maker',
+          description: 'Choose from a wide range of resume templates, similar to Overleaf, covering different fields. Upload your previous resume and the AI will extract all relevant details and automatically generate a new resume in the chosen template with properly formatted information.',
+          action: () => setResumeWorkspace('maker'),
+          icon: <Code className="text-blue-400" />,
+        },
+        {
+          title: 'ATS Optimizer',
+          description: 'Upload your existing resume or manually enter your details. The AI will then optimize the content and create a high ATS (Applicant Tracking System) score resume automatically.',
+          action: () => setResumeWorkspace('optimizer'),
+          icon: <ShieldCheck className="text-emerald-400" />,
+        },
+        {
+          title: 'Templates',
+          description: 'Explore a vast collection of ATS-optimized resume templates. Browse our gallery inspired by the best professional structures to find the perfect format for your job applications.',
+          action: () => setResumeWorkspace('gallery'),
+          icon: <Layers className="text-amber-400" />,
+        },
+      ];
+
+      return (
+        <div className="relative">
+          <div className="flex items-center justify-between mb-8">
+            <button 
+              onClick={() => window.location.hash = 'dashboard'}
+              className="group flex items-center gap-3 text-white/40 hover:text-white transition-all font-black uppercase tracking-[0.3em] text-[10px]"
+            >
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              Exit Workspace
+            </button>
+          </div>
+
+          <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-3 selection:bg-white selection:text-black relative z-10">
+            {resumeCards.map((card, idx) => (
+              <GlassCard 
+                key={card.title} 
+                className="rounded-[40px] p-10 bg-[#0a0c10]/40 border-white/5 flex flex-col justify-between group h-[450px] hover:bg-white/5 transition-all duration-700 relative overflow-hidden backdrop-blur-3xl"
+              >
+                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-700">
+                  <Sparkles size={120} className="text-white" />
+                </div>
+                
+                <div>
+                  <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-10 group-hover:border-white/20 transition-colors">
+                    {card.icon}
+                  </div>
+                  <p className="text-[10px] font-[900] uppercase tracking-[0.4em] text-white/20 mb-6">
+                    {idx === 0 ? 'Template Workspace' : idx === 1 ? 'Optimizer Workspace' : 'Gallery Workspace'}
+                  </p>
+                  <h3 className="text-4xl font-[900] text-white uppercase tracking-tighter mb-4 italic group-hover:text-blue-400 transition-colors">{card.title}</h3>
+                  <p className="text-[13px] font-medium leading-relaxed text-white/30 italic group-hover:text-white/50 transition-colors">{card.description}</p>
+                </div>
+
+                <button 
+                  onClick={card.action}
+                  className="relative h-14 w-full group/btn overflow-hidden rounded-2xl border border-white/5 hover:border-white/20 transition-all"
+                >
+                  <div className="absolute inset-0 bg-white opacity-0 group-hover/btn:opacity-5 transition-opacity" />
+                  <span className="relative z-10 flex items-center justify-center h-full text-[10px] font-black uppercase tracking-[0.2em] text-white/60 group-hover/btn:text-white transition-colors gap-3">
+                    Enter Workspace <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                  </span>
+                </button>
+              </GlassCard>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    if (resumeWorkspace === 'maker') {
+      return <LaTeXResumeBuilder onExit={() => setResumeWorkspace('selection')} />;
+    }
+
+    if (resumeWorkspace === 'optimizer') {
+      return <AtsOptimizer onExit={() => setResumeWorkspace('selection')} />;
+    }
+
+    if (resumeWorkspace === 'gallery') {
+      return (
+        <div className="py-20 text-center">
+          <Layers className="w-16 h-16 text-white/20 mx-auto mb-6" />
+          <h3 className="text-2xl font-[900] text-white uppercase tracking-tighter italic mb-2">Gallery Coming Soon</h3>
+          <p className="text-white/40 italic max-w-md mx-auto">We're curating the best ATS-optimized templates for you.</p>
+          <button 
+            onClick={() => setResumeWorkspace('selection')}
+            className="mt-8 px-6 py-3 bg-white/5 hover:bg-white/10 rounded-xl text-xs font-black uppercase tracking-widest text-white transition-all flex items-center gap-2 mx-auto"
+          >
+            <ArrowLeft size={16} /> Back to Hub
+          </button>
+        </div>
+      );
+    }
   };
 
   const renderAssessment = () => {
