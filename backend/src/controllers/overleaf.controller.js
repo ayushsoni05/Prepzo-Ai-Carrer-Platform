@@ -1,132 +1,82 @@
-import axios from 'axios';
-import * as cheerio from 'cheerio';
-import AdmZip from 'adm-zip';
+import Template from '../models/template.model.js';
 
 /**
- * Scrape Overleaf templates based on a tag/query
+ * Fetch Database Templates based on a tag/query
  * GET /api/overleaf/templates?tag=resume&page=1
  */
 export const getTemplates = async (req, res) => {
   try {
-    const { tag = '', page = '1' } = req.query;
+    const { tag = 'All', page = '1', limit = '12' } = req.query;
+    const pageNum = parseInt(page, 10) || 1;
+    const limitNum = parseInt(limit, 10) || 12;
+    const skip = (pageNum - 1) * limitNum;
     
-    let url = 'https://www.overleaf.com/latex/templates';
-    const params = new URLSearchParams({ sort: 'popular' });
-    
+    let query = {};
     if (tag && tag !== 'All') {
-      params.set('q', tag);
-    }
-    if (page && page !== '1') {
-      params.set('page', page);
+      // Case-insensitive regex match against tags array
+      query = { tags: { $regex: new RegExp(`^${tag}$`, 'i') } };
     }
 
-    url = `${url}?${params.toString()}`;
+    const templates = await Template.find(query)
+      .select('-sourceCode') // Don't send huge source code in gallery list
+      .sort({ downloads: -1, createdAt: -1 })
+      .skip(skip)
+      .limit(limitNum);
 
-    console.log(`[Overleaf] Fetching templates from: ${url}`);
-    
-    const response = await axios.get(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      },
-      timeout: 15000
+    const total = await Template.countDocuments(query);
+
+    // Map to frontend expected format
+    const formattedTemplates = templates.map(t => ({
+      id: t.templateId,
+      slug: t.templateId,
+      title: t.name,
+      description: t.description,
+      author: t.author,
+      image: null, // We use SVG wireframes on frontend
+      accent: t.accent,
+      badge: t.badge
+    }));
+
+    res.json({ 
+      success: true, 
+      templates: formattedTemplates, 
+      totalFetched: formattedTemplates.length,
+      totalPages: Math.ceil(total / limitNum),
+      currentPage: pageNum
     });
-
-    const html = response.data;
-    const $ = cheerio.load(html);
-    const templates = [];
-
-    $('.gallery-thumbnail').each((_, element) => {
-      const aTag = $(element).find('a').first();
-      const href = aTag.attr('href') || '';
-      
-      const match = href.match(/\/latex\/templates\/([^/]+)\/([^/]+)/);
-      if (!match) return;
-      
-      const slug = match[1];
-      const id = match[2];
-      
-      // Ignore gallery navigation links
-      if (slug === 'tagged' || slug === 'recent') return;
-      
-      const title = $(element).find('.caption-title').text().trim();
-      const description = $(element).find('.caption-description').text().trim();
-      const author = $(element).find('.author-name div').text().trim();
-      const image = $(element).find('.thumbnail img').attr('src') || '';
-      
-      templates.push({
-        id,
-        slug,
-        title,
-        description,
-        author,
-        image,
-        accent: '#5ed29c'
-      });
-    });
-
-    res.json({ success: true, templates, totalFetched: templates.length });
   } catch (error) {
-    console.error('[Overleaf] Scrape error:', error.message);
-    res.status(500).json({ success: false, error: 'Failed to fetch templates from Overleaf.' });
+    console.error('[Template DB] Fetch error:', error.message);
+    res.status(500).json({ success: false, error: 'Failed to fetch templates.' });
   }
 };
 
 /**
- * Download ZIP from Overleaf, extract main.tex, and return source
- * GET /api/overleaf/download?id=...&slug=...
+ * Download Source Code for a Template
+ * GET /api/overleaf/download?id=...
  */
 export const downloadTemplate = async (req, res) => {
   try {
-    const { id, slug } = req.query;
-    if (!id || !slug) {
-      return res.status(400).json({ success: false, error: 'Missing id or slug parameter.' });
+    const { id } = req.query;
+    if (!id) {
+      return res.status(400).json({ success: false, error: 'Missing id parameter.' });
     }
 
-    const zipUrl = `https://www.overleaf.com/latex/templates/${slug}/${id}/zip`;
-    console.log(`[Overleaf] Downloading ZIP from: ${zipUrl}`);
+    const template = await Template.findOne({ templateId: id });
+    if (!template) {
+      return res.status(404).json({ success: false, error: 'Template not found in database.' });
+    }
 
-    const response = await axios.get(zipUrl, {
-      responseType: 'arraybuffer',
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-        'Accept': 'application/zip'
-      },
-      timeout: 20000
+    // Increment download counter
+    template.downloads = (template.downloads || 0) + 1;
+    await template.save();
+
+    res.json({ 
+      success: true, 
+      source: template.sourceCode, 
+      filename: 'main.tex' 
     });
-
-    const buffer = Buffer.from(response.data);
-    const zip = new AdmZip(buffer);
-    const zipEntries = zip.getEntries();
-    
-    let mainTexContent = '';
-    
-    let mainTexEntry = zipEntries.find(entry => entry.entryName.toLowerCase() === 'main.tex');
-    
-    if (!mainTexEntry) {
-      mainTexEntry = zipEntries.find(entry => 
-        entry.entryName.endsWith('.tex') && 
-        !entry.entryName.startsWith('.') && 
-        !entry.entryName.startsWith('_') &&
-        !entry.entryName.includes('/')
-      );
-    }
-
-    if (!mainTexEntry) {
-      mainTexEntry = zipEntries.find(entry => entry.entryName.endsWith('.tex'));
-    }
-
-    if (mainTexEntry) {
-      mainTexContent = mainTexEntry.getData().toString('utf8');
-      console.log(`[Overleaf] Successfully extracted ${mainTexEntry.entryName} (${mainTexContent.length} bytes)`);
-    } else {
-      console.error('[Overleaf] No .tex file found in ZIP archive.');
-      return res.status(404).json({ success: false, error: 'No .tex file found in template archive.' });
-    }
-
-    res.json({ success: true, source: mainTexContent, filename: mainTexEntry.entryName });
   } catch (error) {
-    console.error('[Overleaf] Download/Extract error:', error.message);
-    res.status(500).json({ success: false, error: 'Failed to download or extract template from Overleaf.' });
+    console.error('[Template DB] Download error:', error.message);
+    res.status(500).json({ success: false, error: 'Failed to retrieve template source.' });
   }
 };

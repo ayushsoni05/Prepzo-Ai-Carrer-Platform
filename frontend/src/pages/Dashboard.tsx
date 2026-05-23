@@ -642,15 +642,14 @@ export function Dashboard() {
   const handleOpenOverleafTemplate = async (templateId: string, templateSlug: string) => {
     setIsDownloadingTemplate(templateId);
     try {
-      showSuccess('Attempting to download template from Overleaf...');
+      showSuccess('Loading template...');
       const source = await downloadOverleafTemplate(templateId, templateSlug);
       setCustomSourceInput(source);
       setTemplateInput(undefined);
       setResumeWorkspace('maker');
     } catch (error) {
       console.error(error);
-      showError('Overleaf restricts public source downloads. Opening in Overleaf instead!');
-      window.open(`https://www.overleaf.com/latex/templates/${templateSlug}/${templateId}`, '_blank');
+      showError('Failed to load template from database.');
     } finally {
       setIsDownloadingTemplate(null);
     }
@@ -794,18 +793,24 @@ export function Dashboard() {
                  </h2>
                </div>
 
-               {/* Render Local Templates first if applicable */}
-               {(activeGalleryTag === 'All' || activeGalleryTag === 'Templates') && (
-                 <>
-                   <h3 className="text-xl font-[900] text-white tracking-tighter italic mb-4 mt-8">
-                     Prepzo Certified Templates
-                   </h3>
-                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                     {latexTemplates.map((template) => (
-                       <div key={template.id} className="group bg-[#161a20] border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-all flex flex-col">
-                          <div className="aspect-[1/1.2] bg-[#1a1f26] relative border-b border-white/5 flex items-center justify-center object-cover overflow-hidden p-6">
-                             {/* Wireframe Resume SVG Preview */}
-                             <svg width="100%" height="100%" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-30 group-hover:opacity-60 transition-opacity">
+               <h3 className="text-xl font-[900] text-white tracking-tighter italic mb-4">
+                 Template Library
+               </h3>
+               
+               {loadingTemplates ? (
+                 <div className="flex flex-col justify-center items-center py-20 gap-4">
+                   <div className="w-8 h-8 rounded-full border-2 border-[#5ed29c] border-t-transparent animate-spin" />
+                   <p className="text-white/40 text-xs font-bold uppercase tracking-widest">Fetching from Overleaf...</p>
+                 </div>
+               ) : (
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                   {overleafTemplates.map((template) => (
+                     <div key={template.id} className="group bg-[#161a20] border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-all flex flex-col">
+                        <div className="aspect-[1/1.2] bg-[#1a1f26] relative border-b border-white/5 flex items-center justify-center object-cover overflow-hidden">
+                           {template.image ? (
+                             <img src={template.image} alt={template.title} className="w-full h-full object-cover object-top opacity-70 group-hover:opacity-100 transition-opacity" />
+                           ) : (
+                             <svg width="100%" height="100%" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-30 group-hover:opacity-60 transition-opacity p-6">
                                <rect x="10" y="10" width="180" height="240" fill="#0f172a" stroke={template.accent || "#5ed29c"} strokeWidth="2" rx="4"/>
                                <rect x="30" y="30" width="80" height="8" fill="#334155" rx="2"/>
                                <rect x="30" y="46" width="140" height="3" fill="#1e293b" rx="1"/>
@@ -822,50 +827,6 @@ export function Dashboard() {
                                <rect x="30" y="162" width="130" height="2" fill="#1e293b" rx="1"/>
                                <rect x="30" y="168" width="90" height="2" fill="#1e293b" rx="1"/>
                              </svg>
-
-                             {template.badge && (
-                               <div className="absolute top-4 left-4 px-2 py-1 bg-[#5ed29c]/20 border border-[#5ed29c]/30 text-[#5ed29c] text-[9px] font-black uppercase tracking-widest rounded shadow-lg backdrop-blur-md">
-                                 {template.badge}
-                               </div>
-                             )}
-
-                             {/* Hover Overlay Action */}
-                             <div className="absolute inset-0 bg-[#161a20]/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 backdrop-blur-sm">
-                               <button onClick={() => handleOpenLocalTemplate(template.id)} className="px-6 py-2 bg-[#5ed29c] hover:bg-[#5ed29c]/80 text-black font-black text-[11px] uppercase tracking-widest rounded-lg transition-colors">
-                                 Open as Template
-                               </button>
-                             </div>
-                          </div>
-                          <div className="p-6 flex flex-col flex-1">
-                            <h3 className="text-[14px] font-[900] text-white tracking-widest uppercase mb-3 line-clamp-2">{template.name}</h3>
-                            <p className="text-[12px] text-white/50 italic leading-relaxed line-clamp-3 mb-4 flex-1">
-                              {template.description}
-                            </p>
-                          </div>
-                       </div>
-                     ))}
-                   </div>
-                 </>
-               )}
-
-               <h3 className="text-xl font-[900] text-white tracking-tighter italic mb-4">
-                 Overleaf Community Templates
-               </h3>
-               
-               {loadingTemplates ? (
-                 <div className="flex flex-col justify-center items-center py-20 gap-4">
-                   <div className="w-8 h-8 rounded-full border-2 border-[#5ed29c] border-t-transparent animate-spin" />
-                   <p className="text-white/40 text-xs font-bold uppercase tracking-widest">Fetching from Overleaf...</p>
-                 </div>
-               ) : (
-                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                   {overleafTemplates.map((template) => (
-                     <div key={template.id} className="group bg-[#161a20] border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-all flex flex-col">
-                        <div className="aspect-[1/1.2] bg-[#1a1f26] relative border-b border-white/5 flex items-center justify-center object-cover overflow-hidden">
-                           {template.image ? (
-                             <img src={template.image} alt={template.title} className="w-full h-full object-cover object-top opacity-70 group-hover:opacity-100 transition-opacity" />
-                           ) : (
-                             <div className="w-full h-full flex items-center justify-center text-white/20">No Image</div>
                            )}
 
                            <div className="absolute top-4 left-4 px-2 py-1 bg-white/10 border border-white/20 text-white text-[9px] font-black uppercase tracking-widest rounded shadow-lg backdrop-blur-md">
@@ -877,12 +838,12 @@ export function Dashboard() {
                              <button 
                                onClick={() => handleOpenOverleafTemplate(template.id, template.slug)} 
                                disabled={isDownloadingTemplate === template.id}
-                               className="px-6 py-2 bg-indigo-500 hover:bg-indigo-600 text-white font-black text-[11px] uppercase tracking-widest rounded-lg transition-colors flex items-center gap-2"
+                               className="px-6 py-2 bg-[#5ed29c] hover:bg-[#5ed29c]/80 text-black font-black text-[11px] uppercase tracking-widest rounded-lg transition-colors flex items-center gap-2"
                              >
                                {isDownloadingTemplate === template.id ? (
-                                 <><div className="w-3 h-3 rounded-full border-2 border-white border-t-transparent animate-spin" /> Fetching...</>
+                                 <><div className="w-3 h-3 rounded-full border-2 border-black border-t-transparent animate-spin" /> Loading...</>
                                ) : (
-                                 <>Open from Overleaf</>
+                                 <>Open as Template</>
                                )}
                              </button>
                            </div>
