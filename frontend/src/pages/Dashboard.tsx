@@ -48,7 +48,7 @@ import { PreparationVelocityChart } from '@/components/dashboard/PreparationVelo
 import { PeerLeaderboard } from '@/components/dashboard/PeerLeaderboard';
 import { AtsOptimizer } from '@/components/dashboard/AtsOptimizer';
 import { ReferralGenerator } from '@/components/dashboard/ReferralGenerator';
-import allTemplates from '@/data/templates.json';
+import { latexTemplates } from '@/data/latexTemplates';
 type DashboardTab = 'home' | 'resume' | 'assessment' | 'opportunities' | 'settings';
 
 export function Dashboard() {
@@ -738,10 +738,30 @@ export function Dashboard() {
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                 {allTemplates.map((template: any) => (
+                 {latexTemplates.map((template) => (
                    <div key={template.id} className="group bg-[#161a20] border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-all flex flex-col">
-                      <div className="aspect-[1/1.2] bg-[#1a1f26] relative border-b border-white/5 flex items-center justify-center object-cover">
-                         <img src={template.image} alt={template.title} className="w-full h-full object-cover object-top opacity-70 group-hover:opacity-100 transition-opacity" />
+                      <div className="aspect-[1/1.2] bg-[#1a1f26] relative border-b border-white/5 flex items-center justify-center object-cover overflow-hidden p-6">
+                         {/* Wireframe Resume SVG Preview */}
+                         <svg width="100%" height="100%" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-30 group-hover:opacity-60 transition-opacity">
+                           <rect x="10" y="10" width="180" height="240" fill="#0f172a" stroke={template.accent || "#5ed29c"} strokeWidth="2" rx="4"/>
+                           <rect x="30" y="30" width="80" height="8" fill="#334155" rx="2"/>
+                           <rect x="30" y="46" width="140" height="3" fill="#1e293b" rx="1"/>
+                           <rect x="30" y="54" width="100" height="3" fill="#1e293b" rx="1"/>
+                           
+                           <rect x="30" y="70" width="50" height="5" fill="#334155" rx="1"/>
+                           <rect x="30" y="82" width="140" height="2" fill="#1e293b" rx="1"/>
+                           <rect x="30" y="88" width="140" height="2" fill="#1e293b" rx="1"/>
+                           <rect x="30" y="94" width="120" height="2" fill="#1e293b" rx="1"/>
+                           
+                           <rect x="30" y="110" width="50" height="5" fill="#334155" rx="1"/>
+                           <rect x="30" y="122" width="140" height="2" fill="#1e293b" rx="1"/>
+                           <rect x="30" y="128" width="140" height="2" fill="#1e293b" rx="1"/>
+                           
+                           <rect x="30" y="144" width="60" height="5" fill="#334155" rx="1"/>
+                           <rect x="30" y="156" width="130" height="2" fill="#1e293b" rx="1"/>
+                           <rect x="30" y="162" width="130" height="2" fill="#1e293b" rx="1"/>
+                           <rect x="30" y="168" width="90" height="2" fill="#1e293b" rx="1"/>
+                         </svg>
 
                          {template.badge && (
                            <div className="absolute top-4 left-4 px-2 py-1 bg-[#5ed29c]/20 border border-[#5ed29c]/30 text-[#5ed29c] text-[9px] font-black uppercase tracking-widest rounded shadow-lg backdrop-blur-md">
@@ -750,14 +770,14 @@ export function Dashboard() {
                          )}
 
                          {/* Hover Overlay Action */}
-                         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 backdrop-blur-sm">
+                         <div className="absolute inset-0 bg-[#161a20]/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 backdrop-blur-sm">
                            <button onClick={() => { setTemplateInput(template.id); setResumeWorkspace('maker'); }} className="px-6 py-2 bg-[#5ed29c] hover:bg-[#5ed29c]/80 text-black font-black text-[11px] uppercase tracking-widest rounded-lg transition-colors">
                              Open as Template
                            </button>
                          </div>
                       </div>
                       <div className="p-6 flex flex-col flex-1">
-                        <h3 className="text-[14px] font-[900] text-white tracking-widest uppercase mb-3 line-clamp-2">{template.title}</h3>
+                        <h3 className="text-[14px] font-[900] text-white tracking-widest uppercase mb-3 line-clamp-2">{template.name}</h3>
                         <p className="text-[12px] text-white/50 italic leading-relaxed line-clamp-3 mb-4 flex-1">
                           {template.description}
                         </p>
