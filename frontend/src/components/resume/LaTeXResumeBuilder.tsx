@@ -103,7 +103,7 @@ const prePopulateTemplate = (source: string, templateId: string, user: any): str
     .replace(/{{SKILLS_ITEMS}}/g, skillsItems);
 };
 
-export function LaTeXResumeBuilder({ onExit, initialTemplate }: { onExit?: () => void, initialTemplate?: string } = {}) {
+export function LaTeXResumeBuilder({ onExit, initialTemplate, customSource }: { onExit?: () => void, initialTemplate?: string, customSource?: string } = {}) {
   const { user } = useAuthStore();
   const { resumeAnalysis, setDashboardTab } = useAppStore();
   const confirm = useConfirm();
@@ -193,6 +193,13 @@ export function LaTeXResumeBuilder({ onExit, initialTemplate }: { onExit?: () =>
   // Load saved source on mount
   useEffect(() => {
     if (hasLoadedInitial.current) return;
+
+    if (customSource) {
+      setLatexSource(customSource);
+      hasLoadedInitial.current = true;
+      handleCompile(customSource);
+      return;
+    }
 
     const loadSaved = async () => {
       try {

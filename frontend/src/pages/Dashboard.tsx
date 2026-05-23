@@ -49,6 +49,7 @@ import { PeerLeaderboard } from '@/components/dashboard/PeerLeaderboard';
 import { AtsOptimizer } from '@/components/dashboard/AtsOptimizer';
 import { ReferralGenerator } from '@/components/dashboard/ReferralGenerator';
 import { latexTemplates } from '@/data/latexTemplates';
+import { fetchOverleafTemplates, downloadOverleafTemplate, OverleafTemplate } from '@/api/overleaf';
 type DashboardTab = 'home' | 'resume' | 'assessment' | 'opportunities' | 'settings';
 
 export function Dashboard() {
@@ -68,6 +69,12 @@ export function Dashboard() {
   const [templateInput, setTemplateInput] = useState<string | undefined>(undefined);
   const [dashboardJobs, setDashboardJobs] = useState<Job[]>([]);
   const [dashboardJobsLoading, setDashboardJobsLoading] = useState(false);
+
+  const [activeGalleryTag, setActiveGalleryTag] = useState('All');
+  const [overleafTemplates, setOverleafTemplates] = useState<OverleafTemplate[]>([]);
+  const [loadingTemplates, setLoadingTemplates] = useState(false);
+  const [customSourceInput, setCustomSourceInput] = useState<string | undefined>(undefined);
+  const [isDownloadingTemplate, setIsDownloadingTemplate] = useState<string | null>(null);
 
   // Format helper for 2 decimal places
   const formatVal = (val: any) => {
@@ -615,6 +622,44 @@ export function Dashboard() {
     </div>
   );
 
+  useEffect(() => {
+    if (resumeWorkspace === 'gallery') {
+      const loadTemplates = async () => {
+        setLoadingTemplates(true);
+        try {
+          const templates = await fetchOverleafTemplates(activeGalleryTag);
+          setOverleafTemplates(templates);
+        } catch (error) {
+          console.error('Failed to load Overleaf templates:', error);
+        } finally {
+          setLoadingTemplates(false);
+        }
+      };
+      void loadTemplates();
+    }
+  }, [resumeWorkspace, activeGalleryTag]);
+
+  const handleOpenOverleafTemplate = async (templateId: string, templateSlug: string) => {
+    setIsDownloadingTemplate(templateId);
+    try {
+      showSuccess('Downloading template from Overleaf...');
+      const source = await downloadOverleafTemplate(templateId, templateSlug);
+      setCustomSourceInput(source);
+      setTemplateInput(undefined);
+      setResumeWorkspace('maker');
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsDownloadingTemplate(null);
+    }
+  };
+
+  const handleOpenLocalTemplate = (templateId: string) => {
+    setCustomSourceInput(undefined);
+    setTemplateInput(templateId);
+    setResumeWorkspace('maker');
+  };
+
   const renderResumeLab = () => {
     if (resumeWorkspace === 'selection') {
       const resumeCards = [
@@ -687,7 +732,7 @@ export function Dashboard() {
     }
 
     if (resumeWorkspace === 'maker') {
-      return <LaTeXResumeBuilder onExit={() => setResumeWorkspace('selection')} initialTemplate={templateInput} />;
+      return <LaTeXResumeBuilder onExit={() => setResumeWorkspace('selection')} initialTemplate={templateInput} customSource={customSourceInput} />;
     }
 
     if (resumeWorkspace === 'optimizer') {
@@ -712,16 +757,26 @@ export function Dashboard() {
             {/* Sidebar Navigation */}
             <div className="w-full md:w-64 shrink-0 space-y-8 hidden md:block">
                <div className="space-y-1">
-                 <button className="w-full text-left px-4 py-2 bg-[#5ed29c]/10 text-[#5ed29c] font-black text-xs uppercase tracking-widest rounded-lg">All</button>
-                 <button className="w-full text-left px-4 py-2 text-white/40 hover:text-white hover:bg-white/5 transition-colors font-black text-xs uppercase tracking-widest rounded-lg">Templates</button>
-                 <button className="w-full text-left px-4 py-2 text-white/40 hover:text-white hover:bg-white/5 transition-colors font-black text-xs uppercase tracking-widest rounded-lg">Examples</button>
+                 {['All', 'Templates', 'Examples'].map(tag => (
+                   <button 
+                     key={tag}
+                     onClick={() => setActiveGalleryTag(tag)}
+                     className={`w-full text-left px-4 py-2 font-black text-xs uppercase tracking-widest rounded-lg transition-colors ${activeGalleryTag === tag ? 'bg-[#5ed29c]/10 text-[#5ed29c]' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+                   >
+                     {tag}
+                   </button>
+                 ))}
                </div>
 
                <div>
                  <p className="px-4 text-[10px] font-black text-white/20 uppercase tracking-[0.3em] mb-4">Related Tags</p>
                  <div className="space-y-1">
                    {['Cover Letter', 'Math', 'Software', 'University', 'Formal letters', 'Assignments', 'Academic'].map(tag => (
-                     <button key={tag} className="w-full text-left px-4 py-1.5 text-white/40 hover:text-white hover:bg-white/5 transition-colors font-bold text-[11px] tracking-wider rounded-lg">
+                     <button 
+                       key={tag} 
+                       onClick={() => setActiveGalleryTag(tag)}
+                       className={`w-full text-left px-4 py-1.5 font-bold text-[11px] tracking-wider rounded-lg transition-colors ${activeGalleryTag === tag ? 'bg-[#5ed29c]/10 text-[#5ed29c]' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
+                     >
                        {tag}
                      </button>
                    ))}
@@ -737,54 +792,114 @@ export function Dashboard() {
                  </h2>
                </div>
 
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                 {latexTemplates.map((template) => (
-                   <div key={template.id} className="group bg-[#161a20] border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-all flex flex-col">
-                      <div className="aspect-[1/1.2] bg-[#1a1f26] relative border-b border-white/5 flex items-center justify-center object-cover overflow-hidden p-6">
-                         {/* Wireframe Resume SVG Preview */}
-                         <svg width="100%" height="100%" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-30 group-hover:opacity-60 transition-opacity">
-                           <rect x="10" y="10" width="180" height="240" fill="#0f172a" stroke={template.accent || "#5ed29c"} strokeWidth="2" rx="4"/>
-                           <rect x="30" y="30" width="80" height="8" fill="#334155" rx="2"/>
-                           <rect x="30" y="46" width="140" height="3" fill="#1e293b" rx="1"/>
-                           <rect x="30" y="54" width="100" height="3" fill="#1e293b" rx="1"/>
-                           
-                           <rect x="30" y="70" width="50" height="5" fill="#334155" rx="1"/>
-                           <rect x="30" y="82" width="140" height="2" fill="#1e293b" rx="1"/>
-                           <rect x="30" y="88" width="140" height="2" fill="#1e293b" rx="1"/>
-                           <rect x="30" y="94" width="120" height="2" fill="#1e293b" rx="1"/>
-                           
-                           <rect x="30" y="110" width="50" height="5" fill="#334155" rx="1"/>
-                           <rect x="30" y="122" width="140" height="2" fill="#1e293b" rx="1"/>
-                           <rect x="30" y="128" width="140" height="2" fill="#1e293b" rx="1"/>
-                           
-                           <rect x="30" y="144" width="60" height="5" fill="#334155" rx="1"/>
-                           <rect x="30" y="156" width="130" height="2" fill="#1e293b" rx="1"/>
-                           <rect x="30" y="162" width="130" height="2" fill="#1e293b" rx="1"/>
-                           <rect x="30" y="168" width="90" height="2" fill="#1e293b" rx="1"/>
-                         </svg>
+               {/* Render Local Templates first if applicable */}
+               {(activeGalleryTag === 'All' || activeGalleryTag === 'Templates') && (
+                 <>
+                   <h3 className="text-xl font-[900] text-white tracking-tighter italic mb-4 mt-8">
+                     Prepzo Certified Templates
+                   </h3>
+                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                     {latexTemplates.map((template) => (
+                       <div key={template.id} className="group bg-[#161a20] border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-all flex flex-col">
+                          <div className="aspect-[1/1.2] bg-[#1a1f26] relative border-b border-white/5 flex items-center justify-center object-cover overflow-hidden p-6">
+                             {/* Wireframe Resume SVG Preview */}
+                             <svg width="100%" height="100%" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-30 group-hover:opacity-60 transition-opacity">
+                               <rect x="10" y="10" width="180" height="240" fill="#0f172a" stroke={template.accent || "#5ed29c"} strokeWidth="2" rx="4"/>
+                               <rect x="30" y="30" width="80" height="8" fill="#334155" rx="2"/>
+                               <rect x="30" y="46" width="140" height="3" fill="#1e293b" rx="1"/>
+                               <rect x="30" y="54" width="100" height="3" fill="#1e293b" rx="1"/>
+                               <rect x="30" y="70" width="50" height="5" fill="#334155" rx="1"/>
+                               <rect x="30" y="82" width="140" height="2" fill="#1e293b" rx="1"/>
+                               <rect x="30" y="88" width="140" height="2" fill="#1e293b" rx="1"/>
+                               <rect x="30" y="94" width="120" height="2" fill="#1e293b" rx="1"/>
+                               <rect x="30" y="110" width="50" height="5" fill="#334155" rx="1"/>
+                               <rect x="30" y="122" width="140" height="2" fill="#1e293b" rx="1"/>
+                               <rect x="30" y="128" width="140" height="2" fill="#1e293b" rx="1"/>
+                               <rect x="30" y="144" width="60" height="5" fill="#334155" rx="1"/>
+                               <rect x="30" y="156" width="130" height="2" fill="#1e293b" rx="1"/>
+                               <rect x="30" y="162" width="130" height="2" fill="#1e293b" rx="1"/>
+                               <rect x="30" y="168" width="90" height="2" fill="#1e293b" rx="1"/>
+                             </svg>
 
-                         {template.badge && (
-                           <div className="absolute top-4 left-4 px-2 py-1 bg-[#5ed29c]/20 border border-[#5ed29c]/30 text-[#5ed29c] text-[9px] font-black uppercase tracking-widest rounded shadow-lg backdrop-blur-md">
-                             {template.badge}
-                           </div>
-                         )}
+                             {template.badge && (
+                               <div className="absolute top-4 left-4 px-2 py-1 bg-[#5ed29c]/20 border border-[#5ed29c]/30 text-[#5ed29c] text-[9px] font-black uppercase tracking-widest rounded shadow-lg backdrop-blur-md">
+                                 {template.badge}
+                               </div>
+                             )}
 
-                         {/* Hover Overlay Action */}
-                         <div className="absolute inset-0 bg-[#161a20]/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 backdrop-blur-sm">
-                           <button onClick={() => { setTemplateInput(template.id); setResumeWorkspace('maker'); }} className="px-6 py-2 bg-[#5ed29c] hover:bg-[#5ed29c]/80 text-black font-black text-[11px] uppercase tracking-widest rounded-lg transition-colors">
-                             Open as Template
-                           </button>
-                         </div>
-                      </div>
-                      <div className="p-6 flex flex-col flex-1">
-                        <h3 className="text-[14px] font-[900] text-white tracking-widest uppercase mb-3 line-clamp-2">{template.name}</h3>
-                        <p className="text-[12px] text-white/50 italic leading-relaxed line-clamp-3 mb-4 flex-1">
-                          {template.description}
-                        </p>
-                      </div>
+                             {/* Hover Overlay Action */}
+                             <div className="absolute inset-0 bg-[#161a20]/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 backdrop-blur-sm">
+                               <button onClick={() => handleOpenLocalTemplate(template.id)} className="px-6 py-2 bg-[#5ed29c] hover:bg-[#5ed29c]/80 text-black font-black text-[11px] uppercase tracking-widest rounded-lg transition-colors">
+                                 Open as Template
+                               </button>
+                             </div>
+                          </div>
+                          <div className="p-6 flex flex-col flex-1">
+                            <h3 className="text-[14px] font-[900] text-white tracking-widest uppercase mb-3 line-clamp-2">{template.name}</h3>
+                            <p className="text-[12px] text-white/50 italic leading-relaxed line-clamp-3 mb-4 flex-1">
+                              {template.description}
+                            </p>
+                          </div>
+                       </div>
+                     ))}
                    </div>
-                 ))}
-               </div>
+                 </>
+               )}
+
+               <h3 className="text-xl font-[900] text-white tracking-tighter italic mb-4">
+                 Overleaf Community Templates
+               </h3>
+               
+               {loadingTemplates ? (
+                 <div className="flex flex-col justify-center items-center py-20 gap-4">
+                   <div className="w-8 h-8 rounded-full border-2 border-[#5ed29c] border-t-transparent animate-spin" />
+                   <p className="text-white/40 text-xs font-bold uppercase tracking-widest">Fetching from Overleaf...</p>
+                 </div>
+               ) : (
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                   {overleafTemplates.map((template) => (
+                     <div key={template.id} className="group bg-[#161a20] border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-all flex flex-col">
+                        <div className="aspect-[1/1.2] bg-[#1a1f26] relative border-b border-white/5 flex items-center justify-center object-cover overflow-hidden">
+                           {template.image ? (
+                             <img src={template.image} alt={template.title} className="w-full h-full object-cover object-top opacity-70 group-hover:opacity-100 transition-opacity" />
+                           ) : (
+                             <div className="w-full h-full flex items-center justify-center text-white/20">No Image</div>
+                           )}
+
+                           <div className="absolute top-4 left-4 px-2 py-1 bg-white/10 border border-white/20 text-white text-[9px] font-black uppercase tracking-widest rounded shadow-lg backdrop-blur-md">
+                             {template.author}
+                           </div>
+
+                           {/* Hover Overlay Action */}
+                           <div className="absolute inset-0 bg-[#161a20]/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 backdrop-blur-sm">
+                             <button 
+                               onClick={() => handleOpenOverleafTemplate(template.id, template.slug)} 
+                               disabled={isDownloadingTemplate === template.id}
+                               className="px-6 py-2 bg-indigo-500 hover:bg-indigo-600 text-white font-black text-[11px] uppercase tracking-widest rounded-lg transition-colors flex items-center gap-2"
+                             >
+                               {isDownloadingTemplate === template.id ? (
+                                 <><div className="w-3 h-3 rounded-full border-2 border-white border-t-transparent animate-spin" /> Fetching...</>
+                               ) : (
+                                 <>Open from Overleaf</>
+                               )}
+                             </button>
+                           </div>
+                        </div>
+                        <div className="p-6 flex flex-col flex-1">
+                          <h3 className="text-[14px] font-[900] text-white tracking-widest uppercase mb-3 line-clamp-2">{template.title}</h3>
+                          <p className="text-[12px] text-white/50 italic leading-relaxed line-clamp-3 mb-4 flex-1">
+                            {template.description}
+                          </p>
+                        </div>
+                     </div>
+                   ))}
+                   {overleafTemplates.length === 0 && (
+                     <div className="col-span-full py-12 text-center text-white/40 italic font-medium">
+                       No community templates found for this tag.
+                     </div>
+                   )}
+                 </div>
+               )}
 
                {/* Pagination */}
                <div className="mt-12 flex justify-center items-center gap-2">
