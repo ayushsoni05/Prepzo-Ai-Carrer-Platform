@@ -640,9 +640,14 @@ export function Dashboard() {
       ];
 
       return (
-        <div className="relative pt-6">
-          <div className="mb-10">
-            <div className="w-10 h-[2px] bg-[#5ed29c] mb-6" />
+        <div className="relative pt-6 max-w-5xl">
+          <div className="mb-10 flex items-center justify-between">
+            <div>
+              <p className="text-[10px] font-[900] uppercase tracking-[0.5em] text-[#5ed29c] mb-2">Resume Operations</p>
+              <h3 className="text-3xl font-[900] text-white uppercase tracking-tighter italic">
+                Active <span className="text-[#5ed29c]">Workspaces.</span>
+              </h3>
+            </div>
             <button 
               onClick={() => window.location.hash = 'dashboard'}
               className="group flex items-center gap-3 text-white/40 hover:text-white transition-all font-black uppercase tracking-[0.3em] text-[10px]"
@@ -652,39 +657,38 @@ export function Dashboard() {
             </button>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3 selection:bg-white selection:text-black relative z-10 font-rubik">
+          <div className="grid grid-cols-1 gap-4 font-rubik">
             {resumeCards.map((card, idx) => (
-              <div 
+              <GlassCard 
                 key={card.title} 
-                className="bg-[#161a20] rounded-[36px] p-10 border border-white/5 flex flex-col justify-between group h-[500px] hover:bg-[#1a1f26] hover:border-white/10 transition-all duration-700 relative overflow-hidden shadow-2xl"
+                className="p-8 border-white/5 hover:border-[#5ed29c]/30 transition-all group relative overflow-hidden"
               >
-                <div className="absolute top-1/4 -right-10 opacity-[0.03] group-hover:opacity-[0.05] group-hover:rotate-12 group-hover:scale-110 transition-all duration-1000 pointer-events-none">
-                  <Sparkles size={250} strokeWidth={1} className="text-white" />
-                </div>
-                
-                <div className="relative z-10">
-                  <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center mb-8 group-hover:border-white/20 transition-colors bg-white/[0.02]">
-                    {card.icon}
+                <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                  <div className="flex items-start gap-6">
+                    <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:border-[#5ed29c]/30 transition-colors shrink-0">
+                      {card.icon}
+                    </div>
+                    <div>
+                      <p className="text-[9px] font-[900] uppercase tracking-[0.4em] text-white/20 mb-2">
+                        {idx === 0 ? 'Template Workspace' : idx === 1 ? 'Optimizer Workspace' : 'Gallery Workspace'}
+                      </p>
+                      <h4 className="font-[900] text-white uppercase tracking-tighter italic text-2xl md:text-3xl group-hover:text-[#5ed29c] transition-colors mb-3">{card.title}</h4>
+                      <p className="text-[13px] font-medium text-white/50 leading-relaxed italic max-w-2xl">
+                        {card.description}
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-[9px] font-[900] uppercase tracking-[0.4em] text-white/30 mb-3">
-                    {idx === 0 ? 'Template Workspace' : idx === 1 ? 'Optimizer Workspace' : 'Gallery Workspace'}
-                  </p>
-                  <h3 className="text-4xl md:text-5xl font-[900] text-white group-hover:text-[#5ed29c] transition-colors uppercase tracking-tighter mb-6 italic leading-[0.9]">{card.title}</h3>
-                  <p className="text-[12px] md:text-[13px] font-medium leading-relaxed text-white/40 tracking-tight pr-4">
-                    {card.description}
-                  </p>
+                  
+                  <div className="shrink-0 flex flex-col justify-center mt-4 md:mt-0">
+                    <button 
+                      onClick={card.action}
+                      className="h-[50px] px-8 rounded-[16px] border border-white/10 font-black text-white/40 uppercase tracking-widest hover:text-[#5ed29c] hover:border-[#5ed29c]/30 hover:bg-[#5ed29c]/5 transition-all flex items-center gap-3 group/btn"
+                    >
+                      Enter <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                    </button>
+                  </div>
                 </div>
-
-                <button 
-                  onClick={card.action}
-                  className="relative z-10 w-full py-5 rounded-[20px] border border-white/5 hover:border-white/20 hover:bg-white/5 transition-all flex items-center justify-center gap-4 group/btn mt-8"
-                >
-                  <span className="text-[9px] font-black uppercase tracking-[0.3em] text-white/40 group-hover/btn:text-white transition-colors">
-                    Enter Workspace
-                  </span>
-                  <ArrowRight size={12} className="text-[#5ed29c]/50 group-hover/btn:text-[#5ed29c] group-hover/btn:translate-x-1 transition-all" />
-                </button>
-              </div>
+              </GlassCard>
             ))}
           </div>
         </div>
