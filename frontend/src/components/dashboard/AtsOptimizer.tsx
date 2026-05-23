@@ -6,12 +6,14 @@ interface AtsOptimizerProps {
   userSkills?: string[];
   currentAtsScore?: number;
   onExit?: () => void;
+  children?: React.ReactNode;
 }
 
 export function AtsOptimizer({
   userSkills = ['React', 'Node.js', 'Express', 'MongoDB', 'JavaScript', 'Python', 'C++', 'SQL'],
   currentAtsScore = 65,
-  onExit
+  onExit,
+  children
 }: AtsOptimizerProps) {
   const [resumeText, setResumeText] = useState('');
   const [jobDescription, setJobDescription] = useState('');
@@ -100,7 +102,7 @@ export function AtsOptimizer({
     showSuccess('AI resume optimizer active! Missing keywords dynamically injected.');
   };
 
-  const formatVal = (val: number) => val.toString();
+  const formatVal = (val: number) => Math.round(val).toString();
 
   // Gauge calculations
   const radius = 40;
@@ -111,7 +113,7 @@ export function AtsOptimizer({
 
   return (
     <div className="space-y-12 pb-20 selection:bg-white selection:text-black pt-6 font-rubik">
-      <div className="flex items-center justify-between mb-10">
+      <div className="flex items-center justify-between mb-6">
         {onExit ? (
           <button 
             onClick={onExit}
@@ -128,8 +130,9 @@ export function AtsOptimizer({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
-        <div className="lg:col-span-8 space-y-8">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 items-start">
+        {/* Left Column */}
+        <div className="space-y-8 flex flex-col">
           <div className="rounded-[40px] p-8 md:p-12 bg-[#161a20] border border-white/5 relative overflow-hidden shadow-2xl">
             <div className="flex items-center gap-4 text-[10px] font-[900] uppercase tracking-[0.4em] text-white/30 mb-8">
               <FileText size={20} className="text-[#5ed29c]" />
@@ -229,7 +232,8 @@ export function AtsOptimizer({
           </div>
         </div>
 
-        <div className="lg:col-span-4 space-y-8">
+        {/* Middle Column */}
+        <div className="space-y-8 flex flex-col">
           {/* Visual Gauge */}
           <div className="rounded-[32px] p-8 bg-[#161a20] border border-white/5 shadow-xl flex flex-col items-center justify-center relative overflow-hidden">
              <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#5ed29c]/5 blur-[50px] rounded-full"></div>
@@ -310,6 +314,13 @@ export function AtsOptimizer({
               </div>
           </div>
         </div>
+
+        {/* Right Column (Injected PeerLeaderboard) */}
+        {children && (
+          <div className="space-y-8 flex flex-col h-full">
+            {children}
+          </div>
+        )}
       </div>
     </div>
   );

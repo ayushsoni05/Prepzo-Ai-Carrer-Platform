@@ -398,13 +398,10 @@ export function Dashboard() {
       </div>
 
       {/* Interactive Career Widgets */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-12 pointer-events-auto">
-        <div className="lg:col-span-7">
-          <AtsOptimizer userSkills={user?.knownTechnologies} currentAtsScore={atsScore} />
-        </div>
-        <div className="lg:col-span-5">
+      <div className="mt-12 pointer-events-auto">
+        <AtsOptimizer userSkills={user?.knownTechnologies} currentAtsScore={atsScore}>
           <PeerLeaderboard collegeName={user?.collegeName} currentUserScore={readinessScore} currentUserName={user?.fullName} />
-        </div>
+        </AtsOptimizer>
       </div>
 
       <div className="mt-8 pointer-events-auto">
