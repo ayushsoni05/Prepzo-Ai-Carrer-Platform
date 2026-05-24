@@ -11,6 +11,8 @@ interface SocketState {
   winnerSocketId: string | null;
   allRooms: any[];
   joinError: string | null;
+  timeLimit: number | null;
+  problems: any[] | null;
   
   connect: (userData: any) => void;
   disconnect: () => void;
@@ -38,6 +40,8 @@ export const useSocketStore = create<SocketState>((set, get) => ({
   winnerSocketId: null,
   allRooms: [],
   joinError: null,
+  timeLimit: null,
+  problems: null,
 
   connect: (userData) => {
     if (get().socket) return; // Already connected
@@ -68,11 +72,13 @@ export const useSocketStore = create<SocketState>((set, get) => ({
       set({ matchStatus: 'idle' });
     });
 
-    newSocket.on('match_found', (data: { roomId: string, opponent: any }) => {
+    newSocket.on('match_found', (data: { roomId: string, opponent: any, timeLimit?: number, problems?: any[] }) => {
       set({ 
         matchStatus: 'matched', 
         roomId: data.roomId, 
-        opponent: data.opponent 
+        opponent: data.opponent,
+        timeLimit: data.timeLimit || null,
+        problems: data.problems || null
       });
       
       // Auto transition to battle after a short delay for the VS screen
@@ -199,7 +205,9 @@ export const useSocketStore = create<SocketState>((set, get) => ({
       opponent: null,
       opponentProgress: 0,
       winnerSocketId: null,
-      joinError: null
+      joinError: null,
+      timeLimit: null,
+      problems: null
     });
   }
 }));

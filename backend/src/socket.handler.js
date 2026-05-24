@@ -81,7 +81,9 @@ export const initializeSockets = (io) => {
         if (playerSocket) {
           playerSocket.emit('match_found', {
             roomId: match.roomId,
-            opponent: opponent?.user || null
+            opponent: opponent?.user || null,
+            timeLimit: match.timeLimit,
+            problems: match.problems
           });
         }
       });

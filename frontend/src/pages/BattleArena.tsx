@@ -6,8 +6,33 @@ import { Play, Loader2, Trophy, Swords, XCircle, CheckCircle2, Terminal, BrainCi
 import Editor from '@monaco-editor/react';
 
 export const BattleArena = () => {
-  const { matchStatus, opponent, opponentProgress, sendProgress, submitBattle, winnerSocketId, resetState } = useSocketStore();
+  const { matchStatus, opponent, opponentProgress, sendProgress, submitBattle, winnerSocketId, resetState, timeLimit, problems } = useSocketStore();
   const { user } = useAuthStore();
+  
+  // Timer state
+  const [timeLeft, setTimeLeft] = useState(0);
+
+  useEffect(() => {
+    if (timeLimit) {
+      setTimeLeft(timeLimit * 60); // timeLimit is in minutes
+    } else {
+      setTimeLeft(30 * 60); // Default to 30 mins
+    }
+  }, [timeLimit]);
+
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+    const interval = setInterval(() => {
+      setTimeLeft(t => Math.max(0, t - 1));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [timeLeft]);
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  };
   
   // Dummy problem for MVP
   const problem = {
@@ -16,7 +41,9 @@ export const BattleArena = () => {
     difficulty: "Easy"
   };
 
-  const [code, setCode] = useState("function twoSum(nums, target) {\n  // Write your code here\n  \n}");
+  const currentProblem = problems && problems.length > 0 ? problems[0] : problem;
+
+  const [code, setCode] = useState("function solution() {\n  // Write your code here\n  \n}");
   const [language, setLanguage] = useState("javascript");
   const [isExecuting, setIsExecuting] = useState(false);
   const [isReviewing, setIsReviewing] = useState(false);
@@ -74,7 +101,7 @@ try {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          language: language === 'javascript' ? 'javascript' : language === 'python' ? 'python' : 'cpp',
+          language: language,
           version: '*', // Uses latest available version
           files: [{ content: testHarness }]
         })
@@ -178,6 +205,11 @@ try {
         </div>
         
         <div className="flex items-center gap-6">
+          <div className="bg-[#161a20] px-4 py-1.5 rounded-xl border border-[#5ed29c]/30 flex items-center gap-3">
+            <div className={`w-2 h-2 rounded-full ${timeLeft < 60 ? 'bg-red-500 animate-ping' : 'bg-[#5ed29c] animate-pulse'}`} />
+            <span className={`font-mono font-bold ${timeLeft < 60 ? 'text-red-500' : 'text-[#5ed29c]'}`}>{formatTime(timeLeft)}</span>
+          </div>
+
           <div className="flex items-center gap-4 bg-black/50 px-4 py-2 rounded-lg border border-white/5 w-[200px]">
             <img src={opponent?.avatar} className="w-6 h-6 rounded-full border border-red-500" />
             <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
@@ -198,16 +230,16 @@ try {
             <span className="text-[10px] font-black uppercase tracking-widest text-white/40">Mission Briefing</span>
           </div>
           <div className="p-6 overflow-y-auto custom-scrollbar flex-1">
-            <div className="flex items-center gap-3 mb-6">
-              <span className="text-[10px] font-black bg-green-500/10 text-green-400 border border-green-500/20 px-2 py-1 rounded-md uppercase tracking-widest">
-                {problem.difficulty}
+            <div className="mb-6 flex gap-2">
+              <span className="px-3 py-1 bg-[#5ed29c]/10 text-[#5ed29c] border border-[#5ed29c]/20 text-[10px] font-black uppercase tracking-widest rounded-full">
+                {currentProblem.difficulty || 'EASY'}
               </span>
             </div>
-            <h2 className="text-3xl font-[900] uppercase italic tracking-tighter mb-4">{problem.title}</h2>
-            <div className="prose prose-invert prose-sm max-w-none text-white/70">
-              {problem.description.split('\n').map((line, i) => (
-                <p key={i} className="mb-2">{line.startsWith('```') || line.startsWith('-') || line.startsWith('**') ? <span dangerouslySetInnerHTML={{__html: line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/`(.*?)`/g, '<code class="bg-white/10 px-1 rounded text-[#5ed29c]">$1</code>')}} /> : line}</p>
-              ))}
+            <h2 className="text-3xl font-[900] uppercase tracking-tighter italic mb-6">
+              {currentProblem.title || 'Challenge'}
+            </h2>
+            <div className="prose prose-invert max-w-none text-white/70 font-medium whitespace-pre-wrap text-sm leading-relaxed">
+              {currentProblem.description || currentProblem.questionText}
             </div>
           </div>
         </div>
@@ -216,17 +248,28 @@ try {
         <div className="flex-1 flex flex-col bg-[#0a0c10] border-r border-white/10">
           <div className="h-12 border-b border-white/5 flex items-center px-4 bg-[#161a20]">
             <select 
-              value={language} 
+              value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              className="bg-black/50 border border-white/10 text-white text-xs font-bold px-3 py-1.5 rounded outline-none"
+              className="bg-black/40 border border-[#5ed29c]/30 text-[#5ed29c] text-xs font-black uppercase tracking-widest px-4 py-2 rounded-lg outline-none appearance-none cursor-pointer hover:border-[#5ed29c]/60 hover:bg-[#5ed29c]/10 transition-colors"
+              style={{
+                backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235ed29c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'right 0.75rem center',
+                backgroundSize: '1em'
+              }}
             >
-              <option value="javascript">JavaScript (Node)</option>
-              <option value="python">Python 3</option>
-              <option value="cpp">C++ (GCC)</option>
+              <option value="javascript" className="bg-[#161a20] text-white">JavaScript (Node)</option>
+              <option value="python" className="bg-[#161a20] text-white">Python 3</option>
+              <option value="cpp" className="bg-[#161a20] text-white">C++ (GCC)</option>
+              <option value="java" className="bg-[#161a20] text-white">Java</option>
+              <option value="go" className="bg-[#161a20] text-white">Go</option>
+              <option value="rust" className="bg-[#161a20] text-white">Rust</option>
+              <option value="typescript" className="bg-[#161a20] text-white">TypeScript</option>
+              <option value="csharp" className="bg-[#161a20] text-white">C#</option>
             </select>
           </div>
           
-          {/* Monaco Editor */}
+          {/* Code Editor */}
           <div className="flex-1 relative pt-2">
             <Editor
               height="100%"
