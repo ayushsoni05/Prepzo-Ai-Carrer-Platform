@@ -100,14 +100,50 @@ class MatchmakingService {
     return this.customRooms.get(roomId);
   }
 
-  getPublicRooms() {
-    const publicRooms = [];
+  getAllCustomRooms() {
+    const rooms = [];
     for (const [roomId, room] of this.customRooms.entries()) {
-      if (room.mode === 'public') {
-        publicRooms.push({ roomId, ...room });
-      }
+      // Return room without pin
+      const { pin, ...safeRoom } = room;
+      rooms.push({ roomId, ...safeRoom });
     }
-    return publicRooms;
+    return rooms;
+  }
+
+  joinCustomRoom(roomId, user, pin, socketId) {
+    const room = this.customRooms.get(roomId);
+    if (!room) return { success: false, error: 'Room not found' };
+    
+    // Check PIN if private
+    if (room.mode === 'private' && room.pin && room.pin !== pin) {
+      return { success: false, error: 'Invalid PIN' };
+    }
+
+    // Convert to an active match
+    const match = {
+      roomId,
+      players: [
+        {
+          user: room.hostUser,
+          socketId: room.hostSocketId,
+          joinedAt: room.createdAt
+        },
+        {
+          user,
+          socketId,
+          joinedAt: Date.now()
+        }
+      ],
+      status: 'starting',
+      problems: room.problems,
+      timeLimit: room.timeLimit,
+      createdAt: Date.now()
+    };
+
+    this.activeMatches.set(roomId, match);
+    this.customRooms.delete(roomId); // Remove from custom rooms board since it started
+    
+    return { success: true, match };
   }
 }
 

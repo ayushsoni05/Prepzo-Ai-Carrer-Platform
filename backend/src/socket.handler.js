@@ -41,8 +41,8 @@ export const initializeSockets = (io) => {
     });
 
     // Custom Rooms
-    socket.on('get_public_rooms', () => {
-      socket.emit('public_rooms_update', matchmakingService.getPublicRooms());
+    socket.on('get_all_rooms', () => {
+      socket.emit('all_rooms_update', matchmakingService.getAllCustomRooms());
     });
 
     socket.on('create_custom_room', (config) => {
@@ -60,9 +60,34 @@ export const initializeSockets = (io) => {
       socket.join(config.roomId);
       socket.emit('custom_room_created', { roomId: config.roomId });
 
-      if (config.mode === 'public') {
-        io.emit('public_rooms_update', matchmakingService.getPublicRooms());
+      io.emit('all_rooms_update', matchmakingService.getAllCustomRooms());
+    });
+
+    socket.on('join_custom_room', ({ roomId, pin, user }) => {
+      const result = matchmakingService.joinCustomRoom(roomId, user, pin, socket.id);
+      
+      if (!result.success) {
+        socket.emit('join_error', { message: result.error });
+        return;
       }
+
+      socket.join(roomId);
+      const match = result.match;
+      
+      // Notify both players
+      match.players.forEach(p => {
+        const opponent = match.players.find(opp => opp.user.id !== p.user.id);
+        const playerSocket = io.sockets.sockets.get(p.socketId);
+        if (playerSocket) {
+          playerSocket.emit('match_found', {
+            roomId: match.roomId,
+            opponent: opponent.user
+          });
+        }
+      });
+
+      // Update room list for everyone since a room was consumed
+      io.emit('all_rooms_update', matchmakingService.getAllCustomRooms());
     });
 
     // Battle Actions
@@ -99,15 +124,15 @@ export const initializeSockets = (io) => {
       }
 
       // Cleanup custom rooms they hosted
-      let publicRoomRemoved = false;
+      let roomRemoved = false;
       for (const [roomId, room] of matchmakingService.customRooms.entries()) {
         if (room.hostSocketId === socket.id) {
-          if (room.mode === 'public') publicRoomRemoved = true;
+          roomRemoved = true;
           matchmakingService.removeCustomRoom(roomId);
         }
       }
-      if (publicRoomRemoved) {
-        io.emit('public_rooms_update', matchmakingService.getPublicRooms());
+      if (roomRemoved) {
+        io.emit('all_rooms_update', matchmakingService.getAllCustomRooms());
       }
     });
   });

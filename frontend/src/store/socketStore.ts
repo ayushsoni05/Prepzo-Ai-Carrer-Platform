@@ -9,7 +9,8 @@ interface SocketState {
   opponent: any | null;
   opponentProgress: number;
   winnerSocketId: string | null;
-  publicRooms: any[];
+  allRooms: any[];
+  joinError: string | null;
   
   connect: (userData: any) => void;
   disconnect: () => void;
@@ -20,7 +21,7 @@ interface SocketState {
   
   // Custom Room Methods
   createCustomRoom: (config: any) => void;
-  getPublicRooms: () => void;
+  getAllRooms: () => void;
   joinCustomRoom: (roomId: string, pin?: string) => void;
   acceptJoinRequest: (guestId: string) => void;
   declineJoinRequest: (guestId: string) => void;
@@ -36,7 +37,8 @@ export const useSocketStore = create<SocketState>((set, get) => ({
   opponent: null,
   opponentProgress: 0,
   winnerSocketId: null,
-  publicRooms: [],
+  allRooms: [],
+  joinError: null,
 
   connect: (userData) => {
     if (get().socket) return; // Already connected
@@ -99,8 +101,12 @@ export const useSocketStore = create<SocketState>((set, get) => ({
       set({ roomId: data.roomId, matchStatus: 'idle' });
     });
 
-    newSocket.on('public_rooms_update', (rooms: any[]) => {
-      set({ publicRooms: rooms });
+    newSocket.on('all_rooms_update', (rooms: any[]) => {
+      set({ allRooms: rooms });
+    });
+
+    newSocket.on('join_error', (data: { message: string }) => {
+      set({ joinError: data.message });
     });
 
     newSocket.on('join_request_received', (data: { guest: any }) => {
@@ -166,13 +172,14 @@ export const useSocketStore = create<SocketState>((set, get) => ({
     if (socket) socket.emit('create_custom_room', config);
   },
 
-  getPublicRooms: () => {
+  getAllRooms: () => {
     const { socket } = get();
-    if (socket) socket.emit('get_public_rooms');
+    if (socket) socket.emit('get_all_rooms');
   },
 
   joinCustomRoom: (roomId, pin) => {
     const { socket, user } = get() as any;
+    set({ joinError: null });
     if (socket) socket.emit('join_custom_room', { roomId, pin, user });
   },
 
@@ -192,7 +199,8 @@ export const useSocketStore = create<SocketState>((set, get) => ({
       roomId: null,
       opponent: null,
       opponentProgress: 0,
-      winnerSocketId: null
+      winnerSocketId: null,
+      joinError: null
     });
   }
 }));

@@ -17,10 +17,9 @@ export const CodingLabHub: React.FC = () => {
   const [isMatchmakingOpen, setIsMatchmakingOpen] = useState(false);
   
   const { user } = useAuthStore();
-  const { publicRooms, getPublicRooms, isConnected, connect } = useSocketStore();
+  const { allRooms, getAllRooms, isConnected, connect } = useSocketStore();
 
   useEffect(() => {
-    // Ensure socket is connected to get real-time rooms
     if (!isConnected && user) {
       connect(user);
     }
@@ -28,9 +27,9 @@ export const CodingLabHub: React.FC = () => {
 
   useEffect(() => {
     if (isConnected) {
-      getPublicRooms();
+      getAllRooms();
     }
-  }, [isConnected, getPublicRooms]);
+  }, [isConnected, getAllRooms]);
 
   useEffect(() => {
     const fetchProblems = async () => {
@@ -88,7 +87,7 @@ export const CodingLabHub: React.FC = () => {
              {/* Gamification Links */}
              <div className="flex gap-4 w-full">
                 <button 
-                  onClick={() => setIsMatchmakingOpen(true)}
+                  onClick={() => window.location.hash = 'find-match'}
                   className="flex-1 px-4 py-3 bg-gradient-to-br from-red-500/20 to-red-600/5 border border-red-500/30 rounded-xl flex items-center justify-center gap-2 hover:bg-red-500/30 transition-colors shadow-lg shadow-red-500/10 group backdrop-blur-md"
                 >
                   <Swords size={16} className="text-red-500 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
@@ -203,14 +202,14 @@ export const CodingLabHub: React.FC = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
-            {publicRooms.length === 0 ? (
+            {allRooms.filter(r => r.mode === 'public').length === 0 ? (
               <div className="col-span-full py-12 text-center border border-white/5 bg-white/[0.02] rounded-2xl">
                 <Globe className="w-12 h-12 text-white/10 mx-auto mb-4" />
                 <p className="text-sm font-bold text-white/40 uppercase tracking-widest">No Active Public Lobbies</p>
                 <p className="text-xs text-white/20 mt-2">Create one to challenge the community!</p>
               </div>
             ) : (
-              publicRooms.map(lobby => (
+              allRooms.filter(r => r.mode === 'public').map(lobby => (
                 <div key={lobby.roomId} className="bg-[#0a0c10] border border-white/10 rounded-2xl p-6 hover:border-[#5ed29c]/50 transition-all group">
                   <div className="flex justify-between items-start mb-4">
                     <div>

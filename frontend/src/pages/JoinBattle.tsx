@@ -1,49 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Lock, ShieldAlert, KeyRound, Loader2, CheckCircle2, ChevronRight, Swords, ArrowLeft } from 'lucide-react';
+import { Lock, ShieldAlert, KeyRound, Loader2, CheckCircle2, ChevronRight, Swords, ArrowLeft, XCircle } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
+import { useSocketStore } from '@/store/socketStore';
 
 export const JoinBattle = () => {
   const navigate = useNavigate();
   const { user } = useAuthStore();
+  const { joinCustomRoom, joinError, matchStatus, isConnected, connect, resetState } = useSocketStore();
   
   // Extract roomId from hash (e.g., #/battle/invite/room_xyz123)
   const hash = window.location.hash;
   const roomId = hash.split('invite/')[1]?.split('?')[0];
 
   const [pin, setPin] = useState('');
-  const [status, setStatus] = useState<'idle' | 'checking' | 'pin_required' | 'waiting_host' | 'accepted' | 'declined'>('idle');
-  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<'checking' | 'pin_required' | 'joining' | 'accepted' | 'error'>('checking');
+  const [localError, setLocalError] = useState<string | null>(null);
+
+  const attemptInitialJoin = useRef(false);
 
   useEffect(() => {
-    // Simulate checking if room exists and if it's private
-    setStatus('checking');
-    setTimeout(() => {
-      // Simulate that room is found and requires a PIN
-      setStatus('pin_required');
-    }, 1500);
-  }, [roomId]);
+    if (!isConnected && user) {
+      connect(user);
+    }
+  }, [isConnected, user, connect]);
 
-  const handleJoin = () => {
-    if (status === 'pin_required' && pin.length !== 4) {
-      setError('Please enter a valid 4-digit PIN.');
+  useEffect(() => {
+    // Only attempt automatic join once we are connected and have a roomId
+    if (isConnected && roomId && !attemptInitialJoin.current) {
+      attemptInitialJoin.current = true;
+      setStatus('checking');
+      // Try joining without a pin to see if it's public
+      joinCustomRoom(roomId);
+    }
+  }, [isConnected, roomId, joinCustomRoom]);
+
+  // Handle Socket Errors
+  useEffect(() => {
+    if (joinError) {
+      if (joinError === 'Invalid PIN') {
+        setStatus('pin_required');
+      } else {
+        setStatus('error');
+        setLocalError(joinError);
+      }
+    }
+  }, [joinError]);
+
+  // Handle Match Found Transition
+  useEffect(() => {
+    if (matchStatus === 'matched' || matchStatus === 'in_battle') {
+      setStatus('accepted');
+      setTimeout(() => {
+        window.location.hash = 'battle';
+      }, 1500);
+    }
+  }, [matchStatus]);
+
+  const handleJoinWithPin = () => {
+    if (pin.length !== 4) {
+      setLocalError('Please enter a valid 4-digit PIN.');
       return;
     }
     
-    setError(null);
-    setStatus('waiting_host');
-
-    // Simulate waiting for host approval
-    setTimeout(() => {
-      // Simulate host accepting
-      setStatus('accepted');
-      
-      // Route to battle arena after a brief celebration
-      setTimeout(() => {
-        window.location.hash = 'battle';
-      }, 2000);
-    }, 4000);
+    setLocalError(null);
+    setStatus('joining');
+    joinCustomRoom(roomId, pin);
   };
 
   return (
@@ -54,10 +77,10 @@ export const JoinBattle = () => {
 
       <div className="w-full max-w-md relative z-10">
         <button 
-          onClick={() => window.location.hash = 'coding-lab'}
+          onClick={() => window.location.hash = 'find-match'}
           className="flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-8 text-[10px] font-black uppercase tracking-widest"
         >
-          <ArrowLeft size={16} /> Back to Lab
+          <ArrowLeft size={16} /> Back to Lobbies
         </button>
 
         <motion.div 
@@ -90,47 +113,75 @@ export const JoinBattle = () => {
                     value={pin}
                     onChange={(e) => {
                       setPin(e.target.value.replace(/\D/g, ''));
-                      setError(null);
+                      setLocalError(null);
                     }}
                     className="w-full bg-transparent text-white font-mono text-center tracking-[1em] text-3xl outline-none placeholder:text-white/10"
                   />
                 </div>
-                {error && <p className="text-red-400 text-xs font-bold">{error}</p>}
+                {localError && <p className="text-red-400 text-xs font-bold">{localError}</p>}
 
                 <button 
-                  onClick={handleJoin}
-                  className="w-full py-4 bg-purple-500 hover:bg-purple-600 text-white font-[900] uppercase tracking-widest text-xs rounded-xl transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(168,85,247,0.3)]"
+                  onClick={handleJoinWithPin}
+                  disabled={pin.length !== 4}
+                  className="w-full py-4 bg-purple-500 hover:bg-purple-400 text-white font-[900] uppercase tracking-widest text-[11px] rounded-2xl transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(168,85,247,0.3)]"
                 >
-                  <KeyRound size={16} /> Request Entry
+                  <KeyRound size={14} /> Unlock Arena
                 </button>
               </div>
             </motion.div>
           )}
 
-          {status === 'waiting_host' && (
+          {status === 'joining' && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-8">
-              <div className="relative w-20 h-20 mx-auto mb-8">
-                <div className="absolute inset-0 bg-[#5ed29c]/20 rounded-full animate-ping" />
-                <div className="relative bg-[#161a20] w-full h-full border-2 border-[#5ed29c] rounded-full flex items-center justify-center">
-                  <ShieldAlert className="w-8 h-8 text-[#5ed29c] animate-pulse" />
-                </div>
+              <div className="w-16 h-16 relative mx-auto mb-6">
+                <div className="absolute inset-0 border-4 border-purple-500/20 rounded-full" />
+                <div className="absolute inset-0 border-4 border-purple-500 rounded-full border-t-transparent animate-spin" />
+                <Lock className="absolute inset-0 m-auto text-purple-400 animate-pulse" size={20} />
               </div>
-              <h2 className="text-2xl font-[900] uppercase tracking-tighter italic mb-2">Awaiting Host</h2>
-              <p className="text-xs text-white/40 font-bold leading-relaxed px-4">
-                PIN accepted. We have pinged the host to approve your entry. Waiting for them to click accept...
-              </p>
+              <h2 className="text-xl font-[900] uppercase tracking-tighter italic mb-2">Validating...</h2>
+              <p className="text-xs text-white/40 font-medium">Checking credentials securely</p>
+            </motion.div>
+          )}
+
+          {status === 'error' && (
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="py-8">
+              <div className="w-20 h-20 bg-red-500/10 border border-red-500/30 rounded-full flex items-center justify-center mx-auto mb-6 text-red-500">
+                <XCircle size={32} />
+              </div>
+              <h2 className="text-2xl font-[900] uppercase tracking-tighter italic mb-2">Access Denied</h2>
+              <p className="text-xs text-white/40 font-bold mb-8">{localError || "Could not join the match."}</p>
+              
+              <button 
+                onClick={() => window.location.hash = 'find-match'}
+                className="px-8 py-3 bg-white/5 hover:bg-white/10 text-white font-[900] uppercase tracking-widest text-[10px] rounded-xl transition-all border border-white/10"
+              >
+                Return to Lobbies
+              </button>
             </motion.div>
           )}
 
           {status === 'accepted' && (
-            <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="py-8">
-              <div className="w-24 h-24 bg-green-500/10 border-2 border-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(34,197,94,0.4)]">
-                <CheckCircle2 className="w-12 h-12 text-green-400" />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} 
+              className="py-8"
+            >
+              <div className="w-20 h-20 bg-[#5ed29c]/10 border border-[#5ed29c]/30 rounded-full flex items-center justify-center mx-auto mb-6 text-[#5ed29c]">
+                <CheckCircle2 size={40} className="drop-shadow-[0_0_10px_rgba(94,210,156,0.5)]" />
               </div>
-              <h2 className="text-3xl font-[900] uppercase tracking-tighter italic mb-2 text-green-400">Entry Granted!</h2>
-              <p className="text-xs text-white/40 font-bold">Synchronizing arena... Prepare for battle!</p>
+              <h2 className="text-3xl font-[900] uppercase tracking-tighter italic mb-2 text-white">Entry Granted</h2>
+              <p className="text-[10px] text-[#5ed29c] font-black uppercase tracking-widest mb-6 animate-pulse">Initializing Battle Arena...</p>
+              
+              <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 1.5, ease: "linear" }}
+                  className="h-full bg-[#5ed29c]"
+                />
+              </div>
             </motion.div>
           )}
+
         </motion.div>
       </div>
     </div>
