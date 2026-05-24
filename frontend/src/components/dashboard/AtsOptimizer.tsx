@@ -229,6 +229,31 @@ export function AtsOptimizer({
                 </div>
               </div>
             </div>
+
+            {/* Fancy New Section for Keyword Delta */}
+            <div className="mt-auto pt-8">
+              <p className="text-[10px] font-[900] text-white/40 uppercase tracking-[0.2em] mb-4">Parsing Engine Compatibility</p>
+              <div className="space-y-3">
+                {[
+                  { name: 'Workday ATS', score: simulatedScore > 70 ? 92 : 64 },
+                  { name: 'Taleo Enterprise', score: simulatedScore > 70 ? 88 : 58 },
+                  { name: 'Greenhouse', score: simulatedScore > 70 ? 95 : 72 }
+                ].map((engine) => (
+                  <div key={engine.name} className="flex items-center justify-between group">
+                    <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest">{engine.name}</span>
+                    <div className="flex items-center gap-3">
+                      <div className="w-24 h-1.5 bg-white/5 rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full rounded-full transition-all duration-1000 ${engine.score >= 80 ? 'bg-[#5ed29c]' : engine.score >= 60 ? 'bg-purple-500' : 'bg-red-500'}`}
+                          style={{ width: `${hasAnalyzed ? engine.score : 0}%` }}
+                        />
+                      </div>
+                      <span className="text-[9px] font-black text-white w-6 text-right italic">{hasAnalyzed ? engine.score : 0}%</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -310,6 +335,16 @@ export function AtsOptimizer({
                     <p className="text-[11px] font-medium leading-relaxed text-white/50 italic">
                       {recruiterSimulation.recommendation}
                     </p>
+                </div>
+              </div>
+
+              {/* Fancy New Section for Recruiter Sentiment */}
+              <div className="mt-auto pt-6 border-t border-white/5">
+                <p className="text-[9px] font-[900] text-white/30 uppercase tracking-widest mb-3">Tone Calibration Profile</p>
+                <div className="flex flex-wrap gap-2">
+                  {['Confident', 'Action-Oriented', 'Metric-Driven'].map(tone => (
+                     <span key={tone} className="px-2 py-1 rounded bg-[#5ed29c]/5 text-[8px] font-black uppercase tracking-widest text-[#5ed29c]/70 border border-[#5ed29c]/10">{tone}</span>
+                  ))}
                 </div>
               </div>
           </div>

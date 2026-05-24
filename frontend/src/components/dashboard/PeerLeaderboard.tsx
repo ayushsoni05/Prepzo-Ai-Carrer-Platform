@@ -32,12 +32,12 @@ export function PeerLeaderboard({
   }, [currentUserName, currentUserScore]);
 
   return (
-    <div className="rounded-[40px] p-8 bg-[#161a20] border border-white/5 shadow-2xl relative overflow-hidden group hover:border-[#5ed29c]/20 transition-all duration-500 font-rubik h-full flex flex-col justify-between">
+    <div className="rounded-[40px] p-8 bg-[#161a20] border border-white/5 shadow-2xl relative overflow-hidden group hover:border-[#5ed29c]/20 transition-all duration-500 font-rubik h-full flex flex-col">
       {/* Background decorations */}
       <div className="absolute top-0 right-0 w-48 h-48 bg-purple-500/5 blur-[80px] rounded-full" />
       <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-[#5ed29c]/5 blur-[80px] rounded-full" />
 
-      <div className="relative z-10 flex flex-col h-full justify-between">
+      <div className="relative z-10 flex flex-col h-full">
         {/* Header */}
         <div className="flex items-start justify-between border-b border-white/5 pb-4 mb-6">
           <div>
@@ -56,7 +56,7 @@ export function PeerLeaderboard({
         </div>
 
         {/* Entries List */}
-        <div className="space-y-3 flex-1 flex flex-col justify-center">
+        <div className="space-y-3">
           {entries.map((peer) => {
             const isTop3 = peer.rank <= 3;
             const rankIconColor = 
@@ -123,6 +123,21 @@ export function PeerLeaderboard({
               </div>
             );
           })}
+        </div>
+
+        {/* Fancy Campus Analytics Widget (Fills remaining height) */}
+        <div className="mt-auto pt-8">
+          <p className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 italic mb-4">Campus Analytics</p>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4">
+              <p className="text-[8px] font-bold text-white/40 uppercase tracking-widest mb-1">Total Analyzed</p>
+              <p className="text-xl font-black text-white italic tracking-tighter">1,432</p>
+            </div>
+            <div className="bg-[#5ed29c]/10 border border-[#5ed29c]/20 rounded-2xl p-4">
+              <p className="text-[8px] font-bold text-[#5ed29c]/70 uppercase tracking-widest mb-1">Your Percentile</p>
+              <p className="text-xl font-black text-[#5ed29c] italic tracking-tighter">Top 8%</p>
+            </div>
+          </div>
         </div>
 
         {/* Footer statistics */}
