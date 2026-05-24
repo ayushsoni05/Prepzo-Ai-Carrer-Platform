@@ -3,11 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Swords, ShieldAlert, Globe, Lock, Clock, BookOpen, KeyRound, ChevronRight, ArrowLeft, Search, CheckSquare, Square } from 'lucide-react';
 import { useSocketStore } from '@/store/socketStore';
+import { useAuthStore } from '@/store/authStore';
 import { getCodingProblems, CodingProblem } from '@/api/codingLab';
 
 export const CreateBattle = () => {
   const navigate = useNavigate();
   const { socket } = useSocketStore();
+  const { user } = useAuthStore();
   
   const [mode, setMode] = useState<'public' | 'private'>('public');
   const [selectedProblems, setSelectedProblems] = useState<string[]>([]);
@@ -59,8 +61,17 @@ export const CreateBattle = () => {
     setTimeout(() => {
       const generatedRoomId = `room_${Math.random().toString(36).substring(2, 9)}`;
       
-      // Real implementation would emit:
-      // socket.emit('create_custom_room', { mode, problemId, timeLimit, pin });
+      const config = {
+        roomId: generatedRoomId,
+        mode,
+        pin,
+        problems: selectedProblems,
+        timeLimit: h * 60 + m,
+        hostUser: user
+      };
+      
+      // Actually create it in the backend
+      socket?.emit('create_custom_room', config);
       
       setIsCreating(false);
       setCreatedRoom({ roomId: generatedRoomId, isPrivate: mode === 'private' });
@@ -243,9 +254,9 @@ export const CreateBattle = () => {
                         setTimeHours(val === '' ? '' : parseInt(val));
                       }}
                       placeholder="0"
-                      className="w-full bg-transparent text-white font-mono text-xl outline-none px-4 py-3 placeholder:text-white/10 text-right"
+                      className="w-full bg-transparent text-white font-mono text-xl outline-none py-3 pl-4 pr-12 placeholder:text-white/10 text-right"
                     />
-                    <span className="font-black uppercase tracking-widest text-white/20 pr-4 text-[10px] absolute right-0 pointer-events-none bg-[#0a0c10] py-3 pl-2">HRS</span>
+                    <span className="font-black uppercase tracking-widest text-white/20 text-[10px] absolute right-3 pointer-events-none bg-[#0a0c10] py-3 pl-2">HRS</span>
                   </div>
                   <div className="flex items-center bg-[#0a0c10] rounded-2xl border border-white/5 relative overflow-hidden focus-within:border-[#5ed29c]/50 transition-colors">
                     <input 
@@ -258,9 +269,9 @@ export const CreateBattle = () => {
                         setTimeMinutes(val === '' ? '' : parseInt(val));
                       }}
                       placeholder="30"
-                      className="w-full bg-transparent text-white font-mono text-xl outline-none px-4 py-3 placeholder:text-white/10 text-right"
+                      className="w-full bg-transparent text-white font-mono text-xl outline-none py-3 pl-4 pr-12 placeholder:text-white/10 text-right"
                     />
-                    <span className="font-black uppercase tracking-widest text-white/20 pr-4 text-[10px] absolute right-0 pointer-events-none bg-[#0a0c10] py-3 pl-2">MIN</span>
+                    <span className="font-black uppercase tracking-widest text-white/20 text-[10px] absolute right-3 pointer-events-none bg-[#0a0c10] py-3 pl-2">MIN</span>
                   </div>
                 </div>
               </div>

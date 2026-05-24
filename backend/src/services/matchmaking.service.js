@@ -4,6 +4,7 @@ class MatchmakingService {
   constructor() {
     this.queue = [];
     this.activeMatches = new Map(); // roomId -> Match Details
+    this.customRooms = new Map(); // roomId -> Custom Room Details
   }
 
   // Add user to the matchmaking queue
@@ -83,6 +84,30 @@ class MatchmakingService {
 
   endMatch(roomId) {
     return this.activeMatches.delete(roomId);
+  }
+
+  // --- Custom Rooms ---
+  createCustomRoom(roomId, roomData) {
+    this.customRooms.set(roomId, roomData);
+    return roomData;
+  }
+
+  removeCustomRoom(roomId) {
+    return this.customRooms.delete(roomId);
+  }
+
+  getCustomRoom(roomId) {
+    return this.customRooms.get(roomId);
+  }
+
+  getPublicRooms() {
+    const publicRooms = [];
+    for (const [roomId, room] of this.customRooms.entries()) {
+      if (room.mode === 'public') {
+        publicRooms.push({ roomId, ...room });
+      }
+    }
+    return publicRooms;
   }
 }
 

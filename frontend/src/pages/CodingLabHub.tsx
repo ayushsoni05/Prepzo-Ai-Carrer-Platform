@@ -4,6 +4,7 @@ import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2, ChevronLeft, 
 import { getCodingProblems, CodingProblem } from '@/api/codingLab';
 import { GridBeam } from '@/components/ui/background-grid-beam';
 import { useAuthStore } from '@/store/authStore';
+import { useSocketStore } from '@/store/socketStore';
 import { MatchmakingModal } from '@/components/multiplayer/MatchmakingModal';
 
 export const CodingLabHub: React.FC = () => {
@@ -16,6 +17,20 @@ export const CodingLabHub: React.FC = () => {
   const [isMatchmakingOpen, setIsMatchmakingOpen] = useState(false);
   
   const { user } = useAuthStore();
+  const { publicRooms, getPublicRooms, isConnected, connect } = useSocketStore();
+
+  useEffect(() => {
+    // Ensure socket is connected to get real-time rooms
+    if (!isConnected && user) {
+      connect(user);
+    }
+  }, [isConnected, user, connect]);
+
+  useEffect(() => {
+    if (isConnected) {
+      getPublicRooms();
+    }
+  }, [isConnected, getPublicRooms]);
 
   useEffect(() => {
     const fetchProblems = async () => {
@@ -188,33 +203,40 @@ export const CodingLabHub: React.FC = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
-            {/* Dummy Data for Live Lobbies - Will be connected to WebSockets later */}
-            {[
-              { id: '1', host: 'Alex R.', problem: 'Two Sum', time: 15 },
-              { id: '2', host: 'Sarah C.', problem: 'LRU Cache', time: 30 },
-              { id: '3', host: 'David M.', problem: 'Merge K Lists', time: 45 },
-            ].map(lobby => (
-              <div key={lobby.id} className="bg-[#0a0c10] border border-white/10 rounded-2xl p-6 hover:border-[#5ed29c]/50 transition-all group">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-1">Hosted By</p>
-                    <p className="font-[900] text-white">{lobby.host}</p>
-                  </div>
-                  <span className="px-2 py-1 bg-white/5 border border-white/10 rounded text-[9px] font-black uppercase tracking-widest text-[#5ed29c]">Public</span>
-                </div>
-                <div className="mb-6">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-1">Mission Objective</p>
-                  <p className="text-sm font-bold text-blue-400 truncate">{lobby.problem}</p>
-                  <p className="text-[10px] font-bold text-white/60 mt-1">{lobby.time} Minutes Limit</p>
-                </div>
-                <button 
-                  onClick={() => window.location.hash = `battle/invite/${lobby.id}`}
-                  className="w-full py-3 bg-white/5 hover:bg-[#5ed29c] hover:text-black border border-white/10 text-white font-[900] uppercase tracking-widest text-[10px] rounded-xl transition-all shadow-lg group-hover:shadow-[#5ed29c]/20"
-                >
-                  Join Battle
-                </button>
+            {publicRooms.length === 0 ? (
+              <div className="col-span-full py-12 text-center border border-white/5 bg-white/[0.02] rounded-2xl">
+                <Globe className="w-12 h-12 text-white/10 mx-auto mb-4" />
+                <p className="text-sm font-bold text-white/40 uppercase tracking-widest">No Active Public Lobbies</p>
+                <p className="text-xs text-white/20 mt-2">Create one to challenge the community!</p>
               </div>
-            ))}
+            ) : (
+              publicRooms.map(lobby => (
+                <div key={lobby.roomId} className="bg-[#0a0c10] border border-white/10 rounded-2xl p-6 hover:border-[#5ed29c]/50 transition-all group">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-1">Hosted By</p>
+                      <p className="font-[900] text-white">{lobby.hostUser?.fullName || 'Anonymous'}</p>
+                    </div>
+                    <span className="px-2 py-1 bg-white/5 border border-white/10 rounded text-[9px] font-black uppercase tracking-widest text-[#5ed29c]">Public</span>
+                  </div>
+                  <div className="mb-6">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-1">Mission Objective</p>
+                    <p className="text-sm font-bold text-blue-400 truncate">
+                      {lobby.problems?.length === 1 
+                        ? (problems.find(p => p.id === lobby.problems[0])?.title || 'Custom Problem')
+                        : `${lobby.problems?.length || 0} Problems`}
+                    </p>
+                    <p className="text-[10px] font-bold text-white/60 mt-1">{lobby.timeLimit || 0} Minutes Limit</p>
+                  </div>
+                  <button 
+                    onClick={() => window.location.hash = `battle/invite/${lobby.roomId}`}
+                    className="w-full py-3 bg-white/5 hover:bg-[#5ed29c] hover:text-black border border-white/10 text-white font-[900] uppercase tracking-widest text-[10px] rounded-xl transition-all shadow-lg group-hover:shadow-[#5ed29c]/20"
+                  >
+                    Join Battle
+                  </button>
+                </div>
+              ))
+            )}
           </div>
         </div>
 

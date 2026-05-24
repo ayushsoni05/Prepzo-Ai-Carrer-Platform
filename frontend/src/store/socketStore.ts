@@ -9,6 +9,7 @@ interface SocketState {
   opponent: any | null;
   opponentProgress: number;
   winnerSocketId: string | null;
+  publicRooms: any[];
   
   connect: (userData: any) => void;
   disconnect: () => void;
@@ -19,6 +20,7 @@ interface SocketState {
   
   // Custom Room Methods
   createCustomRoom: (config: any) => void;
+  getPublicRooms: () => void;
   joinCustomRoom: (roomId: string, pin?: string) => void;
   acceptJoinRequest: (guestId: string) => void;
   declineJoinRequest: (guestId: string) => void;
@@ -34,6 +36,7 @@ export const useSocketStore = create<SocketState>((set, get) => ({
   opponent: null,
   opponentProgress: 0,
   winnerSocketId: null,
+  publicRooms: [],
 
   connect: (userData) => {
     if (get().socket) return; // Already connected
@@ -94,6 +97,10 @@ export const useSocketStore = create<SocketState>((set, get) => ({
     // Custom Room Events
     newSocket.on('custom_room_created', (data: { roomId: string }) => {
       set({ roomId: data.roomId, matchStatus: 'idle' });
+    });
+
+    newSocket.on('public_rooms_update', (rooms: any[]) => {
+      set({ publicRooms: rooms });
     });
 
     newSocket.on('join_request_received', (data: { guest: any }) => {
@@ -157,6 +164,11 @@ export const useSocketStore = create<SocketState>((set, get) => ({
   createCustomRoom: (config) => {
     const { socket } = get();
     if (socket) socket.emit('create_custom_room', config);
+  },
+
+  getPublicRooms: () => {
+    const { socket } = get();
+    if (socket) socket.emit('get_public_rooms');
   },
 
   joinCustomRoom: (roomId, pin) => {

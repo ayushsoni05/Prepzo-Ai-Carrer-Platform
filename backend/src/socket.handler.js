@@ -40,6 +40,31 @@ export const initializeSockets = (io) => {
       socket.emit('queue_left');
     });
 
+    // Custom Rooms
+    socket.on('get_public_rooms', () => {
+      socket.emit('public_rooms_update', matchmakingService.getPublicRooms());
+    });
+
+    socket.on('create_custom_room', (config) => {
+      // config: { roomId, mode, pin, problems, timeLimit, hostUser }
+      matchmakingService.createCustomRoom(config.roomId, {
+        hostSocketId: socket.id,
+        hostUser: config.hostUser,
+        mode: config.mode,
+        pin: config.pin,
+        problems: config.problems,
+        timeLimit: config.timeLimit,
+        createdAt: Date.now()
+      });
+
+      socket.join(config.roomId);
+      socket.emit('custom_room_created', { roomId: config.roomId });
+
+      if (config.mode === 'public') {
+        io.emit('public_rooms_update', matchmakingService.getPublicRooms());
+      }
+    });
+
     // Battle Actions
     socket.on('code_change', ({ roomId, progress }) => {
       // Broadcast typing progress to the opponent in the same room
@@ -71,6 +96,18 @@ export const initializeSockets = (io) => {
           socket.to(roomId).emit('battle_ended', { winnerSocketId: 'opponent', reason: 'disconnect' });
           matchmakingService.endMatch(roomId);
         }
+      }
+
+      // Cleanup custom rooms they hosted
+      let publicRoomRemoved = false;
+      for (const [roomId, room] of matchmakingService.customRooms.entries()) {
+        if (room.hostSocketId === socket.id) {
+          if (room.mode === 'public') publicRoomRemoved = true;
+          matchmakingService.removeCustomRoom(roomId);
+        }
+      }
+      if (publicRoomRemoved) {
+        io.emit('public_rooms_update', matchmakingService.getPublicRooms());
       }
     });
   });
