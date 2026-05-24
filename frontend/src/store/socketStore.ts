@@ -20,9 +20,8 @@ interface SocketState {
   submitBattle: (success: boolean, passed: number, total: number) => void;
   
   // Custom Room Methods
-  createCustomRoom: (config: any) => void;
   getAllRooms: () => void;
-  joinCustomRoom: (roomId: string, pin?: string) => void;
+  joinCustomRoom: (roomId: string, pin?: string, user?: any) => void;
   acceptJoinRequest: (guestId: string) => void;
   declineJoinRequest: (guestId: string) => void;
 
@@ -177,8 +176,8 @@ export const useSocketStore = create<SocketState>((set, get) => ({
     if (socket) socket.emit('get_all_rooms');
   },
 
-  joinCustomRoom: (roomId, pin) => {
-    const { socket, user } = get() as any;
+  joinCustomRoom: (roomId, pin, user) => {
+    const { socket } = get();
     set({ joinError: null });
     if (socket) socket.emit('join_custom_room', { roomId, pin, user });
   },

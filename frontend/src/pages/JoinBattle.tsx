@@ -32,9 +32,9 @@ export const JoinBattle = () => {
       attemptInitialJoin.current = true;
       setStatus('checking');
       // Try joining without a pin to see if it's public
-      joinCustomRoom(roomId);
+      joinCustomRoom(roomId, undefined, user);
     }
-  }, [isConnected, roomId, joinCustomRoom]);
+  }, [isConnected, roomId, joinCustomRoom, user]);
 
   // Handle Socket Errors
   useEffect(() => {
@@ -66,7 +66,7 @@ export const JoinBattle = () => {
     
     setLocalError(null);
     setStatus('joining');
-    joinCustomRoom(roomId, pin);
+    joinCustomRoom(roomId, pin, user);
   };
 
   return (

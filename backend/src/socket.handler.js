@@ -76,7 +76,7 @@ export const initializeSockets = (io) => {
       
       // Notify both players
       match.players.forEach(p => {
-        const opponent = match.players.find(opp => opp.user.id !== p.user.id);
+        const opponent = match.players.find(opp => opp.user?.id !== p.user?.id);
         const playerSocket = io.sockets.sockets.get(p.socketId);
         if (playerSocket) {
           playerSocket.emit('match_found', {
