@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSocketStore } from '@/store/socketStore';
 import { useAuthStore } from '@/store/authStore';
-import { Play, Loader2, Trophy, Swords, XCircle, CheckCircle2, Terminal, BrainCircuit, RefreshCw, Cpu, Activity } from 'lucide-react';
+import { Play, Loader2, Trophy, Swords, XCircle, CheckCircle2, Terminal, BrainCircuit, RefreshCw, Cpu, Activity, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import Editor from '@monaco-editor/react';
+import { codingProblems } from '@/api/codingLab';
 
 export const BattleArena = () => {
   const { matchStatus, opponent, opponentProgress, sendProgress, submitBattle, winnerSocketId, resetState, timeLimit, problems } = useSocketStore();
@@ -34,21 +35,30 @@ export const BattleArena = () => {
     return `${m}:${s.toString().padStart(2, '0')}`;
   };
   
-  // Dummy problem for MVP
-  const problem = {
-    title: "Two Sum",
-    description: "Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to target.\n\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\n\nYou can return the answer in any order.\n\n**Example 1:**\n```\nInput: nums = [2,7,11,15], target = 9\nOutput: [0,1]\n```\n\n**Constraints:**\n- `2 <= nums.length <= 10^4`\n- `-10^9 <= nums[i] <= 10^9`\n- `-10^9 <= target <= 10^9`",
-    difficulty: "Easy"
-  };
-
-  const currentProblem = problems && problems.length > 0 ? problems[0] : problem;
+  const currentProblemIds = problems && problems.length > 0 ? problems : ['two-sum'];
+  const activeProblems = currentProblemIds.map(id => codingProblems.find(p => p.id === id)).filter(Boolean) as any[];
+  
+  const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
+  const currentProblem = activeProblems.length > 0 ? activeProblems[currentProblemIndex] : codingProblems[0];
 
   const [code, setCode] = useState("function solution() {\n  // Write your code here\n  \n}");
   const [language, setLanguage] = useState("javascript");
+  const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [isExecuting, setIsExecuting] = useState(false);
   const [isReviewing, setIsReviewing] = useState(false);
   const [testResults, setTestResults] = useState<{ passed: number, total: number, stdout: string, error: string } | null>(null);
   const [aiFeedback, setAiFeedback] = useState<{ score: string, timeComplexity: string, spaceComplexity: string, feedback: string } | null>(null);
+
+  const languages = [
+    { id: 'javascript', label: 'JavaScript (Node)' },
+    { id: 'python', label: 'Python 3' },
+    { id: 'cpp', label: 'C++ (GCC)' },
+    { id: 'java', label: 'Java' },
+    { id: 'go', label: 'Go' },
+    { id: 'rust', label: 'Rust' },
+    { id: 'typescript', label: 'TypeScript' },
+    { id: 'csharp', label: 'C#' }
+  ];
 
   // Sync progress
   useEffect(() => {
@@ -211,7 +221,7 @@ try {
           </div>
 
           <div className="flex items-center gap-4 bg-black/50 px-4 py-2 rounded-lg border border-white/5 w-[200px]">
-            <img src={opponent?.avatar} className="w-6 h-6 rounded-full border border-red-500" />
+            <img src={opponent?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${opponent?.id || 'opponent'}`} className="w-6 h-6 rounded-full border border-red-500 bg-[#161a20]" />
             <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
               <div className="h-full bg-red-500 transition-all duration-300 ease-out" style={{ width: `${opponentProgress}%` }} />
             </div>
@@ -230,16 +240,34 @@ try {
             <span className="text-[10px] font-black uppercase tracking-widest text-white/40">Mission Briefing</span>
           </div>
           <div className="p-6 overflow-y-auto custom-scrollbar flex-1">
-            <div className="mb-6 flex gap-2">
+            <div className="mb-6 flex items-center justify-between">
               <span className="px-3 py-1 bg-[#5ed29c]/10 text-[#5ed29c] border border-[#5ed29c]/20 text-[10px] font-black uppercase tracking-widest rounded-full">
                 {currentProblem.difficulty || 'EASY'}
               </span>
+              {activeProblems.length > 1 && (
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => setCurrentProblemIndex(prev => Math.max(0, prev - 1))}
+                    disabled={currentProblemIndex === 0}
+                    className="p-1 bg-white/5 hover:bg-white/10 text-white disabled:opacity-30 rounded transition-colors"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+                  <span className="text-xs font-bold text-white/40 self-center">{currentProblemIndex + 1}/{activeProblems.length}</span>
+                  <button 
+                    onClick={() => setCurrentProblemIndex(prev => Math.min(activeProblems.length - 1, prev + 1))}
+                    disabled={currentProblemIndex === activeProblems.length - 1}
+                    className="p-1 bg-white/5 hover:bg-white/10 text-white disabled:opacity-30 rounded transition-colors"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
+              )}
             </div>
             <h2 className="text-3xl font-[900] uppercase tracking-tighter italic mb-6">
               {currentProblem.title || 'Challenge'}
             </h2>
-            <div className="prose prose-invert max-w-none text-white/70 font-medium whitespace-pre-wrap text-sm leading-relaxed">
-              {currentProblem.description || currentProblem.questionText}
+            <div className="prose prose-invert max-w-none text-white/70 font-medium whitespace-pre-wrap text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: currentProblem.description || currentProblem.questionText || '' }}>
             </div>
           </div>
         </div>
@@ -247,26 +275,36 @@ try {
         {/* Panel 2: Code Editor & Console (50%) */}
         <div className="flex-1 flex flex-col bg-[#0a0c10] border-r border-white/10">
           <div className="h-12 border-b border-white/5 flex items-center px-4 bg-[#161a20]">
-            <select 
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-              className="bg-black/40 border border-[#5ed29c]/30 text-[#5ed29c] text-xs font-black uppercase tracking-widest px-4 py-2 rounded-lg outline-none appearance-none cursor-pointer hover:border-[#5ed29c]/60 hover:bg-[#5ed29c]/10 transition-colors"
-              style={{
-                backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235ed29c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'right 0.75rem center',
-                backgroundSize: '1em'
-              }}
-            >
-              <option value="javascript" className="bg-[#161a20] text-white">JavaScript (Node)</option>
-              <option value="python" className="bg-[#161a20] text-white">Python 3</option>
-              <option value="cpp" className="bg-[#161a20] text-white">C++ (GCC)</option>
-              <option value="java" className="bg-[#161a20] text-white">Java</option>
-              <option value="go" className="bg-[#161a20] text-white">Go</option>
-              <option value="rust" className="bg-[#161a20] text-white">Rust</option>
-              <option value="typescript" className="bg-[#161a20] text-white">TypeScript</option>
-              <option value="csharp" className="bg-[#161a20] text-white">C#</option>
-            </select>
+            <div className="relative z-50">
+              <button 
+                onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
+                className="bg-[#0a0c10] border border-[#5ed29c]/30 text-[#5ed29c] text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-lg outline-none flex items-center justify-between w-48 hover:border-[#5ed29c]/60 hover:bg-[#5ed29c]/10 transition-colors"
+              >
+                {languages.find(l => l.id === language)?.label}
+                <ChevronDown size={14} className={`transition-transform ${isLangDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              <AnimatePresence>
+                {isLangDropdownOpen && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute top-full left-0 mt-2 w-full bg-[#161a20] border border-[#5ed29c]/30 rounded-lg shadow-xl overflow-hidden"
+                  >
+                    {languages.map(lang => (
+                      <div 
+                        key={lang.id}
+                        onClick={() => { setLanguage(lang.id); setIsLangDropdownOpen(false); }}
+                        className={`px-4 py-2.5 text-[10px] font-black uppercase tracking-widest cursor-pointer transition-colors ${language === lang.id ? 'bg-[#5ed29c]/20 text-[#5ed29c]' : 'text-white hover:bg-[#5ed29c]/10 hover:text-[#5ed29c]'}`}
+                      >
+                        {lang.label}
+                      </div>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
           
           {/* Code Editor */}
