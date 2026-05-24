@@ -41,8 +41,18 @@ export const BattleArena = () => {
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
   const currentProblem = activeProblems.length > 0 ? activeProblems[currentProblemIndex] : codingProblems[0];
 
-  const [code, setCode] = useState("function solution() {\n  // Write your code here\n  \n}");
   const [language, setLanguage] = useState("javascript");
+  
+  // Use starter code for the current language and problem
+  const [code, setCode] = useState(() => currentProblem.starterCode[language as keyof typeof currentProblem.starterCode] || "function solution() {\n  // Write your code here\n  \n}");
+
+  // Update code when problem or language changes
+  useEffect(() => {
+    if (currentProblem && currentProblem.starterCode && currentProblem.starterCode[language as keyof typeof currentProblem.starterCode]) {
+      setCode(currentProblem.starterCode[language as keyof typeof currentProblem.starterCode]);
+    }
+  }, [currentProblem, language]);
+
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [isExecuting, setIsExecuting] = useState(false);
   const [isReviewing, setIsReviewing] = useState(false);
@@ -267,8 +277,10 @@ try {
             <h2 className="text-3xl font-[900] uppercase tracking-tighter italic mb-6">
               {currentProblem.title || 'Challenge'}
             </h2>
-            <div className="prose prose-invert max-w-none text-white/70 font-medium whitespace-pre-wrap text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: currentProblem.description || currentProblem.questionText || '' }}>
-            </div>
+            <div 
+              className="prose prose-invert max-w-none text-white/70 font-medium whitespace-pre-wrap text-sm leading-relaxed [&>p]:mb-3 [&>p]:mt-0 [&>pre]:my-4 [&>pre]:p-4 [&>pre]:bg-white/5 [&>pre]:rounded-xl [&>ul]:my-3 [&>hstrong]:text-white" 
+              dangerouslySetInnerHTML={{ __html: currentProblem.description || currentProblem.questionText || '' }}
+            />
           </div>
         </div>
 
@@ -295,7 +307,7 @@ try {
                     {languages.map(lang => (
                       <div 
                         key={lang.id}
-                        onClick={() => { setLanguage(lang.id); setIsLangDropdownOpen(false); }}
+                        onClick={() => { setLanguage(lang.id); setCode(currentProblem.starterCode?.[lang.id] || ""); setIsLangDropdownOpen(false); }}
                         className={`px-4 py-2.5 text-[10px] font-black uppercase tracking-widest cursor-pointer transition-colors ${language === lang.id ? 'bg-[#5ed29c]/20 text-[#5ed29c]' : 'text-white hover:bg-[#5ed29c]/10 hover:text-[#5ed29c]'}`}
                       >
                         {lang.label}
@@ -327,9 +339,9 @@ try {
             />
           </div>
 
-          {/* Console / Output */}
-          <div className="h-[250px] border-t border-white/10 bg-[#161a20] flex flex-col">
-            <div className="h-10 border-b border-white/5 flex items-center px-4 gap-2 bg-black/20">
+          {/* Execution Console */}
+          <div className="h-[350px] bg-[#161a20] border-t border-white/5 flex flex-col">
+            <div className="h-10 border-b border-white/5 flex items-center px-4 justify-between bg-black/20">
               <Terminal className="text-white/40 w-3 h-3" />
               <span className="text-[10px] font-black uppercase tracking-widest text-white/40">Execution Console</span>
             </div>
