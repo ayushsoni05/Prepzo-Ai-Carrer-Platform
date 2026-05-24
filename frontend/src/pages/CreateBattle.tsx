@@ -12,7 +12,8 @@ export const CreateBattle = () => {
   const [mode, setMode] = useState<'public' | 'private'>('public');
   const [selectedProblems, setSelectedProblems] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [timeLimit, setTimeLimit] = useState<number | ''>(15);
+  const [timeHours, setTimeHours] = useState<number | ''>(0);
+  const [timeMinutes, setTimeMinutes] = useState<number | ''>(30);
   const [pin, setPin] = useState('');
   
   const [problems, setProblems] = useState<CodingProblem[]>([]);
@@ -45,7 +46,9 @@ export const CreateBattle = () => {
       alert("Please select at least one problem.");
       return;
     }
-    if (!timeLimit || timeLimit < 1) {
+    const h = typeof timeHours === 'number' ? timeHours : 0;
+    const m = typeof timeMinutes === 'number' ? timeMinutes : 0;
+    if (h === 0 && m === 0) {
       alert("Please set a valid time limit.");
       return;
     }
@@ -226,22 +229,39 @@ export const CreateBattle = () => {
               {/* Time Limit */}
               <div>
                 <label className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3 block flex items-center gap-2">
-                  <Clock size={14} /> Time Limit (Minutes)
+                  <Clock size={14} /> Time Limit
                 </label>
-                <div className="flex items-center gap-4 bg-[#0a0c10] p-1 rounded-2xl border border-white/5">
-                  <input 
-                    type="number" 
-                    min="1" 
-                    max="180" 
-                    value={timeLimit}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      setTimeLimit(val === '' ? '' : parseInt(val));
-                    }}
-                    placeholder="Enter minutes"
-                    className="w-full bg-transparent text-white font-mono text-xl outline-none px-4 py-3 placeholder:text-white/10"
-                  />
-                  <span className="font-black uppercase tracking-widest text-white/20 pr-4 text-xs">MINUTES</span>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="flex items-center bg-[#0a0c10] rounded-2xl border border-white/5 relative overflow-hidden focus-within:border-[#5ed29c]/50 transition-colors">
+                    <input 
+                      type="number" 
+                      min="0" 
+                      max="24" 
+                      value={timeHours}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setTimeHours(val === '' ? '' : parseInt(val));
+                      }}
+                      placeholder="0"
+                      className="w-full bg-transparent text-white font-mono text-xl outline-none px-4 py-3 placeholder:text-white/10 text-right"
+                    />
+                    <span className="font-black uppercase tracking-widest text-white/20 pr-4 text-[10px] absolute right-0 pointer-events-none bg-[#0a0c10] py-3 pl-2">HRS</span>
+                  </div>
+                  <div className="flex items-center bg-[#0a0c10] rounded-2xl border border-white/5 relative overflow-hidden focus-within:border-[#5ed29c]/50 transition-colors">
+                    <input 
+                      type="number" 
+                      min="0" 
+                      max="59" 
+                      value={timeMinutes}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setTimeMinutes(val === '' ? '' : parseInt(val));
+                      }}
+                      placeholder="30"
+                      className="w-full bg-transparent text-white font-mono text-xl outline-none px-4 py-3 placeholder:text-white/10 text-right"
+                    />
+                    <span className="font-black uppercase tracking-widest text-white/20 pr-4 text-[10px] absolute right-0 pointer-events-none bg-[#0a0c10] py-3 pl-2">MIN</span>
+                  </div>
                 </div>
               </div>
 
