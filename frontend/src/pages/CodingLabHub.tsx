@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2, ChevronLeft, Trophy, UserCircle, Swords } from 'lucide-react';
+import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2, ChevronLeft, Trophy, UserCircle, Swords, Globe } from 'lucide-react';
 import { getCodingProblems, CodingProblem } from '@/api/codingLab';
 import { GridBeam } from '@/components/ui/background-grid-beam';
 import { useAuthStore } from '@/store/authStore';
@@ -101,6 +101,14 @@ export const CodingLabHub: React.FC = () => {
                   <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">My Profile</span>
                 </button>
              </div>
+             
+             <button 
+                onClick={() => window.location.hash = 'create-battle'}
+                className="w-full px-4 py-3 bg-gradient-to-br from-[#5ed29c]/20 to-[#5ed29c]/5 border border-[#5ed29c]/50 rounded-xl flex items-center justify-center gap-2 hover:bg-[#5ed29c]/30 transition-colors shadow-[0_0_15px_rgba(94,210,156,0.2)] group backdrop-blur-md"
+              >
+                <Swords size={18} className="text-[#5ed29c] group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(94,210,156,0.8)]" />
+                <span className="text-[11px] font-[900] text-[#5ed29c] uppercase tracking-widest italic">Create Custom Battle</span>
+             </button>
 
              <div className="px-6 py-4 rounded-2xl bg-[#0a0c10] border border-white/5 shadow-2xl flex items-center gap-4">
                 <Code2 className="text-[#5ed29c]" />
@@ -166,6 +174,47 @@ export const CodingLabHub: React.FC = () => {
                 {allCompanies.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
+          </div>
+        </div>
+
+        {/* Live Public Lobbies */}
+        <div className="bg-[#161a20] border border-white/5 rounded-[40px] p-8 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+            <Globe size={150} />
+          </div>
+          <div className="flex items-center gap-3 mb-8 relative z-10">
+            <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]" />
+            <h2 className="text-2xl font-[900] text-white uppercase tracking-tight italic">Live Public Lobbies</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
+            {/* Dummy Data for Live Lobbies - Will be connected to WebSockets later */}
+            {[
+              { id: '1', host: 'Alex R.', problem: 'Two Sum', time: 15 },
+              { id: '2', host: 'Sarah C.', problem: 'LRU Cache', time: 30 },
+              { id: '3', host: 'David M.', problem: 'Merge K Lists', time: 45 },
+            ].map(lobby => (
+              <div key={lobby.id} className="bg-[#0a0c10] border border-white/10 rounded-2xl p-6 hover:border-[#5ed29c]/50 transition-all group">
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-1">Hosted By</p>
+                    <p className="font-[900] text-white">{lobby.host}</p>
+                  </div>
+                  <span className="px-2 py-1 bg-white/5 border border-white/10 rounded text-[9px] font-black uppercase tracking-widest text-[#5ed29c]">Public</span>
+                </div>
+                <div className="mb-6">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-1">Mission Objective</p>
+                  <p className="text-sm font-bold text-blue-400 truncate">{lobby.problem}</p>
+                  <p className="text-[10px] font-bold text-white/60 mt-1">{lobby.time} Minutes Limit</p>
+                </div>
+                <button 
+                  onClick={() => window.location.hash = `battle/invite/${lobby.id}`}
+                  className="w-full py-3 bg-white/5 hover:bg-[#5ed29c] hover:text-black border border-white/10 text-white font-[900] uppercase tracking-widest text-[10px] rounded-xl transition-all shadow-lg group-hover:shadow-[#5ed29c]/20"
+                >
+                  Join Battle
+                </button>
+              </div>
+            ))}
           </div>
         </div>
 

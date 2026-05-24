@@ -36,6 +36,8 @@ import Profile from '@/pages/Profile';
 import Leaderboard from '@/pages/Leaderboard';
 import { RecruiterDashboard } from '@/pages/RecruiterDashboard';
 import { BattleArena } from '@/pages/BattleArena';
+import { CreateBattle } from '@/pages/CreateBattle';
+import { JoinBattle } from '@/pages/JoinBattle';
 
 const PageTransition = ({ children, pageKey }: { children: React.ReactNode, pageKey: string }) => (
   <motion.div
@@ -50,7 +52,7 @@ const PageTransition = ({ children, pageKey }: { children: React.ReactNode, page
   </motion.div>
 );
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'portfolio' | 'leaderboard' | 'battle' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'portfolio' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | '404';
 
 // Get initial page from URL hash or default to 'landing'
 const getPageFromHash = (): Page => {
@@ -64,8 +66,9 @@ const getPageFromHash = (): Page => {
   const pageName = hash.split('?')[0];
   
   if (pageName.startsWith('portfolio/')) return 'portfolio';
+  if (pageName.startsWith('battle/invite/')) return 'join-battle';
   
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'leaderboard', 'battle'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'leaderboard', 'battle', 'create-battle', 'join-battle'];
   return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 
@@ -129,7 +132,7 @@ export default function App() {
     
     const initializeAuth = async () => {
       // Only validate session if user is trying to access a protected page
-      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle'];
+      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle', 'create-battle', 'join-battle'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
       // Safety check: if we think we're authenticated but have no token, sync state
@@ -273,7 +276,9 @@ export default function App() {
         'note-detail',
         'question-bank',
         'reader',
-        'battle'
+        'battle',
+        'create-battle',
+        'join-battle'
       ].includes(currentPage)) {
         handleNavigate('landing');
       }
@@ -455,6 +460,8 @@ export default function App() {
           {currentPage === 'leaderboard' && <PageTransition pageKey="leaderboard"><Leaderboard /></PageTransition>}
           {currentPage === 'star-builder' && <PageTransition pageKey="star"><StarStoryBuilder /></PageTransition>}
           {currentPage === 'reader' && <PageTransition pageKey="reader"><PdfReaderPage /></PageTransition>}
+          {currentPage === 'create-battle' && <PageTransition pageKey="create-battle"><CreateBattle /></PageTransition>}
+          {currentPage === 'join-battle' && <PageTransition pageKey="join-battle"><JoinBattle /></PageTransition>}
           {currentPage === 'battle' && <PageTransition pageKey="battle"><BattleArena /></PageTransition>}
           {currentPage === '404' && <PageTransition pageKey="404"><NotFound onNavigate={handleNavigate} /></PageTransition>}
         </AnimatePresence>

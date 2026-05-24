@@ -16,6 +16,13 @@ interface SocketState {
   cancelMatch: (userId: string) => void;
   sendProgress: (progress: number) => void;
   submitBattle: (success: boolean, passed: number, total: number) => void;
+  
+  // Custom Room Methods
+  createCustomRoom: (config: any) => void;
+  joinCustomRoom: (roomId: string, pin?: string) => void;
+  acceptJoinRequest: (guestId: string) => void;
+  declineJoinRequest: (guestId: string) => void;
+
   resetState: () => void;
 }
 
@@ -84,6 +91,30 @@ export const useSocketStore = create<SocketState>((set, get) => ({
       });
     });
 
+    // Custom Room Events
+    newSocket.on('custom_room_created', (data: { roomId: string }) => {
+      set({ roomId: data.roomId, matchStatus: 'idle' });
+    });
+
+    newSocket.on('join_request_received', (data: { guest: any }) => {
+      // Typically you'd trigger a UI modal here via an event emitter or dedicated state
+      console.log('Join request from:', data.guest);
+    });
+
+    newSocket.on('join_request_accepted', (data: { roomId: string, opponent: any }) => {
+      set({ 
+        matchStatus: 'matched', 
+        roomId: data.roomId, 
+        opponent: data.opponent 
+      });
+      setTimeout(() => set({ matchStatus: 'in_battle' }), 3000);
+    });
+
+    newSocket.on('join_request_declined', () => {
+      set({ matchStatus: 'idle' });
+      alert("The host declined your join request.");
+    });
+
     set({ socket: newSocket });
   },
 
@@ -121,6 +152,26 @@ export const useSocketStore = create<SocketState>((set, get) => ({
     if (socket && roomId) {
       socket.emit('battle_submit', { roomId, success, testCasesPassed: passed, totalTestCases: total });
     }
+  },
+
+  createCustomRoom: (config) => {
+    const { socket } = get();
+    if (socket) socket.emit('create_custom_room', config);
+  },
+
+  joinCustomRoom: (roomId, pin) => {
+    const { socket, user } = get() as any;
+    if (socket) socket.emit('join_custom_room', { roomId, pin, user });
+  },
+
+  acceptJoinRequest: (guestId) => {
+    const { socket, roomId } = get();
+    if (socket && roomId) socket.emit('accept_join_request', { roomId, guestId });
+  },
+
+  declineJoinRequest: (guestId) => {
+    const { socket, roomId } = get();
+    if (socket && roomId) socket.emit('decline_join_request', { roomId, guestId });
   },
 
   resetState: () => {
