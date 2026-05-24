@@ -125,13 +125,13 @@ export const RecruiterDashboard = () => {
                 ) : candidates.map((candidate: any) => (
                   <tr 
                     key={candidate._id} 
-                    className={\`hover:bg-white/5 transition-all cursor-pointer group \${selectedCandidate?._id === candidate._id ? 'bg-[#5ed29c]/5 border-l-4 border-l-[#5ed29c]' : 'border-l-4 border-l-transparent'}\`}
+                    className={`hover:bg-white/5 transition-all cursor-pointer group ${selectedCandidate?._id === candidate._id ? 'bg-[#5ed29c]/5 border-l-4 border-l-[#5ed29c]' : 'border-l-4 border-l-transparent'}`}
                     onClick={() => handleSelectCandidate(candidate)}
                   >
                     <td className="py-5 px-6">
                       <div className="flex items-center gap-4">
                         <img 
-                          src={candidate.avatar || \`https://api.dicebear.com/7.x/avataaars/svg?seed=\${candidate.fullName}\`} 
+                          src={candidate.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${candidate.fullName}`} 
                           alt="" 
                           className="w-12 h-12 rounded-2xl border border-white/10 bg-black/50"
                         />
@@ -195,7 +195,7 @@ export const RecruiterDashboard = () => {
               <div className="p-8 border-b border-white/5 bg-gradient-to-b from-[#5ed29c]/5 to-transparent">
                 <div className="flex items-start justify-between mb-6">
                   <img 
-                    src={selectedCandidate.avatar || \`https://api.dicebear.com/7.x/avataaars/svg?seed=\${selectedCandidate.fullName}\`} 
+                    src={selectedCandidate.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${selectedCandidate.fullName}`} 
                     alt="" 
                     className="w-24 h-24 rounded-3xl border-2 border-[#5ed29c] shadow-[0_0_20px_rgba(94,210,156,0.3)] bg-black"
                   />
