@@ -65,7 +65,7 @@ export const CreateBattle = () => {
     setJoinRequest(null);
     setHasStarted(true);
     setTimeout(() => {
-      navigate('/battle');
+      window.location.hash = 'battle';
     }, 2000);
   };
 
@@ -81,7 +81,7 @@ export const CreateBattle = () => {
 
       <div className="w-full max-w-2xl relative z-10">
         <button 
-          onClick={() => navigate('/coding-lab')}
+          onClick={() => window.location.hash = 'coding-lab'}
           className="flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-8 text-[10px] font-black uppercase tracking-widest"
         >
           <ArrowLeft size={16} /> Back to Lab
@@ -275,7 +275,7 @@ export const CreateBattle = () => {
             <button 
               onClick={() => {
                 // Manual fallback for demo purposes
-                navigate(`/battle`);
+                window.location.hash = 'battle';
               }}
               className="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl font-[900] uppercase tracking-widest text-xs transition-colors"
             >

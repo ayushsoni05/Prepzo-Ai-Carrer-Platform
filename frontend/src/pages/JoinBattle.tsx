@@ -41,7 +41,7 @@ export const JoinBattle = () => {
       
       // Route to battle arena after a brief celebration
       setTimeout(() => {
-        navigate(`/battle`);
+        window.location.hash = 'battle';
       }, 2000);
     }, 4000);
   };
@@ -54,7 +54,7 @@ export const JoinBattle = () => {
 
       <div className="w-full max-w-md relative z-10">
         <button 
-          onClick={() => navigate('/coding-lab')}
+          onClick={() => window.location.hash = 'coding-lab'}
           className="flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-8 text-[10px] font-black uppercase tracking-widest"
         >
           <ArrowLeft size={16} /> Back to Lab
