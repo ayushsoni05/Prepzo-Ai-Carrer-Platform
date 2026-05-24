@@ -243,8 +243,8 @@ try {
       {/* Main 3-Panel Arena */}
       <div className="flex-1 flex overflow-hidden">
         
-        {/* Panel 1: Problem Statement (25%) */}
-        <div className="w-[25%] border-r border-white/10 bg-[#161a20]/50 flex flex-col shrink-0">
+        {/* Panel 1: Problem Statement (35%) */}
+        <div className="w-[35%] border-r border-white/10 bg-[#161a20]/50 flex flex-col shrink-0">
           <div className="p-4 border-b border-white/5 flex items-center gap-2">
             <Activity className="text-white/40 w-4 h-4" />
             <span className="text-[10px] font-black uppercase tracking-widest text-white/40">Mission Briefing</span>
@@ -278,13 +278,13 @@ try {
               {currentProblem.title || 'Challenge'}
             </h2>
             <div 
-              className="prose prose-invert max-w-none text-white/70 font-medium whitespace-pre-wrap text-sm leading-relaxed [&>p]:mb-2 [&>p]:mt-0 [&>p:empty]:hidden [&>pre]:mt-2 [&>pre]:mb-6 [&>pre]:p-4 [&>pre]:bg-white/5 [&>pre]:rounded-xl [&>ul]:my-2 [&>hstrong]:text-white" 
+              className="text-white/70 font-medium whitespace-pre-wrap text-[13px] leading-relaxed [&_p]:my-1 [&_p:empty]:hidden [&_pre]:mt-1 [&_pre]:mb-3 [&_pre]:p-3 [&_pre]:bg-white/5 [&_pre]:rounded-xl [&_pre]:text-white/90 [&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-4 [&_strong]:text-white" 
               dangerouslySetInnerHTML={{ __html: (currentProblem.description || currentProblem.questionText || '').replace(/<p>\s*&nbsp;\s*<\/p>/g, '') }}
             />
           </div>
         </div>
 
-        {/* Panel 2: Code Editor & Console (40%) */}
+        {/* Panel 2: Code Editor & Console (flex-1) */}
         <div className="flex-1 flex flex-col bg-[#0a0c10] border-r border-white/10">
           <div className="h-12 border-b border-white/5 flex items-center px-4 bg-[#161a20]">
             <div className="relative z-50">
@@ -379,8 +379,8 @@ try {
           </div>
         </div>
 
-        {/* Panel 3: Senior AI Reviewer (25%) */}
-        <div className="w-[25%] bg-[#161a20] flex flex-col shrink-0">
+        {/* Panel 3: Senior AI Reviewer (30%) */}
+        <div className="w-[30%] bg-[#161a20] flex flex-col shrink-0">
           <div className="p-4 border-b border-white/5 flex items-center gap-2 bg-purple-500/5">
             <BrainCircuit className="text-purple-400 w-4 h-4" />
             <span className="text-[10px] font-black uppercase tracking-widest text-purple-400">Senior AI Code Review</span>
