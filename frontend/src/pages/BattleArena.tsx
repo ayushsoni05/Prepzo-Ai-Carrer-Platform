@@ -278,13 +278,13 @@ try {
               {currentProblem.title || 'Challenge'}
             </h2>
             <div 
-              className="prose prose-invert max-w-none text-white/70 font-medium whitespace-pre-wrap text-sm leading-relaxed [&>p]:mb-3 [&>p]:mt-0 [&>pre]:my-4 [&>pre]:p-4 [&>pre]:bg-white/5 [&>pre]:rounded-xl [&>ul]:my-3 [&>hstrong]:text-white" 
-              dangerouslySetInnerHTML={{ __html: currentProblem.description || currentProblem.questionText || '' }}
+              className="prose prose-invert max-w-none text-white/70 font-medium whitespace-pre-wrap text-sm leading-relaxed [&>p]:mb-2 [&>p]:mt-0 [&>p:empty]:hidden [&>pre]:mt-2 [&>pre]:mb-6 [&>pre]:p-4 [&>pre]:bg-white/5 [&>pre]:rounded-xl [&>ul]:my-2 [&>hstrong]:text-white" 
+              dangerouslySetInnerHTML={{ __html: (currentProblem.description || currentProblem.questionText || '').replace(/<p>\s*&nbsp;\s*<\/p>/g, '') }}
             />
           </div>
         </div>
 
-        {/* Panel 2: Code Editor & Console (50%) */}
+        {/* Panel 2: Code Editor & Console (40%) */}
         <div className="flex-1 flex flex-col bg-[#0a0c10] border-r border-white/10">
           <div className="h-12 border-b border-white/5 flex items-center px-4 bg-[#161a20]">
             <div className="relative z-50">
@@ -323,24 +323,23 @@ try {
           <div className="flex-1 relative pt-2">
             <Editor
               height="100%"
-              language={language}
+              language={language === 'csharp' ? 'csharp' : language === 'cpp' ? 'cpp' : language}
               theme="vs-dark"
               value={code}
-              onChange={(val) => setCode(val || "")}
+              onChange={(value) => setCode(value || '')}
               options={{
                 minimap: { enabled: false },
                 fontSize: 14,
-                fontFamily: 'JetBrains Mono, monospace',
                 padding: { top: 16 },
                 scrollBeyondLastLine: false,
-                roundedSelection: false,
-                scrollbar: { useShadows: false, verticalScrollbarSize: 8 }
+                lineHeight: 24,
+                fontFamily: "'JetBrains Mono', 'Fira Code', monospace"
               }}
             />
           </div>
 
           {/* Execution Console */}
-          <div className="h-[350px] bg-[#161a20] border-t border-white/5 flex flex-col">
+          <div className="h-[400px] bg-[#161a20] border-t border-white/5 flex flex-col">
             <div className="h-10 border-b border-white/5 flex items-center px-4 justify-between bg-black/20">
               <Terminal className="text-white/40 w-3 h-3" />
               <span className="text-[10px] font-black uppercase tracking-widest text-white/40">Execution Console</span>
