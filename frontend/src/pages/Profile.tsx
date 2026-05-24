@@ -6,6 +6,7 @@ import { Trophy, Code2, Flame, Award, Loader2, ChevronLeft } from 'lucide-react'
 import api from '../api/axios';
 import { GridBeam } from '@/components/ui/background-grid-beam';
 import Tilt from 'react-parallax-tilt';
+import { Linkedin, Sparkles, Copy, CheckCircle2 } from 'lucide-react';
 
 interface ProfileData {
   fullName: string;
@@ -39,6 +40,9 @@ const Profile = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isGeneratingPost, setIsGeneratingPost] = useState(false);
+  const [linkedinPost, setLinkedinPost] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -97,6 +101,26 @@ const Profile = () => {
       level: count === 0 ? 0 : count < 3 ? 1 : count < 5 ? 2 : count < 8 ? 3 : 4
     });
   }
+
+  const handleGenerateLinkedInPost = () => {
+    setIsGeneratingPost(true);
+    setLinkedinPost(null);
+    setCopied(false);
+    
+    // Simulate AI Generation
+    setTimeout(() => {
+      setLinkedinPost(`🚀 Just hit a massive milestone on @Prepzo!\n\nI've officially reached ${rank.title} Rank with a ${profile.streak}-day coding streak and over ${profile.stats.totalSolved} Data Structures & Algorithms problems solved. 💻🔥\n\nMy top tech stack right now is firing on all cylinders, and I've been mastering complex architectures in the Battle Arena.\n\nBig shoutout to the AI tools on Prepzo for keeping my code sharp and my ATS score in the 90s.\n\nWho else is grinding today? Let's connect! 👇\n\n#SoftwareEngineering #WebDevelopment #Prepzo #CodingJourney #BuildInPublic`);
+      setIsGeneratingPost(false);
+    }, 2000);
+  };
+
+  const handleCopyPost = () => {
+    if (linkedinPost) {
+      navigator.clipboard.writeText(linkedinPost);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#0a0c10] text-white font-rubik selection:bg-[#5ed29c] selection:text-black relative overflow-hidden">
@@ -189,6 +213,53 @@ const Profile = () => {
               ) : (
                 <p className="text-white/30 text-center py-4 text-[10px] uppercase font-bold tracking-widest">No badges earned yet.</p>
               )}
+            </div>
+
+            {/* LinkedIn Branding Studio */}
+            <div className="bg-[#161a20] rounded-[36px] p-8 border border-blue-500/20 shadow-[0_0_30px_rgba(59,130,246,0.1)] hover:border-blue-500/40 transition-all group relative overflow-hidden">
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-500/10 blur-[50px] rounded-full pointer-events-none" />
+              <div className="flex items-center gap-3 mb-6 relative z-10">
+                <div className="w-10 h-10 rounded-xl bg-[#0a66c2]/20 flex items-center justify-center border border-[#0a66c2]/30">
+                  <Linkedin className="w-5 h-5 text-[#0a66c2]" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-[900] text-white uppercase tracking-tight italic">Branding Studio</h2>
+                  <p className="text-[9px] font-black uppercase tracking-widest text-[#0a66c2]">Viral AI Post Generator</p>
+                </div>
+              </div>
+
+              <div className="relative z-10">
+                {!linkedinPost ? (
+                  <div className="text-center">
+                    <p className="text-xs text-white/50 leading-relaxed font-medium mb-6">
+                      Turn your Battle Arena victories and coding streaks into viral LinkedIn content with 1 click.
+                    </p>
+                    <button 
+                      onClick={handleGenerateLinkedInPost}
+                      disabled={isGeneratingPost}
+                      className="w-full py-4 bg-[#0a66c2] hover:bg-[#004182] text-white font-[900] uppercase tracking-widest text-[11px] rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(10,102,194,0.3)]"
+                    >
+                      {isGeneratingPost ? (
+                        <><Loader2 className="w-4 h-4 animate-spin" /> Drafting Viral Post...</>
+                      ) : (
+                        <><Sparkles className="w-4 h-4" /> Generate LinkedIn Post</>
+                      )}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <div className="bg-[#0a0c10] border border-white/10 rounded-2xl p-5 relative group/post">
+                      <p className="text-sm text-white/80 whitespace-pre-wrap font-medium">{linkedinPost}</p>
+                    </div>
+                    <button 
+                      onClick={handleCopyPost}
+                      className={`w-full py-4 font-[900] uppercase tracking-widest text-[11px] rounded-xl transition-all flex items-center justify-center gap-2 ${copied ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'}`}
+                    >
+                      {copied ? <><CheckCircle2 className="w-4 h-4" /> Copied to Clipboard!</> : <><Copy className="w-4 h-4" /> Copy for LinkedIn</>}
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
