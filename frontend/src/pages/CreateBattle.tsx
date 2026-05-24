@@ -1,17 +1,33 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Swords, ShieldAlert, Globe, Lock, Clock, BookOpen, KeyRound, ChevronRight, ArrowLeft } from 'lucide-react';
+import { Swords, ShieldAlert, Globe, Lock, Clock, BookOpen, KeyRound, ChevronRight, ArrowLeft, Search, CheckSquare, Square } from 'lucide-react';
 import { useSocketStore } from '@/store/socketStore';
+import { getCodingProblems, CodingProblem } from '@/api/codingLab';
 
 export const CreateBattle = () => {
   const navigate = useNavigate();
   const { socket } = useSocketStore();
   
   const [mode, setMode] = useState<'public' | 'private'>('public');
-  const [problemId, setProblemId] = useState('two-sum');
-  const [timeLimit, setTimeLimit] = useState(15);
+  const [selectedProblems, setSelectedProblems] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [timeLimit, setTimeLimit] = useState<number | ''>(15);
   const [pin, setPin] = useState('');
+  
+  const [problems, setProblems] = useState<CodingProblem[]>([]);
+
+  React.useEffect(() => {
+    const fetchProblems = async () => {
+      try {
+        const data = await getCodingProblems();
+        setProblems(data);
+      } catch (err) {
+        console.error('Failed to load problems:', err);
+      }
+    };
+    fetchProblems();
+  }, []);
   
   const [isCreating, setIsCreating] = useState(false);
   const [createdRoom, setCreatedRoom] = useState<{ roomId: string, isPrivate: boolean } | null>(null);
@@ -20,16 +36,17 @@ export const CreateBattle = () => {
   const [joinRequest, setJoinRequest] = useState<{ guestName: string, guestId: string } | null>(null);
   const [hasStarted, setHasStarted] = useState(false);
 
-  const problems = [
-    { id: 'two-sum', title: 'Two Sum', difficulty: 'Easy' },
-    { id: 'reverse-linked-list', title: 'Reverse Linked List', difficulty: 'Easy' },
-    { id: 'lru-cache', title: 'LRU Cache', difficulty: 'Medium' },
-    { id: 'merge-k-lists', title: 'Merge K Sorted Lists', difficulty: 'Hard' }
-  ];
-
   const handleCreate = () => {
     if (mode === 'private' && pin.length !== 4) {
       alert("Please enter a 4-digit PIN for private rooms.");
+      return;
+    }
+    if (selectedProblems.length === 0) {
+      alert("Please select at least one problem.");
+      return;
+    }
+    if (!timeLimit || timeLimit < 1) {
+      alert("Please set a valid time limit.");
       return;
     }
     
@@ -151,45 +168,80 @@ export const CreateBattle = () => {
 
               {/* Problem Selection */}
               <div>
-                <label className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3 block flex items-center gap-2">
-                  <BookOpen size={14} /> Mission Objective
+                <label className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3 block flex items-center justify-between">
+                  <div className="flex items-center gap-2"><BookOpen size={14} /> Mission Objectives</div>
+                  <span className="text-[#5ed29c]">{selectedProblems.length} Selected</span>
                 </label>
-                <div className="bg-[#0a0c10] border border-white/5 rounded-2xl p-2 max-h-[200px] overflow-y-auto custom-scrollbar">
-                  {problems.map((p) => (
-                    <div 
-                      key={p.id}
-                      onClick={() => setProblemId(p.id)}
-                      className={`flex items-center justify-between p-4 rounded-xl cursor-pointer transition-colors ${problemId === p.id ? 'bg-blue-500/10 border border-blue-500/30' : 'hover:bg-white/5 border border-transparent'}`}
-                    >
-                      <span className={`font-bold text-sm ${problemId === p.id ? 'text-blue-400' : 'text-white'}`}>{p.title}</span>
-                      <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded border ${
-                        p.difficulty === 'Easy' ? 'text-[#5ed29c] border-[#5ed29c]/20 bg-[#5ed29c]/10' :
-                        p.difficulty === 'Medium' ? 'text-yellow-400 border-yellow-400/20 bg-yellow-400/10' :
-                        'text-red-400 border-red-400/20 bg-red-400/10'
-                      }`}>
-                        {p.difficulty}
-                      </span>
-                    </div>
-                  ))}
+                
+                <div className="bg-[#0a0c10] border border-white/5 rounded-2xl p-2 relative">
+                  <div className="relative mb-2">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20" size={14} />
+                    <input 
+                      type="text"
+                      placeholder="Search problems..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full bg-[#161a20] border border-white/5 rounded-xl py-2 pl-9 pr-4 text-[11px] font-bold text-white placeholder:text-white/20 focus:outline-none focus:border-[#5ed29c]/30 transition-all uppercase tracking-wider"
+                    />
+                  </div>
+                  
+                  <div className="max-h-[200px] overflow-y-auto custom-scrollbar space-y-1">
+                    {problems
+                      .filter(p => p.title.toLowerCase().includes(searchQuery.toLowerCase()) || p.companyTags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase())))
+                      .map((p) => {
+                        const isSelected = selectedProblems.includes(p.id);
+                        return (
+                          <div 
+                            key={p.id}
+                            onClick={() => {
+                              setSelectedProblems(prev => 
+                                prev.includes(p.id) 
+                                  ? prev.filter(id => id !== p.id)
+                                  : [...prev, p.id]
+                              );
+                            }}
+                            className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-colors ${isSelected ? 'bg-[#5ed29c]/10 border border-[#5ed29c]/30' : 'hover:bg-white/5 border border-transparent'}`}
+                          >
+                            {isSelected ? <CheckSquare size={16} className="text-[#5ed29c]" /> : <Square size={16} className="text-white/20" />}
+                            <div className="flex-1">
+                              <span className={`font-bold text-sm ${isSelected ? 'text-[#5ed29c]' : 'text-white'}`}>{p.title}</span>
+                            </div>
+                            <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded border ${
+                              p.difficulty === 'Easy' ? 'text-green-400 border-green-400/20 bg-green-400/5' :
+                              p.difficulty === 'Medium' ? 'text-yellow-400 border-yellow-400/20 bg-yellow-400/5' :
+                              'text-red-400 border-red-400/20 bg-red-400/5'
+                            }`}>
+                              {p.difficulty}
+                            </span>
+                          </div>
+                        );
+                      })}
+                      {problems.length > 0 && problems.filter(p => p.title.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && (
+                        <div className="p-4 text-center text-xs text-white/30 font-bold uppercase tracking-widest">No matching problems found</div>
+                      )}
+                  </div>
                 </div>
               </div>
 
               {/* Time Limit */}
               <div>
                 <label className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3 block flex items-center gap-2">
-                  <Clock size={14} /> Time Limit
+                  <Clock size={14} /> Time Limit (Minutes)
                 </label>
-                <div className="flex items-center gap-4 bg-[#0a0c10] p-4 rounded-2xl border border-white/5">
+                <div className="flex items-center gap-4 bg-[#0a0c10] p-1 rounded-2xl border border-white/5">
                   <input 
-                    type="range" 
-                    min="5" 
-                    max="60" 
-                    step="5"
+                    type="number" 
+                    min="1" 
+                    max="180" 
                     value={timeLimit}
-                    onChange={(e) => setTimeLimit(parseInt(e.target.value))}
-                    className="flex-1 accent-[#5ed29c]"
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setTimeLimit(val === '' ? '' : parseInt(val));
+                    }}
+                    placeholder="Enter minutes"
+                    className="w-full bg-transparent text-white font-mono text-xl outline-none px-4 py-3 placeholder:text-white/10"
                   />
-                  <span className="font-mono font-bold text-[#5ed29c] min-w-[60px] text-right">{timeLimit} min</span>
+                  <span className="font-black uppercase tracking-widest text-white/20 pr-4 text-xs">MINUTES</span>
                 </div>
               </div>
 
