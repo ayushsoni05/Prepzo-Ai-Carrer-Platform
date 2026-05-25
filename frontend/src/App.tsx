@@ -128,6 +128,18 @@ export default function App() {
     }
   }, []);
 
+  // Handle auth token expiration event from axios interceptor
+  useEffect(() => {
+    const handleAuthExpired = () => {
+      useAuthStore.getState().logout();
+      handleNavigate('landing');
+      toast.error('Session expired. Please log in again.');
+      setAuthValidated(false);
+    };
+    window.addEventListener('auth-token-expired', handleAuthExpired);
+    return () => window.removeEventListener('auth-token-expired', handleAuthExpired);
+  }, [currentPage]);
+
   // Fetch user data on app initialization (with guard against React Strict Mode double-call)
   useEffect(() => {
     if (initRef.current) return;

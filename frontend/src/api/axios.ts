@@ -180,6 +180,9 @@ function clearAuthData(): void {
   
   // Clear any session storage
   sessionStorage.clear();
+  
+  // Dispatch event so React app knows to update in-memory state
+  window.dispatchEvent(new Event('auth-token-expired'));
 }
 
 /**
