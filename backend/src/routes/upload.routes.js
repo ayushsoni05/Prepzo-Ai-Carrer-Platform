@@ -17,10 +17,15 @@ const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, '../../uploads/resumes');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+// Ensure uploads directories exist
+const resumeUploadsDir = path.join(__dirname, '../../uploads/resumes');
+if (!fs.existsSync(resumeUploadsDir)) {
+  fs.mkdirSync(resumeUploadsDir, { recursive: true });
+}
+
+const imageUploadsDir = path.join(__dirname, '../../uploads/images');
+if (!fs.existsSync(imageUploadsDir)) {
+  fs.mkdirSync(imageUploadsDir, { recursive: true });
 }
 
 /**
@@ -56,10 +61,10 @@ const isBlockedExtension = (filename) => {
   return securityConfig.upload.blockedExtensions.includes(ext);
 };
 
-// Configure multer storage
+// Configure multer storage for resumes
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, uploadsDir);
+    cb(null, resumeUploadsDir);
   },
   filename: (req, file, cb) => {
     const userId = req.user?.id || 'unknown';
@@ -158,11 +163,7 @@ const imageFileFilter = (req, file, cb) => {
 const uploadImage = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      const imagesDir = path.join(__dirname, '../../uploads/images');
-      if (!fs.existsSync(imagesDir)) {
-        fs.mkdirSync(imagesDir, { recursive: true });
-      }
-      cb(null, imagesDir);
+      cb(null, imageUploadsDir);
     },
     filename: (req, file, cb) => {
       const userId = req.user?.id || 'unknown';
