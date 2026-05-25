@@ -169,8 +169,9 @@ app.use('/uploads', (req, res, next) => {
   // Add security headers for file downloads
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('Content-Disposition', 'inline');
-  // Add CORS headers for PDF.js to load PDFs cross-origin
+  // Add CORS headers for PDF.js and Images to load cross-origin
   res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
   next();
 }, express.static(resolvedUploadsPath));
 
