@@ -10,6 +10,18 @@ const userSchema = new mongoose.Schema({
     trim: true,
     minlength: 2,
   },
+  pronouns: {
+    type: String,
+    default: '',
+  },
+  headline: {
+    type: String,
+    default: '',
+  },
+  industry: {
+    type: String,
+    default: '',
+  },
   email: {
     type: String,
     required: [true, 'Email is required'],
@@ -109,6 +121,17 @@ const userSchema = new mongoose.Schema({
     link: { type: String, default: '' },
     technologies: { type: [String], default: [] }
   }],
+  certifications: [{
+    name: { type: String, required: true },
+    issuer: { type: String, required: true },
+    issueDate: { type: String, default: '' },
+    credentialId: { type: String, default: '' },
+    credentialUrl: { type: String, default: '' }
+  }],
+  languages: {
+    type: [String],
+    default: [],
+  },
   knownTechnologies: {
     type: [String],
     default: [],

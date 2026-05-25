@@ -56,6 +56,11 @@ export const updateProfile = async (req, res) => {
       'experiences',
       'portfolioProjects',
       'settings',
+      'pronouns',
+      'headline',
+      'industry',
+      'languages',
+      'certifications',
     ];
 
     // Update only provided fields
