@@ -31,8 +31,19 @@ import {
   Layers,
   TrendingUp,
   Code,
-  Star
+  Star,
+  Settings,
+  LogOut,
+  UserCircle
 } from 'lucide-react';
+import { getFileUrl } from '@/utils/fileUrl';
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownContent,
+  DropdownItem,
+  DropdownSeparator
+} from '@/components/ui/basic-dropdown';
 import { type Job } from '@/api/jobs';
 import { showSuccess, showError } from '@/utils/toastManager';
 import { GlassButton, GlassCard } from '@/components/ui/GlassCard';
@@ -1352,9 +1363,53 @@ export function Dashboard() {
                   <p className="text-xs font-[900] text-white uppercase tracking-[0.1em] leading-none">{user?.fullName}</p>
                   <p className="text-[9px] font-[900] text-white/20 uppercase tracking-[0.2em] mt-1 italic">{user?.targetRole || 'Engineer'}</p>
                 </div>
-                <div className="w-10 h-10 rounded-xl bg-black border border-white/10 flex items-center justify-center font-[900] text-white text-xs uppercase shadow-lg shadow-[#5ed29c]/5">
-                  {user?.fullName?.charAt(0)}
-                </div>
+                <Dropdown>
+                  <DropdownTrigger className="cursor-pointer outline-none">
+                    <div className="w-10 h-10 rounded-xl bg-black border border-white/10 flex items-center justify-center font-[900] text-white text-xs uppercase shadow-lg shadow-[#5ed29c]/5 hover:border-[#5ed29c]/30 transition-all overflow-hidden relative">
+                       {user?.avatar ? (
+                         <img src={getFileUrl(user.avatar)} className="w-full h-full object-cover" alt="Avatar" />
+                       ) : (
+                         user?.fullName?.charAt(0)
+                       )}
+                    </div>
+                  </DropdownTrigger>
+                  <DropdownContent align="end" className="w-64 bg-[#0a0c10] border-white/10 shadow-2xl p-2 rounded-xl mt-2">
+                    <div className="flex items-center gap-3 p-3 mb-1">
+                      <div className="w-10 h-10 rounded-full bg-black border border-white/10 flex items-center justify-center font-[900] text-white text-xs uppercase overflow-hidden shrink-0">
+                         {user?.avatar ? (
+                           <img src={getFileUrl(user.avatar)} className="w-full h-full object-cover" alt="Avatar" />
+                         ) : (
+                           user?.fullName?.charAt(0)
+                         )}
+                      </div>
+                      <div className="flex flex-col gap-0.5 overflow-hidden">
+                        <p className="text-[13px] font-bold text-white truncate w-full">
+                          {user?.fullName}
+                        </p>
+                        <p className="text-[10px] font-medium text-white/40 truncate w-full">
+                          {user?.email}
+                        </p>
+                      </div>
+                    </div>
+                    <DropdownSeparator className="bg-white/5 mx-2 my-2" />
+                    
+                    <DropdownItem className="gap-3 py-2.5 px-3 rounded-lg text-white/70 hover:text-white" onClick={() => navigateTo('portfolio')}>
+                      <UserCircle className="w-4 h-4" />
+                      <span className="font-bold text-[12px] uppercase tracking-wider">Profile</span>
+                    </DropdownItem>
+                    <DropdownItem className="gap-3 py-2.5 px-3 rounded-lg text-white/70 hover:text-white" onClick={() => navigateTo('settings')}>
+                      <Settings className="w-4 h-4" />
+                      <span className="font-bold text-[12px] uppercase tracking-wider">Settings</span>
+                    </DropdownItem>
+                    
+                    <DropdownSeparator className="bg-white/5 mx-2 my-2" />
+                    
+                    <DropdownItem className="gap-3 py-2.5 px-3 rounded-lg hover:bg-red-500/10 text-red-500" destructive onClick={() => { logout(); navigateTo('landing'); }}>
+                      <LogOut className="w-4 h-4" />
+                      <span className="font-bold text-[12px] uppercase tracking-wider">Sign out</span>
+                    </DropdownItem>
+                  </DropdownContent>
+                </Dropdown>
               </div>
             </header>
             
