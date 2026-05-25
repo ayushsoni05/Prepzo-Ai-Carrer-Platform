@@ -16,8 +16,8 @@ import {
   Megaphone
 } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
-import ThemeToggle from '@/components/ui/ThemeToggle';
-import ThinkingLoader from '@/components/ui/loading';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { ThinkingLoader } from '@/components/ui/loading';
 import toast from 'react-hot-toast';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
