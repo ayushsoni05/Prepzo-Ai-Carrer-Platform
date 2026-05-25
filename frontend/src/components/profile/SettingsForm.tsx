@@ -190,9 +190,10 @@ export function SettingsForm() {
         setFormData((prev) => ({ ...prev, [type]: response.imageUrl }));
         toast.success(`${type === 'avatar' ? 'Profile' : 'Cover'} photo uploaded`);
       }
-    } catch (error) {
-      console.error(`Failed to upload ${type}:`, error);
-      toast.error(`Failed to upload ${type === 'avatar' ? 'Profile' : 'Cover'} photo`);
+    } catch (error: any) {
+      const errorMsg = error.response?.data?.message || error.message || `Failed to upload ${type}`;
+      console.error(`Failed to upload ${type}: ${errorMsg}`, error.response?.data);
+      toast.error(`Upload failed: ${errorMsg}`);
     } finally {
       setUploading(false);
     }
