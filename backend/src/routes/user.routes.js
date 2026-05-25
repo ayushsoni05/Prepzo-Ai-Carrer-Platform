@@ -14,7 +14,7 @@ import { protect, admin } from '../middleware/auth.middleware.js';
 const router = express.Router();
 
 // Public Gamification routes
-router.get('/portfolio/:userId', getUserProfile);
+router.get('/profile/:userId', getUserProfile);
 router.get('/leaderboard/global', getLeaderboard);
 
 // Protected routes (logged in users)

@@ -1393,7 +1393,7 @@ export function Dashboard() {
                     </div>
                     <DropdownSeparator className="bg-white/5 mx-2 my-2" />
                     
-                    <DropdownItem className="gap-3 py-2.5 px-3 rounded-lg text-white/70 hover:text-white" onClick={() => navigateTo('portfolio')}>
+                    <DropdownItem className="gap-3 py-2.5 px-3 rounded-lg text-white/70 hover:text-white" onClick={() => navigateTo('profile')}>
                       <UserCircle className="w-4 h-4" />
                       <span className="font-bold text-[12px] uppercase tracking-wider">Profile</span>
                     </DropdownItem>

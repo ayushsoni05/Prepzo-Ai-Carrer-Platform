@@ -53,7 +53,7 @@ const PageTransition = ({ children, pageKey }: { children: React.ReactNode, page
   </motion.div>
 );
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'portfolio' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | '404';
 
 // Get initial page from URL path or default to 'landing'
 const getPageFromPath = (): Page => {
@@ -68,10 +68,10 @@ const getPageFromPath = (): Page => {
   // Allow parameters or search queries (if any)
   const pageName = path.split('?')[0];
   
-  if (pageName.startsWith('portfolio/')) return 'portfolio';
+  if (pageName.startsWith('profile/')) return 'profile';
   if (pageName.startsWith('battle/invite/')) return 'join-battle';
   
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'portfolio', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match'];
   return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 
@@ -461,7 +461,7 @@ export default function App() {
           {currentPage === 'tailwind-awesome' && <PageTransition pageKey="tailwind"><TailwindAwesomeDemo /></PageTransition>}
           {currentPage === 'coding-lab' && <PageTransition pageKey="coding-lab"><CodingLabHub /></PageTransition>}
           {currentPage === 'playground' && <PageTransition pageKey="playground"><InteractivePlayground /></PageTransition>}
-          {currentPage === 'portfolio' && <PageTransition pageKey="portfolio"><Profile /></PageTransition>}
+          {currentPage === 'profile' && <PageTransition pageKey="profile"><Profile /></PageTransition>}
           {currentPage === 'leaderboard' && <PageTransition pageKey="leaderboard"><Leaderboard /></PageTransition>}
           {currentPage === 'star-builder' && <PageTransition pageKey="star"><StarStoryBuilder /></PageTransition>}
           {currentPage === 'reader' && <PageTransition pageKey="reader"><PdfReaderPage /></PageTransition>}
