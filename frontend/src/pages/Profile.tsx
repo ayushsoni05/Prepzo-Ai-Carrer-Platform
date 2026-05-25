@@ -5,7 +5,7 @@ import {
   Briefcase, Calendar, ExternalLink, Linkedin, Github, Edit2, Save, X, Upload, 
   Trash2, FileText, Target, CalendarDays, Zap, GraduationCap, MapPin, Search, 
   Home, Users, Briefcase as JobsIcon, MessageSquare, Bell, MoreHorizontal, Plus,
-  Award, Eye, BarChart2
+  Award, Eye, BarChart2, ChevronLeft
 } from 'lucide-react';
 import api from '../api/axios';
 import { uploadApi } from '@/api/auth';
@@ -65,19 +65,19 @@ const formatMonthYear = (dateStr: string) => {
   return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 };
 
-// Modal Component
+// Modal Component - Solid Colors, No Glassmorphism
 const Modal = ({ isOpen, onClose, title, children, onSave, isSaving = false }: any) => {
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="bg-[#1d2226] w-full max-w-2xl max-h-[90vh] rounded-lg shadow-2xl flex flex-col border border-white/10 animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80">
+      <div className="bg-[#12141a] w-full max-w-2xl max-h-[90vh] rounded-xl shadow-2xl flex flex-col border border-white/10 animate-in fade-in zoom-in-95 duration-200">
         <div className="flex items-center justify-between p-4 border-b border-white/10">
-          <h2 className="text-xl font-semibold text-[#e9e9e9]">{title}</h2>
-          <button onClick={onClose} className="p-2 rounded-full hover:bg-white/10 text-[#e9e9e9] transition">
+          <h2 className="text-xl font-bold text-white tracking-tight">{title}</h2>
+          <button onClick={onClose} className="p-2 rounded-full hover:bg-white/5 text-zinc-400 hover:text-white transition">
             <X size={24} />
           </button>
         </div>
-        <div className="p-6 overflow-y-auto flex-1 custom-scrollbar text-[#e9e9e9]">
+        <div className="p-6 overflow-y-auto flex-1 custom-scrollbar text-zinc-300">
           {children}
         </div>
         {onSave && (
@@ -85,7 +85,7 @@ const Modal = ({ isOpen, onClose, title, children, onSave, isSaving = false }: a
             <button 
               onClick={onSave}
               disabled={isSaving}
-              className="bg-[#0a66c2] hover:bg-[#004182] disabled:opacity-50 text-white font-bold px-4 py-1.5 rounded-full transition"
+              className="bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-black font-bold px-6 py-2 rounded-lg transition"
             >
               {isSaving ? 'Saving...' : 'Save'}
             </button>
@@ -93,51 +93,6 @@ const Modal = ({ isOpen, onClose, title, children, onSave, isSaving = false }: a
         )}
       </div>
     </div>
-  );
-};
-
-// Top LinkedIn-style Navbar
-const LinkedInNavbar = ({ user, onNavigate }: { user: any, onNavigate: (path: string) => void }) => {
-  return (
-    <nav className="fixed top-0 left-0 right-0 h-[52px] bg-[#1d2226] border-b border-[#38434f] z-50 flex items-center px-4 md:px-24">
-      <div className="flex items-center gap-2 mr-4">
-        <div className="w-[34px] h-[34px] bg-[#0a66c2] rounded-[3px] flex items-center justify-center font-bold text-white text-[20px] tracking-tighter cursor-pointer" onClick={() => onNavigate('dashboard')}>
-          in
-        </div>
-        <div className="hidden md:flex items-center bg-[#38434f] rounded pl-3 pr-2 py-1.5 focus-within:w-[280px] w-[240px] transition-all ml-1">
-          <Search size={14} className="text-[#e9e9e9]" />
-          <input type="text" placeholder="Search" className="bg-transparent border-none outline-none text-sm text-[#e9e9e9] ml-2 w-full placeholder:text-[#e9e9e9]/70 font-medium" />
-        </div>
-      </div>
-      
-      <div className="flex-1 flex justify-center md:justify-start gap-1 md:gap-8 ml-0 md:ml-[15%]">
-        <div className="flex flex-col items-center justify-center text-[#8c96a1] hover:text-[#e9e9e9] cursor-pointer px-3 transition-colors" onClick={() => onNavigate('dashboard')}>
-          <Home size={24} className="mb-0.5" fill="currentColor" strokeWidth={0} />
-          <span className="text-[12px] hidden md:block">Home</span>
-        </div>
-        <div className="flex flex-col items-center justify-center text-[#8c96a1] hover:text-[#e9e9e9] cursor-pointer px-3 transition-colors" onClick={() => onNavigate('network')}>
-          <Users size={24} className="mb-0.5" fill="currentColor" strokeWidth={0} />
-          <span className="text-[12px] hidden md:block">My Network</span>
-        </div>
-        <div className="flex flex-col items-center justify-center text-[#8c96a1] hover:text-[#e9e9e9] cursor-pointer px-3 transition-colors" onClick={() => onNavigate('jobs')}>
-          <JobsIcon size={24} className="mb-0.5" fill="currentColor" strokeWidth={0} />
-          <span className="text-[12px] hidden md:block">Jobs</span>
-        </div>
-        <div className="flex flex-col items-center justify-center text-[#8c96a1] hover:text-[#e9e9e9] cursor-pointer px-3 opacity-50 transition-colors">
-          <MessageSquare size={24} className="mb-0.5" fill="currentColor" strokeWidth={0} />
-          <span className="text-[12px] hidden md:block">Messaging</span>
-        </div>
-        <div className="flex flex-col items-center justify-center text-[#8c96a1] hover:text-[#e9e9e9] cursor-pointer px-3 opacity-50 transition-colors">
-          <Bell size={24} className="mb-0.5" fill="currentColor" strokeWidth={0} />
-          <span className="text-[12px] hidden md:block">Notifications</span>
-        </div>
-        
-        <div className="flex flex-col items-center justify-center text-[#e9e9e9] border-b-[3px] border-[#e9e9e9] cursor-pointer px-3 hidden md:flex h-[52px]">
-          <img src={user?.avatar ? getFileUrl(user.avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.fullName}`} alt="me" className="w-6 h-6 rounded-full mb-0.5" />
-          <span className="text-[12px] flex items-center">Me ▼</span>
-        </div>
-      </div>
-    </nav>
   );
 };
 
@@ -187,17 +142,17 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#000000] flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-2 border-[#0a66c2] border-t-transparent animate-spin" />
+      <div className="min-h-screen bg-[#0a0c10] flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" />
       </div>
     );
   }
 
   if (!profile) {
     return (
-      <div className="min-h-screen bg-[#000000] text-[#e9e9e9] flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-[#0a0c10] text-white flex flex-col items-center justify-center">
         <h2 className="text-xl font-bold mb-4">Profile Not Found</h2>
-        <button onClick={() => navigate('/dashboard')} className="text-[#0a66c2] hover:underline font-bold">Return Home</button>
+        <button onClick={() => navigate('/dashboard')} className="text-emerald-500 hover:underline font-bold">Return Home</button>
       </div>
     );
   }
@@ -221,7 +176,7 @@ const Profile = () => {
       setProfile({ ...profile, ...formData });
       closeModal();
       toast.success('Profile updated successfully', {
-        style: { background: '#333', color: '#fff' }
+        style: { background: '#12141a', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }
       });
     } catch (error: any) {
       toast.error(error.message || 'Failed to update profile');
@@ -240,7 +195,7 @@ const Profile = () => {
         await updateProfileAsync(updatedData);
         setProfile(updatedData as any);
         toast.success(`${type === 'avatar' ? 'Profile' : 'Cover'} photo uploaded`, {
-          style: { background: '#333', color: '#fff' }
+          style: { background: '#12141a', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }
         });
       }
     } catch (error: any) {
@@ -266,18 +221,27 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#000000] text-[#e9e9e9] font-sans pb-20">
-      <LinkedInNavbar user={user} onNavigate={(path) => navigate(`/${path}`)} />
+    <div className="min-h-screen bg-[#0a0c10] text-white font-sans pb-20">
       
-      <main className="max-w-[1128px] mx-auto px-4 md:px-0 pt-[76px] flex flex-col md:flex-row gap-6">
+      {/* Simple Back Navigation instead of LinkedInNavbar */}
+      <div className="max-w-[1128px] mx-auto px-4 md:px-0 pt-8 pb-4">
+        <button 
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-zinc-400 hover:text-white transition font-medium"
+        >
+          <ChevronLeft size={20} /> Back
+        </button>
+      </div>
+
+      <main className="max-w-[1128px] mx-auto px-4 md:px-0 flex flex-col md:flex-row gap-6">
         
         {/* LEFT COLUMN: Main Profile Content */}
-        <div className="flex-1 w-full md:w-[73%] space-y-2">
+        <div className="flex-1 w-full md:w-[73%] space-y-6">
           
-          {/* 1. Intro Card */}
-          <div className="bg-[#1d2226] rounded-xl border border-[#38434f] overflow-hidden relative">
+          {/* 1. Intro Card - Solid styling */}
+          <div className="bg-[#12141a] rounded-2xl border border-white/10 overflow-hidden relative shadow-lg">
             {/* Cover Photo */}
-            <div className="h-[201px] w-full relative bg-[#38434f]">
+            <div className="h-[201px] w-full relative bg-[#1c1f26]">
               {profile.coverPhoto && (
                 <img 
                   src={getFileUrl(profile.coverPhoto)} 
@@ -297,7 +261,7 @@ const Profile = () => {
 
             {/* Avatar */}
             <div className="absolute top-[100px] left-6">
-              <div className="w-[152px] h-[152px] rounded-full border-4 border-[#1d2226] overflow-hidden bg-[#000000] relative group shadow-sm">
+              <div className="w-[152px] h-[152px] rounded-full border-[6px] border-[#12141a] overflow-hidden bg-[#0a0c10] relative group shadow-sm">
                 <img 
                   src={profile.avatar ? getFileUrl(profile.avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.fullName}`} 
                   alt={profile.fullName} 
@@ -314,38 +278,34 @@ const Profile = () => {
 
             {isOwnProfile && (
               <div className="absolute top-[220px] right-6">
-                <button onClick={() => openModal('intro')} className="p-2 rounded-full hover:bg-white/10 transition">
-                  <Edit2 size={24} className="text-[#e9e9e9]" />
+                <button onClick={() => openModal('intro')} className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition text-zinc-300">
+                  <Edit2 size={20} />
                 </button>
               </div>
             )}
 
-            <div className="px-6 pb-6 mt-[70px]">
-              <div className="flex items-center gap-2">
-                <h1 className="text-[24px] font-semibold leading-tight hover:underline cursor-pointer">{profile.fullName}</h1>
-                {profile.pronouns && <span className="text-[14px] text-[#8c96a1] font-normal">({profile.pronouns})</span>}
+            <div className="px-8 pb-8 mt-[70px]">
+              <div className="flex items-center gap-3">
+                <h1 className="text-[28px] font-bold tracking-tight text-white">{profile.fullName}</h1>
+                {profile.pronouns && <span className="text-[14px] text-zinc-400 font-medium px-2 py-0.5 bg-white/5 rounded-md">({profile.pronouns})</span>}
               </div>
-              <p className="text-[16px] text-[#e9e9e9] mt-1 pr-16">{profile.headline || 'Add a headline'}</p>
+              <p className="text-[18px] text-zinc-300 mt-2 font-medium">{profile.headline || 'Add a headline'}</p>
               
-              <div className="flex items-center gap-2 mt-1 text-[14px] text-[#8c96a1]">
+              <div className="flex items-center gap-2 mt-3 text-[14px] text-zinc-400">
                 {profile.location && <span>{profile.location}</span>}
                 {profile.location && <span>•</span>}
-                <span className="text-[#70b5f9] font-semibold cursor-pointer hover:underline">Contact info</span>
+                <span className="text-emerald-500 font-semibold cursor-pointer hover:underline">Contact info</span>
               </div>
               
-              <div className="mt-2 text-[14px]">
-                <span className="text-[#70b5f9] font-semibold cursor-pointer hover:underline">500+ connections</span>
-              </div>
-
               {isOwnProfile && (
-                <div className="flex flex-wrap items-center gap-2 mt-4">
-                  <button className="bg-[#0a66c2] hover:bg-[#004182] text-white font-semibold rounded-full px-4 py-1.5 text-[15px] transition">
+                <div className="flex flex-wrap items-center gap-3 mt-6">
+                  <button className="bg-emerald-500 hover:bg-emerald-600 text-black font-bold rounded-lg px-6 py-2 transition shadow-lg shadow-emerald-500/20">
                     Open to
                   </button>
-                  <button className="border border-[#70b5f9] text-[#70b5f9] hover:bg-[#70b5f9]/10 hover:border-[2px] hover:-m-[1px] font-semibold rounded-full px-4 py-1.5 text-[15px] transition box-border">
-                    Add profile section
+                  <button className="border border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/10 font-bold rounded-lg px-6 py-2 transition box-border">
+                    Add section
                   </button>
-                  <button className="border border-[#e9e9e9] text-[#e9e9e9] hover:bg-white/10 hover:border-[2px] hover:-m-[1px] font-semibold rounded-full px-4 py-1.5 text-[15px] transition box-border">
+                  <button className="bg-white/5 hover:bg-white/10 text-white font-bold rounded-lg px-6 py-2 transition box-border">
                     More
                   </button>
                 </div>
@@ -355,112 +315,89 @@ const Profile = () => {
 
           {/* Analytics (Private) */}
           {isOwnProfile && (
-            <div className="bg-[#1d2226] rounded-xl border border-[#38434f] p-6 relative">
-              <h2 className="text-[20px] font-semibold text-[#e9e9e9] mb-1">Analytics</h2>
-              <div className="flex items-center gap-2 text-[14px] text-[#8c96a1] mb-4">
+            <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg">
+              <h2 className="text-[20px] font-bold text-white mb-2 tracking-tight">Analytics</h2>
+              <div className="flex items-center gap-2 text-[14px] text-zinc-400 mb-6">
                 <Eye size={16} /> <span className="font-semibold">Private to you</span>
               </div>
-              <div className="flex gap-4 overflow-x-auto custom-scrollbar pb-2">
-                <div className="min-w-[150px] p-2">
-                  <div className="flex items-center gap-2 text-[#e9e9e9] font-semibold text-[16px]">
-                    <Users size={20} /> 342 profile views
+              <div className="flex gap-6 overflow-x-auto custom-scrollbar pb-2">
+                <div className="min-w-[150px] p-4 bg-white/5 rounded-xl border border-white/5">
+                  <div className="flex items-center gap-2 text-white font-bold text-[18px]">
+                    <Users size={20} className="text-emerald-500" /> 342
                   </div>
-                  <p className="text-[12px] text-[#8c96a1] mt-1">Discover who's viewed your profile.</p>
+                  <p className="text-[13px] text-zinc-400 mt-2 font-medium">Profile views</p>
                 </div>
-                <div className="min-w-[150px] p-2 border-l border-[#38434f]">
-                  <div className="flex items-center gap-2 text-[#e9e9e9] font-semibold text-[16px]">
-                    <BarChart2 size={20} /> 1.2k post impressions
+                <div className="min-w-[150px] p-4 bg-white/5 rounded-xl border border-white/5">
+                  <div className="flex items-center gap-2 text-white font-bold text-[18px]">
+                    <BarChart2 size={20} className="text-purple-500" /> 1.2k
                   </div>
-                  <p className="text-[12px] text-[#8c96a1] mt-1">Check out who's engaging with your posts.</p>
+                  <p className="text-[13px] text-zinc-400 mt-2 font-medium">Post impressions</p>
                 </div>
-                <div className="min-w-[150px] p-2 border-l border-[#38434f]">
-                  <div className="flex items-center gap-2 text-[#e9e9e9] font-semibold text-[16px]">
-                    <Search size={20} /> 45 search appearances
+                <div className="min-w-[150px] p-4 bg-white/5 rounded-xl border border-white/5">
+                  <div className="flex items-center gap-2 text-white font-bold text-[18px]">
+                    <Search size={20} className="text-blue-500" /> 45
                   </div>
-                  <p className="text-[12px] text-[#8c96a1] mt-1">See how often you appear in search results.</p>
+                  <p className="text-[13px] text-zinc-400 mt-2 font-medium">Search appearances</p>
                 </div>
               </div>
             </div>
           )}
 
           {/* About Card */}
-          <div className="bg-[#1d2226] rounded-xl border border-[#38434f] p-6 relative">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-[20px] font-semibold text-[#e9e9e9]">About</h2>
+          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-[20px] font-bold text-white tracking-tight">About</h2>
               {isOwnProfile && (
-                <button onClick={() => openModal('about')} className="p-2 rounded-full hover:bg-white/10 transition"><Edit2 size={24} className="text-[#e9e9e9]" /></button>
+                <button onClick={() => openModal('about')} className="p-2 rounded-full hover:bg-white/5 transition text-zinc-400 hover:text-white"><Edit2 size={20} /></button>
               )}
             </div>
             {profile.bio ? (
-              <p className="text-[14px] text-[#e9e9e9] leading-relaxed whitespace-pre-wrap">{profile.bio}</p>
+              <p className="text-[15px] text-zinc-300 leading-relaxed whitespace-pre-wrap">{profile.bio}</p>
             ) : (
-              isOwnProfile && <p className="text-[14px] text-[#8c96a1]">You haven't added a summary yet. Let connections know your professional background.</p>
+              isOwnProfile && <p className="text-[14px] text-zinc-500 italic">You haven't added a summary yet. Let connections know your professional background.</p>
             )}
             
             {profile.knownTechnologies && profile.knownTechnologies.length > 0 && (
-              <div className="mt-4 pt-4 border-t border-[#38434f]">
-                <p className="text-[14px] font-semibold mb-2">Top skills</p>
-                <div className="flex items-center gap-2 text-[14px] text-[#e9e9e9]">
-                  <Target size={16} /> <span>{profile.knownTechnologies.slice(0, 3).join(' • ')}</span>
+              <div className="mt-6 pt-6 border-t border-white/10">
+                <p className="text-[14px] font-bold text-white mb-3">Top skills</p>
+                <div className="flex flex-wrap gap-2">
+                  {profile.knownTechnologies.slice(0, 5).map((tech, i) => (
+                    <span key={i} className="px-3 py-1 bg-white/5 rounded-lg text-sm text-zinc-300 border border-white/5">
+                      {tech}
+                    </span>
+                  ))}
                 </div>
               </div>
             )}
           </div>
 
-          {/* Activity Feed placeholder */}
-          <div className="bg-[#1d2226] rounded-xl border border-[#38434f] p-6 relative">
-            <div className="flex justify-between items-center mb-1">
-              <h2 className="text-[20px] font-semibold text-[#e9e9e9]">Activity</h2>
-              {isOwnProfile && (
-                <button className="border border-[#e9e9e9] text-[#e9e9e9] hover:bg-white/10 hover:border-[2px] hover:-m-[1px] font-semibold rounded-full px-4 py-1.5 text-[15px] transition box-border">
-                  Create a post
-                </button>
-              )}
-            </div>
-            <p className="text-[14px] text-[#70b5f9] font-semibold hover:underline cursor-pointer mb-4">500+ followers</p>
-            
-            {/* Mock Post */}
-            <div className="border-t border-[#38434f] pt-4 mt-2">
-              <div className="flex gap-2 text-[12px] text-[#8c96a1] mb-2">
-                <span className="font-semibold text-[#e9e9e9]">{profile.fullName}</span> posted this • 1d
-              </div>
-              <p className="text-[14px] mb-2">Just hit a {profile.streak || 0}-day coding streak! Constantly learning and building new things everyday. 🚀 #coding #development</p>
-            </div>
-            <div className="border-t border-[#38434f] mt-4 pt-3 flex justify-center">
-              <button className="text-[16px] font-semibold text-[#8c96a1] hover:bg-white/5 w-full py-1.5 rounded transition flex items-center justify-center gap-2">
-                Show all activity →
-              </button>
-            </div>
-          </div>
-
           {/* Experience Card */}
-          <div className="bg-[#1d2226] rounded-xl border border-[#38434f] p-6 relative">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-[20px] font-semibold text-[#e9e9e9]">Experience</h2>
+          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-[20px] font-bold text-white tracking-tight">Experience</h2>
               {isOwnProfile && (
                 <div className="flex gap-2">
                   <button onClick={() => {
                     setFormData({...profile, currentExperience: { company: '', role: '', startDate: '', endDate: '', isCurrent: false, description: '' }});
                     setEditIndex(-1);
                     setActiveModal('experience');
-                  }} className="p-2 rounded-full hover:bg-white/10 transition"><Plus size={24} className="text-[#e9e9e9]" /></button>
+                  }} className="p-2 rounded-full hover:bg-white/5 transition text-zinc-400 hover:text-white"><Plus size={24} /></button>
                 </div>
               )}
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-8">
               {profile.experiences?.length ? profile.experiences.map((exp, i) => (
-                <div key={i} className="flex gap-4 relative">
-                  {/* Vertical Line for timeline (if multiple roles at same company, usually implemented but omitted here for simplicity unless grouped) */}
-                  <div className="w-[48px] h-[48px] bg-white flex items-center justify-center shrink-0 overflow-hidden">
-                     <Briefcase className="text-[#1d2226]" size={24} />
+                <div key={i} className="flex gap-5 relative">
+                  <div className="w-[52px] h-[52px] bg-white/5 rounded-xl flex items-center justify-center shrink-0 border border-white/10 text-zinc-400">
+                     <Briefcase size={24} />
                   </div>
-                  <div className="flex-1 pb-6 border-b border-[#38434f] last:border-0 last:pb-0 group">
+                  <div className="flex-1 pb-8 border-b border-white/10 last:border-0 last:pb-0 group">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-[16px] font-semibold text-[#e9e9e9]">{exp.role}</h3>
-                        <p className="text-[14px] text-[#e9e9e9]">{exp.company}</p>
-                        <p className="text-[14px] text-[#8c96a1]">
+                        <h3 className="text-[18px] font-bold text-white tracking-tight">{exp.role}</h3>
+                        <p className="text-[15px] text-zinc-300 font-medium mt-1">{exp.company}</p>
+                        <p className="text-[14px] text-zinc-500 mt-1">
                           {formatMonthYear(exp.startDate)} - {exp.isCurrent ? 'Present' : formatMonthYear(exp.endDate || '')}
                         </p>
                       </div>
@@ -469,80 +406,80 @@ const Profile = () => {
                           setFormData({...profile, currentExperience: exp});
                           setEditIndex(i);
                           setActiveModal('experience');
-                        }} className="p-2 rounded-full hover:bg-white/10 opacity-0 group-hover:opacity-100 transition">
-                          <Edit2 size={24} className="text-[#e9e9e9]" />
+                        }} className="p-2 rounded-full hover:bg-white/10 opacity-0 group-hover:opacity-100 transition text-zinc-400 hover:text-white">
+                          <Edit2 size={20} />
                         </button>
                       )}
                     </div>
                     {exp.description && (
-                      <p className="text-[14px] text-[#e9e9e9] mt-2 leading-relaxed whitespace-pre-wrap">{exp.description}</p>
+                      <p className="text-[15px] text-zinc-300 mt-4 leading-relaxed whitespace-pre-wrap">{exp.description}</p>
                     )}
                   </div>
                 </div>
               )) : (
-                <p className="text-[14px] text-[#8c96a1]">No experience added yet.</p>
+                <p className="text-[14px] text-zinc-500 italic">No experience added yet.</p>
               )}
             </div>
           </div>
 
           {/* Education Card */}
-          <div className="bg-[#1d2226] rounded-xl border border-[#38434f] p-6 relative">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-[20px] font-semibold text-[#e9e9e9]">Education</h2>
+          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-[20px] font-bold text-white tracking-tight">Education</h2>
               {isOwnProfile && (
                 <div className="flex gap-2">
-                  <button onClick={() => openModal('education')} className="p-2 rounded-full hover:bg-white/10 transition"><Edit2 size={24} className="text-[#e9e9e9]" /></button>
+                  <button onClick={() => openModal('education')} className="p-2 rounded-full hover:bg-white/5 transition text-zinc-400 hover:text-white"><Edit2 size={20} /></button>
                 </div>
               )}
             </div>
             
             {profile.collegeName ? (
-              <div className="flex gap-4">
-                <div className="w-[48px] h-[48px] bg-white flex items-center justify-center shrink-0">
-                  <GraduationCap className="text-[#1d2226]" size={28} />
+              <div className="flex gap-5">
+                <div className="w-[52px] h-[52px] bg-white/5 rounded-xl flex items-center justify-center shrink-0 border border-white/10 text-zinc-400">
+                  <GraduationCap size={24} />
                 </div>
                 <div>
-                  <h3 className="text-[16px] font-semibold text-[#e9e9e9]">{profile.collegeName}</h3>
-                  <p className="text-[14px] text-[#e9e9e9]">{profile.degree}, {profile.fieldOfStudy}</p>
-                  <p className="text-[14px] text-[#8c96a1] mt-0.5">{profile.yearOfStudy}</p>
-                  {profile.cgpa && <p className="text-[14px] text-[#8c96a1] mt-0.5">Grade: {profile.cgpa}</p>}
+                  <h3 className="text-[18px] font-bold text-white tracking-tight">{profile.collegeName}</h3>
+                  <p className="text-[15px] text-zinc-300 font-medium mt-1">{profile.degree}, {profile.fieldOfStudy}</p>
+                  <p className="text-[14px] text-zinc-500 mt-1">{profile.yearOfStudy}</p>
+                  {profile.cgpa && <p className="text-[14px] text-zinc-400 mt-2 bg-white/5 inline-block px-3 py-1 rounded-md">Grade: {profile.cgpa}</p>}
                 </div>
               </div>
             ) : (
-              <p className="text-[14px] text-[#8c96a1]">No education added yet.</p>
+              <p className="text-[14px] text-zinc-500 italic">No education added yet.</p>
             )}
           </div>
 
           {/* Licenses & Certifications */}
-          <div className="bg-[#1d2226] rounded-xl border border-[#38434f] p-6 relative">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-[20px] font-semibold text-[#e9e9e9]">Licenses & certifications</h2>
+          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-[20px] font-bold text-white tracking-tight">Licenses & certifications</h2>
               {isOwnProfile && (
                 <div className="flex gap-2">
                   <button onClick={() => {
                     setFormData({...profile, currentCert: { name: '', issuer: '', issueDate: '', credentialId: '', credentialUrl: '' }});
                     setEditIndex(-1);
                     setActiveModal('certification');
-                  }} className="p-2 rounded-full hover:bg-white/10 transition"><Plus size={24} className="text-[#e9e9e9]" /></button>
+                  }} className="p-2 rounded-full hover:bg-white/5 transition text-zinc-400 hover:text-white"><Plus size={24} /></button>
                 </div>
               )}
             </div>
             
-            <div className="space-y-6">
+            <div className="space-y-8">
               {profile.certifications?.length ? profile.certifications.map((cert, i) => (
-                <div key={i} className="flex gap-4 group">
-                  <div className="w-[48px] h-[48px] bg-white flex items-center justify-center shrink-0">
-                    <Award className="text-[#1d2226]" size={28} />
+                <div key={i} className="flex gap-5 group">
+                  <div className="w-[52px] h-[52px] bg-white/5 rounded-xl flex items-center justify-center shrink-0 border border-white/10 text-zinc-400">
+                    <Award size={24} />
                   </div>
-                  <div className="flex-1 pb-6 border-b border-[#38434f] last:border-0 last:pb-0">
+                  <div className="flex-1 pb-8 border-b border-white/10 last:border-0 last:pb-0">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-[16px] font-semibold text-[#e9e9e9]">{cert.name}</h3>
-                        <p className="text-[14px] text-[#e9e9e9]">{cert.issuer}</p>
-                        <p className="text-[14px] text-[#8c96a1]">Issued {formatMonthYear(cert.issueDate)}</p>
-                        {cert.credentialId && <p className="text-[14px] text-[#8c96a1] mt-1">Credential ID {cert.credentialId}</p>}
+                        <h3 className="text-[18px] font-bold text-white tracking-tight">{cert.name}</h3>
+                        <p className="text-[15px] text-zinc-300 font-medium mt-1">{cert.issuer}</p>
+                        <p className="text-[14px] text-zinc-500 mt-1">Issued {formatMonthYear(cert.issueDate)}</p>
+                        {cert.credentialId && <p className="text-[13px] text-zinc-500 mt-2 font-mono">ID: {cert.credentialId}</p>}
                         {cert.credentialUrl && (
-                          <button onClick={() => window.open(cert.credentialUrl, '_blank')} className="mt-2 border border-[#8c96a1] text-[#8c96a1] hover:bg-white/10 hover:border-[2px] hover:-m-[1px] font-semibold rounded-full px-4 py-1 text-[15px] transition box-border">
+                          <button onClick={() => window.open(cert.credentialUrl, '_blank')} className="mt-4 border border-zinc-600 text-zinc-300 hover:bg-white/5 font-bold rounded-lg px-4 py-1.5 text-[14px] transition box-border">
                             Show credential
                           </button>
                         )}
@@ -552,40 +489,40 @@ const Profile = () => {
                           setFormData({...profile, currentCert: cert});
                           setEditIndex(i);
                           setActiveModal('certification');
-                        }} className="p-2 rounded-full hover:bg-white/10 opacity-0 group-hover:opacity-100 transition">
-                          <Edit2 size={24} className="text-[#e9e9e9]" />
+                        }} className="p-2 rounded-full hover:bg-white/10 opacity-0 group-hover:opacity-100 transition text-zinc-400 hover:text-white">
+                          <Edit2 size={20} />
                         </button>
                       )}
                     </div>
                   </div>
                 </div>
               )) : (
-                <p className="text-[14px] text-[#8c96a1]">No certifications added yet.</p>
+                <p className="text-[14px] text-zinc-500 italic">No certifications added yet.</p>
               )}
             </div>
           </div>
 
           {/* Skills Card */}
-          <div className="bg-[#1d2226] rounded-xl border border-[#38434f] p-6 relative">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-[20px] font-semibold text-[#e9e9e9]">Skills</h2>
+          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-[20px] font-bold text-white tracking-tight">Skills</h2>
               {isOwnProfile && (
                 <div className="flex gap-2">
-                  <button onClick={() => openModal('skills')} className="p-2 rounded-full hover:bg-white/10 transition"><Edit2 size={24} className="text-[#e9e9e9]" /></button>
+                  <button onClick={() => openModal('skills')} className="p-2 rounded-full hover:bg-white/5 transition text-zinc-400 hover:text-white"><Edit2 size={20} /></button>
                 </div>
               )}
             </div>
 
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {profile.knownTechnologies?.map((tech, i) => (
-                <div key={i} className="border-b border-[#38434f] pb-4 last:border-0 last:pb-0">
-                  <h3 className="text-[16px] font-semibold text-[#e9e9e9]">{tech}</h3>
-                  <div className="flex items-center gap-2 mt-2">
+                <div key={i} className="p-4 bg-white/5 rounded-xl border border-white/5">
+                  <h3 className="text-[16px] font-bold text-white">{tech}</h3>
+                  <div className="flex items-center gap-2 mt-3">
                     <div className="flex -space-x-2">
-                      <img src={`https://i.pravatar.cc/150?u=${i+10}`} className="w-6 h-6 rounded-full border border-[#1d2226]" />
-                      <img src={`https://i.pravatar.cc/150?u=${i+20}`} className="w-6 h-6 rounded-full border border-[#1d2226]" />
+                      <img src={`https://i.pravatar.cc/150?u=${i+10}`} className="w-6 h-6 rounded-full border-2 border-[#12141a]" />
+                      <img src={`https://i.pravatar.cc/150?u=${i+20}`} className="w-6 h-6 rounded-full border-2 border-[#12141a]" />
                     </div>
-                    <span className="text-[14px] text-[#8c96a1]">Endorsed by {Math.floor(Math.random() * 10) + 2} connections</span>
+                    <span className="text-[13px] text-zinc-400 font-medium">Endorsed by {Math.floor(Math.random() * 10) + 2}</span>
                   </div>
                 </div>
               ))}
@@ -595,35 +532,35 @@ const Profile = () => {
         </div>
 
         {/* RIGHT COLUMN: Sidebars */}
-        <div className="w-full md:w-[27%] space-y-4 hidden md:block">
+        <div className="w-full md:w-[27%] space-y-6 hidden md:block">
           
-          <div className="bg-[#1d2226] rounded-xl border border-[#38434f] p-5">
-            <div className="flex justify-between items-start border-b border-[#38434f] pb-4 mb-4">
+          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-6 shadow-lg">
+            <div className="flex justify-between items-start border-b border-white/10 pb-5 mb-5">
               <div>
-                <h3 className="text-[16px] font-semibold text-[#e9e9e9] hover:text-[#70b5f9] hover:underline cursor-pointer">Profile language</h3>
-                <p className="text-[14px] text-[#8c96a1] mt-1">English</p>
+                <h3 className="text-[15px] font-bold text-white">Profile language</h3>
+                <p className="text-[14px] text-zinc-400 mt-1">English</p>
               </div>
-              <Edit2 size={20} className="text-[#8c96a1] cursor-pointer" />
+              <Edit2 size={18} className="text-zinc-500 cursor-pointer hover:text-white transition" />
             </div>
             <div className="flex justify-between items-start">
-              <div>
-                <h3 className="text-[16px] font-semibold text-[#e9e9e9] hover:text-[#70b5f9] hover:underline cursor-pointer">Public profile & URL</h3>
-                <p className="text-[14px] text-[#8c96a1] break-all mt-1">{window.location.origin}/profile/{profile._id}</p>
+              <div className="w-full overflow-hidden">
+                <h3 className="text-[15px] font-bold text-white">Public profile & URL</h3>
+                <p className="text-[13px] text-emerald-500 hover:underline cursor-pointer truncate mt-1 block w-full pr-4">{window.location.origin}/profile/{profile._id}</p>
               </div>
-              <Edit2 size={20} className="text-[#8c96a1] cursor-pointer shrink-0 ml-2" />
+              <Edit2 size={18} className="text-zinc-500 cursor-pointer hover:text-white transition shrink-0" />
             </div>
           </div>
 
-          <div className="bg-[#1d2226] rounded-xl border border-[#38434f] p-5 relative overflow-hidden">
-             <h3 className="text-[16px] font-semibold text-[#e9e9e9] mb-4">People you may know</h3>
-             <div className="space-y-4">
+          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-6 relative overflow-hidden shadow-lg">
+             <h3 className="text-[16px] font-bold text-white mb-5 tracking-tight">People you may know</h3>
+             <div className="space-y-5">
                {[1, 2, 3].map(i => (
                  <div key={i} className="flex gap-3">
-                   <img src={`https://i.pravatar.cc/150?u=${i + 30}`} className="w-12 h-12 rounded-full border border-[#38434f]" />
+                   <img src={`https://i.pravatar.cc/150?u=${i + 30}`} className="w-12 h-12 rounded-full border-2 border-[#12141a] shadow-sm" />
                    <div>
-                     <h4 className="text-[15px] font-semibold text-[#e9e9e9] hover:underline cursor-pointer">Sample User {i}</h4>
-                     <p className="text-[12px] text-[#8c96a1] line-clamp-2 mt-0.5">Software Engineer at Tech Corp</p>
-                     <button className="mt-2 px-4 py-1 rounded-full border border-[#e9e9e9] text-[#e9e9e9] text-[15px] font-semibold hover:bg-white/10 hover:border-[2px] hover:-m-[1px] transition box-border">
+                     <h4 className="text-[15px] font-bold text-white hover:underline cursor-pointer">{['Alice Johnson', 'Bob Smith', 'Charlie Davis'][i-1]}</h4>
+                     <p className="text-[12px] text-zinc-400 line-clamp-1 mt-0.5">Software Engineer at Tech Corp</p>
+                     <button className="mt-2 px-4 py-1.5 rounded-full border border-zinc-600 text-zinc-300 text-[13px] font-bold hover:bg-white/5 transition box-border">
                        Connect
                      </button>
                    </div>
@@ -633,28 +570,38 @@ const Profile = () => {
           </div>
 
           {/* Gamification / Activity Integration */}
-          <div className="bg-[#1d2226] rounded-xl border border-[#38434f] p-5">
-            <h3 className="text-[16px] font-semibold text-[#e9e9e9] mb-4">Platform Activity</h3>
-            <div className="mb-4">
-              <p className="text-[14px] text-[#8c96a1] mb-1">Coding Streak</p>
-              <div className="flex items-center gap-2">
-                <Zap className="text-amber-400" size={16} />
-                <span className="text-[14px] font-semibold text-[#e9e9e9]">{profile.streak || 0} days</span>
+          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-6 shadow-lg">
+            <h3 className="text-[16px] font-bold text-white mb-5 tracking-tight">Platform Activity</h3>
+            <div className="mb-6 p-4 bg-white/5 rounded-xl border border-white/5 flex items-center justify-between">
+              <div>
+                <p className="text-[13px] text-zinc-400 font-medium">Coding Streak</p>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-[20px] font-bold text-white">{profile.streak || 0}</span>
+                  <span className="text-[14px] text-zinc-400">days</span>
+                </div>
+              </div>
+              <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+                <Zap className="text-amber-400" size={20} />
               </div>
             </div>
-            <div className="w-full flex justify-center scale-[0.85] origin-left">
-              <ActivityCalendar 
-                data={heatmapData} 
-                theme={{
-                  light: ['#1d2226', '#004182', '#0a66c2', '#70b5f9', '#ffffff'],
-                  dark: ['#1d2226', '#004182', '#0a66c2', '#70b5f9', '#ffffff'],
-                }}
-                colorScheme="dark"
-                hideColorLegend
-                hideMonthLabels
-                blockSize={9}
-                blockMargin={2}
-              />
+            
+            <div>
+              <p className="text-[13px] text-zinc-400 font-medium mb-3">Activity Graph</p>
+              <div className="w-full flex justify-center scale-[0.85] origin-left">
+                <ActivityCalendar 
+                  data={heatmapData} 
+                  theme={{
+                    light: ['#1c1f26', '#064e3b', '#047857', '#10b981', '#34d399'],
+                    dark: ['#1c1f26', '#064e3b', '#047857', '#10b981', '#34d399'],
+                  }}
+                  colorScheme="dark"
+                  hideColorLegend
+                  hideMonthLabels
+                  blockSize={9}
+                  blockMargin={3}
+                  blockRadius={2}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -667,36 +614,36 @@ const Profile = () => {
       <Modal isOpen={activeModal === 'intro'} onClose={closeModal} title="Edit intro" onSave={handleSave} isSaving={isSaving}>
         <div className="space-y-5">
           <div className="space-y-1">
-            <Label className="text-[#8c96a1] text-xs">First name*</Label>
-            <Input className="bg-transparent border-[#e9e9e9] text-[#e9e9e9] h-8 rounded-sm hover:border-[2px] focus:border-[#0a66c2] focus:border-[2px] transition-all px-2" value={formData.fullName} onChange={(e) => setFormData({...formData, fullName: e.target.value})} />
+            <Label className="text-zinc-400 text-xs font-semibold">First name*</Label>
+            <Input className="bg-[#1c1f26] border-white/10 text-white h-10 rounded-lg hover:border-white/20 focus:border-emerald-500 transition-all px-3" value={formData.fullName} onChange={(e) => setFormData({...formData, fullName: e.target.value})} />
           </div>
           <div className="space-y-1">
-            <Label className="text-[#8c96a1] text-xs">Pronouns</Label>
+            <Label className="text-zinc-400 text-xs font-semibold">Pronouns</Label>
             <SearchableDropdown value={formData.pronouns || ''} onChange={(val) => setFormData({...formData, pronouns: val})} options={[{value:'He/Him', label:'He/Him'}, {value:'She/Her', label:'She/Her'}, {value:'They/Them', label:'They/Them'}]} placeholder="Please select" />
-            <p className="text-xs text-[#8c96a1]">Let others know how to refer to you.</p>
+            <p className="text-xs text-zinc-500 mt-1">Let others know how to refer to you.</p>
           </div>
           <div className="space-y-1">
-            <Label className="text-[#8c96a1] text-xs">Headline*</Label>
-            <Input className="bg-transparent border-[#e9e9e9] text-[#e9e9e9] h-8 rounded-sm hover:border-[2px] focus:border-[#0a66c2] focus:border-[2px] transition-all px-2" value={formData.headline || ''} onChange={(e) => setFormData({...formData, headline: e.target.value})} />
+            <Label className="text-zinc-400 text-xs font-semibold">Headline*</Label>
+            <Input className="bg-[#1c1f26] border-white/10 text-white h-10 rounded-lg hover:border-white/20 focus:border-emerald-500 transition-all px-3" value={formData.headline || ''} onChange={(e) => setFormData({...formData, headline: e.target.value})} />
           </div>
           <div className="space-y-1">
-            <Label className="text-[#8c96a1] text-xs">Industry*</Label>
-            <Input className="bg-transparent border-[#e9e9e9] text-[#e9e9e9] h-8 rounded-sm hover:border-[2px] focus:border-[#0a66c2] focus:border-[2px] transition-all px-2" value={formData.industry || ''} onChange={(e) => setFormData({...formData, industry: e.target.value})} />
+            <Label className="text-zinc-400 text-xs font-semibold">Industry*</Label>
+            <Input className="bg-[#1c1f26] border-white/10 text-white h-10 rounded-lg hover:border-white/20 focus:border-emerald-500 transition-all px-3" value={formData.industry || ''} onChange={(e) => setFormData({...formData, industry: e.target.value})} />
           </div>
-          <h3 className="text-lg font-semibold mt-6 mb-2">Location</h3>
+          <h3 className="text-lg font-bold mt-8 mb-4 border-t border-white/10 pt-6">Location</h3>
           <div className="space-y-1">
-            <Label className="text-[#8c96a1] text-xs">City, State</Label>
-            <Input className="bg-transparent border-[#e9e9e9] text-[#e9e9e9] h-8 rounded-sm hover:border-[2px] focus:border-[#0a66c2] focus:border-[2px] transition-all px-2" value={formData.location || ''} onChange={(e) => setFormData({...formData, location: e.target.value})} />
+            <Label className="text-zinc-400 text-xs font-semibold">City, State</Label>
+            <Input className="bg-[#1c1f26] border-white/10 text-white h-10 rounded-lg hover:border-white/20 focus:border-emerald-500 transition-all px-3" value={formData.location || ''} onChange={(e) => setFormData({...formData, location: e.target.value})} />
           </div>
         </div>
       </Modal>
 
       {/* Edit About Modal */}
       <Modal isOpen={activeModal === 'about'} onClose={closeModal} title="Edit about" onSave={handleSave} isSaving={isSaving}>
-        <div className="space-y-1">
-          <Label className="text-[#8c96a1] text-xs">Description</Label>
+        <div className="space-y-2">
+          <Label className="text-zinc-400 text-xs font-semibold">Description</Label>
           <textarea 
-            className="w-full min-h-[150px] bg-transparent border border-[#e9e9e9] rounded-sm p-2 text-sm text-[#e9e9e9] hover:border-[2px] focus:border-[#0a66c2] focus:border-[2px] outline-none transition-all"
+            className="w-full min-h-[200px] bg-[#1c1f26] border border-white/10 rounded-lg p-4 text-sm text-white hover:border-white/20 focus:border-emerald-500 outline-none transition-all custom-scrollbar"
             value={formData.bio || ''}
             onChange={(e) => setFormData({...formData, bio: e.target.value})}
             placeholder="You can write about your years of experience, industry, or skills. People also talk about their achievements or previous job experiences."
@@ -713,45 +660,44 @@ const Profile = () => {
           newExps.push(formData.currentExperience);
         }
         setFormData({...formData, experiences: newExps});
-        // We use a trick here: we save to formData but we need to trigger the actual API call.
         const finalData = {...formData, experiences: newExps};
         setIsSaving(true);
         updateProfileAsync(finalData).then(() => {
           setProfile({...profile, ...finalData});
           closeModal();
-          toast.success('Experience saved');
+          toast.success('Experience saved', { style: { background: '#12141a', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }});
         }).catch(err => toast.error(err.message)).finally(() => setIsSaving(false));
       }} isSaving={isSaving}>
         <div className="space-y-5">
           <div className="space-y-1">
-            <Label className="text-[#8c96a1] text-xs">Title*</Label>
-            <Input className="bg-transparent border-[#e9e9e9] text-[#e9e9e9] h-8 rounded-sm hover:border-[2px] focus:border-[#0a66c2] focus:border-[2px]" value={formData.currentExperience?.role || ''} onChange={(e) => setFormData({...formData, currentExperience: {...formData.currentExperience, role: e.target.value}})} />
+            <Label className="text-zinc-400 text-xs font-semibold">Title*</Label>
+            <Input className="bg-[#1c1f26] border-white/10 text-white h-10 rounded-lg hover:border-white/20 focus:border-emerald-500" value={formData.currentExperience?.role || ''} onChange={(e) => setFormData({...formData, currentExperience: {...formData.currentExperience, role: e.target.value}})} />
           </div>
           <div className="space-y-1">
-            <Label className="text-[#8c96a1] text-xs">Company name*</Label>
-            <Input className="bg-transparent border-[#e9e9e9] text-[#e9e9e9] h-8 rounded-sm hover:border-[2px] focus:border-[#0a66c2] focus:border-[2px]" value={formData.currentExperience?.company || ''} onChange={(e) => setFormData({...formData, currentExperience: {...formData.currentExperience, company: e.target.value}})} />
+            <Label className="text-zinc-400 text-xs font-semibold">Company name*</Label>
+            <Input className="bg-[#1c1f26] border-white/10 text-white h-10 rounded-lg hover:border-white/20 focus:border-emerald-500" value={formData.currentExperience?.company || ''} onChange={(e) => setFormData({...formData, currentExperience: {...formData.currentExperience, company: e.target.value}})} />
           </div>
-          <div className="flex items-center gap-2 mt-4">
-            <input type="checkbox" id="isCurrent" className="w-4 h-4 rounded border-gray-300" checked={formData.currentExperience?.isCurrent || false} onChange={(e) => setFormData({...formData, currentExperience: {...formData.currentExperience, isCurrent: e.target.checked}})} />
-            <label htmlFor="isCurrent" className="text-sm">I am currently working in this role</label>
+          <div className="flex items-center gap-3 mt-6 p-4 bg-white/5 rounded-lg border border-white/5">
+            <input type="checkbox" id="isCurrent" className="w-5 h-5 rounded border-white/20 bg-transparent accent-emerald-500" checked={formData.currentExperience?.isCurrent || false} onChange={(e) => setFormData({...formData, currentExperience: {...formData.currentExperience, isCurrent: e.target.checked}})} />
+            <label htmlFor="isCurrent" className="text-sm font-medium text-white cursor-pointer">I am currently working in this role</label>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 mt-6">
             <div className="space-y-1">
-              <Label className="text-[#8c96a1] text-xs">Start date*</Label>
-              <Input type="month" className="bg-transparent border-[#e9e9e9] text-[#e9e9e9] h-8 rounded-sm" value={formData.currentExperience?.startDate || ''} onChange={(e) => setFormData({...formData, currentExperience: {...formData.currentExperience, startDate: e.target.value}})} />
+              <Label className="text-zinc-400 text-xs font-semibold">Start date*</Label>
+              <Input type="month" className="bg-[#1c1f26] border-white/10 text-white h-10 rounded-lg hover:border-white/20 focus:border-emerald-500" value={formData.currentExperience?.startDate || ''} onChange={(e) => setFormData({...formData, currentExperience: {...formData.currentExperience, startDate: e.target.value}})} />
             </div>
             <div className="space-y-1">
-              <Label className="text-[#8c96a1] text-xs">End date{!formData.currentExperience?.isCurrent && '*'}</Label>
-              <Input type="month" disabled={formData.currentExperience?.isCurrent} className="bg-transparent border-[#e9e9e9] text-[#e9e9e9] h-8 rounded-sm disabled:opacity-50" value={formData.currentExperience?.endDate || ''} onChange={(e) => setFormData({...formData, currentExperience: {...formData.currentExperience, endDate: e.target.value}})} />
+              <Label className="text-zinc-400 text-xs font-semibold">End date{!formData.currentExperience?.isCurrent && '*'}</Label>
+              <Input type="month" disabled={formData.currentExperience?.isCurrent} className="bg-[#1c1f26] border-white/10 text-white h-10 rounded-lg hover:border-white/20 focus:border-emerald-500 disabled:opacity-30" value={formData.currentExperience?.endDate || ''} onChange={(e) => setFormData({...formData, currentExperience: {...formData.currentExperience, endDate: e.target.value}})} />
             </div>
           </div>
-          <div className="space-y-1">
-            <Label className="text-[#8c96a1] text-xs">Description</Label>
-            <textarea className="w-full min-h-[100px] bg-transparent border border-[#e9e9e9] rounded-sm p-2 text-sm text-[#e9e9e9] outline-none" value={formData.currentExperience?.description || ''} onChange={(e) => setFormData({...formData, currentExperience: {...formData.currentExperience, description: e.target.value}})} />
+          <div className="space-y-1 mt-6">
+            <Label className="text-zinc-400 text-xs font-semibold">Description</Label>
+            <textarea className="w-full min-h-[120px] bg-[#1c1f26] border border-white/10 rounded-lg p-4 text-sm text-white outline-none hover:border-white/20 focus:border-emerald-500 transition-all custom-scrollbar" value={formData.currentExperience?.description || ''} onChange={(e) => setFormData({...formData, currentExperience: {...formData.currentExperience, description: e.target.value}})} />
           </div>
         </div>
         {editIndex > -1 && (
-          <div className="mt-8 pt-4 border-t border-[#38434f]">
+          <div className="mt-8 pt-6 border-t border-white/10">
             <button onClick={() => {
               const newExps = [...formData.experiences];
               newExps.splice(editIndex, 1);
@@ -760,9 +706,9 @@ const Profile = () => {
               updateProfileAsync(finalData).then(() => {
                 setProfile({...profile, ...finalData});
                 closeModal();
-                toast.success('Experience deleted');
+                toast.success('Experience deleted', { style: { background: '#12141a', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }});
               }).finally(() => setIsSaving(false));
-            }} className="text-[#8c96a1] hover:text-[#e9e9e9] font-semibold transition">Delete experience</button>
+            }} className="text-red-400 hover:text-red-300 font-bold transition">Delete experience</button>
           </div>
         )}
       </Modal>
@@ -772,20 +718,20 @@ const Profile = () => {
         <div className="space-y-5">
            <CollegeDropdown value={formData.collegeName} onChange={(val) => setFormData({...formData, collegeName: val})} />
            <div className="space-y-1">
-             <Label className="text-[#8c96a1] text-xs">Degree</Label>
+             <Label className="text-zinc-400 text-xs font-semibold">Degree</Label>
              <SearchableDropdown value={formData.degree} onChange={(val) => setFormData({...formData, degree: val, fieldOfStudy: ''})} options={degreeOptions} placeholder="Ex: Bachelor's" />
            </div>
            <div className="space-y-1">
-             <Label className="text-[#8c96a1] text-xs">Field of study</Label>
+             <Label className="text-zinc-400 text-xs font-semibold">Field of study</Label>
              <SearchableDropdown value={formData.fieldOfStudy} onChange={(val) => setFormData({...formData, fieldOfStudy: val})} options={getFieldsOfStudyByDegree(formData.degree)} placeholder="Ex: Business" searchable />
            </div>
            <div className="space-y-1">
-             <Label className="text-[#8c96a1] text-xs">Graduation Year</Label>
+             <Label className="text-zinc-400 text-xs font-semibold">Graduation Year</Label>
              <SearchableDropdown value={formData.yearOfStudy} onChange={(val) => setFormData({...formData, yearOfStudy: val})} options={yearOfStudyOptions} placeholder="Year" />
            </div>
            <div className="space-y-1">
-             <Label className="text-[#8c96a1] text-xs">Grade</Label>
-             <Input className="bg-transparent border-[#e9e9e9] text-[#e9e9e9] h-8 rounded-sm hover:border-[2px] focus:border-[#0a66c2]" value={formData.cgpa || ''} onChange={(e) => setFormData({...formData, cgpa: e.target.value})} />
+             <Label className="text-zinc-400 text-xs font-semibold">Grade</Label>
+             <Input className="bg-[#1c1f26] border-white/10 text-white h-10 rounded-lg hover:border-white/20 focus:border-emerald-500" value={formData.cgpa || ''} onChange={(e) => setFormData({...formData, cgpa: e.target.value})} />
            </div>
         </div>
       </Modal>
@@ -808,24 +754,24 @@ const Profile = () => {
       }} isSaving={isSaving}>
         <div className="space-y-5">
           <div className="space-y-1">
-            <Label className="text-[#8c96a1] text-xs">Name*</Label>
-            <Input className="bg-transparent border-[#e9e9e9] text-[#e9e9e9] h-8 rounded-sm hover:border-[2px] focus:border-[#0a66c2]" value={formData.currentCert?.name || ''} onChange={(e) => setFormData({...formData, currentCert: {...formData.currentCert, name: e.target.value}})} />
+            <Label className="text-zinc-400 text-xs font-semibold">Name*</Label>
+            <Input className="bg-[#1c1f26] border-white/10 text-white h-10 rounded-lg hover:border-white/20 focus:border-emerald-500" value={formData.currentCert?.name || ''} onChange={(e) => setFormData({...formData, currentCert: {...formData.currentCert, name: e.target.value}})} />
           </div>
           <div className="space-y-1">
-            <Label className="text-[#8c96a1] text-xs">Issuing organization*</Label>
-            <Input className="bg-transparent border-[#e9e9e9] text-[#e9e9e9] h-8 rounded-sm hover:border-[2px] focus:border-[#0a66c2]" value={formData.currentCert?.issuer || ''} onChange={(e) => setFormData({...formData, currentCert: {...formData.currentCert, issuer: e.target.value}})} />
+            <Label className="text-zinc-400 text-xs font-semibold">Issuing organization*</Label>
+            <Input className="bg-[#1c1f26] border-white/10 text-white h-10 rounded-lg hover:border-white/20 focus:border-emerald-500" value={formData.currentCert?.issuer || ''} onChange={(e) => setFormData({...formData, currentCert: {...formData.currentCert, issuer: e.target.value}})} />
           </div>
           <div className="space-y-1">
-            <Label className="text-[#8c96a1] text-xs">Issue date</Label>
-            <Input type="month" className="bg-transparent border-[#e9e9e9] text-[#e9e9e9] h-8 rounded-sm hover:border-[2px] focus:border-[#0a66c2]" value={formData.currentCert?.issueDate || ''} onChange={(e) => setFormData({...formData, currentCert: {...formData.currentCert, issueDate: e.target.value}})} />
+            <Label className="text-zinc-400 text-xs font-semibold">Issue date</Label>
+            <Input type="month" className="bg-[#1c1f26] border-white/10 text-white h-10 rounded-lg hover:border-white/20 focus:border-emerald-500" value={formData.currentCert?.issueDate || ''} onChange={(e) => setFormData({...formData, currentCert: {...formData.currentCert, issueDate: e.target.value}})} />
           </div>
           <div className="space-y-1">
-            <Label className="text-[#8c96a1] text-xs">Credential ID</Label>
-            <Input className="bg-transparent border-[#e9e9e9] text-[#e9e9e9] h-8 rounded-sm hover:border-[2px] focus:border-[#0a66c2]" value={formData.currentCert?.credentialId || ''} onChange={(e) => setFormData({...formData, currentCert: {...formData.currentCert, credentialId: e.target.value}})} />
+            <Label className="text-zinc-400 text-xs font-semibold">Credential ID</Label>
+            <Input className="bg-[#1c1f26] border-white/10 text-white h-10 rounded-lg hover:border-white/20 focus:border-emerald-500" value={formData.currentCert?.credentialId || ''} onChange={(e) => setFormData({...formData, currentCert: {...formData.currentCert, credentialId: e.target.value}})} />
           </div>
           <div className="space-y-1">
-            <Label className="text-[#8c96a1] text-xs">Credential URL</Label>
-            <Input className="bg-transparent border-[#e9e9e9] text-[#e9e9e9] h-8 rounded-sm hover:border-[2px] focus:border-[#0a66c2]" value={formData.currentCert?.credentialUrl || ''} onChange={(e) => setFormData({...formData, currentCert: {...formData.currentCert, credentialUrl: e.target.value}})} />
+            <Label className="text-zinc-400 text-xs font-semibold">Credential URL</Label>
+            <Input className="bg-[#1c1f26] border-white/10 text-white h-10 rounded-lg hover:border-white/20 focus:border-emerald-500" value={formData.currentCert?.credentialUrl || ''} onChange={(e) => setFormData({...formData, currentCert: {...formData.currentCert, credentialUrl: e.target.value}})} />
           </div>
         </div>
       </Modal>
