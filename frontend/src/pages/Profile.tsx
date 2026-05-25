@@ -1,17 +1,40 @@
-import { navigateTo } from '@/utils/navigation';
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ActivityCalendar } from 'react-activity-calendar';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
-import { Trophy, Code2, Flame, Award, Loader2, ChevronLeft } from 'lucide-react';
+import { Code2, Flame, Award, Loader2, ChevronLeft, MapPin, Briefcase, Calendar, ExternalLink, Linkedin, Github } from 'lucide-react';
 import api from '../api/axios';
 import { GridBeam } from '@/components/ui/background-grid-beam';
 import Tilt from 'react-parallax-tilt';
-import { Linkedin, Sparkles, Copy, CheckCircle2 } from 'lucide-react';
+
+interface Experience {
+  company: string;
+  role: string;
+  startDate: string;
+  endDate?: string;
+  isCurrent?: boolean;
+  description?: string;
+}
+
+interface Project {
+  title: string;
+  description?: string;
+  link?: string;
+  technologies?: string[];
+}
 
 interface ProfileData {
   fullName: string;
   avatar: string;
+  bio?: string;
+  location?: string;
+  coverPhoto?: string;
+  targetRole?: string;
+  linkedin?: string;
+  github?: string;
+  experiences?: Experience[];
+  portfolioProjects?: Project[];
+  knownTechnologies?: string[];
+  skillRatings?: Record<string, number>;
   xp: number;
   streak: number;
   badges: { name: string; earnedAt: string }[];
@@ -34,16 +57,12 @@ const getRank = (xp: number) => {
 };
 
 const Profile = () => {
-  // Extract userId from hash since we use custom hash routing: #portfolio/123
   const hash = window.location.pathname.split('?')[0];
-  const userId = hash.startsWith('#portfolio/') ? hash.replace('#portfolio/', '') : hash.replace('#/portfolio/', '');
+  const userId = hash.startsWith('#portfolio/') ? hash.replace('#portfolio/', '') : hash.replace('#/portfolio/', '') || hash.replace('/portfolio/', '');
   
   const navigate = useNavigate();
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isGeneratingPost, setIsGeneratingPost] = useState(false);
-  const [linkedinPost, setLinkedinPost] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -63,30 +82,23 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+      <div className="min-h-screen bg-[#0a0c10] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-[#5ed29c] animate-spin" />
       </div>
     );
   }
 
   if (!profile) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center">
-        <h2 className="text-2xl font-bold mb-4">User not found</h2>
-        <button onClick={() => navigate(-1)} className="text-blue-500 hover:underline">Go Back</button>
+      <div className="min-h-screen bg-[#0a0c10] text-white flex flex-col items-center justify-center font-rubik">
+        <h2 className="text-2xl font-[900] uppercase italic tracking-widest mb-4">Profile Not Found</h2>
+        <button onClick={() => navigate(-1)} className="text-[#5ed29c] hover:underline font-bold uppercase tracking-widest text-xs">Return</button>
       </div>
     );
   }
 
   const rank = getRank(profile.xp);
 
-  const pieData = [
-    { name: 'Easy', value: profile.stats.easy, color: '#10B981' },
-    { name: 'Medium', value: profile.stats.medium, color: '#F59E0B' },
-    { name: 'Hard', value: profile.stats.hard, color: '#EF4444' },
-  ].filter(d => d.value > 0);
-
-  // Generate heatmap data for the last 6 months
   const heatmapData = [];
   const today = new Date();
   for (let i = 180; i >= 0; i--) {
@@ -94,7 +106,6 @@ const Profile = () => {
     d.setDate(d.getDate() - i);
     const dateStr = d.toISOString().split('T')[0];
     
-    // Count problems solved on this day
     const count = profile.solvedProblems.filter(p => p.solvedAt.startsWith(dateStr)).length;
     heatmapData.push({
       date: dateStr,
@@ -103,266 +114,261 @@ const Profile = () => {
     });
   }
 
-  const handleGenerateLinkedInPost = () => {
-    setIsGeneratingPost(true);
-    setLinkedinPost(null);
-    setCopied(false);
-    
-    // Simulate AI Generation
-    setTimeout(() => {
-      setLinkedinPost(`🚀 Just hit a massive milestone on @Prepzo!\n\nI've officially reached ${rank.title} Rank with a ${profile.streak}-day coding streak and over ${profile.stats.totalSolved} Data Structures & Algorithms problems solved. 💻🔥\n\nMy top tech stack right now is firing on all cylinders, and I've been mastering complex architectures in the Battle Arena.\n\nBig shoutout to the AI tools on Prepzo for keeping my code sharp and my ATS score in the 90s.\n\nWho else is grinding today? Let's connect! 👇\n\n#SoftwareEngineering #WebDevelopment #Prepzo #CodingJourney #BuildInPublic`);
-      setIsGeneratingPost(false);
-    }, 2000);
-  };
-
-  const handleCopyPost = () => {
-    if (linkedinPost) {
-      navigator.clipboard.writeText(linkedinPost);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
+  const formatMonthYear = (dateStr: string) => {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0c10] text-white font-rubik selection:bg-[#5ed29c] selection:text-black relative overflow-hidden">
-      <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+    <div className="min-h-screen bg-[#0a0c10] text-white font-rubik selection:bg-[#5ed29c] selection:text-black pb-20 relative">
+      <div className="absolute inset-0 z-0 opacity-40 pointer-events-none fixed">
         <GridBeam className="w-full h-full" />
       </div>
 
-      <main className="max-w-6xl mx-auto px-4 py-12 relative z-10">
+      <main className="max-w-5xl mx-auto px-4 py-8 relative z-10 space-y-8">
         <button 
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-10 text-[10px] font-black uppercase tracking-widest"
+          className="flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-2 text-[10px] font-black uppercase tracking-widest"
         >
           <ChevronLeft size={16} /> Back
         </button>
 
-        {/* Profile Header */}
-        <div className="bg-[#161a20] rounded-[40px] p-8 md:p-12 border border-white/5 shadow-2xl mb-12 flex flex-col md:flex-row items-center md:items-start gap-10 backdrop-blur-3xl relative overflow-hidden group hover:border-white/20 transition-all">
-          <div className="absolute top-0 right-0 p-6">
-              <div className="text-[10px] text-[#5ed29c] font-bold bg-[#5ed29c]/10 px-3 py-1.5 rounded uppercase tracking-[0.3em]">Verified Profile</div>
+        {/* 1. Hero / Header Section */}
+        <div className="bg-[#161a20] rounded-[24px] overflow-hidden border border-white/5 shadow-2xl relative">
+          {/* Cover Photo */}
+          <div className="h-48 md:h-64 w-full bg-[#1e232b] relative overflow-hidden">
+            {profile.coverPhoto ? (
+              <img src={profile.coverPhoto} alt="Cover" className="w-full h-full object-cover opacity-80" />
+            ) : (
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-900/40 via-purple-900/40 to-[#5ed29c]/20" />
+            )}
           </div>
-          <Tilt glareEnable={true} glareMaxOpacity={0.4} glareColor="#5ed29c" glarePosition="all" scale={1.05} transitionSpeed={2500} className="w-32 h-32 md:w-40 md:h-40 rounded-full z-10 relative">
-            <img 
-              src={profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.fullName}`} 
-              alt={profile.fullName}
-              className="w-full h-full rounded-full border-[6px] border-[#0a0c10] shadow-2xl"
-            />
-          </Tilt>
-          <div className="flex-1 text-center md:text-left z-10 relative">
-            <h1 className="text-4xl md:text-6xl font-[900] text-white uppercase tracking-tighter italic mb-2">{profile.fullName}</h1>
-            <p className={`text-[12px] font-black uppercase tracking-[0.4em] ${rank.color} mb-8`}>{rank.title} Developer</p>
-            
-            <div className="flex flex-wrap justify-center md:justify-start gap-8">
-              <div className="flex items-center gap-4">
-                <div className="p-4 bg-[#0a0c10] border border-white/5 shadow-inner rounded-2xl">
-                  <Trophy className="w-6 h-6 text-yellow-500" />
-                </div>
-                <div>
-                  <p className="text-[9px] font-black text-white/40 uppercase tracking-[0.3em]">Total XP</p>
-                  <p className="text-2xl font-[900] text-white italic">{profile.xp.toLocaleString()}</p>
+          
+          <div className="px-6 md:px-10 pb-10 relative">
+            {/* Avatar */}
+            <div className="absolute -top-16 left-6 md:left-10 p-1 bg-[#161a20] rounded-full">
+              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-[#161a20] bg-[#0a0c10]">
+                <img 
+                  src={profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.fullName}`} 
+                  alt={profile.fullName}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pt-20 md:pt-28">
+              <div>
+                <h1 className="text-3xl md:text-5xl font-[900] text-white tracking-tight">{profile.fullName}</h1>
+                <p className="text-lg text-white/80 font-medium mt-1 max-w-2xl">{profile.targetRole || 'Software Engineer'}</p>
+                <div className="flex flex-wrap items-center gap-4 mt-3 text-sm text-white/50 font-medium">
+                  {profile.location && (
+                    <span className="flex items-center gap-1.5"><MapPin size={16} /> {profile.location}</span>
+                  )}
+                  {profile.experiences && profile.experiences.length > 0 && (
+                    <span className="flex items-center gap-1.5"><Briefcase size={16} /> {profile.experiences[0]?.company}</span>
+                  )}
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="p-4 bg-[#0a0c10] border border-white/5 shadow-inner rounded-2xl">
-                  <Flame className="w-6 h-6 text-orange-500" />
-                </div>
-                <div>
-                  <p className="text-[9px] font-black text-white/40 uppercase tracking-[0.3em]">Current Streak</p>
-                  <p className="text-2xl font-[900] text-white italic">{profile.streak} Days</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="p-4 bg-[#0a0c10] border border-white/5 shadow-inner rounded-2xl">
-                  <Code2 className="w-6 h-6 text-[#5ed29c]" />
-                </div>
-                <div>
-                  <p className="text-[9px] font-black text-white/40 uppercase tracking-[0.3em]">Problems Solved</p>
-                  <p className="text-2xl font-[900] text-white italic">{profile.stats.totalSolved}</p>
+              <div className="flex items-center gap-3 shrink-0">
+                {profile.linkedin && (
+                  <a href={profile.linkedin.includes('http') ? profile.linkedin : `https://${profile.linkedin}`} target="_blank" rel="noreferrer" className="p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-colors border border-white/10 text-white hover:text-[#0a66c2]">
+                    <Linkedin size={20} />
+                  </a>
+                )}
+                {profile.github && (
+                  <a href={profile.github.includes('http') ? profile.github : `https://${profile.github}`} target="_blank" rel="noreferrer" className="p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-colors border border-white/10 text-white hover:text-gray-400">
+                    <Github size={20} />
+                  </a>
+                )}
+                <div className={`px-4 py-2.5 rounded-xl border flex flex-col items-center justify-center ${rank.title === 'Master' ? 'border-yellow-500/30 bg-yellow-500/10' : 'border-[#5ed29c]/20 bg-[#5ed29c]/10'}`}>
+                  <span className={`text-[9px] font-black uppercase tracking-widest ${rank.color}`}>{rank.title} Rank</span>
+                  <span className="text-sm font-bold text-white mt-0.5">{profile.xp.toLocaleString()} XP</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          
-          {/* Left Column */}
-          <div className="space-y-10">
-            {/* Badges */}
-            <div className="bg-[#161a20] rounded-[36px] p-8 border border-white/5 shadow-2xl hover:border-white/20 transition-all group overflow-hidden relative">
-              <div className="absolute -bottom-10 -right-10 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
-                  <Award size={180} />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content (Left / 2 Cols) */}
+          <div className="lg:col-span-2 space-y-8">
+            
+            {/* About */}
+            {profile.bio && (
+              <div className="bg-[#161a20] rounded-[24px] p-8 border border-white/5 shadow-xl">
+                <h2 className="text-lg font-[900] text-white mb-4 uppercase tracking-widest">About</h2>
+                <p className="text-white/70 leading-relaxed text-sm whitespace-pre-wrap">{profile.bio}</p>
               </div>
-              <h2 className="text-2xl font-[900] text-white mb-8 flex items-center gap-3 uppercase tracking-tight italic relative z-10">
-                <Award className="w-6 h-6 text-[#5ed29c]" /> 
-                Badges Earned
-              </h2>
-              {profile.badges.length > 0 ? (
-                <div className="grid grid-cols-2 gap-4 relative z-10">
-                  {profile.badges.map((b, i) => (
-                    <Tilt key={i} glareEnable={true} glareMaxOpacity={0.3} glareColor="#ffffff" glarePosition="all" scale={1.05} transitionSpeed={2000}>
-                      <div className="bg-[#0a0c10] p-5 h-full rounded-2xl text-center border border-white/5 hover:border-[#5ed29c]/50 transition-colors">
-                        <div className="w-12 h-12 mx-auto bg-[#5ed29c]/10 rounded-full flex items-center justify-center mb-3">
-                          <Award className="w-6 h-6 text-[#5ed29c]" />
+            )}
+
+            {/* Experience */}
+            {profile.experiences && profile.experiences.length > 0 && (
+              <div className="bg-[#161a20] rounded-[24px] p-8 border border-white/5 shadow-xl">
+                <h2 className="text-lg font-[900] text-white mb-8 uppercase tracking-widest">Experience</h2>
+                <div className="space-y-8">
+                  {profile.experiences.map((exp, i) => (
+                    <div key={i} className="flex gap-4 relative">
+                      {i !== profile.experiences!.length - 1 && (
+                        <div className="absolute top-10 bottom-[-2rem] left-5 w-[2px] bg-white/10" />
+                      )}
+                      <div className="w-10 h-10 shrink-0 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center z-10">
+                        <Briefcase size={18} className="text-white/50" />
+                      </div>
+                      <div className="flex-1 pb-4">
+                        <h3 className="text-lg font-bold text-white">{exp.role}</h3>
+                        <p className="text-[#5ed29c] font-medium text-sm mb-1">{exp.company}</p>
+                        <p className="text-xs text-white/40 flex items-center gap-1.5 mb-3 font-medium">
+                          <Calendar size={12} />
+                          {formatMonthYear(exp.startDate)} - {exp.isCurrent ? 'Present' : formatMonthYear(exp.endDate || '')}
+                        </p>
+                        {exp.description && (
+                          <p className="text-sm text-white/70 leading-relaxed whitespace-pre-wrap">{exp.description}</p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Projects */}
+            {profile.portfolioProjects && profile.portfolioProjects.length > 0 && (
+              <div className="bg-[#161a20] rounded-[24px] p-8 border border-white/5 shadow-xl">
+                <h2 className="text-lg font-[900] text-white mb-6 uppercase tracking-widest">Projects</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {profile.portfolioProjects.map((proj, i) => (
+                    <div key={i} className="bg-[#0a0c10] border border-white/5 rounded-2xl p-5 hover:border-white/20 transition-all flex flex-col">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="font-bold text-white text-base">{proj.title}</h3>
+                        {proj.link && (
+                          <a href={proj.link.includes('http') ? proj.link : `https://${proj.link}`} target="_blank" rel="noreferrer" className="text-white/40 hover:text-[#5ed29c] transition-colors p-1">
+                            <ExternalLink size={16} />
+                          </a>
+                        )}
+                      </div>
+                      <p className="text-xs text-white/60 mb-4 flex-1 line-clamp-3">{proj.description}</p>
+                      {proj.technologies && proj.technologies.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-auto">
+                          {proj.technologies.slice(0, 4).map((tech, j) => (
+                            <span key={j} className="text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-white/5 text-white/70 rounded border border-white/5">
+                              {tech}
+                            </span>
+                          ))}
+                          {proj.technologies.length > 4 && (
+                            <span className="text-[9px] font-black uppercase tracking-widest px-2 py-1 text-white/40">+{proj.technologies.length - 4}</span>
+                          )}
                         </div>
-                        <p className="text-[11px] font-[900] uppercase tracking-widest text-white/80">{b.name}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+          </div>
+
+          {/* Sidebar (Right / 1 Col) */}
+          <div className="space-y-8">
+            
+            {/* Skills */}
+            {(profile.knownTechnologies?.length || 0) > 0 && (
+              <div className="bg-[#161a20] rounded-[24px] p-8 border border-white/5 shadow-xl">
+                <h2 className="text-sm font-[900] text-white mb-6 uppercase tracking-widest">Skills & Expertise</h2>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {profile.knownTechnologies?.map((tech, i) => (
+                    <span key={i} className="text-xs font-medium px-3 py-1.5 bg-white/5 text-white/90 rounded-lg border border-white/10 hover:border-white/30 transition-colors cursor-default">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                {profile.skillRatings && Object.keys(profile.skillRatings).length > 0 && (
+                  <div className="space-y-4 pt-4 border-t border-white/5">
+                    {Object.entries(profile.skillRatings).slice(0, 5).map(([skill, val]) => (
+                      <div key={skill} className="space-y-1">
+                        <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
+                          <span className="text-white/70">{skill}</span>
+                          <span className="text-[#5ed29c]">{val}/10</span>
+                        </div>
+                        <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                          <div className="h-full bg-[#5ed29c] rounded-full" style={{ width: `${(val / 10) * 100}%` }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Gamification / Activity */}
+            <div className="bg-[#161a20] rounded-[24px] p-8 border border-white/5 shadow-xl">
+              <h2 className="text-sm font-[900] text-white mb-6 uppercase tracking-widest">Coding Activity</h2>
+              
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                <div className="p-4 bg-[#0a0c10] border border-white/5 rounded-2xl text-center">
+                  <Code2 className="w-5 h-5 text-[#5ed29c] mx-auto mb-2" />
+                  <p className="text-xl font-bold text-white">{profile.stats.totalSolved}</p>
+                  <p className="text-[9px] font-black text-white/40 uppercase tracking-widest">Solved</p>
+                </div>
+                <div className="p-4 bg-[#0a0c10] border border-white/5 rounded-2xl text-center">
+                  <Flame className="w-5 h-5 text-orange-500 mx-auto mb-2" />
+                  <p className="text-xl font-bold text-white">{profile.streak}</p>
+                  <p className="text-[9px] font-black text-white/40 uppercase tracking-widest">Streak</p>
+                </div>
+              </div>
+
+              <div className="w-full flex justify-center overflow-x-auto mb-8">
+                <div className="scale-75 origin-center">
+                  <ActivityCalendar 
+                    data={heatmapData} 
+                    theme={{
+                      light: ['#0a0c10', '#064e3b', '#047857', '#10b981', '#5ed29c'],
+                      dark: ['#0a0c10', '#064e3b', '#047857', '#10b981', '#5ed29c'],
+                    }}
+                    colorScheme="dark"
+                    blockRadius={4}
+                    blockMargin={4}
+                    blockSize={10}
+                  />
+                </div>
+              </div>
+
+              {profile.recentProblems.length > 0 && (
+                <div>
+                  <h3 className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-3">Recent Output</h3>
+                  <div className="space-y-2">
+                    {profile.recentProblems.slice(0,3).map((p, i) => (
+                      <div key={i} className="flex justify-between items-center p-3 bg-white/5 rounded-xl border border-white/5">
+                        <p className="text-xs font-bold text-white/80 truncate max-w-[140px]">{p.problemId.replace(/-/g, ' ')}</p>
+                        <span className={`text-[8px] font-black uppercase tracking-widest ${
+                          p.difficulty === 'Easy' ? 'text-emerald-400' :
+                          p.difficulty === 'Medium' ? 'text-yellow-400' : 'text-red-400'
+                        }`}>
+                          {p.difficulty}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Badges */}
+            {profile.badges.length > 0 && (
+              <div className="bg-[#161a20] rounded-[24px] p-8 border border-white/5 shadow-xl">
+                <h2 className="text-sm font-[900] text-white mb-6 uppercase tracking-widest">Badges Earned</h2>
+                <div className="grid grid-cols-2 gap-3">
+                  {profile.badges.map((b, i) => (
+                    <Tilt key={i} glareEnable={true} glareMaxOpacity={0.1} scale={1.05}>
+                      <div className="bg-[#0a0c10] p-4 h-full rounded-2xl text-center border border-white/5">
+                        <Award className="w-5 h-5 text-[#5ed29c] mx-auto mb-2" />
+                        <p className="text-[9px] font-black uppercase tracking-widest text-white/70">{b.name}</p>
                       </div>
                     </Tilt>
                   ))}
                 </div>
-              ) : (
-                <p className="text-white/30 text-center py-4 text-[10px] uppercase font-bold tracking-widest">No badges earned yet.</p>
-              )}
-            </div>
-
-            {/* LinkedIn Branding Studio */}
-            <div className="bg-[#161a20] rounded-[36px] p-8 border border-blue-500/20 shadow-[0_0_30px_rgba(59,130,246,0.1)] hover:border-blue-500/40 transition-all group relative overflow-hidden">
-              <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-500/10 blur-[50px] rounded-full pointer-events-none" />
-              <div className="flex items-center gap-3 mb-6 relative z-10">
-                <div className="w-10 h-10 rounded-xl bg-[#0a66c2]/20 flex items-center justify-center border border-[#0a66c2]/30">
-                  <Linkedin className="w-5 h-5 text-[#0a66c2]" />
-                </div>
-                <div>
-                  <h2 className="text-lg font-[900] text-white uppercase tracking-tight italic">Branding Studio</h2>
-                  <p className="text-[9px] font-black uppercase tracking-widest text-[#0a66c2]">Viral AI Post Generator</p>
-                </div>
               </div>
-
-              <div className="relative z-10">
-                {!linkedinPost ? (
-                  <div className="text-center">
-                    <p className="text-xs text-white/50 leading-relaxed font-medium mb-6">
-                      Turn your Battle Arena victories and coding streaks into viral LinkedIn content with 1 click.
-                    </p>
-                    <button 
-                      onClick={handleGenerateLinkedInPost}
-                      disabled={isGeneratingPost}
-                      className="w-full py-4 bg-[#0a66c2] hover:bg-[#004182] text-white font-[900] uppercase tracking-widest text-[11px] rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(10,102,194,0.3)]"
-                    >
-                      {isGeneratingPost ? (
-                        <><Loader2 className="w-4 h-4 animate-spin" /> Drafting Viral Post...</>
-                      ) : (
-                        <><Sparkles className="w-4 h-4" /> Generate LinkedIn Post</>
-                      )}
-                    </button>
-                  </div>
-                ) : (
-                  <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div className="bg-[#0a0c10] border border-white/10 rounded-2xl p-5 relative group/post">
-                      <p className="text-sm text-white/80 whitespace-pre-wrap font-medium">{linkedinPost}</p>
-                    </div>
-                    <button 
-                      onClick={handleCopyPost}
-                      className={`w-full py-4 font-[900] uppercase tracking-widest text-[11px] rounded-xl transition-all flex items-center justify-center gap-2 ${copied ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'}`}
-                    >
-                      {copied ? <><CheckCircle2 className="w-4 h-4" /> Copied to Clipboard!</> : <><Copy className="w-4 h-4" /> Copy for LinkedIn</>}
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column */}
-          <div className="lg:col-span-2 space-y-10">
-            
-            {/* Stats Overview */}
-            <div className="bg-[#161a20] rounded-[36px] p-8 border border-white/5 shadow-2xl hover:border-white/20 transition-all">
-              <h2 className="text-2xl font-[900] text-white mb-8 uppercase tracking-tight italic">Solving Signals</h2>
-              <div className="flex flex-col md:flex-row items-center gap-10">
-                <div className="w-48 h-48">
-                  {pieData.length > 0 ? (
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={pieData}
-                          innerRadius={65}
-                          outerRadius={90}
-                          paddingAngle={8}
-                          dataKey="value"
-                          stroke="none"
-                        >
-                          {pieData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
-                          ))}
-                        </Pie>
-                        <Tooltip 
-                          contentStyle={{ backgroundColor: '#0a0c10', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '1rem', color: '#fff', fontWeight: 900, textTransform: 'uppercase' }} 
-                          itemStyle={{ color: '#fff' }}
-                        />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-white/30 border-[4px] border-dashed border-white/10 rounded-full text-[10px] font-black uppercase tracking-widest">
-                      No Data
-                    </div>
-                  )}
-                </div>
-                <div className="flex-1 w-full space-y-4">
-                  <div className="flex justify-between items-center p-4 bg-[#0a0c10] border border-white/5 rounded-[20px]">
-                    <span className="text-emerald-400 font-black uppercase tracking-widest text-[11px]">Easy</span>
-                    <span className="text-white font-[900] text-xl">{profile.stats.easy}</span>
-                  </div>
-                  <div className="flex justify-between items-center p-4 bg-[#0a0c10] border border-white/5 rounded-[20px]">
-                    <span className="text-yellow-400 font-black uppercase tracking-widest text-[11px]">Medium</span>
-                    <span className="text-white font-[900] text-xl">{profile.stats.medium}</span>
-                  </div>
-                  <div className="flex justify-between items-center p-4 bg-[#0a0c10] border border-white/5 rounded-[20px]">
-                    <span className="text-red-400 font-black uppercase tracking-widest text-[11px]">Hard</span>
-                    <span className="text-white font-[900] text-xl">{profile.stats.hard}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Heatmap */}
-            <div className="bg-[#161a20] rounded-[36px] p-8 border border-white/5 shadow-2xl hover:border-white/20 transition-all overflow-x-auto">
-              <h2 className="text-2xl font-[900] text-white mb-10 uppercase tracking-tight italic">Activity Signal Grid</h2>
-              <div className="min-w-[750px]">
-                <ActivityCalendar 
-                  data={heatmapData} 
-                  theme={{
-                    light: ['#0a0c10', '#064e3b', '#047857', '#10b981', '#5ed29c'],
-                    dark: ['#0a0c10', '#064e3b', '#047857', '#10b981', '#5ed29c'],
-                  }}
-                  colorScheme="dark"
-                  labels={{
-                    totalCount: `{{count}} submissions in the last 6 months`,
-                  }}
-                  blockRadius={4}
-                  blockMargin={6}
-                  blockSize={14}
-                  fontSize={12}
-                />
-              </div>
-            </div>
-
-            {/* Recent Problems */}
-            <div className="bg-[#161a20] rounded-[36px] p-8 border border-white/5 shadow-2xl hover:border-white/20 transition-all">
-              <h2 className="text-2xl font-[900] text-white mb-8 uppercase tracking-tight italic">Recent Output</h2>
-              {profile.recentProblems.length > 0 ? (
-                <div className="space-y-4">
-                  {profile.recentProblems.map((p, i) => (
-                    <div key={i} className="flex justify-between items-center p-5 bg-[#0a0c10] hover:bg-white/[0.02] transition-colors rounded-[24px] border border-white/5 group">
-                      <div>
-                        <p className="font-[900] text-[15px] text-white uppercase italic tracking-tight group-hover:text-[#5ed29c] transition-colors">{p.problemId.replace(/-/g, ' ')}</p>
-                        <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest mt-1">{new Date(p.solvedAt).toLocaleDateString()}</p>
-                      </div>
-                      <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
-                        p.difficulty === 'Easy' ? 'bg-emerald-500/5 text-emerald-400 border-emerald-500/20' :
-                        p.difficulty === 'Medium' ? 'bg-yellow-500/5 text-yellow-400 border-yellow-500/20' :
-                        'bg-red-500/5 text-red-400 border-red-500/20'
-                      }`}>
-                        {p.difficulty}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-white/30 text-center py-4 text-[10px] uppercase font-bold tracking-widest">No recent output detected.</p>
-              )}
-            </div>
+            )}
 
           </div>
         </div>

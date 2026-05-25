@@ -82,6 +82,33 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  bio: {
+    type: String,
+    default: '',
+    maxlength: 500,
+  },
+  location: {
+    type: String,
+    default: '',
+  },
+  coverPhoto: {
+    type: String,
+    default: '',
+  },
+  experiences: [{
+    company: { type: String, required: true },
+    role: { type: String, required: true },
+    startDate: { type: String, required: true },
+    endDate: { type: String, default: '' },
+    isCurrent: { type: Boolean, default: false },
+    description: { type: String, default: '' }
+  }],
+  portfolioProjects: [{
+    title: { type: String, required: true },
+    description: { type: String, default: '' },
+    link: { type: String, default: '' },
+    technologies: { type: [String], default: [] }
+  }],
   knownTechnologies: {
     type: [String],
     default: [],

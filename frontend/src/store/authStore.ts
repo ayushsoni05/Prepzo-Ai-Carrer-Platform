@@ -21,6 +21,26 @@ export interface User {
   github: string;
   resumeUrl?: string;
   resumeText?: string;
+  
+  // Professional Portfolio Profile
+  bio?: string;
+  location?: string;
+  coverPhoto?: string;
+  experiences?: {
+    company: string;
+    role: string;
+    startDate: string;
+    endDate?: string;
+    isCurrent?: boolean;
+    description?: string;
+  }[];
+  portfolioProjects?: {
+    title: string;
+    description?: string;
+    link?: string;
+    technologies?: string[];
+  }[];
+
   role: 'student' | 'recruiter' | 'admin' | 'superadmin';
   isOnboarded: boolean;
   isAssessmentComplete: boolean;

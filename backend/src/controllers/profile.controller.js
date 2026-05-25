@@ -8,7 +8,7 @@ const getUserProfile = catchAsync(async (req, res) => {
   const { userId } = req.params;
 
   const user = await User.findById(userId)
-    .select('fullName avatar xp streak badges solvedProblems')
+    .select('fullName avatar xp streak badges solvedProblems bio location coverPhoto experiences portfolioProjects targetRole knownTechnologies skillRatings linkedin github')
     .lean();
 
   if (!user) {

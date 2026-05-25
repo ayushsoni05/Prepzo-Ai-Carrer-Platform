@@ -20,7 +20,8 @@ import {
   Bell,
   Lock,
   Eye,
-  Database
+  Database,
+  Code2
 } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { uploadApi } from '@/api/auth';
@@ -103,8 +104,41 @@ export function SettingsForm() {
     expectedCtc: user?.expectedCtc || '',
     placementTimeline: user?.placementTimeline || '',
     knownTechnologies: user?.knownTechnologies || [],
-    skillRatings: user?.skillRatings || {}
+    skillRatings: user?.skillRatings || {},
+    bio: user?.bio || '',
+    location: user?.location || '',
+    coverPhoto: user?.coverPhoto || '',
+    experiences: user?.experiences || [],
+    portfolioProjects: user?.portfolioProjects || []
   });
+
+  const addExperience = () => {
+    setFormData({...formData, experiences: [...formData.experiences, { company: '', role: '', startDate: '', endDate: '', isCurrent: false, description: '' }]});
+  };
+  const removeExperience = (index: number) => {
+    const newExps = [...formData.experiences];
+    newExps.splice(index, 1);
+    setFormData({...formData, experiences: newExps});
+  };
+  const updateExperience = (index: number, field: string, value: any) => {
+    const newExps = [...formData.experiences];
+    newExps[index] = { ...newExps[index], [field]: value };
+    setFormData({...formData, experiences: newExps});
+  };
+
+  const addProject = () => {
+    setFormData({...formData, portfolioProjects: [...formData.portfolioProjects, { title: '', description: '', link: '', technologies: [] }]});
+  };
+  const removeProject = (index: number) => {
+    const newProjs = [...formData.portfolioProjects];
+    newProjs.splice(index, 1);
+    setFormData({...formData, portfolioProjects: newProjs});
+  };
+  const updateProject = (index: number, field: string, value: any) => {
+    const newProjs = [...formData.portfolioProjects];
+    newProjs[index] = { ...newProjs[index], [field]: value };
+    setFormData({...formData, portfolioProjects: newProjs});
+  };
 
   // Derived options
   const fieldOptions = getFieldsOfStudyByDegree(formData.degree);
@@ -186,8 +220,9 @@ export function SettingsForm() {
       </div>
 
       <Tabs defaultValue="account" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 mb-8 bg-[#0a0c10]/40 border border-white/5 backdrop-blur-3xl h-auto p-2 gap-2">
+        <TabsList className="grid w-full grid-cols-3 md:grid-cols-7 mb-8 bg-[#0a0c10]/40 border border-white/5 backdrop-blur-3xl h-auto p-2 gap-2">
           <TabsTrigger value="account" className="py-3 text-xs uppercase tracking-widest font-black"><User className="w-4 h-4 mr-2" /> Account</TabsTrigger>
+          <TabsTrigger value="portfolio" className="py-3 text-xs uppercase tracking-widest font-black"><FileText className="w-4 h-4 mr-2" /> Portfolio</TabsTrigger>
           <TabsTrigger value="academic" className="py-3 text-xs uppercase tracking-widest font-black"><GraduationCap className="w-4 h-4 mr-2" /> Academic</TabsTrigger>
           <TabsTrigger value="security" className="py-3 text-xs uppercase tracking-widest font-black"><Lock className="w-4 h-4 mr-2" /> Security</TabsTrigger>
           <TabsTrigger value="privacy" className="py-3 text-xs uppercase tracking-widest font-black"><Eye className="w-4 h-4 mr-2" /> Privacy</TabsTrigger>
@@ -267,6 +302,169 @@ export function SettingsForm() {
                 <ThemeToggle />
               </div>
             </CardHeader>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="portfolio" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-2xl uppercase tracking-tighter italic">
+                <div className="p-2 rounded-lg bg-[#5ed29c]/10 text-[#5ed29c]"><FileText size={20} /></div>
+                Professional Identity
+              </CardTitle>
+              <CardDescription className="uppercase tracking-widest text-[10px]">Your bio and core professional data</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-2">
+                <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Professional Summary (Bio)</Label>
+                <textarea 
+                  className="w-full h-32 bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-white focus:outline-none focus:border-[#5ed29c] transition-colors"
+                  value={formData.bio}
+                  onChange={(e) => setFormData({...formData, bio: e.target.value})}
+                  placeholder="Summarize your professional background, goals, and core strengths..."
+                  maxLength={500}
+                />
+                <div className="text-right text-[10px] text-white/30 uppercase font-black">{formData.bio?.length || 0}/500</div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Location</Label>
+                  <Input 
+                    value={formData.location}
+                    onChange={(e) => setFormData({...formData, location: e.target.value})}
+                    placeholder="e.g. San Francisco, CA"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Cover Photo URL</Label>
+                  <Input 
+                    value={formData.coverPhoto}
+                    onChange={(e) => setFormData({...formData, coverPhoto: e.target.value})}
+                    placeholder="https://example.com/cover.jpg"
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-3 text-2xl uppercase tracking-tighter italic">
+                  <div className="p-2 rounded-lg bg-[#5ed29c]/10 text-[#5ed29c]"><Briefcase size={20} /></div>
+                  Experience Timeline
+                </CardTitle>
+                <CardDescription className="uppercase tracking-widest text-[10px]">Work history and internships</CardDescription>
+              </div>
+              <button onClick={addExperience} className="px-4 py-2 bg-[#5ed29c]/10 text-[#5ed29c] font-black uppercase tracking-widest text-[10px] rounded-lg hover:bg-[#5ed29c]/20 transition-all border border-[#5ed29c]/20">
+                + Add Role
+              </button>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {formData.experiences.length === 0 ? (
+                <div className="text-center py-8 border border-dashed border-white/10 rounded-xl bg-white/5">
+                  <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">No experiences added yet.</p>
+                </div>
+              ) : (
+                formData.experiences.map((exp, index) => (
+                  <div key={index} className="p-6 bg-white/5 border border-white/10 rounded-xl relative group">
+                    <button onClick={() => removeExperience(index)} className="absolute top-4 right-4 text-red-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Trash2 size={16} />
+                    </button>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <div className="space-y-2">
+                        <Label className="uppercase tracking-widest text-[10px] text-white/50">Company / Org</Label>
+                        <Input value={exp.company} onChange={(e) => updateExperience(index, 'company', e.target.value)} placeholder="e.g. Google" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="uppercase tracking-widest text-[10px] text-white/50">Role / Title</Label>
+                        <Input value={exp.role} onChange={(e) => updateExperience(index, 'role', e.target.value)} placeholder="e.g. Frontend Intern" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="uppercase tracking-widest text-[10px] text-white/50">Start Date</Label>
+                        <Input type="month" value={exp.startDate} onChange={(e) => updateExperience(index, 'startDate', e.target.value)} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="uppercase tracking-widest text-[10px] text-white/50">End Date</Label>
+                        <div className="flex items-center gap-4">
+                          <Input type="month" value={exp.endDate} disabled={exp.isCurrent} onChange={(e) => updateExperience(index, 'endDate', e.target.value)} className="flex-1" />
+                          <label className="flex items-center gap-2 text-[10px] font-black uppercase text-white/70">
+                            <input type="checkbox" checked={exp.isCurrent} onChange={(e) => updateExperience(index, 'isCurrent', e.target.checked)} className="accent-[#5ed29c]" />
+                            Current
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="uppercase tracking-widest text-[10px] text-white/50">Description</Label>
+                      <textarea 
+                        className="w-full h-24 bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-[#5ed29c] transition-colors"
+                        value={exp.description}
+                        onChange={(e) => updateExperience(index, 'description', e.target.value)}
+                        placeholder="What did you build? What was your impact?"
+                      />
+                    </div>
+                  </div>
+                ))
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-3 text-2xl uppercase tracking-tighter italic">
+                  <div className="p-2 rounded-lg bg-[#5ed29c]/10 text-[#5ed29c]"><Code2 size={20} /></div>
+                  Portfolio Projects
+                </CardTitle>
+                <CardDescription className="uppercase tracking-widest text-[10px]">Showcase your best builds</CardDescription>
+              </div>
+              <button onClick={addProject} className="px-4 py-2 bg-[#5ed29c]/10 text-[#5ed29c] font-black uppercase tracking-widest text-[10px] rounded-lg hover:bg-[#5ed29c]/20 transition-all border border-[#5ed29c]/20">
+                + Add Project
+              </button>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {formData.portfolioProjects.length === 0 ? (
+                <div className="text-center py-8 border border-dashed border-white/10 rounded-xl bg-white/5">
+                  <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">No projects added yet.</p>
+                </div>
+              ) : (
+                formData.portfolioProjects.map((proj, index) => (
+                  <div key={index} className="p-6 bg-white/5 border border-white/10 rounded-xl relative group">
+                    <button onClick={() => removeProject(index)} className="absolute top-4 right-4 text-red-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Trash2 size={16} />
+                    </button>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <div className="space-y-2">
+                        <Label className="uppercase tracking-widest text-[10px] text-white/50">Project Title</Label>
+                        <Input value={proj.title} onChange={(e) => updateProject(index, 'title', e.target.value)} placeholder="e.g. Prepzo AI Platform" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="uppercase tracking-widest text-[10px] text-white/50">Live / Repo Link</Label>
+                        <Input value={proj.link} onChange={(e) => updateProject(index, 'link', e.target.value)} placeholder="https://..." />
+                      </div>
+                    </div>
+                    <div className="space-y-2 mb-4">
+                      <Label className="uppercase tracking-widest text-[10px] text-white/50">Technologies Used (comma separated)</Label>
+                      <Input 
+                        value={(proj.technologies || []).join(', ')} 
+                        onChange={(e) => updateProject(index, 'technologies', e.target.value.split(',').map(t => t.trim()).filter(t => t.length > 0))} 
+                        placeholder="React, Node.js, MongoDB..." 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="uppercase tracking-widest text-[10px] text-white/50">Description</Label>
+                      <textarea 
+                        className="w-full h-24 bg-white/5 border border-white/10 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-[#5ed29c] transition-colors"
+                        value={proj.description}
+                        onChange={(e) => updateProject(index, 'description', e.target.value)}
+                        placeholder="What problem does this solve? What features does it have?"
+                      />
+                    </div>
+                  </div>
+                ))
+              )}
+            </CardContent>
           </Card>
         </TabsContent>
 
