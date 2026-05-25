@@ -66,6 +66,7 @@ export interface User {
   knownTechnologies: string[];
   linkedin: string;
   github: string;
+  avatar?: string;
   resumeUrl?: string;
   resumeText?: string;
   
@@ -327,6 +328,18 @@ export interface ResumeInfo {
 }
 
 export const uploadApi = {
+  uploadImage: async (file: File): Promise<{ success: boolean; message: string; imageUrl: string }> => {
+    const formData = new FormData();
+    formData.append('image', file);
+    
+    const response = await api.post<{ success: boolean; message: string; imageUrl: string }>('/upload/image', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  },
+
   uploadResume: async (file: File): Promise<UploadResponse> => {
     const formData = new FormData();
     formData.append('resume', file);

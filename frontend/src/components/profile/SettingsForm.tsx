@@ -105,6 +105,7 @@ export function SettingsForm() {
     placementTimeline: user?.placementTimeline || '',
     knownTechnologies: user?.knownTechnologies || [],
     skillRatings: user?.skillRatings || {},
+    avatar: user?.avatar || '',
     bio: user?.bio || '',
     location: user?.location || '',
     coverPhoto: user?.coverPhoto || '',
@@ -175,8 +176,24 @@ export function SettingsForm() {
       await uploadApi.deleteResume();
       await updateProfileAsync({ resumeUrl: undefined });
       toast.success('Resume node purged');
+    } catch (error: any) {
+      toast.error(error instanceof Error ? error.message : 'Failed to delete resume');
+    }
+  };
+
+  const handleImageUpload = async (file: File, type: 'avatar' | 'coverPhoto') => {
+    setUploading(true);
+    try {
+      const response = await uploadApi.uploadImage(file);
+      if (response.success && response.imageUrl) {
+        setFormData((prev) => ({ ...prev, [type]: response.imageUrl }));
+        toast.success(`${type === 'avatar' ? 'Profile' : 'Cover'} photo uploaded`);
+      }
     } catch (error) {
-      toast.error('Failed to delete resume');
+      console.error(`Failed to upload ${type}:`, error);
+      toast.error(`Failed to upload ${type === 'avatar' ? 'Profile' : 'Cover'} photo`);
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -240,6 +257,35 @@ export function SettingsForm() {
               <CardDescription className="uppercase tracking-widest text-[10px]">Manage your personal command center identity</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
+              <div className="flex flex-col md:flex-row gap-6 items-center border border-white/5 bg-white/5 p-4 rounded-xl">
+                <div className="relative group">
+                  <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-white/10 bg-[#0a0c10]">
+                    <img 
+                      src={formData.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.fullName || 'User'}`} 
+                      alt="Avatar" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <label htmlFor="avatar-upload" className="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
+                    <Upload size={20} className="text-white" />
+                  </label>
+                  <input 
+                    type="file" 
+                    id="avatar-upload" 
+                    accept="image/*" 
+                    className="hidden" 
+                    onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0], 'avatar')} 
+                  />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-white mb-1">Profile Photo</h3>
+                  <p className="text-[10px] text-white/50 uppercase tracking-widest mb-3">Upload a professional image</p>
+                  <label htmlFor="avatar-upload" className="px-4 py-2 bg-[#5ed29c]/10 text-[#5ed29c] rounded-lg text-[10px] font-black uppercase tracking-widest cursor-pointer hover:bg-[#5ed29c]/20 transition-all border border-[#5ed29c]/20">
+                    {uploading ? 'Uploading...' : 'Change Photo'}
+                  </label>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Full Name</Label>
@@ -336,12 +382,30 @@ export function SettingsForm() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Cover Photo URL</Label>
-                  <Input 
-                    value={formData.coverPhoto}
-                    onChange={(e) => setFormData({...formData, coverPhoto: e.target.value})}
-                    placeholder="https://example.com/cover.jpg"
-                  />
+                  <Label className="uppercase tracking-widest text-[10px] text-[#5ed29c]">Cover Photo</Label>
+                  <div className="flex flex-col gap-3">
+                    {formData.coverPhoto && (
+                      <div className="w-full h-24 rounded-lg overflow-hidden border border-white/10 relative group">
+                        <img src={formData.coverPhoto} alt="Cover" className="w-full h-full object-cover" />
+                        <label htmlFor="cover-upload" className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
+                          <Upload size={20} className="text-white" />
+                        </label>
+                      </div>
+                    )}
+                    {!formData.coverPhoto && (
+                      <label htmlFor="cover-upload" className="w-full h-24 rounded-lg border-2 border-dashed border-white/10 flex flex-col items-center justify-center cursor-pointer hover:bg-white/5 transition-colors">
+                        <Upload size={20} className="text-white/30 mb-2" />
+                        <span className="text-[10px] uppercase tracking-widest text-white/30">Upload Cover Photo</span>
+                      </label>
+                    )}
+                    <input 
+                      type="file" 
+                      id="cover-upload" 
+                      accept="image/*" 
+                      className="hidden" 
+                      onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0], 'coverPhoto')} 
+                    />
+                  </div>
                 </div>
               </div>
             </CardContent>

@@ -32,6 +32,7 @@ export const updateProfile = async (req, res) => {
     // Fields that can be updated
     const updatableFields = [
       'fullName',
+      'avatar',
       'phone',
       'dateOfBirth',
       'gender',

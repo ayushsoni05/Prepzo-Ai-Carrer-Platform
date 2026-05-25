@@ -136,6 +136,104 @@ const handleMulterError = (err, req, res, next) => {
 };
 
 /**
+ * @desc    Upload image securely (avatar or cover photo)
+ * @route   POST /api/upload/image
+ * @access  Private
+ */
+
+// Image-specific file filter
+const imageFileFilter = (req, file, cb) => {
+  if (isBlockedExtension(file.originalname)) {
+    return cb(new Error('File type not allowed for security reasons'), false);
+  }
+
+  const allowedTypes = securityConfig.upload.allowedMimeTypes.image;
+  if (!allowedTypes.includes(file.mimetype)) {
+    return cb(new Error('Invalid file type. Only JPG, PNG, GIF, and WEBP files are allowed.'), false);
+  }
+
+  cb(null, true);
+};
+
+const uploadImage = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      const imagesDir = path.join(__dirname, '../../uploads/images');
+      if (!fs.existsSync(imagesDir)) {
+        fs.mkdirSync(imagesDir, { recursive: true });
+      }
+      cb(null, imagesDir);
+    },
+    filename: (req, file, cb) => {
+      const userId = req.user?.id || 'unknown';
+      const secureFilename = generateSecureFilename(userId, file.originalname);
+      cb(null, secureFilename);
+    },
+  }),
+  fileFilter: imageFileFilter,
+  limits: {
+    fileSize: securityConfig.upload.maxFileSize,
+    files: 1,
+    fields: 5,
+  },
+});
+
+router.post('/image', protect, uploadLimiter, (req, res, next) => {
+  uploadImage.single('image')(req, res, (err) => handleMulterError(err, req, res, next));
+}, async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: 'No file uploaded',
+        code: 'NO_FILE',
+      });
+    }
+
+    // Additional security: Read first few bytes to verify image file type (magic numbers)
+    const fileBuffer = fs.readFileSync(req.file.path);
+    const fileSignature = fileBuffer.slice(0, 4).toString('hex').toLowerCase();
+    
+    // JPEG starts with FFD8FF
+    // PNG starts with 89504E47
+    // GIF starts with 47494638
+    // WEBP starts with 52494646 (RIFF)
+    const validSignatures = ['ffd8ff', '89504e47', '47494638', '52494646'];
+    const isValidSignature = validSignatures.some(sig => 
+      fileSignature.startsWith(sig)
+    );
+
+    if (!isValidSignature) {
+      fs.unlinkSync(req.file.path);
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid image file content',
+        code: 'INVALID_FILE_CONTENT',
+      });
+    }
+
+    // Generate the URL for the uploaded file
+    const imageUrl = `/uploads/images/${req.file.filename}`;
+
+    res.json({
+      success: true,
+      message: 'Image uploaded successfully',
+      imageUrl,
+    });
+  } catch (error) {
+    console.error('Image upload error:', error);
+    if (req.file?.path && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Failed to upload image',
+      code: 'SERVER_ERROR',
+    });
+  }
+});
+
+/**
  * @desc    Upload resume securely
  * @route   POST /api/upload/resume
  * @access  Private

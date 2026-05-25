@@ -19,6 +19,7 @@ export interface User {
   knownTechnologies: string[];
   linkedin: string;
   github: string;
+  avatar?: string;
   resumeUrl?: string;
   resumeText?: string;
   
