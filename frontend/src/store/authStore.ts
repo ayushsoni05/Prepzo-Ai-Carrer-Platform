@@ -60,6 +60,17 @@ export interface User {
   placementTimeline?: string;
   expectedCtc?: string;
   preferredCompanies?: string[];
+  settings?: {
+    profileVisibility: boolean;
+    networkVisibility: boolean;
+    emailAlerts: boolean;
+    pushNotifications: boolean;
+    dataTelemetry: boolean;
+    twoFactorAuth: boolean;
+    targetedAds: boolean;
+    autoplayVideos: boolean;
+    language: string;
+  };
   skillRatings?: Record<string, number>;
   testResults?: {
     totalQuestions: number;

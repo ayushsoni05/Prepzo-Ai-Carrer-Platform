@@ -576,6 +576,19 @@ const userSchema = new mongoose.Schema({
     twoFactorForSensitiveOps: { type: Boolean, default: false },
   },
 
+  // Application Settings
+  settings: {
+    profileVisibility: { type: Boolean, default: true },
+    networkVisibility: { type: Boolean, default: true },
+    emailAlerts: { type: Boolean, default: true },
+    pushNotifications: { type: Boolean, default: false },
+    dataTelemetry: { type: Boolean, default: true },
+    twoFactorAuth: { type: Boolean, default: false },
+    targetedAds: { type: Boolean, default: false },
+    autoplayVideos: { type: Boolean, default: true },
+    language: { type: String, default: 'English' }
+  },
+
   // Account Status
   accountStatus: {
     type: String,

@@ -55,6 +55,7 @@ export const updateProfile = async (req, res) => {
       'coverPhoto',
       'experiences',
       'portfolioProjects',
+      'settings',
     ];
 
     // Update only provided fields

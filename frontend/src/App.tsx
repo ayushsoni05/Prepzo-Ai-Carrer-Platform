@@ -71,7 +71,7 @@ const getPageFromPath = (): Page => {
   if (pageName.startsWith('portfolio/')) return 'portfolio';
   if (pageName.startsWith('battle/invite/')) return 'join-battle';
   
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'portfolio', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match'];
   return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 

@@ -43,24 +43,22 @@ export function SettingsForm() {
     }
   };
   
-  // Dummy Form State for Settings (simulating LinkedIn)
   const [settings, setSettings] = useState({
-    profileVisibility: true,
-    networkVisibility: true,
-    emailAlerts: true,
-    pushNotifications: false,
-    dataTelemetry: true,
-    twoFactorAuth: false,
-    targetedAds: false,
-    autoplayVideos: true,
-    language: 'English'
+    profileVisibility: user?.settings?.profileVisibility ?? true,
+    networkVisibility: user?.settings?.networkVisibility ?? true,
+    emailAlerts: user?.settings?.emailAlerts ?? true,
+    pushNotifications: user?.settings?.pushNotifications ?? false,
+    dataTelemetry: user?.settings?.dataTelemetry ?? true,
+    twoFactorAuth: user?.settings?.twoFactorAuth ?? false,
+    targetedAds: user?.settings?.targetedAds ?? false,
+    autoplayVideos: user?.settings?.autoplayVideos ?? true,
+    language: user?.settings?.language || 'English'
   });
 
   const handleSave = async () => {
     setLoading(true);
     try {
-      // In a real app we'd save these specific settings. For now we just mock success.
-      await new Promise(resolve => setTimeout(resolve, 800));
+      await updateProfileAsync({ settings });
       toast.success('Settings synchronized successfully');
     } catch (error: any) {
       toast.error(error.message || 'Synchronization failed');
@@ -95,10 +93,10 @@ export function SettingsForm() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Sidebar Nav */}
-        <div className="col-span-1">
-          <Tabs defaultValue="preferences" className="w-full flex flex-col md:flex-row" orientation="vertical">
+      <Tabs defaultValue="preferences" className="w-full">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Sidebar Nav */}
+          <div className="col-span-1">
             <TabsList className="flex flex-col w-full h-auto bg-transparent items-start gap-2 border-l-2 border-white/10 rounded-none p-0 ml-2 pl-4">
               <TabsTrigger value="preferences" className="w-full justify-start py-3 text-xs uppercase tracking-widest font-black data-[state=active]:text-[#5ed29c] data-[state=active]:bg-transparent"><User className="w-4 h-4 mr-3" /> Account Prefs</TabsTrigger>
               <TabsTrigger value="security" className="w-full justify-start py-3 text-xs uppercase tracking-widest font-black data-[state=active]:text-[#5ed29c] data-[state=active]:bg-transparent"><Lock className="w-4 h-4 mr-3" /> Sign in & Security</TabsTrigger>
@@ -107,13 +105,10 @@ export function SettingsForm() {
               <TabsTrigger value="advertising" className="w-full justify-start py-3 text-xs uppercase tracking-widest font-black data-[state=active]:text-[#5ed29c] data-[state=active]:bg-transparent"><Megaphone className="w-4 h-4 mr-3" /> Advertising Data</TabsTrigger>
               <TabsTrigger value="notifications" className="w-full justify-start py-3 text-xs uppercase tracking-widest font-black data-[state=active]:text-[#5ed29c] data-[state=active]:bg-transparent"><Bell className="w-4 h-4 mr-3" /> Notifications</TabsTrigger>
             </TabsList>
-          </Tabs>
-        </div>
+          </div>
 
-        {/* Content Area */}
-        <div className="col-span-1 md:col-span-3">
-          <Tabs defaultValue="preferences" className="w-full">
-            {/* We duplicate the Tabs wrapper just to connect content, normally they share context, but since orientation="vertical" is tricky in radix UI across detached elements, we can keep the structure simple by wrapping the whole thing. */}
+          {/* Content Area */}
+          <div className="col-span-1 md:col-span-3">
             
             <TabsContent value="preferences" className="space-y-6 m-0">
               <Card className="bg-[#161a20] border-white/5 shadow-2xl">
@@ -348,9 +343,9 @@ export function SettingsForm() {
               </Card>
             </TabsContent>
 
-          </Tabs>
+          </div>
         </div>
-      </div>
+      </Tabs>
     </div>
   );
 }
