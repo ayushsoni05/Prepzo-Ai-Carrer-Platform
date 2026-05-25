@@ -13,6 +13,7 @@ import { getFileUrl } from '@/utils/fileUrl';
 import { useAuthStore } from '@/store/authStore';
 import toast from 'react-hot-toast';
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { 
   SearchableDropdown, degreeOptions, yearOfStudyOptions, getFieldsOfStudyByDegree
 } from '@/components/ui/SearchableDropdown';
