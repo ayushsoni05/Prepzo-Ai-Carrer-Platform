@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { uploadApi } from '@/api/auth';
+import { getFileUrl } from '@/utils/fileUrl';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import { 
   SearchableDropdown, 
@@ -261,7 +262,7 @@ export function SettingsForm() {
                 <div className="relative group">
                   <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-white/10 bg-[#0a0c10]">
                     <img 
-                      src={formData.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.fullName || 'User'}`} 
+                      src={formData.avatar ? getFileUrl(formData.avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.fullName || 'User'}`} 
                       alt="Avatar" 
                       className="w-full h-full object-cover"
                     />
@@ -386,7 +387,7 @@ export function SettingsForm() {
                   <div className="flex flex-col gap-3">
                     {formData.coverPhoto && (
                       <div className="w-full h-24 rounded-lg overflow-hidden border border-white/10 relative group">
-                        <img src={formData.coverPhoto} alt="Cover" className="w-full h-full object-cover" />
+                        <img src={getFileUrl(formData.coverPhoto)} alt="Cover" className="w-full h-full object-cover" />
                         <label htmlFor="cover-upload" className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
                           <Upload size={20} className="text-white" />
                         </label>
@@ -820,12 +821,12 @@ export function SettingsForm() {
                       </div>
                       <div>
                         <p className="text-xs font-bold uppercase tracking-wider text-white">Current Blueprint Mapped</p>
-                        <a href={user.resumeUrl} target="_blank" rel="noreferrer" className="text-[10px] text-[#5ed29c] hover:underline uppercase tracking-widest mt-1 inline-block">View Document</a>
+                        <div className="flex items-center justify-between">
+                          <a href={getFileUrl(user.resumeUrl)} target="_blank" rel="noreferrer" className="text-[10px] text-[#5ed29c] hover:underline uppercase tracking-widest mt-1 inline-block">View Document</a>
+                          <button onClick={handleResumeDelete} className="text-[10px] text-red-500 hover:underline uppercase tracking-widest mt-1">Delete</button>
+                        </div>
                       </div>
                     </div>
-                    <button onClick={handleResumeDelete} className="p-2 text-red-500 hover:bg-red-500/10 rounded-lg transition-colors">
-                      <Trash2 size={16} />
-                    </button>
                   </div>
                 ) : (
                   <div className="p-8 border border-dashed border-white/10 rounded-xl text-center group hover:border-[#5ed29c]/30 transition-all">

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ActivityCalendar } from 'react-activity-calendar';
 import { Code2, Flame, Award, Loader2, ChevronLeft, MapPin, Briefcase, Calendar, ExternalLink, Linkedin, Github } from 'lucide-react';
 import api from '../api/axios';
+import { getFileUrl } from '@/utils/fileUrl';
 import { GridBeam } from '@/components/ui/background-grid-beam';
 import Tilt from 'react-parallax-tilt';
 
@@ -137,21 +138,26 @@ const Profile = () => {
         {/* 1. Hero / Header Section */}
         <div className="bg-[#161a20] rounded-[24px] overflow-hidden border border-white/5 shadow-2xl relative">
           {/* Cover Photo */}
-          <div className="h-48 md:h-64 w-full bg-[#1e232b] relative overflow-hidden">
+          <div className="h-64 md:h-80 w-full relative">
+            <div className="absolute inset-0 bg-[#0a0c10]/20" /> {/* Slight overlay */}
             {profile.coverPhoto ? (
-              <img src={profile.coverPhoto} alt="Cover" className="w-full h-full object-cover opacity-80" />
+              <img 
+                src={getFileUrl(profile.coverPhoto)} 
+                alt="Cover" 
+                className="w-full h-full object-cover"
+              />
             ) : (
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-900/40 via-purple-900/40 to-[#5ed29c]/20" />
+              <div className="w-full h-full bg-gradient-to-r from-emerald-900/20 to-[#0a0c10] border-b border-white/5" />
             )}
           </div>
           
           <div className="px-6 md:px-10 pb-10 relative">
             {/* Avatar */}
-            <div className="absolute -top-16 left-6 md:left-10 p-1 bg-[#161a20] rounded-full">
-              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-[#161a20] bg-[#0a0c10]">
+            <div className="absolute -top-20 md:-top-24 left-4 md:left-8">
+              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-[#0a0c10] overflow-hidden bg-[#11141a] shadow-2xl relative">
                 <img 
-                  src={profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.fullName}`} 
-                  alt={profile.fullName}
+                  src={profile.avatar ? getFileUrl(profile.avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.fullName}`} 
+                  alt={profile.fullName} 
                   className="w-full h-full object-cover"
                 />
               </div>
