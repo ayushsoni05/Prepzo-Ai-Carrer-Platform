@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ActivityCalendar } from 'react-activity-calendar';
+import ActivityCalendar from 'react-activity-calendar';
 import { 
   Briefcase, Calendar, ExternalLink, Linkedin, Github, Edit2, Save, X, Upload, 
   Trash2, FileText, Target, CalendarDays, Zap, GraduationCap, MapPin, Search, 
