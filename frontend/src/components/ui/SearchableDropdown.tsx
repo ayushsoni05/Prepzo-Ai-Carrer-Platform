@@ -191,7 +191,7 @@ export const SearchableDropdown = ({
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.025, duration: 0.15 }}
-                        onClick={() => handleSelect(option)}
+                        onClick={() => handleSelect(option.value)}
                         onMouseEnter={() => setHighlightedIndex(index)}
                         className="relative px-3 py-2.5 cursor-pointer group"
                       >
@@ -214,7 +214,7 @@ export const SearchableDropdown = ({
                               transition={{ duration: 0.2 }}
                               style={{ willChange: 'transform' }}
                             >
-                              <Icon className="w-4 h-4 text-white" />
+                              {Icon && <Icon className="w-4 h-4 text-white" />}
                             </motion.div>
                           </div>
 
