@@ -26,9 +26,9 @@ const LANGUAGE_EXTENSIONS: Record<string, any> = {
 export const InteractivePlayground: React.FC = () => {
   const location = useLocation();
 
-  // Extract ID from URL hash manually since App.tsx uses custom hash routing
-  const hash = window.location.pathname;
-  const problemId = hash.includes('?id=') ? hash.split('?id=')[1].split('&')[0] : null;
+  // Extract ID from URL query parameters
+  const searchParams = new URLSearchParams(window.location.search);
+  const problemId = searchParams.get('id');
 
   const [problem, setProblem] = useState<CodingProblem | null>(null);
   const [loading, setLoading] = useState(true);

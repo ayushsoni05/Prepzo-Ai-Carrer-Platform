@@ -16,10 +16,10 @@ export const PdfReaderPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Extract note ID from URL: /#reader?id=xyz
-    const hash = window.location.pathname;
-    if (hash.includes('?id=')) {
-      const id = hash.split('?id=')[1].split('&')[0];
+    // Extract note ID from URL query string
+    const searchParams = new URLSearchParams(window.location.search);
+    const id = searchParams.get('id');
+    if (id) {
       setNoteId(id);
     } else {
       setError('No document ID provided.');
