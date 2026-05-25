@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { getNoteById, Note, Annotation, getNoteAnnotations, saveNoteAnnotations } from '@/api/notes';
@@ -16,7 +17,7 @@ export const PdfReaderPage: React.FC = () => {
 
   useEffect(() => {
     // Extract note ID from URL: /#reader?id=xyz
-    const hash = window.location.hash;
+    const hash = window.location.pathname;
     if (hash.includes('?id=')) {
       const id = hash.split('?id=')[1].split('&')[0];
       setNoteId(id);
@@ -101,7 +102,7 @@ export const PdfReaderPage: React.FC = () => {
               if (window.history.length > 1) {
                 window.history.back();
               } else {
-                window.location.hash = 'notes';
+                navigateTo('notes');
               }
             }}
             className="px-8 py-3 bg-white/5 text-white border border-white/10 font-[900] text-[10px] uppercase tracking-widest rounded-xl hover:bg-white/10 transition-all italic cursor-pointer"
@@ -138,7 +139,7 @@ export const PdfReaderPage: React.FC = () => {
             if (window.history.length > 1) {
               window.history.back();
             } else {
-              window.location.hash = `note-detail?id=${noteId}`;
+              navigateTo(`note-detail?id=${noteId}`);
             }
           }}
           className="text-[10px] font-black text-white/40 uppercase tracking-widest italic hover:text-white transition-colors bg-transparent border-none cursor-pointer"

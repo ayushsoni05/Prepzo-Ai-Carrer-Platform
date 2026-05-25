@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSocketStore } from '@/store/socketStore';
@@ -78,7 +79,7 @@ export const BattleArena = () => {
 
   useEffect(() => {
     if (matchStatus === 'idle') {
-      window.location.hash = 'coding-lab';
+      navigateTo('coding-lab');
     }
   }, [matchStatus]);
 
@@ -181,7 +182,7 @@ try {
 
   const handleExit = () => {
     resetState();
-    window.location.hash = 'coding-lab';
+    navigateTo('coding-lab');
   };
 
   if (matchStatus === 'ended') {

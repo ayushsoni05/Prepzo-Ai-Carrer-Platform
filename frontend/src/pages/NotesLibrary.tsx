@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -272,7 +273,7 @@ export const NotesLibrary: React.FC = () => {
                             onClick={() => {
                               setSelectedNoteId(note.noteId);
                               setCurrentPage('note-detail');
-                              window.location.hash = 'note-detail';
+                              navigateTo('note-detail');
                             }}
                             className="flex items-center justify-between w-full p-3 rounded-xl bg-white/5 hover:bg-blue-400/10 text-white/60 hover:text-blue-400 transition-all text-[10px] font-black uppercase tracking-widest italic cursor-pointer"
                           >

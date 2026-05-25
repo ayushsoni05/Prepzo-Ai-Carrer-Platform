@@ -55,16 +55,18 @@ const PageTransition = ({ children, pageKey }: { children: React.ReactNode, page
 
 type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'portfolio' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | '404';
 
-// Get initial page from URL hash or default to 'landing'
-const getPageFromHash = (): Page => {
-  let hash = window.location.hash.slice(1);
-  if (!hash) return 'landing';
-  // react-router-dom HashRouter prepends a slash (e.g., #/playground)
-  if (hash.startsWith('/')) {
-    hash = hash.slice(1);
+// Get initial page from URL path or default to 'landing'
+const getPageFromPath = (): Page => {
+  let path = window.location.pathname;
+  if (!path || path === '/') return 'landing';
+  
+  // Remove leading slash
+  if (path.startsWith('/')) {
+    path = path.slice(1);
   }
-  // Allow parameters in hash like #reader?id=123
-  const pageName = hash.split('?')[0];
+  
+  // Allow parameters or search queries (if any)
+  const pageName = path.split('?')[0];
   
   if (pageName.startsWith('portfolio/')) return 'portfolio';
   if (pageName.startsWith('battle/invite/')) return 'join-battle';
@@ -74,7 +76,7 @@ const getPageFromHash = (): Page => {
 };
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<Page>(getPageFromHash());
+  const [currentPage, setCurrentPage] = useState<Page>(getPageFromPath());
   const [isInitialized, setIsInitialized] = useState(false);
   const [authValidated, setAuthValidated] = useState(false);
   const initRef = useRef(false);
@@ -102,8 +104,8 @@ export default function App() {
     
     if (token) {
       localStorage.setItem('prepzo-token', token);
-      // Clean up the URL (remove token from query but keep hash)
-      window.history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+      // Clean up the URL (remove token from query)
+      window.history.replaceState({}, document.title, window.location.pathname);
       
       const reinitAuth = async () => {
         try {
@@ -147,7 +149,7 @@ export default function App() {
           if (!validatedUser) {
             // Don't load resume data - auth failed
             setCurrentPage('landing');
-            window.location.hash = 'landing';
+            window.history.replaceState({}, '', '/landing');
             setAuthValidated(false);
           } else {
             // Auth validated successfully
@@ -168,14 +170,14 @@ export default function App() {
         
         if (isOnProtectedPage) {
           setCurrentPage('landing');
-          window.location.hash = 'landing';
+          window.history.replaceState({}, '', '/landing');
         }
         setAuthValidated(false);
       } else if (['landing', 'login', 'signup'].includes(currentPage) && isAuthenticated && hasToken) {
         // Authenticated user on public page - redirect to dashboard
         const targetDashboard = useAuthStore.getState().user?.role === 'recruiter' ? 'recruiter-dashboard' : 'dashboard';
         setCurrentPage(targetDashboard);
-        window.location.hash = targetDashboard;
+        window.history.replaceState({}, '', `/${targetDashboard}`);
         setAuthValidated(true);
       } else {
         // Not on protected page, no validation needed
@@ -229,8 +231,8 @@ export default function App() {
 
   // Listen for browser back/forward navigation
   useEffect(() => {
-    const handleHashChange = () => {
-      const newPage = getPageFromHash();
+    const handlePopState = () => {
+      const newPage = getPageFromPath();
       if (newPage !== currentPage) {
         setGlobalLoading(true, `Routing to ${newPage.replace('-', ' ')}...`);
         
@@ -250,8 +252,8 @@ export default function App() {
         }, 400);
       }
     };
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, [currentPage, setGlobalLoading]);
 
   // Redirect based on auth state after initialization
@@ -322,7 +324,9 @@ export default function App() {
       }
 
       setCurrentPage(newPage);
-      window.location.hash = newPage;
+      if (window.location.pathname !== `/${newPage}`) {
+        window.history.pushState({}, '', `/${newPage}`);
+      }
       
       // We don't hide the loader here; we let the target page signal readiness
       // But we add a safety timeout just in case

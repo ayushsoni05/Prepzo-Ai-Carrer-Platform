@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 
@@ -143,22 +144,22 @@ export function Dashboard() {
     {
       title: 'Jobs',
       description: 'Track role-matched openings with cleaner filters and calmer surfaces.',
-      action: () => window.location.hash = 'jobs',
+      action: () => navigateTo('jobs'),
     },
     {
       title: 'Companies',
       description: 'Company prep, hiring signals, and target lists in a premium workspace.',
-      action: () => window.location.hash = 'companies',
+      action: () => navigateTo('companies'),
     },
     {
       title: 'Applications',
       description: 'Review application status, momentum, and next actions in one view.',
-      action: () => window.location.hash = 'applications',
+      action: () => navigateTo('applications'),
     },
     {
       title: 'Network',
       description: 'Stay connected to peers, mentors, and warm opportunities.',
-      action: () => window.location.hash = 'network',
+      action: () => navigateTo('network'),
     },
   ];
 
@@ -472,7 +473,7 @@ export function Dashboard() {
               </p>
               
               <button 
-                onClick={() => window.location.hash = 'ai-interview'}
+                onClick={() => navigateTo('ai-interview')}
                 className="group/btn relative h-[55px] px-8 bg-[#5ed29c] rounded-2xl flex items-center gap-3 overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-xl shadow-[#5ed29c]/20"
               >
                 <span className="relative z-10 text-black font-black uppercase tracking-widest text-xs">Launch Session</span>
@@ -501,7 +502,7 @@ export function Dashboard() {
       {/* STAR Story Builder Entry Card */}
       <div className="mt-10">
         <div 
-          onClick={() => { window.location.hash = 'star-builder'; }}
+          onClick={() => { navigateTo('star-builder'); }}
           className="rounded-[40px] p-10 bg-gradient-to-br from-[#13171d] to-black border border-yellow-500/30 shadow-2xl relative overflow-hidden group hover:border-yellow-500/50 transition-colors cursor-pointer"
         >
           <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:opacity-20 transition-opacity duration-700 transform group-hover:scale-125">
@@ -538,7 +539,7 @@ export function Dashboard() {
       {/* Study Notes Entry Card */}
       <div className="mt-10">
         <div 
-          onClick={() => { window.location.hash = 'notes'; }}
+          onClick={() => { navigateTo('notes'); }}
           className="rounded-[40px] p-10 bg-gradient-to-br from-[#13171d] to-black border border-blue-500/30 shadow-2xl relative overflow-hidden group hover:border-blue-500/50 transition-colors cursor-pointer"
         >
           <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:opacity-20 transition-opacity duration-700 transform group-hover:scale-125">
@@ -562,7 +563,7 @@ export function Dashboard() {
               </p>
               
               <button 
-                onClick={(e) => { e.stopPropagation(); window.location.hash = 'notes'; }}
+                onClick={(e) => { e.stopPropagation(); navigateTo('notes'); }}
                 className="group/btn relative h-[55px] px-8 bg-blue-500 rounded-2xl flex items-center gap-3 overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-xl shadow-blue-500/20"
               >
                 <span className="relative z-10 text-white font-black uppercase tracking-widest text-xs">Open Library</span>
@@ -595,7 +596,7 @@ export function Dashboard() {
             <h1 className="text-2xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic">Interview <span className="text-white/40">Library.</span></h1>
           </div>
           <button 
-            onClick={() => window.location.hash = 'question-bank'}
+            onClick={() => navigateTo('question-bank')}
             className="group flex items-center gap-2 text-[10px] font-black text-[#5ed29c] uppercase tracking-widest italic hover:opacity-80 transition-opacity pb-2"
           >
             Open Full Bank <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -606,7 +607,7 @@ export function Dashboard() {
             
             <div className="p-8 border-t border-white/5 flex justify-center">
               <button 
-                onClick={() => window.location.hash = 'question-bank'}
+                onClick={() => navigateTo('question-bank')}
                 className="relative h-[55px] px-10 group active:scale-95 transition-transform"
               >
                 <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105 shadow-2xl shadow-[#5ed29c]/10" viewBox="0 0 184 55" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -695,7 +696,7 @@ export function Dashboard() {
           <div className="mb-10">
             <div className="w-10 h-[2px] bg-[#5ed29c] mb-6" />
             <button 
-              onClick={() => window.location.hash = 'dashboard'}
+              onClick={() => navigateTo('dashboard')}
               className="group flex items-center gap-3 text-white/40 hover:text-white transition-all font-black uppercase tracking-[0.3em] text-[10px]"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
@@ -1162,7 +1163,7 @@ export function Dashboard() {
                 </h3>
               </div>
               <GlassButton 
-                onClick={() => window.location.hash = 'jobs'}
+                onClick={() => navigateTo('jobs')}
                 className="text-[10px] font-black uppercase tracking-widest"
               >
                 Open Full Workspace
@@ -1211,7 +1212,7 @@ export function Dashboard() {
                         </div>
                       </div>
                       <button 
-                        onClick={() => window.location.hash = 'jobs'}
+                        onClick={() => navigateTo('jobs')}
                         className="text-[10px] font-black text-blue-400 uppercase tracking-widest hover:text-white transition-colors flex items-center gap-2"
                       >
                         Apply Now <ArrowUpRight size={12} />
@@ -1253,7 +1254,7 @@ export function Dashboard() {
             animate={{ opacity: 1, x: 0 }}
             onClick={() => {
               logout();
-              window.location.hash = 'landing';
+              navigateTo('landing');
             }}
             className="fixed left-8 top-8 z-[110] inline-flex items-center gap-4 text-white/60 hover:text-white transition-all uppercase font-bold tracking-widest text-[11px]"
           >

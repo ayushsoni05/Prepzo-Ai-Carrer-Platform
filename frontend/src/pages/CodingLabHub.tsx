@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2, ChevronLeft, Trophy, UserCircle, Swords, Globe } from 'lucide-react';
@@ -68,7 +69,7 @@ export const CodingLabHub: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
           <div>
             <button 
-              onClick={() => window.location.hash = 'dashboard'} 
+              onClick={() => navigateTo('dashboard')} 
               className="flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-8 text-[10px] font-black uppercase tracking-widest"
             >
               <ChevronLeft size={16} /> Back to Dashboard
@@ -87,14 +88,14 @@ export const CodingLabHub: React.FC = () => {
              {/* Gamification Links */}
              <div className="flex gap-4 w-full">
                 <button 
-                  onClick={() => window.location.hash = 'find-match'}
+                  onClick={() => navigateTo('find-match')}
                   className="flex-1 px-4 py-3 bg-gradient-to-br from-red-500/20 to-red-600/5 border border-red-500/30 rounded-xl flex items-center justify-center gap-2 hover:bg-red-500/30 transition-colors shadow-lg shadow-red-500/10 group backdrop-blur-md"
                 >
                   <Swords size={16} className="text-red-500 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
                   <span className="text-[10px] font-black text-red-500 uppercase tracking-widest">Find Match</span>
                 </button>
                 <button 
-                  onClick={() => window.location.hash = 'leaderboard'}
+                  onClick={() => navigateTo('leaderboard')}
                   className="flex-1 px-4 py-3 bg-gradient-to-br from-yellow-500/20 to-yellow-600/5 border border-yellow-500/30 rounded-xl flex items-center justify-center gap-2 hover:bg-yellow-500/30 transition-colors shadow-lg shadow-yellow-500/10 group backdrop-blur-md"
                 >
                   <Trophy size={16} className="text-yellow-500 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(234,179,8,0.8)]" />
@@ -104,7 +105,7 @@ export const CodingLabHub: React.FC = () => {
                   onClick={() => {
                     const profileId = user?._id || user?.id;
                     if (profileId) {
-                      window.location.hash = `portfolio/${profileId}`;
+                      navigateTo(`portfolio/${profileId}`);
                     } else {
                       alert('Please sign in to view your profile');
                     }
@@ -117,7 +118,7 @@ export const CodingLabHub: React.FC = () => {
              </div>
              
              <button 
-                onClick={() => window.location.hash = 'create-battle'}
+                onClick={() => navigateTo('create-battle')}
                 className="w-full px-4 py-3 bg-gradient-to-br from-[#5ed29c]/20 to-[#5ed29c]/5 border border-[#5ed29c]/50 rounded-xl flex items-center justify-center gap-2 hover:bg-[#5ed29c]/30 transition-colors shadow-[0_0_15px_rgba(94,210,156,0.2)] group backdrop-blur-md"
               >
                 <Swords size={18} className="text-[#5ed29c] group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(94,210,156,0.8)]" />
@@ -228,7 +229,7 @@ export const CodingLabHub: React.FC = () => {
                     <p className="text-[10px] font-bold text-white/60 mt-1">{lobby.timeLimit || 0} Minutes Limit</p>
                   </div>
                   <button 
-                    onClick={() => window.location.hash = `battle/invite/${lobby.roomId}`}
+                    onClick={() => navigateTo(`battle/invite/${lobby.roomId}`)}
                     className="w-full py-3 bg-white/5 hover:bg-[#5ed29c] hover:text-black border border-white/10 text-white font-[900] uppercase tracking-widest text-[10px] rounded-xl transition-all shadow-lg group-hover:shadow-[#5ed29c]/20"
                   >
                     Join Battle
@@ -278,7 +279,7 @@ export const CodingLabHub: React.FC = () => {
                         <CheckCircle2 size={18} className={`transition-colors ${solvedIds.includes(problem.id) ? 'text-[#5ed29c]' : 'text-white/10 group-hover:text-white/20'}`} />
                       </td>
                       <td className="py-6 px-8">
-                        <span className="text-lg font-[900] text-white italic hover:text-[#5ed29c] cursor-pointer transition-colors" onClick={() => window.location.hash = `playground?id=${problem.id}`}>
+                        <span className="text-lg font-[900] text-white italic hover:text-[#5ed29c] cursor-pointer transition-colors" onClick={() => navigateTo(`playground?id=${problem.id}`)}>
                           {problem.title}
                         </span>
                       </td>
@@ -308,7 +309,7 @@ export const CodingLabHub: React.FC = () => {
                       </td>
                       <td className="py-6 px-8 text-right">
                         <button
-                          onClick={() => window.location.hash = `playground?id=${problem.id}`}
+                          onClick={() => navigateTo(`playground?id=${problem.id}`)}
                           className="inline-flex items-center gap-2 px-6 py-3 bg-[#5ed29c] text-black font-[900] uppercase tracking-widest rounded-xl hover:scale-105 transition-transform"
                         >
                           <Play size={14} className="fill-black" /> Solve

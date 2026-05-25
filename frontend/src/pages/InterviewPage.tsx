@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, ArrowLeft, Layout, Server, Layers, Database, Cloud, Briefcase, Zap, Cpu } from 'lucide-react';
 import { GridBeam } from '../components/ui/background-grid-beam';
@@ -59,7 +60,7 @@ export const InterviewPage: React.FC = () => {
       <div className="relative z-10 p-6 md:p-12 max-w-7xl mx-auto space-y-12 font-rubik">
         {/* Navigation */}
         <button 
-          onClick={() => window.location.hash = 'dashboard'}
+          onClick={() => navigateTo('dashboard')}
           className="group flex items-center gap-3 text-white/20 hover:text-[#5ed29c] transition-all font-black uppercase tracking-[0.4em] text-[10px]"
         >
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />

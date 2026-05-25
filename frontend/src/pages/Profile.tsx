@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ActivityCalendar } from 'react-activity-calendar';
@@ -34,7 +35,7 @@ const getRank = (xp: number) => {
 
 const Profile = () => {
   // Extract userId from hash since we use custom hash routing: #portfolio/123
-  const hash = window.location.hash.split('?')[0];
+  const hash = window.location.pathname.split('?')[0];
   const userId = hash.startsWith('#portfolio/') ? hash.replace('#portfolio/', '') : hash.replace('#/portfolio/', '');
   
   const navigate = useNavigate();

@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import {
@@ -436,7 +437,7 @@ export function LaTeXResumeBuilder({ onExit, initialTemplate, customSource }: { 
         <button
           onClick={() => {
             if (onExit) onExit();
-            else window.location.hash = 'dashboard';
+            else navigateTo('dashboard');
           }}
           className="group flex items-center gap-3 text-white/40 hover:text-white transition-all font-black uppercase tracking-[0.3em] text-[10px]"
         >

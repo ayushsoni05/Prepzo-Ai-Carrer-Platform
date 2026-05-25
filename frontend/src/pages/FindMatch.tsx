@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -32,7 +33,7 @@ export const FindMatch = () => {
       <div className="max-w-7xl mx-auto relative z-10 space-y-12">
         <div className="flex flex-col gap-2">
           <button 
-            onClick={() => window.location.hash = 'coding-lab'} 
+            onClick={() => navigateTo('coding-lab')} 
             className="flex items-center gap-2 text-white/40 hover:text-white transition-colors w-fit text-[10px] font-black uppercase tracking-widest mb-4"
           >
             <ChevronLeft size={16} /> Back to Coding Lab
@@ -94,7 +95,7 @@ export const FindMatch = () => {
                 </div>
 
                 <button 
-                  onClick={() => window.location.hash = `battle/invite/${lobby.roomId}`}
+                  onClick={() => navigateTo(`battle/invite/${lobby.roomId}`)}
                   className="w-full py-4 bg-white/5 hover:bg-red-500 hover:text-white border border-white/10 text-white font-[900] uppercase tracking-widest text-[11px] rounded-2xl transition-all shadow-lg group-hover:shadow-red-500/20 group-hover:border-red-500/50 flex items-center justify-center gap-2"
                 >
                   <Swords size={14} className="group-hover:animate-pulse" />

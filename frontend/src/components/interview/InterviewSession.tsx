@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Bot, Mic, MicOff, Send, CheckCircle, AlertCircle, Loader2, Clock } from 'lucide-react';
 import { useSpeech } from '@/hooks/useSpeech';
@@ -218,7 +219,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
         </div>
         
         <button 
-          onClick={() => window.location.hash = 'dashboard'}
+          onClick={() => navigateTo('dashboard')}
           className="group/btn relative w-full h-[70px] active:scale-95 transition-all mt-10"
         >
           <svg className="absolute inset-0 w-full h-full drop-shadow-xl" viewBox="0 0 800 70" preserveAspectRatio="none" fill="none">

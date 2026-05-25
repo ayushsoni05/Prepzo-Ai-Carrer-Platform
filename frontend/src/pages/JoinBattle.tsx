@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +12,7 @@ export const JoinBattle = () => {
   const { joinCustomRoom, joinError, matchStatus, isConnected, connect, resetState } = useSocketStore();
   
   // Extract roomId from hash (e.g., #/battle/invite/room_xyz123)
-  const hash = window.location.hash;
+  const hash = window.location.pathname;
   const roomId = hash.split('invite/')[1]?.split('?')[0];
 
   const [pin, setPin] = useState('');
@@ -53,7 +54,7 @@ export const JoinBattle = () => {
     if (matchStatus === 'matched' || matchStatus === 'in_battle') {
       setStatus('accepted');
       setTimeout(() => {
-        window.location.hash = 'battle';
+        navigateTo('battle');
       }, 1500);
     }
   }, [matchStatus]);
@@ -77,7 +78,7 @@ export const JoinBattle = () => {
 
       <div className="w-full max-w-md relative z-10">
         <button 
-          onClick={() => window.location.hash = 'find-match'}
+          onClick={() => navigateTo('find-match')}
           className="flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-8 text-[10px] font-black uppercase tracking-widest"
         >
           <ArrowLeft size={16} /> Back to Lobbies
@@ -152,7 +153,7 @@ export const JoinBattle = () => {
               <p className="text-xs text-white/40 font-bold mb-8">{localError || "Could not join the match."}</p>
               
               <button 
-                onClick={() => window.location.hash = 'find-match'}
+                onClick={() => navigateTo('find-match')}
                 className="px-8 py-3 bg-white/5 hover:bg-white/10 text-white font-[900] uppercase tracking-widest text-[10px] rounded-xl transition-all border border-white/10"
               >
                 Return to Lobbies

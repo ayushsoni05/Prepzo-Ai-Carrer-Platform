@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Trophy, Medal, Star, Loader2, ChevronLeft } from 'lucide-react';
@@ -50,7 +51,7 @@ const Leaderboard = () => {
 
       <main className="max-w-5xl mx-auto px-4 py-12 relative z-10">
         <button 
-          onClick={() => window.location.hash = 'coding-lab'}
+          onClick={() => navigateTo('coding-lab')}
           className="flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-12 text-[10px] font-black uppercase tracking-widest"
         >
           <ChevronLeft size={16} /> Back to Coding Lab

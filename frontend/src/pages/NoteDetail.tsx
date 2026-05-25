@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
@@ -92,7 +93,7 @@ export const NoteDetail: React.FC = () => {
         <button 
           onClick={() => {
             setCurrentPage('notes');
-            window.location.hash = 'notes';
+            navigateTo('notes');
           }}
           className="px-8 py-3 bg-white/5 text-white border border-white/10 font-[900] text-[10px] uppercase tracking-widest rounded-xl hover:bg-white/10 transition-all italic cursor-pointer"
         >
@@ -117,7 +118,7 @@ export const NoteDetail: React.FC = () => {
         <button 
           onClick={() => {
             setCurrentPage('notes');
-            window.location.hash = 'notes';
+            navigateTo('notes');
           }}
           className="inline-flex items-center gap-2 text-[10px] font-black text-white/40 uppercase tracking-widest italic hover:text-blue-400 transition-colors cursor-pointer bg-transparent border-none"
         >
@@ -127,7 +128,7 @@ export const NoteDetail: React.FC = () => {
         <button 
           onClick={() => {
             setCurrentPage('notes');
-            window.location.hash = 'notes';
+            navigateTo('notes');
           }}
           className="inline-flex items-center gap-2 text-[10px] font-black text-white/40 uppercase tracking-widest italic hover:text-blue-400 transition-colors cursor-pointer bg-transparent border-none"
         >
@@ -179,7 +180,7 @@ export const NoteDetail: React.FC = () => {
             onSave={handleSaveAnnotations}
             onEnterReadingMode={() => {
               setCurrentPage('reader');
-              window.location.hash = `reader?id=${noteId}`;
+              navigateTo(`reader?id=${noteId}`);
             }}
           />
         )}

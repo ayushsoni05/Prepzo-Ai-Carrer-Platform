@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSocketStore } from '@/store/socketStore';
@@ -16,7 +17,7 @@ export const MatchmakingModal = ({ isOpen, onClose }: MatchmakingModalProps) => 
   
   // Use location hash for navigation since we use HashRouter in App.tsx
   const handleNavigateToBattle = () => {
-    window.location.hash = 'battle';
+    navigateTo('battle');
     onClose();
   };
 

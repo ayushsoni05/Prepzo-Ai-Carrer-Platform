@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import { Home } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
@@ -7,7 +8,7 @@ export const GlobalBreadcrumb = () => {
 
   useEffect(() => {
     const handleHashChange = () => {
-      let hash = window.location.hash.slice(1);
+      let hash = window.location.pathname.slice(1);
       if (hash.startsWith('/')) hash = hash.slice(1);
       const basePath = hash.split('?')[0];
 

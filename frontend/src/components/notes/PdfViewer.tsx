@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import * as pdfjs from 'pdfjs-dist';
@@ -328,7 +329,7 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url, initialAnnotations, o
               Try Direct Link
             </a>
             <button
-              onClick={() => { window.location.hash = 'notes'; }}
+              onClick={() => { navigateTo('notes'); }}
               className="px-6 py-3 bg-white/5 border border-white/10 text-white/60 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-white/10 transition-all"
             >
               Back to Library

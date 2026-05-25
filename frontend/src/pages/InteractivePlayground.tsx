@@ -1,3 +1,4 @@
+import { navigateTo } from '@/utils/navigation';
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import CodeMirror from '@uiw/react-codemirror';
@@ -26,7 +27,7 @@ export const InteractivePlayground: React.FC = () => {
   const location = useLocation();
 
   // Extract ID from URL hash manually since App.tsx uses custom hash routing
-  const hash = window.location.hash;
+  const hash = window.location.pathname;
   const problemId = hash.includes('?id=') ? hash.split('?id=')[1].split('&')[0] : null;
 
   const [problem, setProblem] = useState<CodingProblem | null>(null);
@@ -246,7 +247,7 @@ export const InteractivePlayground: React.FC = () => {
       <div className="min-h-screen bg-[#0a0c10] flex flex-col items-center justify-center font-rubik text-center p-6">
         <Layout className="w-16 h-16 text-[#5ed29c] mb-6" />
         <h1 className="text-4xl font-[900] text-white uppercase italic tracking-tighter mb-4">Problem Not Found</h1>
-        <button onClick={() => window.location.hash = 'coding-lab'} className="px-8 py-4 bg-[#5ed29c] text-black font-[900] uppercase tracking-widest rounded-2xl hover:scale-105 transition-transform">Return to Hub</button>
+        <button onClick={() => navigateTo('coding-lab')} className="px-8 py-4 bg-[#5ed29c] text-black font-[900] uppercase tracking-widest rounded-2xl hover:scale-105 transition-transform">Return to Hub</button>
       </div>
     );
   }
@@ -258,7 +259,7 @@ export const InteractivePlayground: React.FC = () => {
       {/* Header */}
       <div className="h-16 shrink-0 border-b border-white/5 bg-black flex items-center justify-between px-6 z-20">
         <div className="flex items-center gap-4">
-          <button onClick={() => window.location.hash = 'coding-lab'} className="text-white/40 hover:text-white transition-colors">
+          <button onClick={() => navigateTo('coding-lab')} className="text-white/40 hover:text-white transition-colors">
             <ChevronLeft size={20} />
           </button>
           <div className="flex items-center gap-3">
