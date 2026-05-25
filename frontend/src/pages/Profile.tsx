@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as ActivityCalendarModule from 'react-activity-calendar';
+const ActivityCalendarComponent = (ActivityCalendarModule as any).ActivityCalendar || (ActivityCalendarModule as any).default?.ActivityCalendar || (ActivityCalendarModule as any).default || ActivityCalendarModule;
 import { 
   Briefcase, Calendar, ExternalLink, Linkedin, Github, Edit2, Save, X, Upload, 
   Trash2, FileText, Target, CalendarDays, Zap, GraduationCap, MapPin, Search, 
@@ -588,7 +589,8 @@ const Profile = () => {
             <div>
               <p className="text-[13px] text-zinc-400 font-medium mb-3">Activity Graph</p>
               <div className="w-full flex justify-center scale-[0.85] origin-left">
-                <ActivityCalendarModule.ActivityCalendar 
+                {ActivityCalendarComponent && typeof ActivityCalendarComponent !== 'string' ? (
+                  <ActivityCalendarComponent 
                   data={heatmapData} 
                   theme={{
                     light: ['#1c1f26', '#064e3b', '#047857', '#10b981', '#34d399'],
@@ -601,6 +603,9 @@ const Profile = () => {
                   blockMargin={3}
                   blockRadius={2}
                 />
+                ) : (
+                  <div className="text-zinc-500 text-sm py-4">Activity data currently unavailable</div>
+                )}
               </div>
             </div>
           </div>
