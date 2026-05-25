@@ -13,7 +13,7 @@ interface SearchableDropdownProps {
   onChange: (value: string) => void;
   options: DropdownOption[];
   placeholder: string;
-  icon: LucideIcon;
+  icon?: LucideIcon;
   error?: string;
   searchable?: boolean;
 }
@@ -39,7 +39,11 @@ export const SearchableDropdown = ({
       )
     : options;
 
-  const selectedOption = options.find(opt => opt.value === value);
+  useEffect(() => {
+    if (isOpen && searchable) {
+      inputRef.current?.focus();
+    }
+  }, [isOpen, searchable]);
 
   useEffect(() => {
     setHighlightedIndex(0);
@@ -64,25 +68,28 @@ export const SearchableDropdown = ({
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setHighlightedIndex(prev => Math.max(prev - 1, 0));
-    } else if (e.key === 'Enter' && filteredOptions.length > 0) {
+    } else if (e.key === 'Enter' && isOpen && filteredOptions.length > 0) {
       e.preventDefault();
-      handleSelect(filteredOptions[highlightedIndex]);
+      handleSelect(filteredOptions[highlightedIndex].value);
     } else if (e.key === 'Escape') {
       setIsOpen(false);
       setSearchTerm('');
     }
   };
 
-  const handleSelect = (option: DropdownOption) => {
-    onChange(option.value);
+  const handleSelect = (selectedValue: string) => {
+    onChange(selectedValue);
     setSearchTerm('');
     setIsOpen(false);
   };
 
-  const handleClear = () => {
+  const handleClear = (e: React.MouseEvent) => {
+    e.stopPropagation();
     onChange('');
     setSearchTerm('');
-    inputRef.current?.focus();
+    if (searchable) {
+      inputRef.current?.focus();
+    }
   };
 
   const handleInputClick = () => {
@@ -96,11 +103,13 @@ export const SearchableDropdown = ({
     }
   };
 
+  const selectedOption = options.find(opt => opt.value === value);
+
   return (
     <div ref={dropdownRef} className="relative">
       {/* Input field */}
       <div className="relative">
-        <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+        {Icon && <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />}
         <input
           ref={inputRef}
           type="text"
