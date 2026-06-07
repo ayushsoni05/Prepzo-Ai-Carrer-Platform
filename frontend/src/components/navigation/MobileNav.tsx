@@ -14,8 +14,7 @@ const navItems = [
   { label: 'Resume', icon: FileText, id: 'resume' },
   { label: 'Assessment', icon: Brain, id: 'assessment' },
   { label: 'Jobs', icon: Briefcase, id: 'jobs' },
-  { label: 'Code', icon: Terminal, id: 'coding-lab' },
-  { label: 'Settings', icon: Settings, id: 'settings' },
+  { label: 'Coding Lab', icon: Terminal, id: 'coding-lab' },
 ];
 
 export const MobileNav: React.FC<MobileNavProps> = ({ active, onNavigate, badgeMap, lockedItems = [] }) => (

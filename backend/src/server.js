@@ -150,7 +150,7 @@ app.use(dynamicRateLimiter);
 
 // Serve static files for uploaded resumes and study notes
 // Try multiple paths to handle different deployment environments (local dev vs Render)
-const uploadsPathFromSrc = path.join(__dirname, '../../uploads');
+const uploadsPathFromSrc = path.join(__dirname, '../uploads');
 const uploadsPathFromCwd = path.join(process.cwd(), '../uploads');
 const uploadsPathFromCwdDirect = path.join(process.cwd(), 'uploads');
 

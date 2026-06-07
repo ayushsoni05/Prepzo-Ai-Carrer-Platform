@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppStore } from '@/store/appStore';
 import * as ActivityCalendarModule from 'react-activity-calendar';
 const ActivityCalendarComponent = (ActivityCalendarModule as any).ActivityCalendar || (ActivityCalendarModule as any).default?.ActivityCalendar || (ActivityCalendarModule as any).default || ActivityCalendarModule;
 import { 
@@ -103,6 +104,12 @@ const Profile = () => {
   
   const navigate = useNavigate();
   const { user, updateProfileAsync } = useAuthStore();
+  const setDashboardTab = useAppStore(state => state.setDashboardTab);
+  
+  const handleEditSettings = () => {
+    setDashboardTab('settings');
+    navigate('/dashboard');
+  };
   
   const isOwnProfile = !userIdFromUrl || userIdFromUrl === user?.id;
   
@@ -541,14 +548,21 @@ const Profile = () => {
                 <h3 className="text-[15px] font-bold text-white">Profile language</h3>
                 <p className="text-[14px] text-zinc-400 mt-1">English</p>
               </div>
-              <Edit2 size={18} className="text-zinc-500 cursor-pointer hover:text-white transition" />
+              <Edit2 size={18} className="text-zinc-500 cursor-pointer hover:text-white transition" onClick={handleEditSettings} />
             </div>
             <div className="flex justify-between items-start">
               <div className="w-full overflow-hidden">
                 <h3 className="text-[15px] font-bold text-white">Public profile & URL</h3>
-                <p className="text-[13px] text-emerald-500 hover:underline cursor-pointer truncate mt-1 block w-full pr-4">{window.location.origin}/profile/{profile._id}</p>
+                <a 
+                  href={`${window.location.origin}/profile/${profile._id}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-[13px] text-emerald-500 hover:underline cursor-pointer truncate mt-1 block w-full pr-4"
+                >
+                  {window.location.origin}/profile/{profile._id}
+                </a>
               </div>
-              <Edit2 size={18} className="text-zinc-500 cursor-pointer hover:text-white transition shrink-0" />
+              <Edit2 size={18} className="text-zinc-500 cursor-pointer hover:text-white transition shrink-0" onClick={handleEditSettings} />
             </div>
           </div>
 
