@@ -96,16 +96,10 @@ app.use(requestIdMiddleware);
 // IP blocking
 app.use(ipBlocker);
 
-// Helmet security headers
-app.use(helmetConfig);
-
-// Additional security headers
-app.use(securityHeaders);
-
-// Cookie parser
+// Cookie parser (before CORS so cookies are available)
 app.use(cookieParser());
 
-// CORS configuration
+// CORS configuration - MUST run before Helmet so cross-origin requests get proper headers
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) {
@@ -131,6 +125,12 @@ app.use(cors({
   exposedHeaders: securityConfig.cors.exposedHeaders,
   maxAge: securityConfig.cors.maxAge,
 }));
+
+// Helmet security headers (after CORS)
+app.use(helmetConfig);
+
+// Additional security headers
+app.use(securityHeaders);
 
 // Body parsing
 app.use(express.json({ limit: '1mb' })); // Increased limit to accommodate large assessment payloads

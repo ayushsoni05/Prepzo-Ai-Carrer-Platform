@@ -104,7 +104,7 @@ export const securityConfig = {
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     domain: process.env.COOKIE_DOMAIN || undefined,
     path: '/',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
@@ -131,7 +131,7 @@ export const securityConfig = {
     },
     crossOriginEmbedderPolicy: false, // May need to disable for certain features
     crossOriginOpenerPolicy: { policy: 'same-origin' },
-    crossOriginResourcePolicy: { policy: 'same-site' },
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
     dnsPrefetchControl: { allow: false },
     frameguard: { action: 'deny' },
     hidePoweredBy: true,

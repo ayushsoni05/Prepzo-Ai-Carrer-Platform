@@ -20,7 +20,7 @@ async def health_check():
 
 @router.get("/ready")
 async def readiness_check():
-    """Readiness check - verifies all services are ready"""
+    """Readiness check - verifies core services are ready"""
     from app.main import model_service, embedding_service, vector_store, database
     
     checks = {
@@ -30,10 +30,12 @@ async def readiness_check():
         "database": database is not None
     }
     
-    all_ready = all(checks.values())
+    # Core readiness: model_service is the only hard requirement for AI Mentor
+    # Embedding and vector store are optional (used for search/recommendations)
+    core_ready = checks.get("model_service", False)
     
     return {
-        "ready": all_ready,
+        "ready": core_ready,
         "checks": checks,
         "timestamp": datetime.utcnow().isoformat()
     }
