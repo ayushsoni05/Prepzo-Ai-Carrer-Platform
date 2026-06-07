@@ -47,6 +47,13 @@ api.interceptors.request.use(
     // Add request ID for tracing
     config.headers['X-Request-ID'] = generateRequestId();
     
+    // Prevent caching for all GET requests to avoid stale data (like disappearing images on refresh)
+    if (config.method?.toLowerCase() === 'get') {
+      config.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
+      config.headers['Pragma'] = 'no-cache';
+      config.headers['Expires'] = '0';
+    }
+    
     // Always attach token for all requests if valid
     const token = localStorage.getItem('prepzo-token');
     // Check for "null" or "undefined" as strings which can happen on state corruption
