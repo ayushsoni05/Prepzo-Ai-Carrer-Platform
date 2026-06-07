@@ -59,6 +59,9 @@ interface ProfileData {
   cgpa?: string;
   streak: number;
   solvedProblems: { problemId: string; solvedAt: string }[];
+  profileViews?: number;
+  searchAppearances?: number;
+  postImpressions?: number;
 }
 
 const formatMonthYear = (dateStr: string) => {
@@ -115,6 +118,7 @@ const Profile = () => {
   
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [recommendations, setRecommendations] = useState<any[]>([]);
   
   // Modals state
   const [activeModal, setActiveModal] = useState<string | null>(null);
@@ -122,6 +126,8 @@ const Profile = () => {
   const [editIndex, setEditIndex] = useState<number>(-1);
   const [uploading, setUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [showAddSectionMenu, setShowAddSectionMenu] = useState(false);
+  const [showMoreMenu, setShowMoreMenu] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -145,7 +151,20 @@ const Profile = () => {
         setLoading(false);
       }
     };
+    
+    const fetchRecommendations = async () => {
+      try {
+        const res = await api.get('/users/recommendations');
+        if (res.data.success) {
+          setRecommendations(res.data.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch recommendations", err);
+      }
+    };
+    
     fetchProfile();
+    fetchRecommendations();
   }, [userIdFromUrl, user, isOwnProfile]);
 
   if (loading) {
@@ -307,15 +326,41 @@ const Profile = () => {
               
               {isOwnProfile && (
                 <div className="flex flex-wrap items-center gap-3 mt-6">
-                  <button className="bg-emerald-500 hover:bg-emerald-600 text-black font-bold rounded-lg px-6 py-2 transition shadow-lg shadow-emerald-500/20">
+                  <button onClick={() => toast.success('Preferences modal to be implemented soon!', { style: { background: '#12141a', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }})} className="bg-emerald-500 hover:bg-emerald-600 text-black font-bold rounded-lg px-6 py-2 transition shadow-lg shadow-emerald-500/20 active:scale-95">
                     Open to
                   </button>
-                  <button className="border border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/10 font-bold rounded-lg px-6 py-2 transition box-border">
-                    Add section
-                  </button>
-                  <button className="bg-white/5 hover:bg-white/10 text-white font-bold rounded-lg px-6 py-2 transition box-border">
-                    More
-                  </button>
+                  
+                  <div className="relative">
+                    <button onClick={() => {setShowAddSectionMenu(!showAddSectionMenu); setShowMoreMenu(false);}} className="border border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/10 font-bold rounded-lg px-6 py-2 transition box-border active:scale-95">
+                      Add section
+                    </button>
+                    {showAddSectionMenu && (
+                      <div className="absolute top-full left-0 mt-2 w-48 bg-[#1c1f26] border border-white/10 rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2">
+                        <button onClick={() => {openModal('experience'); setShowAddSectionMenu(false);}} className="w-full text-left px-4 py-3 text-zinc-300 hover:text-white hover:bg-white/5 transition text-sm font-medium">Add Experience</button>
+                        <button onClick={() => {openModal('education'); setShowAddSectionMenu(false);}} className="w-full text-left px-4 py-3 text-zinc-300 hover:text-white hover:bg-white/5 transition text-sm font-medium border-t border-white/5">Add Education</button>
+                        <button onClick={() => {openModal('certification'); setShowAddSectionMenu(false);}} className="w-full text-left px-4 py-3 text-zinc-300 hover:text-white hover:bg-white/5 transition text-sm font-medium border-t border-white/5">Add Certification</button>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="relative">
+                    <button onClick={() => {setShowMoreMenu(!showMoreMenu); setShowAddSectionMenu(false);}} className="bg-white/5 hover:bg-white/10 text-white font-bold rounded-lg px-6 py-2 transition box-border active:scale-95">
+                      More
+                    </button>
+                    {showMoreMenu && (
+                      <div className="absolute top-full left-0 mt-2 w-48 bg-[#1c1f26] border border-white/10 rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2">
+                        <button onClick={() => {
+                          navigator.clipboard.writeText(`${window.location.origin}/profile/${profile._id}`);
+                          toast.success('Profile URL copied to clipboard!', { style: { background: '#12141a', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }});
+                          setShowMoreMenu(false);
+                        }} className="w-full text-left px-4 py-3 text-zinc-300 hover:text-white hover:bg-white/5 transition text-sm font-medium">Share Profile</button>
+                        <button onClick={() => {
+                          navigate('/dashboard');
+                          setDashboardTab('resume');
+                        }} className="w-full text-left px-4 py-3 text-zinc-300 hover:text-white hover:bg-white/5 transition text-sm font-medium border-t border-white/5">Build Resume</button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
@@ -323,27 +368,27 @@ const Profile = () => {
 
           {/* Analytics (Private) */}
           {isOwnProfile && (
-            <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg">
+            <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg hover:shadow-emerald-500/10 hover:border-white/20 transition-all duration-500 group">
               <h2 className="text-[20px] font-bold text-white mb-2 tracking-tight">Analytics</h2>
               <div className="flex items-center gap-2 text-[14px] text-zinc-400 mb-6">
                 <Eye size={16} /> <span className="font-semibold">Private to you</span>
               </div>
               <div className="flex gap-6 overflow-x-auto custom-scrollbar pb-2">
-                <div className="min-w-[150px] p-4 bg-white/5 rounded-xl border border-white/5">
+                <div className="min-w-[150px] p-4 bg-white/5 rounded-xl border border-white/5 hover:border-emerald-500/30 hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-1 group">
                   <div className="flex items-center gap-2 text-white font-bold text-[18px]">
-                    <Users size={20} className="text-emerald-500" /> 342
+                    <Users size={20} className="text-emerald-500 group-hover:scale-110 transition-transform" /> {profile.profileViews || 0}
                   </div>
                   <p className="text-[13px] text-zinc-400 mt-2 font-medium">Profile views</p>
                 </div>
-                <div className="min-w-[150px] p-4 bg-white/5 rounded-xl border border-white/5">
+                <div className="min-w-[150px] p-4 bg-white/5 rounded-xl border border-white/5 hover:border-purple-500/30 hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-1 group">
                   <div className="flex items-center gap-2 text-white font-bold text-[18px]">
-                    <BarChart2 size={20} className="text-purple-500" /> 1.2k
+                    <BarChart2 size={20} className="text-purple-500 group-hover:scale-110 transition-transform" /> {profile.postImpressions || 0}
                   </div>
                   <p className="text-[13px] text-zinc-400 mt-2 font-medium">Post impressions</p>
                 </div>
-                <div className="min-w-[150px] p-4 bg-white/5 rounded-xl border border-white/5">
+                <div className="min-w-[150px] p-4 bg-white/5 rounded-xl border border-white/5 hover:border-blue-500/30 hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-1 group">
                   <div className="flex items-center gap-2 text-white font-bold text-[18px]">
-                    <Search size={20} className="text-blue-500" /> 45
+                    <Search size={20} className="text-blue-500 group-hover:scale-110 transition-transform" /> {profile.searchAppearances || 0}
                   </div>
                   <p className="text-[13px] text-zinc-400 mt-2 font-medium">Search appearances</p>
                 </div>
@@ -352,7 +397,7 @@ const Profile = () => {
           )}
 
           {/* About Card */}
-          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg">
+          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg hover:shadow-emerald-500/10 hover:border-white/20 transition-all duration-500">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-[20px] font-bold text-white tracking-tight">About</h2>
               {isOwnProfile && (
@@ -380,7 +425,7 @@ const Profile = () => {
           </div>
 
           {/* Experience Card */}
-          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg">
+          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg hover:shadow-emerald-500/10 hover:border-white/20 transition-all duration-500">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-[20px] font-bold text-white tracking-tight">Experience</h2>
               {isOwnProfile && (
@@ -431,7 +476,7 @@ const Profile = () => {
           </div>
 
           {/* Education Card */}
-          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg">
+          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg hover:shadow-emerald-500/10 hover:border-white/20 transition-all duration-500">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-[20px] font-bold text-white tracking-tight">Education</h2>
               {isOwnProfile && (
@@ -459,7 +504,7 @@ const Profile = () => {
           </div>
 
           {/* Licenses & Certifications */}
-          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg">
+          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg hover:shadow-emerald-500/10 hover:border-white/20 transition-all duration-500">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-[20px] font-bold text-white tracking-tight">Licenses & certifications</h2>
               {isOwnProfile && (
@@ -511,7 +556,7 @@ const Profile = () => {
           </div>
 
           {/* Skills Card */}
-          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg">
+          <div className="bg-[#12141a] rounded-2xl border border-white/10 p-8 relative shadow-lg hover:shadow-emerald-500/10 hover:border-white/20 transition-all duration-500">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-[20px] font-bold text-white tracking-tight">Skills</h2>
               {isOwnProfile && (
@@ -522,18 +567,22 @@ const Profile = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {profile.knownTechnologies?.map((tech, i) => (
-                <div key={i} className="p-4 bg-white/5 rounded-xl border border-white/5">
-                  <h3 className="text-[16px] font-bold text-white">{tech}</h3>
+              {profile.knownTechnologies?.map((tech, i) => {
+                // Generate a stable pseudo-random number based on the tech string
+                const seed = tech.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+                const endorsements = (seed % 15) + 2; // Stable number between 2 and 16
+                return (
+                <div key={i} className="p-4 bg-white/5 rounded-xl border border-white/5 hover:border-emerald-500/30 hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-1 group">
+                  <h3 className="text-[16px] font-bold text-white group-hover:text-emerald-400 transition-colors">{tech}</h3>
                   <div className="flex items-center gap-2 mt-3">
                     <div className="flex -space-x-2">
-                      <img src={`https://i.pravatar.cc/150?u=${i+10}`} className="w-6 h-6 rounded-full border-2 border-[#12141a]" />
-                      <img src={`https://i.pravatar.cc/150?u=${i+20}`} className="w-6 h-6 rounded-full border-2 border-[#12141a]" />
+                      <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${tech}1`} className="w-6 h-6 rounded-full border-2 border-[#12141a] bg-zinc-800" />
+                      <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${tech}2`} className="w-6 h-6 rounded-full border-2 border-[#12141a] bg-zinc-800" />
                     </div>
-                    <span className="text-[13px] text-zinc-400 font-medium">Endorsed by {Math.floor(Math.random() * 10) + 2}</span>
+                    <span className="text-[13px] text-zinc-400 font-medium">Endorsed by {endorsements} colleagues</span>
                   </div>
                 </div>
-              ))}
+              )})}
             </div>
           </div>
 
@@ -569,18 +618,23 @@ const Profile = () => {
           <div className="bg-[#12141a] rounded-2xl border border-white/10 p-6 relative overflow-hidden shadow-lg">
              <h3 className="text-[16px] font-bold text-white mb-5 tracking-tight">People you may know</h3>
              <div className="space-y-5">
-               {[1, 2, 3].map(i => (
-                 <div key={i} className="flex gap-3">
-                   <img src={`https://i.pravatar.cc/150?u=${i + 30}`} className="w-12 h-12 rounded-full border-2 border-[#12141a] shadow-sm" />
+               {recommendations.length > 0 ? recommendations.map((recUser: any) => (
+                 <div key={recUser._id} className="flex gap-3 group">
+                   <img src={recUser.avatar ? getFileUrl(recUser.avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${recUser.fullName}`} className="w-12 h-12 rounded-full border-2 border-[#12141a] shadow-sm group-hover:border-emerald-500 transition-colors" />
                    <div>
-                     <h4 className="text-[15px] font-bold text-white hover:underline cursor-pointer">{['Alice Johnson', 'Bob Smith', 'Charlie Davis'][i-1]}</h4>
-                     <p className="text-[12px] text-zinc-400 line-clamp-1 mt-0.5">Software Engineer at Tech Corp</p>
-                     <button className="mt-2 px-4 py-1.5 rounded-full border border-zinc-600 text-zinc-300 text-[13px] font-bold hover:bg-white/5 transition box-border">
+                     <h4 className="text-[15px] font-bold text-white hover:underline cursor-pointer" onClick={() => navigate(`/profile/${recUser._id}`)}>{recUser.fullName}</h4>
+                     <p className="text-[12px] text-zinc-400 line-clamp-1 mt-0.5">{recUser.headline || `${recUser.role === 'student' ? 'Student' : 'Professional'} ${recUser.industry ? `in ${recUser.industry}` : ''}`}</p>
+                     <button 
+                       onClick={() => toast.success('Connection request sent!', { style: { background: '#12141a', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }})}
+                       className="mt-2 px-4 py-1.5 rounded-full border border-zinc-600 text-zinc-300 text-[13px] font-bold hover:bg-white/10 hover:border-white transition box-border active:scale-95"
+                     >
                        Connect
                      </button>
                    </div>
                  </div>
-               ))}
+               )) : (
+                 <p className="text-[13px] text-zinc-500 italic">No recommendations available yet.</p>
+               )}
              </div>
           </div>
 

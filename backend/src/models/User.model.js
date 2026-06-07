@@ -480,6 +480,20 @@ const userSchema = new mongoose.Schema({
     default: [],
   },
 
+  // ========== ANALYTICS FIELDS ==========
+  profileViews: {
+    type: Number,
+    default: 0,
+  },
+  searchAppearances: {
+    type: Number,
+    default: 0,
+  },
+  postImpressions: {
+    type: Number,
+    default: 0,
+  },
+
   // ========== GAMIFICATION FIELDS ==========
   xp: {
     type: Number,

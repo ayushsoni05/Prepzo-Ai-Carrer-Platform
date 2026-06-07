@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUserProfile, getLeaderboard } from '../controllers/profile.controller.js';
+import { getUserProfile, getLeaderboard, getRecommendations } from '../controllers/profile.controller.js';
 import {
   getProfile,
   updateProfile,
@@ -16,6 +16,7 @@ const router = express.Router();
 // Public Gamification routes
 router.get('/profile/:userId', getUserProfile);
 router.get('/leaderboard/global', getLeaderboard);
+router.get('/recommendations', getRecommendations);
 
 // Protected routes (logged in users)
 router.get('/profile', protect, getProfile);

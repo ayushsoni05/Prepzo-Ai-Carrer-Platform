@@ -8,30 +8,37 @@ const getUserProfile = catchAsync(async (req, res) => {
   const { userId } = req.params;
 
   const user = await User.findById(userId)
-    .select('fullName avatar xp streak badges solvedProblems bio location coverPhoto experiences portfolioProjects targetRole knownTechnologies skillRatings linkedin github')
-    .lean();
+    .select('fullName avatar xp streak badges solvedProblems bio location coverPhoto experiences portfolioProjects targetRole knownTechnologies skillRatings linkedin github profileViews searchAppearances postImpressions');
 
   if (!user) {
     return res.status(404).json({ success: false, message: "User not found" });
   }
 
+  // Increment profile views
+  user.profileViews = (user.profileViews || 0) + 1;
+  await user.save();
+
+  const userObj = user.toObject();
+
   // Calculate difficulty distribution
   let easy = 0, medium = 0, hard = 0;
-  user.solvedProblems.forEach(p => {
-    if (p.difficulty === 'Easy') easy++;
-    else if (p.difficulty === 'Medium') medium++;
-    else if (p.difficulty === 'Hard') hard++;
-  });
+  if (userObj.solvedProblems) {
+    userObj.solvedProblems.forEach(p => {
+      if (p.difficulty === 'Easy') easy++;
+      else if (p.difficulty === 'Medium') medium++;
+      else if (p.difficulty === 'Hard') hard++;
+    });
+  }
 
   // Most recent 5 problems
-  const recentProblems = [...user.solvedProblems]
+  const recentProblems = [...(userObj.solvedProblems || [])]
     .sort((a, b) => new Date(b.solvedAt) - new Date(a.solvedAt))
     .slice(0, 5);
 
   const profileData = {
-    ...user,
+    ...userObj,
     stats: {
-      totalSolved: user.solvedProblems.length,
+      totalSolved: userObj.solvedProblems?.length || 0,
       easy,
       medium,
       hard,
@@ -55,4 +62,18 @@ const getLeaderboard = catchAsync(async (req, res) => {
   return res.status(200).json({ success: true, data: users });
 });
 
-export { getUserProfile, getLeaderboard };
+// @desc    Get user recommendations (People you may know)
+// @route   GET /api/users/recommendations
+// @access  Public
+const getRecommendations = catchAsync(async (req, res) => {
+  // Return 3 random users who are students or recruiters (basic recommendation for now)
+  const users = await User.aggregate([
+    { $match: { role: { $in: ['student', 'recruiter'] } } },
+    { $sample: { size: 3 } },
+    { $project: { fullName: true, avatar: true, headline: true, industry: true, role: true } }
+  ]);
+  
+  return res.status(200).json({ success: true, data: users });
+});
+
+export { getUserProfile, getLeaderboard, getRecommendations };
