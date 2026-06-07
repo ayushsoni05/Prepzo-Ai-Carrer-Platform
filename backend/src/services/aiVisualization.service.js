@@ -66,7 +66,7 @@ You MUST respond ONLY with a valid JSON object matching this exact schema, with 
     {
       "stepTitle": "Title of the step",
       "description": "Clear explanation of what happens in this step.",
-      "mermaidSyntax": "Valid Mermaid.js graph string illustrating the current state. Example: 'graph TD; A-->B;' Use graph LR or graph TD or flowchart. Do not include markdown code block syntax inside the string."
+      "mermaidSyntax": "Valid Mermaid.js graph string. Use graph LR or TD. CRITICAL: You MUST enclose all node labels in double quotes to prevent syntax errors, e.g., A[\"Node Label\"] --> B{\"Condition = true\"}. Do not output markdown code blocks."
     }
   ]
 }
