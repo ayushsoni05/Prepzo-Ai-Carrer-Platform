@@ -260,9 +260,9 @@ export const useAppStore = create<AppState>()(
             });
           }
         } catch (error: unknown) {
-          // Silently ignore 401 errors (expected when not authenticated)
-          const axiosError = error as { response?: { status?: number } };
-          if (axiosError?.response?.status !== 401) {
+          // Silently ignore 401 errors and Network Errors (which can happen if refresh fails with CORS issues when token is expired)
+          const axiosError = error as { response?: { status?: number }, message?: string };
+          if (axiosError?.response?.status !== 401 && axiosError?.message !== 'Network Error') {
             console.error('Failed to load resume analysis:', error);
           }
           set({ 

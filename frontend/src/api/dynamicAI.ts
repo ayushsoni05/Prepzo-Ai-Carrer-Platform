@@ -285,9 +285,9 @@ export const generateDynamicRecommendations = async (
       analysis: transformBackendResponse(response.data.recommendation || response.data.data),
     };
   } catch (error: unknown) {
-    // Silently ignore 401 errors (expected when not authenticated)
-    const axiosError = error as { response?: { status?: number } };
-    if (axiosError?.response?.status !== 401) {
+    // Silently ignore 401 errors and Network Errors (expected when not authenticated or token expired)
+    const axiosError = error as { response?: { status?: number }, message?: string };
+    if (axiosError?.response?.status !== 401 && axiosError?.message !== 'Network Error') {
       console.error('Failed to generate dynamic recommendations:', error);
     }
     throw error;
@@ -315,8 +315,12 @@ export const getLatestDynamicRecommendations = async (): Promise<{
       hasRecommendations: true,
       analysis: transformBackendResponse(response.data.recommendation || response.data.data),
     };
-  } catch (error) {
-    console.error('Failed to fetch recommendations:', error);
+  } catch (error: unknown) {
+    // Silently ignore 401 errors and Network Errors
+    const axiosError = error as { response?: { status?: number }, message?: string };
+    if (axiosError?.response?.status !== 401 && axiosError?.message !== 'Network Error') {
+      console.error('Failed to fetch recommendations:', error);
+    }
     return { success: false, hasRecommendations: false };
   }
 };
@@ -468,8 +472,11 @@ export const getQuickAIInsights = async (): Promise<{
         motivationalMessage: response.data.insights?.motivationalMessage || getEncouragement(),
       },
     };
-  } catch (error) {
-    console.error('Failed to fetch quick insights:', error);
+  } catch (error: unknown) {
+    const axiosError = error as { response?: { status?: number }, message?: string };
+    if (axiosError?.response?.status !== 401 && axiosError?.message !== 'Network Error') {
+      console.error('Failed to fetch quick insights:', error);
+    }
     return {
       success: false,
       insights: {
