@@ -48,10 +48,12 @@ api.interceptors.request.use(
     config.headers['X-Request-ID'] = generateRequestId();
     
     // Prevent caching for all GET requests to avoid stale data (like disappearing images on refresh)
+    // Use URL params instead of headers to avoid triggering CORS preflight
     if (config.method?.toLowerCase() === 'get') {
-      config.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
-      config.headers['Pragma'] = 'no-cache';
-      config.headers['Expires'] = '0';
+      config.params = {
+        ...config.params,
+        _t: Date.now(),
+      };
     }
     
     // Always attach token for all requests if valid
