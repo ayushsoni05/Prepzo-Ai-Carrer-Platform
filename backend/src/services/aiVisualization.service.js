@@ -77,7 +77,7 @@ ${problemDescription}
 
   try {
     const response = await openai.chat.completions.create({
-      model: "google/gemini-2.0-flash-lite-preview-02-05:free",
+      model: "google/gemini-2.5-flash",
       max_tokens: 4000,
       messages: [
         { role: "user", content: prompt }
