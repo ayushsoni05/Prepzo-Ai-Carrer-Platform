@@ -37,6 +37,7 @@ import recruiterRoutes from './routes/recruiter.routes.js';
 import overleafRoutes from './routes/overleaf.routes.js';
 import battleRoutes from './routes/battle.routes.js';
 import tournamentRoutes from './routes/tournament.routes.js';
+import visualizationRoutes from './routes/visualization.routes.js';
 import { seeder } from './services/autonomousSeeder.service.js';
 import { errorHandler, notFound } from './middleware/error.middleware.js';
 import aiValidation from './middleware/aiValidation.middleware.js';
@@ -273,6 +274,7 @@ app.use('/api/overleaf', overleafRoutes);
 
 app.use('/api/admin', adminRoutes);
 app.use('/api/admin/proctoring', adminProctoringRoutes);
+app.use('/api/ai/visualization', visualizationRoutes);
 
 
 // Placement ecosystem routes

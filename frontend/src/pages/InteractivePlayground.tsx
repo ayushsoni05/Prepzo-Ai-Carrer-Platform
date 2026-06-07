@@ -15,6 +15,7 @@ import { SubmissionsTab, Submission } from '../components/SubmissionsTab';
 import { createSubmission, getSubmissionsByProblem } from '../api/submissions';
 import toast from 'react-hot-toast';
 import confetti from 'canvas-confetti';
+import { AlgorithmVisualizer } from '../components/visualizer/AlgorithmVisualizer';
 
 const LANGUAGE_EXTENSIONS: Record<string, any> = {
   javascript: javascript({ jsx: true }),
@@ -37,7 +38,7 @@ export const InteractivePlayground: React.FC = () => {
   const [code, setCode] = useState('');
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   
-  const [leftActiveTab, setLeftActiveTab] = useState<'description' | 'submissions'>('description');
+  const [leftActiveTab, setLeftActiveTab] = useState<'description' | 'submissions' | 'visualize'>('description');
   const [activeTab, setActiveTab] = useState<'testcases' | 'result'>('testcases');
   const [testResults, setTestResults] = useState<{ id: string, passed: boolean, output: string, expected: string, input: string, isHidden?: boolean }[] | null>(null);
   const [isRunning, setIsRunning] = useState(false);
@@ -312,6 +313,12 @@ export const InteractivePlayground: React.FC = () => {
               >
                 Submissions
               </button>
+              <button 
+                onClick={() => setLeftActiveTab('visualize')}
+                className={`px-4 h-full flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${leftActiveTab === 'visualize' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40 hover:text-white/70'}`}
+              >
+                Visualize
+              </button>
             </div>
             <div className="flex-1 overflow-y-auto p-4">
               {leftActiveTab === 'description' && (
@@ -353,6 +360,12 @@ export const InteractivePlayground: React.FC = () => {
               {leftActiveTab === 'submissions' && (
                 <div className="h-full -m-4">
                   <SubmissionsTab submissions={submissions} loading={loadingSubmissions} />
+                </div>
+              )}
+
+              {leftActiveTab === 'visualize' && (
+                <div className="h-full -m-4">
+                  <AlgorithmVisualizer problemText={problem.description} problemId={problem.id} />
                 </div>
               )}
             </div>

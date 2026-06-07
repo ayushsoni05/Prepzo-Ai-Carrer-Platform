@@ -1,7 +1,7 @@
 import { navigateTo } from '@/utils/navigation';
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2, ChevronLeft, Trophy, UserCircle, Swords, Globe, History, Crown } from 'lucide-react';
+import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2, ChevronLeft, Trophy, UserCircle, Swords, Globe, History, Crown, Cpu } from 'lucide-react';
 import { getCodingProblems, CodingProblem } from '@/api/codingLab';
 import { GridBeam } from '@/components/ui/background-grid-beam';
 import { useAuthStore } from '@/store/authStore';
@@ -16,6 +16,7 @@ export const CodingLabHub: React.FC = () => {
   const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
   const [solvedIds, setSolvedIds] = useState<string[]>([]);
   const [isMatchmakingOpen, setIsMatchmakingOpen] = useState(false);
+  const [visualizeUrl, setVisualizeUrl] = useState('');
   
   const { user } = useAuthStore();
   const { allRooms, getAllRooms, isConnected, connect } = useSocketStore();
@@ -164,6 +165,33 @@ export const CodingLabHub: React.FC = () => {
                  </div>
                </div>
              )}
+          </div>
+        </div>
+
+        {/* External Algorithm Visualizer */}
+        <div className="bg-gradient-to-r from-[#5ed29c]/10 to-transparent border border-[#5ed29c]/20 rounded-[32px] p-6 flex flex-col md:flex-row gap-6 items-center">
+          <div className="flex-1">
+            <h3 className="text-lg font-black text-[#5ed29c] italic uppercase tracking-widest mb-2 flex items-center gap-2">
+              <Cpu size={20} /> AI Algorithm Visualizer
+            </h3>
+            <p className="text-white/60 text-xs">Got a problem from LeetCode or HackerRank? Paste the link here to generate a step-by-step visual explanation.</p>
+          </div>
+          <div className="flex-1 w-full flex gap-3">
+            <input
+              type="text"
+              placeholder="PASTE PROBLEM URL..."
+              value={visualizeUrl}
+              onChange={(e) => setVisualizeUrl(e.target.value)}
+              className="flex-1 bg-[#0a0c10] border border-white/10 rounded-xl py-3 px-4 text-[11px] font-[900] text-white placeholder:text-white/20 focus:outline-none focus:border-[#5ed29c]/50 transition-all uppercase italic tracking-widest"
+            />
+            <button
+              onClick={() => {
+                if(visualizeUrl) navigateTo(`external-visualizer?url=${encodeURIComponent(visualizeUrl)}`);
+              }}
+              className="px-6 py-3 bg-[#5ed29c] text-black font-black text-[10px] uppercase tracking-widest rounded-xl hover:scale-105 transition-transform whitespace-nowrap"
+            >
+              Visualize
+            </button>
           </div>
         </div>
 

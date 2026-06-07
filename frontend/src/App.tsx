@@ -41,6 +41,7 @@ import { JoinBattle } from '@/pages/JoinBattle';
 import { FindMatch } from '@/pages/FindMatch';
 import { Tournaments } from '@/pages/Tournaments';
 import { BattleHistory } from '@/pages/BattleHistory';
+import { ExternalVisualizer } from '@/pages/ExternalVisualizer';
 
 const PageTransition = ({ children, pageKey }: { children: React.ReactNode, pageKey: string }) => (
   <motion.div
@@ -55,7 +56,7 @@ const PageTransition = ({ children, pageKey }: { children: React.ReactNode, page
   </motion.div>
 );
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | '404';
 
 // Get initial page from URL path or default to 'landing'
 const getPageFromPath = (): Page => {
@@ -73,7 +74,7 @@ const getPageFromPath = (): Page => {
   if (pageName.startsWith('profile/')) return 'profile';
   if (pageName.startsWith('battle/invite/')) return 'join-battle';
   
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'external-visualizer'];
   return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 
@@ -487,6 +488,7 @@ export default function App() {
           {currentPage === 'battle' && <PageTransition pageKey="battle"><BattleArena /></PageTransition>}
           {currentPage === 'tournaments' && <PageTransition pageKey="tournaments"><Tournaments /></PageTransition>}
           {currentPage === 'battle-history' && <PageTransition pageKey="battle-history"><BattleHistory /></PageTransition>}
+          {currentPage === 'external-visualizer' && <PageTransition pageKey="external-visualizer"><ExternalVisualizer /></PageTransition>}
           {currentPage === '404' && <PageTransition pageKey="404"><NotFound onNavigate={handleNavigate} /></PageTransition>}
         </AnimatePresence>
       </div>
