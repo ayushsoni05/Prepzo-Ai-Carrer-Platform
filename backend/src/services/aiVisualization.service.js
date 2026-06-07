@@ -1,8 +1,13 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import OpenAI from 'openai';
 import * as cheerio from 'cheerio';
 import axios from 'axios';
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+
+const openai = new OpenAI({
+  baseURL: "https://openrouter.ai/api/v1",
+  apiKey: OPENROUTER_API_KEY,
+});
 
 /**
  * Scrapes an external URL to extract the main problem text.
@@ -39,15 +44,13 @@ export const scrapeProblemUrl = async (url) => {
 };
 
 /**
- * Generates an algorithm visualization plan using Gemini.
+ * Generates an algorithm visualization plan using OpenRouter.
  * @param {string} problemDescription 
  */
 export const generateAlgorithmVisualization = async (problemDescription) => {
-  if (!process.env.GEMINI_API_KEY) {
-    throw new Error('GEMINI_API_KEY is not configured');
+  if (!OPENROUTER_API_KEY) {
+    throw new Error('OPENROUTER_API_KEY is not configured');
   }
-
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const prompt = `
 You are an expert algorithm visualizer. Given the coding problem description below, your task is to identify the optimal algorithm to solve it and provide a step-by-step visual explanation.
@@ -73,8 +76,14 @@ ${problemDescription}
   `;
 
   try {
-    const result = await model.generateContent(prompt);
-    let text = result.response.text();
+    const response = await openai.chat.completions.create({
+      model: "google/gemini-1.5-flash",
+      messages: [
+        { role: "user", content: prompt }
+      ]
+    });
+    
+    let text = response.choices[0].message.content;
     
     // Clean potential markdown blocks
     text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
