@@ -1,4 +1,5 @@
 import { matchmakingService } from './services/matchmaking.service.js';
+import Battle from './models/Battle.model.js';
 
 export const initializeSockets = (io) => {
   io.on('connection', (socket) => {
@@ -15,7 +16,27 @@ export const initializeSockets = (io) => {
         // Trigger a match check
         const newMatches = matchmakingService.findMatches();
         
-        newMatches.forEach(match => {
+        newMatches.forEach(async match => {
+          // Create Battle in DB
+          try {
+            const battleDoc = new Battle({
+              battleId: match.roomId,
+              type: '1v1',
+              status: 'in_progress',
+              problemIds: ['two-sum'], // Default for now
+              participants: match.players.map(p => ({
+                userId: p.user.id,
+                progress: 0,
+                status: 'active'
+              })),
+              startTime: new Date(),
+              timeLimitMinutes: 30
+            });
+            await battleDoc.save();
+          } catch(err) {
+            console.error("Failed to create battle in DB:", err);
+          }
+
           // Notify both players
           match.players.forEach(p => {
             const opponent = match.players.find(opp => opp.user.id !== p.user.id);
@@ -93,15 +114,71 @@ export const initializeSockets = (io) => {
     });
 
     // Battle Actions
-    socket.on('code_change', ({ roomId, progress }) => {
+    socket.on('code_change', async ({ roomId, progress, userId, codeSnapshot }) => {
       // Broadcast typing progress to the opponent in the same room
       socket.to(roomId).emit('opponent_progress', { progress });
+      
+      // Throttle DB updates (done per ~5 progress points on client)
+      if (userId) {
+        try {
+          await Battle.updateOne(
+            { battleId: roomId, 'participants.userId': userId },
+            { $set: { 
+              'participants.$.progress': progress,
+              ...(codeSnapshot ? { 'participants.$.codeSnapshot': codeSnapshot } : {})
+            }}
+          );
+        } catch (err) {
+           console.error("Failed to update battle progress", err);
+        }
+      }
     });
 
-    socket.on('battle_submit', ({ roomId, success, testCasesPassed, totalTestCases }) => {
+    socket.on('rejoin_battle', async ({ battleId, userId }) => {
+      socket.join(battleId);
+      try {
+        const battle = await Battle.findOne({ battleId });
+        if (battle && battle.status === 'in_progress') {
+           const myParticipant = battle.participants.find(p => p.userId.toString() === userId);
+           const opponentParticipant = battle.participants.find(p => p.userId.toString() !== userId);
+           socket.emit('battle_restored', {
+             timeLeft: Math.floor((battle.startTime.getTime() + battle.timeLimitMinutes * 60000 - Date.now()) / 1000),
+             myProgress: myParticipant?.progress || 0,
+             opponentProgress: opponentParticipant?.progress || 0,
+             code: myParticipant?.codeSnapshot || '',
+           });
+        }
+      } catch (err) {
+        console.error("Failed to rejoin battle", err);
+      }
+    });
+
+    socket.on('battle_submit', async ({ roomId, success, testCasesPassed, totalTestCases, userId }) => {
       socket.to(roomId).emit('opponent_submit', { success, testCasesPassed, totalTestCases });
       
+      if (userId) {
+        try {
+          await Battle.updateOne(
+            { battleId: roomId, 'participants.userId': userId },
+            { $set: { 
+              'participants.$.status': success ? 'submitted' : 'active',
+              'participants.$.testsPassed': testCasesPassed,
+              'participants.$.totalTests': totalTestCases,
+              ...(success ? { 'participants.$.submittedAt': new Date() } : {})
+            }}
+          );
+        } catch (err) {
+           console.error("Failed to update battle submission", err);
+        }
+      }
+
       if (success) {
+        try {
+          await Battle.updateOne(
+             { battleId: roomId },
+             { $set: { status: 'completed', winnerId: userId, endTime: new Date() } }
+          );
+        } catch(e){}
         // Handle battle end (user won)
         io.to(roomId).emit('battle_ended', { winnerSocketId: socket.id, reason: 'completed' });
         matchmakingService.endMatch(roomId);

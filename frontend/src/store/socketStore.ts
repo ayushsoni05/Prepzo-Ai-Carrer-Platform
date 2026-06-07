@@ -18,14 +18,17 @@ interface SocketState {
   disconnect: () => void;
   findMatch: (userData: any) => void;
   cancelMatch: (userId: string) => void;
-  sendProgress: (progress: number) => void;
-  submitBattle: (success: boolean, passed: number, total: number) => void;
+  sendProgress: (progress: number, userId?: string, codeSnapshot?: string) => void;
+  submitBattle: (success: boolean, passed: number, total: number, userId?: string) => void;
   
   // Custom Room Methods
   getAllRooms: () => void;
   joinCustomRoom: (roomId: string, pin?: string, user?: any) => void;
   acceptJoinRequest: (guestId: string) => void;
   declineJoinRequest: (guestId: string) => void;
+
+  rejoinBattle: (battleId: string, userId: string) => void;
+  setRestoredState: (state: any) => void;
 
   resetState: () => void;
 }
@@ -101,6 +104,14 @@ export const useSocketStore = create<SocketState>((set, get) => ({
       });
     });
 
+    newSocket.on('battle_restored', (data: { timeLeft: number, myProgress: number, opponentProgress: number, code: string }) => {
+      set({ 
+        matchStatus: 'in_battle', 
+        opponentProgress: data.opponentProgress,
+      });
+      get().setRestoredState(data);
+    });
+
     // Custom Room Events
     newSocket.on('custom_room_created', (data: { roomId: string }) => {
       set({ roomId: data.roomId, matchStatus: 'idle' });
@@ -158,17 +169,17 @@ export const useSocketStore = create<SocketState>((set, get) => ({
     }
   },
 
-  sendProgress: (progress) => {
+  sendProgress: (progress, userId, codeSnapshot) => {
     const { socket, roomId } = get();
     if (socket && roomId) {
-      socket.emit('code_change', { roomId, progress });
+      socket.emit('code_change', { roomId, progress, userId, codeSnapshot });
     }
   },
 
-  submitBattle: (success, passed, total) => {
+  submitBattle: (success, passed, total, userId) => {
     const { socket, roomId } = get();
     if (socket && roomId) {
-      socket.emit('battle_submit', { roomId, success, testCasesPassed: passed, totalTestCases: total });
+      socket.emit('battle_submit', { roomId, success, testCasesPassed: passed, totalTestCases: total, userId });
     }
   },
 
@@ -196,6 +207,18 @@ export const useSocketStore = create<SocketState>((set, get) => ({
   declineJoinRequest: (guestId) => {
     const { socket, roomId } = get();
     if (socket && roomId) socket.emit('decline_join_request', { roomId, guestId });
+  },
+
+  rejoinBattle: (battleId, userId) => {
+    const { socket } = get();
+    if (socket) {
+      set({ roomId: battleId });
+      socket.emit('rejoin_battle', { battleId, userId });
+    }
+  },
+
+  setRestoredState: (state) => {
+    // This function will be overwritten by BattleArena.tsx to pass data up
   },
 
   resetState: () => {

@@ -35,6 +35,8 @@ import notesRoutes from './routes/notes.routes.js';
 import submissionRoutes from './routes/submission.route.js';
 import recruiterRoutes from './routes/recruiter.routes.js';
 import overleafRoutes from './routes/overleaf.routes.js';
+import battleRoutes from './routes/battle.routes.js';
+import tournamentRoutes from './routes/tournament.routes.js';
 import { seeder } from './services/autonomousSeeder.service.js';
 import { errorHandler, notFound } from './middleware/error.middleware.js';
 import aiValidation from './middleware/aiValidation.middleware.js';
@@ -280,6 +282,8 @@ app.use('/api/applications', applicationRoutes);
 app.use('/api/network', networkRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/public', publicRoutes);
+app.use('/api/battles', battleRoutes);
+app.use('/api/tournaments', tournamentRoutes);
 
 // AI Failsafe error handler (catches AI-specific errors)
 app.use(aiValidation.aiFailsafe());

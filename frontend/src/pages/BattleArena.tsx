@@ -8,11 +8,28 @@ import Editor from '@monaco-editor/react';
 import { codingProblems } from '@/api/codingLab';
 
 export const BattleArena = () => {
-  const { matchStatus, opponent, opponentProgress, sendProgress, submitBattle, winnerSocketId, resetState, timeLimit, problems } = useSocketStore();
+  const { matchStatus, opponent, opponentProgress, sendProgress, submitBattle, winnerSocketId, resetState, timeLimit, problems, roomId, rejoinBattle } = useSocketStore();
   const { user } = useAuthStore();
   
   // Timer state
   const [timeLeft, setTimeLeft] = useState(0);
+
+  useEffect(() => {
+    // Override setRestoredState to handle reconnections
+    useSocketStore.setState({
+      setRestoredState: (state: any) => {
+        setTimeLeft(state.timeLeft);
+      }
+    });
+
+    // Check if we need to rejoin
+    const savedBattleId = localStorage.getItem('current_battle_id');
+    if (savedBattleId && matchStatus === 'idle') {
+       rejoinBattle(savedBattleId, user?.id || '');
+    } else if (roomId) {
+       localStorage.setItem('current_battle_id', roomId);
+    }
+  }, [matchStatus, roomId, user, rejoinBattle]);
 
   useEffect(() => {
     if (timeLimit) {
@@ -74,8 +91,8 @@ export const BattleArena = () => {
   // Sync progress
   useEffect(() => {
     const progress = Math.min(100, (code.length / 100) * 100);
-    sendProgress(progress);
-  }, [code]);
+    sendProgress(progress, user?.id, code);
+  }, [code, user, sendProgress]);
 
   useEffect(() => {
     if (matchStatus === 'idle') {
@@ -181,11 +198,13 @@ try {
   };
 
   const handleExit = () => {
+    localStorage.removeItem('current_battle_id');
     resetState();
     navigateTo('coding-lab');
   };
 
   if (matchStatus === 'ended') {
+    localStorage.removeItem('current_battle_id');
     const isWinner = winnerSocketId !== 'opponent' && winnerSocketId !== null && winnerSocketId !== undefined;
     return (
       <div className="min-h-screen bg-[#0a0c10] flex items-center justify-center font-rubik relative overflow-hidden">

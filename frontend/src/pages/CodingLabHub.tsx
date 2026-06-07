@@ -1,7 +1,7 @@
 import { navigateTo } from '@/utils/navigation';
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2, ChevronLeft, Trophy, UserCircle, Swords, Globe } from 'lucide-react';
+import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2, ChevronLeft, Trophy, UserCircle, Swords, Globe, History, Crown } from 'lucide-react';
 import { getCodingProblems, CodingProblem } from '@/api/codingLab';
 import { GridBeam } from '@/components/ui/background-grid-beam';
 import { useAuthStore } from '@/store/authStore';
@@ -114,6 +114,23 @@ export const CodingLabHub: React.FC = () => {
                 >
                   <UserCircle size={16} className="text-blue-500 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
                   <span className="text-[10px] font-black text-blue-500 uppercase tracking-widest">My Profile</span>
+                </button>
+             </div>
+             
+             <div className="flex gap-4 w-full">
+                <button 
+                  onClick={() => navigateTo('tournaments')}
+                  className="flex-1 px-4 py-3 bg-gradient-to-br from-purple-500/20 to-purple-600/5 border border-purple-500/30 rounded-xl flex items-center justify-center gap-2 hover:bg-purple-500/30 transition-colors shadow-lg shadow-purple-500/10 group backdrop-blur-md"
+                >
+                  <Crown size={16} className="text-purple-400 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(168,85,247,0.8)]" />
+                  <span className="text-[10px] font-black text-purple-400 uppercase tracking-widest">Tournaments</span>
+                </button>
+                <button 
+                  onClick={() => navigateTo('battle-history')}
+                  className="flex-1 px-4 py-3 bg-gradient-to-br from-indigo-500/20 to-indigo-600/5 border border-indigo-500/30 rounded-xl flex items-center justify-center gap-2 hover:bg-indigo-500/30 transition-colors shadow-lg shadow-indigo-500/10 group backdrop-blur-md"
+                >
+                  <History size={16} className="text-indigo-400 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
+                  <span className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">History</span>
                 </button>
              </div>
              
