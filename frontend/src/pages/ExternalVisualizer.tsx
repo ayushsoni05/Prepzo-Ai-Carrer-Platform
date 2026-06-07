@@ -1,47 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React from 'react';
 import { navigateTo } from '@/utils/navigation';
 import { ChevronLeft, Cpu, Globe } from 'lucide-react';
 import { AlgorithmVisualizer } from '../components/visualizer/AlgorithmVisualizer';
-import axios from 'axios';
-import { API_BASE_URL } from '@/config';
-import { useAuthStore } from '@/store/authStore';
 
 export const ExternalVisualizer: React.FC = () => {
   const searchParams = new URLSearchParams(window.location.search);
   const urlParam = searchParams.get('url');
-
-  const [scrapedText, setScrapedText] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const { token } = useAuthStore();
-
-  useEffect(() => {
-    const fetchScrapedText = async () => {
-      if (!urlParam) return;
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await axios.post(`${API_BASE_URL}/api/ai/visualization/visualize`, {
-          url: urlParam
-        }, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        
-        // Wait, our backend endpoint `/api/ai/visualize` actually DOES the visualization generation 
-        // IF we pass `url`. We don't just get scraped text back, we get the whole visualization!
-        // But the AlgorithmVisualizer component is designed to take `problemText` and call the API itself.
-        // Let's adjust AlgorithmVisualizer to optionally take `initialData` or we can just render the visualizer 
-        // differently here. Actually, it's easier if we pass `url` to AlgorithmVisualizer directly.
-      } catch (err: any) {
-        console.error(err);
-        setError(err.response?.data?.message || 'Failed to fetch visualization');
-      } finally {
-        setLoading(false);
-      }
-    };
-    // fetchScrapedText();
-  }, [urlParam, token]);
 
   return (
     <div className="h-screen w-full flex flex-col bg-[#0a0c10] font-rubik overflow-hidden selection:bg-[#5ed29c] selection:text-black">

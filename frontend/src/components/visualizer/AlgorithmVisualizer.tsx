@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MermaidDiagram } from './MermaidDiagram';
 import { useAuthStore } from '@/store/authStore';
 import { Play, Loader2, ArrowLeft, ArrowRight, Activity, Cpu } from 'lucide-react';
-import axios from 'axios';
-import { API_BASE_URL } from '@/config';
+import api from '@/api/axios';
 
 interface VisualizerStep {
   stepTitle: string;
@@ -37,7 +36,7 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/ai/visualization/visualize`, {
+      const response = await api.post('/ai/visualization/visualize', {
         problemText,
         problemId,
         url
