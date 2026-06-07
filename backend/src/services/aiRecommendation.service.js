@@ -11,10 +11,14 @@ dotenv.config();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// Groq configuration - High Performance Llama 3.3
-const groq = new OpenAI({
-    apiKey: process.env.GROQ_API_KEY,
-    baseURL: 'https://api.groq.com/openai/v1',
+// OpenRouter configuration
+const openRouter = new OpenAI({
+    apiKey: process.env.OPENROUTER_API_KEY,
+    baseURL: 'https://openrouter.ai/api/v1',
+    defaultHeaders: {
+        'HTTP-Referer': 'https://prepzo-ai-career-platform.vercel.app/',
+        'X-Title': 'Prepzo AI Career Platform',
+    }
 });
 
 
@@ -129,21 +133,29 @@ export const generateAIRecommendations = async (data) => {
     `;
 
     try {
-        console.log(`[aiRecommendation] Calling Groq for ${testType} recommendations...`);
-        const completion = await groq.chat.completions.create({
+        console.log(`[aiRecommendation] Calling OpenRouter for ${testType} recommendations...`);
+        const completion = await openRouter.chat.completions.create({
             messages: [{ role: "user", content: prompt }],
-            model: "llama-3.3-70b-versatile",
-            response_format: { type: "json_object" },
+            model: "google/gemini-2.0-flash-lite-preview-02-05:free",
             temperature: 0.7,
             max_tokens: 3000
         });
 
-        const aiData = JSON.parse(completion.choices[0].message.content);
+        const content = completion.choices[0].message.content;
+        let aiData;
+        try {
+            // Find JSON boundaries just in case there's markdown wrapping
+            const start = content.indexOf('{');
+            const end = content.lastIndexOf('}') + 1;
+            aiData = JSON.parse(content.slice(start, end));
+        } catch (e) {
+            aiData = JSON.parse(content);
+        }
 
         // Enrichment with high-quality thumbnails
-        return processAIData(aiData, 'Groq (Llama 3.3)');
+        return processAIData(aiData, 'OpenRouter (Gemini)');
     } catch (error) {
-        console.error('Groq Failed, falling back to Gemini...', error.message);
+        console.error('OpenRouter Failed, falling back to Gemini...', error.message);
         try {
             const model = genAI.getGenerativeModel({ 
                 model: "gemini-1.5-pro",
