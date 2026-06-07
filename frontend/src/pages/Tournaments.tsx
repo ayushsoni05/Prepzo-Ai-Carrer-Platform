@@ -1,19 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, Swords, Users, Crown, ChevronRight, Activity, Calendar } from 'lucide-react';
+import { Trophy, Swords, Users, Crown, ChevronRight, Activity, Calendar, ChevronLeft } from 'lucide-react';
 import { navigateTo } from '@/utils/navigation';
+import { getTournaments } from '@/api/tournamentApi';
 
 export const Tournaments = () => {
   const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
+  const [tournaments, setTournaments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const upcomingTournaments = [
-    { id: '1', name: 'Global Algo-Rumble', date: 'Oct 15, 2026', participants: 64, prize: '10,000 XP', status: 'Registration Open' },
-    { id: '2', name: 'Dynamic Programming Decathlon', date: 'Oct 22, 2026', participants: 32, prize: '5,000 XP', status: 'Upcoming' },
-  ];
+  useEffect(() => {
+    const fetchTournaments = async () => {
+      try {
+        const res = await getTournaments();
+        if (res.success) {
+          setTournaments(res.data);
+        }
+      } catch (err) {
+        console.error('Failed to fetch tournaments', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTournaments();
+  }, []);
+
+  const upcomingTournaments = tournaments.filter(t => t.status !== 'completed');
+  const pastTournaments = tournaments.filter(t => t.status === 'completed');
 
   return (
-    <div className="min-h-screen bg-[#0a0c10] text-white font-rubik p-8">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="min-h-screen bg-[#0a0c10] text-white font-rubik p-8 pt-24 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto space-y-8 relative z-10">
+        
+        {/* Back Button */}
+        <button 
+          onClick={() => navigateTo('coding-lab')} 
+          className="flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-4 text-[10px] font-black uppercase tracking-widest"
+        >
+          <ChevronLeft size={16} /> Back to Coding Lab
+        </button>
         
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -49,57 +74,95 @@ export const Tournaments = () => {
         </div>
 
         {/* Content */}
-        {activeTab === 'upcoming' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {upcomingTournaments.map((t, i) => (
-              <motion.div 
-                key={t.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-[#161a20] border border-white/5 hover:border-[#5ed29c]/50 rounded-2xl p-6 relative overflow-hidden group cursor-pointer"
-              >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[#5ed29c]/5 rounded-bl-full -z-10 group-hover:bg-[#5ed29c]/10 transition-colors" />
-                
-                <div className="flex justify-between items-start mb-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center">
-                      <Crown className="text-purple-400" />
-                    </div>
-                    <div>
-                      <h3 className="font-[900] text-xl uppercase tracking-tight">{t.name}</h3>
-                      <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">{t.status}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  <div className="bg-black/30 rounded-lg p-3 border border-white/5">
-                    <Calendar className="text-white/30 w-4 h-4 mb-1" />
-                    <p className="text-xs font-bold text-white/70">{t.date}</p>
-                  </div>
-                  <div className="bg-black/30 rounded-lg p-3 border border-white/5">
-                    <Users className="text-white/30 w-4 h-4 mb-1" />
-                    <p className="text-xs font-bold text-white/70">{t.participants} Slots</p>
-                  </div>
-                  <div className="bg-black/30 rounded-lg p-3 border border-[#5ed29c]/20">
-                    <Trophy className="text-[#5ed29c]/50 w-4 h-4 mb-1" />
-                    <p className="text-xs font-bold text-[#5ed29c]">{t.prize}</p>
-                  </div>
-                </div>
-
-                <button className="w-full py-3 bg-white/5 group-hover:bg-[#5ed29c] group-hover:text-black border border-white/10 group-hover:border-transparent rounded-xl font-[900] uppercase tracking-widest transition-all flex items-center justify-center gap-2">
-                  Register Now <ChevronRight size={16} />
-                </button>
-              </motion.div>
-            ))}
+        {loading ? (
+          <div className="py-20 text-center">
+            <div className="w-8 h-8 border-2 border-[#5ed29c]/30 border-t-[#5ed29c] rounded-full animate-spin mx-auto" />
           </div>
+        ) : activeTab === 'upcoming' ? (
+          upcomingTournaments.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {upcomingTournaments.map((t, i) => (
+                <motion.div 
+                  key={t._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-[#161a20] border border-white/5 hover:border-[#5ed29c]/50 rounded-2xl p-6 relative overflow-hidden group cursor-pointer"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#5ed29c]/5 rounded-bl-full -z-10 group-hover:bg-[#5ed29c]/10 transition-colors" />
+                  
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center">
+                        <Crown className="text-purple-400" />
+                      </div>
+                      <div>
+                        <h3 className="font-[900] text-xl uppercase tracking-tight">{t.name}</h3>
+                        <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">{t.status}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="bg-black/30 rounded-lg p-3 border border-white/5">
+                      <Calendar className="text-white/30 w-4 h-4 mb-1" />
+                      <p className="text-xs font-bold text-white/70">{new Date(t.startDate).toLocaleDateString()}</p>
+                    </div>
+                    <div className="bg-black/30 rounded-lg p-3 border border-white/5">
+                      <Users className="text-white/30 w-4 h-4 mb-1" />
+                      <p className="text-xs font-bold text-white/70">{t.maxParticipants} Slots</p>
+                    </div>
+                    <div className="bg-black/30 rounded-lg p-3 border border-[#5ed29c]/20">
+                      <Trophy className="text-[#5ed29c]/50 w-4 h-4 mb-1" />
+                      <p className="text-xs font-bold text-[#5ed29c]">{t.prizePool} XP</p>
+                    </div>
+                  </div>
+
+                  <button className="w-full py-3 bg-white/5 group-hover:bg-[#5ed29c] group-hover:text-black border border-white/10 group-hover:border-transparent rounded-xl font-[900] uppercase tracking-widest transition-all flex items-center justify-center gap-2">
+                    Register Now <ChevronRight size={16} />
+                  </button>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-[#161a20] border border-white/5 rounded-2xl p-12 text-center">
+              <Activity className="w-16 h-16 text-white/10 mx-auto mb-4" />
+              <h3 className="text-xl font-[900] uppercase tracking-widest text-white/30 mb-2">No Upcoming Tournaments</h3>
+              <p className="text-white/40">Check back later for new massive brackets.</p>
+            </div>
+          )
         ) : (
-          <div className="bg-[#161a20] border border-white/5 rounded-2xl p-12 text-center">
-            <Activity className="w-16 h-16 text-white/10 mx-auto mb-4" />
-            <h3 className="text-xl font-[900] uppercase tracking-widest text-white/30 mb-2">No Past Tournaments</h3>
-            <p className="text-white/40">The arena is fresh. Become the first champion.</p>
-          </div>
+          pastTournaments.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {pastTournaments.map((t, i) => (
+                <motion.div 
+                  key={t._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="bg-[#161a20] border border-white/5 rounded-2xl p-6"
+                >
+                  <h3 className="font-[900] text-xl uppercase tracking-tight mb-2">{t.name}</h3>
+                  <p className="text-xs font-bold text-white/40 uppercase tracking-widest mb-4">Ended: {new Date(t.endDate).toLocaleDateString()}</p>
+                  {t.winnerId && (
+                    <div className="flex items-center gap-3 bg-white/5 p-4 rounded-xl border border-yellow-500/20">
+                      <Crown className="text-yellow-500" size={24} />
+                      <div>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-white/40">Champion</p>
+                        <p className="font-[900] text-yellow-500">{t.winnerId.fullName}</p>
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-[#161a20] border border-white/5 rounded-2xl p-12 text-center">
+              <Activity className="w-16 h-16 text-white/10 mx-auto mb-4" />
+              <h3 className="text-xl font-[900] uppercase tracking-widest text-white/30 mb-2">No Past Tournaments</h3>
+              <p className="text-white/40">The arena is fresh. Become the first champion.</p>
+            </div>
+          )
         )}
       </div>
     </div>

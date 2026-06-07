@@ -499,6 +499,10 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  codingElo: {
+    type: Number,
+    default: 1200, // Standard starting ELO
+  },
   solvedProblems: [{
     problemId: String,
     difficulty: { type: String, enum: ['Easy', 'Medium', 'Hard'] },
