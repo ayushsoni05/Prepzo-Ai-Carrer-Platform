@@ -63,7 +63,7 @@ export const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart }) => {
   return (
     <div 
       ref={containerRef}
-      className="w-full h-full flex items-center justify-center overflow-auto p-4"
+      className="w-full h-full flex overflow-auto p-4 [&>svg]:m-auto [&>svg]:max-w-full [&>svg]:h-auto"
       dangerouslySetInnerHTML={{ __html: svgContent }}
     />
   );
