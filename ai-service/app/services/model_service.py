@@ -35,7 +35,16 @@ class ModelService:
         self.groq_api_key = getattr(self.settings, 'groq_api_key', '')
         self.groq_model = getattr(self.settings, 'groq_model', 'llama-3.1-70b-versatile')
         
-        self.model_name = self.groq_model if self.provider == 'groq' else self.ollama_model
+        # OpenRouter settings
+        self.openrouter_api_key = getattr(self.settings, 'openrouter_api_key', '')
+        self.openrouter_model = getattr(self.settings, 'openrouter_model', 'google/gemini-2.0-flash-lite-preview-02-05:free')
+        
+        if self.provider == 'openrouter':
+            self.model_name = self.openrouter_model
+        elif self.provider == 'groq':
+            self.model_name = self.groq_model
+        else:
+            self.model_name = self.ollama_model
         self._initialized = False
         self._available = False
         self.http_client: Optional[httpx.AsyncClient] = None
@@ -47,7 +56,14 @@ class ModelService:
         
         self.http_client = httpx.AsyncClient(timeout=600.0)
         
-        if self.provider == 'groq':
+        if self.provider == 'openrouter':
+            if not self.openrouter_api_key:
+                logger.warning("⚠️ OpenRouter API key not configured")
+                self._available = False
+            else:
+                self._available = True
+                logger.info(f"✅ OpenRouter connected - using model: {self.model_name}")
+        elif self.provider == 'groq':
             if not self.groq_api_key:
                 logger.warning("⚠️ Groq API key not configured")
                 self._available = False
@@ -146,7 +162,40 @@ class ModelService:
         messages.append({"role": "user", "content": prompt})
         
         try:
-            if self.provider == 'groq':
+            if self.provider == 'openrouter':
+                headers = {
+                    "Authorization": f"Bearer {self.openrouter_api_key}",
+                    "HTTP-Referer": "https://prepzo-ai-career-platform.vercel.app/",
+                    "X-Title": "Prepzo AI Career Platform",
+                    "Content-Type": "application/json"
+                }
+                payload = {
+                    "model": self.model_name,
+                    "messages": messages,
+                    "max_tokens": max_tokens or 1024,
+                    "temperature": temperature or 0.7,
+                    "top_p": top_p or 0.9,
+                    "stream": False
+                }
+                if stop:
+                    payload["stop"] = stop
+                    
+                response = await self.http_client.post(
+                    "https://openrouter.ai/api/v1/chat/completions",
+                    headers=headers,
+                    json=payload
+                )
+                
+                if response.status_code == 200:
+                    result = response.json()
+                    generated_text = result.get("choices", [{}])[0].get("message", {}).get("content", "")
+                    return self._clean_response(generated_text)
+                else:
+                    error_detail = response.text
+                    logger.error(f"OpenRouter API error: {response.status_code} - {error_detail}")
+                    raise RuntimeError(f"OpenRouter API failed with status {response.status_code}: {error_detail[:100]}")
+
+            elif self.provider == 'groq':
                 # Groq API call (Cloud)
                 headers = {
                     "Authorization": f"Bearer {self.groq_api_key}",
@@ -233,7 +282,36 @@ class ModelService:
             raise RuntimeError(f"AI provider '{self.provider}' not available.")
         
         try:
-            if self.provider == 'groq':
+            if self.provider == 'openrouter':
+                headers = {
+                    "Authorization": f"Bearer {self.openrouter_api_key}",
+                    "HTTP-Referer": "https://prepzo-ai-career-platform.vercel.app/",
+                    "X-Title": "Prepzo AI Career Platform",
+                    "Content-Type": "application/json"
+                }
+                payload = {
+                    "model": self.model_name,
+                    "messages": messages,
+                    "max_tokens": max_tokens or 1024,
+                    "temperature": temperature or 0.7,
+                    "stream": False
+                }
+                
+                response = await self.http_client.post(
+                    "https://openrouter.ai/api/v1/chat/completions",
+                    headers=headers,
+                    json=payload
+                )
+                
+                if response.status_code == 200:
+                    result = response.json()
+                    return self._clean_response(result.get("choices", [{}])[0].get("message", {}).get("content", ""))
+                else:
+                    error_detail = response.text
+                    logger.error(f"OpenRouter Chat error: {response.status_code} - {error_detail}")
+                    raise RuntimeError(f"OpenRouter Chat failed: {response.status_code}")
+
+            elif self.provider == 'groq':
                 headers = {
                     "Authorization": f"Bearer {self.groq_api_key}",
                     "Content-Type": "application/json"

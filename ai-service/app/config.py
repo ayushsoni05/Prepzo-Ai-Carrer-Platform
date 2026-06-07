@@ -29,6 +29,10 @@ class Settings(BaseSettings):
     groq_api_key: str = Field(default="", env="GROQ_API_KEY")
     groq_model: str = Field(default="llama-3.3-70b-versatile", env="GROQ_MODEL")
     
+    # OpenRouter Configuration
+    openrouter_api_key: str = Field(default="", env="OPENROUTER_API_KEY")
+    openrouter_model: str = Field(default="google/gemini-2.0-flash-lite-preview-02-05:free", env="OPENROUTER_MODEL")
+    
     # Ollama Configuration (Local LLM Server)
     # Install Ollama: https://ollama.ai
     # Pull model: ollama pull llama3.2:1b
@@ -63,6 +67,8 @@ class Settings(BaseSettings):
         # Clean critical string values
         self.groq_api_key = str(self.groq_api_key).strip() if hasattr(self, 'groq_api_key') and self.groq_api_key else ""
         self.groq_model = str(self.groq_model).strip() if hasattr(self, 'groq_model') and self.groq_model else "llama-3.3-70b-versatile"
+        self.openrouter_api_key = str(self.openrouter_api_key).strip() if hasattr(self, 'openrouter_api_key') and self.openrouter_api_key else ""
+        self.openrouter_model = str(self.openrouter_model).strip() if hasattr(self, 'openrouter_model') and self.openrouter_model else "google/gemini-2.0-flash-lite-preview-02-05:free"
         self.ollama_url = str(self.ollama_url).strip().rstrip('/') if hasattr(self, 'ollama_url') and self.ollama_url else "http://localhost:11434"
         self.ai_provider = str(self.ai_provider).strip().lower() if hasattr(self, 'ai_provider') and self.ai_provider else "ollama"
 
