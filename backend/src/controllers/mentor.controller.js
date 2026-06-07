@@ -35,17 +35,9 @@ export const chat = asyncHandler(async (req, res) => {
     return;
   }
 
-  // Check if models are loaded
-  const isReady = await aiService.isServiceReady();
-  if (!isReady) {
-    return res.status(200).json({
-      success: true,
-      sessionId: sessionId || uuidv4(),
-      message: "I'm currently warming up my AI brain (loading models). I'll be fully ready to chat in about 30-60 seconds! How can I help you in the meantime?",
-      status: 'warming_up',
-      suggestions: ["Check my progress", "What's new?", "Wait a moment"]
-    });
-  }
+  // We bypass the strict isReady check here to prevent users from getting permanently stuck 
+  // on "warming up" if the backend AI provider defaults improperly or is missing an API key.
+  // The actual chat API call will fail immediately if the service isn't truly ready.
 
   // Generate session ID if not provided
   const activeSessionId = sessionId || uuidv4();
