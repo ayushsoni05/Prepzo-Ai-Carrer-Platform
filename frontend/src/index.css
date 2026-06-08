@@ -90,6 +90,8 @@
 [data-theme='light'] [class*="bg-[#0a0c10]"],
 [data-theme='light'] [class*="bg-[#0a0a0a]"],
 [data-theme='light'] [class*="bg-[#09090b]"] { background-color: var(--bg) !important; }
+[data-theme='light'] [class*="bg-[#12141a]"],
+[data-theme='light'] [class*="bg-[#1c1f26]"],
 [data-theme='light'] [class*="bg-[#13171d]"],
 [data-theme='light'] [class*="bg-[#161a20]"],
 [data-theme='light'] [class*="bg-[#1e1e1e]"],
@@ -126,18 +128,31 @@
 [data-theme='light'] [class*="via-white"] { --tw-gradient-stops: var(--tw-gradient-from), var(--accent) var(--tw-gradient-via-position), var(--tw-gradient-to) !important; }
 [data-theme='light'] [class*="to-white"] { --tw-gradient-to: var(--accent) var(--tw-gradient-to-position) !important; }
 
+/* Fix loading text gradient in light mode */
+[data-theme='light'] [class*="from-white"][class*="via-purple-200"][class*="to-white/70"] {
+  --tw-gradient-from: var(--primary) !important;
+  --tw-gradient-via: var(--accent) !important;
+  --tw-gradient-to: var(--primary-light) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) !important;
+}
+
+/* Fix SVG SVG Stop colors for light mode (GridBeam) */
+[data-theme='light'] stop[stopColor="#18CCFC"] { stop-color: var(--accent) !important; }
+[data-theme='light'] stop[stopColor="#6344F5"] { stop-color: var(--primary) !important; }
+[data-theme='light'] stop[stopColor="#AE48FF"] { stop-color: var(--primary-light) !important; }
+
 /* Utilities */
-[data-theme='light'] [class*="shadow-2xl"] { box-shadow: var(--shadow) !important; }
+[data-theme='light'] [class*="shadow-2xl"]:not([class*="drop-shadow"]) { box-shadow: var(--shadow) !important; }
 [data-theme='light'] [class*="ring-white/"] { --tw-ring-color: rgba(0,0,0,0.08) !important; }
 
 /* Grid Pattern for Light Theme */
 [data-theme='light'] .page-shell::before {
-  background-image: radial-gradient(circle, rgba(0,0,0,0.08) 1px, transparent 1px) !important;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px) !important;
 }
 [data-theme='light'] [class*="bg-grid-white"] {
   background-image: 
-    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px) !important;
+    linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════
