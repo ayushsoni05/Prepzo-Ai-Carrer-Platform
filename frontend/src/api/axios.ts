@@ -37,7 +37,7 @@ const api = axios.create({
 
 // Request interceptor for CSRF token and request ID
 api.interceptors.request.use(
-  (config) => {
+  async (config) => {
     // Add CSRF token from cookie if available
     const csrfToken = getCsrfToken();
     if (csrfToken) {
@@ -56,9 +56,50 @@ api.interceptors.request.use(
       };
     }
     
+    // Check if token exists and needs preemptive refresh
+    let token = localStorage.getItem('prepzo-token');
+    
+    // Skip token refresh logic for auth endpoints to prevent loops
+    if (token && token !== 'null' && token !== 'undefined' && !config.url?.includes('/auth/')) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const isExpired = (payload.exp * 1000) < (Date.now() + 10000); // 10s buffer
+        
+        if (isExpired) {
+          if (!isRefreshing) {
+            isRefreshing = true;
+            try {
+              const refreshToken = localStorage.getItem('prepzo-refresh-token');
+              const response = await axios.post(`${BASE_URL}/auth/refresh`, refreshToken ? { refreshToken } : {}, { withCredentials: true });
+              if (response.data?.accessToken) {
+                token = response.data.accessToken;
+                localStorage.setItem('prepzo-token', token);
+              }
+              if (response.data?.refreshToken) {
+                localStorage.setItem('prepzo-refresh-token', response.data.refreshToken);
+              }
+              processQueue(null);
+            } catch (err) {
+              processQueue(err as AxiosError);
+              clearAuthData();
+              throw err;
+            } finally {
+              isRefreshing = false;
+            }
+          } else {
+            // Wait for existing refresh to complete
+            await new Promise((resolve, reject) => {
+              failedQueue.push({ resolve, reject });
+            });
+            token = localStorage.getItem('prepzo-token');
+          }
+        }
+      } catch (e) {
+        // Token parsing failed, let the request proceed and fail with 401 if invalid
+      }
+    }
+    
     // Always attach token for all requests if valid
-    const token = localStorage.getItem('prepzo-token');
-    // Check for "null" or "undefined" as strings which can happen on state corruption
     if (token && token !== 'null' && token !== 'undefined') {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
