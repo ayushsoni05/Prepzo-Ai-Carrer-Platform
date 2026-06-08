@@ -37,7 +37,7 @@ class ModelService:
         
         # OpenRouter settings
         self.openrouter_api_key = getattr(self.settings, 'openrouter_api_key', '')
-        self.openrouter_model = getattr(self.settings, 'openrouter_model', 'meta-llama/llama-3.3-70b-instruct:free')
+        self.openrouter_model = getattr(self.settings, 'openrouter_model', 'google/gemma-4-31b-it:free')
         
         if self.provider == 'openrouter':
             self.model_name = self.openrouter_model
