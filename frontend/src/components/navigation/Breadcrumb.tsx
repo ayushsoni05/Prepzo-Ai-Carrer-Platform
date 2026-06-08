@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
 
 export const GlobalBreadcrumb = () => {
-  const [pathSegments, setPathSegments] = useState<{label: string, hash: string}[]>([]);
+  const [pathSegments, setPathSegments] = useState<{label: string, path: string}[]>([]);
 
   useEffect(() => {
     const handlePathChange = () => {
@@ -17,38 +17,38 @@ export const GlobalBreadcrumb = () => {
         return;
       }
 
-      const segments: {label: string, hash: string}[] = [];
+      const segments: {label: string, path: string}[] = [];
       const role = useAuthStore.getState().user?.role;
-      const homeHash = role === 'recruiter' ? 'recruiter-dashboard' : 'dashboard';
-      const homeLabel = 'Home';
+      const homePath = role === 'recruiter' ? 'recruiter-dashboard' : 'dashboard';
+      const homeLabel = role === 'recruiter' ? 'Recruiter Dashboard' : 'Dashboard';
 
-      // Always start with Home
-      segments.push({ label: homeLabel, hash: homeHash });
+      // Always start with Home/Dashboard
+      segments.push({ label: homeLabel, path: homePath });
       
-      if (basePath !== homeHash) {
+      if (basePath !== homePath) {
         if (['jobs', 'companies', 'applications', 'network'].includes(basePath)) {
-          segments.push({ label: 'Opportunities', hash: 'jobs' });
+          segments.push({ label: 'Opportunities', path: 'jobs' });
         }
         
-        if (basePath === 'jobs') segments.push({ label: 'Jobs', hash: 'jobs' });
-        else if (basePath === 'companies') segments.push({ label: 'Companies', hash: 'companies' });
-        else if (basePath === 'applications') segments.push({ label: 'Applications', hash: 'applications' });
-        else if (basePath === 'network') segments.push({ label: 'Network', hash: 'network' });
-        else if (basePath === 'resume') segments.push({ label: 'Resume', hash: 'resume' });
-        else if (basePath === 'settings') segments.push({ label: 'Settings', hash: 'settings' });
-        else if (basePath === 'assessment') segments.push({ label: 'Assessment', hash: 'assessment' });
-        else if (basePath === 'ai-interview') segments.push({ label: 'Interviews', hash: 'ai-interview' });
-        else if (basePath === 'question-bank') segments.push({ label: 'Library', hash: 'question-bank' });
-        else if (basePath === 'notes') segments.push({ label: 'Notes', hash: 'notes' });
-        else if (basePath === 'note-detail') segments.push({ label: 'Notes', hash: 'notes' }, { label: 'Detail', hash: basePath });
-        else if (basePath.startsWith('portfolio')) segments.push({ label: 'Portfolio', hash: basePath });
-        else if (basePath === 'coding-lab') segments.push({ label: 'Coding Lab', hash: 'coding-lab' });
-        else if (basePath === 'battle') segments.push({ label: 'Battle Arena', hash: 'battle' });
-        else if (basePath === 'leaderboard') segments.push({ label: 'Leaderboard', hash: 'leaderboard' });
-        else if (basePath === 'offer-analyzer') segments.push({ label: 'Offer Analyzer', hash: 'offer-analyzer' });
+        if (basePath === 'jobs') segments.push({ label: 'Jobs', path: 'jobs' });
+        else if (basePath === 'companies') segments.push({ label: 'Companies', path: 'companies' });
+        else if (basePath === 'applications') segments.push({ label: 'Applications', path: 'applications' });
+        else if (basePath === 'network') segments.push({ label: 'Network', path: 'network' });
+        else if (basePath === 'resume') segments.push({ label: 'Resume', path: 'resume' });
+        else if (basePath === 'settings') segments.push({ label: 'Settings', path: 'settings' });
+        else if (basePath === 'assessment') segments.push({ label: 'Assessment', path: 'assessment' });
+        else if (basePath === 'ai-interview') segments.push({ label: 'Interviews', path: 'ai-interview' });
+        else if (basePath === 'question-bank') segments.push({ label: 'Library', path: 'question-bank' });
+        else if (basePath === 'notes') segments.push({ label: 'Notes', path: 'notes' });
+        else if (basePath === 'note-detail') segments.push({ label: 'Notes', path: 'notes' }, { label: 'Detail', path: basePath });
+        else if (basePath.startsWith('portfolio')) segments.push({ label: 'Portfolio', path: basePath });
+        else if (basePath === 'coding-lab') segments.push({ label: 'Coding Lab', path: 'coding-lab' });
+        else if (basePath === 'battle') segments.push({ label: 'Battle Arena', path: 'battle' });
+        else if (basePath === 'leaderboard') segments.push({ label: 'Leaderboard', path: 'leaderboard' });
+        else if (basePath === 'offer-analyzer') segments.push({ label: 'Offer Analyzer', path: 'offer-analyzer' });
         else {
           const label = basePath.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-          segments.push({ label, hash: basePath });
+          segments.push({ label, path: basePath });
         }
       }
       setPathSegments(segments);
@@ -74,8 +74,8 @@ export const GlobalBreadcrumb = () => {
         return (
           <div key={idx} className="flex items-center gap-3">
             <button 
-              onClick={() => navigateTo(seg.hash)}
-              className={`flex items-center gap-2 hover:opacity-100 transition-opacity tracking-wide ${isLast ? 'text-white' : 'text-[#8b949e]'}`}
+              onClick={() => navigateTo(seg.path)}
+              className={`flex items-center gap-2 hover:opacity-100 transition-opacity tracking-wide ${isLast ? 'text-[var(--text)]' : 'text-[var(--text-muted)]'}`}
             >
               {isFirst && <Home size={16} strokeWidth={2} className="relative -top-[1px]" />}
               <span>{seg.label}</span>
