@@ -7,10 +7,10 @@ export const GlobalBreadcrumb = () => {
   const [pathSegments, setPathSegments] = useState<{label: string, hash: string}[]>([]);
 
   useEffect(() => {
-    const handleHashChange = () => {
-      let hash = window.location.pathname.slice(1);
-      if (hash.startsWith('/')) hash = hash.slice(1);
-      const basePath = hash.split('?')[0];
+    const handlePathChange = () => {
+      let path = window.location.pathname.slice(1);
+      if (path.startsWith('/')) path = path.slice(1);
+      const basePath = path.split('?')[0];
 
       if (!basePath || basePath === 'landing' || basePath === 'login' || basePath === 'signup') {
         setPathSegments([]);
@@ -40,11 +40,12 @@ export const GlobalBreadcrumb = () => {
         else if (basePath === 'ai-interview') segments.push({ label: 'Interviews', hash: 'ai-interview' });
         else if (basePath === 'question-bank') segments.push({ label: 'Library', hash: 'question-bank' });
         else if (basePath === 'notes') segments.push({ label: 'Notes', hash: 'notes' });
-        else if (basePath === 'note-detail') segments.push({ label: 'Notes', hash: 'notes' }, { label: 'Detail', hash });
+        else if (basePath === 'note-detail') segments.push({ label: 'Notes', hash: 'notes' }, { label: 'Detail', hash: basePath });
         else if (basePath.startsWith('portfolio')) segments.push({ label: 'Portfolio', hash: basePath });
         else if (basePath === 'coding-lab') segments.push({ label: 'Coding Lab', hash: 'coding-lab' });
         else if (basePath === 'battle') segments.push({ label: 'Battle Arena', hash: 'battle' });
         else if (basePath === 'leaderboard') segments.push({ label: 'Leaderboard', hash: 'leaderboard' });
+        else if (basePath === 'offer-analyzer') segments.push({ label: 'Offer Analyzer', hash: 'offer-analyzer' });
         else {
           const label = basePath.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
           segments.push({ label, hash: basePath });
@@ -53,9 +54,14 @@ export const GlobalBreadcrumb = () => {
       setPathSegments(segments);
     };
 
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    handlePathChange();
+    window.addEventListener('popstate', handlePathChange);
+    // Still listen to hashchange just in case some old links use hash
+    window.addEventListener('hashchange', handlePathChange);
+    return () => {
+      window.removeEventListener('popstate', handlePathChange);
+      window.removeEventListener('hashchange', handlePathChange);
+    };
   }, []);
 
   if (pathSegments.length === 0) return null;
@@ -68,7 +74,7 @@ export const GlobalBreadcrumb = () => {
         return (
           <div key={idx} className="flex items-center gap-3">
             <button 
-              onClick={() => window.location.hash = seg.hash}
+              onClick={() => navigateTo(seg.hash)}
               className={`flex items-center gap-2 hover:opacity-100 transition-opacity tracking-wide ${isLast ? 'text-white' : 'text-[#8b949e]'}`}
             >
               {isFirst && <Home size={16} strokeWidth={2} className="relative -top-[1px]" />}
