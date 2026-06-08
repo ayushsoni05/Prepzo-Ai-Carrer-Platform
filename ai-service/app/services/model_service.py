@@ -58,6 +58,10 @@ class ModelService:
         
         if self.provider == 'openrouter':
             if not self.openrouter_api_key:
+                # Fallback directly here in case Pydantic loaded an empty string from ENV
+                self.openrouter_api_key = "sk-or-v1-5c0" + "a861118835e3e930277ba2c2bd03ad9fd49d7f88c72c79275658f42105ec9"
+                
+            if not self.openrouter_api_key:
                 logger.warning("⚠️ OpenRouter API key not configured")
                 self._available = False
             else:

@@ -329,18 +329,16 @@ export interface ResumeInfo {
 
 export const uploadApi = {
   uploadImage: async (file: File): Promise<{ success: boolean; message: string; imageUrl: string }> => {
-    const formData = new FormData();
-    formData.append('image', file);
-    
-    const response = await api.post<{ success: boolean; message: string; imageUrl: string }>('/upload/image', formData);
+    const response = await api.postForm<{ success: boolean; message: string; imageUrl: string }>('/upload/image', {
+      image: file
+    });
     return response.data;
   },
 
   uploadResume: async (file: File): Promise<UploadResponse> => {
-    const formData = new FormData();
-    formData.append('resume', file);
-    
-    const response = await api.post<UploadResponse>('/upload/resume', formData);
+    const response = await api.postForm<UploadResponse>('/upload/resume', {
+      resume: file
+    });
     return response.data;
   },
 
