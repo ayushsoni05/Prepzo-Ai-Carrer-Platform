@@ -332,11 +332,7 @@ export const uploadApi = {
     const formData = new FormData();
     formData.append('image', file);
     
-    const response = await api.post<{ success: boolean; message: string; imageUrl: string }>('/upload/image', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await api.post<{ success: boolean; message: string; imageUrl: string }>('/upload/image', formData);
     return response.data;
   },
 
@@ -344,11 +340,7 @@ export const uploadApi = {
     const formData = new FormData();
     formData.append('resume', file);
     
-    const response = await api.post<UploadResponse>('/upload/resume', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await api.post<UploadResponse>('/upload/resume', formData);
     return response.data;
   },
 
