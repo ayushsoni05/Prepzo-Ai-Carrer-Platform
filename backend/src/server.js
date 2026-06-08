@@ -135,8 +135,8 @@ app.use(helmetConfig);
 app.use(securityHeaders);
 
 // Body parsing
-app.use(express.json({ limit: '1mb' })); // Increased limit to accommodate large assessment payloads
-app.use(express.urlencoded({ extended: true, limit: '1mb' }));
+app.use(express.json({ limit: '50mb' })); // Increased limit to accommodate large Base64 image uploads and assessment payloads
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Input sanitization
 app.use(sanitizeInput);
