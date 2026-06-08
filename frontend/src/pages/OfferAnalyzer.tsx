@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Calculator, FileText, ChevronRight, BarChart3, 
-  DollarSign, Briefcase, Sparkles, AlertTriangle, Play 
+  DollarSign, Briefcase, Sparkles, AlertTriangle, Play,
+  Upload
 } from 'lucide-react';
+import * as pdfjs from 'pdfjs-dist';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 import { parseOfferLetter, OfferData } from '@/api/offer';
 import { 
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
@@ -17,6 +21,43 @@ export default function OfferAnalyzer() {
   
   // Interactive Simulation State
   const [exitValuation, setExitValuation] = useState<number>(0);
+
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsAnalyzing(true);
+      setError(null);
+      
+      if (file.type === 'application/pdf') {
+        const arrayBuffer = await file.arrayBuffer();
+        const loadingTask = pdfjs.getDocument(new Uint8Array(arrayBuffer));
+        const pdfDoc = await loadingTask.promise;
+        let fullText = '';
+        for (let i = 1; i <= pdfDoc.numPages; i++) {
+          const page = await pdfDoc.getPage(i);
+          const textContent = await page.getTextContent();
+          const pageText = textContent.items.map((item: any) => item.str).join(' ');
+          fullText += pageText + '\\n';
+        }
+        setInputText(fullText);
+      } else if (file.type === 'text/plain') {
+        const text = await file.text();
+        setInputText(text);
+      } else {
+        setError('Unsupported file format. Please upload a PDF or TXT file.');
+      }
+    } catch (err: any) {
+      console.error(err);
+      setError('Failed to extract text from file: ' + (err.message || 'Unknown error'));
+    } finally {
+      setIsAnalyzing(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
 
   const handleAnalyze = async () => {
     if (!inputText.trim()) {
@@ -101,9 +142,25 @@ export default function OfferAnalyzer() {
           
           {/* Input Panel */}
           <div className="bg-[#13171d] rounded-[30px] p-8 border border-white/5 shadow-2xl flex flex-col h-full">
-            <h2 className="text-xl font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
-              <FileText size={20} className="text-emerald-500" /> Raw Offer Text
-            </h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold uppercase tracking-wider flex items-center gap-2">
+                <FileText size={20} className="text-emerald-500" /> Raw Offer Text
+              </h2>
+              <button 
+                onClick={() => fileInputRef.current?.click()}
+                className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-white/10 transition-colors"
+              >
+                <Upload size={14} className="text-emerald-500" />
+                Upload PDF/TXT
+              </button>
+              <input 
+                type="file" 
+                ref={fileInputRef} 
+                onChange={handleFileUpload}
+                accept=".pdf,.txt" 
+                className="hidden" 
+              />
+            </div>
             <textarea
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
