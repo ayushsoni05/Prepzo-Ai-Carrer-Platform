@@ -15,6 +15,7 @@ import { JobsPage } from '@/pages/JobsPage';
 import { CompaniesPage } from '@/pages/CompaniesPage';
 import { ApplicationsPage } from '@/pages/ApplicationsPage';
 import { NetworkPage } from '@/pages/NetworkPage';
+import OfferAnalyzer from '@/pages/OfferAnalyzer';
 import TetrisDemo from '@/pages/TetrisDemo';
 import { QuestionBankPage } from '@/pages/QuestionBankPage';
 import { MobileNav } from '@/components/navigation/MobileNav';
@@ -57,7 +58,7 @@ const PageTransition = ({ children, pageKey }: { children: React.ReactNode, page
   </motion.div>
 );
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'placement-accelerator' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'placement-accelerator' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | 'offer-analyzer' | '404';
 
 // Get initial page from URL path or default to 'landing'
 const getPageFromPath = (): Page => {
@@ -75,7 +76,7 @@ const getPageFromPath = (): Page => {
   if (pageName.startsWith('profile/')) return 'profile';
   if (pageName.startsWith('battle/invite/')) return 'join-battle';
   
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'placement-accelerator', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'external-visualizer'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'placement-accelerator', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'external-visualizer', 'offer-analyzer'];
   return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 
@@ -151,7 +152,7 @@ export default function App() {
     
     const initializeAuth = async () => {
       // Only validate session if user is trying to access a protected page
-      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'placement-accelerator', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history'];
+      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'placement-accelerator', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'offer-analyzer'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
       // Safety check: if we think we're authenticated but have no token, sync state
@@ -379,7 +380,7 @@ export default function App() {
   const isSkillComplete = user?.isSkillTestComplete;
   const isFullyQualified = isFieldComplete && isSkillComplete;
 
-  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'placement-accelerator', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail', 'question-bank'].includes(currentPage);
+  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'placement-accelerator', 'offer-analyzer', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail', 'question-bank'].includes(currentPage);
 
   return (
     <div className="page-shell overflow-x-hidden">
@@ -465,6 +466,7 @@ export default function App() {
                   {currentPage === 'notes' && <NotesLibrary />}
                   {currentPage === 'note-detail' && <NoteDetail />}
                   {currentPage === 'question-bank' && <QuestionBankPage />}
+                  {currentPage === 'offer-analyzer' && <OfferAnalyzer />}
                 </main>
                 <MobileNav
                   active={getSidebarActiveId(currentPage)}

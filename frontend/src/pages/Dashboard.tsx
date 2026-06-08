@@ -35,7 +35,10 @@ import {
   Settings,
   LogOut,
   UserCircle,
-  Send
+  Send,
+  Calculator,
+  BarChart3,
+  DollarSign
 } from 'lucide-react';
 import { getFileUrl } from '@/utils/fileUrl';
 import {
@@ -453,6 +456,59 @@ export function Dashboard() {
           <h5 className="text-2xl font-[900] text-white uppercase italic tracking-tighter mb-4">{dashboardJobs.length > 0 ? `${dashboardJobs.length} Matches` : 'Analyzing Jobs...'}</h5>
           <div className="flex items-center gap-2 text-[#5ed29c] text-[10px] font-black uppercase italic">
             <ArrowRight size={12} /> Browse Opportunities
+          </div>
+        </div>
+      </div>
+
+      {/* Offer & Equity Analyzer Entry Card */}
+      <div className="mt-10">
+        <div 
+          onClick={() => { navigateTo('offer-analyzer'); }}
+          className="rounded-[40px] p-10 bg-gradient-to-br from-[#13171d] to-black border border-emerald-500/30 shadow-2xl relative overflow-hidden group hover:border-emerald-500/50 transition-colors cursor-pointer"
+        >
+          <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:opacity-20 transition-opacity duration-700 transform group-hover:scale-125">
+            <BarChart3 size={240} className="text-emerald-500" />
+          </div>
+          
+          <div className="relative z-10 grid md:grid-cols-2 gap-10 items-center pointer-events-none">
+            <div className="pointer-events-auto">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
+                  <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Compensation & Equity</span>
+                </div>
+              </div>
+              
+              <h2 className="text-3xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic mb-6 leading-none">
+                Offer <span className="text-white/40">Analyzer.</span>
+              </h2>
+              
+              <p className="text-white/50 font-medium tracking-tight leading-relaxed max-w-md mb-8">
+                Don't leave money on the table. Paste your offer letter to simulate your RSUs, startup equity, and 4-year total compensation under different IPO scenarios.
+              </p>
+              
+              <button 
+                onClick={(e) => { e.stopPropagation(); navigateTo('offer-analyzer'); }}
+                className="group/btn relative h-[55px] px-8 bg-emerald-500 rounded-2xl flex items-center gap-3 overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-xl shadow-emerald-500/20"
+              >
+                <span className="relative z-10 text-black font-black uppercase tracking-widest text-xs">Analyze Offer</span>
+                <ArrowUpRight size={18} className="relative z-10 text-black group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+              </button>
+            </div>
+            
+            <div className="hidden md:grid grid-cols-2 gap-4 pointer-events-auto">
+              {[
+                { icon: FileText, label: "Smart OCR", sub: "Auto-extracts data" },
+                { icon: BarChart3, label: "4-Year TC", sub: "Visualize comp" },
+                { icon: DollarSign, label: "Equity Simulator", sub: "Model exit scenarios" },
+                { icon: ShieldCheck, label: "Market Check", sub: "Avoid lowballs" }
+              ].map((feature, i) => (
+                <div key={i} className="p-5 rounded-3xl bg-white/5 border border-white/5 hover:border-emerald-500/20 transition-colors group/feat">
+                  <feature.icon size={20} className="text-emerald-500 mb-3 group-hover/feat:scale-110 transition-transform" />
+                  <p className="text-[11px] font-black text-white uppercase tracking-wider mb-1">{feature.label}</p>
+                  <p className="text-[9px] font-bold text-white/30 uppercase tracking-widest italic">{feature.sub}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

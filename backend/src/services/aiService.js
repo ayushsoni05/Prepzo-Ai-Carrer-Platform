@@ -774,6 +774,24 @@ const resumeMockInterview = async (questions, questionIndex, userResponse = null
     }
 };
 
+/**
+ * Analyze an offer letter via AI service
+ * @param {string} text - The raw text of the offer letter
+ * @param {Object} user - The user object making the request
+ */
+const analyzeOfferWithAI = async (text, user) => {
+    try {
+        const response = await aiClient.post('/api/offer/parse', { text }, { timeout: 25000 });
+        if (response.data && response.data.success) {
+            return response.data.data;
+        }
+        throw new Error('AI Service returned unsuccessful response for offer parsing.');
+    } catch (error) {
+        console.error('AI Offer parsing error:', error.response?.data || error.message);
+        throw new Error('Failed to parse offer via AI service');
+    }
+};
+
 export {
     // Service health
     isServiceAvailable,
@@ -829,6 +847,9 @@ export {
 
     // LaTeX Resume
     generateLatexResume,
+
+    // Offer
+    analyzeOfferWithAI,
     
     // Raw client for custom requests
     aiClient
@@ -1094,5 +1115,6 @@ export default {
     analyzeAtsMatch,
     tailorResumeBullets,
     generateColdOutreach,
+    analyzeOfferWithAI,
     aiClient
 };
