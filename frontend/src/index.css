@@ -145,14 +145,21 @@
 [data-theme='light'] [class*="shadow-2xl"]:not([class*="drop-shadow"]) { box-shadow: var(--shadow) !important; }
 [data-theme='light'] [class*="ring-white/"] { --tw-ring-color: rgba(0,0,0,0.08) !important; }
 
+/* Sidebar highlight reset in light mode */
+[data-theme='light'] .sidebar-highlight {
+  background: transparent !important;
+}
+
 /* Grid Pattern for Light Theme */
 [data-theme='light'] .page-shell::before {
-  background-image: radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px) !important;
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.15) 1px, transparent 1px) !important;
+  opacity: 0.6 !important;
 }
-[data-theme='light'] [class*="bg-grid-white"] {
+[data-theme='light'] [class*="bg-grid-white"],
+[data-theme='light'] .bg-grid {
   background-image: 
-    linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px) !important;
+    linear-gradient(to right, rgba(0, 0, 0, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.12) 1px, transparent 1px) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════

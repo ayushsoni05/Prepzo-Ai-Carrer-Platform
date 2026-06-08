@@ -13,7 +13,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ active, onNavigate, badgeMap, lockedItems = [] }) => (
   <div className="hidden md:flex w-auto h-[72px] items-center justify-center bg-[#13171d]/90 backdrop-blur-3xl border border-white/5 rounded-full shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-4 transition-all duration-500 ease-out">
     {/* Subtle edge highlight */}
-    <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/5 to-transparent rounded-full" />
+    <div className="sidebar-highlight absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/5 to-transparent rounded-full" />
     
     <div className="relative flex flex-row items-center gap-1 z-10">
       {[
