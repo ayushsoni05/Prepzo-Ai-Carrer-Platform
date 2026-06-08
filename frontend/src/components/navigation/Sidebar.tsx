@@ -21,7 +21,6 @@ const Sidebar: React.FC<SidebarProps> = ({ active, onNavigate, badgeMap, lockedI
         { id: 'resume', icon: FileText, label: 'Resume' },
         { id: 'assessment', icon: Brain, label: 'Skill' },
         { id: 'opportunities', icon: Briefcase, label: 'Jobs' },
-        { id: 'placement-accelerator', icon: Sparkles, label: 'Placement' },
         { id: 'coding-lab', icon: Terminal, label: 'Code' },
       ].map((item) => {
         const isActive = active === item.id || (item.id === 'opportunities' && active === 'jobs');
