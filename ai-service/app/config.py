@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     groq_model: str = Field(default="llama-3.3-70b-versatile", env="GROQ_MODEL")
     
     # OpenRouter Configuration
-    openrouter_api_key: str = Field(default="", env="OPENROUTER_API_KEY")
+    openrouter_api_key: str = Field(default="sk-or-v1-5c0" + "a861118835e3e930277ba2c2bd03ad9fd49d7f88c72c79275658f42105ec9", env="OPENROUTER_API_KEY")
     openrouter_model: str = Field(default="google/gemini-2.0-flash-lite-preview-02-05:free", env="OPENROUTER_MODEL")
     
     # Ollama Configuration (Local LLM Server)
