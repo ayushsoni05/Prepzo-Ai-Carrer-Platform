@@ -295,7 +295,7 @@ const Profile = () => {
                   className="w-full h-full object-cover"
                 />
                 {isOwnProfile && (
-                  <label htmlFor="avatar-upload" className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition">
+                  <label htmlFor="avatar-upload" className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition rounded-full">
                     <Upload size={24} className="text-white" />
                   </label>
                 )}

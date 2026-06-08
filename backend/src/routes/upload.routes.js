@@ -213,8 +213,18 @@ router.post('/image', protect, uploadLimiter, (req, res, next) => {
       });
     }
 
-    // Generate the URL for the uploaded file
-    const imageUrl = `/uploads/images/${req.file.filename}`;
+    // Convert file to Base64 Data URL
+    const base64Image = fileBuffer.toString('base64');
+    const imageUrl = `data:${req.file.mimetype};base64,${base64Image}`;
+
+    // Clean up/Delete the file from the local disk immediately since Render filesystem is ephemeral
+    try {
+      if (fs.existsSync(req.file.path)) {
+        fs.unlinkSync(req.file.path);
+      }
+    } catch (unlinkError) {
+      console.error('Failed to delete uploaded image file from disk:', unlinkError);
+    }
 
     res.json({
       success: true,

@@ -62,7 +62,7 @@ export function PreparationVelocityChart({ score = 68 }: PreparationVelocityChar
         </div>
       </div>
 
-      <div className="relative w-full h-[130px] bg-white/[0.01] border border-white/5 rounded-3xl p-4 overflow-hidden group/chart transition-all duration-300 hover:border-white/10">
+      <div className="relative w-full h-[150px] flex flex-col justify-between bg-white/[0.01] border border-white/5 rounded-3xl p-4 overflow-hidden group/chart transition-all duration-300 hover:border-white/10">
         {/* Decorative Grid Lines */}
         <div className="absolute inset-0 flex flex-col justify-between p-4 pointer-events-none opacity-20">
           <div className="w-full h-px bg-white/10" />
@@ -70,7 +70,7 @@ export function PreparationVelocityChart({ score = 68 }: PreparationVelocityChar
           <div className="w-full h-px bg-white/10" />
         </div>
 
-        <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-full overflow-visible z-10 relative">
+        <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-[90px] overflow-visible z-10 relative">
           <defs>
             <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.25" />
