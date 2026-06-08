@@ -9,6 +9,7 @@ import app.services.model_service as model_service_mod  # pyre-ignore
 import app.services.embedding_service as embedding_service_mod  # pyre-ignore
 import app.services.vector_store as vector_store_mod  # pyre-ignore
 import app.database as database_mod  # pyre-ignore
+from app.services.placement_service import PlacementService
 
 # Resource instances (initialized in app/main.py lifespan)
 _model_service: Optional['model_service_mod.ModelService'] = None
@@ -47,3 +48,7 @@ def get_database() -> 'database_mod.Database':
     if _database is None:
         raise HTTPException(status_code=503, detail="Database not initialized")
     return _database
+
+def get_placement_service() -> PlacementService:
+    """FastAPI dependency to get placement service"""
+    return PlacementService(get_model_service())

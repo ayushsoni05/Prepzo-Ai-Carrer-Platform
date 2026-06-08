@@ -23,7 +23,8 @@ from app.routers import (  # pyre-ignore
     health,
     ai_test,
     resume,
-    jobs
+    jobs,
+    placement
 )
 from app.services.model_service import ModelService  # pyre-ignore
 from app.services.embedding_service import EmbeddingService  # pyre-ignore
@@ -234,6 +235,12 @@ app.include_router(
     jobs.router,
     prefix="/api/jobs",
     tags=["Job Matching & Recruiter Bot"],
+    dependencies=[Depends(verify_api_key)]
+)
+app.include_router(
+    placement.router,
+    prefix="/api/placement",
+    tags=["Placement Accelerator"],
     dependencies=[Depends(verify_api_key)]
 )
 

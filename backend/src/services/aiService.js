@@ -835,6 +835,62 @@ export {
 };
 
 // Default export for convenience
+// Default export for convenience
+// =====================================================
+// PLACEMENT ACCELERATOR ENDPOINTS
+// =====================================================
+
+/**
+ * Analyze ATS Match
+ */
+const analyzeAtsMatch = async (resumeText, jobDescription) => {
+    try {
+        const response = await aiClient.post('/api/placement/analyze-ats', {
+            resume_text: resumeText,
+            job_description: jobDescription
+        });
+        return response.data;
+    } catch (error) {
+        console.error('ATS analysis failed:', error.message);
+        throw error;
+    }
+};
+
+/**
+ * Tailor Resume Bullets
+ */
+const tailorResumeBullets = async (originalBullets, jobDescription, missingKeywords) => {
+    try {
+        const response = await aiClient.post('/api/placement/tailor-resume', {
+            original_bullets: originalBullets,
+            job_description: jobDescription,
+            missing_keywords: missingKeywords
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Resume tailor failed:', error.message);
+        throw error;
+    }
+};
+
+/**
+ * Generate Cold Outreach
+ */
+const generateColdOutreach = async (resumeText, jobDescription, targetCompany, targetRole) => {
+    try {
+        const response = await aiClient.post('/api/placement/generate-outreach', {
+            resume_text: resumeText,
+            job_description: jobDescription,
+            target_company: targetCompany,
+            target_role: targetRole
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Cold outreach failed:', error.message);
+        throw error;
+    }
+};
+
 // =====================================================
 // RESUME ANALYSIS ENDPOINTS
 // =====================================================
@@ -1035,5 +1091,8 @@ export default {
     generateLatexResume,
     getResumeInterviewQuestions,
     resumeMockInterview,
+    analyzeAtsMatch,
+    tailorResumeBullets,
+    generateColdOutreach,
     aiClient
 };
