@@ -85,37 +85,128 @@
 
 /* ═══════════════════════════════════════════════════════════
    LIGHT THEME OVERRIDES (Dynamic mapping of dark-coded UI)
-═══════════════════════════════════════════════════════════ */
-/* Backgrounds */
+   ═══════════════════════════════════════════════════════════ */
+/* Remove Glassmorphism (blurs/gradients) on light theme for clean, solid premium aesthetics */
+[data-theme='light'] .glass-panel,
+[data-theme='light'] .apple-card,
+[data-theme='light'] .liquid-glass,
+[data-theme='light'] .glass-button,
+[data-theme='light'] .glass-input,
+[data-theme='light'] .glass-textarea,
+[data-theme='light'] .glass-select,
+[data-theme='light'] .sidebar-floating-container {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Backgrounds mapping */
 [data-theme='light'] [class*="bg-[#0a0c10]"],
 [data-theme='light'] [class*="bg-[#0a0a0a]"],
 [data-theme='light'] [class*="bg-[#09090b]"] { background-color: var(--bg) !important; }
+
+/* Map dark card backgrounds to solid warm white panels */
 [data-theme='light'] [class*="bg-[#12141a]"],
 [data-theme='light'] [class*="bg-[#1c1f26]"],
 [data-theme='light'] [class*="bg-[#13171d]"],
 [data-theme='light'] [class*="bg-[#161a20]"],
 [data-theme='light'] [class*="bg-[#1e1e1e]"],
 [data-theme='light'] [class*="bg-[#2d2d2d]"],
-[data-theme='light'] [class*="bg-[#252526]"] { background-color: var(--panel) !important; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
-[data-theme='light'] [class*="bg-black"]:not([class*="bg-black/"]) { background-color: var(--panel-highlight) !important; border: 1px solid var(--panel-border) !important; box-shadow: var(--shadow-sm) !important; }
-[data-theme='light'] [class*="bg-black/"] { background-color: var(--bg-elevated) !important; backdrop-filter: blur(20px); }
+[data-theme='light'] [class*="bg-[#252526]"] { 
+  background-color: var(--panel) !important; 
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02); 
+}
 
-/* Hovers */
-[data-theme='light'] [class*="hover:bg-[#13171d]"]:hover { background-color: var(--panel-highlight) !important; }
+/* Solid card/panel overrides */
+[data-theme='light'] .glass-panel {
+  background: #ffffff !important;
+  border: 1px solid rgba(148, 163, 184, 0.16) !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03), 0 1px 2px rgba(15, 23, 42, 0.01) !important;
+}
+
+[data-theme='light'] .apple-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(148, 163, 184, 0.16) !important;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.01) !important;
+}
+
+[data-theme='light'] [class*="bg-black"]:not([class*="bg-black/"]) { 
+  background-color: var(--panel-highlight) !important; 
+  border: 1px solid var(--panel-border) !important; 
+  box-shadow: var(--shadow-sm) !important; 
+}
+
+[data-theme='light'] [class*="bg-black/"] { 
+  background-color: var(--bg-elevated) !important; 
+}
+
+/* Premium Hover animations and colored shadow glows like dark theme */
+[data-theme='light'] .glass-panel--interactive:hover {
+  border-color: var(--primary) !important;
+  transform: translateY(-5px) !important;
+  box-shadow: 0 20px 40px rgba(79, 70, 229, 0.08), 0 1px 3px rgba(79, 70, 229, 0.02) !important;
+}
+
+[data-theme='light'] .apple-card:hover {
+  transform: translateY(-6px) scale(1.012) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 30px 60px rgba(79, 70, 229, 0.10), 0 1px 3px rgba(79, 70, 229, 0.02) !important;
+}
+
+[data-theme='light'] [class*="hover:bg-[#13171d]"]:hover { background-color: rgba(79, 70, 229, 0.04) !important; }
 [data-theme='light'] [class*="hover:bg-white/5"]:hover { background-color: rgba(0,0,0,0.04) !important; }
 [data-theme='light'] [class*="hover:bg-white/10"]:hover { background-color: rgba(0,0,0,0.08) !important; }
 [data-theme='light'] [class*="hover:text-white"]:hover { color: var(--primary) !important; }
 
-/* Borders */
-[data-theme='light'] [class*="border-white/5"] { border-color: var(--panel-border) !important; }
-[data-theme='light'] [class*="border-white/10"] { border-color: rgba(148, 163, 184, 0.4) !important; }
-[data-theme='light'] [class*="border-white/20"] { border-color: rgba(148, 163, 184, 0.6) !important; }
+/* Floating sidebar and mobile nav container styling in light mode */
+[data-theme='light'] .sidebar-floating-container {
+  background-color: #ffffff !important;
+  border: 1px solid rgba(148, 163, 184, 0.18) !important;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08) !important;
+}
 
-/* Text */
+/* Floating sidebar active and hover item overrides in light mode */
+[data-theme='light'] .sidebar-floating-container .bg-white\/10 {
+  background-color: rgba(79, 70, 229, 0.08) !important;
+}
+[data-theme='light'] .sidebar-floating-container .hover\:bg-white\/5:hover {
+  background-color: rgba(79, 70, 229, 0.04) !important;
+}
+[data-theme='light'] .sidebar-floating-container .text-white {
+  color: var(--primary) !important;
+}
+[data-theme='light'] .sidebar-floating-container .text-white\/20 {
+  color: rgba(75, 90, 120, 0.4) !important;
+}
+[data-theme='light'] .sidebar-floating-container .group-hover\:text-white\/60:hover,
+[data-theme='light'] .sidebar-floating-container .group:hover .text-white\/20 {
+  color: rgba(75, 90, 120, 0.8) !important;
+}
+
+/* Solid text and inputs styling */
+[data-theme='light'] .glass-input,
+[data-theme='light'] .glass-textarea,
+[data-theme='light'] .glass-select {
+  background: #ffffff !important;
+  border: 1px solid rgba(148, 163, 184, 0.3) !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.01) !important;
+}
+[data-theme='light'] .glass-input:focus,
+[data-theme='light'] .glass-textarea:focus,
+[data-theme='light'] .glass-select:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12) !important;
+}
+
+/* Borders mapping */
+[data-theme='light'] [class*="border-white/5"] { border-color: rgba(148, 163, 184, 0.16) !important; }
+[data-theme='light'] [class*="border-white/10"] { border-color: rgba(148, 163, 184, 0.28) !important; }
+[data-theme='light'] [class*="border-white/20"] { border-color: rgba(148, 163, 184, 0.4) !important; }
+
+/* Text color overrides */
 [data-theme='light'] [class*="text-white"]:not([class*="text-white/"]) { color: var(--text) !important; }
 [data-theme='light'] [class*="text-white/"] { color: var(--text-muted) !important; opacity: 1 !important; }
 
-/* Gradients */
+/* Gradients mapping */
 [data-theme='light'] [class*="from-[#0a0c10]"],
 [data-theme='light'] [class*="from-[#0a0a0a]"],
 [data-theme='light'] [class*="from-black"] { --tw-gradient-from: var(--bg) var(--tw-gradient-from-position) !important; }

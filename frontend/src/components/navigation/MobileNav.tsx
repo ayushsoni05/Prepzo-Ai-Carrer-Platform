@@ -18,7 +18,7 @@ const navItems = [
 ];
 
 export const MobileNav: React.FC<MobileNavProps> = ({ active, onNavigate, badgeMap, lockedItems = [] }) => (
-  <div className="fixed bottom-8 left-1/2 -translate-x-1/2 w-[92%] max-w-[400px] flex md:hidden justify-around items-center p-3 rounded-[32px] backdrop-blur-2xl bg-[#0a0c10]/70 border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.8)] z-50 animate-in fade-in slide-in-from-bottom-8 duration-700 ring-1 ring-white/5">
+  <div className="sidebar-floating-container fixed bottom-8 left-1/2 -translate-x-1/2 w-[92%] max-w-[400px] flex md:hidden justify-around items-center p-3 rounded-[32px] backdrop-blur-2xl bg-[#0a0c10]/70 border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.8)] z-50 animate-in fade-in slide-in-from-bottom-8 duration-700 ring-1 ring-white/5">
     {navItems.map((item) => {
       const isLocked = lockedItems.includes(item.id);
       return (
