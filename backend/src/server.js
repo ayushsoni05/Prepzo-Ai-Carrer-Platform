@@ -40,6 +40,7 @@ import battleRoutes from './routes/battle.routes.js';
 import tournamentRoutes from './routes/tournament.routes.js';
 import visualizationRoutes from './routes/visualization.routes.js';
 import placementRoutes from './routes/placement.routes.js';
+import codingProblemRoutes from './routes/codingProblem.routes.js';
 import { seeder } from './services/autonomousSeeder.service.js';
 import { errorHandler, notFound } from './middleware/error.middleware.js';
 import aiValidation from './middleware/aiValidation.middleware.js';
@@ -271,6 +272,7 @@ app.use('/api/resume', aiValidation.aiRequestContext(), resumeRoutes);
 app.use('/api/question-bank', questionBankRoutes);
 app.use('/api/notes', notesRoutes);
 app.use('/api/submissions', submissionRoutes);
+app.use('/api/coding-problems', codingProblemRoutes);
 app.use('/api/recruiters', recruiterRoutes);
 app.use('/api/overleaf', overleafRoutes);
 

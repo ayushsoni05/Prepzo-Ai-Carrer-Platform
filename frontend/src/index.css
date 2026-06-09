@@ -182,6 +182,32 @@
   color: rgba(75, 90, 120, 0.8) !important;
 }
 
+/* Active dot styling in light theme */
+[data-theme='light'] .sidebar-active-dot {
+  background-color: var(--primary) !important;
+}
+
+/* Smooth transition for sidebar navigation hover in light theme */
+[data-theme='light'] .sidebar-floating-container .group:hover svg,
+[data-theme='light'] .sidebar-floating-container .group:hover span {
+  color: var(--primary) !important;
+}
+
+/* Strip glassmorphism/backdrop-filter entirely in light mode */
+[data-theme='light'] [class*="backdrop-blur"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Remove default focus ring outlines on navigation items/buttons */
+[data-theme='light'] button:focus,
+[data-theme='light'] a:focus,
+[data-theme='light'] [role="button"]:focus,
+[data-theme='light'] .sidebar-item:focus,
+[data-theme='light'] .nav-item:focus {
+  outline: none !important;
+}
+
 /* Solid text and inputs styling */
 [data-theme='light'] .glass-input,
 [data-theme='light'] .glass-textarea,
@@ -201,6 +227,14 @@
 [data-theme='light'] [class*="border-white/5"] { border-color: rgba(148, 163, 184, 0.16) !important; }
 [data-theme='light'] [class*="border-white/10"] { border-color: rgba(148, 163, 184, 0.28) !important; }
 [data-theme='light'] [class*="border-white/20"] { border-color: rgba(148, 163, 184, 0.4) !important; }
+[data-theme='light'] [class*="border-[#0a0c10]"],
+[data-theme='light'] [class*="border-[#12141a]"],
+[data-theme='light'] [class*="border-[#161a20]"] {
+  border-color: rgba(148, 163, 184, 0.16) !important;
+}
+[data-theme='light'] [class*="border-black"] {
+  border-color: var(--bg) !important;
+}
 
 /* Text color overrides */
 [data-theme='light'] [class*="text-white"]:not([class*="text-white/"]) { color: var(--text) !important; }
@@ -243,14 +277,15 @@
 
 /* Grid Pattern for Light Theme */
 [data-theme='light'] .page-shell::before {
-  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.15) 1px, transparent 1px) !important;
-  opacity: 0.6 !important;
+  background-image: radial-gradient(circle, rgba(79, 70, 229, 0.2) 1.5px, transparent 1.5px) !important;
+  background-size: 32px 32px !important;
+  opacity: 1 !important;
 }
 [data-theme='light'] [class*="bg-grid-white"],
 [data-theme='light'] .bg-grid {
   background-image: 
-    linear-gradient(to right, rgba(0, 0, 0, 0.12) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.12) 1px, transparent 1px) !important;
+    linear-gradient(to right, rgba(79, 70, 229, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(79, 70, 229, 0.08) 1px, transparent 1px) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════

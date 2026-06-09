@@ -1,3 +1,4 @@
+import api from './axios';
 export interface TestCase {
   id: string;
   input: string;
@@ -81417,16 +81418,38 @@ export const codingProblems: CodingProblem[] = [
   }
 ];
 
-export const getCodingProblems = async (): Promise<CodingProblem[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(codingProblems), 500);
-  });
+export const getCodingProblems = async (params?: { search?: string; difficulty?: string; company?: string }): Promise<CodingProblem[]> => {
+  try {
+    const response = await api.get('/coding-problems', { params });
+    if (response.data && response.data.success) {
+      return response.data.data;
+    }
+  } catch (error) {
+    console.warn("Backend unavailable or network error. Falling back to static problems.", error);
+  }
+  
+  // Fallback to static list (apply search & filter locally)
+  let list = [...codingProblems];
+  if (params?.search) {
+    list = list.filter(p => p.title.toLowerCase().includes(params.search!.toLowerCase()));
+  }
+  if (params?.difficulty) {
+    list = list.filter(p => p.difficulty === params.difficulty);
+  }
+  if (params?.company) {
+    list = list.filter(p => p.companyTags.includes(params.company!));
+  }
+  return list;
 };
 
 export const getCodingProblemById = async (id: string): Promise<CodingProblem | undefined> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(codingProblems.find(p => p.id === id));
-    }, 300);
-  });
+  try {
+    const response = await api.get(`/coding-problems/${id}`);
+    if (response.data && response.data.success) {
+      return response.data.data;
+    }
+  } catch (error) {
+    console.warn(`Backend unavailable. Falling back to static problem for ${id}.`, error);
+  }
+  return codingProblems.find(p => p.id === id);
 };

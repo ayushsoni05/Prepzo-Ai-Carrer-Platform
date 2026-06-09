@@ -820,16 +820,20 @@ userSchema.methods.verifyEmail = async function() {
 // Virtual for assessment locking
 userSchema.virtual('isAssessmentLocked').get(function() {
   if (!this.lastAssessmentAt) return false;
+  const dateObj = this.lastAssessmentAt instanceof Date ? this.lastAssessmentAt : new Date(this.lastAssessmentAt);
+  if (isNaN(dateObj.getTime())) return false;
   const threeDaysInMs = 3 * 24 * 60 * 60 * 1000;
-  const timeSinceLast = Date.now() - this.lastAssessmentAt.getTime();
+  const timeSinceLast = Date.now() - dateObj.getTime();
   return timeSinceLast < threeDaysInMs;
 });
 
 // Virtual for assessment unlock date
 userSchema.virtual('assessmentUnlockDate').get(function() {
   if (!this.lastAssessmentAt) return null;
+  const dateObj = this.lastAssessmentAt instanceof Date ? this.lastAssessmentAt : new Date(this.lastAssessmentAt);
+  if (isNaN(dateObj.getTime())) return null;
   const threeDaysInMs = 3 * 24 * 60 * 60 * 1000;
-  return new Date(this.lastAssessmentAt.getTime() + threeDaysInMs);
+  return new Date(dateObj.getTime() + threeDaysInMs);
 });
 
 // Method to convert to JSON for frontend (excluding sensitive data)

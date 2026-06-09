@@ -61,7 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({ active, onNavigate, badgeMap, lockedI
             {isActive && !isLocked && (
               <motion.div 
                 layoutId="sidebar-active-dot"
-                className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full"
+                className="sidebar-active-dot absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full"
               />
             )}
           </div>
