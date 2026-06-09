@@ -100,7 +100,7 @@ export function NetworkPage() {
     try {
       const response = await networkApi.getConnections(1, 50);
       if (response.success) {
-        setConnections(response.data.connections);
+        setConnections(response.data);
       }
     } catch (error) {
       console.error('Failed to load connections:', error);

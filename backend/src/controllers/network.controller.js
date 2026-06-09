@@ -213,8 +213,8 @@ export const getConnectionSuggestions = asyncHandler(async (req, res) => {
   const { limit = 10 } = req.query;
 
   // Get current user's connections
-  const connectionIds = await Connection.getUserConnections(userId, { limit: 1000 });
-  const connectedIds = connectionIds.connections.map(c => c.user._id);
+  const connectionList = await Connection.getUserConnections(userId, { limit: 1000 });
+  const connectedIds = connectionList.map(c => c.user._id);
   connectedIds.push(userId);
 
   // Get user's skills and target role
@@ -354,14 +354,22 @@ export const getFeed = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const { page = 1, limit = 20 } = req.query;
 
-  const result = await Post.getFeed(userId, {
+  const { posts, total } = await Post.getFeed(userId, {
     page: parseInt(page),
     limit: parseInt(limit),
   });
 
   res.json({
     success: true,
-    data: result,
+    data: {
+      posts,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        pages: Math.ceil(total / parseInt(limit)),
+      },
+    },
   });
 });
 

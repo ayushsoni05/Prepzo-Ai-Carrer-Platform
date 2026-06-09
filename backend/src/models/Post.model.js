@@ -338,17 +338,20 @@ postSchema.statics.getFeed = async function (userId, options = {}) {
     query.postType = postType;
   }
   
-  const posts = await this.find(query)
-    .populate('author', 'fullName profilePicture headline targetRole')
-    .populate('originalPost')
-    .populate('relatedJob', 'title company')
-    .populate('comments.author', 'fullName profilePicture')
-    .sort({ isPinned: -1, createdAt: -1 })
-    .skip(skip)
-    .limit(limit)
-    .lean();
+  const [posts, total] = await Promise.all([
+    this.find(query)
+      .populate('author', 'fullName profilePicture headline targetRole')
+      .populate('originalPost')
+      .populate('relatedJob', 'title company')
+      .populate('comments.author', 'fullName profilePicture')
+      .sort({ isPinned: -1, createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean(),
+    this.countDocuments(query),
+  ]);
   
-  return posts;
+  return { posts, total };
 };
 
 // Instance method to toggle like
