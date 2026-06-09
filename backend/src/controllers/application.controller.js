@@ -17,7 +17,7 @@ import Notification from '../models/Notification.model.js';
  */
 export const applyForJob = asyncHandler(async (req, res) => {
   const userId = req.user._id;
-  const { jobId, coverLetter, answers } = req.body;
+  const { jobId, coverLetter, answers, formData, resumeUrl: submittedResumeUrl } = req.body;
 
   // Check if job exists and is active
   const job = await Job.findById(jobId);
@@ -66,9 +66,10 @@ export const applyForJob = asyncHandler(async (req, res) => {
     applicant: userId,
     job: jobId,
     company: job.company,
-    coverLetter,
+    formData: formData || {},
+    resumeUrl: submittedResumeUrl || user.resumeUrl || null,
+    coverLetter: formData?.additionalInfo?.whyThisRole || coverLetter,
     answers,
-    resumeUrl: user.resumeUrl || null,
     matchScore: {
       overall: overallScore,
       skillMatch: skillScore,
@@ -506,4 +507,110 @@ export const extendOffer = asyncHandler(async (req, res) => {
     success: true,
     data: application,
   });
+});
+
+/**
+ * @desc    Get all applications (admin) - with filters
+ * @route   GET /api/applications/admin/all
+ * @access  Admin
+ */
+export const getAllApplicationsAdmin = asyncHandler(async (req, res) => {
+  const { status, companyId, jobId, search, page = 1, limit = 20 } = req.query;
+  const skip = (parseInt(page) - 1) * parseInt(limit);
+
+  const query = {};
+  if (status) query.status = status;
+  if (companyId) query.company = companyId;
+  if (jobId) query.job = jobId;
+
+  const [applications, total] = await Promise.all([
+    Application.find(query)
+      .populate('applicant', 'fullName email phone profileImage')
+      .populate('job', 'title jobType locations salary applicationDeadline applicationLink')
+      .populate('company', 'name logo')
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(parseInt(limit)),
+    Application.countDocuments(query),
+  ]);
+
+  res.json({
+    success: true,
+    data: {
+      applications,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        pages: Math.ceil(total / parseInt(limit)),
+      },
+    },
+  });
+});
+
+/**
+ * @desc    Export applications as CSV
+ * @route   GET /api/applications/admin/export
+ * @access  Admin
+ */
+export const exportApplicationsExcel = asyncHandler(async (req, res) => {
+  const { companyId, jobId, status } = req.query;
+  const query = {};
+  if (status) query.status = status;
+  if (companyId) query.company = companyId;
+  if (jobId) query.job = jobId;
+
+  const applications = await Application.find(query)
+    .populate('applicant', 'fullName email phone')
+    .populate('job', 'title')
+    .populate('company', 'name')
+    .sort({ createdAt: -1 })
+    .lean();
+
+  // Build CSV content
+  const headers = [
+    'Student Name', 'Email', 'Phone', 'College/Institution', 'Degree', 'Field',
+    'Graduation Year', 'CGPA', 'Skills', 'LinkedIn', 'GitHub', 'Portfolio',
+    'Job Title', 'Company', 'Applied Date', 'Status',
+    'Expected Salary', 'Notice Period', 'Willing to Relocate',
+    'Why This Role', 'Resume URL'
+  ];
+
+  const rows = applications.map(app => {
+    const fd = app.formData || {};
+    const pi = fd.personalInfo || {};
+    const edu = (fd.education && fd.education[0]) || {};
+    const links = fd.links || {};
+    const avail = fd.availability || {};
+    const addl = fd.additionalInfo || {};
+    return [
+      pi.fullName || app.applicant?.fullName || '',
+      pi.email || app.applicant?.email || '',
+      pi.phone || app.applicant?.phone || '',
+      edu.institution || '',
+      edu.degree || '',
+      edu.field || '',
+      edu.graduationYear || '',
+      edu.cgpa || '',
+      (fd.skills || []).join('; '),
+      links.linkedin || '',
+      links.github || '',
+      links.portfolio || '',
+      app.job?.title || '',
+      app.company?.name || '',
+      app.createdAt ? new Date(app.createdAt).toLocaleDateString() : '',
+      app.status || '',
+      avail.expectedSalary || '',
+      avail.noticePeriod || '',
+      avail.willingToRelocate ? 'Yes' : 'No',
+      addl.whyThisRole || app.coverLetter || '',
+      app.resumeUrl || '',
+    ].map(val => `"${String(val).replace(/"/g, '""')}"`);
+  });
+
+  const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+
+  res.setHeader('Content-Type', 'text/csv');
+  res.setHeader('Content-Disposition', 'attachment; filename=applications_export.csv');
+  res.send(csvContent);
 });

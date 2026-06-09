@@ -45,6 +45,8 @@ import { Tournaments } from '@/pages/Tournaments';
 import { BattleHistory } from '@/pages/BattleHistory';
 import { ExternalVisualizer } from '@/pages/ExternalVisualizer';
 import PlacementAccelerator from '@/pages/PlacementAccelerator';
+import { JobApplicationForm } from '@/pages/JobApplicationForm';
+import { AdminApplicationsPage } from '@/pages/AdminApplicationsPage';
 
 const PageTransition = ({ children, pageKey }: { children: React.ReactNode, pageKey: string }) => (
   <motion.div
@@ -59,7 +61,7 @@ const PageTransition = ({ children, pageKey }: { children: React.ReactNode, page
   </motion.div>
 );
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'community' | 'placement-accelerator' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | 'offer-analyzer' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'community' | 'placement-accelerator' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | 'offer-analyzer' | 'job-apply' | 'admin-applications' | '404';
 
 // Get initial page from URL path or default to 'landing'
 const getPageFromPath = (): Page => {
@@ -77,7 +79,7 @@ const getPageFromPath = (): Page => {
   if (pageName.startsWith('profile/')) return 'profile';
   if (pageName.startsWith('battle/invite/')) return 'join-battle';
   
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'external-visualizer', 'offer-analyzer'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'external-visualizer', 'offer-analyzer', 'job-apply', 'admin-applications'];
   return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 
@@ -152,7 +154,7 @@ export default function App() {
     initRef.current = true;
     
     const initializeAuth = async () => {
-      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'offer-analyzer'];
+      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'offer-analyzer', 'job-apply', 'admin-applications'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
       const publicAuthPages = ['landing', 'login', 'signup'];
@@ -295,7 +297,9 @@ export default function App() {
         'join-battle',
         'find-match',
         'tournaments',
-        'battle-history'
+        'battle-history',
+        'job-apply',
+        'admin-applications'
       ].includes(currentPage)) {
         handleNavigate('landing');
       }
@@ -374,7 +378,7 @@ export default function App() {
   const isSkillComplete = user?.isSkillTestComplete;
   const isFullyQualified = isFieldComplete && isSkillComplete;
 
-  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'offer-analyzer', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail', 'question-bank'].includes(currentPage);
+  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'offer-analyzer', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail', 'question-bank', 'admin-applications'].includes(currentPage);
 
   return (
     <div className="page-shell overflow-x-hidden">
@@ -432,6 +436,15 @@ export default function App() {
           {currentPage === 'login' && <PageTransition pageKey="login"><AuthPage mode="login" onNavigate={handleNavigate} /></PageTransition>}
           {currentPage === 'signup' && <PageTransition pageKey="signup"><AuthPage mode="signup" onNavigate={handleNavigate} /></PageTransition>}
           
+          {currentPage === 'job-apply' && (
+            <PageTransition pageKey="job-apply">
+              <JobApplicationForm 
+                jobId={new URLSearchParams(window.location.search).get('jobId') || ''} 
+                onClose={() => handleNavigate('jobs')} 
+              />
+            </PageTransition>
+          )}
+          
           {/* Workspace Pages wrapped in MainLayout */}
           {isWorkspacePage && (
             <PageTransition pageKey="workspace">
@@ -459,9 +472,10 @@ export default function App() {
                   {currentPage === 'placement-accelerator' && <PlacementAccelerator />}
                   {currentPage === 'ai-interview' && <InterviewPage />}
                   {currentPage === 'notes' && <NotesLibrary />}
-                  {currentPage === 'note-detail' && <NoteDetail />}
+                   {currentPage === 'note-detail' && <NoteDetail />}
                   {currentPage === 'question-bank' && <QuestionBankPage />}
                   {currentPage === 'offer-analyzer' && <OfferAnalyzer />}
+                  {currentPage === 'admin-applications' && <AdminApplicationsPage />}
                 </main>
                 <MobileNav
                   active={getSidebarActiveId(currentPage)}
@@ -519,7 +533,7 @@ export default function App() {
       </AnimatePresence>
       
       {/* Prepzo AI Mentor - Available on all authenticated pages (ChatGPT-style) */}
-      {authValidated && isAuthenticated && ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network'].includes(currentPage) && (
+      {authValidated && isAuthenticated && ['dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'admin-applications'].includes(currentPage) && (
         <GlobalAIMentor />
       )}
     </div>

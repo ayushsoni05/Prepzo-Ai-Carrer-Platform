@@ -32,6 +32,7 @@ import { jobsApi, Job, JobSearchParams, JobFilters } from '@/api/jobs';
 import { applicationsApi, Application } from '@/api/applications';
 import ThinkingLoader from '@/components/ui/loading';
 import toast from 'react-hot-toast';
+import { navigateTo } from '@/utils/navigation';
 
 export function JobsPage() {
   const navigate = useNavigate();
@@ -610,20 +611,9 @@ function JobDetailModal({
     fetchJob();
   }, [jobId]);
 
-  const handleApply = async () => {
-    setIsApplying(true);
-    try {
-      const res = await applicationsApi.applyForJob({ jobId });
-      if (res.success) {
-        toast.success('Signal Transmitted: Application Successful');
-        onClose();
-      }
-    } catch (error: any) {
-      const msg = error?.response?.data?.message || error?.message || 'Transmission Failed';
-      toast.error(msg);
-    } finally {
-      setIsApplying(false);
-    }
+  const handleApply = () => {
+    onClose();
+    navigateTo(`/job-apply?jobId=${jobId}`);
   };
 
   const handleSave = async () => {
@@ -710,6 +700,66 @@ function JobDetailModal({
                   ))}
                 </div>
               </section>
+
+              {job.preferredSkills && job.preferredSkills.length > 0 && (
+                <section>
+                  <h4 className="text-[12px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-4">Preferred Skills</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {job.preferredSkills.map((skill: string, i: number) => (
+                      <span key={i} className="px-4 py-2 rounded-xl bg-[#00ff9d]/5 border border-[#00ff9d]/20 text-[#00ff9d]/80 text-[13px] font-bold">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {job.educationRequired && (job.educationRequired.degree !== 'Any' || job.educationRequired.fields?.length > 0) && (
+                <section>
+                  <h4 className="text-[12px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-4">Education Requirements</h4>
+                  <p className="text-white/60 font-medium">
+                    Degree: <span className="text-white font-bold">{job.educationRequired.degree}</span>
+                    {job.educationRequired.fields && job.educationRequired.fields.length > 0 && (
+                      <> in <span className="text-white font-bold">{job.educationRequired.fields.join(', ')}</span></>
+                    )}
+                    {job.educationRequired.minCGPA && (
+                      <> (Minimum CGPA: <span className="text-[#00ff9d] font-bold">{job.educationRequired.minCGPA}</span>)</>
+                    )}
+                  </p>
+                </section>
+              )}
+
+              {job.hiringProcess && job.hiringProcess.length > 0 && (
+                <section>
+                  <h4 className="text-[12px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-4">Hiring Process</h4>
+                  <div className="space-y-4">
+                    {job.hiringProcess.sort((a: any, b: any) => a.order - b.order).map((stage: any, i: number) => (
+                      <div key={i} className="flex gap-4 items-start">
+                        <div className="w-6 h-6 rounded-full bg-[#00ff9d]/20 text-[#00ff9d] flex items-center justify-center font-black text-[11px] shrink-0 mt-0.5">
+                          {stage.order || (i + 1)}
+                        </div>
+                        <div>
+                          <h5 className="font-bold text-white uppercase text-sm tracking-wide">{stage.stage}</h5>
+                          <p className="text-white/40 text-[13px]">{stage.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {((job.benefits && job.benefits.length > 0) || (job.perks && job.perks.length > 0)) && (
+                <section>
+                  <h4 className="text-[12px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-4">Benefits & Perks</h4>
+                  <div className="flex flex-wrap gap-3">
+                    {[...(job.benefits || []), ...(job.perks || [])].map((benefit: string, i: number) => (
+                      <span key={i} className="px-4 py-2 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-300 text-[13px] font-bold">
+                        {benefit}
+                      </span>
+                    ))}
+                  </div>
+                </section>
+              )}
             </div>
 
             <div className="space-y-6">
@@ -760,10 +810,9 @@ function JobDetailModal({
               <div className="space-y-3">
                 <button 
                   onClick={handleApply}
-                  disabled={isApplying}
-                  className="w-full py-5 rounded-[24px] bg-[#00ff9d] text-[#0a0c10] font-black uppercase tracking-widest text-[13px] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
+                  className="w-full py-5 rounded-[24px] bg-[#00ff9d] text-[#0a0c10] font-black uppercase tracking-widest text-[13px] hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
-                  {isApplying ? 'Transmitting...' : 'Apply Now'}
+                  Apply Now
                 </button>
                 <button 
                   onClick={handleSave}

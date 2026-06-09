@@ -378,6 +378,10 @@ export const getTrendingJobs = asyncHandler(async (req, res) => {
   const jobs = await Job.find({
     status: 'active',
     isApproved: true,
+    $or: [
+      { applicationDeadline: { $gte: new Date() } },
+      { applicationDeadline: null },
+    ],
   })
     .populate('company', 'name logo')
     .select('title company locations salary jobType applicationCount viewCount createdAt')

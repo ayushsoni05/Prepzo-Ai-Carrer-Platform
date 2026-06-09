@@ -23,6 +23,13 @@ import {
   saveLatexSource,
   getLatexSource
 } from '../controllers/resume.controller.js';
+import { parseResume } from '../controllers/resumeParser.controller.js';
+import multer from 'multer';
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+});
 
 const router = express.Router();
 
@@ -147,5 +154,11 @@ router.put('/latex-source', protect, saveLatexSource);
  * GET /api/resume/latex-source
  */
 router.get('/latex-source', protect, getLatexSource);
+
+/**
+ * Parse resume file (PDF/DOCX) for form auto-fill
+ * POST /api/resume/parse
+ */
+router.post('/parse', protect, upload.single('resume'), parseResume);
 
 export default router;

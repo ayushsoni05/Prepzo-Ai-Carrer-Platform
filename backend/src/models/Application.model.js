@@ -23,6 +23,61 @@ const applicationSchema = new mongoose.Schema(
       ref: 'Company',
       required: [true, 'Company is required'],
     },
+
+    // Workday-style Application Form Data
+    formData: {
+      personalInfo: {
+        fullName: String,
+        email: String,
+        phone: String,
+        alternatePhone: String,
+        dateOfBirth: Date,
+        gender: { type: String, enum: ['male', 'female', 'other', 'prefer_not_to_say'] },
+        address: {
+          street: String,
+          city: String,
+          state: String,
+          pincode: String,
+          country: { type: String, default: 'India' },
+        },
+      },
+      education: [{
+        degree: String,
+        field: String,
+        institution: String,
+        university: String,
+        graduationYear: Number,
+        cgpa: Number,
+        percentage: Number,
+      }],
+      workExperience: [{
+        companyName: String,
+        jobTitle: String,
+        startDate: Date,
+        endDate: Date,
+        isCurrent: { type: Boolean, default: false },
+        description: String,
+        location: String,
+      }],
+      skills: [String],
+      links: {
+        linkedin: String,
+        github: String,
+        portfolio: String,
+        other: String,
+      },
+      availability: {
+        noticePeriod: String,
+        preferredJoiningDate: Date,
+        expectedSalary: Number,
+        willingToRelocate: { type: Boolean, default: false },
+      },
+      additionalInfo: {
+        howDidYouHear: String,
+        whyThisRole: { type: String, maxlength: 3000 },
+        additionalNotes: String,
+      },
+    },
     
     // Application Status
     status: {

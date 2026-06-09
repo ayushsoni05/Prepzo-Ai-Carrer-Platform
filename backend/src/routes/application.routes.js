@@ -17,6 +17,8 @@ import {
   updateInterview,
   addRecruiterNote,
   extendOffer,
+  getAllApplicationsAdmin,
+  exportApplicationsExcel,
 } from '../controllers/application.controller.js';
 
 const router = express.Router();
@@ -28,10 +30,15 @@ router.use(protect);
 router.post('/', applyForJob);
 router.get('/', getUserApplications);
 router.get('/stats', getApplicationStats);
+
+// Admin routes (placed before /:id to avoid route conflicts)
+router.get('/admin/all', authorize('admin'), getAllApplicationsAdmin);
+router.get('/admin/export', authorize('admin'), exportApplicationsExcel);
+
 router.get('/:id', getApplication);
 router.put('/:id/withdraw', withdrawApplication);
 
-// Admin routes
+// Remaining admin routes
 router.use(authorize('admin'));
 
 router.get('/company/:companyId', getCompanyApplications);

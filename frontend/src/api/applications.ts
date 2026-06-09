@@ -6,6 +6,60 @@
 import api from './axios';
 
 // Types
+export interface ApplicationFormData {
+  personalInfo: {
+    fullName: string;
+    email: string;
+    phone: string;
+    alternatePhone?: string;
+    dateOfBirth?: string;
+    gender?: 'male' | 'female' | 'other' | 'prefer_not_to_say';
+    address?: {
+      street?: string;
+      city?: string;
+      state?: string;
+      pincode?: string;
+      country?: string;
+    };
+  };
+  education: Array<{
+    degree: string;
+    field: string;
+    institution: string;
+    university?: string;
+    graduationYear: number;
+    cgpa?: number;
+    percentage?: number;
+  }>;
+  workExperience: Array<{
+    companyName: string;
+    jobTitle: string;
+    startDate: string;
+    endDate?: string;
+    isCurrent: boolean;
+    description?: string;
+    location?: string;
+  }>;
+  skills: string[];
+  links: {
+    linkedin?: string;
+    github?: string;
+    portfolio?: string;
+    other?: string;
+  };
+  availability: {
+    noticePeriod: string;
+    preferredJoiningDate?: string;
+    expectedSalary?: number;
+    willingToRelocate: boolean;
+  };
+  additionalInfo: {
+    howDidYouHear?: string;
+    whyThisRole?: string;
+    additionalNotes?: string;
+  };
+}
+
 export interface Application {
   _id: string;
   applicant: string;
@@ -88,6 +142,8 @@ export const applicationsApi = {
     jobId: string;
     coverLetter?: string;
     answers?: Record<string, string>;
+    formData?: ApplicationFormData;
+    resumeUrl?: string;
   }) => {
     const response = await api.post('/applications', data);
     return response.data;
@@ -192,6 +248,44 @@ export const applicationsApi = {
     }
   ) => {
     const response = await api.post(`/applications/${id}/offer`, data);
+    return response.data;
+  },
+
+  // Parse resume for form auto-fill
+  parseResume: async (file: File) => {
+    const formData = new FormData();
+    formData.append('resume', file);
+    const response = await api.post('/resume/parse', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  },
+
+  // Admin: Get all applications
+  getAllApplicationsAdmin: async (params: {
+    status?: string;
+    companyId?: string;
+    jobId?: string;
+    search?: string;
+    page?: number;
+    limit?: number;
+  } = {}) => {
+    const response = await api.get('/applications/admin/all', { params });
+    return response.data;
+  },
+
+  // Admin: Export applications as CSV
+  exportApplicationsCsv: async (params: {
+    companyId?: string;
+    jobId?: string;
+    status?: string;
+  } = {}) => {
+    const response = await api.get('/applications/admin/export', {
+      params,
+      responseType: 'blob',
+    });
     return response.data;
   },
 };
