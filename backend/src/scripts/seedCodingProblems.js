@@ -31,6 +31,522 @@ const generateRandomString = (length, chars = 'abcdefghijklmnopqrstuvwxyz') => {
   return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
 };
 
+function generateSVG(categoryIdx, variation) {
+  const primaryColor = '#10B981'; // Emerald green
+  const secondaryColor = '#3B82F6'; // Blue
+  const accentColor = '#F59E0B'; // Orange
+  const textColor = '#FFFFFF';
+  const bgColor = '#1E293B'; // Slate 800
+  const neutralColor = '#475569'; // Slate 600
+
+  let svgContent = '';
+  switch (categoryIdx) {
+    case 1: {
+      const k = variation + 1;
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Sum elements divisible by ${k}</text>
+        <g transform="translate(40, 50)">
+          ${[k, k*2, 1, k*3, 2].map((val, idx) => {
+            const isDiv = val % k === 0;
+            const border = isDiv ? primaryColor : neutralColor;
+            const fill = isDiv ? 'rgba(16,185,129,0.2)' : 'transparent';
+            return `
+              <g transform="translate(${idx * 60}, 0)">
+                <rect width="45" height="40" rx="6" fill="${fill}" stroke="${border}" stroke-width="2"/>
+                <text x="22.5" y="25" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="14" font-weight="bold">${val}</text>
+                ${isDiv ? `<path d="M 22.5 -15 L 22.5 -5 M 17.5 -8 L 22.5 -3 L 27.5 -8" stroke="${primaryColor}" stroke-width="2" fill="none"/>` : ''}
+              </g>
+            `;
+          }).join('')}
+        </g>
+      `;
+      break;
+    }
+    case 2: {
+      const target = 7;
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Find target index of ${target}</text>
+        <g transform="translate(40, 50)">
+          ${[1, 3, target, 9, 12].map((val, idx) => {
+            const isTarget = val === target;
+            const border = isTarget ? primaryColor : neutralColor;
+            const fill = isTarget ? 'rgba(16,185,129,0.2)' : 'transparent';
+            return `
+              <g transform="translate(${idx * 60}, 0)">
+                <rect width="45" height="40" rx="6" fill="${fill}" stroke="${border}" stroke-width="2"/>
+                <text x="22.5" y="25" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="14" font-weight="bold">${val}</text>
+                <text x="22.5" y="52" text-anchor="middle" fill="${isTarget ? primaryColor : 'rgba(255,255,255,0.4)'}" font-family="sans-serif" font-size="10">idx ${idx}</text>
+                ${isTarget ? `<path d="M 22.5 -15 L 22.5 -5 M 17.5 -8 L 22.5 -3 L 27.5 -8" stroke="${primaryColor}" stroke-width="2" fill="none"/>` : ''}
+              </g>
+            `;
+          }).join('')}
+        </g>
+      `;
+      break;
+    }
+    case 3: {
+      const char = String.fromCharCode(97 + (variation % 26));
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Frequency of character '${char}'</text>
+        <g transform="translate(40, 45)">
+          ${['a', char, 'b', char, 'c'].map((c, idx) => {
+            const isMatch = c === char;
+            const fill = isMatch ? accentColor : neutralColor;
+            return `
+              <g transform="translate(${idx * 60}, 0)">
+                <circle cx="22.5" cy="22.5" r="20" fill="${isMatch ? 'rgba(245,158,11,0.2)' : 'transparent'}" stroke="${fill}" stroke-width="2"/>
+                <text x="22.5" y="28" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="16" font-weight="bold">${c}</text>
+                ${isMatch ? `<circle cx="22.5" cy="22.5" r="3" fill="${accentColor}"/>` : ''}
+              </g>
+            `;
+          }).join('')}
+        </g>
+      `;
+      break;
+    }
+    case 4: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="35" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Find Maximum Element</text>
+        <g transform="translate(60, 100)">
+          ${[20, 40, 75, 50, 30].map((val, idx) => {
+            const isMax = val === 75;
+            const fill = isMax ? primaryColor : secondaryColor;
+            return `
+              <g transform="translate(${idx * 50}, 0)">
+                <rect x="0" y="-${val * 0.7}" width="25" height="${val * 0.7}" rx="3" fill="${fill}" opacity="${isMax ? '1' : '0.6'}"/>
+                <text x="12.5" y="-${val * 0.7 + 5}" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="10">${val}</text>
+                ${isMax ? `<text x="12.5" y="15" text-anchor="middle" fill="${primaryColor}" font-family="sans-serif" font-size="8" font-weight="bold">MAX</text>` : ''}
+              </g>
+            `;
+          }).join('')}
+        </g>
+      `;
+      break;
+    }
+    case 5: {
+      const rep = (variation % 5) + 1;
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Reverse and Repeat ${rep}x</text>
+        <g transform="translate(10, 45)" font-family="sans-serif" font-size="11">
+          <rect x="10" y="10" width="60" height="30" rx="6" fill="transparent" stroke="${secondaryColor}" stroke-width="2"/>
+          <text x="40" y="28" text-anchor="middle" fill="${textColor}">"abc"</text>
+          
+          <path d="M 70 25 L 105 25" stroke="${textColor}" stroke-width="2" fill="none"/>
+          <polygon points="105,21 113,25 105,29" fill="${textColor}"/>
+          
+          <rect x="115" y="10" width="80" height="30" rx="6" fill="transparent" stroke="${primaryColor}" stroke-width="2"/>
+          <text x="155" y="28" text-anchor="middle" fill="${textColor}">Reverse: "cba"</text>
+          
+          <path d="M 195 25 L 230 25" stroke="${textColor}" stroke-width="2" fill="none"/>
+          <polygon points="230,21 238,25 230,29" fill="${textColor}"/>
+          
+          <rect x="240" y="10" width="130" height="30" rx="6" fill="transparent" stroke="${accentColor}" stroke-width="2"/>
+          <text x="305" y="28" text-anchor="middle" fill="${textColor}">"${"cba".repeat(rep).substring(0,10)}${"cba".repeat(rep).length > 10 ? '...' : ''}"</text>
+        </g>
+      `;
+      break;
+    }
+    case 6: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Common Elements Count</text>
+        <g transform="translate(80, 20)">
+          <circle cx="70" cy="50" r="40" fill="rgba(59,130,246,0.3)" stroke="${secondaryColor}" stroke-width="2"/>
+          <circle cx="130" cy="50" r="40" fill="rgba(16,185,129,0.3)" stroke="${primaryColor}" stroke-width="2"/>
+          <text x="45" y="55" fill="${textColor}" font-family="sans-serif" font-size="12">Set A</text>
+          <text x="155" y="55" fill="${textColor}" font-family="sans-serif" font-size="12">Set B</text>
+          <text x="100" y="55" fill="${textColor}" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">A ∩ B</text>
+        </g>
+      `;
+      break;
+    }
+    case 7: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Fibonacci modulo calculation</text>
+        <g transform="translate(50, 45)">
+          ${[0, 1, 1, 2, 3, 5].map((val, idx) => {
+            const w = 30 + idx * 5;
+            return `
+              <g transform="translate(${idx * 48}, 0)">
+                <rect width="${w}" height="40" fill="rgba(99,102,241,0.2)" stroke="${secondaryColor}" stroke-width="1.5" rx="4"/>
+                <text x="${w/2}" y="25" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12">F(${idx})</text>
+                <text x="${w/2}" y="52" text-anchor="middle" fill="${primaryColor}" font-family="sans-serif" font-size="10" font-weight="bold">${val}</text>
+              </g>
+            `;
+          }).join('')}
+        </g>
+      `;
+      break;
+    }
+    case 8: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="25" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Anagram Checker: Match Letters</text>
+        <g transform="translate(50, 35)">
+          <g transform="translate(0, 0)">
+            ${['l', 'i', 's', 't', 'e', 'n'].map((c, idx) => `
+              <rect x="${idx * 40}" y="0" width="30" height="25" rx="4" fill="rgba(255,255,255,0.05)" stroke="${neutralColor}" stroke-width="1.5"/>
+              <text x="${idx * 40 + 15}" y="17" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${c}</text>
+            `).join('')}
+          </g>
+          <g transform="translate(0, 45)">
+            ${['s', 'i', 'l', 'e', 'n', 't'].map((c, idx) => `
+              <rect x="${idx * 40}" y="0" width="30" height="25" rx="4" fill="rgba(16,185,129,0.1)" stroke="${primaryColor}" stroke-width="1.5"/>
+              <text x="${idx * 40 + 15}" y="17" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${c}</text>
+            `).join('')}
+          </g>
+          <path d="M 15 25 L 95 45 M 55 25 L 55 45 M 95 25 L 15 45 M 135 25 L 215 45 M 175 25 L 175 45 M 215 25 L 135 45" stroke="${primaryColor}" stroke-width="1" stroke-dasharray="3" opacity="0.6"/>
+        </g>
+      `;
+      break;
+    }
+    case 9: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Modular Exponentiation: repeated squaring</text>
+        <g transform="translate(80, 50)" font-family="sans-serif" font-size="11" fill="${textColor}">
+          <rect x="0" y="0" width="70" height="30" rx="6" fill="transparent" stroke="${secondaryColor}" stroke-width="2"/>
+          <text x="35" y="18" text-anchor="middle">Base ^ Exp</text>
+          
+          <path d="M 70 15 L 110 15" stroke="${textColor}" stroke-width="2"/>
+          <polygon points="110,11 118,15 110,19" fill="${textColor}"/>
+          
+          <rect x="120" y="0" width="120" height="30" rx="6" fill="transparent" stroke="${primaryColor}" stroke-width="2"/>
+          <text x="180" y="18" text-anchor="middle">(Base^2) ^ (Exp/2)</text>
+        </g>
+      `;
+      break;
+    }
+    case 10: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Primes Highlighted</text>
+        <g transform="translate(60, 45)">
+          ${[2, 3, 4, 5, 6, 7, 8, 9].map((val, idx) => {
+            const isPrime = [2, 3, 5, 7].includes(val);
+            const fill = isPrime ? primaryColor : neutralColor;
+            return `
+              <g transform="translate(${idx * 35}, 0)">
+                <rect width="28" height="28" rx="6" fill="${isPrime ? 'rgba(16,185,129,0.2)' : 'transparent'}" stroke="${fill}" stroke-width="2"/>
+                <text x="14" y="18" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
+                ${isPrime ? `<circle cx="14" cy="4" r="2.5" fill="${primaryColor}"/>` : ''}
+              </g>
+            `;
+          }).join('')}
+        </g>
+      `;
+      break;
+    }
+    case 11: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Palindrome Checker Symmetric Comparison</text>
+        <g transform="translate(100, 50)" font-family="sans-serif" font-size="14" font-weight="bold">
+          <rect x="0" y="0" width="200" height="35" rx="6" fill="rgba(255,255,255,0.05)" stroke="${secondaryColor}" stroke-width="2"/>
+          <text x="100" y="22" text-anchor="middle" fill="${textColor}" letter-spacing="10">R A C E C A R</text>
+          
+          <path d="M -15 17 L -2 17 M -2 17 L -8 12 M -2 17 L -8 22" stroke="${primaryColor}" stroke-width="2" fill="none"/>
+          <path d="M 215 17 L 202 17 M 202 17 L 208 12 M 202 17 L 208 22" stroke="${primaryColor}" stroke-width="2" fill="none"/>
+        </g>
+      `;
+      break;
+    }
+    case 12: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Non-Divisible Sum Numbers Range</text>
+        <g transform="translate(60, 45)">
+          ${[1, 2, 3, 4, 5, 6, 7, 8].map((val, idx) => {
+            const isDiv = val % 3 === 0 || val % 5 === 0;
+            const stroke = isDiv ? 'rgba(239, 68, 68, 0.6)' : primaryColor;
+            return `
+              <g transform="translate(${idx * 35}, 0)">
+                <rect width="28" height="28" rx="6" fill="${isDiv ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)'}" stroke="${stroke}" stroke-width="2"/>
+                <text x="14" y="18" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
+                ${isDiv ? `<line x1="4" y1="4" x2="24" y2="24" stroke="rgba(239, 68, 68, 0.8)" stroke-width="2" />` : ''}
+              </g>
+            `;
+          }).join('')}
+        </g>
+      `;
+      break;
+    }
+    case 13: {
+      const target = 5;
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Frequency of target: ${target}</text>
+        <g transform="translate(50, 45)">
+          ${[5, 2, 5, 9, 5, 12].map((val, idx) => {
+            const isTarget = val === target;
+            const border = isTarget ? primaryColor : neutralColor;
+            const fill = isTarget ? 'rgba(16,185,129,0.2)' : 'transparent';
+            return `
+              <g transform="translate(${idx * 50}, 0)">
+                <rect width="38" height="35" rx="6" fill="${fill}" stroke="${border}" stroke-width="2"/>
+                <text x="19" y="22" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
+                ${isTarget ? `<circle cx="19" cy="-8" r="4" fill="${primaryColor}"/>` : ''}
+              </g>
+            `;
+          }).join('')}
+        </g>
+      `;
+      break;
+    }
+    case 14: {
+      const target = 10;
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Pair Sum Equals ${target}</text>
+        <g transform="translate(50, 45)">
+          ${[3, 8, 7, 2, 9].map((val, idx) => {
+            const isPart = val === 3 || val === 7;
+            const border = isPart ? primaryColor : neutralColor;
+            const fill = isPart ? 'rgba(16,185,129,0.2)' : 'transparent';
+            return `
+              <g transform="translate(${idx * 50}, 0)">
+                <rect width="38" height="35" rx="6" fill="${fill}" stroke="${border}" stroke-width="2"/>
+                <text x="19" y="22" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
+              </g>
+            `;
+          }).join('')}
+          <path d="M 19 35 C 19 60, 119 60, 119 35" stroke="${primaryColor}" stroke-width="2" fill="none" stroke-dasharray="3"/>
+          <text x="69" y="62" text-anchor="middle" fill="${primaryColor}" font-family="sans-serif" font-size="10" font-weight="bold">3 + 7 = ${target}</text>
+        </g>
+      `;
+      break;
+    }
+    case 15: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Vowel highlight in string</text>
+        <g transform="translate(60, 50)" font-family="sans-serif" font-size="16" font-weight="bold">
+          ${['H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd'].map((c, idx) => {
+            const isVow = ['e', 'o'].includes(c.toLowerCase());
+            return `
+              <g transform="translate(${idx * 24}, 0)">
+                <text x="12" y="20" text-anchor="middle" fill="${isVow ? accentColor : textColor}">${c}</text>
+                ${isVow ? `<circle cx="12" cy="28" r="3" fill="${accentColor}"/>` : ''}
+              </g>
+            `;
+          }).join('')}
+        </g>
+      `;
+      break;
+    }
+    case 16: {
+      const target = 9;
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Two Sum Indices (Target = ${target})</text>
+        <g transform="translate(50, 45)">
+          ${[2, 7, 11, 15].map((val, idx) => {
+            const isPart = val === 2 || val === 7;
+            const border = isPart ? primaryColor : neutralColor;
+            const fill = isPart ? 'rgba(16,185,129,0.2)' : 'transparent';
+            return `
+              <g transform="translate(${idx * 60}, 0)">
+                <rect width="45" height="35" rx="6" fill="${fill}" stroke="${border}" stroke-width="2"/>
+                <text x="22.5" y="22" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
+                <text x="22.5" y="48" text-anchor="middle" fill="${isPart ? primaryColor : 'rgba(255,255,255,0.4)'}" font-family="sans-serif" font-size="10">idx ${idx}</text>
+              </g>
+            `;
+          }).join('')}
+          <path d="M 22.5 35 C 22.5 55, 82.5 55, 82.5 35" stroke="${primaryColor}" stroke-width="2" fill="none" stroke-dasharray="3"/>
+        </g>
+      `;
+      break;
+    }
+    case 17: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Valid Parentheses Stack Matching</text>
+        <g transform="translate(140, 30)">
+          <rect x="0" y="0" width="100" height="70" rx="4" fill="rgba(255,255,255,0.02)" stroke="${neutralColor}" stroke-width="2"/>
+          <text x="50" y="-8" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="10" opacity="0.6">STACK</text>
+          
+          <rect x="10" y="45" width="80" height="20" rx="4" fill="rgba(16,185,129,0.1)" stroke="${primaryColor}" stroke-width="1.5"/>
+          <text x="50" y="59" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">[  ]</text>
+          
+          <rect x="10" y="20" width="80" height="20" rx="4" fill="rgba(59,130,246,0.1)" stroke="${secondaryColor}" stroke-width="1.5"/>
+          <text x="50" y="34" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">{  }</text>
+        </g>
+      `;
+      break;
+    }
+    case 18: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Remove duplicates in-place</text>
+        <g transform="translate(60, 45)">
+          ${[1, 1, 2, 2, 3].map((val, idx) => {
+            const isDup = idx === 1 || idx === 3;
+            const stroke = isDup ? 'rgba(239, 68, 68, 0.6)' : primaryColor;
+            return `
+              <g transform="translate(${idx * 50}, 0)">
+                <rect width="38" height="35" rx="6" fill="${isDup ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)'}" stroke="${stroke}" stroke-width="2"/>
+                <text x="19" y="22" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
+                ${isDup ? `<line x1="4" y1="4" x2="34" y2="31" stroke="rgba(239, 68, 68, 0.8)" stroke-width="2" />` : ''}
+              </g>
+            `;
+          }).join('')}
+        </g>
+      `;
+      break;
+    }
+    case 19: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="25" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Merge Sorted Arrays</text>
+        <g transform="translate(60, 35)">
+          <g transform="translate(0, 0)">
+            <rect x="0" y="0" width="50" height="25" rx="4" fill="rgba(59,130,246,0.1)" stroke="${secondaryColor}" stroke-width="1.5"/>
+            <text x="25" y="17" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12">1, 3, 5</text>
+          </g>
+          <g transform="translate(70, 0)">
+            <rect x="0" y="0" width="50" height="25" rx="4" fill="rgba(245,158,11,0.1)" stroke="${accentColor}" stroke-width="1.5"/>
+            <text x="25" y="17" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12">2, 4, 6</text>
+          </g>
+          <g transform="translate(0, 40)">
+            <rect x="0" y="0" width="120" height="28" rx="6" fill="rgba(16,185,129,0.1)" stroke="${primaryColor}" stroke-width="2"/>
+            <text x="60" y="19" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">1, 2, 3, 4, 5, 6</text>
+          </g>
+          <path d="M 25 25 L 40 40 M 95 25 L 80 40" stroke="${textColor}" stroke-width="1.5" opacity="0.4"/>
+        </g>
+      `;
+      break;
+    }
+    case 20: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Missing Number</text>
+        <g transform="translate(80, 45)">
+          ${[0, 1, '?', 3, 4].map((val, idx) => {
+            const isMiss = val === '?';
+            const border = isMiss ? accentColor : primaryColor;
+            return `
+              <g transform="translate(${idx * 45}, 0)">
+                <rect width="35" height="35" rx="6" fill="${isMiss ? 'rgba(245,158,11,0.2)' : 'transparent'}" stroke="${border}" stroke-width="2"/>
+                <text x="17.5" y="22" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="14" font-weight="bold">${val}</text>
+              </g>
+            `;
+          }).join('')}
+        </g>
+      `;
+      break;
+    }
+    case 21: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Majority Element (> N/2)</text>
+        <g transform="translate(60, 45)">
+          ${[3, 3, 3, 2, 3, 1].map((val, idx) => {
+            const isMaj = val === 3;
+            const border = isMaj ? primaryColor : neutralColor;
+            return `
+              <g transform="translate(${idx * 40}, 0)">
+                <rect width="30" height="30" rx="6" fill="${isMaj ? 'rgba(16,185,129,0.2)' : 'transparent'}" stroke="${border}" stroke-width="2"/>
+                <text x="15" y="20" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
+              </g>
+            `;
+          }).join('')}
+          <text x="250" y="20" fill="${primaryColor}" font-family="sans-serif" font-size="12" font-weight="bold">3 dominates!</text>
+        </g>
+      `;
+      break;
+    }
+    case 22: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Search Insert Position</text>
+        <g transform="translate(60, 45)">
+          ${[1, 3, 5, 6].map((val, idx) => {
+            return `
+              <g transform="translate(${idx * 50}, 0)">
+                <rect width="38" height="35" rx="6" fill="transparent" stroke="${primaryColor}" stroke-width="2"/>
+                <text x="19" y="22" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
+              </g>
+            `;
+          }).join('')}
+          <g transform="translate(138, 0)">
+            <rect width="10" height="35" fill="rgba(245,158,11,0.2)" stroke="${accentColor}" stroke-width="1.5" stroke-dasharray="2"/>
+            <text x="5" y="-10" text-anchor="middle" fill="${accentColor}" font-family="sans-serif" font-size="10" font-weight="bold">Insert 4</text>
+          </g>
+        </g>
+      `;
+      break;
+    }
+    case 23: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Length of Last Word</text>
+        <g transform="translate(60, 50)" font-family="sans-serif" font-size="16">
+          <text x="0" y="20" fill="${textColor}" opacity="0.6">Hello</text>
+          <g transform="translate(60, 0)">
+            <rect x="-5" y="-5" width="65" height="30" rx="4" fill="rgba(16,185,129,0.1)" stroke="${primaryColor}" stroke-width="2"/>
+            <text x="0" y="20" fill="${textColor}" font-weight="bold">World</text>
+            <text x="27" y="42" text-anchor="middle" fill="${primaryColor}" font-size="10">Length: 5</text>
+          </g>
+        </g>
+      `;
+      break;
+    }
+    case 24: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Single Number (No Pair)</text>
+        <g transform="translate(60, 45)">
+          ${[2, 2, 1, 5, 5].map((val, idx) => {
+            const isSingle = val === 1;
+            const border = isSingle ? accentColor : primaryColor;
+            return `
+              <g transform="translate(${idx * 50}, 0)">
+                <rect width="38" height="35" rx="6" fill="${isSingle ? 'rgba(245,158,11,0.2)' : 'transparent'}" stroke="${border}" stroke-width="2"/>
+                <text x="19" y="22" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
+              </g>
+            `;
+          }).join('')}
+          <path d="M 19 35 C 19 55, 69 55, 69 35 M 169 35 C 169 55, 219 55, 219 35" stroke="${primaryColor}" stroke-width="1.5" opacity="0.4" fill="none"/>
+        </g>
+      `;
+      break;
+    }
+    case 25: {
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="25" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Plus One Increment</text>
+        <g transform="translate(80, 40)">
+          <g transform="translate(0, 0)">
+            <rect x="0" y="0" width="30" height="30" rx="4" stroke="${neutralColor}" stroke-width="2" fill="none"/>
+            <text x="15" y="20" text-anchor="middle" fill="${textColor}">1</text>
+            <rect x="35" y="0" width="30" height="30" rx="4" stroke="${neutralColor}" stroke-width="2" fill="none"/>
+            <text x="50" y="20" text-anchor="middle" fill="${textColor}">2</text>
+            <rect x="70" y="0" width="30" height="30" rx="4" stroke="${primaryColor}" stroke-width="2" fill="rgba(16,185,129,0.2)"/>
+            <text x="85" y="20" text-anchor="middle" fill="${textColor}" font-weight="bold">9</text>
+          </g>
+          <text x="120" y="20" fill="${textColor}" font-family="sans-serif" font-size="16">+</text>
+          <text x="140" y="20" fill="${primaryColor}" font-family="sans-serif" font-size="16" font-weight="bold">1</text>
+          <path d="M 85 -5 C 85 -20, 50 -20, 50 -5" stroke="${accentColor}" stroke-width="2" fill="none"/>
+          <text x="67.5" y="-18" fill="${accentColor}" font-family="sans-serif" font-size="8" text-anchor="middle">carry</text>
+        </g>
+      `;
+      break;
+    }
+  }
+
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="100%" style="max-width: 400px; display: inline-block;">
+      ${svgContent}
+    </svg>
+  `;
+}
+
 function buildFullDescription(baseDesc, constraints, publicTestCases) {
   let html = `<div>${baseDesc}</div>`;
   
@@ -68,11 +584,11 @@ async function seedCodingProblems() {
     console.log('Clearing existing coding problems from database...');
     await CodingProblem.deleteMany({});
 
-    console.log('Generating 1500 coding problems...');
+    console.log('Generating 2500 coding problems...');
     const problems = [];
 
-    // Define 15 categories, 100 variations each
-    for (let categoryIdx = 1; categoryIdx <= 15; categoryIdx++) {
+    // Define 25 categories, 100 variations each
+    for (let categoryIdx = 1; categoryIdx <= 25; categoryIdx++) {
       for (let variation = 1; variation <= 100; variation++) {
         const globalIdx = (categoryIdx - 1) * 100 + variation;
         const problemData = generateProblem(categoryIdx, variation, globalIdx);
@@ -134,7 +650,6 @@ function generateProblem(categoryIdx, variation, globalIdx) {
 
       const solver = (nums) => nums.filter(x => x % k === 0).reduce((a, b) => a + b, 0);
 
-      // Generate 13 test cases (3 public, 10 hidden)
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let nums;
@@ -642,7 +1157,6 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         else if (tc === 11) s = "0P";
         else s = generateRandomString(Math.floor(Math.random() * 15) + 5);
 
-        // Escape internal double quotes if any
         const inputStr = `s = "${s.replace(/"/g, '\\"')}"`;
         const expected = solver(s).toString();
 
@@ -840,9 +1354,549 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         else if (tc === 3) s = "bcdfgh";
         else s = generateRandomString(Math.floor(Math.random() * 40) + 10, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
-        // Escape double quotes just in case
         const inputStr = `s = "${s.replace(/"/g, '\\"')}"`;
         const expected = solver(s).toString();
+
+        testCases.push({
+          id: `${id}-tc-${tc}`,
+          input: inputStr,
+          expectedOutput: expected,
+          isHidden
+        });
+      }
+      break;
+    }
+
+    case 16: { // Two Sum Indices (LeetCode)
+      id = `two-sum-indices-${variation}-${globalIdx}`;
+      title = `${globalIdx}. Two Sum Indices Variation ${variation}`;
+      baseDescription = `<p>Given an array of integers <code>nums</code> and a target integer <code>target</code>, return the 0-based indices of the two numbers such that they add up to <code>target</code>.</p><p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>`;
+      constraints = [
+        `2 <= nums.length <= 100`,
+        `-1000 <= nums[i], target <= 1000`
+      ];
+      hints = [
+        `You can use a hash map to store elements you've seen and their indices.`,
+        `For each number x, check if target - x is already in the map.`
+      ];
+      starterCode = {
+        javascript: `/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[]}\n */\nvar twoSum = function(nums, target) {\n    \n};`,
+        python: `class Solution(object):\n    def twoSum(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: List[int]\n        \"\"\"\n        `,
+        cpp: `class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        \n    }\n};`,
+        java: `class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        \n    }\n}`
+      };
+
+      const solver = (nums, target) => {
+        const map = new Map();
+        for (let i = 0; i < nums.length; i++) {
+          const complement = target - nums[i];
+          if (map.has(complement)) {
+            return [map.get(complement), i];
+          }
+          map.set(nums[i], i);
+        }
+        return [];
+      };
+
+      for (let tc = 1; tc <= 13; tc++) {
+        const isHidden = tc > 3;
+        let nums, target;
+        if (tc === 1) { nums = [2, 7, 11, 15]; target = 9; }
+        else if (tc === 2) { nums = [3, 2, 4]; target = 6; }
+        else if (tc === 3) { nums = [3, 3]; target = 6; }
+        else {
+          const size = Math.floor(Math.random() * 10) + 5;
+          nums = Array.from({ length: size }, (_, i) => i * 3 + 2);
+          const i1 = Math.floor(Math.random() * (size / 2));
+          const i2 = Math.floor(Math.random() * (size / 2)) + Math.ceil(size / 2);
+          target = nums[i1] + nums[i2];
+        }
+
+        const inputStr = `nums = [${nums.join(',')}], target = ${target}`;
+        const expected = `[${solver(nums, target).join(',')}]`;
+
+        testCases.push({
+          id: `${id}-tc-${tc}`,
+          input: inputStr,
+          expectedOutput: expected,
+          isHidden
+        });
+      }
+      break;
+    }
+
+    case 17: { // Valid Parentheses (LeetCode / GFG)
+      id = `valid-parentheses-${variation}-${globalIdx}`;
+      title = `${globalIdx}. Valid Parentheses Variation ${variation}`;
+      baseDescription = `<p>Given a string <code>s</code> containing just the characters <code>'('</code>, <code>')'</code>, <code>'{'</code>, <code>'}'</code>, <code>'['</code> and <code>']'</code>, determine if the input string is valid.</p><p>An input string is valid if open brackets are closed by the same type of brackets, and closed in the correct order.</p>`;
+      constraints = [
+        `1 <= s.length <= 100`,
+        `s consists of parentheses characters only.`
+      ];
+      hints = [
+        `Use a stack data structure.`,
+        `Push open brackets onto the stack. For close brackets, pop from the stack and verify it matches.`
+      ];
+      starterCode = {
+        javascript: `/**\n * @param {string} s\n * @return {boolean}\n */\nvar isValid = function(s) {\n    \n};`,
+        python: `class Solution(object):\n    def isValid(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        `,
+        cpp: `class Solution {\npublic:\n    bool isValid(string s) {\n        \n    }\n};`,
+        java: `class Solution {\n    public boolean isValid(String s) {\n        \n    }\n}`
+      };
+
+      const solver = (s) => {
+        const stack = [];
+        const mapping = { ')': '(', '}': '{', ']': '[' };
+        for (let char of s) {
+          if (mapping[char]) {
+            const top = stack.length > 0 ? stack.pop() : '#';
+            if (top !== mapping[char]) return false;
+          } else {
+            stack.push(char);
+          }
+        }
+        return stack.length === 0;
+      };
+
+      for (let tc = 1; tc <= 13; tc++) {
+        const isHidden = tc > 3;
+        let s;
+        if (tc === 1) s = "()[]{}";
+        else if (tc === 2) s = "(]";
+        else if (tc === 3) s = "([{}])";
+        else if (tc === 4) s = "(((((())))))";
+        else if (tc === 5) s = "(((((()))))"; // false
+        else if (tc === 6) s = "()";
+        else if (tc === 7) s = "[]";
+        else if (tc === 8) s = "{}";
+        else if (tc === 9) s = "}{"; // false
+        else if (tc === 10) s = "({[)]}"; // false
+        else if (tc === 11) s = "({[]})[]{}";
+        else s = "(([]{}))" + (Math.random() > 0.5 ? "()" : "(");
+
+        const inputStr = `s = "${s}"`;
+        const expected = solver(s).toString();
+
+        testCases.push({
+          id: `${id}-tc-${tc}`,
+          input: inputStr,
+          expectedOutput: expected,
+          isHidden
+        });
+      }
+      break;
+    }
+
+    case 18: { // Remove Duplicates from Sorted Array (LeetCode)
+      id = `remove-duplicates-${variation}-${globalIdx}`;
+      title = `${globalIdx}. Remove Duplicates Count Variation ${variation}`;
+      baseDescription = `<p>Given an integer array <code>nums</code> sorted in non-decreasing order, return the count of unique elements in the array.</p>`;
+      constraints = [
+        `1 <= nums.length <= 100`,
+        `-100 <= nums[i] <= 100`
+      ];
+      hints = [
+        `Since the array is sorted, duplicates are adjacent to each other.`,
+        `Iterate through the array and count how many elements are different from their predecessor.`
+      ];
+      starterCode = {
+        javascript: `/**\n * @param {number[]} nums\n * @return {number}\n */\nvar removeDuplicates = function(nums) {\n    \n};`,
+        python: `class Solution(object):\n    def removeDuplicates(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        `,
+        cpp: `class Solution {\npublic:\n    int removeDuplicates(vector<int>& nums) {\n        \n    }\n};`,
+        java: `class Solution {\n    public int removeDuplicates(int[] nums) {\n        \n    }\n}`
+      };
+
+      const solver = (nums) => {
+        if (nums.length === 0) return 0;
+        let count = 1;
+        for (let i = 1; i < nums.length; i++) {
+          if (nums[i] !== nums[i-1]) count++;
+        }
+        return count;
+      };
+
+      for (let tc = 1; tc <= 13; tc++) {
+        const isHidden = tc > 3;
+        let nums;
+        if (tc === 1) nums = [1, 1, 2];
+        else if (tc === 2) nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4];
+        else if (tc === 3) nums = [1, 2, 3];
+        else {
+          const size = Math.floor(Math.random() * 20) + 5;
+          nums = generateRandomArray(size, 1, 20).sort((a,b) => a-b);
+        }
+
+        const inputStr = `nums = [${nums.join(',')}]`;
+        const expected = solver(nums).toString();
+
+        testCases.push({
+          id: `${id}-tc-${tc}`,
+          input: inputStr,
+          expectedOutput: expected,
+          isHidden
+        });
+      }
+      break;
+    }
+
+    case 19: { // Merge Sorted Array (LeetCode simplified)
+      id = `merge-sorted-array-${variation}-${globalIdx}`;
+      title = `${globalIdx}. Merge Sorted Array Variation ${variation}`;
+      baseDescription = `<p>Given two sorted integer arrays <code>nums1</code> and <code>nums2</code>, merge them and return the merged array as a new sorted array.</p>`;
+      constraints = [
+        `1 <= nums1.length, nums2.length <= 50`,
+        `-1000 <= nums1[i], nums2[i] <= 1000`
+      ];
+      hints = [
+        `You can use a two-pointer approach to merge both arrays in O(n + m) time.`,
+        `Compare elements at both pointers, push the smaller one, and advance that pointer.`
+      ];
+      starterCode = {
+        javascript: `/**\n * @param {number[]} nums1\n * @param {number[]} nums2\n * @return {number[]}\n */\nvar mergeSorted = function(nums1, nums2) {\n    \n};`,
+        python: `class Solution(object):\n    def mergeSorted(self, nums1, nums2):\n        \"\"\"\n        :type nums1: List[int]\n        :type nums2: List[int]\n        :rtype: List[int]\n        \"\"\"\n        `,
+        cpp: `class Solution {\npublic:\n    vector<int> mergeSorted(vector<int>& nums1, vector<int>& nums2) {\n        \n    }\n};`,
+        java: `class Solution {\n    public int[] mergeSorted(int[] nums1, int[] nums2) {\n        \n    }\n}`
+      };
+
+      const solver = (nums1, nums2) => [...nums1, ...nums2].sort((a,b) => a-b);
+
+      for (let tc = 1; tc <= 13; tc++) {
+        const isHidden = tc > 3;
+        let nums1, nums2;
+        if (tc === 1) { nums1 = [1, 2, 3]; nums2 = [2, 5, 6]; }
+        else if (tc === 2) { nums1 = []; nums2 = [1]; }
+        else if (tc === 3) { nums1 = [0]; nums2 = []; }
+        else {
+          nums1 = generateRandomArray(Math.floor(Math.random() * 10) + 5, -100, 100).sort((a,b) => a-b);
+          nums2 = generateRandomArray(Math.floor(Math.random() * 10) + 5, -100, 100).sort((a,b) => a-b);
+        }
+
+        // Clean up empty arrays representations
+        if (nums1.length === 1 && nums1[0] === 0 && tc === 3) nums1 = [0]; // fallback representation
+        const inputStr = `nums1 = [${nums1.join(',')}], nums2 = [${nums2.join(',')}]`;
+        const expected = `[${solver(nums1, nums2).join(',')}]`;
+
+        testCases.push({
+          id: `${id}-tc-${tc}`,
+          input: inputStr,
+          expectedOutput: expected,
+          isHidden
+        });
+      }
+      break;
+    }
+
+    case 20: { // Missing Number (LeetCode / GFG)
+      id = `missing-number-${variation}-${globalIdx}`;
+      title = `${globalIdx}. Missing Number Variation ${variation}`;
+      baseDescription = `<p>Given an array <code>nums</code> containing <code>n</code> distinct numbers in the range <code>[0, n]</code>, return the only number in the range that is missing from the array.</p>`;
+      constraints = [
+        `1 <= nums.length <= 100`,
+        `0 <= nums[i] <= nums.length`,
+        `All elements of nums are unique.`
+      ];
+      hints = [
+        `The sum of all numbers from 0 to n is equal to n * (n + 1) / 2.`,
+        `Compute the expected sum and subtract the sum of elements in the array to find the missing one.`
+      ];
+      starterCode = {
+        javascript: `/**\n * @param {number[]} nums\n * @return {number}\n */\nvar missingNumber = function(nums) {\n    \n};`,
+        python: `class Solution(object):\n    def missingNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        `,
+        cpp: `class Solution {\npublic:\n    int missingNumber(vector<int>& nums) {\n        \n    }\n};`,
+        java: `class Solution {\n    public int missingNumber(int[] nums) {\n        \n    }\n}`
+      };
+
+      const solver = (nums) => {
+        const n = nums.length;
+        const expected = (n * (n + 1)) / 2;
+        const actual = nums.reduce((a,b) => a+b, 0);
+        return expected - actual;
+      };
+
+      for (let tc = 1; tc <= 13; tc++) {
+        const isHidden = tc > 3;
+        let nums;
+        if (tc === 1) nums = [3, 0, 1];
+        else if (tc === 2) nums = [0, 1];
+        else if (tc === 3) nums = [9, 6, 4, 2, 3, 5, 7, 0, 1];
+        else {
+          const n = Math.floor(Math.random() * 20) + 5;
+          const missing = Math.floor(Math.random() * (n + 1));
+          nums = Array.from({ length: n + 1 }, (_, i) => i).filter(x => x !== missing);
+          // Shuffle array
+          nums.sort(() => 0.5 - Math.random());
+        }
+
+        const inputStr = `nums = [${nums.join(',')}]`;
+        const expected = solver(nums).toString();
+
+        testCases.push({
+          id: `${id}-tc-${tc}`,
+          input: inputStr,
+          expectedOutput: expected,
+          isHidden
+        });
+      }
+      break;
+    }
+
+    case 21: { // Majority Element (LeetCode / CodeChef)
+      id = `majority-element-${variation}-${globalIdx}`;
+      title = `${globalIdx}. Majority Element Variation ${variation}`;
+      baseDescription = `<p>Given an array <code>nums</code> of size <code>n</code>, return the majority element.</p><p>The majority element is the element that appears more than <code>⌊n / 2⌋</code> times. You may assume that the majority element always exists in the array.</p>`;
+      constraints = [
+        `1 <= nums.length <= 100`,
+        `-1000 <= nums[i] <= 1000`
+      ];
+      hints = [
+        `You can sort the array. The majority element will always be located at index n / 2.`,
+        `Alternatively, look up Boyer-Moore Majority Vote Algorithm which runs in O(N) time and O(1) space.`
+      ];
+      starterCode = {
+        javascript: `/**\n * @param {number[]} nums\n * @return {number}\n */\nvar majorityElement = function(nums) {\n    \n};`,
+        python: `class Solution(object):\n    def majorityElement(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        `,
+        cpp: `class Solution {\npublic:\n    int majorityElement(vector<int>& nums) {\n        \n    }\n};`,
+        java: `class Solution {\n    public int majorityElement(int[] nums) {\n        \n    }\n}`
+      };
+
+      const solver = (nums) => {
+        const counts = {};
+        for (const val of nums) {
+          counts[val] = (counts[val] || 0) + 1;
+          if (counts[val] > nums.length / 2) return val;
+        }
+        return nums[0]; // fallback
+      };
+
+      for (let tc = 1; tc <= 13; tc++) {
+        const isHidden = tc > 3;
+        let nums;
+        if (tc === 1) nums = [3, 2, 3];
+        else if (tc === 2) nums = [2, 2, 1, 1, 1, 2, 2];
+        else if (tc === 3) nums = [1];
+        else {
+          const maj = Math.floor(Math.random() * 100) - 50;
+          const others = Array.from({ length: 5 }, () => Math.floor(Math.random() * 100) - 50);
+          const size = Math.floor(Math.random() * 10) + 6;
+          nums = Array.from({ length: size }, (_, i) => i < Math.ceil(size / 2) + 1 ? maj : others[i % others.length]);
+          nums.sort(() => 0.5 - Math.random());
+        }
+
+        const inputStr = `nums = [${nums.join(',')}]`;
+        const expected = solver(nums).toString();
+
+        testCases.push({
+          id: `${id}-tc-${tc}`,
+          input: inputStr,
+          expectedOutput: expected,
+          isHidden
+        });
+      }
+      break;
+    }
+
+    case 22: { // Search Insert Position (LeetCode)
+      id = `search-insert-${variation}-${globalIdx}`;
+      title = `${globalIdx}. Search Insert Position Variation ${variation}`;
+      baseDescription = `<p>Given a sorted array of distinct integers <code>nums</code> and a target value <code>target</code>, return the index if the target is found. If not, return the index where it would be if it were inserted in order.</p>`;
+      constraints = [
+        `1 <= nums.length <= 100`,
+        `-1000 <= nums[i], target <= 1000`,
+        `nums is sorted in ascending order.`
+      ];
+      hints = [
+        `Use binary search to achieve O(log n) time complexity.`,
+        `Initialize low = 0 and high = nums.length - 1. When low exceeds high, low is the insertion index.`
+      ];
+      starterCode = {
+        javascript: `/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number}\n */\nvar searchInsert = function(nums, target) {\n    \n};`,
+        python: `class Solution(object):\n    def searchInsert(self, nums, target):\n        \"\"\"\n        :type nums: List[int]\n        :type target: int\n        :rtype: int\n        \"\"\"\n        `,
+        cpp: `class Solution {\npublic:\n    int searchInsert(vector<int>& nums, int target) {\n        \n    }\n};`,
+        java: `class Solution {\n    public int searchInsert(int[] nums, int target) {\n        \n    }\n}`
+      };
+
+      const solver = (nums, target) => {
+        let low = 0, high = nums.length - 1;
+        while (low <= high) {
+          const mid = Math.floor((low + high) / 2);
+          if (nums[mid] === target) return mid;
+          else if (nums[mid] < target) low = mid + 1;
+          else high = mid - 1;
+        }
+        return low;
+      };
+
+      for (let tc = 1; tc <= 13; tc++) {
+        const isHidden = tc > 3;
+        let nums, target;
+        if (tc === 1) { nums = [1, 3, 5, 6]; target = 5; }
+        else if (tc === 2) { nums = [1, 3, 5, 6]; target = 2; }
+        else if (tc === 3) { nums = [1, 3, 5, 6]; target = 7; }
+        else {
+          nums = Array.from({ length: 15 }, (_, i) => i * 3 + 1);
+          target = Math.random() > 0.5 ? nums[Math.floor(Math.random() * nums.length)] : Math.floor(Math.random() * 50);
+        }
+
+        const inputStr = `nums = [${nums.join(',')}], target = ${target}`;
+        const expected = solver(nums, target).toString();
+
+        testCases.push({
+          id: `${id}-tc-${tc}`,
+          input: inputStr,
+          expectedOutput: expected,
+          isHidden
+        });
+      }
+      break;
+    }
+
+    case 23: { // Length of Last Word (LeetCode)
+      id = `length-of-last-word-${variation}-${globalIdx}`;
+      title = `${globalIdx}. Length of Last Word Variation ${variation}`;
+      baseDescription = `<p>Given a string <code>s</code> consisting of words and spaces, return the length of the last word in the string.</p><p>A word is a maximal substring consisting of non-space characters only.</p>`;
+      constraints = [
+        `1 <= s.length <= 500`,
+        `s consists of only English letters and spaces ' '.`
+      ];
+      hints = [
+        `Trim any trailing spaces from the string first.`,
+        `Find the last space character in the trimmed string. The length of the last word is the difference between the string's length and the index of that space.`
+      ];
+      starterCode = {
+        javascript: `/**\n * @param {string} s\n * @return {number}\n */\nvar lengthOfLastWord = function(s) {\n    \n};`,
+        python: `class Solution(object):\n    def lengthOfLastWord(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        `,
+        cpp: `class Solution {\npublic:\n    int lengthOfLastWord(string s) {\n        \n    }\n};`,
+        java: `class Solution {\n    public int lengthOfLastWord(String s) {\n        \n    }\n}`
+      };
+
+      const solver = (s) => {
+        const trimmed = s.trim();
+        const lastSpace = trimmed.lastIndexOf(' ');
+        return trimmed.length - 1 - lastSpace;
+      };
+
+      for (let tc = 1; tc <= 13; tc++) {
+        const isHidden = tc > 3;
+        let s;
+        if (tc === 1) s = "Hello World";
+        else if (tc === 2) s = "   fly me   to   the moon  ";
+        else if (tc === 3) s = "luffy is still joyboy";
+        else if (tc === 4) s = "a";
+        else if (tc === 5) s = "a ";
+        // Clean random sentences
+        else s = "quick brown fox jumps over " + generateRandomString(Math.floor(Math.random() * 8) + 3);
+
+        const inputStr = `s = "${s}"`;
+        const expected = solver(s).toString();
+
+        testCases.push({
+          id: `${id}-tc-${tc}`,
+          input: inputStr,
+          expectedOutput: expected,
+          isHidden
+        });
+      }
+      break;
+    }
+
+    case 24: { // Single Number (LeetCode / Codeforces)
+      id = `single-number-${variation}-${globalIdx}`;
+      title = `${globalIdx}. Single Number Variation ${variation}`;
+      baseDescription = `<p>Given a non-empty array of integers <code>nums</code>, every element appears twice except for one. Find that single one.</p>`;
+      constraints = [
+        `1 <= nums.length <= 99`,
+        `-1000 <= nums[i] <= 1000`,
+        `Every element appears twice except one.`
+      ];
+      hints = [
+        `You can use a hash map or set to count frequencies, but that takes O(N) space.`,
+        `Recall that XOR of a number with itself is 0 (x ^ x = 0), and x ^ 0 = x. XORing all elements in the array will yield the single number in O(N) time and O(1) space.`
+      ];
+      starterCode = {
+        javascript: `/**\n * @param {number[]} nums\n * @return {number}\n */\nvar singleNumber = function(nums) {\n    \n};`,
+        python: `class Solution(object):\n    def singleNumber(self, nums):\n        \"\"\"\n        :type nums: List[int]\n        :rtype: int\n        \"\"\"\n        `,
+        cpp: `class Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n        \n    }\n};`,
+        java: `class Solution {\n    public int singleNumber(int[] nums) {\n        \n    }\n}`
+      };
+
+      const solver = (nums) => nums.reduce((a,b) => a^b, 0);
+
+      for (let tc = 1; tc <= 13; tc++) {
+        const isHidden = tc > 3;
+        let nums;
+        if (tc === 1) nums = [2, 2, 1];
+        else if (tc === 2) nums = [4, 1, 2, 1, 2];
+        else if (tc === 3) nums = [1];
+        else {
+          const size = Math.floor(Math.random() * 8) + 3; // odd size
+          const oddVal = Math.floor(Math.random() * 100) + 10;
+          nums = [oddVal];
+          for (let i = 0; i < size; i++) {
+            const pairVal = Math.floor(Math.random() * 100) + 200 + i;
+            nums.push(pairVal, pairVal);
+          }
+          nums.sort(() => 0.5 - Math.random());
+        }
+
+        const inputStr = `nums = [${nums.join(',')}]`;
+        const expected = solver(nums).toString();
+
+        testCases.push({
+          id: `${id}-tc-${tc}`,
+          input: inputStr,
+          expectedOutput: expected,
+          isHidden
+        });
+      }
+      break;
+    }
+
+    case 25: { // Plus One (LeetCode)
+      id = `plus-one-${variation}-${globalIdx}`;
+      title = `${globalIdx}. Plus One Variation ${variation}`;
+      baseDescription = `<p>You are given a large integer represented as an integer array <code>digits</code>, where each <code>digits[i]</code> is the <code>i</code>-th digit of the integer.</p><p>The digits are ordered from most significant to least significant in left-to-right order. Increment the large integer by one and return the resulting array of digits.</p>`;
+      constraints = [
+        `1 <= digits.length <= 20`,
+        `0 <= digits[i] <= 9`
+      ];
+      hints = [
+        `Start from the last digit (least significant) and add 1.`,
+        `If the digit becomes 10, set it to 0 and carry over 1 to the next digit. If you carry over past the first digit, insert 1 at the beginning of the array.`
+      ];
+      starterCode = {
+        javascript: `/**\n * @param {number[]} digits\n * @return {number[]}\n */\nvar plusOne = function(digits) {\n    \n};`,
+        python: `class Solution(object):\n    def plusOne(self, digits):\n        \"\"\"\n        :type digits: List[int]\n        :rtype: List[int]\n        \"\"\"\n        `,
+        cpp: `class Solution {\npublic:\n    vector<int> plusOne(vector<int>& digits) {\n        \n    }\n};`,
+        java: `class Solution {\n    public int[] plusOne(int[] digits) {\n        \n    }\n}`
+      };
+
+      const solver = (digits) => {
+        const res = [...digits];
+        for (let i = res.length - 1; i >= 0; i--) {
+          if (res[i] < 9) {
+            res[i]++;
+            return res;
+          }
+          res[i] = 0;
+        }
+        res.unshift(1);
+        return res;
+      };
+
+      for (let tc = 1; tc <= 13; tc++) {
+        const isHidden = tc > 3;
+        let digits;
+        if (tc === 1) digits = [1, 2, 3];
+        else if (tc === 2) digits = [4, 3, 2, 1];
+        else if (tc === 3) digits = [9];
+        else {
+          const size = Math.floor(Math.random() * 8) + 4;
+          digits = Array.from({ length: size }, () => Math.floor(Math.random() * 9));
+          if (Math.random() > 0.5) digits[digits.length - 1] = 9;
+        }
+
+        const inputStr = `digits = [${digits.join(',')}]`;
+        const expected = `[${solver(digits).join(',')}]`;
 
         testCases.push({
           id: `${id}-tc-${tc}`,
@@ -857,7 +1911,7 @@ function generateProblem(categoryIdx, variation, globalIdx) {
 
   // Compile full description dynamically with examples and constraints
   const publicTestCases = testCases.filter(tc => !tc.isHidden);
-  description = buildFullDescription(baseDescription, constraints, publicTestCases);
+  description = `<div style="text-align: center; margin-bottom: 20px;">${generateSVG(categoryIdx, variation)}</div>` + buildFullDescription(baseDescription, constraints, publicTestCases);
 
   return {
     id,
