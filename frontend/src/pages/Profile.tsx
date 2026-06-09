@@ -116,11 +116,6 @@ const Profile = () => {
   const { user, updateProfileAsync } = useAuthStore();
   const setDashboardTab = useAppStore(state => state.setDashboardTab);
   
-  const handleEditSettings = () => {
-    setDashboardTab('settings');
-    navigate('/dashboard');
-  };
-  
   const isOwnProfile = !userIdFromUrl || userIdFromUrl === user?.id;
   
   const [profile, setProfile] = useState<ProfileData | null>(null);
