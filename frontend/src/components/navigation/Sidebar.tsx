@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 // import { NavItem } from './NavItem';
-import { Home, FileText, Brain, Briefcase, Settings, Lock, Terminal, Sparkles } from 'lucide-react';
+import { Home, FileText, Brain, Briefcase, Settings, Lock, Terminal, Sparkles, Users } from 'lucide-react';
 
 interface SidebarProps {
   active: string;
@@ -18,6 +18,7 @@ const Sidebar: React.FC<SidebarProps> = ({ active, onNavigate, badgeMap, lockedI
     <div className="relative flex flex-row items-center gap-1 z-10">
       {[
         { id: 'home', icon: Home, label: 'Home' },
+        { id: 'community', icon: Users, label: 'Community' },
         { id: 'resume', icon: FileText, label: 'Resume' },
         { id: 'assessment', icon: Brain, label: 'Skill' },
         { id: 'opportunities', icon: Briefcase, label: 'Jobs' },

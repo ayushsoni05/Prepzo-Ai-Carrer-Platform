@@ -120,20 +120,20 @@ export const SearchableDropdown = ({
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           readOnly={!searchable}
-          className={`w-full pl-10 pr-12 py-3.5 rounded-2xl bg-white/[0.06] border ${
+          className={`w-full pl-10 pr-12 py-3.5 rounded-2xl bg-white border ${
             isOpen
-              ? 'border-purple-500/60 ring-2 ring-purple-500/20 shadow-[0_0_18px_rgba(139,92,246,0.18)]'
+              ? 'border-emerald-500 ring-2 ring-emerald-500/20 shadow-sm'
               : error
-              ? 'border-red-500/50'
-              : 'border-white/[0.12] hover:border-white/20'
-          } text-white placeholder-gray-500 focus:outline-none transition-all duration-200 cursor-pointer`}
+              ? 'border-red-500'
+              : 'border-gray-200 hover:border-emerald-400'
+          } text-gray-900 placeholder-gray-400 focus:outline-none transition-all duration-200 cursor-pointer`}
         />
         <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
           {value && (
             <button
               type="button"
               onClick={handleClear}
-              className="p-1 rounded-full hover:bg-white/10 text-gray-500 hover:text-white transition-colors"
+              className="p-1 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
@@ -142,7 +142,7 @@ export const SearchableDropdown = ({
             animate={{ rotate: isOpen ? 180 : 0 }}
             transition={{ duration: 0.2 }}
           >
-            <ChevronDown className="w-4 h-4 text-gray-500" />
+            <ChevronDown className="w-4 h-4 text-gray-400" />
           </motion.div>
         </div>
       </div>
@@ -155,23 +155,15 @@ export const SearchableDropdown = ({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.97 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="absolute z-50 w-full mt-2 rounded-2xl"
+            className="absolute z-50 w-full mt-2 rounded-2xl bg-white border border-gray-100 shadow-xl"
             style={{ transformOrigin: 'top center' }}
           >
-            {/* Glass panel — blur layer must NOT have overflow-hidden or the backdrop-filter is clipped */}
-            <div className="relative rounded-2xl hover-unblur" style={{ WebkitBackdropFilter: 'blur(50px)', backdropFilter: 'blur(50px)' }}>
-              {/* Tinted glass fill — separate div so overflow-hidden never touches the blur layer */}
-              <div className="absolute inset-0 rounded-2xl bg-[rgba(10,8,25,0.95)] border border-white/[0.16] shadow-[0_8px_48px_rgba(0,0,0,0.65)] pointer-events-none" />
-              {/* Inner rounded clip for content — overflow-hidden here is safe because this div has no backdrop-filter */}
-              <div className="relative rounded-2xl overflow-hidden">
-              {/* Top sheen line */}
-              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent z-10" />
-
+            <div className="relative rounded-2xl overflow-hidden">
               {/* Search indicator */}
               {searchable && (
-                <div className="relative px-4 py-2.5 border-b border-white/[0.08] flex items-center gap-2">
-                  <Search className="w-3.5 h-3.5 text-purple-400/80" />
-                  <span className="text-xs text-white/40">
+                <div className="relative px-4 py-2.5 border-b border-gray-100 flex items-center gap-2 bg-gray-50/50">
+                  <Search className="w-3.5 h-3.5 text-emerald-500" />
+                  <span className="text-xs text-gray-500">
                     {filteredOptions.length > 0
                       ? `${filteredOptions.length} options`
                       : 'No options found'}
@@ -195,38 +187,36 @@ export const SearchableDropdown = ({
                         onMouseEnter={() => setHighlightedIndex(index)}
                         className="relative px-3 py-2.5 cursor-pointer group"
                       >
-                        {/* Hover/active background — rendered behind content, no transform */}
+                        {/* Hover/active background */}
                         {isHighlighted && (
                           <motion.div
                             layoutId="glass-highlight"
-                            className="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-500/[0.18] to-blue-500/[0.12] border border-white/[0.08]"
+                            className="absolute inset-0 rounded-xl bg-emerald-50 border border-emerald-100"
                             style={{ zIndex: 0 }}
                           />
                         )}
 
-                        {/* Row content — no 3D transform on the row itself */}
                         <div className="relative flex items-center gap-3" style={{ zIndex: 1 }}>
-                          {/* Icon tile — 3D isolated so it never bleeds onto text */}
+                          {/* Icon tile */}
                           <div style={{ perspective: 320 }}>
                             <motion.div
-                              className={`w-9 h-9 rounded-xl bg-gradient-to-br ${option.color || 'from-purple-500 to-blue-500'} flex items-center justify-center flex-shrink-0 shadow-lg`}
-                              whileHover={{ rotateY: 18, scale: 1.08 }}
+                              className={`w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center flex-shrink-0`}
+                              whileHover={{ scale: 1.05 }}
                               transition={{ duration: 0.2 }}
-                              style={{ willChange: 'transform' }}
                             >
-                              {Icon && <Icon className="w-4 h-4 text-white" />}
+                              {Icon && <Icon className="w-4 h-4 text-emerald-600" />}
                             </motion.div>
                           </div>
 
-                          {/* Label — lives in its own flat stacking context, never blurs */}
+                          {/* Label */}
                           <div className="flex-1 min-w-0" style={{ isolation: 'isolate' }}>
                             <span className={`text-sm font-medium transition-colors duration-150 ${
-                              isHighlighted ? 'text-white' : 'text-white/75 group-hover:text-white/90'
+                              isHighlighted ? 'text-gray-900' : 'text-gray-700'
                             }`}>
                               {searchable && searchTerm ? (
                                 option.label.split(new RegExp(`(${searchTerm})`, 'gi')).map((part, i) =>
                                   part.toLowerCase() === searchTerm.toLowerCase() ? (
-                                    <span key={i} className="text-purple-300 font-semibold">{part}</span>
+                                    <span key={i} className="text-emerald-600 font-semibold">{part}</span>
                                   ) : (
                                     <span key={i}>{part}</span>
                                   )
@@ -246,7 +236,7 @@ export const SearchableDropdown = ({
                             }}
                             transition={{ duration: 0.15 }}
                             className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                              isSelected ? 'bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.8)]' : 'bg-purple-400'
+                              isSelected ? 'bg-emerald-500 shadow-sm' : 'bg-emerald-300'
                             }`}
                           />
                         </div>
@@ -255,25 +245,21 @@ export const SearchableDropdown = ({
                   })
                 ) : (
                   <div className="px-4 py-8 text-center">
-                    <p className="text-white/40 text-sm">No options found</p>
+                    <p className="text-gray-500 text-sm">No options found</p>
                   </div>
                 )}
               </div>
 
               {/* Footer */}
               {filteredOptions.length > 0 && (
-                <div className="relative px-4 py-2 border-t border-white/[0.08]">
+                <div className="relative px-4 py-2 border-t border-gray-100 bg-gray-50/50">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] text-white/25">↑↓ navigate · Enter select</span>
-                    <span className="text-[11px] text-purple-400/60">{options.length}</span>
+                    <span className="text-[11px] text-gray-400">↑↓ navigate · Enter select</span>
+                    <span className="text-[11px] text-emerald-500 font-medium">{options.length}</span>
                   </div>
                 </div>
               )}
-
-              {/* Bottom sheen line */}
-              <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent" />
-              </div>{/* end overflow-hidden inner clip */}
-            </div>{/* end blur layer */}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

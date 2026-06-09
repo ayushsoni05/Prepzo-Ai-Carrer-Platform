@@ -213,6 +213,10 @@ const userSchema = new mongoose.Schema({
     enum: ['student', 'recruiter', 'admin'],
     default: 'student',
   },
+  isTopVoice: {
+    type: Boolean,
+    default: false,
+  },
   isOnboarded: {
     type: Boolean,
     default: false,

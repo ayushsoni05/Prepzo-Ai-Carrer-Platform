@@ -715,3 +715,32 @@ export const getTrendingHashtags = asyncHandler(async (req, res) => {
     data: trending.map(t => ({ hashtag: t._id, count: t.count })),
   });
 });
+
+/**
+ * @desc    Search users by name or slug
+ * @route   GET /api/network/users/search
+ * @access  Private
+ */
+export const searchUsers = asyncHandler(async (req, res) => {
+  const { query } = req.query;
+  const userId = req.user._id;
+
+  if (!query) {
+    return res.json({ success: true, data: [] });
+  }
+
+  const users = await User.find({
+    _id: { $ne: userId },
+    $or: [
+      { fullName: { $regex: query, $options: 'i' } },
+      { profileSlug: { $regex: query, $options: 'i' } },
+    ],
+  })
+    .select('fullName email targetRole profileImage profileSlug isTopVoice')
+    .limit(20);
+
+  res.json({
+    success: true,
+    data: users,
+  });
+});

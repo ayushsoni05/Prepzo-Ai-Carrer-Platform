@@ -15,6 +15,7 @@ import {
   getMutualConnections,
   getConnectionSuggestions,
   blockUser,
+  searchUsers,
   // Posts
   createPost,
   getFeed,
@@ -42,6 +43,9 @@ router.delete('/connections/:userId', removeConnection);
 router.get('/connections', getConnections);
 router.get('/connections/requests', getPendingRequests);
 router.get('/connections/mutual/:userId', getMutualConnections);
+
+// Search users
+router.get('/users/search', searchUsers);
 
 // Suggestions
 router.get('/suggestions', getConnectionSuggestions);

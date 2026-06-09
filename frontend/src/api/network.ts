@@ -152,6 +152,17 @@ export const networkApi = {
     return response.data;
   },
 
+  // Search users
+  searchUsers: async (query: string): Promise<{
+    success: boolean;
+    data: UserSummary[];
+  }> => {
+    const response = await api.get('/network/users/search', {
+      params: { query },
+    });
+    return response.data;
+  },
+
   // ============ POSTS ============
 
   // Create post

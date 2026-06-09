@@ -25,6 +25,7 @@ import {
   Globe,
   ChevronDown,
   Bot,
+  Search,
 } from 'lucide-react';
 import { GlassCard, GlassButton } from '@/components/ui/GlassCard';
 import { GridBeam } from '@/components/ui/background-grid-beam';
@@ -56,6 +57,11 @@ export function NetworkPage() {
   const [newPostContent, setNewPostContent] = useState('');
   const [postVisibility, setPostVisibility] = useState<'public' | 'connections'>('connections');
   const [posting, setPosting] = useState(false);
+
+  // User search state
+  const [userSearchQuery, setUserSearchQuery] = useState('');
+  const [userSearchResults, setUserSearchResults] = useState<UserSummary[]>([]);
+  const [isSearchingUsers, setIsSearchingUsers] = useState(false);
 
   // Pagination
   const [page, setPage] = useState(1);
@@ -138,6 +144,30 @@ export function NetworkPage() {
     }
   }, [activeTab, isAuthenticated, loadFeed, loadConnections, loadRequests, loadExtra]);
 
+  // Handle user search
+  useEffect(() => {
+    const searchUsers = async () => {
+      if (!userSearchQuery.trim()) {
+        setUserSearchResults([]);
+        return;
+      }
+      setIsSearchingUsers(true);
+      try {
+        const response = await networkApi.searchUsers(userSearchQuery);
+        if (response.success) {
+          setUserSearchResults(response.data);
+        }
+      } catch (error) {
+        console.error('Failed to search users:', error);
+      } finally {
+        setIsSearchingUsers(false);
+      }
+    };
+
+    const timer = setTimeout(searchUsers, 500);
+    return () => clearTimeout(timer);
+  }, [userSearchQuery]);
+
   // Handle create post
   const handleCreatePost = async () => {
     if (!newPostContent.trim()) {
@@ -218,87 +248,75 @@ export function NetworkPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0c10] selection:bg-[#00ff9d] selection:text-[#0a0c10] overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#f3f2ef] selection:bg-[#057642] selection:text-gray-900 overflow-x-hidden relative">
       {/* Background Effect */}
-      <div className="absolute inset-0 w-full h-full bg-[#0a0c10] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+      <div className="absolute inset-0 w-full h-full bg-[#f3f2ef] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
       <GridBeam className="absolute inset-0" />
 
-      {/* Header / Hero Section */}
-      <div className="relative z-10 border-b border-white/5 bg-[#0a0c10]/30 backdrop-blur-3xl">
-        <div className="max-w-7xl mx-auto px-6 py-12 md:py-20 text-left">
-          <div className="flex items-center gap-4 text-[13px] font-rubik font-[900] uppercase tracking-[0.5em] text-white/40 mb-8">
-            <Users size={20} strokeWidth={2.5} />
-            Transmission Hub
-          </div>
-          
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
-            <div className="max-w-3xl">
-              <h1 className="text-4xl md:text-7xl font-rubik font-[900] leading-[0.95] tracking-tighter text-white uppercase mb-6">
-                Connect the <br/>
-                <span className="text-white/40">Neural Nodes.</span>
-              </h1>
-              <p className="text-[18px] md:text-[21px] leading-relaxed text-white/50 font-rubik font-medium tracking-tight max-w-xl">
-                Real-time synchronization with 142+ certified professional nodes. Bridge the distance through data-rich interaction.
-              </p>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex gap-2 p-1 bg-[#0a0c10] rounded-[24px] border border-white/5">
-                {(['feed', 'connections', 'requests'] as const).map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`px-8 py-4 rounded-[20px] text-[11px] font-black uppercase tracking-[0.2em] transition-all ${
-                      activeTab === tab
-                        ? 'bg-[#00ff9d] text-[#0a0c10]'
-                        : 'text-white/40 hover:bg-white/5'
-                    }`}
-                  >
+      <div className="relative z-10 border-b border-gray-200 bg-white/80 backdrop-blur-3xl pt-6 pb-0">
+        <div className="max-w-7xl mx-auto px-6 flex items-end justify-between">
+            <div className="flex gap-6">
+              {(['feed', 'connections', 'requests'] as const).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`pb-4 px-2 relative transition-all ${
+                    activeTab === tab
+                      ? 'text-[#057642]'
+                      : 'text-gray-500 hover:text-gray-800'
+                  }`}
+                >
+                  <span className="text-[14px] font-semibold text-gray-600">
                     {tab === 'feed' && 'Signal Feed'}
                     {tab === 'connections' && 'Nodes'}
                     {tab === 'requests' && 'Buffer'}
-                  </button>
-                ))}
-              </div>
+                  </span>
+                  {activeTab === tab && (
+                    <motion.div
+                      layoutId="network-tab-indicator"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#057642]"
+                    />
+                  )}
+                </button>
+              ))}
             </div>
-          </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-8">
           {/* Sidebar - Hidden on mobile, shown in tabs/bottom */}
           <div className="hidden lg:block lg:col-span-1 space-y-6">
             {/* User Profile Overview */}
-            <div className="bg-[#0a0c10]/80 border border-white/5 rounded-[40px] p-8 backdrop-blur-xl relative overflow-hidden group">
+            <div className="bg-white/80 border border-gray-200 rounded-[40px] p-8 backdrop-blur-xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-6 opacity-40">
-                 <Bot size={24} className="text-[#00ff9d]" />
+                 <Bot size={24} className="text-[#057642]" />
               </div>
-              <div className="w-24 h-24 bg-[#0a0c10] border-4 border-white/5 rounded-[32px] mx-auto mb-6 flex items-center justify-center overflow-hidden shadow-2xl relative z-10">
-                <span className="text-4xl font-rubik font-[900] text-white">
+              <div className="w-24 h-24 bg-[#f3f2ef] border-4 border-gray-200 rounded-[32px] mx-auto mb-6 flex items-center justify-center overflow-hidden shadow-2xl relative z-10">
+                <span className="text-4xl font-rubik font-[900] text-gray-900">
                   {user?.fullName?.charAt(0) || 'U'}
                 </span>
                 {user?.profileImage && (
                   <img src={user.profileImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
                 )}
               </div>
-              <h3 className="text-xl font-rubik font-[900] text-white uppercase tracking-tighter text-center mb-1">{user?.fullName}</h3>
-              <p className="text-[12px] font-black uppercase tracking-[0.2em] text-[#00ff9d] text-center mb-8">{user?.targetRole || 'CORE ENTITY'}</p>
+              <h3 className="text-xl font-rubik font-[900] text-gray-900 uppercase tracking-tighter text-center mb-1">{user?.fullName}</h3>
+              <p className="text-[14px] font-semibold text-gray-600 text-[#057642] text-center mb-8">{user?.targetRole || 'CORE ENTITY'}</p>
               
-              <div className="grid grid-cols-2 gap-4 py-8 border-y border-white/5">
+              <div className="grid grid-cols-2 gap-4 py-8 border-y border-gray-200">
                 <div className="text-center">
-                   <p className="text-2xl font-rubik font-[900] text-white">{connections.length}</p>
-                   <p className="text-[10px] font-black uppercase tracking-widest text-white/30">Nodes</p>
+                   <p className="text-2xl font-rubik font-[900] text-gray-900">{connections.length}</p>
+                   <p className="text-[12px] font-normal text-gray-500 text-gray-500">Nodes</p>
                 </div>
                 <div className="text-center">
-                   <p className="text-2xl font-rubik font-[900] text-white">42</p>
-                   <p className="text-[10px] font-black uppercase tracking-widest text-white/30">Visits</p>
+                   <p className="text-2xl font-rubik font-[900] text-gray-900">42</p>
+                   <p className="text-[12px] font-normal text-gray-500 text-gray-500">Visits</p>
                 </div>
               </div>
               
               <button 
                 onClick={() => navigate(`/profile/${user?._id}`)}
-                className="w-full mt-8 py-4 rounded-2xl bg-white/5 border border-white/5 text-[11px] font-black uppercase tracking-[0.3em] text-white hover:bg-white/10 transition-all"
+                className="w-full mt-8 py-4 rounded-2xl bg-white border-gray-200 border border-gray-200 text-[11px] font-black uppercase tracking-[0.3em] text-gray-900 hover:bg-gray-50 transition-all"
               >
                 Access ID Core
               </button>
@@ -308,16 +326,16 @@ export function NetworkPage() {
             {suggestions.length > 0 && (
               <GlassCard className="p-4">
                 <div className="flex items-center gap-2 mb-4">
-                  <Sparkles className="w-5 h-5 text-purple-400" />
-                  <h3 className="font-semibold text-white">People You May Know</h3>
+                  <Sparkles className="w-5 h-5 text-green-600" />
+                  <h3 className="font-semibold text-gray-900">People You May Know</h3>
                 </div>
                 <div className="space-y-3">
                   {suggestions.map((suggestion) => (
                     <div
                       key={suggestion.user._id}
-                      className="flex items-center gap-3 p-2 bg-white/5 rounded-lg"
+                      className="flex items-center gap-3 p-2 bg-white border-gray-200 rounded-lg"
                     >
-                      <div className="w-10 h-10 bg-purple-500/30 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-green-600/30 rounded-full flex items-center justify-center">
                         {suggestion.user.profileImage ? (
                           <img
                             src={suggestion.user.profileImage}
@@ -325,22 +343,22 @@ export function NetworkPage() {
                             className="w-full h-full rounded-full object-cover"
                           />
                         ) : (
-                          <span className="text-white">
+                          <span className="text-gray-900">
                             {suggestion.user.fullName.charAt(0)}
                           </span>
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-medium text-white text-sm truncate">
+                        <p className="font-medium text-gray-900 text-sm truncate">
                           {suggestion.user.fullName}
                         </p>
-                        <p className="text-purple-400 text-xs truncate">
+                        <p className="text-green-600 text-xs truncate">
                           {suggestion.reason}
                         </p>
                       </div>
                       <button
                         onClick={() => handleSendRequest(suggestion.user._id)}
-                        className="p-1 hover:bg-white/10 rounded text-purple-400"
+                        className="p-1 hover:bg-gray-50 rounded text-green-600"
                       >
                         <UserPlus className="w-4 h-4" />
                       </button>
@@ -355,20 +373,20 @@ export function NetworkPage() {
               <GlassCard className="p-4">
                 <div className="flex items-center gap-2 mb-4">
                   <TrendingUp className="w-5 h-5 text-green-400" />
-                  <h3 className="font-semibold text-white">Trending</h3>
+                  <h3 className="font-semibold text-gray-900">Trending</h3>
                 </div>
                 <div className="space-y-2">
                   {trendingHashtags.slice(0, 5).map((tag) => (
                     <button
                       key={tag.hashtag}
                       onClick={() => navigate(`/network/hashtag/${tag.hashtag}`)}
-                      className="flex items-center justify-between w-full p-2 hover:bg-white/5 rounded-lg transition-colors"
+                      className="flex items-center justify-between w-full p-2 hover:bg-white border-gray-200 rounded-lg transition-colors"
                     >
                       <div className="flex items-center gap-2">
-                        <Hash className="w-4 h-4 text-purple-400" />
-                        <span className="text-purple-300 text-sm">{tag.hashtag}</span>
+                        <Hash className="w-4 h-4 text-green-600" />
+                        <span className="text-green-500 text-sm">{tag.hashtag}</span>
                       </div>
-                      <span className="text-purple-500 text-xs">{tag.count} posts</span>
+                      <span className="text-green-600 text-xs">{tag.count} posts</span>
                     </button>
                   ))}
                 </div>
@@ -382,28 +400,28 @@ export function NetworkPage() {
             {activeTab === 'feed' && (
               <div className="space-y-6">
                 {/* Create Post - Premium Input Node */}
-                <div className="bg-[#0a0c10]/60 border border-white/5 rounded-[32px] p-8 backdrop-blur-xl mb-10 overflow-hidden relative">
+                <div className="bg-white/60 border border-gray-200 rounded-[32px] p-8 backdrop-blur-xl mb-10 overflow-hidden relative">
                    <div className="flex items-center gap-6">
-                      <div className="w-14 h-14 bg-[#0a0c10] border border-white/10 rounded-2xl flex items-center justify-center overflow-hidden shrink-0 shadow-xl">
-                         <span className="text-xl font-rubik font-[900] text-white">{user?.fullName?.charAt(0)}</span>
+                      <div className="w-14 h-14 bg-[#f3f2ef] border border-gray-300 rounded-2xl flex items-center justify-center overflow-hidden shrink-0 shadow-xl">
+                         <span className="text-xl font-rubik font-[900] text-gray-900">{user?.fullName?.charAt(0)}</span>
                       </div>
                       <div 
                          onClick={() => setShowCreatePost(true)}
-                         className="flex-1 py-4 px-8 bg-white/5 border border-white/5 rounded-2xl text-white/30 text-[14px] font-bold cursor-pointer hover:bg-white/10 transition-all font-rubik"
+                         className="flex-1 py-4 px-8 bg-white border-gray-200 border border-gray-200 rounded-2xl text-gray-500 text-[14px] font-bold cursor-pointer hover:bg-gray-50 transition-all font-rubik"
                       >
                          Initiate status transmission...
                       </div>
                    </div>
-                   <div className="flex items-center gap-8 mt-8 pt-8 border-t border-white/5">
-                      <button className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-white/40 hover:text-[#00ff9d] transition-all">
+                   <div className="flex items-center gap-8 mt-8 pt-8 border-t border-gray-200">
+                      <button className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-[#057642] transition-all">
                          <Image size={18} className="text-blue-400" />
                          Visual Node
                       </button>
-                      <button className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-white/40 hover:text-[#00ff9d] transition-all">
-                         <Video size={18} className="text-[#00ff9d]" />
+                      <button className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-[#057642] transition-all">
+                         <Video size={18} className="text-[#057642]" />
                          Stream Node
                       </button>
-                      <button className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-white/40 hover:text-[#00ff9d] transition-all">
+                      <button className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-[#057642] transition-all">
                          <FileText size={18} className="text-orange-400" />
                          Logic Paper
                       </button>
@@ -416,10 +434,10 @@ export function NetworkPage() {
                     <ThinkingLoader loadingText="Mapping Nodes" />
                   </div>
                 ) : posts.length === 0 ? (
-                  <div className="bg-[#0a0c10]/20 border border-white/5 rounded-[40px] p-24 text-center backdrop-blur-xl">
-                    <MessageSquare className="w-16 h-16 text-white/10 mx-auto mb-8" />
-                    <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-4">Quiet Spectrum</h3>
-                    <p className="text-white/30 font-rubik font-bold uppercase text-[13px] tracking-wide">No signals detected in your immediate network</p>
+                  <div className="bg-white/20 border border-gray-200 rounded-[40px] p-24 text-center backdrop-blur-xl">
+                    <MessageSquare className="w-16 h-16 text-gray-900/10 mx-auto mb-8" />
+                    <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tighter mb-4">Quiet Spectrum</h3>
+                    <p className="text-gray-500 font-rubik font-bold uppercase text-[13px] tracking-wide">No signals detected in your immediate network</p>
                   </div>
                 ) : (
                   <AnimatePresence>
@@ -456,19 +474,74 @@ export function NetworkPage() {
 
             {/* Connections Tab */}
             {activeTab === 'connections' && (
-              <div>
-                {connections.length === 0 ? (
+              <div className="space-y-6">
+                <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm relative">
+                  <div className="relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <input
+                      type="text"
+                      value={userSearchQuery}
+                      onChange={(e) => setUserSearchQuery(e.target.value)}
+                      placeholder="Search users by name or username..."
+                      className="w-full pl-12 pr-4 py-3 bg-gray-50 border-none rounded-xl text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-[#057642]/50 transition-all font-rubik"
+                    />
+                  </div>
+
+                  {/* Search Results */}
+                  {userSearchQuery.trim() !== '' && (
+                    <div className="mt-4 space-y-3">
+                      {isSearchingUsers ? (
+                        <div className="text-center py-4 text-gray-500 font-medium text-sm">Searching...</div>
+                      ) : userSearchResults.length === 0 ? (
+                        <div className="text-center py-4 text-gray-500 font-medium text-sm">No users found for "{userSearchQuery}"</div>
+                      ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {userSearchResults.map((searchUser) => (
+                            <div key={searchUser._id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#057642]/30 transition-all">
+                              <div className="flex items-center gap-3" onClick={() => navigate(`/profile/${searchUser._id}`)} style={{ cursor: 'pointer' }}>
+                                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
+                                  {searchUser.profileImage ? (
+                                    <img src={searchUser.profileImage} alt="" className="w-full h-full object-cover" />
+                                  ) : (
+                                    <span className="text-xl font-bold text-gray-500">{searchUser.fullName.charAt(0)}</span>
+                                  )}
+                                </div>
+                                <div>
+                                  <div className="flex items-center gap-1">
+                                    <p className="font-bold text-gray-900 truncate max-w-[150px]">{searchUser.fullName}</p>
+                                    {(searchUser as any).isTopVoice && (
+                                      <span className="bg-[#057642]/10 text-[#057642] text-[10px] font-bold px-1.5 rounded uppercase tracking-wider">Top Voice</span>
+                                    )}
+                                  </div>
+                                  <p className="text-xs text-gray-500 truncate max-w-[180px]">{searchUser.targetRole || 'Member'}</p>
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => handleSendRequest(searchUser._id)}
+                                className="p-2 bg-white hover:bg-gray-100 rounded-lg border border-gray-200 text-[#057642] transition-colors"
+                              >
+                                <UserPlus className="w-5 h-5" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {connections.length === 0 && userSearchQuery === '' ? (
                   <GlassCard className="p-12 text-center">
-                    <Users className="w-16 h-16 text-purple-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-white mb-2">No connections yet</h3>
-                    <p className="text-purple-300 mb-6">
+                    <Users className="w-16 h-16 text-green-600 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">No connections yet</h3>
+                    <p className="text-green-500 mb-6">
                       Start building your professional network
                     </p>
                     <GlassButton onClick={() => setActiveTab('feed')}>
                       Find People
                     </GlassButton>
                   </GlassCard>
-                ) : (
+                ) : userSearchQuery === '' ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {connections.map((connection) => (
                       <ConnectionCard
@@ -479,7 +552,7 @@ export function NetworkPage() {
                       />
                     ))}
                   </div>
-                )}
+                ) : null}
               </div>
             )}
 
@@ -488,11 +561,11 @@ export function NetworkPage() {
               <div className="space-y-6">
                 {/* Received Requests */}
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
                     Received ({requests.received.length})
                   </h3>
                   {requests.received.length === 0 ? (
-                    <p className="text-purple-300 text-center py-8">No pending requests</p>
+                    <p className="text-green-500 text-center py-8">No pending requests</p>
                   ) : (
                     <div className="space-y-3">
                       {requests.received.map((request) => (
@@ -510,11 +583,11 @@ export function NetworkPage() {
 
                 {/* Sent Requests */}
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
                     Sent ({requests.sent.length})
                   </h3>
                   {requests.sent.length === 0 ? (
-                    <p className="text-purple-300 text-center py-8">No sent requests</p>
+                    <p className="text-green-500 text-center py-8">No sent requests</p>
                   ) : (
                     <div className="space-y-3">
                       {requests.sent.map((request) => (
@@ -548,27 +621,27 @@ export function NetworkPage() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-[#0a0c10]/95 border border-purple-500/30 rounded-2xl w-full max-w-lg"
+              className="bg-white/95 border border-green-600/30 rounded-2xl w-full max-w-lg"
             >
               <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-semibold text-white">Create Post</h2>
+                  <h2 className="text-xl font-semibold text-gray-900">Create Post</h2>
                   <button
                     onClick={() => setShowCreatePost(false)}
-                    className="p-2 hover:bg-white/10 rounded-lg"
+                    className="p-2 hover:bg-gray-50 rounded-lg"
                   >
-                    <X className="w-5 h-5 text-purple-400" />
+                    <X className="w-5 h-5 text-green-600" />
                   </button>
                 </div>
 
                 {/* Author */}
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-purple-500/30 rounded-full flex items-center justify-center">
-                    <span className="text-white">{user?.fullName?.charAt(0)}</span>
+                  <div className="w-12 h-12 bg-green-600/30 rounded-full flex items-center justify-center">
+                    <span className="text-gray-900">{user?.fullName?.charAt(0)}</span>
                   </div>
                   <div>
-                    <p className="font-medium text-white">{user?.fullName}</p>
-                    <button className="flex items-center gap-1 text-purple-400 text-sm">
+                    <p className="font-medium text-gray-900">{user?.fullName}</p>
+                    <button className="flex items-center gap-1 text-green-600 text-sm">
                       {postVisibility === 'public' ? (
                         <Globe className="w-3 h-3" />
                       ) : (
@@ -585,7 +658,7 @@ export function NetworkPage() {
                   value={newPostContent}
                   onChange={(e) => setNewPostContent(e.target.value)}
                   placeholder="What would you like to share?"
-                  className="w-full h-40 bg-transparent border-none text-white placeholder-purple-400 resize-none focus:outline-none"
+                  className="w-full h-40 bg-transparent border-none text-gray-900 placeholder-gray-400 resize-none focus:outline-none"
                   autoFocus
                 />
 
@@ -595,8 +668,8 @@ export function NetworkPage() {
                     onClick={() => setPostVisibility('connections')}
                     className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${
                       postVisibility === 'connections'
-                        ? 'bg-purple-600 text-white'
-                        : 'bg-white/5 text-purple-300'
+                        ? 'bg-green-600 text-white'
+                        : 'bg-white border-gray-200 text-gray-600'
                     }`}
                   >
                     <Users className="w-4 h-4" />
@@ -606,8 +679,8 @@ export function NetworkPage() {
                     onClick={() => setPostVisibility('public')}
                     className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${
                       postVisibility === 'public'
-                        ? 'bg-purple-600 text-white'
-                        : 'bg-white/5 text-purple-300'
+                        ? 'bg-green-600 text-white'
+                        : 'bg-white border-gray-200 text-gray-600'
                     }`}
                   >
                     <Globe className="w-4 h-4" />
@@ -616,19 +689,19 @@ export function NetworkPage() {
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                <div className="flex items-center justify-between pt-4 border-t border-gray-300">
                   <div className="flex gap-2">
-                    <button className="p-2 hover:bg-white/10 rounded-lg">
+                    <button className="p-2 hover:bg-gray-50 rounded-lg">
                       <Image className="w-5 h-5 text-blue-400" />
                     </button>
-                    <button className="p-2 hover:bg-white/10 rounded-lg">
+                    <button className="p-2 hover:bg-gray-50 rounded-lg">
                       <Video className="w-5 h-5 text-green-400" />
                     </button>
                   </div>
                   <GlassButton
                     onClick={handleCreatePost}
                     disabled={posting || !newPostContent.trim()}
-                    className="bg-purple-600 hover:bg-purple-500 disabled:opacity-50"
+                    className="bg-[#057642] text-white hover:bg-[#057642]/90 disabled:opacity-50"
                   >
                     {posting ? 'Posting...' : 'Post'}
                   </GlassButton>
@@ -653,11 +726,11 @@ function PostCard({
   const [showComments, setShowComments] = useState(false);
 
   return (
-    <div className="group bg-[#0a0c10]/40 border border-white/5 rounded-[32px] p-8 md:p-10 transition-all hover:bg-[#1c2128] hover:border-white/10 shadow-2xl backdrop-blur-sm relative overflow-hidden mb-8">
+    <div className="group bg-white/40 border border-gray-200 rounded-[32px] p-8 md:p-10 transition-all hover:bg-gray-50 hover:border-gray-300 shadow-2xl backdrop-blur-sm relative overflow-hidden mb-8">
       {/* Header */}
       <div className="flex items-start justify-between mb-8">
         <div className="flex items-center gap-5">
-          <div className="w-16 h-16 bg-[#0a0c10] border border-white/10 rounded-[22px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-1 group-hover:border-[#00ff9d]/30 transition-colors">
+          <div className="w-16 h-16 bg-[#f3f2ef] border border-gray-300 rounded-[22px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-1 group-hover:border-[#057642]/30 transition-colors">
             {post.author.profileImage ? (
               <img
                 src={post.author.profileImage}
@@ -665,22 +738,22 @@ function PostCard({
                 className="w-full h-full object-cover rounded-[18px]"
               />
             ) : (
-              <span className="text-xl font-rubik font-[900] text-white">{post.author.fullName.charAt(0)}</span>
+              <span className="text-xl font-rubik font-[900] text-gray-900">{post.author.fullName.charAt(0)}</span>
             )}
           </div>
           <div>
             <div className="flex items-center gap-3 mb-1">
-               <p className="text-lg font-rubik font-[900] text-white uppercase tracking-tight group-hover:text-[#00ff9d] transition-colors">{post.author.fullName}</p>
-               <div className="w-1 h-1 rounded-full bg-[#00ff9d]" />
-               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#00ff9d] bg-[#00ff9d]/10 px-2 py-0.5 rounded">NODE 1A</p>
+               <p className="text-lg font-rubik font-[900] text-gray-900 uppercase tracking-tight group-hover:text-[#057642] transition-colors">{post.author.fullName}</p>
+               <div className="w-1 h-1 rounded-full bg-[#057642]" />
+               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#057642] bg-[#057642]/10 px-2 py-0.5 rounded">NODE 1A</p>
             </div>
-            <p className="text-[12px] font-black uppercase tracking-[0.2em] text-white/30">{post.author.targetRole || 'MEMBER'}</p>
-            <div className="flex items-center gap-3 mt-2 text-[10px] font-black uppercase tracking-widest text-white/20">
+            <p className="text-[14px] font-semibold text-gray-600 text-gray-500">{post.author.targetRole || 'MEMBER'}</p>
+            <div className="flex items-center gap-3 mt-2 text-[12px] font-normal text-gray-500 text-gray-400">
               <span className="flex items-center gap-2">
                 <Clock size={12} />
                 {new Date(post.createdAt).toLocaleDateString()}
               </span>
-              <span className="w-1 h-1 rounded-full bg-white/5" />
+              <span className="w-1 h-1 rounded-full bg-white border-gray-200" />
               <span className="flex items-center gap-2">
                 {post.visibility === 'public' ? <Globe size={12} /> : <Users size={12} />}
                 {post.visibility.toUpperCase()}
@@ -688,14 +761,14 @@ function PostCard({
             </div>
           </div>
         </div>
-        <button className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/5 border border-white/5 text-white/30 hover:text-white transition-all">
+        <button className="w-10 h-10 rounded-xl flex items-center justify-center bg-white border-gray-200 border border-gray-200 text-gray-500 hover:text-gray-900 transition-all">
            <MoreHorizontal size={20} />
         </button>
       </div>
 
       {/* Content */}
       <div className="relative mb-8">
-        <p className="text-[16px] md:text-[18px] leading-relaxed text-white/80 font-medium tracking-tight whitespace-pre-wrap font-rubik">
+        <p className="text-[16px] md:text-[18px] leading-relaxed text-gray-800 font-medium tracking-tight whitespace-pre-wrap font-rubik">
            {post.content}
         </p>
       </div>
@@ -704,7 +777,7 @@ function PostCard({
       {post.hashtags.length > 0 && (
         <div className="flex flex-wrap gap-4 mb-8">
           {post.hashtags.map((tag) => (
-            <span key={tag} className="text-[#00ff9d] text-[11px] font-black uppercase tracking-widest hover:underline cursor-pointer bg-[#00ff9d]/5 px-3 py-1 rounded-lg">
+            <span key={tag} className="text-[#057642] text-[11px] font-black uppercase tracking-widest hover:underline cursor-pointer bg-[#057642]/10 px-3 py-1 rounded-lg">
               #{tag}
             </span>
           ))}
@@ -715,7 +788,7 @@ function PostCard({
       {post.images && post.images.length > 0 && (
         <div className={`grid gap-4 mb-8 ${post.images.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
           {post.images.map((img, idx) => (
-            <div key={idx} className="relative rounded-[24px] overflow-hidden border border-white/10 group/img">
+            <div key={idx} className="relative rounded-[24px] overflow-hidden border border-gray-300 group/img">
                <img
                  src={img}
                  alt="Post image"
@@ -728,13 +801,13 @@ function PostCard({
       )}
 
       {/* Stats - Tech Style */}
-      <div className="flex items-center gap-10 py-6 border-y border-white/5 mb-6 text-[10px] font-black uppercase tracking-[0.3em] text-white/20">
+      <div className="flex items-center gap-10 py-6 border-y border-gray-200 mb-6 text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">
         <div className="flex items-center gap-3">
-           <span className="text-white">{post.likeCount}</span>
+           <span className="text-gray-900">{post.likeCount}</span>
            LIKES
         </div>
         <div className="flex items-center gap-3">
-           <span className="text-white">{post.commentCount}</span>
+           <span className="text-gray-900">{post.commentCount}</span>
            COMMENT NODES
         </div>
       </div>
@@ -747,7 +820,7 @@ function PostCard({
              className={`flex items-center gap-3 px-8 py-4 rounded-2xl transition-all border ${
                post.isLiked
                  ? 'bg-[#ff3b3b]/10 border-[#ff3b3b]/30 text-[#ff3b3b]'
-                 : 'bg-white/5 border-white/5 text-white/40 hover:bg-white/10'
+                 : 'bg-white border-gray-200 border-gray-200 text-gray-500 hover:bg-gray-50'
              }`}
            >
              <Heart size={18} className={post.isLiked ? 'fill-current' : ''} />
@@ -756,7 +829,7 @@ function PostCard({
            
            <button
              onClick={() => setShowComments(!showComments)}
-             className="flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/5 rounded-2xl text-white/40 hover:bg-white/10 transition-all"
+             className="flex items-center gap-3 px-8 py-4 bg-white border-gray-200 border border-gray-200 rounded-2xl text-gray-500 hover:bg-gray-50 transition-all"
            >
              <MessageSquare size={18} />
              <span className="text-[11px] font-black uppercase tracking-widest">Open Thread</span>
@@ -777,17 +850,17 @@ function PostCard({
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden"
           >
-            <div className="mt-8 pt-8 border-t border-white/5">
-              <div className="flex gap-4 items-center bg-white/5 rounded-2xl p-2 pr-6">
-                <div className="w-10 h-10 bg-[#0a0c10] border border-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                   <span className="text-white font-black">Y</span>
+            <div className="mt-8 pt-8 border-t border-gray-200">
+              <div className="flex gap-4 items-center bg-white border-gray-200 rounded-2xl p-2 pr-6">
+                <div className="w-10 h-10 bg-[#f3f2ef] border border-gray-300 rounded-xl flex items-center justify-center flex-shrink-0">
+                   <span className="text-gray-900 font-black">Y</span>
                 </div>
                 <input
                   type="text"
                   placeholder="Record your pulse on this signal..."
-                  className="flex-1 bg-transparent border-none text-white text-[14px] font-bold placeholder-white/10 focus:outline-none py-3"
+                  className="flex-1 bg-transparent border-none text-gray-900 text-[14px] font-bold placeholder-white/10 focus:outline-none py-3"
                 />
-                <button className="text-[#00ff9d] text-[10px] font-black uppercase tracking-widest">Push</button>
+                <button className="text-[#057642] text-[12px] font-normal text-gray-500">Push</button>
               </div>
             </div>
           </motion.div>
@@ -810,7 +883,7 @@ function ConnectionCard({
   return (
     <GlassCard className="p-4">
       <div className="flex items-center gap-4">
-        <div className="w-14 h-14 bg-purple-500/30 rounded-full flex items-center justify-center overflow-hidden">
+        <div className="w-14 h-14 bg-green-600/30 rounded-full flex items-center justify-center overflow-hidden">
           {connection.user.profileImage ? (
             <img
               src={connection.user.profileImage}
@@ -818,19 +891,19 @@ function ConnectionCard({
               className="w-full h-full object-cover"
             />
           ) : (
-            <span className="text-xl text-white">
+            <span className="text-xl text-gray-900">
               {connection.user.fullName.charAt(0)}
             </span>
           )}
         </div>
         <div className="flex-1">
-          <h4 className="font-medium text-white">{connection.user.fullName}</h4>
-          <p className="text-purple-400 text-sm">{connection.user.targetRole || 'Student'}</p>
+          <h4 className="font-medium text-gray-900">{connection.user.fullName}</h4>
+          <p className="text-green-600 text-sm">{connection.user.targetRole || 'Student'}</p>
         </div>
         <div className="flex gap-2">
           <button
             onClick={onMessage}
-            className="p-2 hover:bg-white/10 rounded-lg text-purple-400"
+            className="p-2 hover:bg-gray-50 rounded-lg text-green-600"
           >
             <MessageSquare className="w-5 h-5" />
           </button>
@@ -862,16 +935,16 @@ function RequestCard({
   return (
     <GlassCard className="p-4">
       <div className="flex items-center gap-4">
-        <div className="w-14 h-14 bg-purple-500/30 rounded-full flex items-center justify-center overflow-hidden">
-          <span className="text-xl text-white">
+        <div className="w-14 h-14 bg-green-600/30 rounded-full flex items-center justify-center overflow-hidden">
+          <span className="text-xl text-gray-900">
             {user?.fullName?.charAt(0) || '?'}
           </span>
         </div>
         <div className="flex-1">
-          <h4 className="font-medium text-white">{user?.fullName}</h4>
-          <p className="text-purple-400 text-sm">{user?.targetRole || 'Student'}</p>
+          <h4 className="font-medium text-gray-900">{user?.fullName}</h4>
+          <p className="text-green-600 text-sm">{user?.targetRole || 'Student'}</p>
           {request.message && (
-            <p className="text-purple-300 text-sm mt-1">"{request.message}"</p>
+            <p className="text-green-500 text-sm mt-1">"{request.message}"</p>
           )}
         </div>
         {type === 'received' ? (
