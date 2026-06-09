@@ -81,7 +81,7 @@ for inp in inputs:
         else:
             res = solve(inp)
             
-        print(json.dumps(res) if isinstance(res, (dict, list)) else str(res))
+        print(json.dumps(res) if isinstance(res, (dict, list, bool)) else str(res))
     except Exception as e:
         print("Error:", str(e))
 `;
@@ -299,6 +299,7 @@ int main() {
 #include <vector>
 using namespace std;
 
+string printRes(bool res) { return res ? "true" : "false"; }
 string printRes(int res) { return to_string(res); }
 string printRes(double res) { return to_string(res); }
 string printRes(string res) { return res; }
