@@ -177,7 +177,7 @@ export const sanitizeInput = (req, res, next) => {
       const sanitized = {};
       for (const [key, value] of Object.entries(obj)) {
         // Skip sanitization for specific fields
-        if (['password', 'currentPassword', 'newPassword'].includes(key)) {
+        if (['password', 'currentPassword', 'newPassword', 'avatar', 'coverPhoto'].includes(key)) {
           sanitized[key] = value;
         } else {
           sanitized[key] = sanitize(value);

@@ -22,7 +22,8 @@ export const getFileUrl = (path?: string | null): string => {
     if (dataIdx !== -1) {
       return cleanPath.substring(dataIdx).replace(/\s/g, '');
     }
-    return cleanPath.replace(/\s/g, '');
+    // data: prefix was stripped (e.g. by backend sanitizer) — restore it
+    return `data:${cleanPath.replace(/\s/g, '')}`;
   }
   
   // If it's already an absolute URL, return as is

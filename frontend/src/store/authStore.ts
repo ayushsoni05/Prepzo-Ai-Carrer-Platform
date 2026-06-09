@@ -409,9 +409,10 @@ export const useAuthStore = create<AuthState>()(
         return {
           user: {
             ...restUser,
-            // Keep avatar and coverPhoto only if they are not base64 data URLs
-            avatar: avatar && avatar.startsWith('data:') ? '' : avatar,
-            coverPhoto: coverPhoto && coverPhoto.startsWith('data:') ? '' : coverPhoto,
+            // Exclude heavy base64 image data from localStorage to prevent QuotaExceededError
+            // Check for ;base64, substring (works even if data: prefix was stripped) or length > 1000
+            avatar: avatar && (avatar.includes(';base64,') || avatar.length > 1000) ? '' : avatar,
+            coverPhoto: coverPhoto && (coverPhoto.includes(';base64,') || coverPhoto.length > 1000) ? '' : coverPhoto,
           } as any,
           isAuthenticated: state.isAuthenticated,
         };
