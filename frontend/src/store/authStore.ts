@@ -389,11 +389,33 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'prepzo-auth',
-      // Only persist non-sensitive data
-      partialize: (state) => ({
-        user: state.user,
-        isAuthenticated: state.isAuthenticated,
-      }),
+      partialize: (state) => {
+        if (!state.user) {
+          return {
+            user: null,
+            isAuthenticated: state.isAuthenticated,
+          };
+        }
+        
+        // Exclude heavy fields from localStorage to prevent QuotaExceededError
+        const { 
+          resumeAnalysis, 
+          resumeText, 
+          avatar, 
+          coverPhoto, 
+          ...restUser 
+        } = state.user as any;
+
+        return {
+          user: {
+            ...restUser,
+            // Keep avatar and coverPhoto only if they are not base64 data URLs
+            avatar: avatar && avatar.startsWith('data:') ? '' : avatar,
+            coverPhoto: coverPhoto && coverPhoto.startsWith('data:') ? '' : coverPhoto,
+          } as any,
+          isAuthenticated: state.isAuthenticated,
+        };
+      },
       // Note: Session validation happens in App.tsx via fetchUser() on mount
       // which will properly log out the user if the session has expired
     }

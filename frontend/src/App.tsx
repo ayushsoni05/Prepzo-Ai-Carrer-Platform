@@ -151,54 +151,47 @@ export default function App() {
     initRef.current = true;
     
     const initializeAuth = async () => {
-      // Only validate session if user is trying to access a protected page
       const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'placement-accelerator', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'offer-analyzer'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
-      // Safety check: if we think we're authenticated but have no token, sync state
+      const publicAuthPages = ['landing', 'login', 'signup'];
+      const isOnPublicAuthPage = publicAuthPages.includes(currentPage);
+      
       const hasToken = !!localStorage.getItem('prepzo-token');
       
-      if (isOnProtectedPage && isAuthenticated && hasToken) {
+      if (hasToken) {
         try {
-          // Validate session via HTTP-only cookies
+          // Validate session and fetch latest user info
           const validatedUser = await fetchUser();
-          // If fetchUser returns null, the session is invalid (401 was returned)
-          if (!validatedUser) {
-            // Don't load resume data - auth failed
-            setCurrentPage('landing');
-            window.history.replaceState({}, '', '/landing');
-            setAuthValidated(false);
-          } else {
-            // Auth validated successfully
+          if (validatedUser) {
             setAuthValidated(true);
+            // Redirect authenticated users trying to access login/signup/landing to dashboard
+            if (isOnPublicAuthPage) {
+              const targetDashboard = validatedUser.role === 'recruiter' ? 'recruiter-dashboard' : 'dashboard';
+              setCurrentPage(targetDashboard);
+              window.history.replaceState({}, '', `/${targetDashboard}`);
+            }
+          } else {
+            setAuthValidated(false);
+            if (isOnProtectedPage) {
+              setCurrentPage('landing');
+              window.history.replaceState({}, '', '/landing');
+            }
           }
         } catch {
-          // On error, trust persisted auth state - don't redirect
-          // fetchUser already handles 401 by calling logout()
-          setAuthValidated(false);
+          // On network error, trust persisted auth state but set validated based on persisted state
+          setAuthValidated(isAuthenticated && hasToken);
         }
-      } else if ((isOnProtectedPage && !isAuthenticated) || (isAuthenticated && !hasToken)) {
-        // Not authenticated and trying to access protected page OR
-        // State says authenticated but token is missing physically
-        if (isAuthenticated && !hasToken) {
-          // Sync state to not-authenticated if token is missing
+      } else {
+        // No token physically present, so clean up state if needed
+        if (isAuthenticated) {
           useAuthStore.getState().logout();
         }
-        
         if (isOnProtectedPage) {
           setCurrentPage('landing');
           window.history.replaceState({}, '', '/landing');
         }
         setAuthValidated(false);
-      } else if (['landing', 'login', 'signup'].includes(currentPage) && isAuthenticated && hasToken) {
-        // Authenticated user on public page - redirect to dashboard
-        const targetDashboard = useAuthStore.getState().user?.role === 'recruiter' ? 'recruiter-dashboard' : 'dashboard';
-        setCurrentPage(targetDashboard);
-        window.history.replaceState({}, '', `/${targetDashboard}`);
-        setAuthValidated(true);
-      } else {
-        // Not on protected page, no validation needed
-        setAuthValidated(isAuthenticated && hasToken);
       }
       setIsInitialized(true);
     };

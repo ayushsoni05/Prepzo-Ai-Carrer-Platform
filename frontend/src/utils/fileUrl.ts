@@ -20,13 +20,16 @@ export const getFileUrl = (path?: string | null): string => {
   if (cleanPath.includes('data:image/') || cleanPath.includes(';base64,')) {
     const dataIdx = cleanPath.indexOf('data:');
     if (dataIdx !== -1) {
-      return cleanPath.substring(dataIdx);
+      return cleanPath.substring(dataIdx).replace(/\s/g, '');
     }
-    return cleanPath;
+    return cleanPath.replace(/\s/g, '');
   }
   
   // If it's already an absolute URL, return as is
   if (cleanPath.startsWith('http://') || cleanPath.startsWith('https://') || cleanPath.startsWith('data:')) {
+    if (cleanPath.startsWith('data:')) {
+      return cleanPath.replace(/\s/g, '');
+    }
     return cleanPath;
   }
 
