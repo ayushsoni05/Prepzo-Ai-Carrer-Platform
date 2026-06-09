@@ -7,8 +7,12 @@ import catchAsync from "../utils/catchAsync.js";
 const getUserProfile = catchAsync(async (req, res) => {
   const { userId } = req.params;
 
-  const user = await User.findById(userId)
-    .select('fullName avatar xp streak badges solvedProblems bio location coverPhoto experiences portfolioProjects targetRole knownTechnologies skillRatings linkedin github profileViews searchAppearances postImpressions');
+  // Support lookup by either ObjectId or profileSlug
+  const isObjectId = /^[0-9a-fA-F]{24}$/.test(userId);
+  const query = isObjectId ? { _id: userId } : { profileSlug: userId };
+
+  const user = await User.findOne(query)
+    .select('fullName avatar xp streak badges solvedProblems bio location coverPhoto experiences portfolioProjects targetRole knownTechnologies skillRatings linkedin github profileViews searchAppearances postImpressions pronouns headline industry collegeName degree fieldOfStudy yearOfStudy cgpa certifications email phone dateOfBirth profileSlug profileLanguage');
 
   if (!user) {
     return res.status(404).json({ success: false, message: "User not found" });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '@/store/appStore';
 import * as ActivityCalendarModule from 'react-activity-calendar';
@@ -7,7 +7,7 @@ import {
   Briefcase, Calendar, ExternalLink, Linkedin, Github, Edit2, Save, X, Upload, 
   Trash2, FileText, Target, CalendarDays, Zap, GraduationCap, MapPin, Search, 
   Home, Users, Briefcase as JobsIcon, MessageSquare, Bell, MoreHorizontal, Plus,
-  Award, Eye, BarChart2, ChevronLeft
+  Award, Eye, BarChart2, ChevronLeft, Globe, Mail, Phone, Copy, Link, Check
 } from 'lucide-react';
 import api from '../api/axios';
 import { uploadApi } from '@/api/auth';
@@ -62,6 +62,13 @@ interface ProfileData {
   profileViews?: number;
   searchAppearances?: number;
   postImpressions?: number;
+  email?: string;
+  phone?: string;
+  dateOfBirth?: string;
+  linkedin?: string;
+  github?: string;
+  profileSlug?: string;
+  profileLanguage?: string;
 }
 
 const formatMonthYear = (dateStr: string) => {
@@ -128,6 +135,27 @@ const Profile = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [showAddSectionMenu, setShowAddSectionMenu] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const [slugInput, setSlugInput] = useState('');
+  const [slugCopied, setSlugCopied] = useState(false);
+  const [languageInput, setLanguageInput] = useState('English');
+  
+  // Refs for click-outside detection
+  const addSectionRef = useRef<HTMLDivElement>(null);
+  const moreMenuRef = useRef<HTMLDivElement>(null);
+
+  // Click-outside handler for dropdowns
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (addSectionRef.current && !addSectionRef.current.contains(e.target as Node)) {
+        setShowAddSectionMenu(false);
+      }
+      if (moreMenuRef.current && !moreMenuRef.current.contains(e.target as Node)) {
+        setShowMoreMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -266,9 +294,9 @@ const Profile = () => {
         <div className="flex-1 w-full md:w-[73%] space-y-6">
           
           {/* 1. Intro Card - Solid styling */}
-          <div className="bg-[#12141a] rounded-2xl border border-white/10 overflow-hidden relative shadow-lg">
+          <div className="bg-[#12141a] rounded-2xl border border-white/10 relative shadow-lg">
             {/* Cover Photo */}
-            <div className="h-[201px] w-full relative bg-[#1c1f26]">
+            <div className="h-[201px] w-full relative bg-[#1c1f26] overflow-hidden rounded-t-2xl">
               {profile.coverPhoto && (
                 <img 
                   src={getFileUrl(profile.coverPhoto)} 
@@ -321,7 +349,7 @@ const Profile = () => {
               <div className="flex items-center gap-2 mt-3 text-[14px] text-zinc-400">
                 {profile.location && <span>{profile.location}</span>}
                 {profile.location && <span>•</span>}
-                <span className="text-emerald-500 font-semibold cursor-pointer hover:underline">Contact info</span>
+                <span className="text-emerald-500 font-semibold cursor-pointer hover:underline" onClick={() => openModal('contactInfo')}>Contact info</span>
               </div>
               
               {isOwnProfile && (
@@ -330,7 +358,7 @@ const Profile = () => {
                     Open to
                   </button>
                   
-                  <div className="relative">
+                  <div className="relative" ref={addSectionRef}>
                     <button onClick={() => {setShowAddSectionMenu(!showAddSectionMenu); setShowMoreMenu(false);}} className="border border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/10 font-bold rounded-lg px-6 py-2 transition box-border active:scale-95">
                       Add section
                     </button>
@@ -343,14 +371,14 @@ const Profile = () => {
                     )}
                   </div>
 
-                  <div className="relative">
+                  <div className="relative" ref={moreMenuRef}>
                     <button onClick={() => {setShowMoreMenu(!showMoreMenu); setShowAddSectionMenu(false);}} className="bg-white/5 hover:bg-white/10 text-white font-bold rounded-lg px-6 py-2 transition box-border active:scale-95">
                       More
                     </button>
                     {showMoreMenu && (
                       <div className="absolute top-full left-0 mt-2 w-48 bg-[#1c1f26] border border-white/10 rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2">
                         <button onClick={() => {
-                          navigator.clipboard.writeText(`${window.location.origin}/profile/${profile._id}`);
+                          navigator.clipboard.writeText(`${window.location.origin}/profile/${profile.profileSlug || profile._id}`);
                           toast.success('Profile URL copied to clipboard!', { style: { background: '#12141a', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }});
                           setShowMoreMenu(false);
                         }} className="w-full text-left px-4 py-3 text-zinc-300 hover:text-white hover:bg-white/5 transition text-sm font-medium">Share Profile</button>
@@ -595,23 +623,23 @@ const Profile = () => {
             <div className="flex justify-between items-start border-b border-white/10 pb-5 mb-5">
               <div>
                 <h3 className="text-[15px] font-bold text-white">Profile language</h3>
-                <p className="text-[14px] text-zinc-400 mt-1">English</p>
+                <p className="text-[14px] text-zinc-400 mt-1">{profile.profileLanguage || 'English'}</p>
               </div>
-              <Edit2 size={18} className="text-zinc-500 cursor-pointer hover:text-white transition" onClick={handleEditSettings} />
+              {isOwnProfile && <Edit2 size={18} className="text-zinc-500 cursor-pointer hover:text-white transition" onClick={() => { setLanguageInput(profile.profileLanguage || 'English'); setActiveModal('profileLanguage'); }} />}
             </div>
             <div className="flex justify-between items-start">
               <div className="w-full overflow-hidden">
                 <h3 className="text-[15px] font-bold text-white">Public profile & URL</h3>
                 <a 
-                  href={`${window.location.origin}/profile/${profile._id}`} 
+                  href={`${window.location.origin}/profile/${profile.profileSlug || profile._id}`} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-[13px] text-emerald-500 hover:underline cursor-pointer truncate mt-1 block w-full pr-4"
                 >
-                  {window.location.origin}/profile/{profile._id}
+                  {window.location.origin}/profile/{profile.profileSlug || profile._id}
                 </a>
               </div>
-              <Edit2 size={18} className="text-zinc-500 cursor-pointer hover:text-white transition shrink-0" onClick={handleEditSettings} />
+              {isOwnProfile && <Edit2 size={18} className="text-zinc-500 cursor-pointer hover:text-white transition shrink-0" onClick={() => { setSlugInput(profile.profileSlug || ''); setSlugCopied(false); setActiveModal('publicUrl'); }} />}
             </div>
           </div>
 
@@ -856,6 +884,180 @@ const Profile = () => {
              value={(formData.knownTechnologies || []).join(', ')}
              onChange={(techs) => setFormData({...formData, knownTechnologies: techs.split(',').map(t => t.trim()).filter(t => t.length > 0)})}
            />
+        </div>
+      </Modal>
+
+      {/* Contact Info Modal */}
+      <Modal isOpen={activeModal === 'contactInfo'} onClose={closeModal} title="Contact info">
+        <div className="space-y-6">
+          {profile.email && (
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+                <Mail size={18} className="text-emerald-500" />
+              </div>
+              <div>
+                <p className="text-[13px] text-zinc-400 font-medium">Email</p>
+                <a href={`mailto:${profile.email}`} className="text-[15px] text-emerald-400 hover:underline font-medium">{profile.email}</a>
+              </div>
+            </div>
+          )}
+          {profile.phone && (
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+                <Phone size={18} className="text-emerald-500" />
+              </div>
+              <div>
+                <p className="text-[13px] text-zinc-400 font-medium">Phone</p>
+                <a href={`tel:${profile.phone}`} className="text-[15px] text-white font-medium">{profile.phone}</a>
+              </div>
+            </div>
+          )}
+          {profile.location && (
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+                <MapPin size={18} className="text-emerald-500" />
+              </div>
+              <div>
+                <p className="text-[13px] text-zinc-400 font-medium">Location</p>
+                <p className="text-[15px] text-white font-medium">{profile.location}</p>
+              </div>
+            </div>
+          )}
+          {profile.dateOfBirth && (
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+                <Calendar size={18} className="text-emerald-500" />
+              </div>
+              <div>
+                <p className="text-[13px] text-zinc-400 font-medium">Birthday</p>
+                <p className="text-[15px] text-white font-medium">{profile.dateOfBirth}</p>
+              </div>
+            </div>
+          )}
+          {profile.linkedin && (
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+                <Linkedin size={18} className="text-emerald-500" />
+              </div>
+              <div>
+                <p className="text-[13px] text-zinc-400 font-medium">LinkedIn</p>
+                <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="text-[15px] text-emerald-400 hover:underline font-medium">{profile.linkedin}</a>
+              </div>
+            </div>
+          )}
+          {profile.github && (
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+                <Github size={18} className="text-emerald-500" />
+              </div>
+              <div>
+                <p className="text-[13px] text-zinc-400 font-medium">GitHub</p>
+                <a href={profile.github} target="_blank" rel="noopener noreferrer" className="text-[15px] text-emerald-400 hover:underline font-medium">{profile.github}</a>
+              </div>
+            </div>
+          )}
+          {!profile.email && !profile.phone && !profile.location && !profile.linkedin && !profile.github && (
+            <p className="text-[14px] text-zinc-500 italic text-center py-4">No contact information available.</p>
+          )}
+        </div>
+      </Modal>
+
+      {/* Profile Language Modal */}
+      <Modal isOpen={activeModal === 'profileLanguage'} onClose={closeModal} title="Profile language" onSave={async () => {
+        setIsSaving(true);
+        try {
+          await updateProfileAsync({ ...profile, profileLanguage: languageInput });
+          setProfile({ ...profile, profileLanguage: languageInput } as any);
+          closeModal();
+          toast.success('Profile language updated', { style: { background: '#12141a', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }});
+        } catch (err: any) {
+          toast.error(err.message || 'Failed to update language');
+        } finally {
+          setIsSaving(false);
+        }
+      }} isSaving={isSaving}>
+        <div className="space-y-4">
+          <p className="text-[14px] text-zinc-400">Select the language in which your profile is written.</p>
+          <div className="space-y-1">
+            <Label className="text-zinc-400 text-xs font-semibold">Language</Label>
+            <SearchableDropdown
+              value={languageInput}
+              onChange={(val) => setLanguageInput(val)}
+              options={[
+                { value: 'English', label: 'English' },
+                { value: 'Hindi', label: 'Hindi' },
+                { value: 'Spanish', label: 'Spanish' },
+                { value: 'French', label: 'French' },
+                { value: 'German', label: 'German' },
+                { value: 'Chinese', label: 'Chinese' },
+                { value: 'Japanese', label: 'Japanese' },
+                { value: 'Korean', label: 'Korean' },
+                { value: 'Arabic', label: 'Arabic' },
+                { value: 'Portuguese', label: 'Portuguese' },
+                { value: 'Russian', label: 'Russian' },
+                { value: 'Italian', label: 'Italian' },
+              ]}
+              placeholder="Select a language"
+            />
+          </div>
+        </div>
+      </Modal>
+
+      {/* Public Profile & URL Modal */}
+      <Modal isOpen={activeModal === 'publicUrl'} onClose={closeModal} title="Edit your public profile URL" onSave={async () => {
+        if (!slugInput || slugInput.trim().length < 2) {
+          toast.error('Slug must be at least 2 characters');
+          return;
+        }
+        const cleanSlug = slugInput.toLowerCase().replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').trim();
+        setIsSaving(true);
+        try {
+          await updateProfileAsync({ ...profile, profileSlug: cleanSlug });
+          setProfile({ ...profile, profileSlug: cleanSlug } as any);
+          closeModal();
+          toast.success('Profile URL updated', { style: { background: '#12141a', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }});
+        } catch (err: any) {
+          toast.error(err.message || 'Failed to update URL. Slug may already be taken.');
+        } finally {
+          setIsSaving(false);
+        }
+      }} isSaving={isSaving}>
+        <div className="space-y-6">
+          <p className="text-[14px] text-zinc-400">Personalize the URL for your public profile.</p>
+          
+          <div className="p-4 bg-white/5 rounded-xl border border-white/10">
+            <p className="text-[13px] text-zinc-400 font-medium mb-2">Your current URL</p>
+            <div className="flex items-center gap-2">
+              <Link size={16} className="text-zinc-500 shrink-0" />
+              <p className="text-[14px] text-emerald-400 font-mono truncate">
+                {window.location.origin}/profile/{profile.profileSlug || profile._id}
+              </p>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(`${window.location.origin}/profile/${profile.profileSlug || profile._id}`);
+                  setSlugCopied(true);
+                  setTimeout(() => setSlugCopied(false), 2000);
+                }}
+                className="p-1.5 rounded-lg hover:bg-white/10 transition shrink-0"
+              >
+                {slugCopied ? <Check size={16} className="text-emerald-500" /> : <Copy size={16} className="text-zinc-400" />}
+              </button>
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <Label className="text-zinc-400 text-xs font-semibold">Custom URL slug</Label>
+            <div className="flex items-center gap-0">
+              <span className="text-[13px] text-zinc-500 bg-[#1c1f26] border border-white/10 border-r-0 rounded-l-lg px-3 py-2.5 whitespace-nowrap">{window.location.origin}/profile/</span>
+              <Input
+                className="bg-[#1c1f26] border-white/10 text-white h-10 rounded-l-none rounded-r-lg hover:border-white/20 focus:border-emerald-500 transition-all px-3 font-mono"
+                value={slugInput}
+                onChange={(e) => setSlugInput(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
+                placeholder="your-custom-slug"
+              />
+            </div>
+            <p className="text-xs text-zinc-500 mt-1">Use only lowercase letters, numbers, and hyphens.</p>
+          </div>
         </div>
       </Modal>
 

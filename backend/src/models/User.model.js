@@ -107,6 +107,17 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  profileSlug: {
+    type: String,
+    unique: true,
+    sparse: true,
+    lowercase: true,
+    trim: true,
+  },
+  profileLanguage: {
+    type: String,
+    default: 'English',
+  },
   experiences: [{
     company: { type: String, required: true },
     role: { type: String, required: true },
@@ -689,6 +700,30 @@ userSchema.pre('save', function(next) {
   }
   if (this.isModified('dateOfBirth')) {
     this.dateOfBirth = encrypt(this.dateOfBirth);
+  }
+  next();
+});
+
+// Auto-generate profileSlug from fullName
+userSchema.pre('save', async function(next) {
+  if (this.isNew && !this.profileSlug) {
+    let baseSlug = this.fullName
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
+    
+    let slug = baseSlug;
+    let counter = 1;
+    const User = this.constructor;
+    
+    while (await User.findOne({ profileSlug: slug })) {
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+    }
+    
+    this.profileSlug = slug;
   }
   next();
 });
