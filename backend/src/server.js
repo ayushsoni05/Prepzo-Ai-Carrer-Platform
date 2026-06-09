@@ -313,7 +313,7 @@ const io = new SocketIOServer(httpServer, {
 
 initializeSockets(io);
 
-const server = httpServer.listen(PORT, () => {
+const server = httpServer.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
 
