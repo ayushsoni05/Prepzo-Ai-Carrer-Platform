@@ -229,7 +229,7 @@ export function CompaniesPage() {
             <div className="lg:col-span-8">
                <div className="flex items-center gap-4 text-[13px] font-rubik font-[900] uppercase tracking-[0.4em] text-[#057642] mb-10">
                   <Award size={20} />
-                  Elite Vanguard
+                  Featured Companies
                </div>
                <div className="flex gap-6 overflow-x-auto pb-8 scrollbar-hide">
                   {featuredCompanies.map((company) => (
@@ -244,13 +244,13 @@ export function CompaniesPage() {
             <div className="lg:col-span-4 bg-white border-gray-2000 border border-gray-200 rounded-[48px] p-10 backdrop-blur-xl">
                <div className="flex items-center gap-4 text-[11px] font-rubik font-[900] uppercase tracking-[0.4em] text-gray-500 mb-8">
                   <TrendingUp size={18} />
-                  Market Pulse
+                  Market Insights
                </div>
                <div className="space-y-8">
                   <div className="grid grid-cols-2 gap-6">
                     <div>
                       <p className="text-4xl font-rubik font-[900] text-gray-900 tracking-tighter mb-2 italic">34</p>
-                      <p className="text-[10px] uppercase font-black tracking-[0.2em] text-gray-500">Total Nodes</p>
+                      <p className="text-[10px] uppercase font-black tracking-[0.2em] text-gray-500">Total Companies</p>
                     </div>
                     <div>
                       <p className="text-4xl font-rubik font-[900] text-[#057642] tracking-tighter mb-2 italic">12</p>
@@ -272,7 +272,7 @@ export function CompaniesPage() {
           <div className="flex items-center gap-3">
             <div className="w-1.5 h-1.5 rounded-full bg-[#057642] animate-pulse" />
             <p className="text-[12px] font-rubik font-[900] uppercase tracking-[0.3em] text-gray-500">
-              {loading ? 'Discovering Ecosystems...' : `${total} NODES DETECTED`}
+              {loading ? 'Loading Companies...' : `${total} COMPANIES FOUND`}
             </p>
           </div>
         </div>
@@ -280,13 +280,13 @@ export function CompaniesPage() {
         {/* Company Grid */}
         {loading ? (
           <div className="flex items-center justify-center py-32">
-            <ThinkingLoader loadingText="Discovering Ecosystems" />
+            <ThinkingLoader loadingText="Loading Companies" />
           </div>
         ) : companies.length === 0 ? (
           <div className="bg-white/20 border border-gray-200 rounded-[40px] p-24 text-center backdrop-blur-xl">
             <Building2 className="w-16 h-16 text-gray-900/10 mx-auto mb-8" />
-            <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tighter mb-4">No nodes mapped</h3>
-            <p className="text-gray-500 font-rubik font-bold uppercase text-[13px] tracking-wide">Try re-calibrating your search</p>
+            <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tighter mb-4">No companies found</h3>
+            <p className="text-gray-500 font-rubik font-bold uppercase text-[13px] tracking-wide">Try adjusting your search filters</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -318,11 +318,11 @@ export function CompaniesPage() {
               disabled={page === 1}
               className="px-8 py-5 rounded-3xl bg-white border-gray-200 border border-gray-200 text-[14px] font-semibold text-gray-600 text-gray-900 disabled:opacity-20 transition-all hover:bg-gray-50"
             >
-              Previous Wave
+              Previous
             </button>
             <div className="px-10 py-5 rounded-3xl bg-[#f3f2ef] border border-gray-200 flex items-center">
               <span className="text-[14px] font-semibold text-gray-600 text-[#057642]">
-                SECTOR {page} <span className="text-gray-900/10 mx-3">/</span> {totalPages}
+                PAGE {page} <span className="text-gray-900/10 mx-3">/</span> {totalPages}
               </span>
             </div>
             <button
@@ -330,19 +330,19 @@ export function CompaniesPage() {
               disabled={page === totalPages}
               className="px-8 py-5 rounded-3xl bg-white border-gray-200 border border-gray-200 text-[14px] font-semibold text-gray-600 text-gray-900 disabled:opacity-20 transition-all hover:bg-gray-50"
             >
-              Next Wave
+              Next
             </button>
           </div>
         )}
 
         {/* Suggest Company */}
         <div className="mt-32 text-center py-20 border-t border-gray-200">
-          <p className="text-[14px] font-rubik font-bold text-gray-500 uppercase tracking-[0.5em] mb-8">Node Missing From Grid?</p>
+          <p className="text-[14px] font-rubik font-bold text-gray-500 uppercase tracking-[0.5em] mb-8">Missing a Company?</p>
           <button 
             onClick={() => navigate('/companies/suggest')}
             className="px-12 py-5 rounded-full bg-white text-[#0a0c10] font-black text-[14px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-2xl"
           >
-            Report Missing Entity
+            Suggest a Company
           </button>
         </div>
       </div>

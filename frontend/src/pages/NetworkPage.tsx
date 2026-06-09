@@ -214,6 +214,40 @@ export function NetworkPage() {
     }
   };
 
+  // Handle comment on post
+  const handleCommentPost = async (postId: string, text: string) => {
+    try {
+      const response = await networkApi.addComment(postId, text);
+      if (response.success) {
+        // We need to fetch the post again to get the populated comment, 
+        // or optimistically add it if the backend returns the populated comment.
+        // Assuming backend returns the full post in data, or the new comment in data.
+        // Actually, we can just fetch the feed or update the specific post.
+        setPosts((prev) =>
+          prev.map((p) =>
+            p._id === postId && response.data
+              ? { ...p, comments: response.data.comments, commentCount: response.data.commentCount }
+              : p
+          )
+        );
+        toast.success('Comment added!');
+      }
+    } catch (error) {
+      toast.error('Failed to add comment');
+    }
+  };
+
+  // Handle share post
+  const handleSharePost = async (postId: string) => {
+    const postUrl = `${window.location.origin}/network/post/${postId}`;
+    try {
+      await navigator.clipboard.writeText(postUrl);
+      toast.success('Link copied to clipboard!');
+    } catch (error) {
+      toast.error('Failed to copy link');
+    }
+  };
+
   // Handle connection request response
   const handleRequestResponse = async (connectionId: string, action: 'accept' | 'reject') => {
     try {
@@ -267,9 +301,9 @@ export function NetworkPage() {
                   }`}
                 >
                   <span className="text-[14px] font-semibold text-gray-600">
-                    {tab === 'feed' && 'Signal Feed'}
-                    {tab === 'connections' && 'Nodes'}
-                    {tab === 'requests' && 'Buffer'}
+                    {tab === 'feed' && 'Feed'}
+                    {tab === 'connections' && 'Connections'}
+                    {tab === 'requests' && 'Pending'}
                   </span>
                   {activeTab === tab && (
                     <motion.div
@@ -306,11 +340,11 @@ export function NetworkPage() {
               <div className="grid grid-cols-2 gap-4 py-8 border-y border-gray-200">
                 <div className="text-center">
                    <p className="text-2xl font-rubik font-[900] text-gray-900">{connections.length}</p>
-                   <p className="text-[12px] font-normal text-gray-500 text-gray-500">Nodes</p>
+                   <p className="text-[12px] font-normal text-gray-500 text-gray-500">Connections</p>
                 </div>
                 <div className="text-center">
                    <p className="text-2xl font-rubik font-[900] text-gray-900">42</p>
-                   <p className="text-[12px] font-normal text-gray-500 text-gray-500">Visits</p>
+                   <p className="text-[12px] font-normal text-gray-500 text-gray-500">Profile viewers</p>
                 </div>
               </div>
               
@@ -318,7 +352,7 @@ export function NetworkPage() {
                 onClick={() => navigate(`/profile/${user?._id}`)}
                 className="w-full mt-8 py-4 rounded-2xl bg-white border-gray-200 border border-gray-200 text-[11px] font-black uppercase tracking-[0.3em] text-gray-900 hover:bg-gray-50 transition-all"
               >
-                Access ID Core
+                View Profile
               </button>
             </div>
 
@@ -409,21 +443,21 @@ export function NetworkPage() {
                          onClick={() => setShowCreatePost(true)}
                          className="flex-1 py-4 px-8 bg-white border-gray-200 border border-gray-200 rounded-2xl text-gray-500 text-[14px] font-bold cursor-pointer hover:bg-gray-50 transition-all font-rubik"
                       >
-                         Initiate status transmission...
+                         Start a post
                       </div>
                    </div>
                    <div className="flex items-center gap-8 mt-8 pt-8 border-t border-gray-200">
-                      <button className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-[#057642] transition-all">
+                      <button onClick={() => setShowCreatePost(true)} className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-[#057642] transition-all">
                          <Image size={18} className="text-blue-400" />
-                         Visual Node
+                         Media
                       </button>
-                      <button className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-[#057642] transition-all">
+                      <button onClick={() => setShowCreatePost(true)} className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-[#057642] transition-all">
                          <Video size={18} className="text-[#057642]" />
-                         Stream Node
+                         Event
                       </button>
-                      <button className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-[#057642] transition-all">
+                      <button onClick={() => setShowCreatePost(true)} className="flex items-center gap-3 text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-[#057642] transition-all">
                          <FileText size={18} className="text-orange-400" />
-                         Logic Paper
+                         Write article
                       </button>
                    </div>
                 </div>
@@ -431,13 +465,13 @@ export function NetworkPage() {
                 {/* Posts */}
                 {loading ? (
                   <div className="flex items-center justify-center py-32">
-                    <ThinkingLoader loadingText="Mapping Nodes" />
+                    <ThinkingLoader loadingText="Loading Feed" />
                   </div>
                 ) : posts.length === 0 ? (
                   <div className="bg-white/20 border border-gray-200 rounded-[40px] p-24 text-center backdrop-blur-xl">
                     <MessageSquare className="w-16 h-16 text-gray-900/10 mx-auto mb-8" />
-                    <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tighter mb-4">Quiet Spectrum</h3>
-                    <p className="text-gray-500 font-rubik font-bold uppercase text-[13px] tracking-wide">No signals detected in your immediate network</p>
+                    <h3 className="text-2xl font-black text-gray-900 uppercase tracking-tighter mb-4">No posts yet</h3>
+                    <p className="text-gray-500 font-rubik font-bold uppercase text-[13px] tracking-wide">Be the first to post something in your network</p>
                   </div>
                 ) : (
                   <AnimatePresence>
@@ -452,6 +486,8 @@ export function NetworkPage() {
                         <PostCard
                           post={post}
                           onLike={() => handleLikePost(post._id)}
+                          onComment={(text) => handleCommentPost(post._id, text)}
+                          onShare={() => handleSharePost(post._id)}
                         />
                       </motion.div>
                     ))}
@@ -715,15 +751,28 @@ export function NetworkPage() {
   );
 }
 
-// Post Card Component
 function PostCard({
   post,
   onLike,
+  onComment,
+  onShare,
 }: {
   post: Post;
   onLike: () => void;
+  onComment: (text: string) => void;
+  onShare: () => void;
 }) {
   const [showComments, setShowComments] = useState(false);
+  const [commentText, setCommentText] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleCommentSubmit = async () => {
+    if (!commentText.trim()) return;
+    setSubmitting(true);
+    await onComment(commentText);
+    setCommentText('');
+    setSubmitting(false);
+  };
 
   return (
     <div className="group bg-white/40 border border-gray-200 rounded-[32px] p-8 md:p-10 transition-all hover:bg-gray-50 hover:border-gray-300 shadow-2xl backdrop-blur-sm relative overflow-hidden mb-8">
@@ -745,7 +794,7 @@ function PostCard({
             <div className="flex items-center gap-3 mb-1">
                <p className="text-lg font-rubik font-[900] text-gray-900 uppercase tracking-tight group-hover:text-[#057642] transition-colors">{post.author.fullName}</p>
                <div className="w-1 h-1 rounded-full bg-[#057642]" />
-               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#057642] bg-[#057642]/10 px-2 py-0.5 rounded">NODE 1A</p>
+               <p className="text-[10px] font-black uppercase text-gray-500">1st</p>
             </div>
             <p className="text-[14px] font-semibold text-gray-600 text-gray-500">{post.author.targetRole || 'MEMBER'}</p>
             <div className="flex items-center gap-3 mt-2 text-[12px] font-normal text-gray-500 text-gray-400">
@@ -808,7 +857,7 @@ function PostCard({
         </div>
         <div className="flex items-center gap-3">
            <span className="text-gray-900">{post.commentCount}</span>
-           COMMENT NODES
+           COMMENTS
         </div>
       </div>
 
@@ -824,7 +873,7 @@ function PostCard({
              }`}
            >
              <Heart size={18} className={post.isLiked ? 'fill-current' : ''} />
-             <span className="text-[11px] font-black uppercase tracking-widest">Transmit Like</span>
+             <span className="text-[11px] font-black uppercase tracking-widest">Like</span>
            </button>
            
            <button
@@ -832,11 +881,14 @@ function PostCard({
              className="flex items-center gap-3 px-8 py-4 bg-white border-gray-200 border border-gray-200 rounded-2xl text-gray-500 hover:bg-gray-50 transition-all"
            >
              <MessageSquare size={18} />
-             <span className="text-[11px] font-black uppercase tracking-widest">Open Thread</span>
+             <span className="text-[11px] font-black uppercase tracking-widest">Comment</span>
            </button>
         </div>
 
-        <button className="w-12 h-12 rounded-2xl bg-white text-[#0a0c10] flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-xl">
+        <button 
+          onClick={onShare}
+          className="w-12 h-12 rounded-2xl bg-white text-[#0a0c10] flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-xl"
+        >
            <Share2 size={20} />
         </button>
       </div>
@@ -851,16 +903,47 @@ function PostCard({
             className="overflow-hidden"
           >
             <div className="mt-8 pt-8 border-t border-gray-200">
-              <div className="flex gap-4 items-center bg-white border-gray-200 rounded-2xl p-2 pr-6">
+              {/* Existing Comments */}
+              {post.comments && post.comments.length > 0 && (
+                <div className="space-y-4 mb-6">
+                  {post.comments.map((comment, idx) => (
+                    <div key={idx} className="flex gap-4">
+                      <div className="w-10 h-10 bg-[#f3f2ef] border border-gray-300 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
+                        {comment.author.profileImage ? (
+                          <img src={comment.author.profileImage} alt="" className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="text-gray-900 font-black">{comment.author.fullName.charAt(0)}</span>
+                        )}
+                      </div>
+                      <div className="flex-1 bg-white border border-gray-200 rounded-2xl p-4">
+                        <p className="text-sm font-bold text-gray-900">{comment.author.fullName}</p>
+                        <p className="text-sm text-gray-700 mt-1">{comment.content}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Comment Input */}
+              <div className="flex gap-4 items-center bg-white border border-gray-200 rounded-2xl p-2 pr-6">
                 <div className="w-10 h-10 bg-[#f3f2ef] border border-gray-300 rounded-xl flex items-center justify-center flex-shrink-0">
-                   <span className="text-gray-900 font-black">Y</span>
+                   <span className="text-gray-900 font-black">U</span>
                 </div>
                 <input
                   type="text"
-                  placeholder="Record your pulse on this signal..."
-                  className="flex-1 bg-transparent border-none text-gray-900 text-[14px] font-bold placeholder-white/10 focus:outline-none py-3"
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleCommentSubmit()}
+                  placeholder="Add a comment..."
+                  className="flex-1 bg-transparent border-none text-gray-900 text-[14px] font-bold placeholder-gray-400 focus:outline-none py-3"
                 />
-                <button className="text-[#057642] text-[12px] font-normal text-gray-500">Push</button>
+                <button 
+                  onClick={handleCommentSubmit}
+                  disabled={submitting || !commentText.trim()}
+                  className="text-[#057642] text-[14px] font-bold disabled:opacity-50"
+                >
+                  Post
+                </button>
               </div>
             </div>
           </motion.div>
