@@ -6,6 +6,7 @@ import { Swords, Lock, Globe, ChevronLeft } from 'lucide-react';
 import { useSocketStore } from '@/store/socketStore';
 import { useAuthStore } from '@/store/authStore';
 import { GridBeam } from '@/components/ui/background-grid-beam';
+import { getFileUrl } from '@/utils/fileUrl';
 
 export const FindMatch = () => {
   const navigate = useNavigate();
@@ -62,7 +63,7 @@ export const FindMatch = () => {
                   <div className="flex justify-between items-start mb-6">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full border border-white/10 overflow-hidden bg-black/50 shrink-0">
-                        <img src={lobby.hostUser?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${lobby.hostUser?.fullName}`} alt="Avatar" className="w-full h-full object-cover" />
+                        <img src={lobby.hostUser?.avatar ? getFileUrl(lobby.hostUser.avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${lobby.hostUser?.fullName}`} alt="Avatar" className="w-full h-full object-cover" />
                       </div>
                       <div>
                         <p className="text-[9px] font-black uppercase tracking-widest text-white/40 mb-0.5">Host</p>

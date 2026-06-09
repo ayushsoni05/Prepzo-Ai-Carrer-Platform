@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, Star, Flame, Mail, ChevronRight, X, Building2, BrainCircuit, Zap, CheckCircle2, Bot, Calendar } from 'lucide-react';
 import api from '../api/axios';
+import { getFileUrl } from '@/utils/fileUrl';
 
 export const RecruiterDashboard = () => {
   const [candidates, setCandidates] = useState<any[]>([]);
@@ -131,7 +132,7 @@ export const RecruiterDashboard = () => {
                     <td className="py-5 px-6">
                       <div className="flex items-center gap-4">
                         <img 
-                          src={candidate.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${candidate.fullName}`} 
+                          src={candidate.avatar ? getFileUrl(candidate.avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${candidate.fullName}`} 
                           alt="" 
                           className="w-12 h-12 rounded-2xl border border-white/10 bg-black/50"
                         />
@@ -195,7 +196,7 @@ export const RecruiterDashboard = () => {
               <div className="p-8 border-b border-white/5 bg-gradient-to-b from-[#5ed29c]/5 to-transparent">
                 <div className="flex items-start justify-between mb-6">
                   <img 
-                    src={selectedCandidate.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${selectedCandidate.fullName}`} 
+                    src={selectedCandidate.avatar ? getFileUrl(selectedCandidate.avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${selectedCandidate.fullName}`} 
                     alt="" 
                     className="w-24 h-24 rounded-3xl border-2 border-[#5ed29c] shadow-[0_0_20px_rgba(94,210,156,0.3)] bg-black"
                   />

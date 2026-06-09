@@ -1,7 +1,8 @@
 import { navigateTo } from '@/utils/navigation';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Trophy, Medal, Star, Loader2, ChevronLeft } from 'lucide-react';
+import { Trophy, Medal, Star, Loader2, ChevronLeft, Flame } from 'lucide-react';
+import { getFileUrl } from '@/utils/fileUrl';
 import api from '../api/axios';
 import Tilt from 'react-parallax-tilt';
 
@@ -84,7 +85,7 @@ const Leaderboard = () => {
               {users[1] && (
                 <Tilt glareEnable={true} glareMaxOpacity={0.2} glareColor="#ffffff" glarePosition="all" scale={1.05} transitionSpeed={2000}>
                   <div className="flex flex-col items-center animate-fade-in-up group" style={{ animationDelay: '100ms' }}>
-                    <img src={users[1].avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${users[1].fullName}`} alt="" className="w-20 h-20 rounded-full border-[4px] border-white z-10 bg-[#0a0c10] shadow-2xl transition-transform duration-500" />
+                    <img src={users[1].avatar ? getFileUrl(users[1].avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${users[1].fullName}`} alt="" className="w-20 h-20 rounded-full border-[4px] border-white z-10 bg-[#0a0c10] shadow-2xl transition-transform duration-500" />
                     <div className="w-36 bg-[#161a20] h-36 rounded-t-[32px] border border-white/20 border-b-0 flex flex-col items-center justify-start pt-8 relative -mt-6 shadow-2xl">
                       <Medal className="w-8 h-8 text-white mb-3" />
                       <span className="font-[900] text-white uppercase italic tracking-tight text-center px-2 truncate w-full">{users[1].fullName.split(' ')[0]}</span>
@@ -99,7 +100,7 @@ const Leaderboard = () => {
                   <div className="flex flex-col items-center animate-fade-in-up group">
                     <div className="absolute -top-16 opacity-50 blur-2xl rounded-full w-32 h-32 bg-[#5ed29c] pointer-events-none" />
                     <Trophy className="w-12 h-12 text-[#5ed29c] mb-4 drop-shadow-[0_0_15px_rgba(94,210,156,0.8)] relative z-30" />
-                    <img src={users[0].avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${users[0].fullName}`} alt="" className="w-24 h-24 rounded-full border-[6px] border-[#5ed29c] z-10 bg-[#0a0c10] shadow-[0_0_30px_rgba(94,210,156,0.3)] transition-transform duration-500" />
+                    <img src={users[0].avatar ? getFileUrl(users[0].avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${users[0].fullName}`} alt="" className="w-24 h-24 rounded-full border-[6px] border-[#5ed29c] z-10 bg-[#0a0c10] shadow-[0_0_30px_rgba(94,210,156,0.3)] transition-transform duration-500" />
                     <div className="w-40 bg-gradient-to-t from-[#0a0c10] to-[#5ed29c]/20 h-44 rounded-t-[36px] border-t-4 border-l border-r border-[#5ed29c] flex flex-col items-center justify-start pt-8 relative -mt-6 shadow-[0_-10px_40px_rgba(94,210,156,0.2)]">
                       <span className="font-[900] text-white uppercase italic tracking-tight text-center px-2 truncate w-full text-xl">{users[0].fullName.split(' ')[0]}</span>
                       <span className="text-[11px] text-[#5ed29c] font-black uppercase tracking-widest mt-1">{users[0].xp} XP</span>
@@ -111,7 +112,7 @@ const Leaderboard = () => {
               {users[2] && (
                 <Tilt glareEnable={true} glareMaxOpacity={0.2} glareColor="#ffffff" glarePosition="all" scale={1.05} transitionSpeed={2000}>
                   <div className="flex flex-col items-center animate-fade-in-up group" style={{ animationDelay: '200ms' }}>
-                    <img src={users[2].avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${users[2].fullName}`} alt="" className="w-20 h-20 rounded-full border-[4px] border-white/50 z-10 bg-[#0a0c10] shadow-2xl transition-transform duration-500" />
+                    <img src={users[2].avatar ? getFileUrl(users[2].avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${users[2].fullName}`} alt="" className="w-20 h-20 rounded-full border-[4px] border-white/50 z-10 bg-[#0a0c10] shadow-2xl transition-transform duration-500" />
                     <div className="w-36 bg-[#161a20] h-28 rounded-t-[32px] border border-white/10 border-b-0 flex flex-col items-center justify-start pt-8 relative -mt-6 shadow-2xl">
                       <Medal className="w-8 h-8 text-white/50 mb-3" />
                       <span className="font-[900] text-white uppercase italic tracking-tight text-center px-2 truncate w-full">{users[2].fullName.split(' ')[0]}</span>
@@ -144,7 +145,7 @@ const Leaderboard = () => {
                       <td className="py-5 px-8">
                         <Link to={`#portfolio/${user._id}`} className="flex items-center gap-5">
                           <img 
-                            src={user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.fullName}`} 
+                            src={user.avatar ? getFileUrl(user.avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.fullName}`} 
                             alt={user.fullName}
                             className="w-12 h-12 rounded-full border-2 border-white/10 group-hover:border-[#5ed29c] transition-colors bg-[#0a0c10]"
                           />

@@ -6,6 +6,7 @@ import { useAuthStore } from '@/store/authStore';
 import { Play, Loader2, Trophy, Swords, XCircle, CheckCircle2, Terminal, BrainCircuit, RefreshCw, Cpu, Activity, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import Editor from '@monaco-editor/react';
 import { codingProblems } from '@/api/codingLab';
+import { getFileUrl } from '@/utils/fileUrl';
 
 export const BattleArena = () => {
   const { matchStatus, opponent, opponentProgress, sendProgress, submitBattle, winnerSocketId, resetState, timeLimit, problems, roomId, rejoinBattle } = useSocketStore();
@@ -251,7 +252,7 @@ try {
           </div>
 
           <div className="flex items-center gap-4 bg-black/50 px-4 py-2 rounded-lg border border-white/5 w-[200px]">
-            <img src={opponent?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${opponent?.id || 'opponent'}`} className="w-6 h-6 rounded-full border border-red-500 bg-[#161a20]" />
+            <img src={opponent?.avatar ? getFileUrl(opponent.avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${opponent?.id || 'opponent'}`} className="w-6 h-6 rounded-full border border-red-500 bg-[#161a20]" />
             <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
               <div className="h-full bg-red-500 transition-all duration-300 ease-out" style={{ width: `${opponentProgress}%` }} />
             </div>

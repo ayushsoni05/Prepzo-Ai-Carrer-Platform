@@ -5,6 +5,7 @@ import { useSocketStore } from '@/store/socketStore';
 import { useAuthStore } from '@/store/authStore';
 import { Swords, X, Loader2, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { getFileUrl } from '@/utils/fileUrl';
 
 interface MatchmakingModalProps {
   isOpen: boolean;
@@ -74,7 +75,7 @@ export const MatchmakingModal = ({ isOpen, onClose }: MatchmakingModalProps) => 
                   transition={{ delay: 0.2, type: "spring" }}
                   className="flex flex-col items-center"
                 >
-                  <img src={user?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.fullName}`} className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white mb-4 shadow-[0_0_30px_rgba(255,255,255,0.5)]" />
+                  <img src={user?.avatar ? getFileUrl(user.avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.fullName}`} className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white mb-4 shadow-[0_0_30px_rgba(255,255,255,0.5)]" />
                   <span className="text-xl md:text-2xl font-bold text-white uppercase tracking-wider">{user?.fullName.split(' ')[0]}</span>
                   <span className="text-sm text-white/50 font-bold tracking-widest mt-1">ELO 1200</span>
                 </motion.div>
@@ -96,7 +97,7 @@ export const MatchmakingModal = ({ isOpen, onClose }: MatchmakingModalProps) => 
                   transition={{ delay: 0.2, type: "spring" }}
                   className="flex flex-col items-center"
                 >
-                  <img src={opponent?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${opponent?.fullName}`} className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-red-500 mb-4 shadow-[0_0_30px_rgba(255,0,0,0.5)]" />
+                  <img src={opponent?.avatar ? getFileUrl(opponent.avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${opponent?.fullName}`} className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-red-500 mb-4 shadow-[0_0_30px_rgba(255,0,0,0.5)]" />
                   <span className="text-xl md:text-2xl font-bold text-red-500 uppercase tracking-wider">{opponent?.fullName.split(' ')[0]}</span>
                   <span className="text-sm text-white/50 font-bold tracking-widest mt-1">ELO {opponent?.elo || 1200}</span>
                 </motion.div>

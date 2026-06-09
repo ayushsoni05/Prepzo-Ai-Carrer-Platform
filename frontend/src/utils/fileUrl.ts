@@ -6,9 +6,13 @@
 export const getFileUrl = (path?: string | null): string => {
   if (!path) return '';
   
+  // Clean up any quotes (escaped or otherwise) and leading/trailing whitespace
+  let cleanPath = path.trim();
+  cleanPath = cleanPath.replace(/^\\?["']|\\?["']$/g, '').trim();
+  
   // If it's already an absolute URL (http://, https://, or data:), return as is
-  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) {
-    return path;
+  if (cleanPath.startsWith('http://') || cleanPath.startsWith('https://') || cleanPath.startsWith('data:')) {
+    return cleanPath;
   }
 
   // Prepend the backend host (remove /api from VITE_API_URL)
@@ -16,7 +20,7 @@ export const getFileUrl = (path?: string | null): string => {
   const baseUrl = apiUrl.replace(/\/api\/?$/, '');
   
   // Ensure path starts with a slash
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const normalizedPath = cleanPath.startsWith('/') ? cleanPath : `/${cleanPath}`;
   
   return `${baseUrl}${normalizedPath}`;
 };
