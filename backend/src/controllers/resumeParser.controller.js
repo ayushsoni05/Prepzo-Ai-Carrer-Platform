@@ -1,7 +1,10 @@
 import { asyncHandler } from '../middleware/error.middleware.js';
 import { extractResumeDataWithAI } from '../services/resumeDataExtractor.service.js';
-import pdfParse from 'pdf-parse';
+import { createRequire } from 'module';
 import mammoth from 'mammoth';
+
+const require = createRequire(import.meta.url);
+const pdfParse = require('pdf-parse/lib/pdf-parse.js');
 
 /**
  * Helper to normalize extracted text
