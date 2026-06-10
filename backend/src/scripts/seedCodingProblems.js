@@ -246,13 +246,44 @@ function generateSVG(categoryIdx, variation) {
       break;
     }
     case 11: {
-      const k = variation % 3;
+      const tempIdx = variation % 10;
+      let textLabel = "Palindrome Checker";
+      let displayString = "RACECAR";
+      if (tempIdx === 0) {
+        textLabel = `Palindrome with Delete Limit ${(Math.floor(variation / 10) % 3) + 1}`;
+      } else if (tempIdx === 1) {
+        const char = ['*', '?', '#', '@'][variation % 4];
+        textLabel = `Wildcard Palindrome with '${char}'`;
+        displayString = `R${char}CE${char}R`;
+      } else if (tempIdx === 2) {
+        const type = (variation % 2 === 0 ? "DNA" : "RNA");
+        textLabel = `${type} Complementary Palindrome`;
+        displayString = type === "DNA" ? "ATCGAT" : "AUCGAU";
+      } else if (tempIdx === 3) {
+        textLabel = "Atbash Mirror Palindrome";
+        displayString = "I Z S E N G";
+      } else if (tempIdx === 4) {
+        textLabel = `Index-Skipping (Step ${(variation % 3) + 2})`;
+      } else if (tempIdx === 5) {
+        const filterType = ["vowels", "consonants", "digits"][variation % 3];
+        textLabel = `Filter Palindrome (${filterType})`;
+      } else if (tempIdx === 6) {
+        textLabel = "Longest Palindromic Prefix";
+      } else if (tempIdx === 7) {
+        textLabel = `Permutation Palindrome (${variation % 3} deletes)`;
+      } else if (tempIdx === 8) {
+        textLabel = "Bracket Palindrome Match";
+        displayString = "([  ])";
+      } else if (tempIdx === 9) {
+        textLabel = `Odd Shift Palindrome (+ ${(variation % 5) + 1})`;
+      }
+
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Palindrome (Deletions allowed: ${k})</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${textLabel}</text>
         <g transform="translate(100, 50)" font-family="sans-serif" font-size="14" font-weight="bold">
           <rect x="0" y="0" width="200" height="35" rx="6" fill="rgba(255,255,255,0.05)" stroke="${secondaryColor}" stroke-width="2"/>
-          <text x="100" y="22" text-anchor="middle" fill="${textColor}" letter-spacing="10">R A C E C A R</text>
+          <text x="100" y="22" text-anchor="middle" fill="${textColor}" letter-spacing="10">${displayString}</text>
         </g>
       `;
       break;
@@ -1108,73 +1139,536 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 11: { // Palindrome Checker with deletion limit k
-      const k = variation % 3;
-      id = `palindrome-check-delete-limit-${k}-${globalIdx}`;
-      title = `${globalIdx}. Palindrome Checker with Deletion Limit ${k}`;
-      baseDescription = `<p>Given a string <code>s</code> containing lowercase English letters, determine if it can be made a palindrome by deleting <strong>at most <code>${k}</code></strong> characters.</p>`;
-      constraints = [
-        `0 <= s.length <= 500`,
-        `s consists of lowercase English letters only.`
-      ];
-      hints = [
-        `Use two pointers starting at both ends of the string.`,
-        `When mismatch occurs, recursively check options with reduced deletion allowances.`
-      ];
-      starterCode = {
-        javascript: `/**\n * @param {string} s\n * @return {boolean}\n */\nvar isPalindrome = function(s) {\n    \n};`,
-        python: `class Solution(object):\n    def isPalindrome(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        `,
-        cpp: `class Solution {\npublic:\n    bool isPalindrome(string s) {\n        \n    }\n};`,
-        java: `class Solution {\n    public boolean isPalindrome(String s) {\n        \n    }\n}`
-      };
+    case 11: { // Palindrome Checker Template switcher
+      const templateIdx = variation % 10;
+      let solver;
 
-      const checkPalindromeWithDeletions = (str, i, j, kLeft) => {
-        while (i < j) {
-          if (str[i] !== str[j]) {
-            if (kLeft === 0) return false;
-            return checkPalindromeWithDeletions(str, i + 1, j, kLeft - 1) || 
-                   checkPalindromeWithDeletions(str, i, j - 1, kLeft - 1);
+      if (templateIdx === 0) { // Deletion Palindrome
+        const k = (Math.floor(variation / 10) % 3) + 1;
+        id = `palindrome-deletion-${k}-${globalIdx}`;
+        title = `${globalIdx}. Palindrome with Deletion Limit ${k}`;
+        baseDescription = `<p>Given a string <code>s</code> containing lowercase English letters, determine if it can be made a palindrome by deleting <strong>at most <code>${k}</code></strong> characters.</p>`;
+        constraints = [
+          `0 <= s.length <= 500`,
+          `s consists of lowercase English letters only.`
+        ];
+        hints = [
+          `Use a two-pointer approach starting at both ends of the string.`,
+          `When a mismatch occurs, recursively try deleting from left or right with reduced deletion allowance.`
+        ];
+        
+        const checkPal = (str, i, j, kLeft) => {
+          while (i < j) {
+            if (str[i] !== str[j]) {
+              if (kLeft === 0) return false;
+              return checkPal(str, i + 1, j, kLeft - 1) || checkPal(str, i, j - 1, kLeft - 1);
+            }
+            i++;
+            j--;
           }
-          i++;
-          j--;
+          return true;
+        };
+        solver = (s) => checkPal(s, 0, s.length - 1, k);
+
+        for (let tc = 1; tc <= 13; tc++) {
+          const isHidden = tc > 3;
+          let s;
+          if (tc === 1) s = k === 1 ? "racea-car" : k === 2 ? "rabc-ec-xar" : "abcde-edcba";
+          else if (tc === 2) s = "hello";
+          else if (tc === 3) s = "a";
+          else {
+            s = generateRandomString(Math.floor(Math.random() * 15) + 5);
+            if (Math.random() > 0.5) {
+              const half = generateRandomString(5);
+              let pal = half + half.split('').reverse().join('');
+              for (let i = 0; i < k; i++) {
+                pal = pal.substring(0, i * 2) + 'z' + pal.substring(i * 2);
+              }
+              s = pal;
+            }
+          }
+          testCases.push({
+            id: `${id}-tc-${tc}`,
+            input: `s = "${s}"`,
+            expectedOutput: solver(s).toString(),
+            isHidden
+          });
         }
-        return true;
-      };
 
-      const solver = (s) => {
-        const cleaned = s.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-        return checkPalindromeWithDeletions(cleaned, 0, cleaned.length - 1, k);
-      };
+      } else if (templateIdx === 1) { // Wildcard Palindrome
+        const char = ['*', '?', '#', '@'][variation % 4];
+        const w = (Math.floor(variation / 15) % 2) + 1;
+        id = `palindrome-wildcard-${char === '*' ? 'star' : char === '?' ? 'quest' : char === '#' ? 'hash' : 'at'}-${w}-${globalIdx}`;
+        title = `${globalIdx}. Wildcard Palindrome with '${char}' (Limit ${w})`;
+        baseDescription = `<p>Given a string <code>s</code>, determine if it is a palindrome where the character <code>'${char}'</code> acts as a wildcard that can match any other character. You can use at most <strong><code>${w}</code></strong> wildcards in the match.</p>`;
+        constraints = [
+          `0 <= s.length <= 500`,
+          `s consists of lowercase letters and '${char}'.`
+        ];
+        hints = [
+          `Use a two-pointer approach.`,
+          `When mismatch occurs and one of the characters is '${char}', it matches any other character and counts as a wildcard used. Ensure you do not exceed ${w} wildcards.`
+        ];
 
-      for (let tc = 1; tc <= 13; tc++) {
-        const isHidden = tc > 3;
-        let s;
-        if (tc === 1) s = k === 0 ? "racecar" : k === 1 ? "racea-car" : "rabc-ec-xar";
-        else if (tc === 2) s = "hello";
-        else if (tc === 3) s = "a";
-        else {
-          s = generateRandomString(Math.floor(Math.random() * 15) + 5);
-          if (Math.random() > 0.5) {
-            // Make palindrome and inject k deletions
+        const checkWildcard = (str, i, j, wLeft) => {
+          while (i < j) {
+            if (str[i] !== str[j]) {
+              if (str[i] === char || str[j] === char) {
+                if (wLeft === 0) return false;
+                return checkWildcard(str, i + 1, j - 1, wLeft - 1);
+              } else {
+                return false;
+              }
+            }
+            i++;
+            j--;
+          }
+          return true;
+        };
+        solver = (s) => checkWildcard(s, 0, s.length - 1, w);
+
+        for (let tc = 1; tc <= 13; tc++) {
+          const isHidden = tc > 3;
+          let s;
+          if (tc === 1) s = `race${char}ar`;
+          else if (tc === 2) s = `abc${char}def`;
+          else if (tc === 3) s = `${char}`;
+          else {
             const half = generateRandomString(5);
             let pal = half + half.split('').reverse().join('');
-            for (let i = 0; i < k; i++) {
-              pal = pal.substring(0, i * 2) + 'z' + pal.substring(i * 2);
+            if (Math.random() > 0.5) {
+              const pos = Math.floor(Math.random() * pal.length);
+              pal = pal.substring(0, pos) + char + pal.substring(pos + 1);
             }
             s = pal;
           }
+          testCases.push({
+            id: `${id}-tc-${tc}`,
+            input: `s = "${s}"`,
+            expectedOutput: solver(s).toString(),
+            isHidden
+          });
         }
 
-        const inputStr = `s = "${s.replace(/"/g, '\\"')}"`;
-        const expected = solver(s).toString();
+      } else if (templateIdx === 2) { // DNA/RNA Complementary Palindrome
+        const type = (variation % 2 === 0 ? "DNA" : "RNA");
+        const pairsDesc = type === "DNA" ? "A pairs with T, C pairs with G" : "A pairs with U, C pairs with G";
+        id = `palindrome-complementary-${type.toLowerCase()}-${globalIdx}`;
+        title = `${globalIdx}. ${type} Complementary Palindrome`;
+        baseDescription = `<p>In ${type}, the complementary base pairs are: <strong>${pairsDesc}</strong>.</p><p>A ${type} complementary palindrome is a sequence that is equal to its complementary reverse (i.e., when read from right to left, each base is replaced by its complement).</p><p>Given a string <code>s</code> consisting of uppercase base characters, return <code>true</code> if it is a ${type} complementary palindrome, and <code>false</code> otherwise.</p>`;
+        constraints = [
+          `1 <= s.length <= 500`,
+          `s consists of uppercase base characters only.`
+        ];
+        hints = [
+          `Check if the character at index i matches the complement of the character at index n - 1 - i.`,
+          `The complements are: ${type === "DNA" ? "A-T, T-A, C-G, G-C" : "A-U, U-A, C-G, G-C"}.`
+        ];
 
-        testCases.push({
-          id: `${id}-tc-${tc}`,
-          input: inputStr,
-          expectedOutput: expected,
-          isHidden
-        });
+        const comps = type === "DNA" ? { 'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C' } : { 'A': 'U', 'U': 'A', 'C': 'G', 'G': 'C' };
+        solver = (s) => {
+          let i = 0, j = s.length - 1;
+          while (i <= j) {
+            if (comps[s[i]] !== s[j]) return false;
+            i++;
+            j--;
+          }
+          return true;
+        };
+
+        const chars = type === "DNA" ? ['A', 'T', 'C', 'G'] : ['A', 'U', 'C', 'G'];
+        for (let tc = 1; tc <= 13; tc++) {
+          const isHidden = tc > 3;
+          let s;
+          if (tc === 1) s = type === "DNA" ? "ATCGAT" : "AUCGAU";
+          else if (tc === 2) s = type === "DNA" ? "AAAA" : "UUUU";
+          else if (tc === 3) s = type === "DNA" ? "CGCG" : "CGGC";
+          else {
+            if (Math.random() > 0.5) {
+              const half = Array.from({ length: 4 }, () => chars[Math.floor(Math.random() * chars.length)]);
+              const second = half.map(c => comps[c]).reverse();
+              s = half.join('') + second.join('');
+            } else {
+              s = Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+            }
+          }
+          testCases.push({
+            id: `${id}-tc-${tc}`,
+            input: `s = "${s}"`,
+            expectedOutput: solver(s).toString(),
+            isHidden
+          });
+        }
+
+      } else if (templateIdx === 3) { // Atbash Mirror Palindrome
+        const isAlnum = (variation % 2 === 1);
+        id = `palindrome-atbash-${isAlnum ? 'alnum' : 'alpha'}-${globalIdx}`;
+        title = `${globalIdx}. Atbash Mirror Palindrome`;
+        baseDescription = `<p>Under Atbash rules, characters are paired from opposite ends of the alphabet (e.g., 'a' pairs with 'z', 'b' with 'y', 'c' with 'x', etc.). ${isAlnum ? 'For digits 0-9, they mirror similarly (0 pairs with 9, 1 with 8, etc.).' : ''}</p><p>A string is an Atbash Mirror Palindrome if it is equal to its Atbash mirror reverse.</p><p>Given a string <code>s</code> containing only lowercase English letters ${isAlnum ? 'and digits' : ''}, return <code>true</code> if it is an Atbash mirror palindrome, and <code>false</code> otherwise.</p>`;
+        constraints = [
+          `0 <= s.length <= 500`,
+          `s consists of lowercase letters ${isAlnum ? 'and digits' : ''}.`
+        ];
+        hints = [
+          `For each character s[i], find its Atbash complement and compare it to s[n - 1 - i].`,
+          `Atbash of a letter c is String.fromCharCode(219 - c.charCodeAt(0)). ${isAlnum ? 'Atbash of a digit d is String.fromCharCode(105 - d.charCodeAt(0)).' : ''}`
+        ];
+
+        solver = (s) => {
+          let i = 0, j = s.length - 1;
+          while (i <= j) {
+            const c1 = s[i];
+            const c2 = s[j];
+            let expected;
+            if (/[a-z]/.test(c1)) {
+              expected = String.fromCharCode(219 - c1.charCodeAt(0));
+            } else if (isAlnum && /[0-9]/.test(c1)) {
+              expected = String.fromCharCode(105 - c1.charCodeAt(0));
+            } else {
+              return false;
+            }
+            if (expected !== c2) return false;
+            i++;
+            j--;
+          }
+          return true;
+        };
+
+        for (let tc = 1; tc <= 13; tc++) {
+          const isHidden = tc > 3;
+          let s;
+          if (tc === 1) s = isAlnum ? "gzd09" : "gzd"; // Atbash mirrors: g-t, z-a, d-w -> wait! expected of "gzd" is "t" + "a" + "w"? No!
+          // let's check: Atbash of 'g' (103) is 219 - 103 = 116 ('t').
+          // Atbash of 'z' (122) is 219 - 122 = 97 ('a').
+          // Atbash of 'd' (100) is 219 - 100 = 119 ('w').
+          // So "gzd" mirrored is "t", "a", "w" reversed, which is "w", "a", "t".
+          // So "gzdwat" is an Atbash mirror! Let's check:
+          // s[0]='g' pairs with s[5]='t' (yes, Atbash mirror).
+          // s[1]='z' pairs with s[4]='a' (yes).
+          // s[2]='d' pairs with s[3]='w' (yes).
+          // Yes! "gzdwat" is an Atbash mirror palindrome!
+          if (tc === 1) s = isAlnum ? "gzdwat09" : "gzdwat";
+          else if (tc === 2) s = "hello";
+          else if (tc === 3) s = isAlnum ? "18" : "a";
+          else {
+            if (Math.random() > 0.5) {
+              const half = generateRandomString(4);
+              const second = half.split('').map(c => String.fromCharCode(219 - c.charCodeAt(0))).reverse();
+              s = half + second.join('');
+            } else {
+              s = generateRandomString(8);
+            }
+          }
+          testCases.push({
+            id: `${id}-tc-${tc}`,
+            input: `s = "${s}"`,
+            expectedOutput: solver(s).toString(),
+            isHidden
+          });
+        }
+
+      } else if (templateIdx === 4) { // Index-Skipping Palindrome
+        const d = (variation % 3) + 2;
+        id = `palindrome-skipping-step-${d}-${globalIdx}`;
+        title = `${globalIdx}. Index-Skipping Palindrome (Step ${d})`;
+        baseDescription = `<p>Given a string <code>s</code>, check if the sequence formed by taking every <strong><code>${d}</code></strong>-th character starting from index 0 (i.e., indices 0, <code>${d}</code>, <code>${d*2}</code>, <code>${d*3}</code>, etc.) forms a palindrome.</p>`;
+        constraints = [
+          `1 <= s.length <= 500`,
+          `s consists of lowercase English letters.`
+        ];
+        hints = [
+          `Extract characters at indices 0, ${d}, ${d * 2}, etc. into a new string or list.`,
+          `Check if the extracted string is a standard palindrome.`
+        ];
+
+        solver = (s) => {
+          let extracted = "";
+          for (let i = 0; i < s.length; i += d) {
+            extracted += s[i];
+          }
+          return extracted === extracted.split('').reverse().join('');
+        };
+
+        for (let tc = 1; tc <= 13; tc++) {
+          const isHidden = tc > 3;
+          let s;
+          if (tc === 1) {
+            // E.g. extracted is "racecar". Construct s.
+            const p = "racecar";
+            const chars = [];
+            for (let i = 0; i < p.length; i++) {
+              chars.push(p[i]);
+              for (let j = 0; j < d - 1; j++) chars.push('x');
+            }
+            s = chars.join('');
+          } else if (tc === 2) s = "hello";
+          else if (tc === 3) s = "a";
+          else {
+            s = generateRandomString(12);
+          }
+          testCases.push({
+            id: `${id}-tc-${tc}`,
+            input: `s = "${s}"`,
+            expectedOutput: solver(s).toString(),
+            isHidden
+          });
+        }
+
+      } else if (templateIdx === 5) { // Character-Filtered Palindrome
+        const filterType = ["vowels", "consonants", "digits"][variation % 3];
+        id = `palindrome-filtered-${filterType}-${globalIdx}`;
+        title = `${globalIdx}. Character-Filtered Palindrome (${filterType.toUpperCase()})`;
+        baseDescription = `<p>Given a string <code>s</code>, remove all <strong>${filterType}</strong> from the string, and check if the remaining characters form a case-insensitive palindrome.</p>`;
+        constraints = [
+          `0 <= s.length <= 500`,
+          `s consists of alphanumeric characters and spaces.`
+        ];
+        hints = [
+          `Filter the string to exclude all ${filterType}.`,
+          `Convert the filtered string to lowercase and check if it reads the same forwards and backwards.`
+        ];
+
+        const isVowel = (c) => /[aeiouAEIOU]/.test(c);
+        const isConsonant = (c) => /[a-zA-Z]/.test(c) && !isVowel(c);
+        const isDigit = (c) => /[0-9]/.test(c);
+        
+        solver = (s) => {
+          let cleaned = "";
+          for (let i = 0; i < s.length; i++) {
+            const c = s[i];
+            if (filterType === "vowels" && isVowel(c)) continue;
+            if (filterType === "consonants" && isConsonant(c)) continue;
+            if (filterType === "digits" && isDigit(c)) continue;
+            if (/[a-zA-Z0-9]/.test(c)) {
+              cleaned += c.toLowerCase();
+            }
+          }
+          return cleaned === cleaned.split('').reverse().join('');
+        };
+
+        for (let tc = 1; tc <= 13; tc++) {
+          const isHidden = tc > 3;
+          let s;
+          if (tc === 1) s = filterType === "digits" ? "r1a2c3e4c5a6r" : filterType === "vowels" ? "rxaecxar" : "racecar123";
+          else if (tc === 2) s = "hello";
+          else if (tc === 3) s = " ";
+          else {
+            s = generateRandomString(10) + " " + generateRandomString(5);
+          }
+          testCases.push({
+            id: `${id}-tc-${tc}`,
+            input: `s = "${s}"`,
+            expectedOutput: solver(s).toString(),
+            isHidden
+          });
+        }
+
+      } else if (templateIdx === 6) { // Longest Palindromic Prefix Length
+        id = `palindrome-prefix-longest-${globalIdx}`;
+        title = `${globalIdx}. Longest Palindromic Prefix Length`;
+        baseDescription = `<p>Given a string <code>s</code>, find and return the <strong>length</strong> of the longest prefix of <code>s</code> that is a palindrome.</p>`;
+        constraints = [
+          `1 <= s.length <= 500`,
+          `s consists of lowercase English letters.`
+        ];
+        hints = [
+          `Check prefixes of s starting from the longest down to length 1.`,
+          `Return the length of the first prefix that is a palindrome.`
+        ];
+
+        solver = (s) => {
+          const isPal = (str) => str === str.split('').reverse().join('');
+          for (let len = s.length; len >= 1; len--) {
+            if (isPal(s.substring(0, len))) return len;
+          }
+          return 0;
+        };
+
+        for (let tc = 1; tc <= 13; tc++) {
+          const isHidden = tc > 3;
+          let s;
+          if (tc === 1) s = "abacaba";
+          else if (tc === 2) s = "racecarxyz";
+          else if (tc === 3) s = "abcd";
+          else {
+            s = generateRandomString(Math.floor(Math.random() * 15) + 5);
+          }
+          testCases.push({
+            id: `${id}-tc-${tc}`,
+            input: `s = "${s}"`,
+            expectedOutput: solver(s).toString(),
+            isHidden
+          });
+        }
+
+      } else if (templateIdx === 7) { // Permutation Palindrome with Deletions
+        const k = variation % 3;
+        id = `palindrome-permutation-deletions-${k}-${globalIdx}`;
+        title = `${globalIdx}. Permutation Palindrome with Deletions (${k})`;
+        baseDescription = `<p>Given a string <code>s</code>, return <code>true</code> if any permutation of the string can form a palindrome after deleting <strong>at most <code>${k}</code></strong> characters, and <code>false</code> otherwise.</p>`;
+        constraints = [
+          `0 <= s.length <= 500`,
+          `s consists of lowercase English letters.`
+        ];
+        hints = [
+          `Count frequencies of all characters in the string.`,
+          `Count how many characters have odd frequencies. To form a palindrome after at most ${k} deletions, the number of odd-frequency characters minus ${k} must be at most 1 (i.e., oddCount <= ${k} + 1).`
+        ];
+
+        solver = (s) => {
+          const counts = {};
+          for (const char of s) counts[char] = (counts[char] || 0) + 1;
+          let oddCount = 0;
+          for (const char in counts) {
+            if (counts[char] % 2 !== 0) oddCount++;
+          }
+          return oddCount <= k + 1;
+        };
+
+        for (let tc = 1; tc <= 13; tc++) {
+          const isHidden = tc > 3;
+          let s;
+          if (tc === 1) s = "aabbcc";
+          else if (tc === 2) s = "abcde";
+          else if (tc === 3) s = "abc";
+          else {
+            s = generateRandomString(Math.floor(Math.random() * 15) + 5);
+          }
+          testCases.push({
+            id: `${id}-tc-${tc}`,
+            input: `s = "${s}"`,
+            expectedOutput: solver(s).toString(),
+            isHidden
+          });
+        }
+
+      } else if (templateIdx === 8) { // Bracket Palindrome
+        const bracketMode = variation % 3;
+        const types = bracketMode === 0 ? "standard ()" : bracketMode === 1 ? "square []" : "mixed ()[]";
+        id = `palindrome-bracket-mode-${bracketMode}-${globalIdx}`;
+        title = `${globalIdx}. Bracket Palindrome (${types})`;
+        baseDescription = `<p>In a bracket palindrome, an open bracket at index <code>i</code> must match its corresponding close bracket at index <code>n - 1 - i</code> (e.g., <code>'('</code> matches <code>')'</code>, <code>'['</code> matches <code>']'</code>).</p><p>Given a string <code>s</code> consisting of bracket characters, check if it is a bracket palindrome.</p>`;
+        constraints = [
+          `1 <= s.length <= 100`,
+          `s consists of brackets of type: ${types}.`
+        ];
+        hints = [
+          `For each character s[i], check if it forms a matching pair with s[n - 1 - i].`,
+          `Matching pairs are: ( with ), and [ with ].`
+        ];
+
+        const pairs = { '(': ')', '[': ']' };
+        solver = (s) => {
+          let i = 0, j = s.length - 1;
+          while (i <= j) {
+            if (pairs[s[i]] !== s[j]) return false;
+            i++;
+            j--;
+          }
+          return true;
+        };
+
+        const bracketChars = bracketMode === 0 ? ['(', ')'] : bracketMode === 1 ? ['[', ']'] : ['(', ')', '[', ']'];
+        for (let tc = 1; tc <= 13; tc++) {
+          const isHidden = tc > 3;
+          let s;
+          if (tc === 1) s = bracketMode === 0 ? "(())" : bracketMode === 1 ? "[[]]" : "([])";
+          else if (tc === 2) s = "()()";
+          else if (tc === 3) s = bracketMode === 0 ? "(" : "[";
+          else {
+            if (Math.random() > 0.5) {
+              const half = Array.from({ length: 4 }, () => bracketChars[Math.floor(Math.random() * (bracketChars.length / 2)) * 2]);
+              const second = half.map(b => pairs[b]).reverse();
+              s = half.join('') + second.join('');
+            } else {
+              s = Array.from({ length: 8 }, () => bracketChars[Math.floor(Math.random() * bracketChars.length)]).join('');
+            }
+          }
+          testCases.push({
+            id: `${id}-tc-${tc}`,
+            input: `s = "${s}"`,
+            expectedOutput: solver(s).toString(),
+            isHidden
+          });
+        }
+
+      } else if (templateIdx === 9) { // Shift Palindrome
+        const shift = (variation % 5) + 1;
+        id = `palindrome-shift-odd-${shift}-${globalIdx}`;
+        title = `${globalIdx}. Shift Palindrome (Shift ${shift})`;
+        baseDescription = `<p>Given a string <code>s</code> of lowercase English letters, check if the string becomes a palindrome after shifting the characters at <strong>odd (1-based) indices</strong> forward in the alphabet by <strong><code>${shift}</code></strong> positions (with wrap-around from 'z' to 'a').</p><p>Note: 1-based odd indices correspond to 0-based even indices (0, 2, 4, etc.).</p>`;
+        constraints = [
+          `1 <= s.length <= 500`,
+          `s consists of lowercase English letters.`
+        ];
+        hints = [
+          `Create a new string where characters at 0-based even indices (0, 2, 4, ...) are shifted forward by ${shift} positions in the alphabet.`,
+          `Check if the shifted string is a palindrome.`
+        ];
+
+        solver = (s) => {
+          let shifted = "";
+          for (let i = 0; i < s.length; i++) {
+            if (i % 2 === 0) { // 1-based odd index is 0-based even index
+              const code = s.charCodeAt(i);
+              const newCode = ((code - 97 + shift) % 26) + 97;
+              shifted += String.fromCharCode(newCode);
+            } else {
+              shifted += s[i];
+            }
+          }
+          return shifted === shifted.split('').reverse().join('');
+        };
+
+        for (let tc = 1; tc <= 13; tc++) {
+          const isHidden = tc > 3;
+          let s;
+          if (tc === 1) {
+            // E.g. we want shifted to be "racecar" (len=7).
+            // P = "racecar". Shift even back by shift.
+            // P[0]='r' -> shift back.
+            const p = "racecar";
+            let constructed = "";
+            for (let i = 0; i < p.length; i++) {
+              if (i % 2 === 0) {
+                const code = p.charCodeAt(i);
+                const newCode = ((code - 97 - shift + 260) % 26) + 97;
+                constructed += String.fromCharCode(newCode);
+              } else {
+                constructed += p[i];
+              }
+            }
+            s = constructed;
+          } else if (tc === 2) s = "hello";
+          else if (tc === 3) s = "a";
+          else {
+            s = generateRandomString(10);
+          }
+          testCases.push({
+            id: `${id}-tc-${tc}`,
+            input: `s = "${s}"`,
+            expectedOutput: solver(s).toString(),
+            isHidden
+          });
+        }
       }
+
+      if (templateIdx === 6) { // Longest Palindromic Prefix Length returns number
+        starterCode = {
+          javascript: `/**\n * @param {string} s\n * @return {number}\n */\nvar isPalindrome = function(s) {\n    \n};`,
+          python: `class Solution(object):\n    def isPalindrome(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        `,
+          cpp: `class Solution {\npublic:\n    int isPalindrome(string s) {\n        \n    }\n};`,
+          java: `class Solution {\n    public int isPalindrome(String s) {\n        \n    }\n}`
+        };
+      } else {
+        starterCode = {
+          javascript: `/**\n * @param {string} s\n * @return {boolean}\n */\nvar isPalindrome = function(s) {\n    \n};`,
+          python: `class Solution(object):\n    def isPalindrome(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: bool\n        \"\"\"\n        `,
+          cpp: `class Solution {\npublic:\n    bool isPalindrome(string s) {\n        \n    }\n};`,
+          java: `class Solution {\n    public boolean isPalindrome(String s) {\n        \n    }\n}`
+        };
+      }
+
       break;
     }
 
