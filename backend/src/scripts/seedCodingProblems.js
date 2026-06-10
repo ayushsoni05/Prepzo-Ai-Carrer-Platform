@@ -64,13 +64,13 @@ function generateSVG(categoryIdx, variation) {
       break;
     }
     case 2: {
-      const target = 7;
+      const occurrence = (variation % 4) + 1;
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Find target index of ${target}</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Find occurrence index: ${occurrence}</text>
         <g transform="translate(40, 50)">
-          ${[1, 3, target, 9, 12].map((val, idx) => {
-            const isTarget = val === target;
+          ${[7, 3, 7, 9, 7].map((val, idx) => {
+            const isTarget = val === 7;
             const border = isTarget ? primaryColor : neutralColor;
             const fill = isTarget ? 'rgba(16,185,129,0.2)' : 'transparent';
             return `
@@ -78,7 +78,6 @@ function generateSVG(categoryIdx, variation) {
                 <rect width="45" height="40" rx="6" fill="${fill}" stroke="${border}" stroke-width="2"/>
                 <text x="22.5" y="25" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="14" font-weight="bold">${val}</text>
                 <text x="22.5" y="52" text-anchor="middle" fill="${isTarget ? primaryColor : 'rgba(255,255,255,0.4)'}" font-family="sans-serif" font-size="10">idx ${idx}</text>
-                ${isTarget ? `<path d="M 22.5 -15 L 22.5 -5 M 17.5 -8 L 22.5 -3 L 27.5 -8" stroke="${primaryColor}" stroke-width="2" fill="none"/>` : ''}
               </g>
             `;
           }).join('')}
@@ -88,18 +87,19 @@ function generateSVG(categoryIdx, variation) {
     }
     case 3: {
       const char = String.fromCharCode(97 + (variation % 26));
+      const parity = (variation % 2 === 0 ? 'even' : 'odd');
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Frequency of character '${char}'</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Count '${char}' at ${parity.toUpperCase()} indices</text>
         <g transform="translate(40, 45)">
-          ${['a', char, 'b', char, 'c'].map((c, idx) => {
+          ${[char, char, 'b', char, 'c'].map((c, idx) => {
             const isMatch = c === char;
-            const fill = isMatch ? accentColor : neutralColor;
+            const isParity = (parity === 'even' && idx % 2 === 0) || (parity === 'odd' && idx % 2 !== 0);
+            const fill = isMatch && isParity ? accentColor : neutralColor;
             return `
               <g transform="translate(${idx * 60}, 0)">
-                <circle cx="22.5" cy="22.5" r="20" fill="${isMatch ? 'rgba(245,158,11,0.2)' : 'transparent'}" stroke="${fill}" stroke-width="2"/>
+                <circle cx="22.5" cy="22.5" r="20" fill="${isMatch && isParity ? 'rgba(245,158,11,0.2)' : 'transparent'}" stroke="${fill}" stroke-width="2"/>
                 <text x="22.5" y="28" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="16" font-weight="bold">${c}</text>
-                ${isMatch ? `<circle cx="22.5" cy="22.5" r="3" fill="${accentColor}"/>` : ''}
               </g>
             `;
           }).join('')}
@@ -108,18 +108,21 @@ function generateSVG(categoryIdx, variation) {
       break;
     }
     case 4: {
+      const k = (variation % 5) + 1;
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="35" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Find Maximum Element</text>
+        <text x="20" y="35" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Find ${k}-th Largest Element</text>
         <g transform="translate(60, 100)">
           ${[20, 40, 75, 50, 30].map((val, idx) => {
-            const isMax = val === 75;
-            const fill = isMax ? primaryColor : secondaryColor;
+            // sorted: 75, 50, 40, 30, 20. k-th largest is highlighted.
+            const ranks = [5, 3, 1, 2, 4];
+            const isKth = ranks[idx] === k;
+            const fill = isKth ? primaryColor : secondaryColor;
             return `
               <g transform="translate(${idx * 50}, 0)">
-                <rect x="0" y="-${val * 0.7}" width="25" height="${val * 0.7}" rx="3" fill="${fill}" opacity="${isMax ? '1' : '0.6'}"/>
+                <rect x="0" y="-${val * 0.7}" width="25" height="${val * 0.7}" rx="3" fill="${fill}" opacity="${isKth ? '1' : '0.6'}"/>
                 <text x="12.5" y="-${val * 0.7 + 5}" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="10">${val}</text>
-                ${isMax ? `<text x="12.5" y="15" text-anchor="middle" fill="${primaryColor}" font-family="sans-serif" font-size="8" font-weight="bold">MAX</text>` : ''}
+                ${isKth ? `<text x="12.5" y="15" text-anchor="middle" fill="${primaryColor}" font-family="sans-serif" font-size="8" font-weight="bold">Rank ${k}</text>` : ''}
               </g>
             `;
           }).join('')}
@@ -129,53 +132,53 @@ function generateSVG(categoryIdx, variation) {
     }
     case 5: {
       const rep = (variation % 5) + 1;
+      const transform = (variation % 2 === 0 ? 'reverse' : 'uppercase');
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Reverse and Repeat ${rep}x</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${transform.toUpperCase()} and Repeat ${rep}x</text>
         <g transform="translate(10, 45)" font-family="sans-serif" font-size="11">
           <rect x="10" y="10" width="60" height="30" rx="6" fill="transparent" stroke="${secondaryColor}" stroke-width="2"/>
           <text x="40" y="28" text-anchor="middle" fill="${textColor}">"abc"</text>
-          
           <path d="M 70 25 L 105 25" stroke="${textColor}" stroke-width="2" fill="none"/>
           <polygon points="105,21 113,25 105,29" fill="${textColor}"/>
-          
-          <rect x="115" y="10" width="80" height="30" rx="6" fill="transparent" stroke="${primaryColor}" stroke-width="2"/>
-          <text x="155" y="28" text-anchor="middle" fill="${textColor}">Reverse: "cba"</text>
-          
-          <path d="M 195 25 L 230 25" stroke="${textColor}" stroke-width="2" fill="none"/>
+          <rect x="115" y="10" width="90" height="30" rx="6" fill="transparent" stroke="${primaryColor}" stroke-width="2"/>
+          <text x="160" y="28" text-anchor="middle" fill="${textColor}">${transform === 'reverse' ? 'Reverse: "cba"' : 'Upper: "ABC"'}</text>
+          <path d="M 205 25 L 230 25" stroke="${textColor}" stroke-width="2" fill="none"/>
           <polygon points="230,21 238,25 230,29" fill="${textColor}"/>
-          
           <rect x="240" y="10" width="130" height="30" rx="6" fill="transparent" stroke="${accentColor}" stroke-width="2"/>
-          <text x="305" y="28" text-anchor="middle" fill="${textColor}">"${"cba".repeat(rep).substring(0,10)}${"cba".repeat(rep).length > 10 ? '...' : ''}"</text>
+          <text x="305" y="28" text-anchor="middle" fill="${textColor}">"${transform === 'reverse' ? 'cba'.repeat(rep).substring(0,10) : 'ABC'.repeat(rep).substring(0,10)}..."</text>
         </g>
       `;
       break;
     }
     case 6: {
+      const k = (variation % 5) + 2;
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Common Elements Count</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Common Divisible by ${k}</text>
         <g transform="translate(80, 20)">
           <circle cx="70" cy="50" r="40" fill="rgba(59,130,246,0.3)" stroke="${secondaryColor}" stroke-width="2"/>
           <circle cx="130" cy="50" r="40" fill="rgba(16,185,129,0.3)" stroke="${primaryColor}" stroke-width="2"/>
           <text x="45" y="55" fill="${textColor}" font-family="sans-serif" font-size="12">Set A</text>
           <text x="155" y="55" fill="${textColor}" font-family="sans-serif" font-size="12">Set B</text>
-          <text x="100" y="55" fill="${textColor}" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">A ∩ B</text>
+          <text x="100" y="55" fill="${textColor}" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">A ∩ B (% ${k}==0)</text>
         </g>
       `;
       break;
     }
     case 7: {
+      const modulo = (variation % 50) + 10;
+      const isTrib = (variation % 2 !== 0);
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Fibonacci modulo calculation</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${isTrib ? 'Tribonacci' : 'Fibonacci'} Modulo ${modulo}</text>
         <g transform="translate(50, 45)">
-          ${[0, 1, 1, 2, 3, 5].map((val, idx) => {
+          ${[0, 1, 1, isTrib?2:2, isTrib?4:3, isTrib?7:5].map((val, idx) => {
             const w = 30 + idx * 5;
             return `
               <g transform="translate(${idx * 48}, 0)">
                 <rect width="${w}" height="40" fill="rgba(99,102,241,0.2)" stroke="${secondaryColor}" stroke-width="1.5" rx="4"/>
-                <text x="${w/2}" y="25" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12">F(${idx})</text>
+                <text x="${w/2}" y="25" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12">${isTrib?'T':'F'}(${idx})</text>
                 <text x="${w/2}" y="52" text-anchor="middle" fill="${primaryColor}" font-family="sans-serif" font-size="10" font-weight="bold">${val}</text>
               </g>
             `;
@@ -185,9 +188,10 @@ function generateSVG(categoryIdx, variation) {
       break;
     }
     case 8: {
+      const k = (variation % 4) + 1;
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="25" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Anagram Checker: Match Letters</text>
+        <text x="20" y="25" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">k-Anagram Checker (Diff limit k = ${k})</text>
         <g transform="translate(50, 35)">
           <g transform="translate(0, 0)">
             ${['l', 'i', 's', 't', 'e', 'n'].map((c, idx) => `
@@ -201,41 +205,39 @@ function generateSVG(categoryIdx, variation) {
               <text x="${idx * 40 + 15}" y="17" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${c}</text>
             `).join('')}
           </g>
-          <path d="M 15 25 L 95 45 M 55 25 L 55 45 M 95 25 L 15 45 M 135 25 L 215 45 M 175 25 L 175 45 M 215 25 L 135 45" stroke="${primaryColor}" stroke-width="1" stroke-dasharray="3" opacity="0.6"/>
         </g>
       `;
       break;
     }
     case 9: {
+      const modulo = (variation % 100) + 100;
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Modular Exponentiation: repeated squaring</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Power Modulo: base^exp % ${modulo}</text>
         <g transform="translate(80, 50)" font-family="sans-serif" font-size="11" fill="${textColor}">
           <rect x="0" y="0" width="70" height="30" rx="6" fill="transparent" stroke="${secondaryColor}" stroke-width="2"/>
           <text x="35" y="18" text-anchor="middle">Base ^ Exp</text>
-          
           <path d="M 70 15 L 110 15" stroke="${textColor}" stroke-width="2"/>
           <polygon points="110,11 118,15 110,19" fill="${textColor}"/>
-          
           <rect x="120" y="0" width="120" height="30" rx="6" fill="transparent" stroke="${primaryColor}" stroke-width="2"/>
-          <text x="180" y="18" text-anchor="middle">(Base^2) ^ (Exp/2)</text>
+          <text x="180" y="18" text-anchor="middle">(Result) % ${modulo}</text>
         </g>
       `;
       break;
     }
     case 10: {
+      const d = [1, 3, 7, 9][variation % 4];
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Primes Highlighted</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Primes ending in ${d}</text>
         <g transform="translate(60, 45)">
-          ${[2, 3, 4, 5, 6, 7, 8, 9].map((val, idx) => {
-            const isPrime = [2, 3, 5, 7].includes(val);
-            const fill = isPrime ? primaryColor : neutralColor;
+          ${[2, 3, 11, 13, 17, 19, 23, 29].map((val, idx) => {
+            const match = val % 10 === d;
+            const fill = match ? primaryColor : neutralColor;
             return `
               <g transform="translate(${idx * 35}, 0)">
-                <rect width="28" height="28" rx="6" fill="${isPrime ? 'rgba(16,185,129,0.2)' : 'transparent'}" stroke="${fill}" stroke-width="2"/>
+                <rect width="28" height="28" rx="6" fill="${match ? 'rgba(16,185,129,0.2)' : 'transparent'}" stroke="${fill}" stroke-width="2"/>
                 <text x="14" y="18" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
-                ${isPrime ? `<circle cx="14" cy="4" r="2.5" fill="${primaryColor}"/>` : ''}
               </g>
             `;
           }).join('')}
@@ -244,32 +246,28 @@ function generateSVG(categoryIdx, variation) {
       break;
     }
     case 11: {
+      const k = variation % 3;
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Palindrome Checker Symmetric Comparison</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Palindrome (Deletions allowed: ${k})</text>
         <g transform="translate(100, 50)" font-family="sans-serif" font-size="14" font-weight="bold">
           <rect x="0" y="0" width="200" height="35" rx="6" fill="rgba(255,255,255,0.05)" stroke="${secondaryColor}" stroke-width="2"/>
           <text x="100" y="22" text-anchor="middle" fill="${textColor}" letter-spacing="10">R A C E C A R</text>
-          
-          <path d="M -15 17 L -2 17 M -2 17 L -8 12 M -2 17 L -8 22" stroke="${primaryColor}" stroke-width="2" fill="none"/>
-          <path d="M 215 17 L 202 17 M 202 17 L 208 12 M 202 17 L 208 22" stroke="${primaryColor}" stroke-width="2" fill="none"/>
         </g>
       `;
       break;
     }
     case 12: {
+      const mode = variation % 3;
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Non-Divisible Sum Numbers Range</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Non-Divisible Sum Filter Mode ${mode}</text>
         <g transform="translate(60, 45)">
           ${[1, 2, 3, 4, 5, 6, 7, 8].map((val, idx) => {
-            const isDiv = val % 3 === 0 || val % 5 === 0;
-            const stroke = isDiv ? 'rgba(239, 68, 68, 0.6)' : primaryColor;
             return `
               <g transform="translate(${idx * 35}, 0)">
-                <rect width="28" height="28" rx="6" fill="${isDiv ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)'}" stroke="${stroke}" stroke-width="2"/>
+                <rect width="28" height="28" rx="6" fill="rgba(16, 185, 129, 0.1)" stroke="${primaryColor}" stroke-width="2"/>
                 <text x="14" y="18" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
-                ${isDiv ? `<line x1="4" y1="4" x2="24" y2="24" stroke="rgba(239, 68, 68, 0.8)" stroke-width="2" />` : ''}
               </g>
             `;
           }).join('')}
@@ -278,20 +276,19 @@ function generateSVG(categoryIdx, variation) {
       break;
     }
     case 13: {
-      const target = 5;
+      const k = (variation % 5) + 1;
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Frequency of target: ${target}</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Distance Range: |val - target| &lt;= ${k}</text>
         <g transform="translate(50, 45)">
-          ${[5, 2, 5, 9, 5, 12].map((val, idx) => {
-            const isTarget = val === target;
-            const border = isTarget ? primaryColor : neutralColor;
-            const fill = isTarget ? 'rgba(16,185,129,0.2)' : 'transparent';
+          ${[5, 2, 8, 9, 4, 12].map((val, idx) => {
+            const isMatch = Math.abs(val - 5) <= k;
+            const border = isMatch ? primaryColor : neutralColor;
+            const fill = isMatch ? 'rgba(16,185,129,0.2)' : 'transparent';
             return `
               <g transform="translate(${idx * 50}, 0)">
                 <rect width="38" height="35" rx="6" fill="${fill}" stroke="${border}" stroke-width="2"/>
                 <text x="19" y="22" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
-                ${isTarget ? `<circle cx="19" cy="-8" r="4" fill="${primaryColor}"/>` : ''}
               </g>
             `;
           }).join('')}
@@ -300,39 +297,33 @@ function generateSVG(categoryIdx, variation) {
       break;
     }
     case 14: {
-      const target = 10;
+      const isSum = (variation % 2 === 0);
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Pair Sum Equals ${target}</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Pair ${isSum ? 'Sum' : 'Difference'} Checker</text>
         <g transform="translate(50, 45)">
           ${[3, 8, 7, 2, 9].map((val, idx) => {
-            const isPart = val === 3 || val === 7;
-            const border = isPart ? primaryColor : neutralColor;
-            const fill = isPart ? 'rgba(16,185,129,0.2)' : 'transparent';
             return `
               <g transform="translate(${idx * 50}, 0)">
-                <rect width="38" height="35" rx="6" fill="${fill}" stroke="${border}" stroke-width="2"/>
+                <rect width="38" height="35" rx="6" fill="transparent" stroke="${neutralColor}" stroke-width="2"/>
                 <text x="19" y="22" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
               </g>
             `;
           }).join('')}
-          <path d="M 19 35 C 19 60, 119 60, 119 35" stroke="${primaryColor}" stroke-width="2" fill="none" stroke-dasharray="3"/>
-          <text x="69" y="62" text-anchor="middle" fill="${primaryColor}" font-family="sans-serif" font-size="10" font-weight="bold">3 + 7 = ${target}</text>
         </g>
       `;
       break;
     }
     case 15: {
+      const nextConsonant = (variation % 2 === 0);
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Vowel highlight in string</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Vowels followed by ${nextConsonant ? 'Consonants' : 'Vowels'}</text>
         <g transform="translate(60, 50)" font-family="sans-serif" font-size="16" font-weight="bold">
-          ${['H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd'].map((c, idx) => {
-            const isVow = ['e', 'o'].includes(c.toLowerCase());
+          ${['H', 'e', 'l', 'l', 'o'].map((c, idx) => {
             return `
               <g transform="translate(${idx * 24}, 0)">
-                <text x="12" y="20" text-anchor="middle" fill="${isVow ? accentColor : textColor}">${c}</text>
-                ${isVow ? `<circle cx="12" cy="28" r="3" fill="${accentColor}"/>` : ''}
+                <text x="12" y="20" text-anchor="middle" fill="${textColor}">${c}</text>
               </g>
             `;
           }).join('')}
@@ -341,58 +332,47 @@ function generateSVG(categoryIdx, variation) {
       break;
     }
     case 16: {
-      const target = 9;
+      const isSum = (variation % 2 === 0);
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Two Sum Indices (Target = ${target})</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Two ${isSum ? 'Sum' : 'Product'} Indices</text>
         <g transform="translate(50, 45)">
           ${[2, 7, 11, 15].map((val, idx) => {
-            const isPart = val === 2 || val === 7;
-            const border = isPart ? primaryColor : neutralColor;
-            const fill = isPart ? 'rgba(16,185,129,0.2)' : 'transparent';
             return `
               <g transform="translate(${idx * 60}, 0)">
-                <rect width="45" height="35" rx="6" fill="${fill}" stroke="${border}" stroke-width="2"/>
+                <rect width="45" height="35" rx="6" fill="transparent" stroke="${neutralColor}" stroke-width="2"/>
                 <text x="22.5" y="22" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
-                <text x="22.5" y="48" text-anchor="middle" fill="${isPart ? primaryColor : 'rgba(255,255,255,0.4)'}" font-family="sans-serif" font-size="10">idx ${idx}</text>
+                <text x="22.5" y="48" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-family="sans-serif" font-size="10">idx ${idx}</text>
               </g>
             `;
           }).join('')}
-          <path d="M 22.5 35 C 22.5 55, 82.5 55, 82.5 35" stroke="${primaryColor}" stroke-width="2" fill="none" stroke-dasharray="3"/>
         </g>
       `;
       break;
     }
     case 17: {
+      const maxDepth = (variation % 5) + 1;
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Valid Parentheses Stack Matching</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Valid Parentheses (Max depth limit: ${maxDepth})</text>
         <g transform="translate(140, 30)">
           <rect x="0" y="0" width="100" height="70" rx="4" fill="rgba(255,255,255,0.02)" stroke="${neutralColor}" stroke-width="2"/>
           <text x="50" y="-8" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="10" opacity="0.6">STACK</text>
-          
-          <rect x="10" y="45" width="80" height="20" rx="4" fill="rgba(16,185,129,0.1)" stroke="${primaryColor}" stroke-width="1.5"/>
-          <text x="50" y="59" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">[  ]</text>
-          
-          <rect x="10" y="20" width="80" height="20" rx="4" fill="rgba(59,130,246,0.1)" stroke="${secondaryColor}" stroke-width="1.5"/>
-          <text x="50" y="34" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">{  }</text>
         </g>
       `;
       break;
     }
     case 18: {
+      const k = (variation % 2) + 1;
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Remove duplicates in-place</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Remove duplicates (Max allowed: ${k})</text>
         <g transform="translate(60, 45)">
           ${[1, 1, 2, 2, 3].map((val, idx) => {
-            const isDup = idx === 1 || idx === 3;
-            const stroke = isDup ? 'rgba(239, 68, 68, 0.6)' : primaryColor;
             return `
               <g transform="translate(${idx * 50}, 0)">
-                <rect width="38" height="35" rx="6" fill="${isDup ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)'}" stroke="${stroke}" stroke-width="2"/>
+                <rect width="38" height="35" rx="6" fill="transparent" stroke="${primaryColor}" stroke-width="2"/>
                 <text x="19" y="22" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
-                ${isDup ? `<line x1="4" y1="4" x2="34" y2="31" stroke="rgba(239, 68, 68, 0.8)" stroke-width="2" />` : ''}
               </g>
             `;
           }).join('')}
@@ -401,9 +381,10 @@ function generateSVG(categoryIdx, variation) {
       break;
     }
     case 19: {
+      const isAsc = (variation % 2 === 0);
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="25" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Merge Sorted Arrays</text>
+        <text x="20" y="25" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Merge Sorted (${isAsc ? 'Ascending' : 'Descending'})</text>
         <g transform="translate(60, 35)">
           <g transform="translate(0, 0)">
             <rect x="0" y="0" width="50" height="25" rx="4" fill="rgba(59,130,246,0.1)" stroke="${secondaryColor}" stroke-width="1.5"/>
@@ -413,21 +394,17 @@ function generateSVG(categoryIdx, variation) {
             <rect x="0" y="0" width="50" height="25" rx="4" fill="rgba(245,158,11,0.1)" stroke="${accentColor}" stroke-width="1.5"/>
             <text x="25" y="17" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12">2, 4, 6</text>
           </g>
-          <g transform="translate(0, 40)">
-            <rect x="0" y="0" width="120" height="28" rx="6" fill="rgba(16,185,129,0.1)" stroke="${primaryColor}" stroke-width="2"/>
-            <text x="60" y="19" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">1, 2, 3, 4, 5, 6</text>
-          </g>
-          <path d="M 25 25 L 40 40 M 95 25 L 80 40" stroke="${textColor}" stroke-width="1.5" opacity="0.4"/>
         </g>
       `;
       break;
     }
     case 20: {
+      const d = (variation % 4) + 1;
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Missing Number</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Missing Term in AP (diff: ${d})</text>
         <g transform="translate(80, 45)">
-          ${[0, 1, '?', 3, 4].map((val, idx) => {
+          ${[0, d, '?', d*3, d*4].map((val, idx) => {
             const isMiss = val === '?';
             const border = isMiss ? accentColor : primaryColor;
             return `
@@ -442,31 +419,59 @@ function generateSVG(categoryIdx, variation) {
       break;
     }
     case 21: {
+      const thresholdDiv = (variation % 2 === 0 ? 2 : 3);
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Majority Element (> N/2)</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Majority Element (&gt; N / ${thresholdDiv})</text>
         <g transform="translate(60, 45)">
           ${[3, 3, 3, 2, 3, 1].map((val, idx) => {
-            const isMaj = val === 3;
-            const border = isMaj ? primaryColor : neutralColor;
             return `
               <g transform="translate(${idx * 40}, 0)">
-                <rect width="30" height="30" rx="6" fill="${isMaj ? 'rgba(16,185,129,0.2)' : 'transparent'}" stroke="${border}" stroke-width="2"/>
+                <rect width="30" height="30" rx="6" fill="transparent" stroke="${neutralColor}" stroke-width="2"/>
                 <text x="15" y="20" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
               </g>
             `;
           }).join('')}
-          <text x="250" y="20" fill="${primaryColor}" font-family="sans-serif" font-size="12" font-weight="bold">3 dominates!</text>
         </g>
       `;
       break;
     }
     case 22: {
+      const isAsc = (variation % 2 === 0);
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Search Insert Position</text>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Search Insert Position (${isAsc ? 'Ascending' : 'Descending'})</text>
         <g transform="translate(60, 45)">
           ${[1, 3, 5, 6].map((val, idx) => {
+            return `
+              <g transform="translate(${idx * 50}, 0)">
+                <rect width="38" height="35" rx="6" fill="transparent" stroke="${primaryColor}" stroke-width="2"/>
+                <text x="19" y="22" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${isAsc ? val : 7 - val}</text>
+              </g>
+            `;
+          }).join('')}
+        </g>
+      `;
+      break;
+    }
+    case 23: {
+      const k = (variation % 3) + 1;
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Word ${k} from end</text>
+        <g transform="translate(60, 50)" font-family="sans-serif" font-size="16">
+          <text x="0" y="20" fill="${textColor}" opacity="0.6">Hello Beautiful World</text>
+        </g>
+      `;
+      break;
+    }
+    case 24: {
+      const rep = (variation % 2 === 0 ? 2 : 3);
+      svgContent = `
+        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
+        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Single Number (Others repeat ${rep}x)</text>
+        <g transform="translate(60, 45)">
+          ${[2, 2, 1, 5, 5].map((val, idx) => {
             return `
               <g transform="translate(${idx * 50}, 0)">
                 <rect width="38" height="35" rx="6" fill="transparent" stroke="${primaryColor}" stroke-width="2"/>
@@ -474,53 +479,15 @@ function generateSVG(categoryIdx, variation) {
               </g>
             `;
           }).join('')}
-          <g transform="translate(138, 0)">
-            <rect width="10" height="35" fill="rgba(245,158,11,0.2)" stroke="${accentColor}" stroke-width="1.5" stroke-dasharray="2"/>
-            <text x="5" y="-10" text-anchor="middle" fill="${accentColor}" font-family="sans-serif" font-size="10" font-weight="bold">Insert 4</text>
-          </g>
-        </g>
-      `;
-      break;
-    }
-    case 23: {
-      svgContent = `
-        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Length of Last Word</text>
-        <g transform="translate(60, 50)" font-family="sans-serif" font-size="16">
-          <text x="0" y="20" fill="${textColor}" opacity="0.6">Hello</text>
-          <g transform="translate(60, 0)">
-            <rect x="-5" y="-5" width="65" height="30" rx="4" fill="rgba(16,185,129,0.1)" stroke="${primaryColor}" stroke-width="2"/>
-            <text x="0" y="20" fill="${textColor}" font-weight="bold">World</text>
-            <text x="27" y="42" text-anchor="middle" fill="${primaryColor}" font-size="10">Length: 5</text>
-          </g>
-        </g>
-      `;
-      break;
-    }
-    case 24: {
-      svgContent = `
-        <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="30" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Single Number (No Pair)</text>
-        <g transform="translate(60, 45)">
-          ${[2, 2, 1, 5, 5].map((val, idx) => {
-            const isSingle = val === 1;
-            const border = isSingle ? accentColor : primaryColor;
-            return `
-              <g transform="translate(${idx * 50}, 0)">
-                <rect width="38" height="35" rx="6" fill="${isSingle ? 'rgba(245,158,11,0.2)' : 'transparent'}" stroke="${border}" stroke-width="2"/>
-                <text x="19" y="22" text-anchor="middle" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">${val}</text>
-              </g>
-            `;
-          }).join('')}
-          <path d="M 19 35 C 19 55, 69 55, 69 35 M 169 35 C 169 55, 219 55, 219 35" stroke="${primaryColor}" stroke-width="1.5" opacity="0.4" fill="none"/>
         </g>
       `;
       break;
     }
     case 25: {
+      const k = (variation % 9) + 1;
       svgContent = `
         <rect width="100%" height="100%" rx="12" fill="${bgColor}"/>
-        <text x="20" y="25" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Plus One Increment</text>
+        <text x="20" y="25" fill="${textColor}" font-family="sans-serif" font-size="12" font-weight="bold">Plus ${k} Increment</text>
         <g transform="translate(80, 40)">
           <g transform="translate(0, 0)">
             <rect x="0" y="0" width="30" height="30" rx="4" stroke="${neutralColor}" stroke-width="2" fill="none"/>
@@ -530,10 +497,6 @@ function generateSVG(categoryIdx, variation) {
             <rect x="70" y="0" width="30" height="30" rx="4" stroke="${primaryColor}" stroke-width="2" fill="rgba(16,185,129,0.2)"/>
             <text x="85" y="20" text-anchor="middle" fill="${textColor}" font-weight="bold">9</text>
           </g>
-          <text x="120" y="20" fill="${textColor}" font-family="sans-serif" font-size="16">+</text>
-          <text x="140" y="20" fill="${primaryColor}" font-family="sans-serif" font-size="16" font-weight="bold">1</text>
-          <path d="M 85 -5 C 85 -20, 50 -20, 50 -5" stroke="${accentColor}" stroke-width="2" fill="none"/>
-          <text x="67.5" y="-18" fill="${accentColor}" font-family="sans-serif" font-size="8" text-anchor="middle">carry</text>
         </g>
       `;
       break;
@@ -574,45 +537,6 @@ function buildFullDescription(baseDesc, constraints, publicTestCases) {
   return html;
 }
 
-async function seedCodingProblems() {
-  try {
-    console.log('Connecting to MongoDB...');
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log('Successfully connected to Database.');
-
-    // Clear existing coding problems
-    console.log('Clearing existing coding problems from database...');
-    await CodingProblem.deleteMany({});
-
-    console.log('Generating 2500 coding problems...');
-    const problems = [];
-
-    // Define 25 categories, 100 variations each
-    for (let categoryIdx = 1; categoryIdx <= 25; categoryIdx++) {
-      for (let variation = 1; variation <= 100; variation++) {
-        const globalIdx = (categoryIdx - 1) * 100 + variation;
-        const problemData = generateProblem(categoryIdx, variation, globalIdx);
-        problems.push(problemData);
-      }
-    }
-
-    console.log(`Inserting ${problems.length} coding problems into MongoDB...`);
-    // Insert in batches of 200 to be safe
-    const batchSize = 200;
-    for (let i = 0; i < problems.length; i += batchSize) {
-      const batch = problems.slice(i, i + batchSize);
-      await CodingProblem.insertMany(batch);
-      console.log(`Inserted batch ${i / batchSize + 1}/${Math.ceil(problems.length / batchSize)}`);
-    }
-
-    console.log('✅ Seeding completed successfully!');
-    process.exit(0);
-  } catch (error) {
-    console.error('Seeding failed:', error);
-    process.exit(1);
-  }
-}
-
 function generateProblem(categoryIdx, variation, globalIdx) {
   const difficulty = globalIdx % 3 === 0 ? 'Hard' : globalIdx % 3 === 1 ? 'Easy' : 'Medium';
   const acceptanceRate = Math.floor(Math.random() * 45) + 40; // 40% to 85%
@@ -621,7 +545,6 @@ function generateProblem(categoryIdx, variation, globalIdx) {
   let id = '';
   let title = '';
   let baseDescription = '';
-  let description = '';
   let constraints = [];
   let hints = [];
   let starterCode = { javascript: '', python: '', cpp: '', java: '' };
@@ -654,7 +577,7 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         const isHidden = tc > 3;
         let nums;
         if (tc === 1) nums = [k, k * 2, k * 3, 1, 2, 3];
-        else if (tc === 2) nums = [1, 2, 3, 5, 7];
+        else if (tc === 2) nums = [1, 2, 3, 5, 7].map(x => x === k ? x + 1 : x); // ensure no division unless expected
         else if (tc === 3) nums = Array.from({ length: 5 }, (_, i) => k * (i + 1));
         else nums = generateRandomArray(Math.floor(Math.random() * 20) + 10, 1, 200);
 
@@ -671,18 +594,18 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 2: { // Find Target Element Index
-      const baseMultiplier = variation;
-      id = `find-target-index-${baseMultiplier}-${globalIdx}`;
-      title = `${globalIdx}. Find Target Index Variation ${baseMultiplier}`;
-      baseDescription = `<p>Given an array of integers <code>nums</code> and a <code>target</code> integer, return the 0-based index of the first occurrence of <code>target</code>.</p><p>If <code>target</code> does not exist in <code>nums</code>, return <code>-1</code>.</p>`;
+    case 2: { // Find Target Element Index (k-th occurrence)
+      const occurrence = (variation % 4) + 1;
+      id = `find-target-index-occurrence-${occurrence}-${globalIdx}`;
+      title = `${globalIdx}. Find ${occurrence}-th Occurrence Index of Target`;
+      baseDescription = `<p>Given an array of integers <code>nums</code> and a <code>target</code> integer, return the 0-based index of the <code>${occurrence}</code>-th occurrence of <code>target</code>.</p><p>If <code>target</code> does not occur at least <code>${occurrence}</code> times in <code>nums</code>, return <code>-1</code>.</p>`;
       constraints = [
         `1 <= nums.length <= 100`,
         `-1000 <= nums[i], target <= 1000`
       ];
       hints = [
-        `Use a simple loop to iterate through the array.`,
-        `Return the current index if the element matches the target.`
+        `Use a loop to iterate through the array while keeping a count of occurrences of the target.`,
+        `Return the index when the count reaches ${occurrence}.`
       ];
       starterCode = {
         javascript: `/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number}\n */\nvar findElement = function(nums, target) {\n    \n};`,
@@ -691,17 +614,32 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         java: `class Solution {\n    public int findElement(int[] nums, int target) {\n        \n    }\n}`
       };
 
-      const solver = (nums, target) => nums.indexOf(target);
+      const solver = (nums, target) => {
+        let count = 0;
+        for (let i = 0; i < nums.length; i++) {
+          if (nums[i] === target) {
+            count++;
+            if (count === occurrence) return i;
+          }
+        }
+        return -1;
+      };
 
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let nums, target;
-        if (tc === 1) { nums = [1, 5, 8, 12, 15]; target = 8; }
-        else if (tc === 2) { nums = [1, 5, 8, 12, 15]; target = 100; }
-        else if (tc === 3) { nums = [7, 7, 7, 7]; target = 7; }
-        else {
-          nums = generateRandomArray(Math.floor(Math.random() * 20) + 10, 1, 100);
-          target = Math.random() > 0.4 ? nums[Math.floor(Math.random() * nums.length)] : 999;
+        if (tc === 1) { 
+          nums = Array.from({ length: 10 }, (_, i) => i % 2 === 0 ? 7 : i); 
+          target = 7; 
+        } else if (tc === 2) { 
+          nums = [1, 5, 8, 12, 15]; 
+          target = 100; 
+        } else if (tc === 3) { 
+          nums = Array.from({ length: occurrence }, () => 8); 
+          target = 8; 
+        } else {
+          nums = generateRandomArray(Math.floor(Math.random() * 20) + 10, 1, 10);
+          target = Math.random() > 0.3 ? nums[Math.floor(Math.random() * nums.length)] : 999;
         }
 
         const inputStr = `nums = [${nums.join(',')}], target = ${target}`;
@@ -717,18 +655,19 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 3: { // Count Character
-      const targetChar = String.fromCharCode(97 + (variation % 26)); // cycling letters
-      id = `count-char-${targetChar}-${globalIdx}`;
-      title = `${globalIdx}. Frequency of Character '${targetChar}'`;
-      baseDescription = `<p>Given a string <code>s</code>, count and return the number of occurrences of the character <code>'${targetChar}'</code> in the string.</p>`;
+    case 3: { // Count Character at Parity indices
+      const targetChar = String.fromCharCode(97 + (variation % 26));
+      const parity = (variation % 2 === 0 ? 'even' : 'odd');
+      id = `count-char-${targetChar}-${parity}-${globalIdx}`;
+      title = `${globalIdx}. Count Character '${targetChar}' at ${parity.toUpperCase()} Indices`;
+      baseDescription = `<p>Given a string <code>s</code>, count and return the number of occurrences of the character <code>'${targetChar}'</code> that are located at <strong>${parity}</strong> (0-based) indices in the string.</p>`;
       constraints = [
         `0 <= s.length <= 500`,
         `s consists of lowercase English letters.`
       ];
       hints = [
-        `Initialize a counter to 0.`,
-        `Loop through each character of the string s. If it matches '${targetChar}', increment your counter.`
+        `Loop through the string index-by-index.`,
+        `Check if the index is ${parity} (index % 2 === ${parity === 'even' ? '0' : '1'}) and the character matches '${targetChar}'.`
       ];
       starterCode = {
         javascript: `/**\n * @param {string} s\n * @return {number}\n */\nvar countChar = function(s) {\n    \n};`,
@@ -737,12 +676,21 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         java: `class Solution {\n    public int countChar(String s) {\n        \n    }\n}`
       };
 
-      const solver = (s) => (s.match(new RegExp(targetChar, 'g')) || []).length;
+      const solver = (s) => {
+        let count = 0;
+        for (let i = 0; i < s.length; i++) {
+          if (s[i] === targetChar) {
+            if (parity === 'even' && i % 2 === 0) count++;
+            if (parity === 'odd' && i % 2 !== 0) count++;
+          }
+        }
+        return count;
+      };
 
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let s;
-        if (tc === 1) s = `abcde${targetChar}fg`;
+        if (tc === 1) s = `a${targetChar}c${targetChar}e`;
         else if (tc === 2) s = "xyzxyz";
         else if (tc === 3) s = targetChar.repeat(5);
         else s = generateRandomString(Math.floor(Math.random() * 50) + 10);
@@ -760,17 +708,18 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 4: { // Subarray Maximum Element
-      id = `find-maximum-element-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Subarray Maximum Element Variation ${variation}`;
-      baseDescription = `<p>Given an array of integers <code>nums</code>, find and return the maximum value in the array.</p><p>You may assume the array is never empty.</p>`;
+    case 4: { // K-th Largest Element
+      const k = (variation % 5) + 1;
+      id = `find-kth-largest-${k}-${globalIdx}`;
+      title = `${globalIdx}. Find ${k}-th Largest Element`;
+      baseDescription = `<p>Given an array of integers <code>nums</code>, find and return the <code>${k}</code>-th largest element in the array.</p><p>You may assume the array is never empty and always contains at least <code>${k}</code> elements.</p>`;
       constraints = [
-        `1 <= nums.length <= 100`,
+        `${k} <= nums.length <= 100`,
         `-1000 <= nums[i] <= 1000`
       ];
       hints = [
-        `Initialize a variable to store the maximum value with the first element of the array.`,
-        `Iterate through the rest of the array and update the maximum if you find a larger element.`
+        `You can sort the array in descending order.`,
+        `The ${k}-th largest element will be at index ${k - 1}.`
       ];
       starterCode = {
         javascript: `/**\n * @param {number[]} nums\n * @return {number}\n */\nvar findMax = function(nums) {\n    \n};`,
@@ -779,14 +728,17 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         java: `class Solution {\n    public int findMax(int[] nums) {\n        \n    }\n}`
       };
 
-      const solver = (nums) => Math.max(...nums);
+      const solver = (nums) => {
+        const sorted = [...nums].sort((a, b) => b - a);
+        return sorted[k - 1];
+      };
 
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let nums;
-        if (tc === 1) nums = [1, 2, 3, 4, 10, 5];
-        else if (tc === 2) nums = [-10, -5, -2, -20];
-        else if (tc === 3) nums = [42];
+        if (tc === 1) nums = [3, 2, 1, 5, 6, 4];
+        else if (tc === 2) nums = [3, 2, 3, 1, 2, 4, 5, 5, 6];
+        else if (tc === 3) nums = Array.from({ length: k }, (_, i) => i * 10);
         else nums = generateRandomArray(Math.floor(Math.random() * 20) + 10, -500, 500);
 
         const inputStr = `nums = [${nums.join(',')}]`;
@@ -802,18 +754,19 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 5: { // String Reverse and Repeat
+    case 5: { // String Reverse/Uppercase and Repeat
       const repeatCount = (variation % 5) + 1;
-      id = `string-reverse-repeat-${repeatCount}-${globalIdx}`;
-      title = `${globalIdx}. String Reverse and Repeat ${repeatCount}x`;
-      baseDescription = `<p>Given a string <code>s</code>, reverse the string, and then return a new string consisting of the reversed string repeated <code>${repeatCount}</code> times.</p>`;
+      const transform = (variation % 2 === 0 ? 'reverse' : 'uppercase');
+      id = `string-transform-repeat-${transform}-${repeatCount}-${globalIdx}`;
+      title = `${globalIdx}. String ${transform === 'reverse' ? 'Reverse' : 'Uppercase'} and Repeat ${repeatCount}x`;
+      baseDescription = `<p>Given a string <code>s</code>, <strong>${transform === 'reverse' ? 'reverse the string' : 'convert the string to uppercase'}</strong>, and then return a new string consisting of the transformed string repeated <code>${repeatCount}</code> times.</p>`;
       constraints = [
         `0 <= s.length <= 50`,
         `s consists of lowercase English letters.`
       ];
       hints = [
-        `First, write a helper logic to reverse the string.`,
-        `After reversing s, concatenate it with itself ${repeatCount} times.`
+        `First, perform the ${transform} transformation.`,
+        `Repeat the resulting string ${repeatCount} times.`
       ];
       starterCode = {
         javascript: `/**\n * @param {string} s\n * @return {string}\n */\nvar reverseRepeat = function(s) {\n    \n};`,
@@ -822,7 +775,10 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         java: `class Solution {\n    public String reverseRepeat(String s) {\n        \n    }\n}`
       };
 
-      const solver = (s) => s.split('').reverse().join('').repeat(repeatCount);
+      const solver = (s) => {
+        const transformed = transform === 'reverse' ? s.split('').reverse().join('') : s.toUpperCase();
+        return transformed.repeat(repeatCount);
+      };
 
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
@@ -845,17 +801,18 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 6: { // Common Elements Count
-      id = `count-common-elements-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Common Elements Count Variation ${variation}`;
-      baseDescription = `<p>Given two integer arrays <code>nums1</code> and <code>nums2</code>, return the count of common elements between the two arrays.</p><p>An element is common if it appears in both arrays. Only count unique common values.</p>`;
+    case 6: { // Common Elements Count divisible by k
+      const k = (variation % 5) + 2;
+      id = `count-common-elements-divisible-${k}-${globalIdx}`;
+      title = `${globalIdx}. Common Elements Divisible by ${k}`;
+      baseDescription = `<p>Given two integer arrays <code>nums1</code> and <code>nums2</code>, return the count of unique common elements between the two arrays that are <strong>divisible by <code>${k}</code></strong>.</p>`;
       constraints = [
         `1 <= nums1.length, nums2.length <= 50`,
         `1 <= nums1[i], nums2[i] <= 100`
       ];
       hints = [
-        `Convert one or both arrays into a Set to filter out duplicate values.`,
-        `Loop through one set and check if each element is present in the other set.`
+        `Find the intersection of both arrays.`,
+        `Filter the common elements to only include those where element % ${k} === 0.`
       ];
       starterCode = {
         javascript: `/**\n * @param {number[]} nums1\n * @param {number[]} nums2\n * @return {number}\n */\nvar countCommon = function(nums1, nums2) {\n    \n};`,
@@ -869,7 +826,7 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         const s2 = new Set(nums2);
         let count = 0;
         for (const val of s1) {
-          if (s2.has(val)) count++;
+          if (s2.has(val) && val % k === 0) count++;
         }
         return count;
       };
@@ -877,12 +834,12 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let nums1, nums2;
-        if (tc === 1) { nums1 = [1, 2, 2, 3]; nums2 = [2, 3, 4]; }
+        if (tc === 1) { nums1 = [k, k * 2, 3]; nums2 = [k, k * 2, 4]; }
         else if (tc === 2) { nums1 = [1, 2, 3]; nums2 = [4, 5, 6]; }
-        else if (tc === 3) { nums1 = [10]; nums2 = [10]; }
+        else if (tc === 3) { nums1 = [k]; nums2 = [k]; }
         else {
-          nums1 = generateRandomArray(Math.floor(Math.random() * 15) + 5, 1, 30);
-          nums2 = generateRandomArray(Math.floor(Math.random() * 15) + 5, 1, 30);
+          nums1 = generateRandomArray(Math.floor(Math.random() * 15) + 5, 1, 50);
+          nums2 = generateRandomArray(Math.floor(Math.random() * 15) + 5, 1, 50);
         }
 
         const inputStr = `nums1 = [${nums1.join(',')}], nums2 = [${nums2.join(',')}]`;
@@ -898,17 +855,20 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 7: { // Fibonacci Modulo
-      const modulo = (variation % 50) + 10; // Modulo values between 10 and 59
-      id = `fibonacci-mod-${modulo}-${globalIdx}`;
-      title = `${globalIdx}. Fibonacci Number Modulo ${modulo}`;
-      baseDescription = `<p>Given an integer <code>n</code>, calculate the <code>n</code>-th Fibonacci number modulo <code>${modulo}</code>.</p><p>Recall that F(0) = 0, F(1) = 1, and F(n) = F(n-1) + F(n-2) for n &gt;= 2.</p>`;
+    case 7: { // Fibonacci / Tribonacci Number Modulo
+      const modulo = (variation % 50) + 10;
+      const isTrib = (variation % 2 !== 0);
+      id = `fibo-tribo-mod-${isTrib ? 'trib' : 'fib'}-${modulo}-${globalIdx}`;
+      title = `${globalIdx}. ${isTrib ? 'Tribonacci' : 'Fibonacci'} Number Modulo ${modulo}`;
+      baseDescription = isTrib 
+        ? `<p>Given an integer <code>n</code>, calculate the <code>n</code>-th Tribonacci number modulo <code>${modulo}</code>.</p><p>Recall that T(0) = 0, T(1) = 1, T(2) = 1, and T(n) = T(n-1) + T(n-2) + T(n-3) for n &gt;= 3.</p>`
+        : `<p>Given an integer <code>n</code>, calculate the <code>n</code>-th Fibonacci number modulo <code>${modulo}</code>.</p><p>Recall that F(0) = 0, F(1) = 1, and F(n) = F(n-1) + F(n-2) for n &gt;= 2.</p>`;
       constraints = [
         `0 <= n <= 100`
       ];
       hints = [
-        `Use dynamic programming or an iterative array to store Fibonacci values up to n.`,
-        `Apply the modulo operation at each step of the addition to prevent overflow.`
+        `Use dynamic programming to compute values iteratively.`,
+        `Apply the modulo operation at each step to prevent numeric overflow.`
       ];
       starterCode = {
         javascript: `/**\n * @param {number} n\n * @return {number}\n */\nvar fibonacciMod = function(n) {\n    \n};`,
@@ -918,17 +878,28 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       };
 
       const solver = (n) => {
-        if (n === 0) return 0;
-        if (n === 1) return 1;
-        let prev2 = 0;
-        let prev1 = 1;
-        let curr = 0;
-        for (let i = 2; i <= n; i++) {
-          curr = (prev1 + prev2) % modulo;
-          prev2 = prev1;
-          prev1 = curr;
+        if (isTrib) {
+          if (n === 0) return 0;
+          if (n === 1 || n === 2) return 1;
+          let prev3 = 0, prev2 = 1, prev1 = 1, curr = 0;
+          for (let i = 3; i <= n; i++) {
+            curr = (prev1 + prev2 + prev3) % modulo;
+            prev3 = prev2;
+            prev2 = prev1;
+            prev1 = curr;
+          }
+          return curr;
+        } else {
+          if (n === 0) return 0;
+          if (n === 1) return 1;
+          let prev2 = 0, prev1 = 1, curr = 0;
+          for (let i = 2; i <= n; i++) {
+            curr = (prev1 + prev2) % modulo;
+            prev2 = prev1;
+            prev1 = curr;
+          }
+          return curr;
         }
-        return curr;
       };
 
       for (let tc = 1; tc <= 13; tc++) {
@@ -952,17 +923,18 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 8: { // Is Anagram
-      id = `check-anagram-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Anagram Checker Variation ${variation}`;
-      baseDescription = `<p>Given two strings <code>s1</code> and <code>s2</code>, check if they are anagrams of each other.</p><p>Return <code>true</code> if they are anagrams, and <code>false</code> otherwise.</p>`;
+    case 8: { // Anagram Checker with Diff Limit (k-anagram)
+      const k = (variation % 4) + 1;
+      id = `check-k-anagram-${k}-${globalIdx}`;
+      title = `${globalIdx}. Anagram Checker with Diff Limit ${k}`;
+      baseDescription = `<p>Given two strings <code>s1</code> and <code>s2</code>, check if they are <code>${k}</code>-anagrams of each other.</p><p>Return <code>true</code> if they are, and <code>false</code> otherwise.</p><p>Two strings are <code>${k}</code>-anagrams if they have the exact same length and can be made anagrams by changing at most <code>${k}</code> characters in one string.</p>`;
       constraints = [
         `1 <= s1.length, s2.length <= 100`,
         `Strings consist of lowercase English letters.`
       ];
       hints = [
-        `If s1 and s2 have different lengths, they cannot be anagrams.`,
-        `Sort both strings and check if the sorted versions are identical.`
+        `First check if s1 and s2 have equal lengths; if not, return false.`,
+        `Count character frequencies for both strings. Sum up the positive differences and check if they are less than or equal to ${k}.`
       ];
       starterCode = {
         javascript: `/**\n * @param {string} s1\n * @param {string} s2\n * @return {boolean}\n */\nvar isAnagram = function(s1, s2) {\n    \n};`,
@@ -972,20 +944,38 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       };
 
       const solver = (s1, s2) => {
-        const sorted1 = s1.split('').sort().join('');
-        const sorted2 = s2.split('').sort().join('');
-        return sorted1 === sorted2;
+        if (s1.length !== s2.length) return false;
+        const count1 = {};
+        const count2 = {};
+        for (const char of s1) count1[char] = (count1[char] || 0) + 1;
+        for (const char of s2) count2[char] = (count2[char] || 0) + 1;
+        let diff = 0;
+        for (const char in count1) {
+          if (count1[char] > (count2[char] || 0)) {
+            diff += count1[char] - (count2[char] || 0);
+          }
+        }
+        return diff <= k;
       };
 
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let s1, s2;
         if (tc === 1) { s1 = "listen"; s2 = "silent"; }
-        else if (tc === 2) { s1 = "hello"; s2 = "world"; }
-        else if (tc === 3) { s1 = "rat"; s2 = "car"; }
+        else if (tc === 2) { s1 = "anagram"; s2 = "grammar"; } // diff is 3
+        else if (tc === 3) { s1 = "abc"; s2 = "xyz"; }
         else {
           s1 = generateRandomString(Math.floor(Math.random() * 8) + 4);
-          s2 = Math.random() > 0.5 ? s1.split('').sort(() => 0.5 - Math.random()).join('') : generateRandomString(s1.length);
+          if (Math.random() > 0.5) {
+            // slightly modified
+            const chars = s1.split('');
+            for (let i = 0; i < Math.min(k, chars.length); i++) {
+              chars[i] = 'z';
+            }
+            s2 = chars.join('');
+          } else {
+            s2 = generateRandomString(s1.length);
+          }
         }
 
         const inputStr = `s1 = "${s1}", s2 = "${s2}"`;
@@ -1059,16 +1049,17 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 10: { // Count Primes in Range
-      id = `count-primes-range-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Prime Numbers in Range Variation ${variation}`;
-      baseDescription = `<p>Given two positive integers <code>low</code> and <code>high</code>, count and return the number of prime numbers in the range <code>[low, high]</code> (inclusive).</p>`;
+    case 10: { // Count Primes ending in d in Range
+      const d = [1, 3, 7, 9][variation % 4];
+      id = `count-primes-ending-in-${d}-${globalIdx}`;
+      title = `${globalIdx}. Prime Numbers Ending in ${d} in Range`;
+      baseDescription = `<p>Given two positive integers <code>low</code> and <code>high</code>, count and return the number of prime numbers in the range <code>[low, high]</code> (inclusive) whose last digit (unit digit) is <code>${d}</code>.</p>`;
       constraints = [
-        `1 <= low <= high <= 500`
+        `1 <= low <= high <= 1000`
       ];
       hints = [
-        `Write a helper function to determine if a single number is prime.`,
-        `Loop through all integers from low to high, incrementing a count whenever you find a prime.`
+        `Write a helper function isPrime(n).`,
+        `Loop from low to high, checking if the number is prime AND number % 10 === ${d}.`
       ];
       starterCode = {
         javascript: `/**\n * @param {number} low\n * @param {number} high\n * @return {number}\n */\nvar countPrimes = function(low, high) {\n    \n};`,
@@ -1088,7 +1079,7 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       const solver = (low, high) => {
         let count = 0;
         for (let i = low; i <= high; i++) {
-          if (isPrime(i)) count++;
+          if (isPrime(i) && i % 10 === d) count++;
         }
         return count;
       };
@@ -1096,12 +1087,12 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let low, high;
-        if (tc === 1) { low = 1; high = 10; }
-        else if (tc === 2) { low = 10; high = 20; }
-        else if (tc === 3) { low = 14; high = 16; } // no primes
+        if (tc === 1) { low = 1; high = 30; }
+        else if (tc === 2) { low = 10; high = 50; }
+        else if (tc === 3) { low = 14; high = 16; }
         else {
-          low = Math.floor(Math.random() * 100) + 1;
-          high = low + Math.floor(Math.random() * 100) + 10;
+          low = Math.floor(Math.random() * 200) + 1;
+          high = low + Math.floor(Math.random() * 200) + 50;
         }
 
         const inputStr = `low = ${low}, high = ${high}`;
@@ -1117,17 +1108,18 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 11: { // Palindrome Checker
-      id = `palindrome-check-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Palindrome Checker Variation ${variation}`;
-      baseDescription = `<p>Given a string <code>s</code>, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.</p>`;
+    case 11: { // Palindrome Checker with deletion limit k
+      const k = variation % 3;
+      id = `palindrome-check-delete-limit-${k}-${globalIdx}`;
+      title = `${globalIdx}. Palindrome Checker with Deletion Limit ${k}`;
+      baseDescription = `<p>Given a string <code>s</code> containing lowercase English letters, determine if it can be made a palindrome by deleting <strong>at most <code>${k}</code></strong> characters.</p>`;
       constraints = [
         `0 <= s.length <= 500`,
-        `s consists of printable ASCII characters.`
+        `s consists of lowercase English letters only.`
       ];
       hints = [
-        `Strip out all non-alphanumeric characters first.`,
-        `Convert the cleaned string to lowercase, then check if it reads the same forwards and backwards.`
+        `Use two pointers starting at both ends of the string.`,
+        `When mismatch occurs, recursively check options with reduced deletion allowances.`
       ];
       starterCode = {
         javascript: `/**\n * @param {string} s\n * @return {boolean}\n */\nvar isPalindrome = function(s) {\n    \n};`,
@@ -1136,26 +1128,42 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         java: `class Solution {\n    public boolean isPalindrome(String s) {\n        \n    }\n}`
       };
 
+      const checkPalindromeWithDeletions = (str, i, j, kLeft) => {
+        while (i < j) {
+          if (str[i] !== str[j]) {
+            if (kLeft === 0) return false;
+            return checkPalindromeWithDeletions(str, i + 1, j, kLeft - 1) || 
+                   checkPalindromeWithDeletions(str, i, j - 1, kLeft - 1);
+          }
+          i++;
+          j--;
+        }
+        return true;
+      };
+
       const solver = (s) => {
         const cleaned = s.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-        return cleaned === cleaned.split('').reverse().join('');
+        return checkPalindromeWithDeletions(cleaned, 0, cleaned.length - 1, k);
       };
 
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let s;
-        if (tc === 1) s = "A man, a plan, a canal: Panama";
-        else if (tc === 2) s = "race a car";
-        else if (tc === 3) s = " ";
-        else if (tc === 4) s = "abacaba";
-        else if (tc === 5) s = "Was it a car or a cat I saw";
-        else if (tc === 6) s = "No lemon, no melon";
-        else if (tc === 7) s = "Not a palindrome!";
-        else if (tc === 8) s = "12321";
-        else if (tc === 9) s = "hello";
-        else if (tc === 10) s = "a";
-        else if (tc === 11) s = "0P";
-        else s = generateRandomString(Math.floor(Math.random() * 15) + 5);
+        if (tc === 1) s = k === 0 ? "racecar" : k === 1 ? "racea-car" : "rabc-ec-xar";
+        else if (tc === 2) s = "hello";
+        else if (tc === 3) s = "a";
+        else {
+          s = generateRandomString(Math.floor(Math.random() * 15) + 5);
+          if (Math.random() > 0.5) {
+            // Make palindrome and inject k deletions
+            const half = generateRandomString(5);
+            let pal = half + half.split('').reverse().join('');
+            for (let i = 0; i < k; i++) {
+              pal = pal.substring(0, i * 2) + 'z' + pal.substring(i * 2);
+            }
+            s = pal;
+          }
+        }
 
         const inputStr = `s = "${s.replace(/"/g, '\\"')}"`;
         const expected = solver(s).toString();
@@ -1170,17 +1178,24 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 12: { // Non-Divisible Sum
-      id = `non-divisible-sum-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Non-Divisible Sum Variation ${variation}`;
-      baseDescription = `<p>Given three positive integers <code>n</code>, <code>fizzDiv</code>, and <code>buzzDiv</code>, return the sum of all integers in the range <code>[1, n]</code> that are NOT divisible by <code>fizzDiv</code> and NOT divisible by <code>buzzDiv</code>.</p>`;
+    case 12: { // Non-Divisible Sum mode-based
+      const mode = variation % 3;
+      id = `non-divisible-sum-mode-${mode}-${globalIdx}`;
+      title = `${globalIdx}. Non-Divisible Sum Filter Mode ${mode}`;
+      
+      let modeDesc = "";
+      if (mode === 0) modeDesc = "are NOT divisible by <code>fizzDiv</code> and NOT divisible by <code>buzzDiv</code>";
+      else if (mode === 1) modeDesc = "are divisible by <code>fizzDiv</code> but NOT divisible by <code>buzzDiv</code>";
+      else if (mode === 2) modeDesc = "are divisible by <code>buzzDiv</code> but NOT divisible by <code>fizzDiv</code>";
+
+      baseDescription = `<p>Given three positive integers <code>n</code>, <code>fizzDiv</code>, and <code>buzzDiv</code>, return the sum of all integers in the range <code>[1, n]</code> that ${modeDesc}.</p>`;
       constraints = [
         `1 <= n <= 1000`,
         `2 <= fizzDiv, buzzDiv <= 100`
       ];
       hints = [
-        `Loop through all numbers from 1 to n.`,
-        `For each number, check if it modulo fizzDiv is non-zero AND modulo buzzDiv is non-zero. If so, add it to your sum.`
+        `Loop from 1 to n.`,
+        `Apply the specific conditional filter matching Mode ${mode}.`
       ];
       starterCode = {
         javascript: `/**\n * @param {number} n\n * @param {number} fizzDiv\n * @param {number} buzzDiv\n * @return {number}\n */\nvar nonDivisibleSum = function(n, fizzDiv, buzzDiv) {\n    \n};`,
@@ -1192,9 +1207,9 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       const solver = (n, fizzDiv, buzzDiv) => {
         let sum = 0;
         for (let i = 1; i <= n; i++) {
-          if (i % fizzDiv !== 0 && i % buzzDiv !== 0) {
-            sum += i;
-          }
+          if (mode === 0 && i % fizzDiv !== 0 && i % buzzDiv !== 0) sum += i;
+          else if (mode === 1 && i % fizzDiv === 0 && i % buzzDiv !== 0) sum += i;
+          else if (mode === 2 && i % fizzDiv !== 0 && i % buzzDiv === 0) sum += i;
         }
         return sum;
       };
@@ -1224,17 +1239,18 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 13: { // Target Frequency Count
-      id = `target-frequency-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Target Frequency Count Variation ${variation}`;
-      baseDescription = `<p>Given an array of integers <code>nums</code> and a <code>target</code> integer, return the frequency (count of occurrences) of <code>target</code> in <code>nums</code>.</p>`;
+    case 13: { // Target Frequency Count within distance k
+      const k = (variation % 5) + 1;
+      id = `target-frequency-distance-${k}-${globalIdx}`;
+      title = `${globalIdx}. Count Elements in Range [target-${k}, target+${k}]`;
+      baseDescription = `<p>Given an array of integers <code>nums</code> and a <code>target</code> integer, return the frequency (count of occurrences) of elements in the array whose absolute difference from <code>target</code> is at most <code>${k}</code> (i.e., <code>|num - target| &lt;= ${k}</code>).</p>`;
       constraints = [
         `1 <= nums.length <= 100`,
         `-1000 <= nums[i], target <= 1000`
       ];
       hints = [
-        `Initialize a counter to 0.`,
-        `Loop through each number in nums. If it matches target, increment your counter.`
+        `Initialize a count variable to 0.`,
+        `Loop through each element in nums and increment count if Math.abs(num - target) <= ${k}.`
       ];
       starterCode = {
         javascript: `/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number}\n */\nvar elementFrequency = function(nums, target) {\n    \n};`,
@@ -1243,13 +1259,13 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         java: `class Solution {\n    public int elementFrequency(int[] nums, int target) {\n        \n    }\n}`
       };
 
-      const solver = (nums, target) => nums.filter(x => x === target).length;
+      const solver = (nums, target) => nums.filter(x => Math.abs(x - target) <= k).length;
 
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let nums, target;
         if (tc === 1) { nums = [1, 2, 2, 3, 2, 4]; target = 2; }
-        else if (tc === 2) { nums = [1, 2, 3]; target = 5; }
+        else if (tc === 2) { nums = [1, 10, 20]; target = 5; }
         else if (tc === 3) { nums = [5, 5, 5]; target = 5; }
         else {
           nums = generateRandomArray(Math.floor(Math.random() * 20) + 10, 1, 20);
@@ -1269,17 +1285,20 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 14: { // Pair Sum Checker
-      id = `pair-sum-check-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Pair Sum Checker Variation ${variation}`;
-      baseDescription = `<p>Given an array of integers <code>nums</code> and a <code>target</code> integer, return <code>true</code> if there exists a pair of distinct elements in the array that sum up to <code>target</code>, and <code>false</code> otherwise.</p>`;
+    case 14: { // Pair sum / difference checker
+      const isSum = (variation % 2 === 0);
+      id = `pair-${isSum ? 'sum' : 'diff'}-check-${globalIdx}`;
+      title = `${globalIdx}. Pair ${isSum ? 'Sum' : 'Difference'} Checker`;
+      baseDescription = isSum
+        ? `<p>Given an array of integers <code>nums</code> and a <code>target</code> integer, return <code>true</code> if there exists a pair of distinct elements in the array that sum up to <code>target</code>, and <code>false</code> otherwise.</p>`
+        : `<p>Given an array of integers <code>nums</code> and a <code>target</code> integer, return <code>true</code> if there exists a pair of distinct elements in the array whose absolute difference is equal to <code>target</code> (i.e. <code>|nums[i] - nums[j]| = target</code>), and <code>false</code> otherwise.</p>`;
       constraints = [
         `2 <= nums.length <= 100`,
         `-1000 <= nums[i], target <= 1000`
       ];
       hints = [
-        `A nested loop checking all pairs is a simple way to start.`,
-        `Ensure that you check distinct indices (i.e. i != j).`
+        isSum ? `Check if two elements nums[i] + nums[j] equal target.` : `Check if two elements Math.abs(nums[i] - nums[j]) equal target.`,
+        `Make sure indices i and j are distinct (i !== j).`
       ];
       starterCode = {
         javascript: `/**\n * @param {number[]} nums\n * @param {number} target\n * @return {boolean}\n */\nvar hasPairWithSum = function(nums, target) {\n    \n};`,
@@ -1291,7 +1310,8 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       const solver = (nums, target) => {
         for (let i = 0; i < nums.length; i++) {
           for (let j = i + 1; j < nums.length; j++) {
-            if (nums[i] + nums[j] === target) return true;
+            if (isSum && nums[i] + nums[j] === target) return true;
+            if (!isSum && Math.abs(nums[i] - nums[j]) === target) return true;
           }
         }
         return false;
@@ -1306,7 +1326,7 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         else {
           nums = generateRandomArray(Math.floor(Math.random() * 15) + 5, 1, 50);
           if (Math.random() > 0.5 && nums.length > 2) {
-            target = nums[0] + nums[1];
+            target = isSum ? nums[0] + nums[1] : Math.abs(nums[0] - nums[1]);
           } else {
             target = 999;
           }
@@ -1325,17 +1345,20 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 15: { // Vowel Frequency Count
-      id = `vowel-count-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Vowel Frequency Count Variation ${variation}`;
-      baseDescription = `<p>Given a string <code>s</code>, count and return the total number of vowels (a, e, i, o, u, case-insensitive) in the string.</p>`;
+    case 15: { // Vowel count followed by type
+      const nextConsonant = (variation % 2 === 0);
+      id = `vowel-count-followed-by-${nextConsonant ? 'consonant' : 'vowel'}-${globalIdx}`;
+      title = `${globalIdx}. Count Vowels Followed by ${nextConsonant ? 'Consonants' : 'Vowels'}`;
+      baseDescription = nextConsonant
+        ? `<p>Given a string <code>s</code>, count and return the total number of vowels (a, e, i, o, u, case-insensitive) in the string that are immediately followed by a consonant character.</p>`
+        : `<p>Given a string <code>s</code>, count and return the total number of vowels (a, e, i, o, u, case-insensitive) in the string that are immediately followed by another vowel.</p>`;
       constraints = [
         `0 <= s.length <= 500`,
-        `s consists of printable ASCII characters.`
+        `s consists of letters and spaces.`
       ];
       hints = [
-        `Loop through each character of the string s.`,
-        `Check if the lowercase version of the character matches 'a', 'e', 'i', 'o', or 'u'. If so, increment your count.`
+        `Loop from index 0 to length - 2.`,
+        `For each char, check if it is a vowel and the next character is ${nextConsonant ? 'a consonant' : 'a vowel'}.`
       ];
       starterCode = {
         javascript: `/**\n * @param {string} s\n * @return {number}\n */\nvar countVowels = function(s) {\n    \n};`,
@@ -1344,15 +1367,26 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         java: `class Solution {\n    public int countVowels(String s) {\n        \n    }\n}`
       };
 
-      const solver = (s) => (s.match(/[aeiouAEIOU]/g) || []).length;
+      const isVowel = (c) => /[aeiouAEIOU]/.test(c);
+      const isConsonant = (c) => /[a-zA-Z]/.test(c) && !isVowel(c);
+      const solver = (s) => {
+        let count = 0;
+        for (let i = 0; i < s.length - 1; i++) {
+          if (isVowel(s[i])) {
+            if (nextConsonant && isConsonant(s[i + 1])) count++;
+            if (!nextConsonant && isVowel(s[i + 1])) count++;
+          }
+        }
+        return count;
+      };
 
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let s;
         if (tc === 1) s = "hello world";
-        else if (tc === 2) s = "AEIOU";
-        else if (tc === 3) s = "bcdfgh";
-        else s = generateRandomString(Math.floor(Math.random() * 40) + 10, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+        else if (tc === 2) s = "aeiou";
+        else if (tc === 3) s = "xyz";
+        else s = generateRandomString(Math.floor(Math.random() * 40) + 10, 'abcdefghijklmnopqrstuvwxyz');
 
         const inputStr = `s = "${s.replace(/"/g, '\\"')}"`;
         const expected = solver(s).toString();
@@ -1367,17 +1401,22 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 16: { // Two Sum Indices (LeetCode)
-      id = `two-sum-indices-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Two Sum Indices Variation ${variation}`;
-      baseDescription = `<p>Given an array of integers <code>nums</code> and a target integer <code>target</code>, return the 0-based indices of the two numbers such that they add up to <code>target</code>.</p><p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>`;
+    case 16: { // Two Sum / Product Indices
+      const isSum = (variation % 2 === 0);
+      id = `two-${isSum ? 'sum' : 'product'}-indices-${globalIdx}`;
+      title = `${globalIdx}. Two ${isSum ? 'Sum' : 'Product'} Indices`;
+      baseDescription = isSum
+        ? `<p>Given an array of integers <code>nums</code> and a target integer <code>target</code>, return the 0-based indices of the two numbers such that they add up to <code>target</code>.</p>`
+        : `<p>Given an array of integers <code>nums</code> and a target integer <code>target</code>, return the 0-based indices of the two numbers such that their product is equal to <code>target</code>.</p>`;
+      
+      baseDescription += `<p>You may assume that each input would have exactly one solution, and you may not use the same element twice. Return the indices as a sorted pair list <code>[idx1, idx2]</code>.</p>`;
       constraints = [
         `2 <= nums.length <= 100`,
         `-1000 <= nums[i], target <= 1000`
       ];
       hints = [
-        `You can use a hash map to store elements you've seen and their indices.`,
-        `For each number x, check if target - x is already in the map.`
+        `Use a nested loop to check all pairs of indices.`,
+        isSum ? `Check if nums[i] + nums[j] === target.` : `Check if nums[i] * nums[j] === target.`
       ];
       starterCode = {
         javascript: `/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[]}\n */\nvar twoSum = function(nums, target) {\n    \n};`,
@@ -1387,13 +1426,11 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       };
 
       const solver = (nums, target) => {
-        const map = new Map();
         for (let i = 0; i < nums.length; i++) {
-          const complement = target - nums[i];
-          if (map.has(complement)) {
-            return [map.get(complement), i];
+          for (let j = i + 1; j < nums.length; j++) {
+            if (isSum && nums[i] + nums[j] === target) return [i, j];
+            if (!isSum && nums[i] * nums[j] === target) return [i, j];
           }
-          map.set(nums[i], i);
         }
         return [];
       };
@@ -1401,15 +1438,13 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let nums, target;
-        if (tc === 1) { nums = [2, 7, 11, 15]; target = 9; }
+        if (tc === 1) { nums = [2, 7, 11, 15]; target = isSum ? 9 : 14; }
         else if (tc === 2) { nums = [3, 2, 4]; target = 6; }
-        else if (tc === 3) { nums = [3, 3]; target = 6; }
+        else if (tc === 3) { nums = [3, 3]; target = isSum ? 6 : 9; }
         else {
-          const size = Math.floor(Math.random() * 10) + 5;
-          nums = Array.from({ length: size }, (_, i) => i * 3 + 2);
-          const i1 = Math.floor(Math.random() * (size / 2));
-          const i2 = Math.floor(Math.random() * (size / 2)) + Math.ceil(size / 2);
-          target = nums[i1] + nums[i2];
+          nums = Array.from({ length: 6 }, (_, i) => i + 1);
+          const i1 = 0, i2 = 4;
+          target = isSum ? nums[i1] + nums[i2] : nums[i1] * nums[i2];
         }
 
         const inputStr = `nums = [${nums.join(',')}], target = ${target}`;
@@ -1425,17 +1460,18 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 17: { // Valid Parentheses (LeetCode / GFG)
-      id = `valid-parentheses-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Valid Parentheses Variation ${variation}`;
-      baseDescription = `<p>Given a string <code>s</code> containing just the characters <code>'('</code>, <code>')'</code>, <code>'{'</code>, <code>'}'</code>, <code>'['</code> and <code>']'</code>, determine if the input string is valid.</p><p>An input string is valid if open brackets are closed by the same type of brackets, and closed in the correct order.</p>`;
+    case 17: { // Valid Parentheses with depth limit
+      const maxDepth = (variation % 5) + 1;
+      id = `valid-parentheses-depth-limit-${maxDepth}-${globalIdx}`;
+      title = `${globalIdx}. Valid Parentheses with Depth Limit ${maxDepth}`;
+      baseDescription = `<p>Given a string <code>s</code> containing just the characters <code>'('</code>, <code>')'</code>, <code>'{'</code>, <code>'}'</code>, <code>'['</code> and <code>']'</code>, determine if the input string is valid <strong>AND</strong> its maximum nesting depth does not exceed <code>${maxDepth}</code>.</p><p>An input string is valid if open brackets are closed by the same type of brackets, and closed in the correct order.</p>`;
       constraints = [
         `1 <= s.length <= 100`,
         `s consists of parentheses characters only.`
       ];
       hints = [
-        `Use a stack data structure.`,
-        `Push open brackets onto the stack. For close brackets, pop from the stack and verify it matches.`
+        `Use a stack to validate correct matching of bracket types.`,
+        `During iteration, the stack size represents the current nesting depth. Track the maximum stack size and verify it is <= ${maxDepth}.`
       ];
       starterCode = {
         javascript: `/**\n * @param {string} s\n * @return {boolean}\n */\nvar isValid = function(s) {\n    \n};`,
@@ -1447,15 +1483,22 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       const solver = (s) => {
         const stack = [];
         const mapping = { ')': '(', '}': '{', ']': '[' };
+        let currentDepth = 0;
+        let maxSeenDepth = 0;
         for (let char of s) {
           if (mapping[char]) {
             const top = stack.length > 0 ? stack.pop() : '#';
             if (top !== mapping[char]) return false;
+            currentDepth--;
           } else {
             stack.push(char);
+            currentDepth++;
+            if (currentDepth > maxSeenDepth) {
+              maxSeenDepth = currentDepth;
+            }
           }
         }
-        return stack.length === 0;
+        return stack.length === 0 && maxSeenDepth <= maxDepth;
       };
 
       for (let tc = 1; tc <= 13; tc++) {
@@ -1463,16 +1506,15 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         let s;
         if (tc === 1) s = "()[]{}";
         else if (tc === 2) s = "(]";
-        else if (tc === 3) s = "([{}])";
-        else if (tc === 4) s = "(((((())))))";
-        else if (tc === 5) s = "(((((()))))"; // false
+        else if (tc === 3) s = "([{}])"; // depth 3
+        else if (tc === 4) s = "(".repeat(maxDepth) + ")".repeat(maxDepth);
+        else if (tc === 5) s = "(".repeat(maxDepth + 1) + ")".repeat(maxDepth + 1); // fails depth
         else if (tc === 6) s = "()";
         else if (tc === 7) s = "[]";
         else if (tc === 8) s = "{}";
-        else if (tc === 9) s = "}{"; // false
-        else if (tc === 10) s = "({[)]}"; // false
-        else if (tc === 11) s = "({[]})[]{}";
-        else s = "(([]{}))" + (Math.random() > 0.5 ? "()" : "(");
+        else if (tc === 9) s = "}{";
+        else if (tc === 10) s = "({[)]}";
+        else s = "(([]{}))";
 
         const inputStr = `s = "${s}"`;
         const expected = solver(s).toString();
@@ -1487,17 +1529,18 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 18: { // Remove Duplicates from Sorted Array (LeetCode)
-      id = `remove-duplicates-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Remove Duplicates Count Variation ${variation}`;
-      baseDescription = `<p>Given an integer array <code>nums</code> sorted in non-decreasing order, return the count of unique elements in the array.</p>`;
+    case 18: { // Remove Duplicates (elements can appear at most k times)
+      const k = (variation % 2) + 1;
+      id = `remove-duplicates-limit-${k}-${globalIdx}`;
+      title = `${globalIdx}. Remove Duplicates with Limit ${k}`;
+      baseDescription = `<p>Given an integer array <code>nums</code> sorted in non-decreasing order, return the count of elements in the array after removing duplicates such that each unique element appears <strong>at most <code>${k}</code></strong> times.</p>`;
       constraints = [
         `1 <= nums.length <= 100`,
         `-100 <= nums[i] <= 100`
       ];
       hints = [
-        `Since the array is sorted, duplicates are adjacent to each other.`,
-        `Iterate through the array and count how many elements are different from their predecessor.`
+        `Since the array is sorted, you can use a two-pointer approach.`,
+        `Compare the current element with the element at index - ${k}. If they differ, keep it.`
       ];
       starterCode = {
         javascript: `/**\n * @param {number[]} nums\n * @return {number}\n */\nvar removeDuplicates = function(nums) {\n    \n};`,
@@ -1507,23 +1550,25 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       };
 
       const solver = (nums) => {
-        if (nums.length === 0) return 0;
-        let count = 1;
-        for (let i = 1; i < nums.length; i++) {
-          if (nums[i] !== nums[i-1]) count++;
+        if (nums.length <= k) return nums.length;
+        let index = k;
+        for (let i = k; i < nums.length; i++) {
+          if (nums[i] !== nums[index - k]) {
+            index++;
+          }
         }
-        return count;
+        return index;
       };
 
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let nums;
-        if (tc === 1) nums = [1, 1, 2];
+        if (tc === 1) nums = [1, 1, 1, 2, 2, 3];
         else if (tc === 2) nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4];
         else if (tc === 3) nums = [1, 2, 3];
         else {
           const size = Math.floor(Math.random() * 20) + 5;
-          nums = generateRandomArray(size, 1, 20).sort((a,b) => a-b);
+          nums = generateRandomArray(size, 1, 15).sort((a,b) => a-b);
         }
 
         const inputStr = `nums = [${nums.join(',')}]`;
@@ -1539,17 +1584,18 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 19: { // Merge Sorted Array (LeetCode simplified)
-      id = `merge-sorted-array-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Merge Sorted Array Variation ${variation}`;
-      baseDescription = `<p>Given two sorted integer arrays <code>nums1</code> and <code>nums2</code>, merge them and return the merged array as a new sorted array.</p>`;
+    case 19: { // Merge Sorted Arrays in order
+      const isAscending = (variation % 2 === 0);
+      id = `merge-sorted-array-${isAscending ? 'asc' : 'desc'}-${globalIdx}`;
+      title = `${globalIdx}. Merge Sorted Arrays in ${isAscending ? 'Ascending' : 'Descending'} Order`;
+      baseDescription = `<p>Given two sorted integer arrays <code>nums1</code> and <code>nums2</code>, merge them and return a new sorted array in <strong>${isAscending ? 'ascending' : 'descending'}</strong> order.</p>`;
       constraints = [
         `1 <= nums1.length, nums2.length <= 50`,
         `-1000 <= nums1[i], nums2[i] <= 1000`
       ];
       hints = [
-        `You can use a two-pointer approach to merge both arrays in O(n + m) time.`,
-        `Compare elements at both pointers, push the smaller one, and advance that pointer.`
+        `Concatenate both arrays.`,
+        isAscending ? `Sort them in ascending order (a - b).` : `Sort them in descending order (b - a).`
       ];
       starterCode = {
         javascript: `/**\n * @param {number[]} nums1\n * @param {number[]} nums2\n * @return {number[]}\n */\nvar mergeSorted = function(nums1, nums2) {\n    \n};`,
@@ -1558,21 +1604,22 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         java: `class Solution {\n    public int[] mergeSorted(int[] nums1, int[] nums2) {\n        \n    }\n}`
       };
 
-      const solver = (nums1, nums2) => [...nums1, ...nums2].sort((a,b) => a-b);
+      const solver = (nums1, nums2) => {
+        const merged = [...nums1, ...nums2];
+        return isAscending ? merged.sort((a,b) => a-b) : merged.sort((a,b) => b-a);
+      };
 
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let nums1, nums2;
         if (tc === 1) { nums1 = [1, 2, 3]; nums2 = [2, 5, 6]; }
-        else if (tc === 2) { nums1 = []; nums2 = [1]; }
-        else if (tc === 3) { nums1 = [0]; nums2 = []; }
+        else if (tc === 2) { nums1 = [1]; nums2 = [2]; }
+        else if (tc === 3) { nums1 = [0]; nums2 = [5]; }
         else {
           nums1 = generateRandomArray(Math.floor(Math.random() * 10) + 5, -100, 100).sort((a,b) => a-b);
           nums2 = generateRandomArray(Math.floor(Math.random() * 10) + 5, -100, 100).sort((a,b) => a-b);
         }
 
-        // Clean up empty arrays representations
-        if (nums1.length === 1 && nums1[0] === 0 && tc === 3) nums1 = [0]; // fallback representation
         const inputStr = `nums1 = [${nums1.join(',')}], nums2 = [${nums2.join(',')}]`;
         const expected = `[${solver(nums1, nums2).join(',')}]`;
 
@@ -1586,18 +1633,18 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 20: { // Missing Number (LeetCode / GFG)
-      id = `missing-number-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Missing Number Variation ${variation}`;
-      baseDescription = `<p>Given an array <code>nums</code> containing <code>n</code> distinct numbers in the range <code>[0, n]</code>, return the only number in the range that is missing from the array.</p>`;
+    case 20: { // Missing Number in AP with diff d
+      const d = (variation % 4) + 1;
+      id = `missing-number-ap-diff-${d}-${globalIdx}`;
+      title = `${globalIdx}. Missing Term in AP with Difference ${d}`;
+      baseDescription = `<p>Given an array <code>nums</code> containing distinct numbers representing an arithmetic progression with a common difference of <code>${d}</code>, but exactly one term is missing. Return the missing term.</p>`;
       constraints = [
-        `1 <= nums.length <= 100`,
-        `0 <= nums[i] <= nums.length`,
-        `All elements of nums are unique.`
+        `2 <= nums.length <= 100`,
+        `All terms are within the progression range.`
       ];
       hints = [
-        `The sum of all numbers from 0 to n is equal to n * (n + 1) / 2.`,
-        `Compute the expected sum and subtract the sum of elements in the array to find the missing one.`
+        `First sort the array in ascending order.`,
+        `Iterate through the sorted array and find where the difference between adjacent terms is not equal to ${d}.`
       ];
       starterCode = {
         javascript: `/**\n * @param {number[]} nums\n * @return {number}\n */\nvar missingNumber = function(nums) {\n    \n};`,
@@ -1607,23 +1654,25 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       };
 
       const solver = (nums) => {
-        const n = nums.length;
-        const expected = (n * (n + 1)) / 2;
-        const actual = nums.reduce((a,b) => a+b, 0);
-        return expected - actual;
+        const sorted = [...nums].sort((a, b) => a - b);
+        for (let i = 0; i < sorted.length - 1; i++) {
+          if (sorted[i + 1] - sorted[i] !== d) {
+            return sorted[i] + d;
+          }
+        }
+        return sorted[0] - d; // fallback
       };
 
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let nums;
-        if (tc === 1) nums = [3, 0, 1];
-        else if (tc === 2) nums = [0, 1];
-        else if (tc === 3) nums = [9, 6, 4, 2, 3, 5, 7, 0, 1];
+        if (tc === 1) nums = [0, d, d * 3]; // missing d * 2
+        else if (tc === 2) nums = [5, 5 + d, 5 + d * 3];
+        else if (tc === 3) nums = [10, 10 + d * 2, 10 + d * 3];
         else {
           const n = Math.floor(Math.random() * 20) + 5;
-          const missing = Math.floor(Math.random() * (n + 1));
-          nums = Array.from({ length: n + 1 }, (_, i) => i).filter(x => x !== missing);
-          // Shuffle array
+          const missingIdx = Math.floor(Math.random() * (n - 2)) + 1;
+          nums = Array.from({ length: n }, (_, i) => 10 + i * d).filter((_, idx) => idx !== missingIdx);
           nums.sort(() => 0.5 - Math.random());
         }
 
@@ -1640,17 +1689,18 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 21: { // Majority Element (LeetCode / CodeChef)
-      id = `majority-element-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Majority Element Variation ${variation}`;
-      baseDescription = `<p>Given an array <code>nums</code> of size <code>n</code>, return the majority element.</p><p>The majority element is the element that appears more than <code>⌊n / 2⌋</code> times. You may assume that the majority element always exists in the array.</p>`;
+    case 21: { // Majority Element (> n / thresholdDiv)
+      const thresholdDiv = (variation % 2 === 0 ? 2 : 3);
+      id = `majority-element-ratio-${thresholdDiv}-${globalIdx}`;
+      title = `${globalIdx}. Majority Element with Threshold Ratio 1/${thresholdDiv}`;
+      baseDescription = `<p>Given an array <code>nums</code> of size <code>n</code>, return the majority element that appears strictly more than <code>⌊n / ${thresholdDiv}⌋</code> times.</p><p>If multiple such elements exist, return the smallest one. If none exist, return <code>-1</code>.</p>`;
       constraints = [
         `1 <= nums.length <= 100`,
         `-1000 <= nums[i] <= 1000`
       ];
       hints = [
-        `You can sort the array. The majority element will always be located at index n / 2.`,
-        `Alternatively, look up Boyer-Moore Majority Vote Algorithm which runs in O(N) time and O(1) space.`
+        `Count occurrences of all elements using a hash map.`,
+        `Filter elements that appear more than nums.length / ${thresholdDiv} times, and return the minimum of those.`
       ];
       starterCode = {
         javascript: `/**\n * @param {number[]} nums\n * @return {number}\n */\nvar majorityElement = function(nums) {\n    \n};`,
@@ -1663,9 +1713,15 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         const counts = {};
         for (const val of nums) {
           counts[val] = (counts[val] || 0) + 1;
-          if (counts[val] > nums.length / 2) return val;
         }
-        return nums[0]; // fallback
+        const candidates = [];
+        for (const val in counts) {
+          if (counts[val] > nums.length / thresholdDiv) {
+            candidates.push(Number(val));
+          }
+        }
+        if (candidates.length === 0) return -1;
+        return Math.min(...candidates);
       };
 
       for (let tc = 1; tc <= 13; tc++) {
@@ -1678,7 +1734,7 @@ function generateProblem(categoryIdx, variation, globalIdx) {
           const maj = Math.floor(Math.random() * 100) - 50;
           const others = Array.from({ length: 5 }, () => Math.floor(Math.random() * 100) - 50);
           const size = Math.floor(Math.random() * 10) + 6;
-          nums = Array.from({ length: size }, (_, i) => i < Math.ceil(size / 2) + 1 ? maj : others[i % others.length]);
+          nums = Array.from({ length: size }, (_, i) => i < Math.ceil(size / thresholdDiv) + 1 ? maj : others[i % others.length]);
           nums.sort(() => 0.5 - Math.random());
         }
 
@@ -1695,18 +1751,18 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 22: { // Search Insert Position (LeetCode)
-      id = `search-insert-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Search Insert Position Variation ${variation}`;
-      baseDescription = `<p>Given a sorted array of distinct integers <code>nums</code> and a target value <code>target</code>, return the index if the target is found. If not, return the index where it would be if it were inserted in order.</p>`;
+    case 22: { // Search Insert Position order-based
+      const isAscending = (variation % 2 === 0);
+      id = `search-insert-direction-${isAscending ? 'asc' : 'desc'}-${globalIdx}`;
+      title = `${globalIdx}. Search Insert Position in ${isAscending ? 'Ascending' : 'Descending'} Array`;
+      baseDescription = `<p>Given a sorted array of distinct integers <code>nums</code> in <strong>${isAscending ? 'ascending' : 'descending'}</strong> order and a target value <code>target</code>, return the index if the target is found. If not, return the index where it would be if it were inserted in order.</p>`;
       constraints = [
         `1 <= nums.length <= 100`,
-        `-1000 <= nums[i], target <= 1000`,
-        `nums is sorted in ascending order.`
+        `-1000 <= nums[i], target <= 1000`
       ];
       hints = [
-        `Use binary search to achieve O(log n) time complexity.`,
-        `Initialize low = 0 and high = nums.length - 1. When low exceeds high, low is the insertion index.`
+        `Use binary search or scan the array.`,
+        isAscending ? `Find the first index where nums[index] >= target.` : `Find the first index where nums[index] <= target.`
       ];
       starterCode = {
         javascript: `/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number}\n */\nvar searchInsert = function(nums, target) {\n    \n};`,
@@ -1716,24 +1772,35 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       };
 
       const solver = (nums, target) => {
-        let low = 0, high = nums.length - 1;
-        while (low <= high) {
-          const mid = Math.floor((low + high) / 2);
-          if (nums[mid] === target) return mid;
-          else if (nums[mid] < target) low = mid + 1;
-          else high = mid - 1;
+        if (isAscending) {
+          let low = 0, high = nums.length - 1;
+          while (low <= high) {
+            const mid = Math.floor((low + high) / 2);
+            if (nums[mid] === target) return mid;
+            else if (nums[mid] < target) low = mid + 1;
+            else high = mid - 1;
+          }
+          return low;
+        } else {
+          let low = 0, high = nums.length - 1;
+          while (low <= high) {
+            const mid = Math.floor((low + high) / 2);
+            if (nums[mid] === target) return mid;
+            else if (nums[mid] > target) low = mid + 1;
+            else high = mid - 1;
+          }
+          return low;
         }
-        return low;
       };
 
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let nums, target;
-        if (tc === 1) { nums = [1, 3, 5, 6]; target = 5; }
-        else if (tc === 2) { nums = [1, 3, 5, 6]; target = 2; }
-        else if (tc === 3) { nums = [1, 3, 5, 6]; target = 7; }
+        if (tc === 1) { nums = isAscending ? [1, 3, 5, 6] : [6, 5, 3, 1]; target = 5; }
+        else if (tc === 2) { nums = isAscending ? [1, 3, 5, 6] : [6, 5, 3, 1]; target = 2; }
+        else if (tc === 3) { nums = isAscending ? [1, 3, 5, 6] : [6, 5, 3, 1]; target = 7; }
         else {
-          nums = Array.from({ length: 15 }, (_, i) => i * 3 + 1);
+          nums = Array.from({ length: 15 }, (_, i) => isAscending ? i * 3 + 1 : (45 - i * 3));
           target = Math.random() > 0.5 ? nums[Math.floor(Math.random() * nums.length)] : Math.floor(Math.random() * 50);
         }
 
@@ -1750,17 +1817,18 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 23: { // Length of Last Word (LeetCode)
-      id = `length-of-last-word-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Length of Last Word Variation ${variation}`;
-      baseDescription = `<p>Given a string <code>s</code> consisting of words and spaces, return the length of the last word in the string.</p><p>A word is a maximal substring consisting of non-space characters only.</p>`;
+    case 23: { // Length of k-th Word from End
+      const k = (variation % 3) + 1;
+      id = `length-of-word-from-end-${k}-${globalIdx}`;
+      title = `${globalIdx}. Length of Word ${k} From End`;
+      baseDescription = `<p>Given a string <code>s</code> consisting of words and spaces, return the length of the <code>${k}</code>-th word from the end of the string.</p><p>A word is a maximal substring consisting of non-space characters only. If the string has fewer than <code>${k}</code> words, return <code>0</code>.</p>`;
       constraints = [
         `1 <= s.length <= 500`,
         `s consists of only English letters and spaces ' '.`
       ];
       hints = [
-        `Trim any trailing spaces from the string first.`,
-        `Find the last space character in the trimmed string. The length of the last word is the difference between the string's length and the index of that space.`
+        `Split the string by spaces and filter out empty words.`,
+        `Retrieve the word at index length - ${k} and return its length.`
       ];
       starterCode = {
         javascript: `/**\n * @param {string} s\n * @return {number}\n */\nvar lengthOfLastWord = function(s) {\n    \n};`,
@@ -1770,21 +1838,20 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       };
 
       const solver = (s) => {
-        const trimmed = s.trim();
-        const lastSpace = trimmed.lastIndexOf(' ');
-        return trimmed.length - 1 - lastSpace;
+        const words = s.trim().split(/\s+/).filter(Boolean);
+        if (words.length < k) return 0;
+        return words[words.length - k].length;
       };
 
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let s;
-        if (tc === 1) s = "Hello World";
+        if (tc === 1) s = "Hello World From Seeding";
         else if (tc === 2) s = "   fly me   to   the moon  ";
         else if (tc === 3) s = "luffy is still joyboy";
         else if (tc === 4) s = "a";
-        else if (tc === 5) s = "a ";
-        // Clean random sentences
-        else s = "quick brown fox jumps over " + generateRandomString(Math.floor(Math.random() * 8) + 3);
+        else if (tc === 5) s = "a ".repeat(k - 1);
+        else s = "quick brown fox jumps over the wall";
 
         const inputStr = `s = "${s}"`;
         const expected = solver(s).toString();
@@ -1799,18 +1866,18 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 24: { // Single Number (LeetCode / Codeforces)
-      id = `single-number-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Single Number Variation ${variation}`;
-      baseDescription = `<p>Given a non-empty array of integers <code>nums</code>, every element appears twice except for one. Find that single one.</p>`;
+    case 24: { // Single Number replication count rep
+      const rep = (variation % 2 === 0 ? 2 : 3);
+      id = `single-number-rep-${rep}-${globalIdx}`;
+      title = `${globalIdx}. Single Number with Replication Factor ${rep}`;
+      baseDescription = `<p>Given a non-empty array of integers <code>nums</code>, every element appears exactly <code>${rep}</code> times except for one element which appears exactly once. Find that single one.</p>`;
       constraints = [
-        `1 <= nums.length <= 99`,
-        `-1000 <= nums[i] <= 1000`,
-        `Every element appears twice except one.`
+        `1 <= nums.length <= 100`,
+        `-1000 <= nums[i] <= 1000`
       ];
       hints = [
-        `You can use a hash map or set to count frequencies, but that takes O(N) space.`,
-        `Recall that XOR of a number with itself is 0 (x ^ x = 0), and x ^ 0 = x. XORing all elements in the array will yield the single number in O(N) time and O(1) space.`
+        `Count occurrences of each number using a hash map or frequency array.`,
+        `Find the element with count === 1.`
       ];
       starterCode = {
         javascript: `/**\n * @param {number[]} nums\n * @return {number}\n */\nvar singleNumber = function(nums) {\n    \n};`,
@@ -1819,21 +1886,29 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         java: `class Solution {\n    public int singleNumber(int[] nums) {\n        \n    }\n}`
       };
 
-      const solver = (nums) => nums.reduce((a,b) => a^b, 0);
+      const solver = (nums) => {
+        const counts = {};
+        for (const val of nums) {
+          counts[val] = (counts[val] || 0) + 1;
+        }
+        for (const val in counts) {
+          if (counts[val] === 1) return Number(val);
+        }
+        return nums[0];
+      };
 
       for (let tc = 1; tc <= 13; tc++) {
         const isHidden = tc > 3;
         let nums;
-        if (tc === 1) nums = [2, 2, 1];
-        else if (tc === 2) nums = [4, 1, 2, 1, 2];
+        if (tc === 1) nums = rep === 2 ? [2, 2, 1] : [2, 2, 2, 1];
+        else if (tc === 2) nums = rep === 2 ? [4, 1, 2, 1, 2] : [4, 1, 1, 1, 2, 2, 2];
         else if (tc === 3) nums = [1];
         else {
-          const size = Math.floor(Math.random() * 8) + 3; // odd size
           const oddVal = Math.floor(Math.random() * 100) + 10;
           nums = [oddVal];
-          for (let i = 0; i < size; i++) {
+          for (let i = 0; i < 3; i++) {
             const pairVal = Math.floor(Math.random() * 100) + 200 + i;
-            nums.push(pairVal, pairVal);
+            for (let j = 0; j < rep; j++) nums.push(pairVal);
           }
           nums.sort(() => 0.5 - Math.random());
         }
@@ -1851,17 +1926,18 @@ function generateProblem(categoryIdx, variation, globalIdx) {
       break;
     }
 
-    case 25: { // Plus One (LeetCode)
-      id = `plus-one-${variation}-${globalIdx}`;
-      title = `${globalIdx}. Plus One Variation ${variation}`;
-      baseDescription = `<p>You are given a large integer represented as an integer array <code>digits</code>, where each <code>digits[i]</code> is the <code>i</code>-th digit of the integer.</p><p>The digits are ordered from most significant to least significant in left-to-right order. Increment the large integer by one and return the resulting array of digits.</p>`;
+    case 25: { // Plus K
+      const k = (variation % 9) + 1;
+      id = `plus-k-${k}-${globalIdx}`;
+      title = `${globalIdx}. Plus ${k} Digit Increment`;
+      baseDescription = `<p>You are given a large integer represented as an integer array <code>digits</code>, where each <code>digits[i]</code> is the <code>i</code>-th digit of the integer.</p><p>Increment the large integer by <strong><code>${k}</code></strong> and return the resulting array of digits.</p>`;
       constraints = [
         `1 <= digits.length <= 20`,
         `0 <= digits[i] <= 9`
       ];
       hints = [
-        `Start from the last digit (least significant) and add 1.`,
-        `If the digit becomes 10, set it to 0 and carry over 1 to the next digit. If you carry over past the first digit, insert 1 at the beginning of the array.`
+        `Add ${k} to the last digit.`,
+        `Propagate any carry to the left, adding new digit 1 at index 0 if carry reaches beyond the first digit.`
       ];
       starterCode = {
         javascript: `/**\n * @param {number[]} digits\n * @return {number[]}\n */\nvar plusOne = function(digits) {\n    \n};`,
@@ -1872,14 +1948,14 @@ function generateProblem(categoryIdx, variation, globalIdx) {
 
       const solver = (digits) => {
         const res = [...digits];
+        let carry = k;
         for (let i = res.length - 1; i >= 0; i--) {
-          if (res[i] < 9) {
-            res[i]++;
-            return res;
-          }
-          res[i] = 0;
+          const sum = res[i] + carry;
+          res[i] = sum % 10;
+          carry = Math.floor(sum / 10);
+          if (carry === 0) return res;
         }
-        res.unshift(1);
+        if (carry > 0) res.unshift(carry);
         return res;
       };
 
@@ -1887,12 +1963,11 @@ function generateProblem(categoryIdx, variation, globalIdx) {
         const isHidden = tc > 3;
         let digits;
         if (tc === 1) digits = [1, 2, 3];
-        else if (tc === 2) digits = [4, 3, 2, 1];
-        else if (tc === 3) digits = [9];
+        else if (tc === 2) digits = [9, 9, 9];
+        else if (tc === 3) digits = [0];
         else {
           const size = Math.floor(Math.random() * 8) + 4;
           digits = Array.from({ length: size }, () => Math.floor(Math.random() * 9));
-          if (Math.random() > 0.5) digits[digits.length - 1] = 9;
         }
 
         const inputStr = `digits = [${digits.join(',')}]`;
@@ -1911,7 +1986,7 @@ function generateProblem(categoryIdx, variation, globalIdx) {
 
   // Compile full description dynamically with examples and constraints
   const publicTestCases = testCases.filter(tc => !tc.isHidden);
-  description = `<div style="text-align: center; margin-bottom: 20px;">${generateSVG(categoryIdx, variation)}</div>` + buildFullDescription(baseDescription, constraints, publicTestCases);
+  const description = `<div style="text-align: center; margin-bottom: 20px;">${generateSVG(categoryIdx, variation)}</div>` + buildFullDescription(baseDescription, constraints, publicTestCases);
 
   return {
     id,
@@ -1924,6 +1999,45 @@ function generateProblem(categoryIdx, variation, globalIdx) {
     starterCode,
     testCases
   };
+}
+
+async function seedCodingProblems() {
+  try {
+    console.log('Connecting to MongoDB...');
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log('Successfully connected to Database.');
+
+    // Clear existing coding problems
+    console.log('Clearing existing coding problems from database...');
+    await CodingProblem.deleteMany({});
+
+    console.log('Generating 2500 coding problems with dynamic variations...');
+    const problems = [];
+
+    // Define 25 categories, 100 variations each
+    for (let categoryIdx = 1; categoryIdx <= 25; categoryIdx++) {
+      for (let variation = 1; variation <= 100; variation++) {
+        const globalIdx = (categoryIdx - 1) * 100 + variation;
+        const problemData = generateProblem(categoryIdx, variation, globalIdx);
+        problems.push(problemData);
+      }
+    }
+
+    console.log(`Inserting ${problems.length} coding problems into MongoDB...`);
+    // Insert in batches of 200 to be safe
+    const batchSize = 200;
+    for (let i = 0; i < problems.length; i += batchSize) {
+      const batch = problems.slice(i, i + batchSize);
+      await CodingProblem.insertMany(batch);
+      console.log(`Inserted batch ${i / batchSize + 1}/${Math.ceil(problems.length / batchSize)}`);
+    }
+
+    console.log('✅ Seeding completed successfully!');
+    process.exit(0);
+  } catch (error) {
+    console.error('Seeding failed:', error);
+    process.exit(1);
+  }
 }
 
 seedCodingProblems();
