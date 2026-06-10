@@ -673,7 +673,7 @@ function JobDetailModal({
             <div className="md:col-span-2 space-y-10">
               <section>
                 <h4 className="text-[12px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-4">Briefing</h4>
-                <p className="text-white/60 leading-relaxed font-medium">{job.description}</p>
+                <p className="text-white/60 leading-relaxed font-medium whitespace-pre-line">{job.description}</p>
               </section>
 
               {job.responsibilities && job.responsibilities.length > 0 && (
@@ -853,6 +853,29 @@ function JobCard({
     }
   };
 
+  if (!job) {
+    return (
+      <div className="bg-[#0a0c10]/20 border border-white/5 rounded-[32px] p-8 md:p-10 text-left backdrop-blur-sm">
+        <div className="flex items-center gap-3 mb-2">
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-red-400 bg-red-400/10 px-2.5 py-1 rounded">
+            Node Offline
+          </span>
+          {status && (
+            <span className={`px-2.5 py-1 rounded text-[10px] font-black uppercase tracking-widest border ${getStatusColor(status)}`}>
+              {status.replace('_', ' ')}
+            </span>
+          )}
+        </div>
+        <h3 className="text-xl md:text-2xl font-rubik font-[900] text-white/60 uppercase tracking-tight mb-2">
+          Job Posting Unavailable
+        </h3>
+        <p className="text-white/30 text-sm font-medium font-rubik">
+          This career opportunity has been archived, expired, or deleted from the opportunity grid.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div
       className="group relative bg-[#0a0c10]/40 border border-white/5 rounded-[32px] p-8 md:p-10 transition-all hover:bg-[#1c2128] hover:border-white/20 hover:scale-[1.01] cursor-pointer shadow-2xl backdrop-blur-sm overflow-hidden"
@@ -882,7 +905,7 @@ function JobCard({
                 Verified Slot
               </span>
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30 bg-white/5 px-2.5 py-1 rounded">
-                 {job.jobType.replace('_', ' ')}
+                 {job.jobType?.replace('_', ' ') || 'Full Time'}
               </span>
               {status && (
                 <span className={`px-2.5 py-1 rounded text-[10px] font-black uppercase tracking-widest border ${getStatusColor(status)}`}>
@@ -892,11 +915,11 @@ function JobCard({
             </div>
             
             <h3 className="text-2xl md:text-3xl font-rubik font-[900] text-white uppercase tracking-tight mb-2 group-hover:text-[#00ff9d] transition-colors leading-[1.1]">
-              {job.title}
+              {job.title || 'Untitled Role'}
             </h3>
             
             <div className="flex items-center gap-3 mb-6">
-               <p className="text-[15px] font-rubik font-bold text-white/50 tracking-tight">{job?.company?.name}</p>
+               <p className="text-[15px] font-rubik font-bold text-white/50 tracking-tight">{job?.company?.name || 'Unknown Company'}</p>
                <span className="w-1 h-1 rounded-full bg-white/10" />
                <p className="text-[14px] font-rubik font-bold text-white/30 tracking-tight flex items-center gap-2">
                  <MapPin size={14} />
@@ -905,7 +928,7 @@ function JobCard({
             </div>
 
             <p className="text-white/40 text-[15px] leading-relaxed font-medium tracking-tight mb-8 line-clamp-2 max-w-2xl font-rubik italic">
-              " {job.description} "
+              " {job.description || 'No description provided.'} "
             </p>
 
             <div className="flex flex-wrap gap-3">
@@ -937,12 +960,12 @@ function JobCard({
                   onSave();
                 }}
                 className={`w-12 h-12 rounded-2xl flex items-center justify-center border transition-all ${
-                  job.isSaved 
+                  job?.isSaved 
                     ? 'bg-[#00ff9d] border-[#00ff9d] text-[#0a0c10]' 
                     : 'bg-white/5 border-white/10 text-white/40 hover:bg-white/10 hover:text-white'
                 }`}
               >
-                {job.isSaved ? <BookmarkCheck size={20} /> : <Bookmark size={20} />}
+                {job?.isSaved ? <BookmarkCheck size={20} /> : <Bookmark size={20} />}
              </button>
              <button className="w-12 h-12 rounded-2xl bg-white text-[#0a0c10] flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-xl shadow-white/5">
                 <ChevronRight size={20} />

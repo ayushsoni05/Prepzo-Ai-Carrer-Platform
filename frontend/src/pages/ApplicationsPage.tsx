@@ -348,6 +348,27 @@ function ApplicationCard({
     (i) => i.status === 'scheduled' && new Date(i.date) > new Date()
   );
 
+  if (!application?.job) {
+    return (
+      <div className="bg-[#0a0c10]/20 border border-white/5 rounded-[32px] p-8 md:p-10 text-left backdrop-blur-sm">
+        <div className="flex items-center gap-3 mb-2">
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-red-400 bg-red-400/10 px-2.5 py-1 rounded">
+            Node Offline
+          </span>
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30 bg-white/5 px-2.5 py-1 rounded">
+            Applied {new Date(application.createdAt).toLocaleDateString()}
+          </span>
+        </div>
+        <h3 className="text-xl md:text-2xl font-rubik font-[900] text-white/60 uppercase tracking-tight mb-2">
+          Job Posting Unavailable
+        </h3>
+        <p className="text-white/30 text-sm font-medium font-rubik">
+          This career opportunity has been archived, expired, or deleted from the opportunity grid.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div
       className="group relative bg-[#0a0c10]/40 border border-white/5 rounded-[32px] p-8 md:p-10 transition-all hover:bg-[#1c2128] hover:border-white/20 hover:scale-[1.01] cursor-pointer shadow-2xl backdrop-blur-sm overflow-hidden"
@@ -385,15 +406,15 @@ function ApplicationCard({
             </div>
             
             <h3 className="text-2xl md:text-3xl font-rubik font-[900] text-white uppercase tracking-tight mb-2 group-hover:text-[#00ff9d] transition-colors leading-[1.1]">
-              {application.job.title}
+              {application.job?.title || 'Untitled Role'}
             </h3>
             
             <div className="flex items-center gap-3 mb-6">
-               <p className="text-[15px] font-rubik font-bold text-white/50 tracking-tight">{application?.company?.name}</p>
+               <p className="text-[15px] font-rubik font-bold text-white/50 tracking-tight">{application?.company?.name || 'Unknown Company'}</p>
                <span className="w-1 h-1 rounded-full bg-white/10" />
                <p className="text-[14px] font-rubik font-bold text-white/30 tracking-tight flex items-center gap-2">
                  <MapPin size={14} />
-                 {application.job.locations?.[0]?.city || 'Remote'}
+                 {application.job?.locations?.[0]?.city || 'Remote'}
                </p>
             </div>
 
@@ -412,7 +433,7 @@ function ApplicationCard({
 
             {/* Progress Timeline - Narrative Style */}
             <div className="flex items-center gap-3 overflow-x-auto scrollbar-hide pb-2">
-              {application.statusHistory.slice(-4).map((history: { status: ApplicationStatus }, idx: number) => {
+              {application.statusHistory?.slice(-4).map((history: { status: ApplicationStatus }, idx: number) => {
                 const historyConfig = statusConfig[history.status];
                 const HistoryIcon = historyConfig?.icon || Clock;
                 
@@ -444,7 +465,7 @@ function ApplicationCard({
 
           <div className="flex gap-4">
              {canWithdraw && (
-               <button
+                <button
                   onClick={(e) => {
                     e.stopPropagation();
                     onWithdraw();
