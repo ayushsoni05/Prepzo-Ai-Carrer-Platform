@@ -252,7 +252,7 @@ export function Dashboard() {
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-12">
             <div className="max-w-3xl">
               <h1 className="text-5xl md:text-8xl font-[900] text-white uppercase tracking-tighter leading-[0.75] italic mb-8">
-                Welcome back,<br/>
+                Signal active,<br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/10">{user?.fullName?.split(' ')[0] || 'there'}.</span>
               </h1>
               
