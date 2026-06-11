@@ -1,6 +1,10 @@
-const { chromium } = require('playwright');
-const fs = require('fs');
-const path = require('path');
+import { chromium } from 'playwright';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 async function recordTour() {
   console.log('Starting automated tour recording...');
@@ -42,7 +46,6 @@ async function recordTour() {
 
     // 2. Go to Login Page
     console.log('Step 2: Accessing login portal...');
-    // Select login button or navigate directly
     const signInBtn = page.locator('button:has-text("Sign In"), a:has-text("Sign In"), a:has-text("Log In")').first();
     if (await signInBtn.isVisible()) {
       await signInBtn.click();
@@ -65,17 +68,17 @@ async function recordTour() {
     await page.evaluate(() => window.scrollBy({ top: 350, behavior: 'smooth' }));
     await page.waitForTimeout(3000);
 
-    // 4. Explore Playground (Coding Lab)
+    // 5. Explore Playground (Coding Lab)
     console.log('Step 5: Accessing Coding Playground...');
     await page.goto('http://localhost:5173/playground');
     await page.waitForTimeout(3500);
 
-    // 5. Explore Assessment
+    // 6. Explore Assessment
     console.log('Step 6: Accessing Skill Assessments...');
     await page.goto('http://localhost:5173/assessment');
     await page.waitForTimeout(3500);
 
-    // 6. Explore Network page
+    // 7. Explore Network page
     console.log('Step 7: Scrolling Social Neural Network...');
     await page.goto('http://localhost:5173/network');
     await page.waitForTimeout(3000);
@@ -92,8 +95,6 @@ async function recordTour() {
     // Search public folder for the newly recorded playwright video
     setTimeout(() => {
       const files = fs.readdirSync(videoDir);
-      // Playwright recordings are usually named with a GUID string.
-      // We look for files that do not equal our target 'prepzo-tour.mp4' or 'prepzo-tour.webm'
       const recordedFile = files.find(f => 
         (f.endsWith('.webm') || f.endsWith('.mp4')) && 
         f !== 'prepzo-tour.mp4' && 
@@ -102,9 +103,6 @@ async function recordTour() {
 
       if (recordedFile) {
         const oldPath = path.join(videoDir, recordedFile);
-        const fileExt = path.extname(recordedFile);
-        
-        // We save it both as prepzo-tour.mp4 and prepzo-tour.webm to ensure cross-browser HTML5 video compatibility
         const newMp4Path = path.join(videoDir, 'prepzo-tour.mp4');
         const newWebmPath = path.join(videoDir, 'prepzo-tour.webm');
 
@@ -114,7 +112,6 @@ async function recordTour() {
         } catch (e) {}
 
         fs.renameSync(oldPath, newMp4Path);
-        // Create a symlink or secondary copy for webm fallback support
         try {
           fs.copyFileSync(newMp4Path, newWebmPath);
         } catch (e) {}
