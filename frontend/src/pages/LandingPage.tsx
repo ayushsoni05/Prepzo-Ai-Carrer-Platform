@@ -14,6 +14,11 @@ import {
   Rocket,
   Award,
   BarChart3,
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Maximize,
 } from 'lucide-react';
 import { PrepzoHero } from '@/components/landing/PrepzoHero';
 import { PrepzoNavbar } from '@/components/landing/PrepzoNavbar';
@@ -220,8 +225,69 @@ const platformEdge = [
 
 export const LandingPage = ({ onNavigate }: LandingPageProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [stats, setStats] = useState<PublicStats | null>(null);
   const { setGlobalLoading } = useAppStore();
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState('0:00');
+  const [duration, setDuration] = useState('0:00');
+
+  const formatTime = (time: number) => {
+    if (isNaN(time)) return '0:00';
+    const mins = Math.floor(time / 60);
+    const secs = Math.floor(time % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const handlePlayPause = () => {
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) {
+      void videoRef.current.play();
+      setIsPlaying(true);
+    } else {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  const handleMuteToggle = () => {
+    if (!videoRef.current) return;
+    videoRef.current.muted = !videoRef.current.muted;
+    setIsMuted(videoRef.current.muted);
+  };
+
+  const handleTimeUpdate = () => {
+    if (!videoRef.current) return;
+    const current = videoRef.current.currentTime;
+    const total = videoRef.current.duration;
+    if (total) {
+      setProgress((current / total) * 100);
+    }
+    setCurrentTime(formatTime(current));
+  };
+
+  const handleLoadedMetadata = () => {
+    if (!videoRef.current) return;
+    setDuration(formatTime(videoRef.current.duration));
+  };
+
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!videoRef.current) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
+    const clickPercent = clickX / width;
+    videoRef.current.currentTime = clickPercent * videoRef.current.duration;
+  };
+
+  const handleFullscreen = () => {
+    if (!videoRef.current) return;
+    if (videoRef.current.requestFullscreen) {
+      void videoRef.current.requestFullscreen();
+    }
+  };
 
   useEffect(() => {
     // Force dark theme on landing page by default
@@ -303,6 +369,110 @@ export const LandingPage = ({ onNavigate }: LandingPageProps) => {
                     </motion.div>
                 ))}
             </div>
+        </section>
+
+        {/* ── Cinematic Platform Tour Video ───────────── */}
+        <section className="relative z-40 max-w-7xl mx-auto mt-40 px-6" data-reveal>
+          <div className="text-center mb-16 max-w-3xl mx-auto">
+            <p className="text-[10px] md:text-[11px] font-rubik font-[900] uppercase tracking-[0.5em] text-white/40 mb-4">
+              Cockpit in Action
+            </p>
+            <h2 className="text-4xl md:text-7xl font-rubik font-[900] tracking-tighter text-white uppercase leading-[0.9] mb-8">
+              See the engine<br />in <span className="text-white/40">real time.</span>
+            </h2>
+            <p className="text-[16px] md:text-[18px] leading-relaxed text-white/55 font-rubik font-medium tracking-tight">
+              Watch a quick walkthrough of how the AI mentor, proctored playground, and resume analysis telemetry synchronize your career preparation.
+            </p>
+          </div>
+
+          <div className="relative aspect-video rounded-[40px] border border-white/5 bg-black overflow-hidden group shadow-[0_20px_60px_rgba(94,210,156,0.12)] max-w-5xl mx-auto">
+            {/* Ambient Radial Glow */}
+            <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-white to-transparent pointer-events-none z-10" />
+
+            {/* Video Player */}
+            <video
+              ref={videoRef}
+              src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260206_180444_a1a13b6a-9f4a-4a2c-8f1a-6a54f67e5005.mp4"
+              poster="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200"
+              loop
+              muted={isMuted}
+              playsInline
+              autoPlay
+              onTimeUpdate={handleTimeUpdate}
+              onLoadedMetadata={handleLoadedMetadata}
+              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.01]"
+              onClick={handlePlayPause}
+            />
+
+            {/* Pulsing Play Overlay Button (Visible when paused) */}
+            {!isPlaying && (
+              <div 
+                className="absolute inset-0 flex items-center justify-center bg-black/40 z-20 cursor-pointer"
+                onClick={handlePlayPause}
+              >
+                <motion.div 
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-2xl hover:scale-110 transition-transform"
+                >
+                  <Play size={32} fill="white" className="ml-1" />
+                </motion.div>
+              </div>
+            )}
+
+            {/* Custom Control Deck Overlay (Revealed on hover) */}
+            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 flex flex-col gap-4">
+              
+              {/* Progress Bar & Seek Timeline */}
+              <div 
+                className="h-1.5 w-full bg-white/10 rounded-full cursor-pointer overflow-hidden relative group/timeline"
+                onClick={handleProgressClick}
+              >
+                <div 
+                  className="h-full bg-code-green rounded-full transition-all duration-100 relative"
+                  style={{ width: `${progress}%` }}
+                >
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-white opacity-0 group-hover/timeline:opacity-100 transition-opacity" />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-6">
+                  {/* Play / Pause Toggle Button */}
+                  <button 
+                    onClick={handlePlayPause}
+                    className="text-white hover:text-code-green transition-colors cursor-pointer"
+                  >
+                    {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+                  </button>
+
+                  {/* Audio Mute / Unmute Button */}
+                  <button 
+                    onClick={handleMuteToggle}
+                    className="text-white hover:text-code-green transition-colors flex items-center gap-2 cursor-pointer"
+                  >
+                    {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+                    <span className="text-[10px] font-rubik font-bold uppercase tracking-widest text-white/50 hover:text-code-green">
+                      {isMuted ? 'Muted' : 'Unmuted'}
+                    </span>
+                  </button>
+
+                  {/* Time Counter */}
+                  <div className="text-[11px] font-mono text-white/40 tracking-wider">
+                    {currentTime} <span className="text-white/20">/</span> {duration}
+                  </div>
+                </div>
+
+                {/* Fullscreen Button */}
+                <button 
+                  onClick={handleFullscreen}
+                  className="text-white hover:text-code-green transition-colors cursor-pointer"
+                >
+                  <Maximize size={20} />
+                </button>
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* ── Feature Story Sections ───────────────────────── */}
