@@ -261,9 +261,17 @@ export const LandingPage = ({ onNavigate }: LandingPageProps) => {
   const [stats, setStats] = useState<PublicStats | null>(null);
   const { setGlobalLoading } = useAppStore();
 
+  const [simViewMode, setSimViewMode] = useState<'video' | 'simulator'>('video');
   const [activeSimStep, setActiveSimStep] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   
+  // Video player states
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState('0:00');
+  const [duration, setDuration] = useState('0:00');
+
   // Onboarding simulator states
   const [nestStep, setNestStep] = useState(0);
   const [mockName, setMockName] = useState('');
@@ -442,6 +450,61 @@ export const LandingPage = ({ onNavigate }: LandingPageProps) => {
   const handleTabClick = (index: number) => {
     setActiveSimStep(index);
     setIsAutoPlaying(false);
+  };
+
+  const formatTime = (time: number) => {
+    if (isNaN(time)) return '0:00';
+    const mins = Math.floor(time / 60);
+    const secs = Math.floor(time % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const handlePlayPause = () => {
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) {
+      void videoRef.current.play();
+      setIsPlaying(true);
+    } else {
+      videoRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  const handleMuteToggle = () => {
+    if (!videoRef.current) return;
+    videoRef.current.muted = !videoRef.current.muted;
+    setIsMuted(videoRef.current.muted);
+  };
+
+  const handleTimeUpdate = () => {
+    if (!videoRef.current) return;
+    const current = videoRef.current.currentTime;
+    const total = videoRef.current.duration;
+    if (total) {
+      setProgress((current / total) * 100);
+    }
+    setCurrentTime(formatTime(current));
+  };
+
+  const handleLoadedMetadata = () => {
+    if (!videoRef.current) return;
+    setDuration(formatTime(videoRef.current.duration));
+  };
+
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!videoRef.current) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
+    const clickPercent = clickX / width;
+    videoRef.current.currentTime = clickPercent * videoRef.current.duration;
+  };
+
+  const handleFullscreen = () => {
+    if (!videoRef.current) return;
+    if (videoRef.current.requestFullscreen) {
+      void videoRef.current.requestFullscreen();
+    }
   };
 
   const renderSimVisual = () => {
@@ -810,109 +873,196 @@ export const LandingPage = ({ onNavigate }: LandingPageProps) => {
             </div>
         </section>
 
-        {/* ── Cinematic Platform Tour Visual Simulator ─── */}
+        {/* ── Cinematic Platform Tour Visual Simulator & Video Toggle Deck ─── */}
         <section className="relative z-40 max-w-7xl mx-auto mt-40 px-6 animate-fade-in" data-reveal>
           <div className="text-center mb-16 max-w-3xl mx-auto">
             <p className="text-[10px] md:text-[11px] font-rubik font-[900] uppercase tracking-[0.5em] text-white/40 mb-4">
-              Simulator Deck
+              Cockpit Uplink
             </p>
             <h2 className="text-4xl md:text-7xl font-rubik font-[900] tracking-tighter text-white uppercase leading-[0.9] mb-8">
               See the engine<br />in <span className="text-white/40">real time.</span>
             </h2>
-            <p className="text-[16px] md:text-[18px] leading-relaxed text-white/55 font-rubik font-medium tracking-tight">
-              Play with our interactive cockpit deck to experience every step of the Prepzo career pipeline in real-time.
+            <p className="text-[15px] md:text-[17px] leading-relaxed text-white/55 font-rubik font-medium tracking-tight mb-10 max-w-2xl mx-auto">
+              Explore our interactive simulator to test features, or watch a walkthrough video of your actual cockpit sections.
             </p>
+
+            {/* Toggle Switcher */}
+            <div className="inline-flex p-1 bg-white/5 border border-white/5 rounded-2xl backdrop-blur-2xl">
+              <button
+                onClick={() => setSimViewMode('video')}
+                className={`px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] transition-all cursor-pointer ${
+                  simViewMode === 'video' 
+                    ? 'bg-white text-[#161a20] shadow-xl font-black' 
+                    : 'text-white/50 hover:text-white'
+                }`}
+              >
+                Watch Video Tour
+              </button>
+              <button
+                onClick={() => setSimViewMode('simulator')}
+                className={`px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] transition-all cursor-pointer ${
+                  simViewMode === 'simulator' 
+                    ? 'bg-white text-[#161a20] shadow-xl font-black' 
+                    : 'text-white/50 hover:text-white'
+                }`}
+              >
+                Play Simulator
+              </button>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-5xl mx-auto">
-            {/* Left Column: Vertical Step Control Deck */}
-            <div className="lg:col-span-4 flex flex-col justify-between gap-4">
-              <div className="space-y-3">
-                {simSteps.map((s, index) => {
-                  const isActive = activeSimStep === index;
-                  return (
-                    <button
-                      key={s.step}
-                      onClick={() => handleTabClick(index)}
-                      className={`w-full text-left p-5 rounded-[28px] border transition-all duration-300 flex items-start gap-4 group cursor-pointer ${
-                        isActive
-                          ? 'bg-[#161a20] border-code-green/30 shadow-[0_4px_24px_rgba(94,210,156,0.06)]'
-                          : 'bg-black/30 border-white/5 hover:bg-white/5 hover:border-white/10'
-                      }`}
-                    >
-                      <div className={`text-xs font-mono font-bold leading-none py-1 px-2.5 rounded-lg border ${
-                        isActive
-                          ? 'bg-code-green/10 border-code-green/20 text-code-green'
-                          : 'bg-white/5 border-white/5 text-white/30 group-hover:text-white/55 transition-colors'
-                      }`}>
-                        {s.step}
-                      </div>
-                      <div>
-                        <h4 className={`text-sm font-rubik font-bold uppercase tracking-wide leading-tight mb-1.5 transition-colors ${
-                          isActive ? 'text-white' : 'text-white/50 group-hover:text-white/70'
-                        }`}>
-                          {s.label}
-                        </h4>
-                        <p className="text-[11px] leading-normal text-white/35 font-medium">
-                          {s.desc}
-                        </p>
-                      </div>
+          {simViewMode === 'video' ? (
+            /* Custom Video Player Tour View */
+            <div className="relative aspect-video rounded-[40px] border border-white/5 bg-black overflow-hidden group shadow-[0_20px_60px_rgba(94,210,156,0.12)] max-w-5xl mx-auto">
+              <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-white to-transparent pointer-events-none z-10" />
+
+              <video
+                ref={videoRef}
+                poster="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200"
+                loop
+                muted={isMuted}
+                playsInline
+                autoPlay
+                onTimeUpdate={handleTimeUpdate}
+                onLoadedMetadata={handleLoadedMetadata}
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.01]"
+                onClick={handlePlayPause}
+              >
+                {/* Fallbacks: checks if locally recorded tour is available, otherwise falls back to static CloudFront tour */}
+                <source src="/prepzo-tour.mp4" type="video/mp4" />
+                <source src="/prepzo-tour.webm" type="video/webm" />
+                <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260206_180444_a1a13b6a-9f4a-4a2c-8f1a-6a54f67e5005.mp4" type="video/mp4" />
+              </video>
+
+              {!isPlaying && (
+                <div 
+                  className="absolute inset-0 flex items-center justify-center bg-black/40 z-20 cursor-pointer"
+                  onClick={handlePlayPause}
+                >
+                  <motion.div 
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-2xl hover:scale-110 transition-transform"
+                  >
+                    <Play size={32} fill="white" className="ml-1" />
+                  </motion.div>
+                </div>
+              )}
+
+              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 flex flex-col gap-4">
+                <div 
+                  className="h-1.5 w-full bg-white/10 rounded-full cursor-pointer overflow-hidden relative group/timeline"
+                  onClick={handleProgressClick}
+                >
+                  <div 
+                    className="h-full bg-code-green rounded-full transition-all duration-100 relative"
+                    style={{ width: `${progress}%` }}
+                  >
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-white opacity-0 group-hover/timeline:opacity-100 transition-opacity" />
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-6">
+                    <button onClick={handlePlayPause} className="text-white hover:text-code-green transition-colors cursor-pointer">
+                      {isPlaying ? <Pause size={20} /> : <Play size={20} />}
                     </button>
-                  );
-                })}
-              </div>
-
-              {/* Autoplay Status indicator */}
-              <div className="flex items-center justify-between px-5 py-3 bg-white/5 border border-white/5 rounded-2xl text-[9px] font-mono text-white/30 uppercase tracking-widest leading-none">
-                <div className="flex items-center gap-2">
-                  <span className={`w-1.5 h-1.5 rounded-full ${isAutoPlaying ? 'bg-code-green animate-pulse' : 'bg-white/20'}`} />
-                  <span>{isAutoPlaying ? 'Auto-Advancing demo' : 'Manual Exploration'}</span>
+                    <button onClick={handleMuteToggle} className="text-white hover:text-code-green transition-colors flex items-center gap-2 cursor-pointer">
+                      {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+                      <span className="text-[10px] font-rubik font-bold uppercase tracking-widest text-white/50 hover:text-code-green">
+                        {isMuted ? 'Muted' : 'Unmuted'}
+                      </span>
+                    </button>
+                    <div className="text-[11px] font-mono text-white/40 tracking-wider">
+                      {currentTime} <span className="text-white/20">/</span> {duration}
+                    </div>
+                  </div>
+                  <button onClick={handleFullscreen} className="text-white hover:text-code-green transition-colors cursor-pointer">
+                    <Maximize size={20} />
+                  </button>
                 </div>
-                {isAutoPlaying && (
-                  <button 
-                    onClick={() => setIsAutoPlaying(false)}
-                    className="text-white/50 hover:text-code-green cursor-pointer"
-                  >
-                    Pause
-                  </button>
-                )}
-                {!isAutoPlaying && (
-                  <button 
-                    onClick={() => setIsAutoPlaying(true)}
-                    className="text-white/55 hover:text-code-green cursor-pointer"
-                  >
-                    AutoPlay
-                  </button>
-                )}
               </div>
             </div>
-
-            {/* Right Column: Console Mockup Panel */}
-            <div className="lg:col-span-8 bg-[#0c0e12] border border-white/5 rounded-[40px] flex flex-col overflow-hidden relative shadow-[0_25px_60px_rgba(0,0,0,0.7)] hover:border-white/10 transition-all duration-500 group min-h-[440px] md:min-h-[460px]">
-              {/* Console Top Bar */}
-              <div className="h-12 border-b border-white/5 bg-[#0a0c10] px-6 flex items-center justify-between shrink-0">
-                <div className="flex gap-2">
-                  <div className="w-3.5 h-3.5 rounded-full bg-red-500/20 group-hover:bg-red-500/80 transition-colors" />
-                  <div className="w-3.5 h-3.5 rounded-full bg-yellow-500/20 group-hover:bg-yellow-500/80 transition-colors" />
-                  <div className="w-3.5 h-3.5 rounded-full bg-green-500/20 group-hover:bg-green-500/80 transition-colors" />
+          ) : (
+            /* Simulator Tab View */
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-5xl mx-auto">
+              <div className="lg:col-span-4 flex flex-col justify-between gap-4">
+                <div className="space-y-3 text-left">
+                  {simSteps.map((s, index) => {
+                    const isActive = activeSimStep === index;
+                    return (
+                      <button
+                        key={s.step}
+                        onClick={() => handleTabClick(index)}
+                        className={`w-full text-left p-5 rounded-[28px] border transition-all duration-300 flex items-start gap-4 group cursor-pointer ${
+                          isActive
+                            ? 'bg-[#161a20] border-code-green/30 shadow-[0_4px_24px_rgba(94,210,156,0.06)]'
+                            : 'bg-black/30 border-white/5 hover:bg-white/5 hover:border-white/10'
+                        }`}
+                      >
+                        <div className={`text-xs font-mono font-bold leading-none py-1 px-2.5 rounded-lg border ${
+                          isActive
+                            ? 'bg-code-green/10 border-code-green/20 text-code-green'
+                            : 'bg-white/5 border-white/5 text-white/30 group-hover:text-white/55 transition-colors'
+                        }`}>
+                          {s.step}
+                        </div>
+                        <div>
+                          <h4 className={`text-sm font-rubik font-bold uppercase tracking-wide leading-tight mb-1.5 transition-colors ${
+                            isActive ? 'text-white font-black' : 'text-white/50 group-hover:text-white/70 font-black'
+                          }`}>
+                            {s.label}
+                          </h4>
+                          <p className="text-[11px] leading-normal text-white/35 font-medium">
+                            {s.desc}
+                          </p>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
-                
-                <span className="text-[10px] font-mono tracking-[0.2em] text-white/20 uppercase">
-                  SIMULATION DECK // STEP_{activeSimStep + 1}
-                </span>
-                
-                <div className="w-16" /> {/* spacer */}
+
+                <div className="flex items-center justify-between px-5 py-3 bg-white/5 border border-white/5 rounded-2xl text-[9px] font-mono text-white/30 uppercase tracking-widest leading-none">
+                  <div className="flex items-center gap-2">
+                    <span className={`w-1.5 h-1.5 rounded-full ${isAutoPlaying ? 'bg-code-green animate-pulse' : 'bg-white/20'}`} />
+                    <span>{isAutoPlaying ? 'Auto-Advancing demo' : 'Manual Exploration'}</span>
+                  </div>
+                  {isAutoPlaying && (
+                    <button onClick={() => setIsAutoPlaying(false)} className="text-white/50 hover:text-code-green cursor-pointer">
+                      Pause
+                    </button>
+                  )}
+                  {!isAutoPlaying && (
+                    <button onClick={() => setIsAutoPlaying(true)} className="text-white/55 hover:text-code-green cursor-pointer">
+                      AutoPlay
+                    </button>
+                  )}
+                </div>
               </div>
 
-              {/* Custom Visual Output Container */}
-              <div className="flex-1 relative z-10 flex flex-col justify-between">
-                {renderSimVisual()}
-              </div>
+              <div className="lg:col-span-8 bg-[#0c0e12] border border-white/5 rounded-[40px] flex flex-col overflow-hidden relative shadow-[0_25px_60px_rgba(0,0,0,0.7)] hover:border-white/10 transition-all duration-500 group min-h-[440px] md:min-h-[460px]">
+                <div className="h-12 border-b border-white/5 bg-[#0a0c10] px-6 flex items-center justify-between shrink-0">
+                  <div className="flex gap-2">
+                    <div className="w-3.5 h-3.5 rounded-full bg-red-500/20 group-hover:bg-red-500/80 transition-colors" />
+                    <div className="w-3.5 h-3.5 rounded-full bg-yellow-500/20 group-hover:bg-yellow-500/80 transition-colors" />
+                    <div className="w-3.5 h-3.5 rounded-full bg-green-500/20 group-hover:bg-green-500/80 transition-colors" />
+                  </div>
+                  
+                  <span className="text-[10px] font-mono tracking-[0.2em] text-white/20 uppercase">
+                    SIMULATION DECK // STEP_{activeSimStep + 1}
+                  </span>
+                  
+                  <div className="w-16" />
+                </div>
 
-              {/* Background grid scanlines */}
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[size:100%_4px,3px_100%] pointer-events-none opacity-40" />
+                <div className="flex-1 relative z-10 flex flex-col justify-between">
+                  {renderSimVisual()}
+                </div>
+
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[size:100%_4px,3px_100%] pointer-events-none opacity-40" />
+              </div>
             </div>
-          </div>
+          )}
         </section>
 
         {/* ── Feature Story Sections ───────────────────────── */}
