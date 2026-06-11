@@ -48,18 +48,32 @@ import PlacementAccelerator from '@/pages/PlacementAccelerator';
 import { JobApplicationForm } from '@/pages/JobApplicationForm';
 import { AdminApplicationsPage } from '@/pages/AdminApplicationsPage';
 
-const PageTransition = ({ children, pageKey }: { children: React.ReactNode, pageKey: string }) => (
-  <motion.div
-    key={pageKey}
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -20 }}
-    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-    className="w-full h-full"
-  >
-    {children}
-  </motion.div>
-);
+const PageTransition = ({ children, pageKey }: { children: React.ReactNode, pageKey: string }) => {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return (
+    <motion.div
+      key={pageKey}
+      initial={isMobile ? { x: '100%', opacity: 0.9 } : { opacity: 0, y: 20 }}
+      animate={isMobile ? { x: 0, opacity: 1 } : { opacity: 1, y: 0 }}
+      exit={isMobile ? { x: '-20%', opacity: 0.6 } : { opacity: 0, y: -20 }}
+      transition={{ 
+        duration: isMobile ? 0.35 : 0.4, 
+        ease: isMobile ? [0.32, 0.94, 0.6, 1] : [0.22, 1, 0.36, 1] 
+      }}
+      className="w-full h-full"
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'community' | 'placement-accelerator' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | 'offer-analyzer' | 'job-apply' | 'admin-applications' | '404';
 
@@ -448,21 +462,25 @@ export default function App() {
           {/* Workspace Pages wrapped in MainLayout */}
           {isWorkspacePage && (
             <PageTransition pageKey="workspace">
-              <div className="flex h-screen overflow-hidden bg-[#0a0c10] relative">
+              <div className="flex h-[100dvh] overflow-hidden bg-[#0a0c10] relative">
                 <Sidebar 
                   active={getSidebarActiveId(currentPage)} 
                   onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
                   lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
                 />
-                <main className="flex-1 h-full overflow-y-auto overflow-x-hidden custom-scrollbar pb-24 md:pb-0 pt-16 md:pt-0">
+                <main className="flex-1 h-full overflow-y-auto overflow-x-hidden custom-scrollbar pb-32 md:pb-0 pt-16 md:pt-0">
                   <MobileHeader 
                     user={user || undefined}
                     onLogout={() => {
                       useAuthStore.getState().logout();
                       handleNavigate('landing');
                     }}
+                    currentPage={currentPage}
+                    onNavigate={handleNavigate}
                   />
-                  <GlobalBreadcrumb />
+                  <div className="hidden md:block">
+                    <GlobalBreadcrumb />
+                  </div>
                   {(currentPage === 'dashboard' || currentPage === 'resume' || currentPage === 'settings' || currentPage === 'assessment') && <Dashboard />}
                   {currentPage === 'jobs' && <JobsPage />}
                   {currentPage === 'companies' && <CompaniesPage />}

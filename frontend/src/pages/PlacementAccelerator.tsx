@@ -32,8 +32,8 @@ const PlacementAccelerator = () => {
 
     useEffect(() => {
         // Pre-fill resume text if user has a parsed resume in their profile
-        if (user?.parsedResume?.text) {
-            setResumeText(user.parsedResume.text);
+        if (user?.resumeText) {
+            setResumeText(user.resumeText);
         }
     }, [user]);
 
@@ -259,7 +259,7 @@ const PlacementAccelerator = () => {
                                             value={atsResult.match_score} 
                                             size={120} 
                                             strokeWidth={10} 
-                                            color={atsResult.match_score >= 70 ? '#10b981' : atsResult.match_score >= 40 ? '#f59e0b' : '#ef4444'} 
+                                            color={atsResult.match_score >= 70 ? 'green' : atsResult.match_score >= 40 ? 'blue' : 'red'} 
                                         />
                                         <span className="font-semibold text-lg text-muted-foreground">Match Score</span>
                                     </div>

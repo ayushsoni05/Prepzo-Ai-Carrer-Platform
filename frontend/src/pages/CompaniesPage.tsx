@@ -17,7 +17,9 @@ import {
   Award,
   ArrowUpRight,
   TrendingUp,
+  X,
 } from 'lucide-react';
+import { BottomSheet } from '@/components/ui/BottomSheet';
 import { GlassCard, GlassButton } from '@/components/ui/GlassCard';
 import { GridBeam } from '@/components/ui/background-grid-beam';
 import { useAuthStore } from '@/store/authStore';
@@ -40,6 +42,7 @@ export function CompaniesPage() {
   const [loading, setLoading] = useState(true);
   const [featuredCompanies, setFeaturedCompanies] = useState<Company[]>([]);
   const [industries, setIndustries] = useState<string[]>([]);
+  const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
   
   // Filters state
   const [selectedIndustry, setSelectedIndustry] = useState('');
@@ -177,7 +180,7 @@ export function CompaniesPage() {
                   className="w-full pl-14 pr-4 py-5 bg-transparent border-none text-gray-900 text-[15px] font-bold placeholder-white/20 focus:ring-0 transition-all font-rubik"
                 />
               </div>
-              <div className="md:w-64 relative border-l border-gray-200">
+              <div className="md:w-64 relative border-t md:border-t-0 md:border-l border-gray-200 py-2 md:py-0">
                 <select
                   value={selectedIndustry}
                   onChange={(e) => {
@@ -236,7 +239,7 @@ export function CompaniesPage() {
                     <FeaturedCompanyCard
                       key={company._id}
                       company={company}
-                      onClick={() => navigate(`/companies/${company.slug}`)}
+                      onClick={() => setSelectedCompany(company)}
                     />
                   ))}
                </div>
@@ -302,7 +305,7 @@ export function CompaniesPage() {
                   <CompanyCard
                     company={company}
                     onFollow={(e) => handleFollowCompany(company._id, e)}
-                    onClick={() => navigate(`/companies/${company.slug}`)}
+                    onClick={() => setSelectedCompany(company)}
                   />
                 </motion.div>
               ))}
@@ -346,6 +349,17 @@ export function CompaniesPage() {
           </button>
         </div>
       </div>
+
+      {/* Company Detail Modal/BottomSheet */}
+      <AnimatePresence>
+        {selectedCompany && (
+          <CompanyDetailModal
+            company={selectedCompany}
+            onClose={() => setSelectedCompany(null)}
+            onFollow={(e) => handleFollowCompany(selectedCompany._id, e)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -488,6 +502,127 @@ function CompanyCard({
           <Heart size={18} className={company.isFollowing ? 'fill-current' : ''} />
         </button>
       </div>
+    </div>
+  );
+}
+
+function CompanyDetailModal({
+  company,
+  onClose,
+  onFollow,
+}: {
+  company: Company;
+  onClose: () => void;
+  onFollow: (e: React.MouseEvent) => void;
+}) {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const detailContent = (
+    <div className="space-y-6 text-left pb-6 font-rubik text-gray-800 dark:text-gray-200">
+      {/* Header Info */}
+      <div className="flex gap-4 items-center">
+        <div className="w-20 h-20 bg-gray-50 border border-gray-200 rounded-2xl flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-2">
+          {company.logo ? (
+            <img src={company.logo} alt={company.name} className="w-full h-full object-contain rounded-lg" />
+          ) : (
+            <Building2 size={32} className="text-gray-400" />
+          )}
+        </div>
+        <div>
+          <h2 className="text-2xl font-black text-gray-900 tracking-tight leading-tight">{company.name}</h2>
+          <p className="text-[#057642] font-bold uppercase tracking-widest text-[12px] mt-1">{company.industry}</p>
+        </div>
+      </div>
+
+      {/* Stats Block */}
+      <div className="grid grid-cols-2 gap-3 bg-gray-50 rounded-2xl p-4 border border-gray-200">
+        <div>
+          <p className="text-[9px] font-black text-gray-400 uppercase">Headquarters</p>
+          <p className="text-gray-900 text-xs font-bold truncate">{company.headquarters?.city || 'Unknown'}</p>
+        </div>
+        <div>
+          <p className="text-[9px] font-black text-gray-400 uppercase">Company Size</p>
+          <p className="text-gray-900 text-xs font-bold truncate">{company.companySize || 'Unknown'}</p>
+        </div>
+        <div className="mt-2">
+          <p className="text-[9px] font-black text-gray-400 uppercase">Hiring Status</p>
+          <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider ${
+            company.hiringStatus === 'actively_hiring' ? 'text-[#057642] bg-[#057642]/10' : 'text-gray-400 bg-gray-100'
+          }`}>
+            {company.hiringStatus === 'actively_hiring' ? 'Actively Hiring' : 'Not Hiring'}
+          </span>
+        </div>
+        <div className="mt-2">
+          <p className="text-[9px] font-black text-gray-400 uppercase">Overall Rating</p>
+          <div className="flex items-center gap-1 text-yellow-600">
+            <Star className="w-3.5 h-3.5 fill-current" />
+            <span className="text-sm font-black">{company.ratings?.overall?.toFixed(1) || '4.8'}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Description */}
+      <section>
+        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#057642] mb-2">Company Overview</h4>
+        <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">{company.description}</p>
+      </section>
+
+      {/* Actions */}
+      <div className="flex gap-3 pt-4 border-t border-gray-200">
+        <button
+          onClick={onFollow}
+          className={`flex-[2] py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 border ${
+            company.isFollowing 
+              ? 'bg-[#057642] border-[#057642] text-white shadow-lg' 
+              : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+          }`}
+        >
+          <Heart size={16} className={company.isFollowing ? 'fill-current' : ''} />
+          {company.isFollowing ? 'Following' : 'Follow Node'}
+        </button>
+        <button
+          onClick={onClose}
+          className="flex-1 py-4 rounded-xl bg-gray-100 border border-gray-200 text-[11px] font-black uppercase tracking-widest text-gray-500 hover:bg-gray-200 transition-all"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <BottomSheet isOpen={true} onClose={onClose} title="Company Intel">
+        {detailContent}
+      </BottomSheet>
+    );
+  }
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-black/60 backdrop-blur-md">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        className="w-full max-w-xl max-h-[85vh] bg-white border border-gray-200 rounded-[40px] overflow-hidden flex flex-col shadow-2xl relative"
+      >
+        <div className="p-8 border-b border-gray-100 flex items-center justify-between">
+          <div>
+            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-gray-400 mb-1">COMPANY METADATA</p>
+            <h2 className="text-2xl font-rubik font-[900] text-gray-900 uppercase tracking-tighter">Company Details</h2>
+          </div>
+          <button onClick={onClose} className="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center hover:bg-gray-150 transition-all border border-gray-200">
+            <X className="w-5 h-5 text-gray-900" />
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+          {detailContent}
+        </div>
+      </motion.div>
     </div>
   );
 }

@@ -23,6 +23,7 @@ import {
   TrendingUp,
   BarChart3,
   Zap,
+  X,
 } from 'lucide-react';
 import { GlassButton } from '@/components/ui/GlassCard';
 import { CircularProgress } from '@/components/ui/CircularProgress';
@@ -32,6 +33,8 @@ import { useAppStore } from '@/store/appStore';
 import { applicationsApi, Application, ApplicationStatus } from '@/api/applications';
 import ThinkingLoader from '@/components/ui/loading';
 import toast from 'react-hot-toast';
+import { BottomSheet } from '@/components/ui/BottomSheet';
+
 
 // Status configurations
 const statusConfig: Record<ApplicationStatus, {
@@ -71,6 +74,20 @@ export function ApplicationsPage() {
   const [selectedStatus, setSelectedStatus] = useState<ApplicationStatus | ''>('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  // Mobile drawer state
+  const [selectedAppForSheet, setSelectedAppForSheet] = useState<Application | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -180,8 +197,8 @@ export function ApplicationsPage() {
       <div className="max-w-7xl mx-auto px-6 py-12 md:py-16 relative z-10">
         {/* Stats Overview - Premium Blocks */}
         {stats && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-            <div className="bg-[#0a0c10]/50 border border-white/5 p-10 rounded-[48px] backdrop-blur-xl group hover:border-[#00ff9d]/30 transition-all">
+          <div className="flex md:grid md:grid-cols-4 gap-6 mb-16 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory scrollbar-hide -mx-6 px-6 md:mx-0 md:px-0 pb-4 md:pb-0">
+            <div className="snap-center shrink-0 w-[85vw] md:w-auto bg-[#0a0c10]/50 border border-white/5 p-10 rounded-[48px] backdrop-blur-xl group hover:border-[#00ff9d]/30 transition-all">
               <p className="text-6xl font-rubik font-[900] text-white tracking-tighter mb-4 italic group-hover:scale-110 transition-transform origin-left">{stats.totalApplications}</p>
               <div className="flex items-center gap-3">
                  <div className="w-2 h-2 rounded-full bg-white/20" />
@@ -189,7 +206,7 @@ export function ApplicationsPage() {
               </div>
             </div>
             
-            <div className="bg-[#0a0c10]/50 border border-white/5 p-10 rounded-[48px] backdrop-blur-xl group hover:border-[#00ff9d]/30 transition-all">
+            <div className="snap-center shrink-0 w-[85vw] md:w-auto bg-[#0a0c10]/50 border border-white/5 p-10 rounded-[48px] backdrop-blur-xl group hover:border-[#00ff9d]/30 transition-all">
               <p className="text-6xl font-rubik font-[900] text-[#00ff9d] tracking-tighter mb-4 italic group-hover:scale-110 transition-transform origin-left">{stats.statusBreakdown['shortlisted'] || 0}</p>
               <div className="flex items-center gap-3">
                  <div className="w-2 h-2 rounded-full bg-[#00ff9d]" />
@@ -197,7 +214,7 @@ export function ApplicationsPage() {
               </div>
             </div>
             
-            <div className="bg-[#0a0c10]/50 border border-white/5 p-10 rounded-[48px] backdrop-blur-xl group hover:border-[#00ff9d]/30 transition-all">
+            <div className="snap-center shrink-0 w-[85vw] md:w-auto bg-[#0a0c10]/50 border border-white/5 p-10 rounded-[48px] backdrop-blur-xl group hover:border-[#00ff9d]/30 transition-all">
               <p className="text-6xl font-rubik font-[900] text-white tracking-tighter mb-4 italic group-hover:scale-110 transition-transform origin-left">{stats.statusBreakdown['interview_scheduled'] || 0}</p>
               <div className="flex items-center gap-3">
                  <div className="w-2 h-2 rounded-full bg-purple-500" />
@@ -205,7 +222,7 @@ export function ApplicationsPage() {
               </div>
             </div>
             
-            <div className="bg-[#00ff9d] p-10 rounded-[48px] group hover:scale-[1.02] transition-all shadow-2xl shadow-[#00ff9d]/20">
+            <div className="snap-center shrink-0 w-[85vw] md:w-auto bg-[#00ff9d] p-10 rounded-[48px] group hover:scale-[1.02] transition-all shadow-2xl shadow-[#00ff9d]/20">
               <p className="text-6xl font-rubik font-[900] text-[#0a0c10] tracking-tighter mb-4 italic">{stats.statusBreakdown['offer_extended'] || 0}</p>
               <div className="flex items-center gap-3">
                  <div className="w-2 h-2 rounded-full bg-[#0a0c10]" />
@@ -291,7 +308,7 @@ export function ApplicationsPage() {
                 >
                   <ApplicationCard
                     application={app}
-                    onView={() => navigate(`/applications/${app._id}`)}
+                    onView={() => setSelectedAppForSheet(app)}
                     onWithdraw={() => handleWithdraw(app._id)}
                   />
                 </motion.div>
@@ -323,6 +340,17 @@ export function ApplicationsPage() {
           </div>
         )}
       </div>
+
+      {/* Application Detail Modal/BottomSheet */}
+      <AnimatePresence>
+        {selectedAppForSheet && (
+          <ApplicationDetailModal
+            application={selectedAppForSheet}
+            onClose={() => setSelectedAppForSheet(null)}
+            onWithdraw={() => handleWithdraw(selectedAppForSheet._id)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -484,3 +512,176 @@ function ApplicationCard({
     </div>
   );
 }
+
+function ApplicationDetailModal({
+  application,
+  onClose,
+  onWithdraw,
+}: {
+  application: Application;
+  onClose: () => void;
+  onWithdraw: () => void;
+}) {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const config = statusConfig[application.status] || { label: application.status, icon: Clock, color: 'text-white/40', bgColor: 'bg-white/5' };
+  const StatusIcon = config.icon;
+
+  const canWithdraw = ['applied', 'viewed', 'under_review', 'shortlisted'].includes(
+    application.status
+  );
+
+  const detailContent = (
+    <div className="space-y-6 text-left pb-6 font-rubik">
+      {/* Header Info */}
+      <div className="flex gap-4 items-center">
+        <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 p-2">
+          {application.company?.logo ? (
+            <img src={application.company.logo} alt={application.company.name} className="w-full h-full object-contain rounded-lg" />
+          ) : (
+            <Building2 size={24} className="text-white/20" />
+          )}
+        </div>
+        <div>
+          <h2 className="text-xl font-black text-white tracking-tight leading-tight">{application.job?.title || 'Untitled Role'}</h2>
+          <p className="text-[#00ff9d] font-bold uppercase tracking-widest text-[12px] mt-1">{application.company?.name}</p>
+        </div>
+      </div>
+
+      {/* Quick Info Grid */}
+      <div className="grid grid-cols-2 gap-3 bg-white/5 rounded-2xl p-4 border border-white/5">
+        <div>
+          <p className="text-[9px] font-black text-white/20 uppercase">Location</p>
+          <p className="text-white text-xs font-bold truncate">{application.job?.locations?.[0]?.city || 'Remote'}</p>
+        </div>
+        <div>
+          <p className="text-[9px] font-black text-white/20 uppercase">Contract</p>
+          <p className="text-white text-xs font-bold capitalize truncate">{application.job?.jobType?.replace('_', ' ') || 'Full Time'}</p>
+        </div>
+        <div className="mt-2">
+          <p className="text-[9px] font-black text-white/20 uppercase">Compensation</p>
+          <p className="text-white text-xs font-bold truncate">
+            {application.job?.salary?.min ? `${(application.job.salary.min/1000).toFixed(0)}k` : ''} - {application.job?.salary?.max ? `${(application.job.salary.max/1000).toFixed(0)}k` : 'Competitive'}
+          </p>
+        </div>
+        <div className="mt-2">
+          <p className="text-[9px] font-black text-white/20 uppercase">AI Match</p>
+          <p className="text-[#00ff9d] text-sm font-black">{application.matchScore?.overall || 85}%</p>
+        </div>
+      </div>
+
+      {/* Timeline Section */}
+      {application.statusHistory && application.statusHistory.length > 0 && (
+        <section>
+          <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-4">Transmission Timeline</h4>
+          <div className="space-y-4 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-px before:bg-white/10">
+            {application.statusHistory.map((h: any, i: number) => {
+              const hConfig = statusConfig[h.status as ApplicationStatus] || { label: h.status, icon: Clock, color: 'text-white/40', bgColor: 'bg-white/5' };
+              const HIcon = hConfig.icon;
+              return (
+                <div key={i} className="relative pl-8">
+                  <div className="absolute left-0 top-0.5 w-6 h-6 rounded-full bg-[#0a0c10] border border-white/10 flex items-center justify-center text-white/40">
+                    <HIcon size={12} className={hConfig.color} />
+                  </div>
+                  <div>
+                    <h5 className={`font-bold text-xs uppercase tracking-wide ${hConfig.color}`}>{hConfig.label}</h5>
+                    <p className="text-[10px] text-white/30 font-semibold uppercase tracking-widest mt-0.5">{new Date(h.changedAt).toLocaleString()}</p>
+                    {h.note && <p className="text-white/50 text-xs mt-1 italic">" {h.note} "</p>}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* Interviews Section */}
+      {application.interviews && application.interviews.length > 0 && (
+        <section>
+          <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-3">Interview Schedule</h4>
+          <div className="space-y-3">
+            {application.interviews.map((item: any, i: number) => (
+              <div key={i} className="bg-white/5 border border-white/5 rounded-xl p-4 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-white uppercase tracking-wider">{item.round}</span>
+                  <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded ${
+                    item.status === 'scheduled' ? 'text-purple-400 bg-purple-500/10' :
+                    item.status === 'completed' ? 'text-[#00ff9d] bg-[#00ff9d]/10' : 'text-red-400 bg-red-400/10'
+                  }`}>{item.status}</span>
+                </div>
+                <p className="text-[11px] text-white/40 font-semibold uppercase tracking-widest">
+                  {new Date(item.date).toLocaleString()}
+                </p>
+                {item.notes && <p className="text-xs text-white/60 italic mt-1">"{item.notes}"</p>}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Job Description (Brief) */}
+      <section>
+        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-2">Job Description Summary</h4>
+        <p className="text-white/60 text-xs leading-relaxed line-clamp-4">{application.job?.description}</p>
+      </section>
+
+      {/* Actions */}
+      <div className="flex gap-3 pt-4 border-t border-white/5">
+        {canWithdraw && (
+          <button
+            onClick={() => {
+              onWithdraw();
+              onClose();
+            }}
+            className="flex-1 py-4 rounded-xl bg-red-500/10 border border-red-500/20 text-[11px] font-black uppercase tracking-widest text-red-400 hover:bg-red-500/20 transition-all"
+          >
+            Withdraw Application
+          </button>
+        )}
+        <button
+          onClick={onClose}
+          className="flex-1 py-4 rounded-xl bg-white/5 border border-white/5 text-[11px] font-black uppercase tracking-widest text-white/40 hover:bg-white/10 transition-all"
+        >
+          Close Detail
+        </button>
+      </div>
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <BottomSheet isOpen={true} onClose={onClose} title="Application Detail">
+        {detailContent}
+      </BottomSheet>
+    );
+  }
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-[#0a0c10]/80 backdrop-blur-md">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        className="w-full max-w-xl max-h-[85vh] bg-[#0c0f14] border border-white/10 rounded-[40px] overflow-hidden flex flex-col shadow-2xl relative"
+      >
+        <div className="p-8 border-b border-white/5 flex items-center justify-between">
+          <div>
+            <p className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 mb-1">TRANSMISSION METADATA</p>
+            <h2 className="text-2xl font-rubik font-[900] text-white uppercase tracking-tighter">Application Details</h2>
+          </div>
+          <button onClick={onClose} className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-white/10 transition-all border border-white/5">
+            <X className="w-5 h-5 text-white" />
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+          {detailContent}
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+

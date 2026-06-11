@@ -31,6 +31,7 @@ import { useAppStore } from '@/store/appStore';
 import { jobsApi, Job, JobSearchParams, JobFilters } from '@/api/jobs';
 import { applicationsApi, Application } from '@/api/applications';
 import ThinkingLoader from '@/components/ui/loading';
+import { BottomSheet } from '@/components/ui/BottomSheet';
 import toast from 'react-hot-toast';
 import { navigateTo } from '@/utils/navigation';
 
@@ -592,6 +593,13 @@ function JobDetailModal({
   const [loading, setLoading] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
   const [isApplying, setIsApplying] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchJob = async () => {
@@ -633,6 +641,160 @@ function JobDetailModal({
       <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0a0c10]/80 backdrop-blur-md">
         <ThinkingLoader loadingText="Retrieving Node Metadata" />
       </div>
+    );
+  }
+
+  if (isMobile) {
+    return (
+      <BottomSheet isOpen={true} onClose={onClose} title={job.title}>
+        <div className="space-y-8 text-left pb-6">
+          {/* Header Area */}
+          <div className="flex gap-4 items-center">
+            <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+              {job?.company?.logo ? (
+                <img src={job.company.logo} alt={job.company.name} className="w-10 h-10 object-contain" />
+              ) : (
+                <Building2 size={24} className="text-white/20" />
+              )}
+            </div>
+            <div>
+              <h2 className="text-xl font-black text-white tracking-tight leading-tight">{job.title}</h2>
+              <p className="text-[#00ff9d] font-bold uppercase tracking-widest text-[12px]">{job?.company?.name}</p>
+            </div>
+          </div>
+
+          {/* Quick Node Data */}
+          <div className="grid grid-cols-2 gap-3 bg-white/5 rounded-2xl p-4 border border-white/5">
+            <div>
+              <p className="text-[9px] font-black text-white/20 uppercase">Location</p>
+              <p className="text-white text-xs font-bold truncate">{job.locations?.[0]?.city || 'Remote'}</p>
+            </div>
+            <div>
+              <p className="text-[9px] font-black text-white/20 uppercase">Contract</p>
+              <p className="text-white text-xs font-bold capitalize truncate">{job.jobType.replace('_', ' ')}</p>
+            </div>
+            <div className="mt-2">
+              <p className="text-[9px] font-black text-white/20 uppercase">Compensation</p>
+              <p className="text-white text-xs font-bold truncate">
+                {job.salary?.min ? `${(job.salary.min/1000).toFixed(0)}k` : ''} - {job.salary?.max ? `${(job.salary.max/1000).toFixed(0)}k` : 'Competitive'}
+              </p>
+            </div>
+            <div className="mt-2">
+              <p className="text-[9px] font-black text-white/20 uppercase">AI Match</p>
+              <p className="text-[#00ff9d] text-sm font-black">{matchScore}%</p>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-3">
+            <button 
+              onClick={handleApply}
+              className="flex-1 py-4 rounded-2xl bg-[#00ff9d] text-[#0a0c10] font-black uppercase tracking-widest text-xs active:scale-[0.98] transition-all"
+            >
+              Apply Now
+            </button>
+            <button 
+              onClick={handleSave}
+              className="p-4 rounded-2xl bg-white/5 border border-white/5 text-white active:bg-white/10 transition-all flex items-center justify-center"
+            >
+              {isSaved ? <BookmarkCheck size={18} className="text-[#00ff9d]" /> : <Bookmark size={18} />}
+            </button>
+          </div>
+
+          <hr className="border-white/5" />
+
+          {/* Details */}
+          <section>
+            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-2">Briefing</h4>
+            <p className="text-white/60 text-sm leading-relaxed whitespace-pre-line">{job.description}</p>
+          </section>
+
+          {job.responsibilities && job.responsibilities.length > 0 && (
+            <section>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-2">Core Objectives</h4>
+              <ul className="space-y-3">
+                {job.responsibilities.map((res: string, i: number) => (
+                  <li key={i} className="flex gap-3 text-white/60 text-sm font-medium">
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#00ff9d]/40 mt-1.5 shrink-0" />
+                    <span>{res}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          <section>
+            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-2">Required Vectors</h4>
+            <div className="flex flex-wrap gap-2">
+              {job.requiredSkills.map((s: any, i: number) => (
+                <span key={i} className="px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-white/60 text-xs font-bold">
+                  {typeof s === 'string' ? s : s.skill}
+                </span>
+              ))}
+            </div>
+          </section>
+
+          {job.preferredSkills && job.preferredSkills.length > 0 && (
+            <section>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-2">Preferred Skills</h4>
+              <div className="flex flex-wrap gap-2">
+                {job.preferredSkills.map((skill: string, i: number) => (
+                  <span key={i} className="px-3 py-1.5 rounded-lg bg-[#00ff9d]/5 border border-[#00ff9d]/20 text-[#00ff9d]/80 text-xs font-bold">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {job.educationRequired && (job.educationRequired.degree !== 'Any' || job.educationRequired.fields?.length > 0) && (
+            <section>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-2">Education</h4>
+              <p className="text-white/60 text-sm">
+                Degree: <span className="text-white font-bold">{job.educationRequired.degree}</span>
+                {job.educationRequired.fields && job.educationRequired.fields.length > 0 && (
+                  <> in <span className="text-white font-bold">{job.educationRequired.fields.join(', ')}</span></>
+                )}
+                {job.educationRequired.minCGPA && (
+                  <> (Min CGPA: <span className="text-[#00ff9d] font-bold">{job.educationRequired.minCGPA}</span>)</>
+                )}
+              </p>
+            </section>
+          )}
+
+          {job.hiringProcess && job.hiringProcess.length > 0 && (
+            <section>
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-2">Hiring Process</h4>
+              <div className="space-y-3">
+                {job.hiringProcess.sort((a: any, b: any) => a.order - b.order).map((stage: any, i: number) => (
+                  <div key={i} className="flex gap-3 items-start">
+                    <div className="w-5 h-5 rounded-full bg-[#00ff9d]/20 text-[#00ff9d] flex items-center justify-center font-black text-[9px] shrink-0 mt-0.5">
+                      {stage.order || (i + 1)}
+                    </div>
+                    <div>
+                      <h5 className="font-bold text-white uppercase text-xs tracking-wide">{stage.stage}</h5>
+                      <p className="text-white/40 text-xs">{stage.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {((job.benefits && job.benefits.length > 0) || (job.perks && job.perks.length > 0)) && (
+            <section className="pb-6">
+              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-2">Benefits & Perks</h4>
+              <div className="flex flex-wrap gap-2">
+                {[...(job.benefits || []), ...(job.perks || [])].map((benefit: string, i: number) => (
+                  <span key={i} className="px-3 py-1.5 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-bold">
+                    {benefit}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      </BottomSheet>
     );
   }
 
@@ -989,6 +1151,138 @@ function FiltersModal({
   onApply: (filters: Record<string, unknown>) => void;
 }) {
   const [localFilters, setLocalFilters] = useState(selectedFilters);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const filterContent = (
+    <div className="space-y-8 text-left pb-6">
+      {/* Experience Level */}
+      <div>
+        <label className="block text-[11px] font-black uppercase tracking-[0.2em] text-white/30 mb-4">
+          Experience Vector
+        </label>
+        <div className="grid grid-cols-2 gap-3">
+          {['fresher', 'entry', 'mid', 'senior', 'lead'].map((level) => (
+            <button
+              key={level}
+              onClick={() => setLocalFilters({ ...localFilters, experienceLevel: level })}
+              className={`px-4 py-3.5 rounded-2xl border text-[13px] font-bold uppercase tracking-tight transition-all ${
+                localFilters.experienceLevel === level
+                  ? 'bg-[#00ff9d]/10 border-[#00ff9d] text-[#00ff9d]'
+                  : 'bg-white/5 border-white/5 text-white/40 hover:border-white/10'
+              }`}
+            >
+              {level}
+            </button>
+          ))}
+          <button
+            onClick={() => {
+              const nf = { ...localFilters };
+              delete nf.experienceLevel;
+              setLocalFilters(nf);
+            }}
+            className={`px-4 py-3.5 rounded-2xl border text-[13px] font-bold uppercase tracking-tight transition-all ${
+              !localFilters.experienceLevel
+                ? 'bg-white/20 border-white/40 text-white'
+                : 'bg-white/5 border-white/5 text-white/40'
+            }`}
+          >
+            All Levels
+          </button>
+        </div>
+      </div>
+
+      {/* Work Mode */}
+      <div>
+        <label className="block text-[11px] font-black uppercase tracking-[0.2em] text-white/30 mb-4">
+          Operational Mode
+        </label>
+        <div className="flex gap-4">
+          {['onsite', 'remote', 'hybrid'].map((mode) => (
+            <button
+              key={mode}
+              onClick={() => setLocalFilters({ ...localFilters, workMode: mode })}
+              className={`flex-1 px-4 py-3.5 rounded-2xl border text-[13px] font-bold uppercase tracking-tight transition-all ${
+                localFilters.workMode === mode
+                  ? 'bg-[#00ff9d]/10 border-[#00ff9d] text-[#00ff9d]'
+                  : 'bg-white/5 border-white/5 text-white/40'
+              }`}
+            >
+              {mode}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Salary Vector */}
+      <div>
+        <label className="block text-[11px] font-black uppercase tracking-[0.2em] text-white/30 mb-4">
+          Comp Range (Annual)
+        </label>
+        <div className="flex gap-4">
+          <div className="flex-1 relative">
+            <span className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 font-bold">$</span>
+            <input
+              type="number"
+              placeholder="Min"
+              value={localFilters.salaryMin as number || ''}
+              onChange={(e) =>
+                setLocalFilters({
+                  ...localFilters,
+                  salaryMin: e.target.value ? parseInt(e.target.value) : undefined,
+                })
+              }
+              className="w-full pl-12 pr-6 py-4 bg-white/5 border border-white/5 rounded-2xl text-white font-bold placeholder-white/10 focus:border-[#00ff9d]/30 focus:ring-0 transition-all font-rubik"
+            />
+          </div>
+          <div className="flex-1 relative">
+            <span className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 font-bold">$</span>
+            <input
+              type="number"
+              placeholder="Max"
+              value={localFilters.salaryMax as number || ''}
+              onChange={(e) =>
+                setLocalFilters({
+                  ...localFilters,
+                  salaryMax: e.target.value ? parseInt(e.target.value) : undefined,
+                })
+              }
+              className="w-full pl-12 pr-6 py-4 bg-white/5 border border-white/5 rounded-2xl text-white font-bold placeholder-white/10 focus:border-[#00ff9d]/30 focus:ring-0 transition-all font-rubik"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Actions */}
+      <div className="flex gap-3 pt-4 border-t border-white/5">
+        <button
+          onClick={() => setLocalFilters({})}
+          className="flex-1 py-4 rounded-2xl bg-white/5 border border-white/5 text-[12px] font-black uppercase tracking-widest text-white/40 hover:bg-white/10 transition-all"
+        >
+          Purge Filters
+        </button>
+        <button
+          onClick={() => onApply(localFilters)}
+          className="flex-[2] py-4 rounded-2xl bg-[#00ff9d] text-[#0a0c10] text-[12px] font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#00ff9d]/20"
+        >
+          Apply Signal
+        </button>
+      </div>
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <BottomSheet isOpen={true} onClose={onClose} title="Refine Grid">
+        {filterContent}
+      </BottomSheet>
+    );
+  }
 
   return (
     <motion.div

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, Star, Flame, Mail, ChevronRight, X, Building2, BrainCircuit, Zap, CheckCircle2, Bot, Calendar } from 'lucide-react';
+import { Search, Filter, Star, Flame, Mail, ChevronRight, X, Building2, BrainCircuit, Zap, CheckCircle2, Bot, Calendar, Trophy } from 'lucide-react';
 import api from '../api/axios';
 import { getFileUrl } from '@/utils/fileUrl';
 

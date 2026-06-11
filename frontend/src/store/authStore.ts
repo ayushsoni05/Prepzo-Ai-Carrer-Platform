@@ -61,7 +61,6 @@ export interface User {
   skillGaps: string[];
   strengths: string[];
   weaknesses: string[];
-  cgpa?: string;
   placementTimeline?: string;
   expectedCtc?: string;
   preferredCompanies?: string[];

@@ -124,16 +124,6 @@ export const NoteDetail: React.FC = () => {
         >
           <ArrowLeft size={14} /> Back to Library
         </button>
-
-        <button 
-          onClick={() => {
-            setCurrentPage('notes');
-            navigateTo('notes');
-          }}
-          className="inline-flex items-center gap-2 text-[10px] font-black text-white/40 uppercase tracking-widest italic hover:text-blue-400 transition-colors cursor-pointer bg-transparent border-none"
-        >
-          <ArrowLeft size={14} /> Back to Library
-        </button>
       </div>
 
       {/* Header Info */}

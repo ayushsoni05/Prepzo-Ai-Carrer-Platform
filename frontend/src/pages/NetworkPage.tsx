@@ -34,6 +34,7 @@ import { useAppStore } from '@/store/appStore';
 import { networkApi, Post, Connection, ConnectionSuggestion, UserSummary } from '@/api/network';
 import ThinkingLoader from '@/components/ui/loading';
 import toast from 'react-hot-toast';
+import { BottomSheet } from '@/components/ui/BottomSheet';
 
 export function NetworkPage() {
   const navigate = useNavigate();
@@ -66,6 +67,14 @@ export function NetworkPage() {
   // Pagination
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+
+  // Mobile viewport detection
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -281,6 +290,186 @@ export function NetworkPage() {
     }
   };
 
+  // Extracted suggestions element
+  const suggestionsElement = suggestions.length > 0 ? (
+    <GlassCard className="p-4">
+      <div className="flex items-center gap-2 mb-4">
+        <Sparkles className="w-5 h-5 text-green-600" />
+        <h3 className="font-semibold text-gray-900">People You May Know</h3>
+      </div>
+      <div className="space-y-3">
+        {suggestions.map((suggestion) => (
+          <div
+            key={suggestion.user._id}
+            className="flex items-center gap-3 p-2 bg-white border-gray-200 rounded-lg"
+          >
+            <div className="w-10 h-10 bg-green-600/30 rounded-full flex items-center justify-center">
+              {suggestion.user.profileImage ? (
+                <img
+                  src={suggestion.user.profileImage}
+                  alt={suggestion.user.fullName}
+                  className="w-full h-full rounded-full object-cover"
+                />
+              ) : (
+                <span className="text-gray-900">
+                  {suggestion.user.fullName.charAt(0)}
+                </span>
+              )}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-medium text-gray-900 text-sm truncate">
+                {suggestion.user.fullName}
+              </p>
+              <p className="text-green-600 text-xs truncate">
+                {suggestion.reason}
+              </p>
+            </div>
+            <button
+              onClick={() => handleSendRequest(suggestion.user._id)}
+              className="p-1 hover:bg-gray-50 rounded text-green-600"
+            >
+              <UserPlus className="w-4 h-4" />
+            </button>
+          </div>
+        ))}
+      </div>
+    </GlassCard>
+  ) : null;
+
+  // Extracted trending hashtags element
+  const trendingElement = trendingHashtags.length > 0 ? (
+    <GlassCard className="p-4">
+      <div className="flex items-center gap-2 mb-4">
+        <TrendingUp className="w-5 h-5 text-green-400" />
+        <h3 className="font-semibold text-gray-900">Trending</h3>
+      </div>
+      <div className="space-y-2">
+        {trendingHashtags.slice(0, 5).map((tag) => (
+          <button
+            key={tag.hashtag}
+            onClick={() => navigate(`/network/hashtag/${tag.hashtag}`)}
+            className="flex items-center justify-between w-full p-2 hover:bg-white border-gray-200 rounded-lg transition-colors"
+          >
+            <div className="flex items-center gap-2">
+              <Hash className="w-4 h-4 text-green-600" />
+              <span className="text-green-500 text-sm">{tag.hashtag}</span>
+            </div>
+            <span className="text-green-600 text-xs">{tag.count} posts</span>
+          </button>
+        ))}
+      </div>
+    </GlassCard>
+  ) : null;
+
+  // Extracted desktop author header
+  const desktopAuthorHeader = (
+    <>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold text-gray-900">Create Post</h2>
+        <button
+          onClick={() => setShowCreatePost(false)}
+          className="p-2 hover:bg-gray-50 rounded-lg"
+        >
+          <X className="w-5 h-5 text-green-600" />
+        </button>
+      </div>
+
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-12 h-12 bg-green-600/30 rounded-full flex items-center justify-center">
+          <span className="text-gray-900">{user?.fullName?.charAt(0)}</span>
+        </div>
+        <div>
+          <p className="font-medium text-gray-900">{user?.fullName}</p>
+          <button className="flex items-center gap-1 text-green-600 text-sm">
+            {postVisibility === 'public' ? (
+              <Globe className="w-3 h-3" />
+            ) : (
+              <Users className="w-3 h-3" />
+            )}
+            {postVisibility === 'public' ? 'Public' : 'Connections'}
+            <ChevronDown className="w-3 h-3" />
+          </button>
+        </div>
+      </div>
+    </>
+  );
+
+  // Extracted create post form content
+  const createPostForm = (
+    <div className="space-y-4">
+      {isMobile && (
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 bg-green-600/30 rounded-full flex items-center justify-center">
+            <span className="text-gray-900">{user?.fullName?.charAt(0)}</span>
+          </div>
+          <div>
+            <p className="font-medium text-gray-900">{user?.fullName}</p>
+            <button className="flex items-center gap-1 text-green-600 text-sm">
+              {postVisibility === 'public' ? (
+                <Globe className="w-3 h-3" />
+              ) : (
+                <Users className="w-3 h-3" />
+              )}
+              {postVisibility === 'public' ? 'Public' : 'Connections'}
+              <ChevronDown className="w-3 h-3" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      <textarea
+        value={newPostContent}
+        onChange={(e) => setNewPostContent(e.target.value)}
+        placeholder="What would you like to share?"
+        className="w-full h-40 bg-transparent border-none text-gray-900 placeholder-gray-400 resize-none focus:outline-none"
+        autoFocus
+      />
+
+      <div className="flex gap-4 mb-4">
+        <button
+          onClick={() => setPostVisibility('connections')}
+          className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${
+            postVisibility === 'connections'
+              ? 'bg-[#057642] text-white'
+              : 'bg-white border border-gray-200 text-gray-600'
+          }`}
+        >
+          <Users className="w-4 h-4" />
+          Connections
+        </button>
+        <button
+          onClick={() => setPostVisibility('public')}
+          className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${
+            postVisibility === 'public'
+              ? 'bg-[#057642] text-white'
+              : 'bg-white border border-gray-200 text-gray-600'
+          }`}
+        >
+          <Globe className="w-4 h-4" />
+          Public
+        </button>
+      </div>
+
+      <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+        <div className="flex gap-2">
+          <button className="p-2 hover:bg-gray-50 rounded-lg">
+            <Image className="w-5 h-5 text-blue-500" />
+          </button>
+          <button className="p-2 hover:bg-gray-50 rounded-lg">
+            <Video className="w-5 h-5 text-green-600" />
+          </button>
+        </div>
+        <GlassButton
+          onClick={handleCreatePost}
+          disabled={posting || !newPostContent.trim()}
+          className="bg-[#057642] text-white hover:bg-[#057642]/90 disabled:opacity-50"
+        >
+          {posting ? 'Posting...' : 'Post'}
+        </GlassButton>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-[#f3f2ef] selection:bg-[#057642] selection:text-gray-900 overflow-x-hidden relative">
       {/* Background Effect */}
@@ -357,75 +546,10 @@ export function NetworkPage() {
             </div>
 
             {/* Suggestions */}
-            {suggestions.length > 0 && (
-              <GlassCard className="p-4">
-                <div className="flex items-center gap-2 mb-4">
-                  <Sparkles className="w-5 h-5 text-green-600" />
-                  <h3 className="font-semibold text-gray-900">People You May Know</h3>
-                </div>
-                <div className="space-y-3">
-                  {suggestions.map((suggestion) => (
-                    <div
-                      key={suggestion.user._id}
-                      className="flex items-center gap-3 p-2 bg-white border-gray-200 rounded-lg"
-                    >
-                      <div className="w-10 h-10 bg-green-600/30 rounded-full flex items-center justify-center">
-                        {suggestion.user.profileImage ? (
-                          <img
-                            src={suggestion.user.profileImage}
-                            alt={suggestion.user.fullName}
-                            className="w-full h-full rounded-full object-cover"
-                          />
-                        ) : (
-                          <span className="text-gray-900">
-                            {suggestion.user.fullName.charAt(0)}
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-gray-900 text-sm truncate">
-                          {suggestion.user.fullName}
-                        </p>
-                        <p className="text-green-600 text-xs truncate">
-                          {suggestion.reason}
-                        </p>
-                      </div>
-                      <button
-                        onClick={() => handleSendRequest(suggestion.user._id)}
-                        className="p-1 hover:bg-gray-50 rounded text-green-600"
-                      >
-                        <UserPlus className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </GlassCard>
-            )}
+            {suggestionsElement}
 
             {/* Trending Hashtags */}
-            {trendingHashtags.length > 0 && (
-              <GlassCard className="p-4">
-                <div className="flex items-center gap-2 mb-4">
-                  <TrendingUp className="w-5 h-5 text-green-400" />
-                  <h3 className="font-semibold text-gray-900">Trending</h3>
-                </div>
-                <div className="space-y-2">
-                  {trendingHashtags.slice(0, 5).map((tag) => (
-                    <button
-                      key={tag.hashtag}
-                      onClick={() => navigate(`/network/hashtag/${tag.hashtag}`)}
-                      className="flex items-center justify-between w-full p-2 hover:bg-white border-gray-200 rounded-lg transition-colors"
-                    >
-                      <div className="flex items-center gap-2">
-                        <Hash className="w-4 h-4 text-green-600" />
-                        <span className="text-green-500 text-sm">{tag.hashtag}</span>
-                      </div>
-                      <span className="text-green-600 text-xs">{tag.count} posts</span>
-                    </button>
-                  ))}
-                </div>
-              </GlassCard>
-            )}
+            {trendingElement}
           </div>
 
           {/* Main Content */}
@@ -503,6 +627,14 @@ export function NetworkPage() {
                     }}>
                       Load More
                     </GlassButton>
+                  </div>
+                )}
+
+                {/* Suggestions and trending on mobile below feed list */}
+                {isMobile && (
+                  <div className="space-y-6 mt-8 pt-8 border-t border-gray-200">
+                    {suggestionsElement}
+                    {trendingElement}
                   </div>
                 )}
               </div>
@@ -642,109 +774,35 @@ export function NetworkPage() {
         </div>
       </div>
 
-      {/* Create Post Modal */}
+      {/* Create Post Modal / BottomSheet */}
       <AnimatePresence>
         {showCreatePost && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-            onClick={() => setShowCreatePost(false)}
-          >
+          isMobile ? (
+            <BottomSheet isOpen={showCreatePost} onClose={() => setShowCreatePost(false)} title="Create Post" theme="light">
+              {createPostForm}
+            </BottomSheet>
+          ) : (
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-              className="bg-white/95 border border-green-600/30 rounded-2xl w-full max-w-lg"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              onClick={() => setShowCreatePost(false)}
             >
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-semibold text-gray-900">Create Post</h2>
-                  <button
-                    onClick={() => setShowCreatePost(false)}
-                    className="p-2 hover:bg-gray-50 rounded-lg"
-                  >
-                    <X className="w-5 h-5 text-green-600" />
-                  </button>
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+                className="bg-white/95 border border-green-600/30 rounded-2xl w-full max-w-lg"
+              >
+                <div className="p-6">
+                  {desktopAuthorHeader}
+                  {createPostForm}
                 </div>
-
-                {/* Author */}
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-green-600/30 rounded-full flex items-center justify-center">
-                    <span className="text-gray-900">{user?.fullName?.charAt(0)}</span>
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">{user?.fullName}</p>
-                    <button className="flex items-center gap-1 text-green-600 text-sm">
-                      {postVisibility === 'public' ? (
-                        <Globe className="w-3 h-3" />
-                      ) : (
-                        <Users className="w-3 h-3" />
-                      )}
-                      {postVisibility === 'public' ? 'Public' : 'Connections'}
-                      <ChevronDown className="w-3 h-3" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <textarea
-                  value={newPostContent}
-                  onChange={(e) => setNewPostContent(e.target.value)}
-                  placeholder="What would you like to share?"
-                  className="w-full h-40 bg-transparent border-none text-gray-900 placeholder-gray-400 resize-none focus:outline-none"
-                  autoFocus
-                />
-
-                {/* Visibility Toggle */}
-                <div className="flex gap-4 mb-4">
-                  <button
-                    onClick={() => setPostVisibility('connections')}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${
-                      postVisibility === 'connections'
-                        ? 'bg-green-600 text-white'
-                        : 'bg-white border-gray-200 text-gray-600'
-                    }`}
-                  >
-                    <Users className="w-4 h-4" />
-                    Connections
-                  </button>
-                  <button
-                    onClick={() => setPostVisibility('public')}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${
-                      postVisibility === 'public'
-                        ? 'bg-green-600 text-white'
-                        : 'bg-white border-gray-200 text-gray-600'
-                    }`}
-                  >
-                    <Globe className="w-4 h-4" />
-                    Public
-                  </button>
-                </div>
-
-                {/* Actions */}
-                <div className="flex items-center justify-between pt-4 border-t border-gray-300">
-                  <div className="flex gap-2">
-                    <button className="p-2 hover:bg-gray-50 rounded-lg">
-                      <Image className="w-5 h-5 text-blue-400" />
-                    </button>
-                    <button className="p-2 hover:bg-gray-50 rounded-lg">
-                      <Video className="w-5 h-5 text-green-400" />
-                    </button>
-                  </div>
-                  <GlassButton
-                    onClick={handleCreatePost}
-                    disabled={posting || !newPostContent.trim()}
-                    className="bg-[#057642] text-white hover:bg-[#057642]/90 disabled:opacity-50"
-                  >
-                    {posting ? 'Posting...' : 'Post'}
-                  </GlassButton>
-                </div>
-              </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          )
         )}
       </AnimatePresence>
     </div>

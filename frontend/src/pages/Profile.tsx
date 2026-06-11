@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '@/store/appStore';
-import * as ActivityCalendarModule from 'react-activity-calendar';
-const ActivityCalendarComponent = (ActivityCalendarModule as any).ActivityCalendar || (ActivityCalendarModule as any).default?.ActivityCalendar || (ActivityCalendarModule as any).default || ActivityCalendarModule;
+import { ActivityCalendar } from 'react-activity-calendar';
+const ActivityCalendarComponent = ActivityCalendar;
 import { 
   Briefcase, Calendar, ExternalLink, Linkedin, Github, Edit2, Save, X, Upload, 
   Trash2, FileText, Target, CalendarDays, Zap, GraduationCap, MapPin, Search, 
@@ -612,7 +612,7 @@ const Profile = () => {
         </div>
 
         {/* RIGHT COLUMN: Sidebars */}
-        <div className="w-full md:w-[27%] space-y-6 hidden md:block">
+        <div className="w-full md:w-[27%] space-y-6">
           
           <div className="bg-[#12141a] rounded-2xl border border-white/10 p-6 shadow-lg">
             <div className="flex justify-between items-start border-b border-white/10 pb-5 mb-5">

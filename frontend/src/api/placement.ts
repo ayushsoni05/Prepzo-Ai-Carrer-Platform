@@ -20,17 +20,17 @@ export interface OutreachResult {
 }
 
 export const placementApi = {
-    analyzeAtsMatch: async (resumeText: string, jobDescription: string): Promise<ATSAnalysisResult> => {
+    analyzeAtsMatch: async (resumeText: string, jobDescription: string): Promise<{ success: boolean; data: ATSAnalysisResult }> => {
         const response = await api.post('/placement/analyze-ats', { resumeText, jobDescription });
         return response.data;
     },
 
-    tailorResumeBullets: async (originalBullets: string[], jobDescription: string, missingKeywords: string[]): Promise<TailoredResumeResult> => {
+    tailorResumeBullets: async (originalBullets: string[], jobDescription: string, missingKeywords: string[]): Promise<{ success: boolean; data: TailoredResumeResult }> => {
         const response = await api.post('/placement/tailor-resume', { originalBullets, jobDescription, missingKeywords });
         return response.data;
     },
 
-    generateColdOutreach: async (resumeText: string, jobDescription: string, targetCompany: string, targetRole: string): Promise<OutreachResult> => {
+    generateColdOutreach: async (resumeText: string, jobDescription: string, targetCompany: string, targetRole: string): Promise<{ success: boolean; data: OutreachResult }> => {
         const response = await api.post('/placement/generate-outreach', { resumeText, jobDescription, targetCompany, targetRole });
         return response.data;
     }

@@ -7,7 +7,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
 import { cpp } from '@codemirror/lang-cpp';
 import { java } from '@codemirror/lang-java';
-import { Play, RotateCcw, ChevronLeft, CheckCircle2, XCircle, Layout, Info, Lightbulb, Building2, Send, ChevronDown } from 'lucide-react';
+import { Play, RotateCcw, ChevronLeft, CheckCircle2, XCircle, Layout, Info, Lightbulb, Building2, Send, ChevronDown, Code, Terminal } from 'lucide-react';
 import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from 'react-resizable-panels';
 import { getCodingProblemById, CodingProblem } from '@/api/codingLab';
 import { generateTranspiledPayload } from '../utils/generateTranspiledPayload';
@@ -46,6 +46,16 @@ export const InteractivePlayground: React.FC = () => {
 
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loadingSubmissions, setLoadingSubmissions] = useState(false);
+
+  // Mobile navigation states
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [mobileTab, setMobileTab] = useState<'description' | 'editor' | 'console'>('description');
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (problemId && leftActiveTab === 'submissions') {
@@ -111,6 +121,11 @@ export const InteractivePlayground: React.FC = () => {
     
     setActiveTab('result');
     setTestResults(null);
+
+    // Switch to console tab on mobile to display the run feedback immediately
+    if (isMobile) {
+      setMobileTab('console');
+    }
 
     // Give UI time to show loading state
     setTimeout(async () => {
@@ -255,17 +270,228 @@ export const InteractivePlayground: React.FC = () => {
 
   const allPassed = testResults && testResults.every(r => r.passed);
 
+  // Reusable sub-containers
+  const leftPanelContent = (
+    <div className="flex-1 flex flex-col min-h-0 bg-[#0a0c10]">
+      <div className="h-10 border-b border-white/5 flex items-center px-2 bg-white/[0.02] shrink-0">
+        <button 
+          onClick={() => setLeftActiveTab('description')}
+          className={`px-4 h-full flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${leftActiveTab === 'description' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40 hover:text-white/70'}`}
+        >
+          <Info size={14} /> Description
+        </button>
+        <button 
+          onClick={() => setLeftActiveTab('submissions')}
+          className={`px-4 h-full flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${leftActiveTab === 'submissions' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40 hover:text-white/70'}`}
+        >
+          Submissions
+        </button>
+        <button 
+          onClick={() => setLeftActiveTab('visualize')}
+          className={`px-4 h-full flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${leftActiveTab === 'visualize' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40 hover:text-white/70'}`}
+        >
+          Visualize
+        </button>
+      </div>
+      <div className="flex-1 overflow-y-auto p-4 min-h-0">
+        {leftActiveTab === 'description' && (
+          <div className="space-y-8 p-2">
+            <div className="prose prose-invert prose-p:text-white/70 prose-p:leading-relaxed prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10 prose-code:text-[#5ed29c]">
+              <div dangerouslySetInnerHTML={{ __html: problem.description }} />
+            </div>
+        
+            <div className="space-y-4">
+              <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] flex items-center gap-2">
+                <Building2 size={14} /> Company Tags
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {problem.companyTags.map(tag => (
+                  <span key={tag} className="text-[9px] font-black text-white/40 bg-white/5 px-2 py-1 rounded border border-white/5">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {problem.hints.length > 0 && (
+              <div className="space-y-4">
+                <h3 className="text-[10px] font-black text-[#5ed29c] uppercase tracking-[0.2em] flex items-center gap-2">
+                  <Lightbulb size={14} /> Hints
+                </h3>
+                <div className="space-y-2">
+                  {problem.hints.map((hint, i) => (
+                    <div key={i} className="p-3 bg-[#5ed29c]/5 border border-[#5ed29c]/10 rounded-lg text-sm text-[#5ed29c]/80 italic">
+                      {hint}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {leftActiveTab === 'submissions' && (
+          <div className="h-full -m-4">
+            <SubmissionsTab submissions={submissions} loading={loadingSubmissions} />
+          </div>
+        )}
+
+        {leftActiveTab === 'visualize' && (
+          <div className="h-full -m-4">
+            <AlgorithmVisualizer problemText={problem.description} problemId={problem.id} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  const editorContent = (
+    <div className="flex-1 flex flex-col min-h-0 bg-[#1e1e1e] relative">
+      <div className="h-10 border-b border-white/5 flex items-center justify-between px-4 bg-[#1e1e1e] shrink-0">
+        <div className="relative">
+          <button 
+            onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}
+            className="flex items-center gap-2 px-3 py-1.5 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition-all text-white/70 text-xs font-bold uppercase tracking-widest"
+          >
+            {language === 'cpp' ? 'C++' : language} <ChevronDown size={14} className={`transition-transform ${languageDropdownOpen ? 'rotate-180' : ''}`} />
+          </button>
+          
+          {languageDropdownOpen && (
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setLanguageDropdownOpen(false)} />
+              <div className="absolute top-full left-0 mt-2 w-32 bg-[#13171d] border border-[#5ed29c]/20 rounded-xl shadow-2xl shadow-black overflow-hidden z-50 py-1 backdrop-blur-xl">
+                {(['javascript', 'python', 'cpp', 'java'] as const).map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => handleLanguageChange(l)}
+                    className={`w-full text-left px-4 py-2 text-xs font-bold uppercase tracking-widest hover:bg-[#5ed29c]/10 transition-colors ${language === l ? 'text-[#5ed29c] bg-[#5ed29c]/5' : 'text-white/60 hover:text-white'}`}
+                  >
+                    {l === 'cpp' ? 'C++' : l}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+        <button onClick={() => setCode(problem.starterCode[language])} className="text-white/30 hover:text-white" title="Reset Code">
+          <RotateCcw size={14} />
+        </button>
+      </div>
+      <div className="flex-1 overflow-hidden relative min-h-0">
+        <CodeMirror
+          value={code}
+          height="100%"
+          theme={vscodeDark}
+          extensions={[LANGUAGE_EXTENSIONS[language]]}
+          onChange={(value) => setCode(value)}
+          className="h-full text-sm absolute inset-0"
+          basicSetup={{
+            lineNumbers: true,
+            foldGutter: true,
+            highlightActiveLine: true
+          }}
+        />
+      </div>
+    </div>
+  );
+
+  const consoleContent = (
+    <div className="flex-1 flex flex-col min-h-0 bg-[#0a0c10]">
+      <div className="h-10 border-b border-white/5 flex items-center px-2 bg-white/[0.02] shrink-0">
+        <button 
+          onClick={() => setActiveTab('testcases')}
+          className={`px-4 h-full text-[10px] font-black uppercase tracking-widest transition-colors ${activeTab === 'testcases' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40 hover:text-white/70'}`}
+        >
+          Testcases
+        </button>
+        <button 
+          onClick={() => setActiveTab('result')}
+          className={`px-4 h-full flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${activeTab === 'result' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40 hover:text-white/70'}`}
+        >
+          Test Result
+          {testResults && (
+            allPassed ? <CheckCircle2 size={12} className="text-green-500" /> : <XCircle size={12} className="text-red-500" />
+          )}
+        </button>
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-4 min-h-0">
+        {activeTab === 'testcases' && (
+          <div className="space-y-4">
+            {problem.testCases.filter(tc => !tc.isHidden).map((tc, idx) => (
+              <div key={tc.id} className="p-4 bg-white/5 rounded-xl border border-white/5">
+                <p className="text-[10px] font-black text-white/30 uppercase mb-2 tracking-widest">Case {idx + 1}</p>
+                <div className="space-y-2 font-mono text-xs">
+                  <div className="p-2 bg-black/50 rounded text-white/70">
+                    <span className="text-white/30 select-none">Input: </span> {tc.input}
+                  </div>
+                  <div className="p-2 bg-black/50 rounded text-white/70">
+                    <span className="text-white/30 select-none">Expected: </span> {tc.expectedOutput}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'result' && (
+          <div className="space-y-4">
+            {isRunning || isSubmitting ? (
+              <div className="flex items-center gap-3 text-[#5ed29c] animate-pulse p-4">
+                <div className="w-4 h-4 border-2 border-[#5ed29c]/30 border-t-[#5ed29c] rounded-full animate-spin" />
+                <span className="text-xs font-bold uppercase tracking-widest">Evaluating...</span>
+              </div>
+            ) : !testResults ? (
+              <div className="text-white/30 text-xs italic p-4">Run or Submit code to see results.</div>
+            ) : (
+              <>
+                <h3 className={`text-xl font-bold italic mb-4 ${allPassed ? 'text-green-500' : 'text-red-500'}`}>
+                  {allPassed ? 'Accepted' : 'Wrong Answer'}
+                </h3>
+                {testResults.map((res, idx) => (
+                  <div key={res.id} className={`p-4 rounded-xl border ${res.passed ? 'bg-green-500/5 border-green-500/20' : 'bg-red-500/5 border-red-500/20'}`}>
+                    <div className="flex items-center gap-2 mb-3">
+                      {res.passed ? <CheckCircle2 size={14} className="text-green-500" /> : <XCircle size={14} className="text-red-500" />}
+                      <span className="text-[10px] font-black uppercase tracking-widest text-white/70">
+                        {res.isHidden ? 'Hidden Test Case' : `Case ${idx + 1}`}
+                      </span>
+                    </div>
+                    <div className="space-y-2 font-mono text-xs">
+                      <div className="p-2 bg-black/50 rounded text-white/70">
+                        <span className="text-white/30 select-none">Input: </span> {res.isHidden ? <span className="italic text-white/40">Hidden...</span> : res.input}
+                      </div>
+                      <div className="p-2 bg-black/50 rounded text-white/70">
+                        <span className="text-white/30 select-none">Output: </span> <span className={res.passed ? 'text-green-400' : 'text-red-400'}>{res.isHidden ? <span className="italic text-white/40">Hidden...</span> : res.output}</span>
+                      </div>
+                      {!res.passed && (
+                        <div className="p-2 bg-black/50 rounded text-white/70">
+                          <span className="text-white/30 select-none">Expected: </span> <span className="text-green-400">{res.isHidden ? <span className="italic text-white/40">Hidden...</span> : res.expected}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <div className="h-screen w-full flex flex-col bg-[#0a0c10] font-rubik overflow-hidden selection:bg-[#5ed29c] selection:text-black">
       {/* Header */}
-      <div className="h-16 shrink-0 border-b border-white/5 bg-black flex items-center justify-between px-6 z-20">
-        <div className="flex items-center gap-4">
-          <button onClick={() => navigateTo('coding-lab')} className="text-white/40 hover:text-white transition-colors">
+      <div className="h-16 shrink-0 border-b border-white/5 bg-black flex items-center justify-between px-4 sm:px-6 z-20">
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+          <button onClick={() => navigateTo('coding-lab')} className="text-white/40 hover:text-white transition-colors shrink-0">
             <ChevronLeft size={20} />
           </button>
-          <div className="flex items-center gap-3">
-            <h1 className="text-sm font-[900] text-white italic tracking-tight">{problem.title}</h1>
-            <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded ${
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <h1 className="text-xs sm:text-sm font-[900] text-white italic tracking-tight truncate max-w-[120px] sm:max-w-[240px] md:max-w-none">
+              {problem.title}
+            </h1>
+            <span className={`text-[8px] sm:text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded shrink-0 ${
               problem.difficulty === 'Easy' ? 'text-green-400 bg-green-400/10' :
               problem.difficulty === 'Medium' ? 'text-yellow-400 bg-yellow-400/10' :
               'text-red-400 bg-red-400/10'
@@ -275,11 +501,11 @@ export const InteractivePlayground: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <button
             onClick={() => executeCode(false)}
             disabled={isRunning || isSubmitting}
-            className="flex items-center gap-2 px-4 py-2 bg-white/5 text-white/70 font-[900] text-[10px] uppercase tracking-widest rounded-lg hover:bg-white/10 transition-all disabled:opacity-50"
+            className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-white/5 text-white/70 font-[900] text-[9px] sm:text-[10px] uppercase tracking-widest rounded-lg hover:bg-white/10 transition-all disabled:opacity-50"
           >
             {isRunning ? <div className="w-3 h-3 border-2 border-white/20 border-t-white rounded-full animate-spin" /> : <Play size={12} />}
             Run
@@ -287,7 +513,7 @@ export const InteractivePlayground: React.FC = () => {
           <button
             onClick={() => executeCode(true)}
             disabled={isRunning || isSubmitting}
-            className="flex items-center gap-2 px-4 py-2 bg-[#5ed29c] text-black font-[900] text-[10px] uppercase tracking-widest rounded-lg hover:bg-[#5ed29c]/90 transition-all disabled:opacity-50"
+            className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-[#5ed29c] text-black font-[900] text-[9px] sm:text-[10px] uppercase tracking-widest rounded-lg hover:bg-[#5ed29c]/90 transition-all disabled:opacity-50"
           >
             {isSubmitting ? <div className="w-3 h-3 border-2 border-black/20 border-t-black rounded-full animate-spin" /> : <Send size={12} />}
             Submit
@@ -295,223 +521,66 @@ export const InteractivePlayground: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Resizable Area */}
-      <div className="flex-1 overflow-hidden p-2">
-        <PanelGroup orientation="horizontal" className="h-full rounded-2xl overflow-hidden border border-white/5 bg-black">
-          {/* Left Panel: Description & Submissions */}
-          <Panel defaultSize={35} minSize={25} className="bg-[#0a0c10] flex flex-col">
-            <div className="h-10 border-b border-white/5 flex items-center px-2 bg-white/[0.02]">
+      {/* Main Content Area */}
+      <div className="flex-1 overflow-hidden p-2 min-h-0 flex flex-col">
+        {isMobile ? (
+          <div className="flex-1 flex flex-col min-h-0 bg-black rounded-2xl border border-white/5 overflow-hidden">
+            {/* Mobile Tab Switcher */}
+            <div className="h-12 border-b border-white/5 flex bg-white/[0.01] shrink-0">
               <button 
-                onClick={() => setLeftActiveTab('description')}
-                className={`px-4 h-full flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${leftActiveTab === 'description' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40 hover:text-white/70'}`}
+                onClick={() => setMobileTab('description')}
+                className={`flex-1 h-full flex items-center justify-center gap-1.5 text-[10px] font-black uppercase tracking-widest transition-colors ${mobileTab === 'description' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40'}`}
               >
-                <Info size={14} /> Description
+                <Info size={12} /> Description
               </button>
               <button 
-                onClick={() => setLeftActiveTab('submissions')}
-                className={`px-4 h-full flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${leftActiveTab === 'submissions' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40 hover:text-white/70'}`}
+                onClick={() => setMobileTab('editor')}
+                className={`flex-1 h-full flex items-center justify-center gap-1.5 text-[10px] font-black uppercase tracking-widest transition-colors ${mobileTab === 'editor' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40'}`}
               >
-                Submissions
+                <Code size={12} /> Editor
               </button>
               <button 
-                onClick={() => setLeftActiveTab('visualize')}
-                className={`px-4 h-full flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${leftActiveTab === 'visualize' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40 hover:text-white/70'}`}
+                onClick={() => setMobileTab('console')}
+                className={`flex-1 h-full flex items-center justify-center gap-1.5 text-[10px] font-black uppercase tracking-widest transition-colors ${mobileTab === 'console' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40'}`}
               >
-                Visualize
+                <Terminal size={12} /> Console
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-4">
-              {leftActiveTab === 'description' && (
-                <div className="space-y-8 p-2">
-                  <div className="prose prose-invert prose-p:text-white/70 prose-p:leading-relaxed prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10 prose-code:text-[#5ed29c]">
-                    <div dangerouslySetInnerHTML={{ __html: problem.description }} />
-                  </div>
-              
-              <div className="space-y-4">
-                <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] flex items-center gap-2">
-                  <Building2 size={14} /> Company Tags
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {problem.companyTags.map(tag => (
-                    <span key={tag} className="text-[9px] font-black text-white/40 bg-white/5 px-2 py-1 rounded border border-white/5">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-                  {problem.hints.length > 0 && (
-                    <div className="space-y-4">
-                      <h3 className="text-[10px] font-black text-[#5ed29c] uppercase tracking-[0.2em] flex items-center gap-2">
-                        <Lightbulb size={14} /> Hints
-                      </h3>
-                      <div className="space-y-2">
-                        {problem.hints.map((hint, i) => (
-                          <div key={i} className="p-3 bg-[#5ed29c]/5 border border-[#5ed29c]/10 rounded-lg text-sm text-[#5ed29c]/80 italic">
-                            {hint}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {leftActiveTab === 'submissions' && (
-                <div className="h-full -m-4">
-                  <SubmissionsTab submissions={submissions} loading={loadingSubmissions} />
-                </div>
-              )}
-
-              {leftActiveTab === 'visualize' && (
-                <div className="h-full -m-4">
-                  <AlgorithmVisualizer problemText={problem.description} problemId={problem.id} />
-                </div>
-              )}
+            
+            {/* Mobile Active Tab Content */}
+            <div className="flex-1 flex flex-col min-h-0 overflow-hidden relative">
+              {mobileTab === 'description' && leftPanelContent}
+              {mobileTab === 'editor' && editorContent}
+              {mobileTab === 'console' && consoleContent}
             </div>
-          </Panel>
+          </div>
+        ) : (
+          <PanelGroup orientation="horizontal" className="h-full rounded-2xl overflow-hidden border border-white/5 bg-black">
+            {/* Left Panel: Description & Submissions */}
+            <Panel defaultSize={35} minSize={25} className="bg-[#0a0c10] flex flex-col">
+              {leftPanelContent}
+            </Panel>
 
-          <PanelResizeHandle className="w-1 bg-white/5 hover:bg-[#5ed29c]/50 transition-colors cursor-col-resize" />
+            <PanelResizeHandle className="w-1 bg-white/5 hover:bg-[#5ed29c]/50 transition-colors cursor-col-resize shrink-0" />
 
-          {/* Right Panel Group: Editor + Terminal */}
-          <Panel defaultSize={65}>
-            <PanelGroup orientation="vertical">
-              {/* Editor Pane */}
-              <Panel defaultSize={60} minSize={30} className="bg-[#1e1e1e] flex flex-col relative">
-                <div className="h-10 border-b border-white/5 flex items-center justify-between px-4 bg-[#1e1e1e]">
-                  <div className="relative">
-                    <button 
-                      onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}
-                      className="flex items-center gap-2 px-3 py-1.5 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition-all text-white/70 text-xs font-bold uppercase tracking-widest"
-                    >
-                      {language === 'cpp' ? 'C++' : language} <ChevronDown size={14} className={`transition-transform ${languageDropdownOpen ? 'rotate-180' : ''}`} />
-                    </button>
-                    
-                    {languageDropdownOpen && (
-                      <>
-                        <div className="fixed inset-0 z-40" onClick={() => setLanguageDropdownOpen(false)} />
-                        <div className="absolute top-full left-0 mt-2 w-32 bg-[#13171d] border border-[#5ed29c]/20 rounded-xl shadow-2xl shadow-black overflow-hidden z-50 py-1 backdrop-blur-xl">
-                          {(['javascript', 'python', 'cpp', 'java'] as const).map((l) => (
-                            <button
-                              key={l}
-                              onClick={() => handleLanguageChange(l)}
-                              className={`w-full text-left px-4 py-2 text-xs font-bold uppercase tracking-widest hover:bg-[#5ed29c]/10 transition-colors ${language === l ? 'text-[#5ed29c] bg-[#5ed29c]/5' : 'text-white/60 hover:text-white'}`}
-                            >
-                              {l === 'cpp' ? 'C++' : l}
-                            </button>
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                  <button onClick={() => setCode(problem.starterCode[language])} className="text-white/30 hover:text-white" title="Reset Code">
-                    <RotateCcw size={14} />
-                  </button>
-                </div>
-                <div className="flex-1 overflow-hidden">
-                  <CodeMirror
-                    value={code}
-                    height="100%"
-                    theme={vscodeDark}
-                    extensions={[LANGUAGE_EXTENSIONS[language]]}
-                    onChange={(value) => setCode(value)}
-                    className="h-full text-sm"
-                    basicSetup={{
-                      lineNumbers: true,
-                      foldGutter: true,
-                      highlightActiveLine: true
-                    }}
-                  />
-                </div>
-              </Panel>
+            {/* Right Panel Group: Editor + Terminal */}
+            <Panel defaultSize={65} className="flex flex-col">
+              <PanelGroup orientation="vertical">
+                {/* Editor Pane */}
+                <Panel defaultSize={60} minSize={30} className="bg-[#1e1e1e] flex flex-col relative">
+                  {editorContent}
+                </Panel>
 
-              <PanelResizeHandle className="h-1 bg-white/5 hover:bg-[#5ed29c]/50 transition-colors cursor-row-resize" />
+                <PanelResizeHandle className="h-1 bg-white/5 hover:bg-[#5ed29c]/50 transition-colors cursor-row-resize shrink-0" />
 
-              {/* Terminal Pane */}
-              <Panel defaultSize={40} minSize={20} className="bg-[#0a0c10] flex flex-col">
-                <div className="h-10 border-b border-white/5 flex items-center px-2 bg-white/[0.02]">
-                  <button 
-                    onClick={() => setActiveTab('testcases')}
-                    className={`px-4 h-full text-[10px] font-black uppercase tracking-widest transition-colors ${activeTab === 'testcases' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40 hover:text-white/70'}`}
-                  >
-                    Testcases
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('result')}
-                    className={`px-4 h-full flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${activeTab === 'result' ? 'text-[#5ed29c] border-b-2 border-[#5ed29c]' : 'text-white/40 hover:text-white/70'}`}
-                  >
-                    Test Result
-                    {testResults && (
-                      allPassed ? <CheckCircle2 size={12} className="text-green-500" /> : <XCircle size={12} className="text-red-500" />
-                    )}
-                  </button>
-                </div>
-
-                <div className="flex-1 overflow-y-auto p-4">
-                  {activeTab === 'testcases' && (
-                    <div className="space-y-4">
-                      {problem.testCases.filter(tc => !tc.isHidden).map((tc, idx) => (
-                        <div key={tc.id} className="p-4 bg-white/5 rounded-xl border border-white/5">
-                          <p className="text-[10px] font-black text-white/30 uppercase mb-2 tracking-widest">Case {idx + 1}</p>
-                          <div className="space-y-2 font-mono text-xs">
-                            <div className="p-2 bg-black/50 rounded text-white/70">
-                              <span className="text-white/30 select-none">Input: </span> {tc.input}
-                            </div>
-                            <div className="p-2 bg-black/50 rounded text-white/70">
-                              <span className="text-white/30 select-none">Expected: </span> {tc.expectedOutput}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {activeTab === 'result' && (
-                    <div className="space-y-4">
-                      {isRunning || isSubmitting ? (
-                        <div className="flex items-center gap-3 text-[#5ed29c] animate-pulse p-4">
-                          <div className="w-4 h-4 border-2 border-[#5ed29c]/30 border-t-[#5ed29c] rounded-full animate-spin" />
-                          <span className="text-xs font-bold uppercase tracking-widest">Evaluating...</span>
-                        </div>
-                      ) : !testResults ? (
-                        <div className="text-white/30 text-xs italic p-4">Run or Submit code to see results.</div>
-                      ) : (
-                        <>
-                          <h3 className={`text-xl font-bold italic mb-4 ${allPassed ? 'text-green-500' : 'text-red-500'}`}>
-                            {allPassed ? 'Accepted' : 'Wrong Answer'}
-                          </h3>
-                          {testResults.map((res, idx) => (
-                            <div key={res.id} className={`p-4 rounded-xl border ${res.passed ? 'bg-green-500/5 border-green-500/20' : 'bg-red-500/5 border-red-500/20'}`}>
-                              <div className="flex items-center gap-2 mb-3">
-                                {res.passed ? <CheckCircle2 size={14} className="text-green-500" /> : <XCircle size={14} className="text-red-500" />}
-                                <span className="text-[10px] font-black uppercase tracking-widest text-white/70">
-                                  {res.isHidden ? 'Hidden Test Case' : `Case ${idx + 1}`}
-                                </span>
-                              </div>
-                              <div className="space-y-2 font-mono text-xs">
-                                <div className="p-2 bg-black/50 rounded text-white/70">
-                                  <span className="text-white/30 select-none">Input: </span> {res.isHidden ? <span className="italic text-white/40">Hidden...</span> : res.input}
-                                </div>
-                                <div className="p-2 bg-black/50 rounded text-white/70">
-                                  <span className="text-white/30 select-none">Output: </span> <span className={res.passed ? 'text-green-400' : 'text-red-400'}>{res.isHidden ? <span className="italic text-white/40">Hidden...</span> : res.output}</span>
-                                </div>
-                                {!res.passed && (
-                                  <div className="p-2 bg-black/50 rounded text-white/70">
-                                    <span className="text-white/30 select-none">Expected: </span> <span className="text-green-400">{res.isHidden ? <span className="italic text-white/40">Hidden...</span> : res.expected}</span>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          ))}
-                        </>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </Panel>
-            </PanelGroup>
-          </Panel>
-        </PanelGroup>
+                {/* Terminal Pane */}
+                <Panel defaultSize={40} minSize={20} className="bg-[#0a0c10] flex flex-col">
+                  {consoleContent}
+                </Panel>
+              </PanelGroup>
+            </Panel>
+          </PanelGroup>
+        )}
       </div>
     </div>
   );

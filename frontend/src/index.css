@@ -1141,3 +1141,74 @@ a, button, input, textarea, select, div, section, article, nav, header, footer, 
 .annotation-layer * {
   pointer-events: auto;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE-NATIVE OVERHAUL ADDITIONS
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+}
+
+@media (max-width: 768px) {
+  /* Prevent browser bounce effects */
+  html, body {
+    position: fixed;
+    width: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  /* Force smooth kinetic scroll inside custom elements */
+  .custom-scrollbar,
+  .scroll-container,
+  main,
+  aside,
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
+  }
+
+  /* Completely strip scrollbar visuals for mobile web views */
+  *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+  * {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+
+  /* Block user selection and touch blue highlights */
+  * {
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  /* Fixed mobile view height adjustments */
+  .h-screen {
+    height: 100dvh !important;
+  }
+}
+
+/* Swipe-to-dismiss gesture feedback classes */
+.active-drag-y {
+  touch-action: pan-y !important;
+  user-select: none !important;
+}
+
+/* Horizontal swipe carousels (App-style) */
+.mobile-snap-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-snap-carousel > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+

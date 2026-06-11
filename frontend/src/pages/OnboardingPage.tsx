@@ -372,7 +372,7 @@ export const OnboardingPage = ({ onNavigate }: OnboardingPageProps) => {
                         <CollegeDropdown value={collegeName} onChange={setCollegeName} />
                       </div>
                       
-                      <div className="grid grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div className="space-y-2">
                            <label className="text-[11px]  font-black uppercase tracking-widest text-white/40 px-2">Degree Type</label>
                            <SearchableDropdown
