@@ -258,6 +258,7 @@ const simSteps = [
 
 export const LandingPage = ({ onNavigate }: LandingPageProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [stats, setStats] = useState<PublicStats | null>(null);
   const { setGlobalLoading } = useAppStore();
 
