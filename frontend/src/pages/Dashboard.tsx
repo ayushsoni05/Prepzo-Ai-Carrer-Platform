@@ -94,6 +94,21 @@ export function Dashboard() {
   const [loadingTemplates, setLoadingTemplates] = useState(false);
   const [customSourceInput, setCustomSourceInput] = useState<string | undefined>(undefined);
   const [isDownloadingTemplate, setIsDownloadingTemplate] = useState<string | null>(null);
+  const [systemTime, setSystemTime] = useState('');
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const hrs = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      const secs = String(now.getSeconds()).padStart(2, '0');
+      const ms = String(Math.floor(now.getMilliseconds() / 10)).padStart(2, '0');
+      setSystemTime(`${hrs}:${mins}:${secs}.${ms}`);
+    };
+    updateTime();
+    const timer = setInterval(updateTime, 40);
+    return () => clearInterval(timer);
+  }, []);
 
   // Format helper for 2 decimal places
   const formatVal = (val: any) => {
@@ -234,6 +249,14 @@ export function Dashboard() {
     <div className="max-w-7xl mx-auto space-y-10 selection:bg-[#5ed29c] selection:text-black font-rubik pb-20">
       {/* Row 1: Fancy Welcome Card */}
       <div className="relative rounded-[40px] p-8 md:p-14 mb-8 bg-black border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden group">
+        {/* Cinematic Laser Scanner Sweep */}
+        <motion.div 
+          initial={{ top: '0%', opacity: 1 }}
+          animate={{ top: '100%', opacity: [1, 1, 0] }}
+          transition={{ duration: 1.6, ease: 'easeInOut' }}
+          className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#5ed29c] to-transparent shadow-[0_0_15px_#5ed29c] z-20 pointer-events-none"
+        />
+
         {/* Background Grid Beam */}
         <div className="absolute inset-0 z-0 opacity-20 group-hover:opacity-30 transition-opacity duration-1000">
            <GridBeam className="w-full h-full" />
@@ -243,22 +266,75 @@ export function Dashboard() {
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#5ed29c]/10 blur-[100px] rounded-full animate-pulse" />
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-500/5 blur-[100px] rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
 
+        {/* Custom Slow-Rotating SVG Vector Radar HUD */}
+        <div className="absolute right-[8%] top-[10%] w-[320px] h-[320px] opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-700 pointer-events-none z-0 hidden lg:block">
+          <svg className="w-full h-full animate-[spin_60s_linear_infinite]" viewBox="0 0 200 200" fill="none" stroke="#5ed29c" strokeWidth="0.5">
+            <circle cx="100" cy="100" r="95" strokeDasharray="3 3" />
+            <circle cx="100" cy="100" r="70" />
+            <circle cx="100" cy="100" r="45" strokeDasharray="5 2" />
+            <circle cx="100" cy="100" r="20" />
+            <line x1="100" y1="5" x2="100" y2="195" />
+            <line x1="5" y1="100" x2="195" y2="100" />
+            <line x1="32.8" y1="32.8" x2="167.2" y2="167.2" strokeDasharray="2 4" />
+            <line x1="32.8" y1="167.2" x2="167.2" y2="32.8" strokeDasharray="2 4" />
+            <path d="M100,100 L167.2,32.8 A95,95 0 0,0 100,5 Z" fill="url(#radar-sweep)" opacity="0.3" stroke="none" />
+            <defs>
+              <radialGradient id="radar-sweep" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#5ed29c" stopOpacity="0" />
+                <stop offset="100%" stopColor="#5ed29c" stopOpacity="0.5" />
+              </radialGradient>
+            </defs>
+          </svg>
+        </div>
+
         <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#5ed29c]" />
-            <p className="text-[10px] font-black uppercase tracking-[0.6em] text-[#5ed29c]">Career Command Center</p>
-          </div>
+          {/* Header Telemetry Pill & System Time */}
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="flex flex-wrap items-center justify-between gap-4 mb-8 border-b border-white/5 pb-4"
+          >
+            <div className="flex items-center gap-3">
+              <span className="w-2 h-2 rounded-full bg-[#5ed29c] animate-pulse" />
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#5ed29c]">Status: Ready to practice</p>
+            </div>
+            {systemTime && (
+              <div className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30 font-mono">
+                SYS_TIME: <span className="text-white/60">{systemTime}</span>
+              </div>
+            )}
+          </motion.div>
 
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-12">
             <div className="max-w-3xl">
               <h1 className="text-5xl md:text-8xl font-[900] text-white uppercase tracking-tighter leading-[0.75] italic mb-8">
-                Signal active,<br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/10">{user?.fullName?.split(' ')[0] || 'there'}.</span>
+                <motion.span 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+                  className="block"
+                >
+                  Ready for the next step,
+                </motion.span>
+                <motion.span 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
+                  className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/20"
+                >
+                  {user?.fullName?.split(' ')[0] || 'there'}?
+                </motion.span>
               </h1>
               
-              <div className="flex flex-wrap items-center gap-6">
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
+                className="flex flex-wrap items-center gap-6"
+              >
                 <p className="text-[16px] font-medium tracking-tight leading-relaxed text-white/40 max-w-md italic">
-                  Your AI mentor is standing by. All systems are calibrated for your next career jump.
+                  Let's keep the momentum going today. You have some new mock interviews and job matches waiting.
                 </p>
                 <div className="h-10 w-px bg-white/10 hidden md:block" />
                 <div className="flex items-center gap-3">
@@ -271,13 +347,18 @@ export function Dashboard() {
                   </div>
                   <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest">+12 Peers active now</p>
                 </div>
-              </div>
+              </motion.div>
             </div>
             
-            <div className="flex flex-col gap-6 items-center lg:items-end">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 1, type: "spring", stiffness: 100 }}
+              className="flex flex-col gap-6 items-center lg:items-end"
+            >
               <button 
                 onClick={() => setDashboardTab('assessment')}
-                className="relative h-[75px] px-12 group active:scale-95 transition-transform"
+                className="relative h-[75px] px-12 group active:scale-95 transition-transform cursor-pointer"
               >
                 <svg className="absolute inset-0 w-full h-full transition-transform group-hover:scale-105 shadow-2xl shadow-[#5ed29c]/20" viewBox="0 0 184 65" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                   <path d="M0 0H184L174 65H10L0 0Z" fill="#5ed29c" />
@@ -292,7 +373,7 @@ export function Dashboard() {
                 <div className="w-1 h-1 rounded-full bg-white/20" />
                 <div className="flex items-center gap-1.5"><Award size={12} className="text-blue-400" /> Rank: {readinessScore > 80 ? 'Elite' : readinessScore > 60 ? 'Pro' : 'Rising'}</div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
