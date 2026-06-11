@@ -224,6 +224,21 @@ export const LandingPage = ({ onNavigate }: LandingPageProps) => {
   const { setGlobalLoading } = useAppStore();
 
   useEffect(() => {
+    // Force dark theme on landing page by default
+    const originalTheme = document.documentElement.getAttribute('data-theme');
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.body.setAttribute('data-theme', 'dark');
+    
+    return () => {
+      // Restore the original theme when leaving landing page
+      if (originalTheme) {
+        document.documentElement.setAttribute('data-theme', originalTheme);
+        document.body.setAttribute('data-theme', originalTheme);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     const fetchStats = async () => {
       try {
         const data = await getPublicStats();
