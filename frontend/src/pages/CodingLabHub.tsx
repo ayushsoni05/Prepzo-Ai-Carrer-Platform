@@ -2,7 +2,8 @@ import { navigateTo } from '@/utils/navigation';
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Code2, Play, Building2, TrendingUp, CheckCircle2, ChevronLeft, Trophy, UserCircle, Swords, Globe, History, Crown, Cpu } from 'lucide-react';
-import { getCodingProblems, CodingProblem } from '@/api/codingLab';
+import { CodingProblem } from '@/api/codingLab';
+import { getCodingProblemsPaginated } from '@/api/codingLabPaginated';
 import { GridBeam } from '@/components/ui/background-grid-beam';
 import { useAuthStore } from '@/store/authStore';
 import { useSocketStore } from '@/store/socketStore';
@@ -18,6 +19,11 @@ export const CodingLabHub: React.FC = () => {
   const [isMatchmakingOpen, setIsMatchmakingOpen] = useState(false);
   const [visualizeUrl, setVisualizeUrl] = useState('');
   
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalProblems, setTotalProblems] = useState(0);
+
   const { user } = useAuthStore();
   const { allRooms, getAllRooms, isConnected, connect } = useSocketStore();
 
@@ -35,9 +41,18 @@ export const CodingLabHub: React.FC = () => {
 
   useEffect(() => {
     const fetchProblems = async () => {
+      setLoading(true);
       try {
-        const data = await getCodingProblems();
-        setProblems(data);
+        const res = await getCodingProblemsPaginated({
+          search,
+          difficulty: selectedDifficulty || undefined,
+          company: selectedCompany || undefined,
+          page: currentPage,
+          limit: 15
+        });
+        setProblems(res.problems);
+        setTotalPages(res.totalPages);
+        setTotalProblems(res.totalProblems);
       } catch (err) {
         console.error('Failed to load coding problems:', err);
       } finally {
@@ -45,19 +60,18 @@ export const CodingLabHub: React.FC = () => {
       }
     };
     fetchProblems();
+  }, [search, selectedDifficulty, selectedCompany, currentPage]);
 
+  useEffect(() => {
     const solved = JSON.parse(localStorage.getItem('coding-lab-solved') || '[]');
     setSolvedIds(solved);
   }, []);
 
-  const allCompanies = Array.from(new Set(problems.flatMap(p => p.companyTags)));
-
-  const filteredProblems = problems.filter(p => {
-    if (search && !p.title.toLowerCase().includes(search.toLowerCase())) return false;
-    if (selectedDifficulty && p.difficulty !== selectedDifficulty) return false;
-    if (selectedCompany && !p.companyTags.includes(selectedCompany)) return false;
-    return true;
-  });
+  const allCompanies = [
+    'Array', 'Hash Table', 'String', 'Dynamic Programming', 'Math', 'Sorting', 'Greedy',
+    'Tree', 'Graph', 'Two Pointers', 'Binary Search', 'Sliding Window', 'Stack', 'Heap',
+    'DFS', 'BFS', 'Backtracking', 'Linked List'
+  ];
 
   return (
     <div className="min-h-screen bg-[#0a0c10] pt-24 px-6 pb-20 relative font-rubik overflow-hidden selection:bg-[#5ed29c] selection:text-black">
@@ -315,14 +329,14 @@ export const CodingLabHub: React.FC = () => {
                       <div className="w-8 h-8 border-2 border-[#5ed29c]/30 border-t-[#5ed29c] rounded-full animate-spin mx-auto" />
                     </td>
                   </tr>
-                ) : filteredProblems.length === 0 ? (
+                ) : problems.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="py-20 text-center">
                       <p className="text-white/30 italic uppercase tracking-widest text-xs font-bold">No problems found matching criteria</p>
                     </td>
                   </tr>
                 ) : (
-                  filteredProblems.map((problem) => (
+                  problems.map((problem) => (
                     <motion.tr 
                       key={problem.id}
                       initial={{ opacity: 0 }}
@@ -375,6 +389,31 @@ export const CodingLabHub: React.FC = () => {
               </tbody>
             </table>
           </div>
+          
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between px-8 py-6 border-t border-white/5 bg-white/[0.01]">
+              <span className="text-[10px] font-black text-white/30 uppercase tracking-widest">
+                Showing page {currentPage} of {totalPages} ({totalProblems} Total)
+              </span>
+              <div className="flex gap-4">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  className="px-4 py-2 bg-[#161a20] hover:bg-white/5 border border-white/5 rounded-xl text-white font-black text-[10px] uppercase tracking-widest transition-all disabled:opacity-30 disabled:pointer-events-none"
+                >
+                  Prev
+                </button>
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  className="px-4 py-2 bg-[#161a20] hover:bg-white/5 border border-white/5 rounded-xl text-white font-black text-[10px] uppercase tracking-widest transition-all disabled:opacity-30 disabled:pointer-events-none"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

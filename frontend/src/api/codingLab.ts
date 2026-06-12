@@ -81418,7 +81418,14 @@ export const codingProblems: CodingProblem[] = [
   }
 ];
 
-export const getCodingProblems = async (params?: { search?: string; difficulty?: string; company?: string }): Promise<CodingProblem[]> => {
+export interface PaginatedProblemsResponse {
+  problems: CodingProblem[];
+  totalProblems: number;
+  totalPages: number;
+  currentPage: number;
+}
+
+export const getCodingProblemsPaginated = async (params?: { search?: string; difficulty?: string; company?: string; page?: number; limit?: number }): Promise<PaginatedProblemsResponse> => {
   try {
     const response = await api.get('/coding-problems', { params });
     if (response.data && response.data.success) {
@@ -81434,12 +81441,28 @@ export const getCodingProblems = async (params?: { search?: string; difficulty?:
     list = list.filter(p => p.title.toLowerCase().includes(params.search!.toLowerCase()));
   }
   if (params?.difficulty) {
-    list = list.filter(p => p.difficulty === params.difficulty);
+    list = list.filter(p => p.difficulty.toLowerCase() === params.difficulty!.toLowerCase());
   }
   if (params?.company) {
-    list = list.filter(p => p.companyTags.includes(params.company!));
+    list = list.filter(p => p.companyTags.some(t => t.toLowerCase() === params.company!.toLowerCase()));
   }
-  return list;
+  
+  const page = params?.page || 1;
+  const limit = params?.limit || 20;
+  const start = (page - 1) * limit;
+  const paginatedList = list.slice(start, start + limit);
+  
+  return {
+    problems: paginatedList,
+    totalProblems: list.length,
+    totalPages: Math.ceil(list.length / limit),
+    currentPage: page
+  };
+};
+
+export const getCodingProblems = async (params?: { search?: string; difficulty?: string; company?: string }): Promise<CodingProblem[]> => {
+  const result = await getCodingProblemsPaginated({ ...params, page: 1, limit: 100 });
+  return result.problems;
 };
 
 export const getCodingProblemById = async (id: string): Promise<CodingProblem | undefined> => {

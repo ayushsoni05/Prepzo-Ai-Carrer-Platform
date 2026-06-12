@@ -7,11 +7,11 @@ const testCaseSchema = new mongoose.Schema({
   },
   input: {
     type: String,
-    required: true,
+    default: '',
   },
   expectedOutput: {
     type: String,
-    required: true,
+    default: '',
   },
   isHidden: {
     type: Boolean,
@@ -52,19 +52,19 @@ const codingProblemSchema = new mongoose.Schema({
   starterCode: {
     javascript: {
       type: String,
-      required: true,
+      default: '',
     },
     python: {
       type: String,
-      required: true,
+      default: '',
     },
     cpp: {
       type: String,
-      required: true,
+      default: '',
     },
     java: {
       type: String,
-      required: true,
+      default: '',
     }
   },
   testCases: [testCaseSchema]
