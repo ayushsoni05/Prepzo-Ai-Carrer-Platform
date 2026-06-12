@@ -170,20 +170,20 @@ export const CodingLabHub: React.FC = () => {
                 <Code2 className="text-[#5ed29c]" />
                 <div>
                    <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em]">Total Problems</p>
-                   <p className="text-2xl font-[900] text-white italic">{problems.length}</p>
+                   <p className="text-2xl font-[900] text-white italic">{totalProblems}</p>
                 </div>
              </div>
              
-             {problems.length > 0 && (
+             {totalProblems > 0 && (
                <div className="px-6 py-4 rounded-2xl bg-[#0a0c10] border border-white/5 shadow-2xl flex flex-col gap-2">
                  <div className="flex justify-between items-center">
                    <p className="text-[9px] font-black text-[#5ed29c] uppercase tracking-[0.3em]">Your Progress</p>
-                   <p className="text-xs font-[900] text-white">{solvedIds.length} <span className="text-white/30 text-[10px]">/ {problems.length}</span></p>
+                   <p className="text-xs font-[900] text-white">{solvedIds.length} <span className="text-white/30 text-[10px]">/ {totalProblems}</span></p>
                  </div>
                  <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
                    <div 
                      className="h-full bg-[#5ed29c] transition-all duration-1000 ease-out" 
-                     style={{ width: `${Math.min(100, Math.max(0, (solvedIds.length / problems.length) * 100))}%` }}
+                     style={{ width: `${Math.min(100, Math.max(0, (solvedIds.length / totalProblems) * 100))}%` }}
                    />
                  </div>
                </div>
