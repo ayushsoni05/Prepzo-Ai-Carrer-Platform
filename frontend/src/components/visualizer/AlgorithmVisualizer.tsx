@@ -4,6 +4,7 @@ import { MermaidDiagram } from './MermaidDiagram';
 import { useAuthStore } from '@/store/authStore';
 import { Play, Pause, Loader2, ArrowLeft, ArrowRight, Activity, Cpu } from 'lucide-react';
 import api from '@/api/axios';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 
 interface VisualizerStep {
   stepTitle: string;
@@ -34,7 +35,7 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(2000); // Default to 2s per step
-  const { token } = useAuthStore();
+  const { token } = useAuthStore() as any;
 
   const generateVisualization = async () => {
     if (!problemText && !url) return;
@@ -84,6 +85,20 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
       if (intervalId) clearInterval(intervalId);
     };
   }, [isPlaying, data, playbackSpeed]);
+
+  // Auto-scroll active pseudo-code line into view
+  useEffect(() => {
+    const stepData = data?.steps?.[currentStep];
+    if (stepData && typeof stepData.activeLine === 'number') {
+      const activeElement = document.getElementById(`pseudo-line-${stepData.activeLine}`);
+      if (activeElement) {
+        activeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest'
+        });
+      }
+    }
+  }, [currentStep, data]);
 
   if (!data && !loading && !error) {
     return (
@@ -162,6 +177,7 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
                 return (
                   <div
                     key={idx}
+                    id={`pseudo-line-${idx}`}
                     className={`py-1.5 px-3 rounded-lg border transition-all duration-300 ${
                       isActive 
                         ? 'bg-[#5ed29c]/10 border-[#5ed29c]/30 text-white font-bold shadow-[0_0_15px_rgba(94,210,156,0.15)]' 
@@ -210,7 +226,7 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
             </span>
 
             {/* Playback controls */}
-            <div className="flex items-center bg-white/5 border border-white/5 rounded-xl p-0.5 ml-2">
+            <div className="flex items-center bg-white/5 border border-white/5 rounded-xl p-0.5 ml-2 gap-1">
               <button
                 onClick={() => setIsPlaying(!isPlaying)}
                 className={`p-2 rounded-lg transition-colors ${isPlaying ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20' : 'text-[#5ed29c] hover:bg-[#5ed29c]/10'}`}
@@ -219,15 +235,21 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
                 {isPlaying ? <Pause size={14} /> : <Play size={14} className="fill-[#5ed29c]" />}
               </button>
 
-              <select
-                value={playbackSpeed}
-                onChange={(e) => setPlaybackSpeed(Number(e.target.value))}
-                className="bg-transparent text-[10px] font-black text-white/60 focus:outline-none px-2 cursor-pointer border-l border-white/5 uppercase tracking-widest"
-              >
-                <option value={1000} className="bg-[#13171d]">1.0s</option>
-                <option value={2000} className="bg-[#13171d]">2.0s</option>
-                <option value={3000} className="bg-[#13171d]">3.0s</option>
-              </select>
+              <div className="w-[75px]">
+                <Select
+                  value={String(playbackSpeed)}
+                  onValueChange={(val) => setPlaybackSpeed(Number(val))}
+                >
+                  <SelectTrigger className="bg-transparent border-0 border-l border-white/5 rounded-none text-[10px] font-black text-white/60 focus:ring-0 focus:outline-none h-8 pl-3 pr-2 uppercase tracking-widest cursor-pointer shadow-none">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-[#13171d] border border-white/5 rounded-xl text-white shadow-2xl min-w-[75px]">
+                    <SelectItem value="1000" className="text-[10px] font-black py-2 focus:bg-[#5ed29c]/10 focus:text-[#5ed29c] cursor-pointer">1.0S</SelectItem>
+                    <SelectItem value="2000" className="text-[10px] font-black py-2 focus:bg-[#5ed29c]/10 focus:text-[#5ed29c] cursor-pointer">2.0S</SelectItem>
+                    <SelectItem value="3000" className="text-[10px] font-black py-2 focus:bg-[#5ed29c]/10 focus:text-[#5ed29c] cursor-pointer">3.0S</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
 
@@ -254,9 +276,19 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
             </button>
           </div>
         </div>
-        <div>
-          <h4 className="text-sm font-bold text-white mb-1">{currentStepData?.stepTitle || 'Step Details'}</h4>
-          <p className="text-xs text-white/60 leading-relaxed">{currentStepData?.description}</p>
+        <div className="overflow-hidden min-h-[60px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentStep}
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+            >
+              <h4 className="text-sm font-bold text-white mb-1">{currentStepData?.stepTitle || 'Step Details'}</h4>
+              <p className="text-xs text-white/60 leading-relaxed">{currentStepData?.description}</p>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </div>
