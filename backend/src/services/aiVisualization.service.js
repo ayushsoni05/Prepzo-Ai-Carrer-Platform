@@ -72,7 +72,7 @@ You MUST respond ONLY with a valid JSON object matching this exact schema, with 
       "stepTitle": "Title of the step",
       "description": "Clear explanation of what happens in this step.",
       "activeLine": 0, // 0-indexed line number in the above pseudoCode array that corresponds to this step
-      "mermaidSyntax": "Valid Mermaid.js graph string. Use graph LR or TD. CRITICAL: You MUST enclose all node labels in double quotes to prevent syntax errors, e.g., A[\"Node Label\"] --> B{\"Condition = true\"}. Do not output markdown code blocks."
+      "mermaidSyntax": "Valid Mermaid.js graph string. Use graph LR or TD. CRITICAL: Every step MUST have a unique, non-empty, and valid 'mermaidSyntax' graph that visually illustrates the state of data structures (like arrays, trees, maps, index pointers) at this step. You MUST enclose all node labels in double quotes, e.g., A[\"Node Label\"] --> B{\"Condition = true\"}. Do not output markdown code blocks."
     }
   ]
 }

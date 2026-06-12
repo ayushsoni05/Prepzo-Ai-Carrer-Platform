@@ -28,6 +28,24 @@ interface AlgorithmVisualizerProps {
   url?: string;
 }
 
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 50 : -50,
+    opacity: 0,
+    scale: 0.98
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    scale: 1
+  },
+  exit: (direction: number) => ({
+    x: direction > 0 ? -50 : 50,
+    opacity: 0,
+    scale: 0.98
+  })
+};
+
 export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ problemText, problemId, url }) => {
   const [data, setData] = useState<VisualizerData | null>(null);
   const [loading, setLoading] = useState(false);
@@ -35,6 +53,7 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(2000); // Default to 2s per step
+  const [direction, setDirection] = useState(0);
   const { token } = useAuthStore() as any;
 
   const generateVisualization = async () => {
@@ -72,6 +91,7 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
     let intervalId: NodeJS.Timeout | null = null;
     if (isPlaying && data && data.steps.length > 0) {
       intervalId = setInterval(() => {
+        setDirection(1);
         setCurrentStep(prev => {
           if (prev === data.steps.length - 1) {
             setIsPlaying(false);
@@ -197,14 +217,19 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
         <div className={`col-span-1 flex flex-col min-h-0 bg-black/20 ${hasPseudoCode ? 'lg:col-span-8' : 'lg:col-span-full'}`}>
           <div className="flex-1 min-h-0 relative overflow-hidden bg-black/40">
             <div className="absolute inset-0 p-4">
-              <AnimatePresence mode="wait">
+              <AnimatePresence initial={false} custom={direction} mode="popLayout">
                 {currentStepData && currentStepData.mermaidSyntax && (
                   <motion.div
                     key={currentStep}
-                    initial={{ opacity: 0, scale: 0.96 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 1.04 }}
-                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    custom={direction}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{
+                      x: { type: "spring", stiffness: 300, damping: 30 },
+                      opacity: { duration: 0.15 }
+                    }}
                     className="w-full h-full"
                   >
                     <MermaidDiagram chart={currentStepData.mermaidSyntax} />
@@ -257,6 +282,7 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
             <button
               onClick={() => {
                 setIsPlaying(false);
+                setDirection(-1);
                 setCurrentStep(prev => Math.max(0, prev - 1));
               }}
               disabled={currentStep === 0}
@@ -267,6 +293,7 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
             <button
               onClick={() => {
                 setIsPlaying(false);
+                setDirection(1);
                 setCurrentStep(prev => Math.min(data.steps.length - 1, prev + 1));
               }}
               disabled={currentStep === data.steps.length - 1}
