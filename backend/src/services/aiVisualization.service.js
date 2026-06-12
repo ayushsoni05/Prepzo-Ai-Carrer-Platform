@@ -62,10 +62,16 @@ You MUST respond ONLY with a valid JSON object matching this exact schema, with 
   "optimalAlgorithmName": "e.g., Two Pointers, Depth-First Search, Dynamic Programming",
   "timeComplexity": "e.g., O(N log N)",
   "spaceComplexity": "e.g., O(1)",
+  "pseudoCode": [
+    "line 1 of clean pseudo-code",
+    "line 2 of clean pseudo-code",
+    ...
+  ],
   "steps": [
     {
       "stepTitle": "Title of the step",
       "description": "Clear explanation of what happens in this step.",
+      "activeLine": 0, // 0-indexed line number in the above pseudoCode array that corresponds to this step
       "mermaidSyntax": "Valid Mermaid.js graph string. Use graph LR or TD. CRITICAL: You MUST enclose all node labels in double quotes to prevent syntax errors, e.g., A[\"Node Label\"] --> B{\"Condition = true\"}. Do not output markdown code blocks."
     }
   ]

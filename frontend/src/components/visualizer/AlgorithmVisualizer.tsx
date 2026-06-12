@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { MermaidDiagram } from './MermaidDiagram';
 import { useAuthStore } from '@/store/authStore';
-import { Play, Loader2, ArrowLeft, ArrowRight, Activity, Cpu } from 'lucide-react';
+import { Play, Pause, Loader2, ArrowLeft, ArrowRight, Activity, Cpu } from 'lucide-react';
 import api from '@/api/axios';
 
 interface VisualizerStep {
   stepTitle: string;
   description: string;
+  activeLine?: number;
   mermaidSyntax: string;
 }
 
@@ -15,6 +17,7 @@ interface VisualizerData {
   optimalAlgorithmName: string;
   timeComplexity: string;
   spaceComplexity: string;
+  pseudoCode?: string[];
   steps: VisualizerStep[];
 }
 
@@ -29,12 +32,15 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playbackSpeed, setPlaybackSpeed] = useState(2000); // Default to 2s per step
   const { token } = useAuthStore();
 
   const generateVisualization = async () => {
     if (!problemText && !url) return;
     setLoading(true);
     setError(null);
+    setIsPlaying(false);
     try {
       const response = await api.post('/ai/visualization/visualize', {
         problemText,
@@ -60,10 +66,29 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
     }
   };
 
+  // Autoplay loop effect
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout | null = null;
+    if (isPlaying && data && data.steps.length > 0) {
+      intervalId = setInterval(() => {
+        setCurrentStep(prev => {
+          if (prev === data.steps.length - 1) {
+            setIsPlaying(false);
+            return prev;
+          }
+          return prev + 1;
+        });
+      }, playbackSpeed);
+    }
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [isPlaying, data, playbackSpeed]);
+
   if (!data && !loading && !error) {
     return (
       <div className="flex flex-col items-center justify-center h-full text-center p-6 bg-[#0a0c10]">
-        <Activity size={48} className="text-[#5ed29c] mb-4 opacity-50" />
+        <Activity size={48} className="text-[#5ed29c] mb-4 opacity-50 animate-pulse" />
         <h3 className="text-xl font-black text-white italic uppercase tracking-widest mb-2">AI Algorithm Visualizer</h3>
         <p className="text-white/40 text-sm mb-6 max-w-sm">Generate a step-by-step visual explanation of the optimal algorithm to solve this problem.</p>
         <button
@@ -91,7 +116,7 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
         <p className="text-red-500 font-bold text-sm mb-4">{error}</p>
         <button
           onClick={generateVisualization}
-          className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white font-bold text-xs rounded-lg"
+          className="px-6 py-3 bg-[#5ed29c]/10 text-[#5ed29c] border border-[#5ed29c]/20 hover:bg-[#5ed29c]/20 transition-all font-black text-xs uppercase tracking-widest rounded-xl"
         >
           Try Again
         </button>
@@ -102,6 +127,7 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
   if (!data) return null;
 
   const currentStepData = data.steps[currentStep];
+  const hasPseudoCode = data.pseudoCode && data.pseudoCode.length > 0;
 
   return (
     <div className="flex flex-col h-full bg-[#0a0c10] text-white">
@@ -109,7 +135,7 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
       <div className="p-4 border-b border-white/5 space-y-3 shrink-0">
         <h2 className="text-lg font-black italic uppercase tracking-tight text-[#5ed29c]">{data.optimalAlgorithmName}</h2>
         <p className="text-sm text-white/70 leading-relaxed">{data.problemSummary}</p>
-        <div className="flex items-center gap-4 pt-2">
+        <div className="flex items-center gap-4 pt-1">
           <div className="px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-lg">
             <span className="text-[10px] font-black uppercase tracking-widest text-blue-400 block mb-0.5">Time</span>
             <span className="text-xs font-mono font-bold text-blue-300">{data.timeComplexity}</span>
@@ -121,31 +147,106 @@ export const AlgorithmVisualizer: React.FC<AlgorithmVisualizerProps> = ({ proble
         </div>
       </div>
 
-      {/* Visualizer Area */}
-      <div className="flex-1 min-h-0 relative overflow-hidden bg-black/40">
-        <div className="absolute inset-0 p-4">
-          {currentStepData && currentStepData.mermaidSyntax && (
-            <MermaidDiagram chart={currentStepData.mermaidSyntax} />
-          )}
+      {/* Main split display area */}
+      <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-white/5">
+        
+        {/* Left Side: Pseudo-code Panel */}
+        {hasPseudoCode && (
+          <div className="col-span-1 lg:col-span-4 flex flex-col min-h-0 bg-black/10">
+            <div className="p-3 bg-white/[0.01] border-b border-white/5 shrink-0">
+              <span className="text-[9px] font-black uppercase tracking-widest text-[#5ed29c]">Algorithm Pseudo-code</span>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 font-mono text-xs space-y-1.5 selection:bg-[#5ed29c]/20">
+              {data.pseudoCode!.map((line, idx) => {
+                const isActive = idx === currentStepData?.activeLine;
+                return (
+                  <div
+                    key={idx}
+                    className={`py-1.5 px-3 rounded-lg border transition-all duration-300 ${
+                      isActive 
+                        ? 'bg-[#5ed29c]/10 border-[#5ed29c]/30 text-white font-bold shadow-[0_0_15px_rgba(94,210,156,0.15)]' 
+                        : 'bg-transparent border-transparent text-white/40'
+                    }`}
+                  >
+                    <span className="inline-block w-6 text-white/20 select-none text-[10px] font-mono mr-2">{idx + 1}</span>
+                    {line}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Right Side: Animated Diagram Panel */}
+        <div className={`col-span-1 flex flex-col min-h-0 bg-black/20 ${hasPseudoCode ? 'lg:col-span-8' : 'lg:col-span-full'}`}>
+          <div className="flex-1 min-h-0 relative overflow-hidden bg-black/40">
+            <div className="absolute inset-0 p-4">
+              <AnimatePresence mode="wait">
+                {currentStepData && currentStepData.mermaidSyntax && (
+                  <motion.div
+                    key={currentStep}
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1.04 }}
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    className="w-full h-full"
+                  >
+                    <MermaidDiagram chart={currentStepData.mermaidSyntax} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
+
       </div>
 
       {/* Step Info & Controls */}
       <div className="p-4 border-t border-white/5 bg-[#13171d] shrink-0">
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-[10px] font-black uppercase tracking-widest text-white/40">
-            Step {currentStep + 1} of {data.steps.length}
-          </span>
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+          <div className="flex items-center gap-3">
+            <span className="text-[10px] font-black uppercase tracking-widest text-white/40">
+              Step {currentStep + 1} of {data.steps.length}
+            </span>
+
+            {/* Playback controls */}
+            <div className="flex items-center bg-white/5 border border-white/5 rounded-xl p-0.5 ml-2">
+              <button
+                onClick={() => setIsPlaying(!isPlaying)}
+                className={`p-2 rounded-lg transition-colors ${isPlaying ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20' : 'text-[#5ed29c] hover:bg-[#5ed29c]/10'}`}
+                title={isPlaying ? 'Pause Autoplay' : 'Start Autoplay'}
+              >
+                {isPlaying ? <Pause size={14} /> : <Play size={14} className="fill-[#5ed29c]" />}
+              </button>
+
+              <select
+                value={playbackSpeed}
+                onChange={(e) => setPlaybackSpeed(Number(e.target.value))}
+                className="bg-transparent text-[10px] font-black text-white/60 focus:outline-none px-2 cursor-pointer border-l border-white/5 uppercase tracking-widest"
+              >
+                <option value={1000} className="bg-[#13171d]">1.0s</option>
+                <option value={2000} className="bg-[#13171d]">2.0s</option>
+                <option value={3000} className="bg-[#13171d]">3.0s</option>
+              </select>
+            </div>
+          </div>
+
           <div className="flex items-center gap-2">
             <button
-              onClick={() => setCurrentStep(prev => Math.max(0, prev - 1))}
+              onClick={() => {
+                setIsPlaying(false);
+                setCurrentStep(prev => Math.max(0, prev - 1));
+              }}
               disabled={currentStep === 0}
               className="p-2 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
               <ArrowLeft size={16} />
             </button>
             <button
-              onClick={() => setCurrentStep(prev => Math.min(data.steps.length - 1, prev + 1))}
+              onClick={() => {
+                setIsPlaying(false);
+                setCurrentStep(prev => Math.min(data.steps.length - 1, prev + 1));
+              }}
               disabled={currentStep === data.steps.length - 1}
               className="p-2 rounded-lg bg-[#5ed29c]/10 text-[#5ed29c] hover:bg-[#5ed29c]/20 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
