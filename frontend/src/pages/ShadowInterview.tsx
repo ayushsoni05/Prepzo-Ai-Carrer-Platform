@@ -26,6 +26,13 @@ import {
   ShadowInterviewSession
 } from '@/api/shadowInterview';
 import toast from 'react-hot-toast';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export const ShadowInterview: React.FC = () => {
   const { speak, startListening, stopListening, isListening, transcript, isSpeaking } = useSpeech();
@@ -198,15 +205,21 @@ export const ShadowInterview: React.FC = () => {
                   {/* Select Problem */}
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-white/30">Select Coding Challenge</label>
-                    <select 
+                    <Select
                       value={selectedProblemId}
-                      onChange={(e) => setSelectedProblemId(e.target.value)}
-                      className="w-full px-5 py-4 bg-[#161a20] border border-white/5 rounded-2xl text-white font-medium focus:border-emerald-500/30 outline-none transition-all cursor-pointer"
+                      onValueChange={(value) => setSelectedProblemId(value)}
                     >
-                      {codingProblems.map(p => (
-                        <option key={p.id} value={p.id}>{p.title} ({p.difficulty})</option>
-                      ))}
-                    </select>
+                      <SelectTrigger className="w-full px-5 py-6 bg-[#161a20] border border-white/5 rounded-2xl text-white font-medium focus:border-emerald-500/30 outline-none transition-all cursor-pointer h-auto">
+                        <SelectValue placeholder="Select Coding Challenge" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#161a20] border border-white/5 rounded-2xl text-white shadow-2xl">
+                        {codingProblems.map(p => (
+                          <SelectItem key={p.id} value={p.id} className="py-3 focus:bg-emerald-500/10 focus:text-emerald-400">
+                            {p.title} ({p.difficulty})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   {/* Language Selection */}
