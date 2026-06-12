@@ -73,6 +73,33 @@ export const CodingLabHub: React.FC = () => {
     'DFS', 'BFS', 'Backtracking', 'Linked List'
   ];
 
+  const getPageNumbers = () => {
+    const pages = [];
+    
+    // Always include page 1
+    pages.push(1);
+    
+    if (currentPage > 3) {
+      pages.push('...');
+    }
+    
+    // Add pages around current page
+    for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+      pages.push(i);
+    }
+    
+    if (currentPage < totalPages - 2) {
+      pages.push('...');
+    }
+    
+    // Always include last page if > 1
+    if (totalPages > 1 && !pages.includes(totalPages)) {
+      pages.push(totalPages);
+    }
+    
+    return pages;
+  };
+
   return (
     <div className="min-h-screen bg-[#0a0c10] pt-24 px-6 pb-20 relative font-rubik overflow-hidden selection:bg-[#5ed29c] selection:text-black">
       <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
@@ -396,7 +423,7 @@ export const CodingLabHub: React.FC = () => {
               <span className="text-[10px] font-black text-white/30 uppercase tracking-widest">
                 Showing page {currentPage} of {totalPages} ({totalProblems} Total)
               </span>
-              <div className="flex gap-4">
+              <div className="flex items-center gap-3">
                 <button
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
@@ -404,6 +431,23 @@ export const CodingLabHub: React.FC = () => {
                 >
                   Prev
                 </button>
+                
+                <div className="flex gap-1.5 items-center">
+                  {getPageNumbers().map((p, idx) => (
+                    p === '...' ? (
+                      <span key={`dots-${idx}`} className="px-2 text-white/30 text-[10px] font-black">...</span>
+                    ) : (
+                      <button
+                        key={`page-${p}`}
+                        onClick={() => setCurrentPage(Number(p))}
+                        className={`px-3 py-2 rounded-xl text-[10px] font-black transition-all ${currentPage === p ? 'bg-[#5ed29c] text-black shadow-lg shadow-[#5ed29c]/20' : 'text-white/40 hover:text-white/80 bg-white/5 border border-white/5'}`}
+                      >
+                        {p}
+                      </button>
+                    )
+                  ))}
+                </div>
+
                 <button
                   disabled={currentPage === totalPages}
                   onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
