@@ -135,13 +135,22 @@ export const CodingLabHub: React.FC = () => {
                 </button>
              </div>
              
-             <button 
-                onClick={() => navigateTo('create-battle')}
-                className="w-full px-4 py-3 bg-gradient-to-br from-[#5ed29c]/20 to-[#5ed29c]/5 border border-[#5ed29c]/50 rounded-xl flex items-center justify-center gap-2 hover:bg-[#5ed29c]/30 transition-colors shadow-[0_0_15px_rgba(94,210,156,0.2)] group backdrop-blur-md"
-              >
-                <Swords size={18} className="text-[#5ed29c] group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(94,210,156,0.8)]" />
-                <span className="text-[11px] font-[900] text-[#5ed29c] uppercase tracking-widest italic">Create Custom Battle</span>
-             </button>
+             <div className="flex gap-4 w-full">
+                <button 
+                  onClick={() => navigateTo('create-battle')}
+                  className="flex-1 px-4 py-3 bg-gradient-to-br from-[#5ed29c]/20 to-[#5ed29c]/5 border border-[#5ed29c]/50 rounded-xl flex items-center justify-center gap-2 hover:bg-[#5ed29c]/30 transition-colors shadow-[0_0_15px_rgba(94,210,156,0.2)] group backdrop-blur-md"
+                >
+                  <Swords size={16} className="text-[#5ed29c] group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(94,210,156,0.8)]" />
+                  <span className="text-[10px] font-black text-[#5ed29c] uppercase tracking-widest italic">Custom Battle</span>
+                </button>
+                <button 
+                  onClick={() => navigateTo('shadow-interview')}
+                  className="flex-1 px-4 py-3 bg-gradient-to-br from-emerald-500/20 to-emerald-600/5 border border-emerald-500/30 rounded-xl flex items-center justify-center gap-2 hover:bg-emerald-500/30 transition-colors shadow-lg shadow-emerald-500/10 group backdrop-blur-md"
+                >
+                  <Cpu size={16} className="text-emerald-400 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                  <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">AI Voice Interview</span>
+                </button>
+             </div>
 
              <div className="px-6 py-4 rounded-2xl bg-[#0a0c10] border border-white/5 shadow-2xl flex items-center gap-4">
                 <Code2 className="text-[#5ed29c]" />

@@ -47,6 +47,7 @@ import { ExternalVisualizer } from '@/pages/ExternalVisualizer';
 import PlacementAccelerator from '@/pages/PlacementAccelerator';
 import { JobApplicationForm } from '@/pages/JobApplicationForm';
 import { AdminApplicationsPage } from '@/pages/AdminApplicationsPage';
+import { ShadowInterview } from '@/pages/ShadowInterview';
 
 const PageTransition = ({ children, pageKey }: { children: React.ReactNode, pageKey: string }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -75,7 +76,7 @@ const PageTransition = ({ children, pageKey }: { children: React.ReactNode, page
   );
 };
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'community' | 'placement-accelerator' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | 'offer-analyzer' | 'job-apply' | 'admin-applications' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'community' | 'placement-accelerator' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | 'offer-analyzer' | 'job-apply' | 'admin-applications' | 'shadow-interview' | '404';
 
 // Get initial page from URL path or default to 'landing'
 const getPageFromPath = (): Page => {
@@ -93,7 +94,7 @@ const getPageFromPath = (): Page => {
   if (pageName.startsWith('profile/')) return 'profile';
   if (pageName.startsWith('battle/invite/')) return 'join-battle';
   
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'external-visualizer', 'offer-analyzer', 'job-apply', 'admin-applications'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'external-visualizer', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview'];
   return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 
@@ -168,7 +169,7 @@ export default function App() {
     initRef.current = true;
     
     const initializeAuth = async () => {
-      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'offer-analyzer', 'job-apply', 'admin-applications'];
+      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
       const publicAuthPages = ['landing', 'login', 'signup'];
@@ -522,6 +523,7 @@ export default function App() {
           {currentPage === 'tournaments' && <PageTransition pageKey="tournaments"><Tournaments /></PageTransition>}
           {currentPage === 'battle-history' && <PageTransition pageKey="battle-history"><BattleHistory /></PageTransition>}
           {currentPage === 'external-visualizer' && <PageTransition pageKey="external-visualizer"><ExternalVisualizer /></PageTransition>}
+          {currentPage === 'shadow-interview' && <PageTransition pageKey="shadow-interview"><ShadowInterview /></PageTransition>}
           {currentPage === '404' && <PageTransition pageKey="404"><NotFound onNavigate={handleNavigate} /></PageTransition>}
         </AnimatePresence>
       </div>

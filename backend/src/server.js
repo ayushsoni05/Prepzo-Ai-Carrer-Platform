@@ -41,6 +41,7 @@ import tournamentRoutes from './routes/tournament.routes.js';
 import visualizationRoutes from './routes/visualization.routes.js';
 import placementRoutes from './routes/placement.routes.js';
 import codingProblemRoutes from './routes/codingProblem.routes.js';
+import shadowInterviewRoutes from './routes/shadowInterview.routes.js';
 import { seeder } from './services/autonomousSeeder.service.js';
 import { errorHandler, notFound } from './middleware/error.middleware.js';
 import aiValidation from './middleware/aiValidation.middleware.js';
@@ -292,6 +293,7 @@ app.use('/api/public', publicRoutes);
 app.use('/api/battles', battleRoutes);
 app.use('/api/tournaments', tournamentRoutes);
 app.use('/api/placement', aiValidation.aiRequestContext(), placementRoutes);
+app.use('/api/shadow-interview', aiValidation.aiRequestContext(), shadowInterviewRoutes);
 
 // AI Failsafe error handler (catches AI-specific errors)
 app.use(aiValidation.aiFailsafe());
