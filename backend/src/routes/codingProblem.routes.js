@@ -30,7 +30,8 @@ router.get('/', async (req, res, next) => {
     // Exclude heavy fields like testCases and starterCode for the listing view
     const problems = await CodingProblem.find(filter)
       .select('id title difficulty acceptanceRate companyTags')
-      .sort({ title: 1 });
+      .sort({ title: 1 })
+      .limit(100);
 
     res.json({
       success: true,
