@@ -181,6 +181,7 @@ export const useSpeech = () => {
       const url = `${cleanApiUrl}/public/tts?text=${encodeURIComponent(chunk)}&lang=en-IN`;
       
       const audio = new Audio(url);
+      audio.crossOrigin = 'anonymous';
       audioRef.current = audio;
 
       if (currentIdx === 0) {
