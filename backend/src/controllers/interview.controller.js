@@ -57,6 +57,8 @@ export const startInterview = async (req, res, next) => {
     const firstQuestion = questions[0];
 
     if (isResumeBased) {
+      const greetingText = `Hi! I'm Sarah Vance, your Senior Technical Recruiter today. I've reviewed your resume and experience, and I'd love to ask a few questions to get to know your background better. Let's start with this: ${firstQuestion}`;
+
       // Create a persistent ResumeInterviewSession in MongoDB
       const session = await ResumeInterviewSession.create({
         user: req.user._id,
@@ -67,7 +69,7 @@ export const startInterview = async (req, res, next) => {
         conversationHistory: [
           {
             sender: 'recruiter',
-            text: firstQuestion,
+            text: greetingText,
           }
         ],
         evaluations: []
@@ -78,7 +80,7 @@ export const startInterview = async (req, res, next) => {
         data: {
           sessionId: session._id,
           questions,
-          currentQuestion: firstQuestion,
+          currentQuestion: greetingText,
           questionNumber: 1,
           totalQuestions: 9, // 3 main questions, each with 2 levels of follow-ups = 9 total stages
         }
@@ -206,7 +208,13 @@ export const submitAnswer = async (req, res, next) => {
           isComplete = true;
         } else {
           // Move to the next main question generated from resume
-          nextQuestion = session.questions[session.currentQuestionIndex];
+          const rawNext = session.questions[session.currentQuestionIndex];
+          const transitions = [
+            `Thanks for explaining that. Let's move on to the next topic: ${rawNext}`,
+            `Great, that gives me a clear picture. For my next question, I'd like to ask: ${rawNext}`,
+            `Perfect. Let's transition to our next focus area: ${rawNext}`
+          ];
+          nextQuestion = transitions[(session.currentQuestionIndex - 1) % transitions.length];
           session.conversationHistory.push({
             sender: 'recruiter',
             text: nextQuestion,

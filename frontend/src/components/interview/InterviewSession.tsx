@@ -274,7 +274,11 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
         <div className="relative z-10 flex flex-col md:flex-row items-center gap-12">
            <div className="relative">
               <div className={`w-40 h-40 rounded-[48px] border-4 ${isSpeaking ? 'border-blue-500/40 shadow-[0_0_50px_rgba(59,130,246,0.3)] scale-105' : 'border-[#5ed29c]/10'} flex items-center justify-center bg-black transition-all duration-700 overflow-hidden group`}>
-                 <Bot size={80} className={`transition-all duration-500 ${isSpeaking ? 'text-blue-500' : 'text-[#5ed29c] opacity-40'}`} />
+                 {resumeBased ? (
+                   <img src="/recruiter_sarah.png" alt="Sarah Vance" className="w-full h-full object-cover" />
+                 ) : (
+                   <Bot size={80} className={`transition-all duration-500 ${isSpeaking ? 'text-blue-500' : 'text-[#5ed29c] opacity-40'}`} />
+                 )}
                  <div className="absolute inset-0 bg-gradient-to-t from-[#5ed29c]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
               {isSpeaking && (
@@ -283,8 +287,35 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
            </div>
            
            <div className="flex-1 text-center md:text-left space-y-6">
-              <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-full w-fit mx-auto md:mx-0">
-                 <span className="text-[9px] font-black text-white/30 uppercase tracking-widest italic">{role || 'AI'} Core Interface</span>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
+                 <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-full w-fit mx-auto md:mx-0">
+                    <span className="text-[9px] font-black text-white/30 uppercase tracking-widest italic">
+                       {resumeBased ? 'Sarah Vance • Senior Tech Recruiter' : `${role || 'AI'} Core Interface`}
+                    </span>
+                 </div>
+                 
+                 {isSpeaking && (
+                   <div className="flex items-center justify-center gap-1 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full w-fit mx-auto md:mx-0">
+                     <span className="text-[9px] font-black text-blue-500 uppercase tracking-widest mr-2">Speaking</span>
+                     <div className="flex gap-0.5 items-end h-3">
+                       <style>{`
+                         @keyframes wave-bounce {
+                           0%, 100% { height: 4px; }
+                           50% { height: 12px; }
+                         }
+                         .voice-bar {
+                           width: 2px;
+                           background-color: #3b82f6;
+                           animation: wave-bounce 0.8s ease-in-out infinite;
+                         }
+                       `}</style>
+                       <div className="voice-bar" style={{ animationDelay: '0.1s' }} />
+                       <div className="voice-bar" style={{ animationDelay: '0.3s' }} />
+                       <div className="voice-bar" style={{ animationDelay: '0.2s' }} />
+                       <div className="voice-bar" style={{ animationDelay: '0.4s' }} />
+                     </div>
+                   </div>
+                 )}
               </div>
               <h3 className="text-3xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic leading-[1.1]">
                 {currentQuestion}

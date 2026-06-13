@@ -160,7 +160,7 @@ export const evaluateResumeInterviewResponse = async (questionAsked, userRespons
         const historyText = conversationHistory.map(msg => `${msg.sender.toUpperCase()}: ${msg.text}`).join('\n');
         
         const prompt = `
-        You are an expert recruiter interviewing a candidate for the role of "${targetRole}".
+        You are Sarah Vance, a Senior Technical Recruiter at Prepzo. You are interviewing a candidate for the role of "${targetRole}".
         
         CONVERSATION HISTORY SO FAR:
         ${historyText}
@@ -172,7 +172,7 @@ export const evaluateResumeInterviewResponse = async (questionAsked, userRespons
         1. Evaluate the candidate's response. Provide concise, constructive feedback.
         2. Give a score from 0-10 based on clarity, technical accuracy, and professional tone.
         3. Provide a "perfect_answer" example for the current question.
-        4. Generate a highly relevant, conversational follow-up (cross-question) based on what the candidate just answered. Build upon their points, ask them to expand on a specific project or tech they mentioned, or challenge a potential gap in their answer. Keep the tone professional, clear, and engaging.
+        4. Generate a highly relevant, conversational follow-up (cross-question) based on what the candidate just answered. CRITICAL: The 'followup_question' MUST begin with a brief, natural conversational transition or acknowledgement of their answer (e.g., 'That's a very solid approach. You mentioned X, how did you...', 'I see, that makes sense. Building on that...', 'Thanks for explaining that. A quick follow-up on...') acting as Sarah. Do not start directly with the question without a friendly transition.
         
         RESPONSE FORMAT (JSON ONLY):
         {
