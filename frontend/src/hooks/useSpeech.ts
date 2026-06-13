@@ -176,7 +176,7 @@ export const useSpeech = () => {
       }
 
       const chunk = chunks[currentIdx];
-      const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=en-IN&client=tw-ob&q=${encodeURIComponent(chunk)}`;
+      const url = `/api/public/tts?text=${encodeURIComponent(chunk)}&lang=en-IN`;
       
       const audio = new Audio(url);
       audioRef.current = audio;
