@@ -58,20 +58,58 @@ export const useSpeech = () => {
     };
 
     // Optimization for Clarity
-    utterance.rate = 0.9;  // Slightly slower for better comprehension
-    utterance.pitch = 1.0; // Natural pitch
+    utterance.rate = 0.92; // Slower speed matching human conversational cadence
+    utterance.pitch = 1.0;  // Natural pitch
     utterance.volume = 1.0;
 
     const speakText = () => {
       const voices = window.speechSynthesis.getVoices();
-      // Prioritize high-fidelity online natural/cloud voices (e.g. Microsoft Edge Aria/Guy or Google Cloud)
-      const preferredVoice = voices.find(v => 
-        v.name.includes('Online') && v.name.includes('Natural') && v.lang.startsWith('en')
-      ) || voices.find(v => 
-        (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Microsoft')) && v.lang.startsWith('en')
-      ) || voices.find(v => v.lang.startsWith('en')) || voices[0];
-      
-      if (preferredVoice) utterance.voice = preferredVoice;
+      const enVoices = voices.filter(v => v.lang.startsWith('en'));
+
+      if (enVoices.length > 0) {
+        // Sort voices using a detailed scoring matrix
+        const sortedVoices = [...enVoices].sort((a, b) => {
+          const getScore = (voice: SpeechSynthesisVoice) => {
+            let score = 0;
+            const name = voice.name.toLowerCase();
+
+            // Language match preference (US & GB English are usually higher quality)
+            if (voice.lang === 'en-US' || voice.lang === 'en-GB') {
+              score += 5;
+            }
+
+            // Neural/Natural indicators
+            if (name.includes('natural')) score += 50;
+            if (name.includes('neural')) score += 45;
+            if (name.includes('online')) score += 30;
+            if (name.includes('google')) score += 20;
+            if (name.includes('microsoft')) score += 10;
+
+            // Character/Gender matching: Sarah Vance is a female recruiter, so boost female names
+            const femaleKeywords = ['aria', 'jenny', 'sonia', 'female', 'sara', 'zira', 'hazel', 'guy'];
+            // Note: guy is male, but it's Microsoft Edge's top natural voice, which still sounds highly realistic as a fallback
+            femaleKeywords.forEach(keyword => {
+              if (name.includes(keyword)) {
+                if (keyword === 'guy') {
+                  score += 1; // minor boost for high quality male fallback
+                } else {
+                  score += 8; // higher boost for female natural voices
+                }
+              }
+            });
+
+            return score;
+          };
+          return getScore(b) - getScore(a);
+        });
+
+        const preferredVoice = sortedVoices[0];
+        console.log('Selected real voice for recruiter:', preferredVoice.name, 'Language:', preferredVoice.lang);
+        utterance.voice = preferredVoice;
+      } else if (voices.length > 0) {
+        utterance.voice = voices[0];
+      }
+
       window.speechSynthesis.speak(utterance);
     };
 

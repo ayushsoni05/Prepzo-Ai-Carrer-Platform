@@ -28,6 +28,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
   const silenceTimerRef = useRef<any>(null);
   const answerTimerRef = useRef<any>(null);
   const timeLeftIntervalRef = useRef<any>(null);
+  const chatEndRef = useRef<HTMLDivElement>(null);
 
   const apiBase = '/interview';
 
@@ -117,6 +118,13 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
       silenceTimerRef.current = null;
     }
   }, [transcript]);
+
+  // Auto-scroll chat history to bottom
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [answers, currentQuestion]);
 
   const fetchQuestions = useCallback(async () => {
     if (preFedQuestions && preFedQuestions.length > 0) {
@@ -271,31 +279,31 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
            <Bot size={280} className="text-[#5ed29c]" />
         </div>
         
-        <div className="relative z-10 flex flex-col md:flex-row items-center gap-12">
-           <div className="relative">
-              <div className={`w-40 h-40 rounded-[48px] border-4 ${isSpeaking ? 'border-blue-500/40 shadow-[0_0_50px_rgba(59,130,246,0.3)] scale-105' : 'border-[#5ed29c]/10'} flex items-center justify-center bg-black transition-all duration-700 overflow-hidden group`}>
+        <div className="relative z-10 flex flex-col md:flex-row items-start gap-12">
+           <div className="relative shrink-0 md:sticky md:top-4">
+              <div className={`w-24 h-24 md:w-32 md:h-32 rounded-[28px] md:rounded-[40px] border-4 ${isSpeaking ? 'border-blue-500/40 shadow-[0_0_50px_rgba(59,130,246,0.3)] scale-105' : 'border-[#5ed29c]/10'} flex items-center justify-center bg-black transition-all duration-700 overflow-hidden group`}>
                  {resumeBased ? (
                    <img src="/recruiter_sarah.png" alt="Sarah Vance" className="w-full h-full object-cover" />
                  ) : (
-                   <Bot size={80} className={`transition-all duration-500 ${isSpeaking ? 'text-blue-500' : 'text-[#5ed29c] opacity-40'}`} />
+                   <Bot className={`w-12 h-12 md:w-16 md:h-16 transition-all duration-500 ${isSpeaking ? 'text-blue-500' : 'text-[#5ed29c] opacity-40'}`} />
                  )}
                  <div className="absolute inset-0 bg-gradient-to-t from-[#5ed29c]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
               {isSpeaking && (
-                <div className="absolute -inset-4 rounded-[56px] border border-blue-500/20 animate-ping opacity-10" />
+                <div className="absolute -inset-4 rounded-[36px] md:rounded-[48px] border border-blue-500/20 animate-ping opacity-10" />
               )}
            </div>
            
-           <div className="flex-1 text-center md:text-left space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
-                 <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-full w-fit mx-auto md:mx-0">
-                    <span className="text-[9px] font-black text-white/30 uppercase tracking-widest italic">
+           <div className="flex-1 w-full space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between border-b border-white/5 pb-4">
+                 <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-full w-fit">
+                    <span className="text-[10px] font-black text-[#5ed29c] uppercase tracking-widest italic">
                        {resumeBased ? 'Sarah Vance • Senior Tech Recruiter' : `${role || 'AI'} Core Interface`}
                     </span>
                  </div>
                  
                  {isSpeaking && (
-                   <div className="flex items-center justify-center gap-1 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full w-fit mx-auto md:mx-0">
+                   <div className="flex items-center justify-center gap-1 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full w-fit">
                      <span className="text-[9px] font-black text-blue-500 uppercase tracking-widest mr-2">Speaking</span>
                      <div className="flex gap-0.5 items-end h-3">
                        <style>{`
@@ -317,9 +325,58 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
                    </div>
                  )}
               </div>
-              <h3 className="text-3xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic leading-[1.1]">
-                {currentQuestion}
-              </h3>
+
+              {/* Scrollable Conversation History */}
+              <div className="max-h-[320px] overflow-y-auto pr-2 space-y-4 scroll-smooth scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                 {/* Past Questions and Answers */}
+                 {answers.map((item, index) => (
+                   <div key={index} className="space-y-3">
+                     {/* Recruiter Question */}
+                     <div className="flex items-start gap-3 max-w-[85%]">
+                       <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden">
+                         {resumeBased ? (
+                           <img src="/recruiter_sarah.png" alt="Sarah" className="w-full h-full object-cover" />
+                         ) : (
+                           <Bot size={16} className="text-[#5ed29c]/60" />
+                         )}
+                       </div>
+                       <div className="p-4 rounded-[20px] rounded-tl-none bg-white/5 border border-white/10 text-white/90">
+                         <p className="text-[10px] text-[#5ed29c]/60 font-black uppercase tracking-wider mb-1">Sarah Vance</p>
+                         <p className="font-semibold text-sm md:text-base leading-relaxed">{item.question}</p>
+                       </div>
+                     </div>
+
+                     {/* Candidate Response */}
+                     <div className="flex items-start gap-3 max-w-[85%] ml-auto justify-end">
+                       <div className="p-4 rounded-[20px] rounded-tr-none bg-[#5ed29c]/10 border border-[#5ed29c]/20 text-[#5ed29c]">
+                         <p className="text-[10px] text-emerald-400/60 font-black uppercase tracking-wider mb-1 text-right">You (Candidate)</p>
+                         <p className="font-semibold text-sm md:text-base leading-relaxed italic">"{item.answer}"</p>
+                       </div>
+                       <div className="w-8 h-8 rounded-lg bg-[#5ed29c]/10 border border-[#5ed29c]/20 flex items-center justify-center shrink-0 text-[#5ed29c] font-black text-[9px] italic">
+                         YOU
+                       </div>
+                     </div>
+                   </div>
+                 ))}
+
+                 {/* Current Recruiter Question */}
+                 <div className="flex items-start gap-3 max-w-[85%]">
+                   <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden">
+                     {resumeBased ? (
+                       <img src="/recruiter_sarah.png" alt="Sarah" className="w-full h-full object-cover" />
+                     ) : (
+                       <Bot size={16} className="text-[#5ed29c]" />
+                     )}
+                   </div>
+                   <div className="p-4 rounded-[20px] rounded-tl-none bg-white/10 border border-white/20 text-white shadow-lg shadow-black/20">
+                     <p className="text-[10px] text-[#5ed29c]/80 font-black uppercase tracking-wider mb-1">Sarah Vance</p>
+                     <p className="font-bold text-sm md:text-base leading-relaxed">{currentQuestion}</p>
+                   </div>
+                 </div>
+
+                 {/* Ref for scrolling */}
+                 <div ref={chatEndRef} />
+              </div>
            </div>
         </div>
       </div>
