@@ -1,3 +1,5 @@
+import { useState, useCallback, useRef, useEffect } from 'react';
+
 const cleanTextForSpeech = (text: string): string => {
   return text
     .replace(/and\/or/gi, 'and or')
