@@ -17,15 +17,32 @@ const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Ensure uploads directories exist
-const resumeUploadsDir = path.join(__dirname, '../../uploads/resumes');
-if (!fs.existsSync(resumeUploadsDir)) {
-  fs.mkdirSync(resumeUploadsDir, { recursive: true });
+// Ensure uploads directories exist with /tmp fallbacks for serverless environments (e.g. Vercel)
+let resumeUploadsDir = path.join(__dirname, '../../uploads/resumes');
+let imageUploadsDir = path.join(__dirname, '../../uploads/images');
+
+try {
+  if (!fs.existsSync(resumeUploadsDir)) {
+    fs.mkdirSync(resumeUploadsDir, { recursive: true });
+  }
+} catch (err) {
+  console.warn('Failed to create local resume upload directory, falling back to /tmp/uploads/resumes:', err.message);
+  resumeUploadsDir = '/tmp/uploads/resumes';
+  if (!fs.existsSync(resumeUploadsDir)) {
+    fs.mkdirSync(resumeUploadsDir, { recursive: true });
+  }
 }
 
-const imageUploadsDir = path.join(__dirname, '../../uploads/images');
-if (!fs.existsSync(imageUploadsDir)) {
-  fs.mkdirSync(imageUploadsDir, { recursive: true });
+try {
+  if (!fs.existsSync(imageUploadsDir)) {
+    fs.mkdirSync(imageUploadsDir, { recursive: true });
+  }
+} catch (err) {
+  console.warn('Failed to create local image upload directory, falling back to /tmp/uploads/images:', err.message);
+  imageUploadsDir = '/tmp/uploads/images';
+  if (!fs.existsSync(imageUploadsDir)) {
+    fs.mkdirSync(imageUploadsDir, { recursive: true });
+  }
 }
 
 /**
@@ -315,14 +332,23 @@ router.post('/resume', protect, uploadLimiter, (req, res, next) => {
       });
     }
 
-    // Delete old resume file if exists
+    // Delete old resume file if exists (checking both local project path and /tmp path)
     if (user.resumeUrl) {
+      const relativePath = String(user.resumeUrl).replace(/^\/+/, '');
       const oldFilePath = path.join(__dirname, '../..', user.resumeUrl);
+      const tmpFilePath = path.join('/tmp', relativePath);
+      
       if (fs.existsSync(oldFilePath)) {
         try {
           fs.unlinkSync(oldFilePath);
         } catch (e) {
           console.error('Failed to delete old resume:', e);
+        }
+      } else if (fs.existsSync(tmpFilePath)) {
+        try {
+          fs.unlinkSync(tmpFilePath);
+        } catch (e) {
+          console.error('Failed to delete old tmp resume:', e);
         }
       }
     }

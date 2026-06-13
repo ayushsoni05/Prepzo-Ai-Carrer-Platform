@@ -1,4 +1,5 @@
 import fs from 'fs/promises';
+import fsSync from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
@@ -20,6 +21,15 @@ const normalizeText = (rawText = '') =>
 
 const toAbsoluteResumePath = (resumeUrl) => {
   const relativePath = String(resumeUrl || '').replace(/^\/+/, '');
+  
+  // Check if file exists under /tmp/uploads first (for Vercel serverless environments)
+  if (relativePath.startsWith('uploads/')) {
+    const tmpPath = path.join('/tmp', relativePath);
+    if (fsSync.existsSync(tmpPath)) {
+      return tmpPath;
+    }
+  }
+
   const absolutePath = path.resolve(BACKEND_ROOT, relativePath);
 
   if (!absolutePath.startsWith(BACKEND_ROOT)) {

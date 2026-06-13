@@ -180,7 +180,7 @@ app.use('/uploads', (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
   next();
-}, express.static(resolvedUploadsPath));
+}, express.static(resolvedUploadsPath), express.static('/tmp/uploads'));
 
 // Health check route
 app.get('/api/health', (req, res) => {
