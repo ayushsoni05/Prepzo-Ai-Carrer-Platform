@@ -9,9 +9,10 @@ interface InterviewSessionProps {
   onComplete: (results: any) => void;
   role?: string;
   preFedQuestions?: string[];
+  resumeBased?: boolean;
 }
 
-export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, role, preFedQuestions }) => {
+export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, role, preFedQuestions, resumeBased }) => {
   const { speak, startListening, stopListening, isListening, transcript, isSpeaking } = useSpeech();
   
   const [questions, setQuestions] = useState<string[]>(preFedQuestions || []);
@@ -20,6 +21,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
   const [isSessionLoading, setIsSessionLoading] = useState(!preFedQuestions);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [answers, setAnswers] = useState<Array<{ question: string, answer: string, feedback: any }>>([]);
+  const [sessionId, setSessionId] = useState<string | null>(null);
   const [sessionComplete, setSessionComplete] = useState(false);
   const [timeLeft, setTimeLeft] = useState(90); // Max 90s per answer
 
@@ -53,6 +55,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
     setIsSubmitting(true);
     try {
       const res = await api.post(`${apiBase}/submit`, {
+        sessionId,
         questions,
         questionIndex: currentQuestionIndex,
         answer: finalAnswer || "No response provided."
@@ -69,7 +72,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
         } else {
           const nextQ = evaluation.nextQuestion;
           setCurrentQuestion(nextQ);
-          setCurrentQuestionIndex(prev => prev + 1);
+          setCurrentQuestionIndex(evaluation.question_number !== undefined ? evaluation.question_number - 1 : currentQuestionIndex + 1);
           
           speak(nextQ, () => {
             startListening();
@@ -81,7 +84,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
     } finally {
       setIsSubmitting(false);
     }
-  }, [transcript, isListening, questions, currentQuestionIndex, currentQuestion, answers, onComplete, speak, startListening, stopListening, clearTimers]);
+  }, [transcript, isListening, questions, currentQuestionIndex, currentQuestion, answers, onComplete, speak, startListening, stopListening, clearTimers, sessionId]);
 
   // Silence and Answer Limit Logic
   useEffect(() => {
@@ -132,13 +135,15 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
 
     try {
       setIsSessionLoading(true);
-      const res = await api.post(`${apiBase}/start`);
+      const res = await api.post(`${apiBase}/start`, resumeBased ? { resumeBased: true } : {});
       if (res.data.success) {
         const qList = res.data.data.questions;
         const firstQ = res.data.data.currentQuestion;
+        const sId = res.data.data.sessionId || null;
         setQuestions(qList);
         setCurrentQuestion(firstQ);
         setCurrentQuestionIndex(0);
+        setSessionId(sId);
         
         setTimeout(() => {
           speak(firstQ, () => {
@@ -151,7 +156,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
     } finally {
       setIsSessionLoading(false);
     }
-  }, [speak, startListening, preFedQuestions]);
+  }, [speak, startListening, preFedQuestions, resumeBased]);
 
   useEffect(() => {
     fetchQuestions();
@@ -238,9 +243,9 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
       {/* Progress & Timer */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-6">
-           <p className="text-[11px] font-black text-white/20 uppercase tracking-[0.5em] italic">Signal {currentQuestionIndex + 1} <span className="opacity-40">OF</span> {questions.length}</p>
+           <p className="text-[11px] font-black text-white/20 uppercase tracking-[0.5em] italic">Signal {currentQuestionIndex + 1} <span className="opacity-40">OF</span> {sessionId ? 9 : questions.length}</p>
            <div className="flex gap-2">
-             {questions.map((_, i) => (
+             {Array.from({ length: sessionId ? 9 : questions.length }).map((_, i) => (
                <div key={i} className={`h-1 w-10 rounded-full transition-all duration-700 ${i <= currentQuestionIndex ? 'bg-[#5ed29c]' : 'bg-white/5'}`} />
              ))}
            </div>

@@ -142,7 +142,72 @@ export const resumeMockInterview = async (questions, questionIndex, userResponse
     }
 };
 
+/**
+ * Evaluate the candidate's response in context and generate a follow-up question
+ * @param {string} questionAsked - The question being answered
+ * @param {string} userResponse - The candidate's answer
+ * @param {Array} conversationHistory - Full dialogue history
+ * @param {string} targetRole - Target role
+ */
+export const evaluateResumeInterviewResponse = async (questionAsked, userResponse, conversationHistory, targetRole) => {
+    try {
+        const historyText = conversationHistory.map(msg => `${msg.sender.toUpperCase()}: ${msg.text}`).join('\n');
+        
+        const prompt = `
+        You are an expert recruiter interviewing a candidate for the role of "${targetRole}".
+        
+        CONVERSATION HISTORY SO FAR:
+        ${historyText}
+        
+        CURRENT QUESTION ASKED: "${questionAsked}"
+        CANDIDATE'S RESPONSE TO EVALUATE: "${userResponse}"
+        
+        TASK:
+        1. Evaluate the candidate's response. Provide concise, constructive feedback.
+        2. Give a score from 0-10 based on clarity, technical accuracy, and professional tone.
+        3. Provide a "perfect_answer" example for the current question.
+        4. Generate a highly relevant, conversational follow-up (cross-question) based on what the candidate just answered. Build upon their points, ask them to expand on a specific project or tech they mentioned, or challenge a potential gap in their answer. Keep the tone professional, clear, and engaging.
+        
+        RESPONSE FORMAT (JSON ONLY):
+        {
+          "feedback": "...",
+          "score": 8,
+          "perfect_answer": "...",
+          "followup_question": "..."
+        }
+        `;
+
+        const completion = await groq.chat.completions.create({
+            messages: [{ role: "user", content: prompt }],
+            model: "llama-3.3-70b-versatile",
+            response_format: { type: "json_object" },
+            temperature: 0.7,
+        });
+
+        const evaluation = JSON.parse(completion.choices[0].message.content);
+
+        return {
+            success: true,
+            data: {
+                feedback: evaluation.feedback,
+                score: evaluation.score,
+                perfectAnswer: evaluation.perfect_answer,
+                followupQuestion: evaluation.followup_question
+            }
+        };
+    } catch (error) {
+        console.error('Groq Response Evaluation Error:', error);
+        return {
+            success: false,
+            message: 'Failed to evaluate response and generate cross-question using Groq',
+            error: error.message
+        };
+    }
+};
+
 export default {
     getResumeInterviewQuestions,
-    resumeMockInterview
+    resumeMockInterview,
+    evaluateResumeInterviewResponse
 };
+

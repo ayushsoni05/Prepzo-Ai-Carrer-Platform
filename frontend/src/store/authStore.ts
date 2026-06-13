@@ -27,6 +27,9 @@ export interface User {
   github?: string;
   resumeUrl?: string;
   resumeText?: string;
+  resumeOriginalName?: string;
+  resumeUploadedAt?: string;
+
   
   // Professional Portfolio Profile
   bio?: string;

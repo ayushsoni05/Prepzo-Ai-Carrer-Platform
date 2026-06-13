@@ -64,9 +64,11 @@ export const useSpeech = () => {
 
     const speakText = () => {
       const voices = window.speechSynthesis.getVoices();
-      // Prioritize high-quality natural voices
+      // Prioritize high-fidelity online natural/cloud voices (e.g. Microsoft Edge Aria/Guy or Google Cloud)
       const preferredVoice = voices.find(v => 
-        (v.name.includes('Natural') || v.name.includes('Google')) && v.lang.startsWith('en')
+        v.name.includes('Online') && v.name.includes('Natural') && v.lang.startsWith('en')
+      ) || voices.find(v => 
+        (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Microsoft')) && v.lang.startsWith('en')
       ) || voices.find(v => v.lang.startsWith('en')) || voices[0];
       
       if (preferredVoice) utterance.voice = preferredVoice;
