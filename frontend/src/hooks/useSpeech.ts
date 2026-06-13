@@ -176,7 +176,9 @@ export const useSpeech = () => {
       }
 
       const chunk = chunks[currentIdx];
-      const url = `/api/public/tts?text=${encodeURIComponent(chunk)}&lang=en-IN`;
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const cleanApiUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
+      const url = `${cleanApiUrl}/public/tts?text=${encodeURIComponent(chunk)}&lang=en-IN`;
       
       const audio = new Audio(url);
       audioRef.current = audio;
