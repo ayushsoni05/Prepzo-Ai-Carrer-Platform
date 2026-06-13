@@ -1,4 +1,16 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+const cleanTextForSpeech = (text: string): string => {
+  return text
+    .replace(/and\/or/gi, 'and or')
+    .replace(/CI\/CD/gi, 'C.I. C.D.')
+    .replace(/render\/vercel/gi, 'Render or Vercel')
+    .replace(/frontend\/backend/gi, 'frontend and backend')
+    .replace(/\//g, ' or ') // Convert other general slashes to 'or'
+    .replace(/[•\-\*]/g, '') // Strip bullet points, list dashes, asterisks
+    .replace(/[`\[\]\(\)]/g, '') // Strip brackets, parenthesis, backticks
+    .replace(/[\_]/g, '') // Strip markdown underscores
+    .replace(/\s+/g, ' ') // Collapse multiple spaces
+    .trim();
+};
 
 export const useSpeech = () => {
   const [isListening, setIsListening] = useState(false);
@@ -46,7 +58,8 @@ export const useSpeech = () => {
     // Cancel any ongoing speech
     window.speechSynthesis.cancel();
 
-    const utterance = new SpeechSynthesisUtterance(text);
+    const cleanedText = cleanTextForSpeech(text);
+    const utterance = new SpeechSynthesisUtterance(cleanedText);
     utterance.onstart = () => setIsSpeaking(true);
     utterance.onend = () => {
       setIsSpeaking(false);

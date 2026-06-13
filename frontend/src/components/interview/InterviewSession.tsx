@@ -29,6 +29,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
   const answerTimerRef = useRef<any>(null);
   const timeLeftIntervalRef = useRef<any>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const speechEndTimerRef = useRef<any>(null);
 
   const apiBase = '/interview';
 
@@ -36,9 +37,11 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
     if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
     if (answerTimerRef.current) clearTimeout(answerTimerRef.current);
     if (timeLeftIntervalRef.current) clearInterval(timeLeftIntervalRef.current);
+    if (speechEndTimerRef.current) clearTimeout(speechEndTimerRef.current);
     silenceTimerRef.current = null;
     answerTimerRef.current = null;
     timeLeftIntervalRef.current = null;
+    speechEndTimerRef.current = null;
   }, []);
 
   const handleNext = useCallback(async (autoSubmitAnswer?: string) => {
@@ -125,6 +128,27 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
       chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [answers, currentQuestion]);
+
+  // Auto-submit after 3.5 seconds of silence when speaking
+  useEffect(() => {
+    if (isListening && transcript) {
+      // Clear previous auto-submit timer
+      if (speechEndTimerRef.current) {
+        clearTimeout(speechEndTimerRef.current);
+      }
+      
+      // Set a new auto-submit timer
+      speechEndTimerRef.current = setTimeout(() => {
+        handleNext();
+      }, 3500);
+    }
+    
+    return () => {
+      if (speechEndTimerRef.current) {
+        clearTimeout(speechEndTimerRef.current);
+      }
+    };
+  }, [transcript, isListening, handleNext]);
 
   const fetchQuestions = useCallback(async () => {
     if (preFedQuestions && preFedQuestions.length > 0) {
@@ -387,7 +411,13 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
            <textarea
              value={transcript}
              readOnly
-             placeholder={isListening ? (transcript ? "Synthesizing your response signal..." : "Awaiting user voice signal (10s auto-skip)...") : "Awaiting user input signal..."}
+             placeholder={
+               isListening
+                 ? (transcript
+                     ? "Recording response... (Stop speaking to auto-transmit)"
+                     : "Sarah Vance is listening... Speak your answer now. (10s inactivity auto-skip)")
+                 : "Awaiting recruiter cue..."
+             }
              className={`w-full min-h-[240px] rounded-[48px] p-12 bg-[#0a0c10]/40 border ${isListening ? 'border-[#5ed29c] shadow-[0_0_40px_rgba(94,210,156,0.1)]' : 'border-white/5'} text-white/60 font-bold text-xl focus:outline-none transition-all duration-700 italic leading-relaxed backdrop-blur-xl`}
            />
            <div className="absolute top-8 right-12 flex gap-4">
@@ -430,6 +460,11 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
               </span>
            </button>
         </div>
+        
+        {/* Hands-free mode status banner */}
+        <p className="text-[11px] text-center font-black uppercase tracking-[0.3em] text-[#5ed29c]/60 animate-pulse pt-2">
+          Hands-free Auto-mode Active • Recording & submissions are fully automatic
+        </p>
       </div>
       
       {/* Platform Protocol */}
