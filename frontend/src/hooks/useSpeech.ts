@@ -54,85 +54,146 @@ export const useSpeech = () => {
     };
   }, []);
 
-  const speak = useCallback((text: string, onEnd?: () => void) => {
-    if (!window.speechSynthesis) return;
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-    // Cancel any ongoing speech
-    window.speechSynthesis.cancel();
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  const speak = useCallback((text: string, onEnd?: () => void) => {
+    // 1. Cancel any active native speech
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+
+    // 2. Cancel any active Google Translate Audio speech
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
 
     const cleanedText = cleanTextForSpeech(text);
-    const utterance = new SpeechSynthesisUtterance(cleanedText);
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => {
-      setIsSpeaking(false);
-      if (onEnd) onEnd();
-    };
-    utterance.onerror = (e) => {
-      console.error('Speech error:', e);
-      setIsSpeaking(false);
-    };
 
-    // Optimization for Clarity
-    utterance.rate = 0.92; // Slower speed matching human conversational cadence
-    utterance.pitch = 1.0;  // Natural pitch
-    utterance.volume = 1.0;
+    // Fallback function for native Web Speech Synthesis
+    const playNativeFallback = () => {
+      if (!window.speechSynthesis) return;
+      const utterance = new SpeechSynthesisUtterance(cleanedText);
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => {
+        setIsSpeaking(false);
+        if (onEnd) onEnd();
+      };
+      utterance.onerror = (e) => {
+        console.error('Native speech error:', e);
+        setIsSpeaking(false);
+      };
 
-    const speakText = () => {
-      const voices = window.speechSynthesis.getVoices();
-      const enVoices = voices.filter(v => v.lang.startsWith('en'));
+      utterance.rate = 0.92;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
 
-      if (enVoices.length > 0) {
-        // Sort voices using a detailed scoring matrix
-        const sortedVoices = [...enVoices].sort((a, b) => {
-          const getScore = (voice: SpeechSynthesisVoice) => {
-            let score = 0;
-            const name = voice.name.toLowerCase();
+      const speakText = () => {
+        const voices = window.speechSynthesis.getVoices();
+        const enVoices = voices.filter(v => v.lang.startsWith('en'));
 
-            // Language match preference (US & GB English are usually higher quality)
-            if (voice.lang === 'en-US' || voice.lang === 'en-GB') {
-              score += 5;
-            }
-
-            // Neural/Natural indicators
-            if (name.includes('natural')) score += 50;
-            if (name.includes('neural')) score += 45;
-            if (name.includes('online')) score += 30;
-            if (name.includes('google')) score += 20;
-            if (name.includes('microsoft')) score += 10;
-
-            // Character/Gender matching: Sarah Vance is a female recruiter, so boost female names
-            const femaleKeywords = ['aria', 'jenny', 'sonia', 'female', 'sara', 'zira', 'hazel', 'guy'];
-            // Note: guy is male, but it's Microsoft Edge's top natural voice, which still sounds highly realistic as a fallback
-            femaleKeywords.forEach(keyword => {
-              if (name.includes(keyword)) {
-                if (keyword === 'guy') {
-                  score += 1; // minor boost for high quality male fallback
-                } else {
-                  score += 8; // higher boost for female natural voices
+        if (enVoices.length > 0) {
+          const sortedVoices = [...enVoices].sort((a, b) => {
+            const getScore = (voice: SpeechSynthesisVoice) => {
+              let score = 0;
+              const name = voice.name.toLowerCase();
+              if (voice.lang === 'en-US' || voice.lang === 'en-GB') score += 5;
+              if (name.includes('natural')) score += 50;
+              if (name.includes('neural')) score += 45;
+              if (name.includes('online')) score += 30;
+              if (name.includes('google')) score += 20;
+              if (name.includes('microsoft')) score += 10;
+              const femaleKeywords = ['aria', 'jenny', 'sonia', 'female', 'sara', 'zira', 'hazel', 'guy'];
+              femaleKeywords.forEach(keyword => {
+                if (name.includes(keyword)) {
+                  if (keyword === 'guy') score += 1;
+                  else score += 8;
                 }
-              }
-            });
+              });
+              return score;
+            };
+            return getScore(b) - getScore(a);
+          });
+          utterance.voice = sortedVoices[0];
+        } else if (voices.length > 0) {
+          utterance.voice = voices[0];
+        }
+        window.speechSynthesis.speak(utterance);
+      };
 
-            return score;
-          };
-          return getScore(b) - getScore(a);
-        });
+      if (window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.onvoiceschanged = speakText;
+      } else {
+        speakText();
+      }
+    };
 
-        const preferredVoice = sortedVoices[0];
-        console.log('Selected real voice for recruiter:', preferredVoice.name, 'Language:', preferredVoice.lang);
-        utterance.voice = preferredVoice;
-      } else if (voices.length > 0) {
-        utterance.voice = voices[0];
+    // Attempt Google Translate Neural TTS for high-fidelity human voice
+    const chunks: string[] = [];
+    const words = cleanedText.split(' ');
+    let currentChunk = '';
+    
+    words.forEach(word => {
+      if ((currentChunk + ' ' + word).length > 180) {
+        chunks.push(currentChunk.trim());
+        currentChunk = word;
+      } else {
+        currentChunk += (currentChunk ? ' ' : '') + word;
+      }
+    });
+    if (currentChunk) chunks.push(currentChunk.trim());
+
+    if (chunks.length === 0) {
+      if (onEnd) onEnd();
+      return;
+    }
+
+    let currentIdx = 0;
+    
+    const playNextChunk = () => {
+      if (currentIdx >= chunks.length) {
+        setIsSpeaking(false);
+        audioRef.current = null;
+        if (onEnd) onEnd();
+        return;
       }
 
-      window.speechSynthesis.speak(utterance);
+      const chunk = chunks[currentIdx];
+      const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${encodeURIComponent(chunk)}`;
+      
+      const audio = new Audio(url);
+      audioRef.current = audio;
+
+      if (currentIdx === 0) {
+        setIsSpeaking(true);
+      }
+
+      audio.onended = () => {
+        currentIdx++;
+        playNextChunk();
+      };
+
+      audio.onerror = (e) => {
+        console.error('Google Translate TTS failed, falling back to native SpeechSynthesis:', e);
+        playNativeFallback();
+      };
+
+      audio.play().catch(err => {
+        console.warn('Audio auto-play blocked, falling back to native SpeechSynthesis:', err);
+        playNativeFallback();
+      });
     };
 
-    if (window.speechSynthesis.getVoices().length === 0) {
-      window.speechSynthesis.onvoiceschanged = speakText;
-    } else {
-      speakText();
-    }
+    playNextChunk();
   }, []);
 
   const startListening = useCallback(() => {
@@ -140,6 +201,16 @@ export const useSpeech = () => {
       alert('Speech recognition is not supported in this browser.');
       return;
     }
+    // Cancel any active speech synthesis
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+    // Cancel any active audio playback
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    setIsSpeaking(false);
     setTranscript('');
     setIsListening(true);
     recognitionRef.current.start();

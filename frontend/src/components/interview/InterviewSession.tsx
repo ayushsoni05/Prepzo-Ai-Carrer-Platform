@@ -95,12 +95,12 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
     if (isListening && !isSubmitting) {
       setTimeLeft(90);
       
-      // 10s silence detection (if transcript stays empty)
+      // 4s silence detection (if transcript stays empty)
       silenceTimerRef.current = setTimeout(() => {
         if (!transcript) {
           handleNext(""); // Move forward with empty answer
         }
-      }, 10000);
+      }, 4000);
 
       // 90s max answer duration
       answerTimerRef.current = setTimeout(() => {
@@ -415,7 +415,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
                isListening
                  ? (transcript
                      ? "Recording response... (Stop speaking to auto-transmit)"
-                     : "Sarah Vance is listening... Speak your answer now. (10s inactivity auto-skip)")
+                     : "Sarah Vance is listening... Speak your answer now. (4s inactivity auto-skip)")
                  : "Awaiting recruiter cue..."
              }
              className={`w-full min-h-[240px] rounded-[48px] p-12 bg-[#0a0c10]/40 border ${isListening ? 'border-[#5ed29c] shadow-[0_0_40px_rgba(94,210,156,0.1)]' : 'border-white/5'} text-white/60 font-bold text-xl focus:outline-none transition-all duration-700 italic leading-relaxed backdrop-blur-xl`}
