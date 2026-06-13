@@ -8,10 +8,14 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Groq configuration - High Performance Llama 3.3
+// AI Client configuration - OpenRouter (Gemini) with Groq fallback
 const groq = new OpenAI({
-    apiKey: process.env.GROQ_API_KEY,
-    baseURL: 'https://api.groq.com/openai/v1',
+    apiKey: process.env.OPENROUTER_API_KEY || process.env.GROQ_API_KEY,
+    baseURL: process.env.OPENROUTER_API_KEY ? 'https://openrouter.ai/api/v1' : 'https://api.groq.com/openai/v1',
+    defaultHeaders: process.env.OPENROUTER_API_KEY ? {
+        'HTTP-Referer': 'https://prepzo-ai-career-platform.vercel.app/',
+        'X-Title': 'Prepzo AI Career Platform',
+    } : undefined
 });
 
 /**
@@ -45,9 +49,10 @@ export const getResumeInterviewQuestions = async (resumeText, targetRole, numQue
 
         const completion = await groq.chat.completions.create({
             messages: [{ role: "user", content: prompt }],
-            model: "llama-3.3-70b-versatile",
+            model: process.env.OPENROUTER_API_KEY ? "google/gemini-2.5-flash" : "llama-3.3-70b-versatile",
             response_format: { type: "json_object" },
             temperature: 0.7,
+            max_tokens: 1500,
         });
 
         const data = JSON.parse(completion.choices[0].message.content);
@@ -113,9 +118,10 @@ export const resumeMockInterview = async (questions, questionIndex, userResponse
 
         const completion = await groq.chat.completions.create({
             messages: [{ role: "user", content: prompt }],
-            model: "llama-3.3-70b-versatile",
+            model: process.env.OPENROUTER_API_KEY ? "google/gemini-2.5-flash" : "llama-3.3-70b-versatile",
             response_format: { type: "json_object" },
             temperature: 0.5,
+            max_tokens: 1500,
         });
 
         const evaluation = JSON.parse(completion.choices[0].message.content);
@@ -179,9 +185,10 @@ export const evaluateResumeInterviewResponse = async (questionAsked, userRespons
 
         const completion = await groq.chat.completions.create({
             messages: [{ role: "user", content: prompt }],
-            model: "llama-3.3-70b-versatile",
+            model: process.env.OPENROUTER_API_KEY ? "google/gemini-2.5-flash" : "llama-3.3-70b-versatile",
             response_format: { type: "json_object" },
             temperature: 0.7,
+            max_tokens: 1500,
         });
 
         const evaluation = JSON.parse(completion.choices[0].message.content);
