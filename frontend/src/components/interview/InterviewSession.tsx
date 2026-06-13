@@ -129,7 +129,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
     }
   }, [answers, currentQuestion]);
 
-  // Auto-submit after 3.5 seconds of silence when speaking
+  // Auto-submit after 4 seconds of silence when speaking
   useEffect(() => {
     if (isListening && transcript) {
       // Clear previous auto-submit timer
@@ -140,7 +140,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
       // Set a new auto-submit timer
       speechEndTimerRef.current = setTimeout(() => {
         handleNext();
-      }, 3500);
+      }, 4000);
     }
     
     return () => {
@@ -434,30 +434,13 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
            </div>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-6">
+        <div className="flex flex-col gap-6">
            <button
              onClick={isListening ? stopListening : startListening}
              disabled={isSubmitting || isSpeaking}
-             className={`flex-1 h-[80px] rounded-[32px] flex items-center justify-center gap-4 font-[900] uppercase tracking-[0.2em] italic transition-all duration-500 ${isListening ? 'bg-red-500/10 border border-red-500/30 text-red-500 shadow-2xl shadow-red-500/10' : 'bg-white/5 border border-white/10 text-white/40 hover:bg-white/10 hover:text-white'}`}
+             className={`w-full h-[80px] rounded-[32px] flex items-center justify-center gap-4 font-[900] uppercase tracking-[0.2em] italic transition-all duration-500 ${isListening ? 'bg-red-500/10 border border-red-500/30 text-red-500 shadow-2xl shadow-red-500/10' : 'bg-white/5 border border-white/10 text-white/40 hover:bg-white/10 hover:text-white'}`}
            >
              {isListening ? <><MicOff size={24} /> Terminate Input</> : <><Mic size={24} /> Initiate Microphone</>}
-           </button>
-           
-           <button
-             onClick={() => handleNext()}
-             disabled={isSubmitting || isListening || !transcript || isSpeaking}
-             className="flex-[2] group/btn relative h-[80px] active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-           >
-              <svg className="absolute inset-0 w-full h-full drop-shadow-2xl transition-transform group-hover/btn:scale-[1.01]" viewBox="0 0 600 80" preserveAspectRatio="none" fill="none">
-                 <path d="M0 0H600L585 80H15L0 0Z" fill={isSubmitting ? "#0a0c10" : "#5ed29c"} />
-              </svg>
-              <span className={`relative z-10 flex items-center justify-center h-full font-rubik font-[900] text-lg uppercase tracking-[0.3em] italic ${isSubmitting ? 'text-white/40' : 'text-[#0a0c10]'}`}>
-                 {isSubmitting ? (
-                   <><Loader2 className="animate-spin mr-4" size={24} /> Syncing Response...</>
-                 ) : (
-                   <><Send size={24} className="mr-4" /> {currentQuestionIndex === questions.length - 1 ? 'Finalize Interview' : 'Transmit Response'}</>
-                 )}
-              </span>
            </button>
         </div>
         

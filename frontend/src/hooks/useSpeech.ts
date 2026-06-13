@@ -106,19 +106,27 @@ export const useSpeech = () => {
             const getScore = (voice: SpeechSynthesisVoice) => {
               let score = 0;
               const name = voice.name.toLowerCase();
-              if (voice.lang === 'en-US' || voice.lang === 'en-GB') score += 5;
+              const lang = voice.lang.toLowerCase();
+
+              // Prioritize Indian English lang code
+              if (lang === 'en-in') {
+                score += 100;
+              } else if (lang === 'en-us' || lang === 'en-gb') {
+                score += 5;
+              }
+
+              // Neural/Natural indicators
               if (name.includes('natural')) score += 50;
               if (name.includes('neural')) score += 45;
               if (name.includes('online')) score += 30;
               if (name.includes('google')) score += 20;
               if (name.includes('microsoft')) score += 10;
-              const femaleKeywords = ['aria', 'jenny', 'sonia', 'female', 'sara', 'zira', 'hazel', 'guy'];
-              femaleKeywords.forEach(keyword => {
-                if (name.includes(keyword)) {
-                  if (keyword === 'guy') score += 1;
-                  else score += 8;
-                }
-              });
+
+              // Indian voice names (e.g. Neerja, Heera, Prabhat, Google India)
+              if (name.includes('india') || name.includes('neerja') || name.includes('heera') || name.includes('harsh') || name.includes('ravi')) {
+                score += 40;
+              }
+
               return score;
             };
             return getScore(b) - getScore(a);
@@ -137,7 +145,7 @@ export const useSpeech = () => {
       }
     };
 
-    // Attempt Google Translate Neural TTS for high-fidelity human voice
+    // Attempt Google Translate Neural TTS for high-fidelity human voice in Indian English
     const chunks: string[] = [];
     const words = cleanedText.split(' ');
     let currentChunk = '';
@@ -168,7 +176,7 @@ export const useSpeech = () => {
       }
 
       const chunk = chunks[currentIdx];
-      const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${encodeURIComponent(chunk)}`;
+      const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=en-IN&client=tw-ob&q=${encodeURIComponent(chunk)}`;
       
       const audio = new Audio(url);
       audioRef.current = audio;
