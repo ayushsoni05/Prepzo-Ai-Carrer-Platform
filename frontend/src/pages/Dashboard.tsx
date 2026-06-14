@@ -804,10 +804,10 @@ export function Dashboard() {
             Open Full Bank <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
-        <div className="p-1 border border-white/5 rounded-[40px] bg-black shadow-2xl relative">
+        <div className="p-6 md:p-10 border border-white/5 rounded-[40px] bg-black shadow-2xl relative">
             <QuestionBank limit={15} showFilters={true} showHeader={false} />
             
-            <div className="p-8 border-t border-white/5 flex justify-center">
+            <div className="mt-8 pt-8 border-t border-white/5 flex justify-center">
               <button 
                 onClick={() => navigateTo('question-bank')}
                 className="relative h-[55px] px-10 group active:scale-95 transition-transform"

@@ -22,7 +22,7 @@ export const QuestionBankPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="p-1 border border-white/5 rounded-[40px] bg-black shadow-2xl relative">
+        <div className="p-6 md:p-10 border border-white/5 rounded-[40px] bg-black shadow-2xl relative">
           <QuestionBank />
         </div>
       </div>

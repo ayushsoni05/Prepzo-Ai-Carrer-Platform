@@ -99,20 +99,27 @@
   -webkit-backdrop-filter: none !important;
 }
 
-/* Backgrounds mapping */
-[data-theme='light'] [class*="bg-[#0a0c10]"],
-[data-theme='light'] [class*="bg-[#0a0a0a]"],
-[data-theme='light'] [class*="bg-[#09090b]"] { background-color: var(--bg) !important; }
-
-/* Map dark card backgrounds to solid warm white panels */
-[data-theme='light'] [class*="bg-[#12141a]"],
-[data-theme='light'] [class*="bg-[#1c1f26]"],
-[data-theme='light'] [class*="bg-[#161a20]"],
-[data-theme='light'] [class*="bg-[#1e1e1e]"],
-[data-theme='light'] [class*="bg-[#2d2d2d]"],
-[data-theme='light'] [class*="bg-[#252526]"] { 
-  background-color: var(--panel) !important; 
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02); 
+/* Backgrounds mapping: Ensure all cards, sub-cards, inner items, and elements using opacity/dark classes resolve to solid #f3f2ef */
+[data-theme='light'] .bg-\[\#0a0c10\],
+[data-theme='light'] .bg-\[\#0a0a0a\],
+[data-theme='light'] .bg-\[\#09090b\],
+[data-theme='light'] .bg-\[\#12141a\],
+[data-theme='light'] .bg-\[\#1c1f26\],
+[data-theme='light'] .bg-\[\#161a20\],
+[data-theme='light'] .bg-\[\#1e1e1e\],
+[data-theme='light'] .bg-\[\#2d2d2d\],
+[data-theme='light'] .bg-\[\#252526\],
+[data-theme='light'] .bg-\[\#13171d\],
+[data-theme='light'] .bg-\[\#1c232d\],
+[data-theme='light'] .bg-\[\#0c1017\],
+[data-theme='light'] .bg-black:not([class*="fixed"]),
+[data-theme='light'] [class*="bg-black/"]:not([class*="fixed"]),
+[data-theme='light'] [class*="bg-white/"]:not(button):not(a):not([class*="hover:"]),
+[data-theme='light'] [class*="from-black"],
+[data-theme='light'] [class*="from-\[\#"] {
+  background-image: none !important;
+  background-color: #f3f2ef !important;
+  border-color: rgba(148, 163, 184, 0.28) !important;
 }
 
 /* Solid card/panel overrides */
@@ -128,15 +135,7 @@
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.01) !important;
 }
 
-[data-theme='light'] [class*="bg-black"]:not([class*="bg-black/"]):not([class*="fixed"]):not(textarea):not(input):not(button):not(a) { 
-  background-color: var(--panel) !important; 
-  border: 1px solid var(--panel-border) !important; 
-  box-shadow: var(--shadow-sm) !important; 
-}
 
-[data-theme='light'] [class*="bg-black/"]:not([class*="fixed"]):not(textarea):not(input) { 
-  background-color: var(--panel) !important; 
-}
 
 /* Premium Hover animations and colored shadow glows like dark theme */
 [data-theme='light'] .glass-panel--interactive:hover {
@@ -287,66 +286,7 @@
     linear-gradient(to bottom, rgba(79, 70, 229, 0.08) 1px, transparent 1px) !important;
 }
 
-/* Ensure main cards are solid #f3f2ef and recruiter panels/textareas are solid white (#ffffff) in light mode */
-[data-theme='light'] [class*="bg-[#13171d]"] {
-  background-color: #f3f2ef !important;
-  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.06) !important;
-}
 
-[data-theme='light'] textarea[class*="bg-[#13171d]"] {
-  background-color: #f3f2ef !important;
-}
-
-[data-theme='light'] [class*="bg-[#1c232d]"] {
-  background-color: #f3f2ef !important;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02) !important;
-}
-
-/* Ensure all dark card/panel classes are mapped to solid #f3f2ef in light mode and strip gradients */
-[data-theme='light'] [class*="bg-[#13171d]"]:not(textarea):not(input),
-[data-theme='light'] [class*="bg-[#0a0a0a]"]:not(textarea):not(input),
-[data-theme='light'] [class*="bg-[#0a0c10]"]:not(textarea):not(input),
-[data-theme='light'] [class*="bg-[#09090b]"]:not(textarea):not(input),
-[data-theme='light'] [class*="bg-[#0c1017]"]:not(textarea):not(input),
-[data-theme='light'] [class*="bg-[#12141a]"]:not(textarea):not(input),
-[data-theme='light'] [class*="bg-[#1c1f26]"]:not(textarea):not(input),
-[data-theme='light'] [class*="bg-[#161a20]"]:not(textarea):not(input),
-[data-theme='light'] [class*="bg-[#1e1e1e]"]:not(textarea):not(input),
-[data-theme='light'] [class*="bg-[#2d2d2d]"]:not(textarea):not(input),
-[data-theme='light'] [class*="bg-[#252526]"]:not(textarea):not(input),
-[data-theme='light'] [class*="bg-gray-900"]:not(textarea):not(input),
-[data-theme='light'] [class*="bg-black/10"]:not([class*="fixed"]):not(textarea):not(input),
-[data-theme='light'] [class*="bg-black/20"]:not([class*="fixed"]):not(textarea):not(input),
-[data-theme='light'] [class*="bg-black/30"]:not([class*="fixed"]):not(textarea):not(input),
-[data-theme='light'] [class*="bg-black/40"]:not([class*="fixed"]):not(textarea):not(input),
-[data-theme='light'] [class*="bg-black/50"]:not([class*="fixed"]):not(textarea):not(input),
-[data-theme='light'] [class*="bg-black/60"]:not([class*="fixed"]):not(textarea):not(input),
-[data-theme='light'] [class*="bg-black/70"]:not([class*="fixed"]):not(textarea):not(input),
-[data-theme='light'] [class*="bg-black/80"]:not([class*="fixed"]):not(textarea):not(input),
-[data-theme='light'] [class*="bg-black"]:not([class*="bg-black/"]):not([class*="fixed"]):not(textarea):not(input):not(button):not(a),
-[data-theme='light'] [class*="from-[#13171d]"],
-[data-theme='light'] [class*="from-black"],
-[data-theme='light'] [class*="from-[#0a0a0a]"],
-[data-theme='light'] [class*="from-[#0a0c10]"],
-[data-theme='light'] [class*="from-[#09090b]"],
-[data-theme='light'] [class*="from-[#0c1017]"],
-[data-theme='light'] [class*="from-[#12141a]"],
-[data-theme='light'] [class*="from-[#161a20]"],
-[data-theme='light'] [class*="from-[#1e1e1e]"] {
-  background-image: none !important;
-  background-color: #f3f2ef !important;
-  border-color: rgba(148, 163, 184, 0.28) !important;
-}
-
-/* Ensure all cards, sub-cards, inner items, and elements using opacity classes resolve to solid #f3f2ef */
-[data-theme='light'] [class~="bg-white/5"]:not([class~="hover:bg-white/5"]),
-[data-theme='light'] [class~="bg-white/10"]:not([class~="hover:bg-white/10"]),
-[data-theme='light'] [class~="bg-[#1c232d]"],
-[data-theme='light'] [class*="bg-white/"]:not(button):not(a):not([class*="hover:"]) {
-  background-color: #f3f2ef !important;
-  background-image: none !important;
-  border-color: rgba(148, 163, 184, 0.28) !important;
-}
 
 /* Safeguard secondary buttons, anchors, and active tags using white opacity classes from blending in */
 [data-theme='light'] button[class*="bg-white/"]:not(:hover),
