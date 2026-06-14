@@ -8,7 +8,7 @@ export function CommunityPage() {
   const [activeView, setActiveView] = useState<'network' | 'companies'>('network');
 
   return (
-    <div className="min-h-screen bg-[#f3f2ef] flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-[#f6f8fc] flex flex-col relative overflow-hidden">
       {/* Global Community Navigation */}
       <div className="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200 pt-4 pb-0 md:pl-[100px] flex justify-center md:justify-start px-4">
         <div className="flex gap-8">

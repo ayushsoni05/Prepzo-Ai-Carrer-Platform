@@ -57,7 +57,7 @@
 
 [data-theme='light'] {
   color-scheme: light;
-  --bg:              #f6f8fc;
+  --bg:              #f3f2ef;
   --bg-elevated:     rgba(255, 255, 255, 0.85);
   --bg-soft:         rgba(255, 255, 255, 0.65);
   --panel:           rgba(255, 255, 255, 0.62);

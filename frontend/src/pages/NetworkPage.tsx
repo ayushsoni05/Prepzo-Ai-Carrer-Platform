@@ -471,9 +471,9 @@ export function NetworkPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#f3f2ef] selection:bg-[#057642] selection:text-gray-900 overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#f6f8fc] selection:bg-[#057642] selection:text-gray-900 overflow-x-hidden relative">
       {/* Background Effect */}
-      <div className="absolute inset-0 w-full h-full bg-[#f3f2ef] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+      <div className="absolute inset-0 w-full h-full bg-[#f6f8fc] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
       <GridBeam className="absolute inset-0" />
 
       <div className="relative z-10 border-b border-gray-200 bg-white/80 backdrop-blur-3xl pt-6 pb-0">
@@ -515,7 +515,7 @@ export function NetworkPage() {
               <div className="absolute top-0 right-0 p-6 opacity-40">
                  <Bot size={24} className="text-[#057642]" />
               </div>
-              <div className="w-24 h-24 bg-[#f3f2ef] border-4 border-gray-200 rounded-[32px] mx-auto mb-6 flex items-center justify-center overflow-hidden shadow-2xl relative z-10">
+              <div className="w-24 h-24 bg-[#f6f8fc] border-4 border-gray-200 rounded-[32px] mx-auto mb-6 flex items-center justify-center overflow-hidden shadow-2xl relative z-10">
                 <span className="text-4xl font-rubik font-[900] text-gray-900">
                   {user?.fullName?.charAt(0) || 'U'}
                 </span>
@@ -560,7 +560,7 @@ export function NetworkPage() {
                 {/* Create Post - Premium Input Node */}
                 <div className="bg-white/60 border border-gray-200 rounded-[32px] p-8 backdrop-blur-xl mb-10 overflow-hidden relative">
                    <div className="flex items-center gap-6">
-                      <div className="w-14 h-14 bg-[#f3f2ef] border border-gray-300 rounded-2xl flex items-center justify-center overflow-hidden shrink-0 shadow-xl">
+                      <div className="w-14 h-14 bg-[#f6f8fc] border border-gray-300 rounded-2xl flex items-center justify-center overflow-hidden shrink-0 shadow-xl">
                          <span className="text-xl font-rubik font-[900] text-gray-900">{user?.fullName?.charAt(0)}</span>
                       </div>
                       <div 
@@ -837,7 +837,7 @@ function PostCard({
       {/* Header */}
       <div className="flex items-start justify-between mb-8">
         <div className="flex items-center gap-5">
-          <div className="w-16 h-16 bg-[#f3f2ef] border border-gray-300 rounded-[22px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-1 group-hover:border-[#057642]/30 transition-colors">
+          <div className="w-16 h-16 bg-[#f6f8fc] border border-gray-300 rounded-[22px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-1 group-hover:border-[#057642]/30 transition-colors">
             {post.author.profileImage ? (
               <img
                 src={post.author.profileImage}
@@ -966,7 +966,7 @@ function PostCard({
                 <div className="space-y-4 mb-6">
                   {post.comments.map((comment, idx) => (
                     <div key={idx} className="flex gap-4">
-                      <div className="w-10 h-10 bg-[#f3f2ef] border border-gray-300 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
+                      <div className="w-10 h-10 bg-[#f6f8fc] border border-gray-300 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
                         {comment.author.profileImage ? (
                           <img src={comment.author.profileImage} alt="" className="w-full h-full object-cover" />
                         ) : (
@@ -984,7 +984,7 @@ function PostCard({
 
               {/* Comment Input */}
               <div className="flex gap-4 items-center bg-white border border-gray-200 rounded-2xl p-2 pr-6">
-                <div className="w-10 h-10 bg-[#f3f2ef] border border-gray-300 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 bg-[#f6f8fc] border border-gray-300 rounded-xl flex items-center justify-center flex-shrink-0">
                    <span className="text-gray-900 font-black">U</span>
                 </div>
                 <input
