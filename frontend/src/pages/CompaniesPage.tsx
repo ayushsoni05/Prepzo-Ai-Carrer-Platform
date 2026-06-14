@@ -161,9 +161,9 @@ export function CompaniesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f6f8fc] selection:bg-[#057642] selection:text-gray-900 overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#f3f2ef] selection:bg-[#057642] selection:text-gray-900 overflow-x-hidden relative">
       {/* Background Effect */}
-      <div className="absolute inset-0 w-full h-full bg-[#f6f8fc] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+      <div className="absolute inset-0 w-full h-full bg-[#f3f2ef] z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
       <GridBeam className="absolute inset-0" />
 
       <div className="relative z-10 bg-white/80 backdrop-blur-3xl pt-8 pb-4">
@@ -189,9 +189,9 @@ export function CompaniesPage() {
                   }}
                   className="w-full h-full pl-6 pr-10 py-5 bg-transparent border-none text-gray-900 text-[15px] font-bold placeholder-white/20 focus:ring-0 transition-all font-rubik appearance-none cursor-pointer"
                 >
-                  <option value="" className="bg-[#f6f8fc]">All Industries</option>
+                  <option value="" className="bg-[#f3f2ef]">All Industries</option>
                   {industries.map((ind) => (
-                    <option key={ind} value={ind} className="bg-[#f6f8fc]">
+                    <option key={ind} value={ind} className="bg-[#f3f2ef]">
                       {ind}
                     </option>
                   ))}
@@ -323,7 +323,7 @@ export function CompaniesPage() {
             >
               Previous
             </button>
-            <div className="px-10 py-5 rounded-3xl bg-[#f6f8fc] border border-gray-200 flex items-center">
+            <div className="px-10 py-5 rounded-3xl bg-[#f3f2ef] border border-gray-200 flex items-center">
               <span className="text-[14px] font-semibold text-gray-600 text-[#057642]">
                 PAGE {page} <span className="text-gray-900/10 mx-3">/</span> {totalPages}
               </span>
@@ -381,7 +381,7 @@ function FeaturedCompanyCard({
       </div>
 
       <div className="flex items-center gap-6 mb-6">
-        <div className="w-16 h-16 bg-[#f6f8fc] border border-gray-300 rounded-[20px] flex items-center justify-center overflow-hidden p-2 group-hover:border-[#057642]/20 transition-colors">
+        <div className="w-16 h-16 bg-[#f3f2ef] border border-gray-300 rounded-[20px] flex items-center justify-center overflow-hidden p-2 group-hover:border-[#057642]/20 transition-colors">
           {company?.logo ? (
             <img
               src={company.logo}
@@ -438,7 +438,7 @@ function CompanyCard({
       </div>
 
       <div className="flex items-start gap-6 mb-8">
-        <div className="w-16 h-16 bg-[#f6f8fc] border border-gray-300 rounded-[24px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-2 group-hover:border-[#057642]/30 transition-colors">
+        <div className="w-16 h-16 bg-[#f3f2ef] border border-gray-300 rounded-[24px] flex items-center justify-center overflow-hidden shrink-0 shadow-lg p-2 group-hover:border-[#057642]/30 transition-colors">
           {company?.logo ? (
             <img
               src={company.logo}
