@@ -54,6 +54,7 @@ import {
   preventParamPollution,
 } from './middleware/security.middleware.js';
 import { generalLimiter, ipBlocker, dynamicRateLimiter } from './middleware/rateLimit.middleware.js';
+import mongoSanitize from 'express-mongo-sanitize';
 
 // Get __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -139,6 +140,9 @@ app.use(securityHeaders);
 // Body parsing
 app.use(express.json({ limit: '50mb' })); // Increased limit to accommodate large Base64 image uploads and assessment payloads
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
+// Sanitize user-supplied data to prevent MongoDB Operator Injection
+app.use(mongoSanitize());
 
 // Input sanitization
 app.use(sanitizeInput);
