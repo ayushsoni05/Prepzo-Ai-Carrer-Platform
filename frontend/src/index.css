@@ -339,9 +339,9 @@
 }
 
 /* Make inner items/sub-cards stand out as solid white panels for contrast */
-[data-theme='light'] [class*="bg-white/5"]:not([class*="hover:"]):not(input):not(textarea),
-[data-theme='light'] [class*="bg-white/10"]:not([class*="hover:"]):not(input):not(textarea),
-[data-theme='light'] [class*="bg-[#1c232d]"]:not(textarea):not(input) {
+[data-theme='light'] [class~="bg-white/5"]:not([class~="hover:bg-white/5"]):not(input):not(textarea),
+[data-theme='light'] [class~="bg-white/10"]:not([class~="hover:bg-white/10"]):not(input):not(textarea),
+[data-theme='light'] [class~="bg-[#1c232d]"]:not(textarea):not(input) {
   background-color: #ffffff !important;
   background-image: none !important;
   border-color: rgba(148, 163, 184, 0.16) !important;

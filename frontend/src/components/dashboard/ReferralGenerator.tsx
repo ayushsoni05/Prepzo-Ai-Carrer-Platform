@@ -92,7 +92,7 @@ export function ReferralGenerator() {
     setTimeout(() => {
       setIsGenerating(false);
       setGeneratedPitch(generatePitchText());
-      showSuccess('AI Outreach pitch generated successfully!');
+      showSuccess('Outreach pitch generated successfully!');
     }, 1000);
   };
 
@@ -116,7 +116,7 @@ export function ReferralGenerator() {
           <div>
             <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/40 italic">Networking Outreach</p>
             <h4 className="text-xl font-[900] text-white uppercase italic tracking-tighter">
-              AI Referral <span className="text-[#5ed29c]">Pitch Generator.</span>
+              Referral <span className="text-[#5ed29c]">Pitch Generator.</span>
             </h4>
           </div>
         </div>

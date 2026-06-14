@@ -356,12 +356,34 @@ export const buildAdvancedResumeReport = ({
       ],
     },
     careerRoadmap: {
-      milestones: [
-        { week: 'Week 1', goal: 'Close top 3 skill gaps', output: 'Skill drills + mini implementation tasks' },
-        { week: 'Week 2', goal: 'Ship role-aligned project upgrade', output: 'Production-ready project with metrics' },
-        { week: 'Week 3', goal: 'Interview preparation sprint', output: 'Mock interviews + refined behavioral stories' },
-        { week: 'Week 4', goal: 'Application optimization', output: 'Tailored resume versions and targeted outreach' },
-      ],
+      milestones: (() => {
+        const skillsToFocus = missingRoleSkills.length > 0 
+          ? missingRoleSkills.slice(0, 3) 
+          : (normalizedRole.toLowerCase().includes('backend') ? ['API Design', 'Database Scaling', 'Docker'] : ['React State', 'Next.js Routing', 'Tailwind Styling']);
+
+        return [
+          { 
+            week: 'Week 1', 
+            goal: `Master ${skillsToFocus[0] || 'Core Skills'} Foundations`, 
+            output: `Complete targeted coding challenges and build a sandbox architecture covering ${skillsToFocus[0] || 'key design patterns'}.` 
+          },
+          { 
+            week: 'Week 2', 
+            goal: `Build custom ${skillsToFocus[1] || 'advanced integration'} showcase`, 
+            output: `Deploy an end-to-end prototype app integrating ${skillsToFocus[1] || 'modern framework features'}.` 
+          },
+          { 
+            week: 'Week 3', 
+            goal: `Integrate ${skillsToFocus[2] || 'system optimization'} & performance benchmarks`, 
+            output: `Benchmark API throughput, run profiling, and implement ${skillsToFocus[2] || 'production security protocols'}.` 
+          },
+          { 
+            week: 'Week 4', 
+            goal: `Finalize ${normalizedRole} interview readiness`, 
+            output: `Run 3 simulated technical mock sessions, refine behavioral impact statements, and tailor application decks.` 
+          }
+        ];
+      })()
     },
     mentorContextPrompts: [
       `How can I improve my resume for ${normalizedRole}?`,

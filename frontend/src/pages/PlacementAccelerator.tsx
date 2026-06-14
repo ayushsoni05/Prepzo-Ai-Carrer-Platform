@@ -326,7 +326,7 @@ const PlacementAccelerator = () => {
                                     ))}
                                 </div>
                                 <div className="mt-6 p-4 bg-muted rounded-lg border text-sm">
-                                    <strong className="block mb-1 text-muted-foreground">AI Explanation:</strong>
+                                    <strong className="block mb-1 text-muted-foreground">Analysis Breakdown:</strong>
                                     {tailoredResult.explanation}
                                 </div>
                             </CardContent>

@@ -1,35 +1,59 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Trophy, Users, Star } from 'lucide-react';
 
 interface PeerLeaderboardProps {
   collegeName?: string;
   currentUserScore?: number;
   currentUserName?: string;
+  userPercentile?: number;
 }
 
 export function PeerLeaderboard({
   collegeName = 'Chitkara University',
   currentUserScore = 78.89,
-  currentUserName = 'Ayush Soni'
+  currentUserName = 'Ayush Soni',
+  userPercentile = 8.18
 }: PeerLeaderboardProps) {
   const displayCollege = collegeName || 'Chitkara University';
 
   // Construct dynamic leaderboard entries containing current user
-  const entries = useMemo(() => {
-    const defaultPeers = [
-      { name: 'Aditya Verma', score: 94.2, badge: 'Algorithmic Master', isCurrentUser: false, rank: 1, avatar: '12' },
-      { name: 'Ananya Roy', score: 89.6, badge: 'Full Stack Architect', isCurrentUser: false, rank: 2, avatar: '18' },
-      { name: currentUserName, score: currentUserScore, badge: 'System Designer', isCurrentUser: true, rank: 3, avatar: '05' },
-      { name: 'Rohit Mehta', score: 74.5, badge: 'DevOps Specialist', isCurrentUser: false, rank: 4, avatar: '24' },
-      { name: 'Simran Kaur', score: 68.2, badge: 'Rising Star', isCurrentUser: false, rank: 5, avatar: '33' }
-    ];
+  const [peers, setPeers] = useState([
+    { name: 'Aditya Verma', score: 94.2, badge: 'Algorithmic Master', isCurrentUser: false, avatar: '12' },
+    { name: 'Ananya Roy', score: 89.6, badge: 'Full Stack Architect', isCurrentUser: false, avatar: '18' },
+    { name: currentUserName, score: currentUserScore, badge: 'System Designer', isCurrentUser: true, avatar: '05' },
+    { name: 'Rohit Mehta', score: 74.5, badge: 'DevOps Specialist', isCurrentUser: false, avatar: '24' },
+    { name: 'Simran Kaur', score: 68.2, badge: 'Rising Star', isCurrentUser: false, avatar: '33' }
+  ]);
 
-    // Sort based on score dynamically
-    return defaultPeers.sort((a, b) => b.score - a.score).map((p, idx) => ({
+  // Sync props to state for current user
+  useEffect(() => {
+    setPeers(prev => prev.map(p => p.isCurrentUser ? { ...p, name: currentUserName, score: currentUserScore } : p));
+  }, [currentUserName, currentUserScore]);
+
+  // Simulate real-time score updates to make the board interactive and alive in real time
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setPeers(prev => {
+        const randIdx = Math.floor(Math.random() * prev.length);
+        const target = prev[randIdx];
+        if (target.isCurrentUser) return prev; // Do not update current user
+        
+        // Increase their score by a small value between 0.1 and 1.5
+        const increment = parseFloat((Math.random() * 1.4 + 0.1).toFixed(2));
+        const newScore = parseFloat(Math.min(100, target.score + increment).toFixed(2));
+        
+        return prev.map((p, idx) => idx === randIdx ? { ...p, score: newScore } : p);
+      });
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const entries = useMemo(() => {
+    return [...peers].sort((a, b) => b.score - a.score).map((p, idx) => ({
       ...p,
       rank: idx + 1
     }));
-  }, [currentUserName, currentUserScore]);
+  }, [peers]);
 
   return (
     <div className="rounded-[40px] p-8 bg-[#161a20] border border-white/5 shadow-2xl relative overflow-hidden group hover:border-[#5ed29c]/20 transition-all duration-500 font-rubik h-full flex flex-col">
@@ -43,7 +67,7 @@ export function PeerLeaderboard({
           <div>
             <div className="flex items-center gap-2 mb-1.5">
               <Users size={12} className="text-[#5ed29c]" />
-              <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/40 italic">Institution Pulse</p>
+              <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/40 italic">Campus Standings</p>
             </div>
             <h4 className="text-xl font-[900] text-white uppercase italic tracking-tighter">
               Peer <span className="text-[#5ed29c]">Leaderboard.</span>
@@ -51,7 +75,7 @@ export function PeerLeaderboard({
           </div>
           <div className="px-3 py-1 bg-white/5 border border-white/5 rounded-full text-right">
             <p className="text-[8px] font-black text-white/30 uppercase tracking-widest">Campus Grid</p>
-            <p className="text-[9px] font-bold text-white/70 uppercase max-w-[150px] truncate">{displayCollege}</p>
+            <p className="text-[9px] font-bold text-white/70 uppercase max-w-[200px] sm:max-w-none leading-tight">{displayCollege}</p>
           </div>
         </div>
 
@@ -96,11 +120,11 @@ export function PeerLeaderboard({
                   {/* Details */}
                   <div>
                     <div className="flex items-center gap-1.5">
-                      <p className={`text-[11px] font-black uppercase tracking-wider ${peer.isCurrentUser ? 'text-[#5ed29c]' : 'text-white'}`}>
+                      <p className={`text-[11px] font-black uppercase tracking-wider ${peer.isCurrentUser ? 'text-[#5ed29c]' : 'text-white'} truncate max-w-[100px]`}>
                         {peer.name}
                       </p>
                       {peer.isCurrentUser && (
-                        <span className="text-[7px] font-black bg-[#5ed29c]/20 text-[#5ed29c] px-1.5 py-0.5 rounded uppercase tracking-wider">
+                        <span className="text-[7px] font-black bg-[#5ed29c]/20 text-[#5ed29c] px-1.5 py-0.5 rounded uppercase tracking-wider shrink-0">
                           You
                         </span>
                       )}
@@ -135,7 +159,7 @@ export function PeerLeaderboard({
             </div>
             <div className="bg-[#5ed29c]/10 border border-[#5ed29c]/20 rounded-2xl p-4">
               <p className="text-[8px] font-bold text-[#5ed29c]/70 uppercase tracking-widest mb-1">Your Percentile</p>
-              <p className="text-xl font-black text-[#5ed29c] italic tracking-tighter">Top 8%</p>
+              <p className="text-xl font-black text-[#5ed29c] italic tracking-tighter">Top {userPercentile.toFixed(2)}%</p>
             </div>
           </div>
         </div>

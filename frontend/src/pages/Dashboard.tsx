@@ -212,11 +212,11 @@ export function Dashboard() {
     return Math.min(100, Math.round(base + momentum));
   }, [readinessScore, atsHistory]);
 
-  const globalPercentile = ranking?.percentile || Math.round(readinessScore / 1.1);
+  const globalPercentile = ranking?.percentile || (readinessScore / 1.1);
 
   const missions = useMemo(() => {
     const baseMissions = [
-      { label: "AI Interview Warmup", sub: "15 min spoken practice", done: !!user?.interviewScore, icon: Mic, type: 'interview' },
+      { label: "Mock Interview Warmup", sub: "15 min spoken practice", done: !!user?.interviewScore, icon: Mic, type: 'interview' },
     ];
 
     if (resumeAnalysis?.improvementPlan) {
@@ -386,7 +386,7 @@ export function Dashboard() {
           
           <div className="relative z-10 flex flex-col md:flex-row items-center gap-14">
             <div className="flex flex-col items-center justify-center gap-8 min-w-[200px]">
-              <CircularProgress value={readinessScore} label="AI Readiness" color="purple" />
+              <CircularProgress value={readinessScore} label="Interview Readiness" color="purple" />
               <div className="flex flex-col items-center gap-2">
                 <div className="px-5 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full flex items-center gap-2">
                   <ShieldCheck size={14} className="text-purple-400" />
@@ -404,7 +404,7 @@ export function Dashboard() {
                 </div>
                 <div className="text-right hidden sm:block">
                   <p className="text-[10px] font-black text-white/20 uppercase tracking-widest">Global Percentile</p>
-                  <p className="text-2xl font-[900] text-white italic tracking-tighter">Top {100 - globalPercentile}%</p>
+                  <p className="text-2xl font-[900] text-white italic tracking-tighter">Top {(100 - globalPercentile).toFixed(2)}%</p>
                 </div>
               </div>
 
@@ -426,8 +426,8 @@ export function Dashboard() {
              </div>
              
              <div className="relative z-10 space-y-6">
-                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 italic">AI Next Steps</p>
-                <h4 className="text-2xl font-[900] text-white uppercase italic tracking-tighter leading-none">Your Daily <span className="text-[#5ed29c]">Missions.</span></h4>
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 italic">Prep Action Items</p>
+                <h4 className="text-2xl font-[900] text-white uppercase italic tracking-tighter leading-none">Your Daily <span className="text-[#5ed29c]">Prep Tasks.</span></h4>
                 
                 <div className="space-y-4 pt-4">
                   {missions.map((task, i) => (
@@ -483,7 +483,7 @@ export function Dashboard() {
                 </div>
                 <div>
                    <p className="text-[11px] font-black text-white/40 uppercase tracking-widest italic">Roadmap Locked</p>
-                   <p className="text-[9px] font-bold text-white/20 uppercase tracking-widest mt-1">Complete AI Analysis to generate path</p>
+                   <p className="text-[9px] font-bold text-white/20 uppercase tracking-widest mt-1">Analyze Resume to generate path</p>
                 </div>
              </div>
           )}
@@ -497,7 +497,7 @@ export function Dashboard() {
       {/* Interactive Career Widgets */}
       <div className="mt-12 pointer-events-auto">
         <AtsOptimizer userSkills={user?.knownTechnologies} currentAtsScore={atsScore}>
-          <PeerLeaderboard collegeName={user?.collegeName} currentUserScore={readinessScore} currentUserName={user?.fullName} />
+          <PeerLeaderboard collegeName={user?.collegeName} currentUserScore={readinessScore} currentUserName={user?.fullName} userPercentile={100 - globalPercentile} />
         </AtsOptimizer>
       </div>
 
@@ -525,7 +525,7 @@ export function Dashboard() {
           <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Activity Score</p>
           <h5 className="text-2xl font-[900] text-white uppercase italic tracking-tighter mb-4">{activityScore}/100</h5>
           <div className="flex items-center gap-2 text-purple-400 text-[10px] font-black uppercase italic">
-            <Sparkles size={12} /> Top {100 - globalPercentile}% Globally
+            <Sparkles size={12} /> Top {(100 - globalPercentile).toFixed(2)}% Globally
           </div>
         </div>
 
@@ -667,11 +667,11 @@ export function Dashboard() {
               </div>
               
               <h2 className="text-3xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic mb-6 leading-none">
-                AI Mock <span className="text-white/40">Interview.</span>
+                Interactive Mock <span className="text-white/40">Interview.</span>
               </h2>
               
               <p className="text-white/50 font-medium tracking-tight leading-relaxed max-w-md mb-8">
-                The most advanced interview simulation. AI will analyze your resume, ask spoken questions, and evaluate your responses in real-time using high-fidelity voice synthesis.
+                The most advanced interview simulation. Our system will analyze your resume, ask spoken questions, and evaluate your responses in real-time using high-fidelity voice synthesis.
               </p>
               
               <button 
