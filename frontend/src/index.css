@@ -117,25 +117,25 @@
 
 /* Solid card/panel overrides */
 [data-theme='light'] .glass-panel {
-  background: #ffffff !important;
-  border: 1px solid rgba(148, 163, 184, 0.16) !important;
+  background: #f3f2ef !important;
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
   box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03), 0 1px 2px rgba(15, 23, 42, 0.01) !important;
 }
 
 [data-theme='light'] .apple-card {
-  background: #ffffff !important;
-  border: 1px solid rgba(148, 163, 184, 0.16) !important;
+  background: #f3f2ef !important;
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.01) !important;
 }
 
-[data-theme='light'] [class*="bg-black"]:not([class*="bg-black/"]) { 
-  background-color: var(--panel-highlight) !important; 
+[data-theme='light'] [class*="bg-black"]:not([class*="bg-black/"]):not([class*="fixed"]):not(textarea):not(input):not(button):not(a) { 
+  background-color: var(--panel) !important; 
   border: 1px solid var(--panel-border) !important; 
   box-shadow: var(--shadow-sm) !important; 
 }
 
-[data-theme='light'] [class*="bg-black/"] { 
-  background-color: var(--bg-elevated) !important; 
+[data-theme='light'] [class*="bg-black/"]:not([class*="fixed"]):not(textarea):not(input) { 
+  background-color: var(--panel) !important; 
 }
 
 /* Premium Hover animations and colored shadow glows like dark theme */
@@ -300,6 +300,67 @@
 [data-theme='light'] [class*="bg-[#1c232d]"] {
   background-color: #ffffff !important;
   box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02) !important;
+}
+
+/* Ensure all dark card/panel classes are mapped to solid #f3f2ef in light mode and strip gradients */
+[data-theme='light'] [class*="bg-[#13171d]"]:not(textarea):not(input),
+[data-theme='light'] [class*="bg-[#0a0a0a]"]:not(textarea):not(input),
+[data-theme='light'] [class*="bg-[#0a0c10]"]:not(textarea):not(input),
+[data-theme='light'] [class*="bg-[#09090b]"]:not(textarea):not(input),
+[data-theme='light'] [class*="bg-[#0c1017]"]:not(textarea):not(input),
+[data-theme='light'] [class*="bg-[#12141a]"]:not(textarea):not(input),
+[data-theme='light'] [class*="bg-[#1c1f26]"]:not(textarea):not(input),
+[data-theme='light'] [class*="bg-[#161a20]"]:not(textarea):not(input),
+[data-theme='light'] [class*="bg-[#1e1e1e]"]:not(textarea):not(input),
+[data-theme='light'] [class*="bg-[#2d2d2d]"]:not(textarea):not(input),
+[data-theme='light'] [class*="bg-[#252526]"]:not(textarea):not(input),
+[data-theme='light'] [class*="bg-gray-900"]:not(textarea):not(input),
+[data-theme='light'] [class*="bg-black/10"]:not([class*="fixed"]):not(textarea):not(input),
+[data-theme='light'] [class*="bg-black/20"]:not([class*="fixed"]):not(textarea):not(input),
+[data-theme='light'] [class*="bg-black/30"]:not([class*="fixed"]):not(textarea):not(input),
+[data-theme='light'] [class*="bg-black/40"]:not([class*="fixed"]):not(textarea):not(input),
+[data-theme='light'] [class*="bg-black/50"]:not([class*="fixed"]):not(textarea):not(input),
+[data-theme='light'] [class*="bg-black/60"]:not([class*="fixed"]):not(textarea):not(input),
+[data-theme='light'] [class*="bg-black/70"]:not([class*="fixed"]):not(textarea):not(input),
+[data-theme='light'] [class*="bg-black/80"]:not([class*="fixed"]):not(textarea):not(input),
+[data-theme='light'] [class*="bg-black"]:not([class*="bg-black/"]):not([class*="fixed"]):not(textarea):not(input):not(button):not(a),
+[data-theme='light'] [class*="from-[#13171d]"],
+[data-theme='light'] [class*="from-black"],
+[data-theme='light'] [class*="from-[#0a0a0a]"],
+[data-theme='light'] [class*="from-[#0a0c10]"],
+[data-theme='light'] [class*="from-[#09090b]"],
+[data-theme='light'] [class*="from-[#0c1017]"],
+[data-theme='light'] [class*="from-[#12141a]"],
+[data-theme='light'] [class*="from-[#161a20]"],
+[data-theme='light'] [class*="from-[#1e1e1e]"] {
+  background-image: none !important;
+  background-color: #f3f2ef !important;
+  border-color: rgba(148, 163, 184, 0.28) !important;
+}
+
+/* Make inner items/sub-cards stand out as solid white panels for contrast */
+[data-theme='light'] [class*="bg-white/5"]:not([class*="hover:"]):not(input):not(textarea),
+[data-theme='light'] [class*="bg-white/10"]:not([class*="hover:"]):not(input):not(textarea),
+[data-theme='light'] [class*="bg-[#1c232d]"]:not(textarea):not(input) {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  border-color: rgba(148, 163, 184, 0.16) !important;
+}
+
+/* Global text inputs and selects default to solid white backgrounds in light mode */
+[data-theme='light'] input[type="text"],
+[data-theme='light'] input[type="search"],
+[data-theme='light'] input[type="email"],
+[data-theme='light'] input[type="password"],
+[data-theme='light'] input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]),
+[data-theme='light'] textarea,
+[data-theme='light'] select,
+[data-theme='light'] input[class*="bg-"],
+[data-theme='light'] textarea[class*="bg-"],
+[data-theme='light'] select[class*="bg-"] {
+  background-color: #ffffff !important;
+  color: var(--text) !important;
+  border-color: rgba(148, 163, 184, 0.3) !important;
 }
 
 /* Ensure green accent text has high contrast in light mode */
