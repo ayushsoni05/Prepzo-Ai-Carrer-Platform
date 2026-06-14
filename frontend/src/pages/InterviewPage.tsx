@@ -112,7 +112,7 @@ export const InterviewPage: React.FC = () => {
           </div>
           
           <div className="flex gap-4">
-             <div className="px-8 py-6 rounded-[32px] bg-[#0a0c10] border border-white/5 backdrop-blur-3xl shadow-2xl">
+             <div className="px-8 py-6 rounded-[32px] bg-[#13171d] border-2 border-white/10 shadow-2xl">
                 <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] mb-2 text-center">Session Clock</p>
                 <p className="text-4xl font-[900] text-white tracking-tighter italic">
                   {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
@@ -138,21 +138,21 @@ export const InterviewPage: React.FC = () => {
                 }}
                 className={`
                   group relative p-10 rounded-[48px] border transition-all duration-500 cursor-pointer overflow-hidden
-                  ${isResumeMode ? 'bg-[#5ed29c]/10 border-[#5ed29c] shadow-[0_0_50px_rgba(94,210,156,0.15)]' : 'bg-[#0a0c10]/40 border-white/5 hover:border-[#5ed29c]/50 hover:bg-[#0a0c10]/60'}
+                  ${isResumeMode ? 'bg-[#5ed29c]/10 border-[#5ed29c] shadow-[0_0_50px_rgba(94,210,156,0.15)]' : 'bg-[#13171d] border-2 border-white/10 hover:border-[#5ed29c]/50 hover:bg-[#1c232d]'}
                 `}
               >
                 <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
                   <div className="flex items-start md:items-center gap-8">
                     <div className={`
                       w-20 h-20 rounded-[28px] flex items-center justify-center transition-all duration-500 shrink-0
-                      ${isResumeMode ? 'bg-[#5ed29c] text-[#0a0c10]' : 'bg-[#5ed29c]/10 text-[#5ed29c] group-hover:scale-110'}
+                      ${isResumeMode ? 'bg-[#5ed29c] text-[#0a0c10]' : 'bg-[#5ed29c]/20 text-[#5ed29c] group-hover:scale-110'}
                     `}>
                       <FileText size={40} />
                     </div>
                     
                     <div className="space-y-3">
                       <div className="flex items-center gap-3">
-                        <span className={`text-[10px] font-black uppercase tracking-[0.25em] px-3 py-1 rounded-full ${isResumeMode ? 'bg-[#5ed29c]/20 text-[#5ed29c]' : 'bg-white/5 text-white/40'}`}>
+                        <span className={`text-[10px] font-black uppercase tracking-[0.25em] px-3 py-1 rounded-full ${isResumeMode ? 'bg-[#5ed29c]/20 text-[#5ed29c]' : 'bg-white/10 text-white/60'}`}>
                           PREMIUM FEATURE
                         </span>
                         <span className="text-[10px] font-black uppercase tracking-[0.25em] text-[#5ed29c] animate-pulse">
@@ -162,7 +162,7 @@ export const InterviewPage: React.FC = () => {
                       <h3 className={`text-3xl font-[900] uppercase italic tracking-tighter ${isResumeMode ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>
                         Resume-based AI Mock Interview
                       </h3>
-                      <p className={`text-base font-medium leading-relaxed max-w-2xl ${isResumeMode ? 'text-white/70' : 'text-white/40'}`}>
+                      <p className={`text-base font-medium leading-relaxed max-w-2xl ${isResumeMode ? 'text-white/70' : 'text-white/60'}`}>
                         Upload your resume and the AI will analyze your profile, projects, and target role to conduct a realistic recruiter interview, complete with challenging follow-up (cross) questions based on your responses.
                       </p>
                     </div>
@@ -170,7 +170,7 @@ export const InterviewPage: React.FC = () => {
 
                   {isResumeMode && (
                     <div className="shrink-0 animate-in fade-in slide-in-from-right-4 duration-500">
-                      <div className="flex items-center gap-3 bg-[#0a0c10]/60 border border-white/5 px-6 py-4 rounded-3xl">
+                      <div className="flex items-center gap-3 bg-black/60 border border-white/10 px-6 py-4 rounded-3xl">
                         <div className="w-2.5 h-2.5 rounded-full bg-[#5ed29c] animate-ping" />
                         <span className="text-xs font-bold text-white/60 tracking-tight">Active State Selected</span>
                       </div>
@@ -189,7 +189,7 @@ export const InterviewPage: React.FC = () => {
                       <h4 className="text-sm font-black uppercase tracking-wider text-[#5ed29c] italic">Resume Profile Status</h4>
                       
                       {user?.resumeUrl ? (
-                        <div className="p-6 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-between gap-4">
+                        <div className="p-6 rounded-3xl bg-[#1c232d] border border-white/15 flex items-center justify-between gap-4">
                           <div className="flex items-center gap-4 min-w-0">
                             <div className="w-12 h-12 rounded-2xl bg-[#5ed29c]/10 text-[#5ed29c] flex items-center justify-center shrink-0">
                               <Check size={24} />
@@ -209,7 +209,7 @@ export const InterviewPage: React.FC = () => {
                                 console.error('Failed to delete resume:', err);
                               }
                             }}
-                            className="p-3 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white rounded-xl transition-all"
+                            className="p-3 bg-white/10 hover:bg-white/20 text-white/60 hover:text-white rounded-xl transition-all"
                             title="Upload another resume"
                           >
                             <RefreshCw size={16} />
@@ -232,7 +232,7 @@ export const InterviewPage: React.FC = () => {
                           }}
                           className={`
                             border-2 border-dashed rounded-3xl p-8 text-center transition-all duration-300
-                            ${isDragActive ? 'border-[#5ed29c] bg-[#5ed29c]/5' : 'border-white/10 bg-black/20 hover:border-[#5ed29c]/30'}
+                            ${isDragActive ? 'border-[#5ed29c] bg-[#5ed29c]/5' : 'border-white/20 bg-black/40 hover:border-[#5ed29c]/50'}
                           `}
                         >
                           <input 
@@ -269,7 +269,7 @@ export const InterviewPage: React.FC = () => {
                     </div>
 
                     {/* Right: Launch details and Button */}
-                    <div className="flex flex-col justify-between p-6 rounded-3xl bg-black/40 border border-white/5">
+                    <div className="flex flex-col justify-between p-6 rounded-3xl bg-[#13171d] border border-white/10">
                       <div className="space-y-4">
                         <h4 className="text-sm font-black uppercase tracking-wider text-[#5ed29c] italic">Interview Configuration</h4>
                         <div className="space-y-3">
@@ -342,13 +342,13 @@ export const InterviewPage: React.FC = () => {
                         }}
                         className={`
                           group relative p-8 rounded-[40px] border transition-all duration-500 cursor-pointer overflow-hidden
-                          ${isSelected ? 'bg-[#5ed29c] border-[#5ed29c] shadow-[0_0_50px_rgba(94,210,156,0.2)]' : 'bg-[#0a0c10]/40 border-white/5 hover:border-[#5ed29c]/50 hover:bg-[#0a0c10]/60'}
+                          ${isSelected ? 'bg-[#5ed29c] border-[#5ed29c] shadow-[0_0_50px_rgba(94,210,156,0.25)]' : 'bg-[#13171d] border-2 border-white/10 hover:border-[#5ed29c]/50 hover:bg-[#1c232d]'}
                         `}
                       >
                         <div className="relative z-10 flex flex-col h-full gap-6">
                           <div className={`
                             w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500
-                            ${isSelected ? 'bg-[#0a0c10] text-[#5ed29c]' : 'bg-[#5ed29c]/10 text-[#5ed29c] group-hover:scale-110'}
+                            ${isSelected ? 'bg-[#0a0c10] text-[#5ed29c]' : 'bg-[#5ed29c]/20 text-[#5ed29c] group-hover:scale-110'}
                           `}>
                             <Icon size={32} />
                           </div>
@@ -362,11 +362,11 @@ export const InterviewPage: React.FC = () => {
                             </h3>
                           </div>
 
-                          <p className={`text-sm font-medium leading-relaxed ${isSelected ? 'text-[#0a0c10]/70' : 'text-white/40'}`}>
+                          <p className={`text-sm font-medium leading-relaxed ${isSelected ? 'text-[#0a0c10]/70' : 'text-white/60'}`}>
                             Focus on {cat.subSkills.slice(0, 3).join(', ')} and more.
                           </p>
 
-                          <div className={`mt-auto pt-6 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] ${isSelected ? 'text-[#0a0c10]' : 'text-white/20'}`}>
+                          <div className={`mt-auto pt-6 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] ${isSelected ? 'text-[#0a0c10]' : 'text-white/50'}`}>
                             {cat.subSkills.length} Sub-skills • AI Verified
                           </div>
                         </div>

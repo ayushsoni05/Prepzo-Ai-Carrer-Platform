@@ -90,17 +90,10 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
     }
   }, [transcript, isListening, questions, currentQuestionIndex, currentQuestion, answers, onComplete, speak, startListening, stopListening, clearTimers, sessionId]);
 
-  // Silence and Answer Limit Logic
+  // 1. Clock and Max Duration (90s) Timer
   useEffect(() => {
     if (isListening && !isSubmitting) {
       setTimeLeft(90);
-      
-      // 2s silence detection (if transcript stays empty)
-      silenceTimerRef.current = setTimeout(() => {
-        if (!transcript) {
-          handleNext(""); // Move forward with empty answer
-        }
-      }, 2000);
 
       // 90s max answer duration
       answerTimerRef.current = setTimeout(() => {
@@ -111,16 +104,42 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
         setTimeLeft(prev => Math.max(0, prev - 1));
       }, 1000);
     }
-    return () => clearTimers();
-  }, [isListening, isSubmitting, handleNext, clearTimers, transcript]);
 
-  // Reset silence timer when user starts speaking
+    return () => {
+      if (answerTimerRef.current) clearTimeout(answerTimerRef.current);
+      if (timeLeftIntervalRef.current) clearInterval(timeLeftIntervalRef.current);
+      answerTimerRef.current = null;
+      timeLeftIntervalRef.current = null;
+    };
+  }, [isListening, isSubmitting, handleNext]);
+
+  // 2. Inactivity (no speech at all) and Auto-Submit (after speaking) Timers
   useEffect(() => {
-    if (transcript && silenceTimerRef.current) {
-      clearTimeout(silenceTimerRef.current);
-      silenceTimerRef.current = null;
+    // Clear any existing silence/auto-submit timers
+    if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+    if (speechEndTimerRef.current) clearTimeout(speechEndTimerRef.current);
+    silenceTimerRef.current = null;
+    speechEndTimerRef.current = null;
+
+    if (isListening && !isSubmitting) {
+      if (!transcript) {
+        // Inactivity detection: If user hasn't started speaking within 5 seconds, auto-skip
+        silenceTimerRef.current = setTimeout(() => {
+          handleNext("");
+        }, 5000);
+      } else {
+        // Auto-submit: If user has spoken and remains silent for 1 second, auto-submit response
+        speechEndTimerRef.current = setTimeout(() => {
+          handleNext();
+        }, 1000);
+      }
     }
-  }, [transcript]);
+
+    return () => {
+      if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+      if (speechEndTimerRef.current) clearTimeout(speechEndTimerRef.current);
+    };
+  }, [transcript, isListening, isSubmitting, handleNext]);
 
   // Auto-scroll chat history to bottom
   useEffect(() => {
@@ -128,27 +147,6 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
       chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [answers, currentQuestion]);
-
-  // Auto-submit after 4 seconds of silence when speaking
-  useEffect(() => {
-    if (isListening && transcript) {
-      // Clear previous auto-submit timer
-      if (speechEndTimerRef.current) {
-        clearTimeout(speechEndTimerRef.current);
-      }
-      
-      // Set a new auto-submit timer
-      speechEndTimerRef.current = setTimeout(() => {
-        handleNext();
-      }, 2000);
-    }
-    
-    return () => {
-      if (speechEndTimerRef.current) {
-        clearTimeout(speechEndTimerRef.current);
-      }
-    };
-  }, [transcript, isListening, handleNext]);
 
   const fetchQuestions = useCallback(async () => {
     if (preFedQuestions && preFedQuestions.length > 0) {
@@ -198,7 +196,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
     return (
       <div className="flex flex-col items-center justify-center py-20 space-y-6">
         <Loader2 className="w-12 h-12 text-[#5ed29c] animate-spin" />
-        <p className="text-white/40 font-black uppercase tracking-[0.3em] text-xs">Initializing {role || 'AI'} Mock Environment...</p>
+        <p className="text-white/70 font-black uppercase tracking-[0.3em] text-xs">Initializing {role || 'AI'} Mock Environment...</p>
       </div>
     );
   }
@@ -207,48 +205,48 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
     return (
       <div className="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-1000 pb-20">
         <div className="text-center">
-          <div className="w-24 h-24 bg-[#5ed29c]/10 rounded-[32px] flex items-center justify-center mx-auto mb-8 border border-[#5ed29c]/20 shadow-[0_0_50px_rgba(94,210,156,0.15)]">
+          <div className="w-24 h-24 bg-[#5ed29c]/20 rounded-[32px] flex items-center justify-center mx-auto mb-8 border border-[#5ed29c]/40 shadow-[0_0_50px_rgba(94,210,156,0.25)]">
             <CheckCircle className="w-12 h-12 text-[#5ed29c]" />
           </div>
-          <h2 className="text-5xl font-[900] text-white uppercase tracking-tighter italic mb-4 leading-none">Interview <span className="text-white/20">Complete.</span></h2>
+          <h2 className="text-5xl font-[900] text-white uppercase tracking-tighter italic mb-4 leading-none">Interview <span className="text-white/40">Complete.</span></h2>
           <p className="text-[#5ed29c] font-black uppercase tracking-[0.4em] text-[10px] italic">Session signals synthesized successfully.</p>
         </div>
 
         <div className="grid gap-8">
           {answers.map((item, i) => (
-            <div key={i} className="p-10 rounded-[48px] border border-white/5 bg-[#0a0c10] shadow-2xl relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-8 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
+            <div key={i} className="p-10 rounded-[48px] border-2 border-white/10 bg-[#13171d] shadow-2xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-8 opacity-[0.04] group-hover:opacity-[0.08] transition-opacity">
                  <Bot size={120} />
               </div>
               <div className="flex flex-col md:flex-row items-start gap-8 relative z-10">
-                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-[#5ed29c] font-black italic">
+                <div className="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-[#5ed29c] font-black italic">
                   {i + 1}
                 </div>
                 <div className="space-y-6 flex-1">
                   <p className="text-xl text-white font-[900] tracking-tight italic leading-tight">{item.question}</p>
                   
-                  <div className="p-6 rounded-[32px] bg-black/40 border border-white/5 italic">
+                  <div className="p-6 rounded-[32px] bg-black/60 border border-white/10 italic">
                     <p className="text-[10px] font-black text-[#5ed29c] uppercase tracking-widest mb-3">Your Response Signal</p>
-                    <p className="text-white/60 text-lg leading-relaxed">"{item.answer}"</p>
+                    <p className="text-white/80 text-lg leading-relaxed">"{item.answer}"</p>
                   </div>
 
-                  <div className="p-6 rounded-[32px] bg-[#5ed29c]/5 border border-[#5ed29c]/10 italic">
+                  <div className="p-6 rounded-[32px] bg-[#5ed29c]/10 border border-[#5ed29c]/30 italic">
                     <p className="text-[10px] font-black text-[#5ed29c] uppercase tracking-widest mb-3">AI Recommendation (Ideal Answer)</p>
                     <p className="text-white/60 text-lg leading-relaxed">{item.feedback.perfectAnswer}</p>
                   </div>
 
-                  <div className="space-y-4 pt-4 border-t border-white/5">
+                  <div className="space-y-4 pt-4 border-t border-white/10">
                     <div className="flex items-center gap-2">
                        <div className="w-1.5 h-1.5 rounded-full bg-[#5ed29c]" />
                        <p className="text-[10px] font-black text-[#5ed29c] uppercase tracking-widest">AI Feedback & Insights</p>
                     </div>
-                    <p className="text-sm text-white/50 leading-relaxed font-bold italic">
+                    <p className="text-sm text-white/80 leading-relaxed font-bold italic">
                       {item.feedback.feedback}
                     </p>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                   <div className="text-6xl font-[900] text-[#5ed29c] tracking-tighter italic leading-none">{item.feedback.score}<span className="text-lg opacity-20 ml-1">/10</span></div>
+                   <div className="text-6xl font-[900] text-[#5ed29c] tracking-tighter italic leading-none">{item.feedback.score}<span className="text-lg opacity-40 ml-1">/10</span></div>
                 </div>
               </div>
             </div>
@@ -260,7 +258,7 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
           className="group/btn relative w-full h-[70px] active:scale-95 transition-all mt-10"
         >
           <svg className="absolute inset-0 w-full h-full drop-shadow-xl" viewBox="0 0 800 70" preserveAspectRatio="none" fill="none">
-             <path d="M0 0H800L785 70H15L0 0Z" fill="#0a0c10" stroke="rgba(94, 210, 156, 0.3)" strokeWidth="1" />
+             <path d="M0 0H800L785 70H15L0 0Z" fill="#13171d" stroke="rgba(94, 210, 156, 0.6)" strokeWidth="1.5" />
           </svg>
           <span className="relative z-10 flex items-center justify-center h-full text-[#5ed29c] font-rubik font-[900] text-sm uppercase tracking-[0.4em] italic group-hover/btn:tracking-[0.5em] transition-all">
              Return to Cockpit
@@ -275,43 +273,43 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
       {/* Progress & Timer */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-6">
-           <p className="text-[11px] font-black text-white/20 uppercase tracking-[0.5em] italic">Signal {currentQuestionIndex + 1} <span className="opacity-40">OF</span> {sessionId ? 9 : questions.length}</p>
+           <p className="text-[11px] font-black text-white/50 uppercase tracking-[0.5em] italic">Signal {currentQuestionIndex + 1} <span className="opacity-70">OF</span> {sessionId ? 9 : questions.length}</p>
            <div className="flex gap-2">
              {Array.from({ length: sessionId ? 9 : questions.length }).map((_, i) => (
-               <div key={i} className={`h-1 w-10 rounded-full transition-all duration-700 ${i <= currentQuestionIndex ? 'bg-[#5ed29c]' : 'bg-white/5'}`} />
+               <div key={i} className={`h-1 w-10 rounded-full transition-all duration-700 ${i <= currentQuestionIndex ? 'bg-[#5ed29c]' : 'bg-white/15'}`} />
              ))}
            </div>
         </div>
         
         <div className="flex items-center gap-6">
            {isListening && (
-             <div className="flex items-center gap-3 px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-full">
-                <Clock size={14} className="text-red-500" />
-                <span className="text-[10px] font-black text-red-500 uppercase tracking-widest italic">{timeLeft}s remaining</span>
+             <div className="flex items-center gap-3 px-4 py-2 bg-red-500/20 border border-red-500/40 rounded-full">
+                <Clock size={14} className="text-red-400" />
+                <span className="text-[10px] font-black text-red-400 uppercase tracking-widest italic">{timeLeft}s remaining</span>
              </div>
            )}
            <div className="flex items-center gap-3">
-              <div className={`w-2 h-2 rounded-full ${isSpeaking ? 'bg-blue-500 animate-pulse' : 'bg-white/10'}`} />
-              <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em] italic">{isSpeaking ? 'AI Output Active' : 'AI Standby'}</span>
+              <div className={`w-2 h-2 rounded-full ${isSpeaking ? 'bg-blue-500 animate-pulse' : 'bg-white/20'}`} />
+              <span className="text-[10px] font-black text-white/55 uppercase tracking-[0.3em] italic">{isSpeaking ? 'AI Output Active' : 'AI Standby'}</span>
            </div>
         </div>
       </div>
 
       {/* AI Character Card */}
-      <div className="p-12 md:p-16 rounded-[60px] border border-[#5ed29c]/20 bg-gradient-to-br from-[#13171d] to-black relative overflow-hidden shadow-2xl">
-        <div className="absolute top-0 right-0 p-12 opacity-[0.03] rotate-12">
+      <div className="p-12 md:p-16 rounded-[60px] border-2 border-[#5ed29c]/40 bg-[#13171d] relative overflow-hidden shadow-2xl">
+        <div className="absolute top-0 right-0 p-12 opacity-[0.06] rotate-12">
            <Bot size={280} className="text-[#5ed29c]" />
         </div>
         
         <div className="relative z-10 flex flex-col md:flex-row items-start gap-12">
            <div className="relative shrink-0 md:sticky md:top-4">
-              <div className={`w-24 h-24 md:w-32 md:h-32 rounded-[28px] md:rounded-[40px] border-4 ${isSpeaking ? 'border-blue-500/40 shadow-[0_0_50px_rgba(59,130,246,0.3)] scale-105' : 'border-[#5ed29c]/10'} flex items-center justify-center bg-black transition-all duration-700 overflow-hidden group`}>
+              <div className={`w-24 h-24 md:w-32 md:h-32 rounded-[28px] md:rounded-[40px] border-4 ${isSpeaking ? 'border-blue-500/45 shadow-[0_0_50px_rgba(59,130,246,0.3)] scale-105' : 'border-[#5ed29c]/30'} flex items-center justify-center bg-black transition-all duration-700 overflow-hidden group`}>
                  {resumeBased ? (
                    <img src="/recruiter_sarah.png" alt="Sarah Vance" className="w-full h-full object-cover" />
                  ) : (
-                   <Bot className={`w-12 h-12 md:w-16 md:h-16 transition-all duration-500 ${isSpeaking ? 'text-blue-500' : 'text-[#5ed29c] opacity-40'}`} />
+                   <Bot className={`w-12 h-12 md:w-16 md:h-16 transition-all duration-500 ${isSpeaking ? 'text-blue-500' : 'text-[#5ed29c] opacity-60'}`} />
                  )}
-                 <div className="absolute inset-0 bg-gradient-to-t from-[#5ed29c]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                 <div className="absolute inset-0 bg-gradient-to-t from-[#5ed29c]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
               {isSpeaking && (
                 <div className="absolute -inset-4 rounded-[36px] md:rounded-[48px] border border-blue-500/20 animate-ping opacity-10" />
@@ -319,8 +317,8 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
            </div>
            
            <div className="flex-1 w-full space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between border-b border-white/5 pb-4">
-                 <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-full w-fit">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between border-b border-white/10 pb-4">
+                 <div className="px-4 py-2 bg-white/10 border border-white/20 rounded-full w-fit">
                     <span className="text-[10px] font-black text-[#5ed29c] uppercase tracking-widest italic">
                        {resumeBased ? 'Sarah Vance • Senior Tech Recruiter' : `${role || 'AI'} Core Interface`}
                     </span>
@@ -357,26 +355,26 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
                    <div key={index} className="space-y-3">
                      {/* Recruiter Question */}
                      <div className="flex items-start gap-3 max-w-[85%]">
-                       <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden">
+                       <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center shrink-0 overflow-hidden">
                          {resumeBased ? (
                            <img src="/recruiter_sarah.png" alt="Sarah" className="w-full h-full object-cover" />
                          ) : (
                            <Bot size={16} className="text-[#5ed29c]/60" />
                          )}
                        </div>
-                       <div className="p-4 rounded-[20px] rounded-tl-none bg-white/5 border border-white/10 text-white/90">
-                         <p className="text-[10px] text-[#5ed29c]/60 font-black uppercase tracking-wider mb-1">Sarah Vance</p>
+                       <div className="p-4 rounded-[20px] rounded-tl-none bg-[#1c232d] border border-white/15 text-white">
+                         <p className="text-[10px] text-[#5ed29c] font-black uppercase tracking-wider mb-1">Sarah Vance</p>
                          <p className="font-semibold text-sm md:text-base leading-relaxed">{item.question}</p>
                        </div>
                      </div>
 
                      {/* Candidate Response */}
                      <div className="flex items-start gap-3 max-w-[85%] ml-auto justify-end">
-                       <div className="p-4 rounded-[20px] rounded-tr-none bg-[#5ed29c]/10 border border-[#5ed29c]/20 text-[#5ed29c]">
-                         <p className="text-[10px] text-emerald-400/60 font-black uppercase tracking-wider mb-1 text-right">You (Candidate)</p>
+                       <div className="p-4 rounded-[20px] rounded-tr-none bg-[#5ed29c]/20 border border-[#5ed29c]/40 text-white">
+                         <p className="text-[10px] text-emerald-400/80 font-black uppercase tracking-wider mb-1 text-right">You (Candidate)</p>
                          <p className="font-semibold text-sm md:text-base leading-relaxed italic">"{item.answer}"</p>
                        </div>
-                       <div className="w-8 h-8 rounded-lg bg-[#5ed29c]/10 border border-[#5ed29c]/20 flex items-center justify-center shrink-0 text-[#5ed29c] font-black text-[9px] italic">
+                       <div className="w-8 h-8 rounded-lg bg-[#5ed29c]/25 border border-[#5ed29c]/50 flex items-center justify-center shrink-0 text-[#5ed29c] font-black text-[9px] italic">
                          YOU
                        </div>
                      </div>
@@ -385,15 +383,15 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
 
                  {/* Current Recruiter Question */}
                  <div className="flex items-start gap-3 max-w-[85%]">
-                   <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden">
+                   <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center shrink-0 overflow-hidden">
                      {resumeBased ? (
                        <img src="/recruiter_sarah.png" alt="Sarah" className="w-full h-full object-cover" />
                      ) : (
                        <Bot size={16} className="text-[#5ed29c]" />
                      )}
                    </div>
-                   <div className="p-4 rounded-[20px] rounded-tl-none bg-white/10 border border-white/20 text-white shadow-lg shadow-black/20">
-                     <p className="text-[10px] text-[#5ed29c]/80 font-black uppercase tracking-wider mb-1">Sarah Vance</p>
+                   <div className="p-4 rounded-[20px] rounded-tl-none bg-[#1c232d] border-2 border-[#5ed29c]/30 text-white shadow-xl">
+                     <p className="text-[10px] text-[#5ed29c] font-black uppercase tracking-wider mb-1">Sarah Vance</p>
                      <p className="font-bold text-sm md:text-base leading-relaxed">{currentQuestion}</p>
                    </div>
                  </div>
@@ -415,20 +413,20 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
                isListening
                  ? (transcript
                      ? "Recording response... (Stop speaking to auto-transmit)"
-                     : "Sarah Vance is listening... Speak your answer now. (2s inactivity auto-skip)")
+                     : "Sarah Vance is listening... Speak your answer now. (5s inactivity auto-skip)")
                  : "Awaiting recruiter cue..."
              }
-             className={`w-full min-h-[240px] rounded-[48px] p-12 bg-[#0a0c10] border ${isListening ? 'border-[#5ed29c] shadow-[0_0_40px_rgba(94,210,156,0.1)]' : 'border-white/5'} text-white/60 font-bold text-xl focus:outline-none transition-all duration-700 italic leading-relaxed`}
+             className={`w-full min-h-[240px] rounded-[48px] p-12 bg-[#13171d] border-2 ${isListening ? 'border-[#5ed29c] shadow-[0_0_40px_rgba(94,210,156,0.25)]' : 'border-white/15'} text-white font-bold text-xl focus:outline-none transition-all duration-700 italic leading-relaxed`}
            />
            <div className="absolute top-8 right-12 flex gap-4">
               {isListening ? (
-                <div className="flex items-center gap-3 px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-full animate-pulse">
+                <div className="flex items-center gap-3 px-4 py-2 bg-red-500/20 border border-red-500/40 rounded-full animate-pulse">
                    <div className="w-2 h-2 rounded-full bg-red-500" />
                    <span className="text-[10px] font-black text-red-500 uppercase tracking-widest italic">Live Recording</span>
                 </div>
               ) : (
-                <div className="flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/10 rounded-full">
-                   <span className="text-[10px] font-black text-white/20 uppercase tracking-widest italic">Buffer Empty</span>
+                <div className="flex items-center gap-3 px-4 py-2 bg-white/10 border border-white/20 rounded-full">
+                   <span className="text-[10px] font-black text-white/50 uppercase tracking-widest italic">Buffer Empty</span>
                 </div>
               )}
            </div>
@@ -438,20 +436,20 @@ export const InterviewSession: React.FC<InterviewSessionProps> = ({ onComplete, 
            <button
              onClick={isListening ? stopListening : startListening}
              disabled={isSubmitting || isSpeaking}
-             className={`w-full h-[80px] rounded-[32px] flex items-center justify-center gap-4 font-[900] uppercase tracking-[0.2em] italic transition-all duration-500 ${isListening ? 'bg-red-500/10 border border-red-500/30 text-red-500 shadow-2xl shadow-red-500/10' : 'bg-white/5 border border-white/10 text-white/40 hover:bg-white/10 hover:text-white'}`}
+             className={`w-full h-[80px] rounded-[32px] flex items-center justify-center gap-4 font-[900] uppercase tracking-[0.2em] italic transition-all duration-500 ${isListening ? 'bg-red-500/20 border border-red-500/40 text-red-500 shadow-2xl shadow-red-500/20' : 'bg-[#1c232d] border-2 border-white/15 text-white/80 hover:bg-white/10 hover:text-white'}`}
            >
              {isListening ? <><MicOff size={24} /> Terminate Input</> : <><Mic size={24} /> Initiate Microphone</>}
            </button>
         </div>
         
         {/* Hands-free mode status banner */}
-        <p className="text-[11px] text-center font-black uppercase tracking-[0.3em] text-[#5ed29c]/60 animate-pulse pt-2">
+        <p className="text-[11px] text-center font-black uppercase tracking-[0.3em] text-[#5ed29c]/90 animate-pulse pt-2">
           Hands-free Auto-mode Active • Recording & submissions are fully automatic
         </p>
       </div>
       
       {/* Platform Protocol */}
-      <div className="flex items-center justify-center gap-12 opacity-10 group-hover:opacity-30 transition-all duration-700 pb-10">
+      <div className="flex items-center justify-center gap-12 opacity-40 group-hover:opacity-75 transition-all duration-700 pb-10">
          <div className="flex items-center gap-3"><AlertCircle size={16} /> <span className="text-[10px] font-black uppercase tracking-[0.3em] italic">Acoustic Clarity Required</span></div>
          <div className="flex items-center gap-3"><CheckCircle size={16} /> <span className="text-[10px] font-black uppercase tracking-[0.3em] italic">STAR Method Validation</span></div>
          <div className="flex items-center gap-3"><Bot size={16} /> <span className="text-[10px] font-black uppercase tracking-[0.3em] italic">AI Logic Evaluation Active</span></div>
