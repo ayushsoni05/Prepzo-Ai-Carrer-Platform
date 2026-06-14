@@ -374,7 +374,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
   const onSignup = async (data: SignupFormData) => {
     try {
       // Try to register via API
-      await registerAsync({
+      const registeredUser = await registerAsync({
         fullName: data.fullName,
         email: data.email,
         phone: data.phone,
@@ -395,7 +395,8 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
       localStorage.removeItem('prepzo-signup-draft');
       localStorage.removeItem('prepzo-signup-step');
       toast.success('Account created successfully!');
-      onNavigate('dashboard');
+      const targetDashboard = registeredUser?.role === 'recruiter' ? 'recruiter-dashboard' : 'dashboard';
+      onNavigate(targetDashboard);
     } catch (error: unknown) {
       // Check if it's a validation/conflict error vs network error
       const axiosError = error as { response?: { status?: number; data?: { message?: string; code?: string; errors?: string[] } } };
@@ -458,7 +459,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
     
     try {
       // Try to login via API
-      await loginAsync({
+      const loggedInUser = await loginAsync({
         email: data.email,
         password: data.password,
         rememberMe: rememberMe,
@@ -467,7 +468,10 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
       toast.success('Welcome back!');
       
       // Navigate based on user state
-      onNavigate('dashboard');
+      const targetDashboard = (loggedInUser?.role === 'admin' || loggedInUser?.role === 'superadmin')
+        ? 'admin'
+        : (loggedInUser?.role === 'recruiter' ? 'recruiter-dashboard' : 'dashboard');
+      onNavigate(targetDashboard);
     } catch (error: unknown) {
       // Check if it's an authentication error (401) vs network/server error
       const axiosError = error as { response?: { status?: number; data?: { message?: string } } };
@@ -542,10 +546,11 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
 
     try {
       setIsVerifying(true);
-      await verifyOTPAsync(otpEmail, otp);
+      const verifiedUser = await verifyOTPAsync(otpEmail, otp);
       toast.success('Welcome back!');
       
-      onNavigate('dashboard');
+      const targetDashboard = verifiedUser?.role === 'recruiter' ? 'recruiter-dashboard' : 'dashboard';
+      onNavigate(targetDashboard);
     } catch (error: any) {
       console.error('Verification Error:', error);
       toast.error(error.response?.data?.message || 'Invalid code. Please try again.');

@@ -139,7 +139,10 @@ export default function App() {
             setAuthValidated(true);
             
             // Navigate based on state
-            handleNavigate('dashboard');
+            const targetDashboard = (validatedUser.role === 'admin' || validatedUser.role === 'superadmin')
+              ? 'admin'
+              : (validatedUser.role === 'recruiter' ? 'recruiter-dashboard' : 'dashboard');
+            handleNavigate(targetDashboard);
           }
         } catch (error) {
           toast.error('Google login failed. Please try again.');
@@ -284,49 +287,60 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [currentPage, setGlobalLoading]);
 
-  // Redirect based on auth state after initialization
+  // Redirect based on auth state and role permissions after initialization
   useEffect(() => {
     if (!isInitialized) return;
     
     if (!isAuthenticated) {
       // If not authenticated and on protected page, redirect to landing
-      if ([
-        'dashboard',
-        'recruiter-dashboard',
-        'admin',
-        'onboarding',
-        'jobs',
-        'companies',
-        'applications',
-        'network',
-        'placement-accelerator',
-        'resume',
-        'settings',
-        'assessment',
-        'ai-interview',
-        'notes',
-        'note-detail',
-        'question-bank',
-        'battle',
-        'create-battle',
-        'join-battle',
-        'find-match',
-        'tournaments',
-        'battle-history',
-        'job-apply',
-        'admin-applications'
-      ].includes(currentPage)) {
+      const protectedPages = [
+        'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 
+        'companies', 'applications', 'network', 'community', 'placement-accelerator', 
+        'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail', 
+        'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 
+        'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 
+        'find-match', 'tournaments', 'battle-history', 'offer-analyzer', 
+        'job-apply', 'admin-applications', 'shadow-interview', 'external-visualizer'
+      ];
+      if (protectedPages.includes(currentPage)) {
         handleNavigate('landing');
       }
     } else {
-      // If authenticated and on login/signup, redirect to dashboard
-      // Note: We allow landing page for authenticated users so they can use "Back to Landing"
-      if (['login', 'signup'].includes(currentPage)) {
-        const targetDashboard = user?.role === 'recruiter' ? 'recruiter-dashboard' : 'dashboard';
-        handleNavigate(targetDashboard);
+      // Enforce role-based page protections
+      const adminPages = ['admin', 'admin-applications'];
+      const recruiterPages = ['recruiter-dashboard'];
+      const studentPages = [
+        'dashboard', 'onboarding', 'assessment', 'resume', 'placement-accelerator', 
+        'offer-analyzer', 'ai-interview', 'playground', 'star-builder', 
+        'coding-lab', 'jobs', 'companies', 'applications', 'network', 
+        'community', 'notes', 'note-detail', 'question-bank', 'reader', 
+        'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 
+        'battle-history', 'job-apply', 'shadow-interview'
+      ];
+
+      const userRole = user?.role || 'student';
+
+      if (adminPages.includes(currentPage) && userRole !== 'admin' && userRole !== 'superadmin') {
+        const home = userRole === 'recruiter' ? 'recruiter-dashboard' : 'dashboard';
+        handleNavigate(home);
+        toast.error('Access denied: Admin permissions required.');
+      } else if (recruiterPages.includes(currentPage) && userRole !== 'recruiter') {
+        const home = (userRole === 'admin' || userRole === 'superadmin') ? 'admin' : 'dashboard';
+        handleNavigate(home);
+        toast.error('Access denied: Recruiter access only.');
+      } else if (studentPages.includes(currentPage) && userRole === 'recruiter') {
+        handleNavigate('recruiter-dashboard');
+        toast.error('Access denied: Student access only.');
+      } else if (['login', 'signup'].includes(currentPage)) {
+        const home = (userRole === 'admin' || userRole === 'superadmin') 
+          ? 'admin' 
+          : userRole === 'recruiter' 
+            ? 'recruiter-dashboard' 
+            : 'dashboard';
+        handleNavigate(home);
       }
     }
-  }, [isInitialized, isAuthenticated, currentPage]);
+  }, [isInitialized, isAuthenticated, currentPage, user]);
 
   const handleNavigate = (page: string) => {
     const newPage = page as Page;
