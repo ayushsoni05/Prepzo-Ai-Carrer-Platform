@@ -253,3 +253,85 @@ export const getGameLeaderboard = asyncHandler(async (req, res) => {
     data: leaderboard,
   });
 });
+
+/**
+ * @desc    Report code golf game outcome
+ * @route   POST /api/games/golf/report
+ * @access  Private
+ */
+export const reportCodeGolfOutcome = asyncHandler(async (req, res) => {
+  const { charCount, passed } = req.body;
+  const userId = req.user._id;
+
+  let stats = await GameStats.findOne({ user: userId });
+  if (!stats) {
+    stats = new GameStats({ user: userId });
+  }
+
+  let earnedXp = 5; // Consolation XP for playing
+  if (passed) {
+    // Shorter code yields more XP, minimum 15 XP + 40 XP pass bonus
+    earnedXp = Math.max(15, Math.round(120 - charCount)) + 40;
+    stats.xp += earnedXp;
+
+    stats.codeGolf.played += 1;
+    if (charCount < stats.codeGolf.shortestChar) {
+      stats.codeGolf.shortestChar = charCount;
+    }
+
+    // Award Golf Champion badge if they solved it in <= 60 characters
+    if (stats.codeGolf.shortestChar <= 60 && !stats.badges.includes('Golf Champion')) {
+      stats.badges.push('Golf Champion');
+    }
+  } else {
+    stats.xp += earnedXp;
+    stats.codeGolf.played += 1;
+  }
+
+  await stats.save();
+
+  res.status(200).json({
+    success: true,
+    data: {
+      stats,
+      earnedXp
+    }
+  });
+});
+
+/**
+ * @desc    Report cyber defense patches outcome
+ * @route   POST /api/games/cyber/report
+ * @access  Private
+ */
+export const reportCyberDefenseOutcome = asyncHandler(async (req, res) => {
+  const { patches } = req.body; // Number of successful patches (e.g. 0 to 3)
+  const userId = req.user._id;
+
+  let stats = await GameStats.findOne({ user: userId });
+  if (!stats) {
+    stats = new GameStats({ user: userId });
+  }
+
+  // 40 XP per successful patch, plus 10 consolation XP if played but 0 patches
+  const earnedXp = patches > 0 ? (patches * 40) : 10;
+  stats.xp += earnedXp;
+
+  stats.cyberDefense.played += 1;
+  stats.cyberDefense.successfulPatches += patches;
+
+  // Award Certified Secure Coder badge if they accumulated 6 successful patches
+  if (stats.cyberDefense.successfulPatches >= 6 && !stats.badges.includes('Certified Secure Coder')) {
+    stats.badges.push('Certified Secure Coder');
+  }
+
+  await stats.save();
+
+  res.status(200).json({
+    success: true,
+    data: {
+      stats,
+      earnedXp
+    }
+  });
+});

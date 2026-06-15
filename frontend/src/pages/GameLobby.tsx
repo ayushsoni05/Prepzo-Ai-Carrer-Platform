@@ -57,20 +57,20 @@ export const GameLobby = () => {
       icon: <Code className="w-8 h-8 text-blue-400" />,
       xpReward: 'Based on compression efficiency',
       difficulty: 'Expert',
-      route: '#',
-      active: false,
-      stats: 'Phase 2 Coming Soon'
+      route: 'code-golf',
+      active: true,
+      stats: stats ? `Best: ${stats.codeGolf?.shortestChar === 9999 ? 'N/A' : stats.codeGolf?.shortestChar} chars (${stats.codeGolf?.played} Played)` : 'Best: N/A'
     },
     {
       id: 'cyber',
       title: 'Fix the Hack Sandbox',
       description: 'Play as a Cyber Guard. Identify and secure vulnerable code (XSS, SQLi, CSRF) before systems get breached.',
       icon: <ShieldAlert className="w-8 h-8 text-red-400" />,
-      xpReward: '+50 XP / Successful Patch',
+      xpReward: '+40 XP / Successful Patch',
       difficulty: 'Medium',
-      route: '#',
-      active: false,
-      stats: 'Phase 2 Coming Soon'
+      route: 'cyber-defense',
+      active: true,
+      stats: stats ? `Patches: ${stats.cyberDefense?.successfulPatches || 0} (${stats.cyberDefense?.played} Played)` : 'Patches: 0'
     }
   ];
 
