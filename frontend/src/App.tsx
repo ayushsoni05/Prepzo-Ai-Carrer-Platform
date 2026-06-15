@@ -48,6 +48,9 @@ import PlacementAccelerator from '@/pages/PlacementAccelerator';
 import { JobApplicationForm } from '@/pages/JobApplicationForm';
 import { AdminApplicationsPage } from '@/pages/AdminApplicationsPage';
 import { ShadowInterview } from '@/pages/ShadowInterview';
+import { GameLobby } from '@/pages/GameLobby';
+import { TriviaSprint } from '@/pages/TriviaSprint';
+import { RegexInvaders } from '@/pages/RegexInvaders';
 
 const PageTransition = ({ children, pageKey }: { children: React.ReactNode, pageKey: string }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -76,7 +79,7 @@ const PageTransition = ({ children, pageKey }: { children: React.ReactNode, page
   );
 };
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'community' | 'placement-accelerator' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | 'offer-analyzer' | 'job-apply' | 'admin-applications' | 'shadow-interview' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'community' | 'placement-accelerator' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | 'offer-analyzer' | 'job-apply' | 'admin-applications' | 'shadow-interview' | 'game-lobby' | 'trivia-sprint' | 'regex-invaders' | '404';
 
 // Get initial page from URL path or default to 'landing'
 const getPageFromPath = (): Page => {
@@ -94,7 +97,7 @@ const getPageFromPath = (): Page => {
   if (pageName.startsWith('profile/')) return 'profile';
   if (pageName.startsWith('battle/invite/')) return 'join-battle';
   
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'external-visualizer', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'external-visualizer', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview', 'game-lobby', 'trivia-sprint', 'regex-invaders'];
   return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 
@@ -172,7 +175,7 @@ export default function App() {
     initRef.current = true;
     
     const initializeAuth = async () => {
-      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview'];
+      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview', 'game-lobby', 'trivia-sprint', 'regex-invaders'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
       const publicAuthPages = ['landing', 'login', 'signup'];
@@ -300,7 +303,8 @@ export default function App() {
         'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 
         'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 
         'find-match', 'tournaments', 'battle-history', 'offer-analyzer', 
-        'job-apply', 'admin-applications', 'shadow-interview', 'external-visualizer'
+        'job-apply', 'admin-applications', 'shadow-interview', 'external-visualizer',
+        'game-lobby', 'trivia-sprint', 'regex-invaders'
       ];
       if (protectedPages.includes(currentPage)) {
         handleNavigate('landing');
@@ -315,7 +319,8 @@ export default function App() {
         'coding-lab', 'jobs', 'companies', 'applications', 'network', 
         'community', 'notes', 'note-detail', 'question-bank', 'reader', 
         'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 
-        'battle-history', 'job-apply', 'shadow-interview'
+        'battle-history', 'job-apply', 'shadow-interview', 'game-lobby', 
+        'trivia-sprint', 'regex-invaders'
       ];
 
       const userRole = user?.role || 'student';
@@ -407,7 +412,7 @@ export default function App() {
   const isSkillComplete = user?.isSkillTestComplete;
   const isFullyQualified = isFieldComplete && isSkillComplete;
 
-  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'offer-analyzer', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail', 'question-bank', 'admin-applications'].includes(currentPage);
+  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'offer-analyzer', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail', 'question-bank', 'admin-applications', 'game-lobby', 'trivia-sprint', 'regex-invaders'].includes(currentPage);
 
   return (
     <div className="page-shell overflow-x-hidden">
@@ -509,6 +514,9 @@ export default function App() {
                   {currentPage === 'question-bank' && <QuestionBankPage />}
                   {currentPage === 'offer-analyzer' && <OfferAnalyzer />}
                   {currentPage === 'admin-applications' && <AdminApplicationsPage />}
+                  {currentPage === 'game-lobby' && <GameLobby />}
+                  {currentPage === 'trivia-sprint' && <TriviaSprint />}
+                  {currentPage === 'regex-invaders' && <RegexInvaders />}
                 </main>
                 <MobileNav
                   active={getSidebarActiveId(currentPage)}
