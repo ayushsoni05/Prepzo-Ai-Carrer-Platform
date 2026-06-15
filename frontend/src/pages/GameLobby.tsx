@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, Play, Star, ShieldAlert, Award, Sparkles, Layout, Flame, BrainCircuit, Target, Code, Activity, Eye, Settings } from 'lucide-react';
+import { Trophy, Play, Star, ShieldAlert, Award, Sparkles, Layout, Flame, BrainCircuit, Target, Code, Activity, Eye, Settings, Compass } from 'lucide-react';
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';
 
@@ -115,6 +115,17 @@ export const GameLobby = () => {
       route: 'system-whiteboard',
       active: true,
       stats: stats ? `Audits: ${stats.systemWhiteboard?.auditsRun || 0} (${stats.systemWhiteboard?.played || 0} Sessions)` : 'Audits: 0'
+    },
+    {
+      id: 'domainrunner',
+      title: 'Domain Runner 3D',
+      description: 'Hyperspace portal runner dynamically loaded with questions for your academic major or field of study. Steer through answer gates!',
+      icon: <Compass className="w-8 h-8 text-pink-400 animate-spin" style={{ animationDuration: '8s' }} />,
+      xpReward: '+0.5 XP / Point (Max 150)',
+      difficulty: 'Medium',
+      route: 'domain-runner',
+      active: true,
+      stats: stats ? `Best: ${stats.domainRunner3D?.highScore || 0} pts (${stats.domainRunner3D?.played || 0} Played)` : 'Best: 0 pts'
     }
   ];
 
