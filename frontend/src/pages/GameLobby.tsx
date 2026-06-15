@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, Play, Star, ShieldAlert, Award, Sparkles, Layout, Flame, BrainCircuit, Target, Code } from 'lucide-react';
+import { Trophy, Play, Star, ShieldAlert, Award, Sparkles, Layout, Flame, BrainCircuit, Target, Code, Activity, Eye } from 'lucide-react';
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';
 
@@ -71,6 +71,28 @@ export const GameLobby = () => {
       route: 'cyber-defense',
       active: true,
       stats: stats ? `Patches: ${stats.cyberDefense?.successfulPatches || 0} (${stats.cyberDefense?.played} Played)` : 'Patches: 0'
+    },
+    {
+      id: 'github',
+      title: 'GitHub Reconstructor',
+      description: 'Scan uploaded codebase repository archives. Parse commit modifications history to reconstruct contribution maps and audit security vulnerabilities.',
+      icon: <Activity className="w-8 h-8 text-indigo-400" />,
+      xpReward: '+60 XP / Upload + Line bonus',
+      difficulty: 'Medium',
+      route: 'github-reconstructor',
+      active: true,
+      stats: stats ? `Analyzed: ${stats.githubReconstructor?.played || 0} Repos` : 'Analyzed: 0'
+    },
+    {
+      id: 'proctor',
+      title: 'AI Proctor Sandbox',
+      description: 'Examine proctor behavior monitoring tools. Maintain high trust scores in mock exams against browser tab, key, and clipboard flags.',
+      icon: <Eye className="w-8 h-8 text-yellow-400" />,
+      xpReward: '+20 XP + Trust score bonus',
+      difficulty: 'Easy',
+      route: 'proctor-sandbox',
+      active: true,
+      stats: stats ? `Best: ${stats.proctorSandbox?.highestTrustScore || 0}% Trust` : 'Best: 0%'
     }
   ];
 

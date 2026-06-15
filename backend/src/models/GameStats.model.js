@@ -30,6 +30,14 @@ const gameStatsSchema = new mongoose.Schema({
     played: { type: Number, default: 0 },
     successfulPatches: { type: Number, default: 0 },
   },
+  githubReconstructor: {
+    played: { type: Number, default: 0 },
+    lineCountAnalyzed: { type: Number, default: 0 },
+  },
+  proctorSandbox: {
+    played: { type: Number, default: 0 },
+    highestTrustScore: { type: Number, default: 0 },
+  },
   badges: [{
     type: String,
   }]
