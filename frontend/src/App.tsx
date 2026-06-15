@@ -361,6 +361,7 @@ export default function App() {
       assessment: 'Evaluating Skill Vectors',
       'ai-interview': 'Initializing AI Interrogator',
       landing: 'Returning to Base',
+      'game-lobby': 'Entering Placement Playground',
     };
 
     setGlobalLoading(true, labels[newPage] || `Transmitting to ${newPage}...`);

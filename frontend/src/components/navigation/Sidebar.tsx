@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 // import { NavItem } from './NavItem';
-import { Home, FileText, Brain, Briefcase, Settings, Lock, Terminal, Sparkles, Users } from 'lucide-react';
+import { Home, FileText, Brain, Briefcase, Settings, Lock, Terminal, Sparkles, Users, Gamepad2 } from 'lucide-react';
 
 interface SidebarProps {
   active: string;
@@ -23,6 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({ active, onNavigate, badgeMap, lockedI
         { id: 'assessment', icon: Brain, label: 'Skill' },
         { id: 'opportunities', icon: Briefcase, label: 'Jobs' },
         { id: 'coding-lab', icon: Terminal, label: 'Code' },
+        { id: 'game-lobby', icon: Gamepad2, label: 'Play' },
       ].map((item) => {
         const isActive = active === item.id || (item.id === 'opportunities' && active === 'jobs');
         const isLocked = lockedItems.includes(item.id) || (item.id === 'opportunities' && lockedItems.includes('jobs'));
