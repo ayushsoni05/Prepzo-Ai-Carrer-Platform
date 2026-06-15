@@ -38,6 +38,14 @@ const gameStatsSchema = new mongoose.Schema({
     played: { type: Number, default: 0 },
     highestTrustScore: { type: Number, default: 0 },
   },
+  devopsSandbox: {
+    played: { type: Number, default: 0 },
+    successfulPipelines: { type: Number, default: 0 },
+  },
+  systemWhiteboard: {
+    played: { type: Number, default: 0 },
+    auditsRun: { type: Number, default: 0 },
+  },
   badges: [{
     type: String,
   }]

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, Play, Star, ShieldAlert, Award, Sparkles, Layout, Flame, BrainCircuit, Target, Code, Activity, Eye } from 'lucide-react';
+import { Trophy, Play, Star, ShieldAlert, Award, Sparkles, Layout, Flame, BrainCircuit, Target, Code, Activity, Eye, Settings } from 'lucide-react';
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';
 
@@ -93,6 +93,28 @@ export const GameLobby = () => {
       route: 'proctor-sandbox',
       active: true,
       stats: stats ? `Best: ${stats.proctorSandbox?.highestTrustScore || 0}% Trust` : 'Best: 0%'
+    },
+    {
+      id: 'devops',
+      title: 'DevOps Pipeline Sandbox',
+      description: 'Design a secure CI/CD pipeline template and run builds to deploy without triggering policy issues.',
+      icon: <Settings className="w-8 h-8 text-orange-400 animate-spin" style={{ animationDuration: '6s' }} />,
+      xpReward: '+60 XP / Successful Pipeline',
+      difficulty: 'Medium',
+      route: 'devops-pipeline',
+      active: true,
+      stats: stats ? `Pipelines: ${stats.devopsSandbox?.successfulPipelines || 0} (${stats.devopsSandbox?.played || 0} Played)` : 'Pipelines: 0'
+    },
+    {
+      id: 'whiteboard',
+      title: 'System Design Whiteboard',
+      description: 'Collaborative drawing board to coordinate server topologies. Enlist an AI Architect Co-Pilot to audit bottleneck vulnerabilities.',
+      icon: <Layout className="w-8 h-8 text-yellow-400 animate-pulse" />,
+      xpReward: '+30 XP / Architecture Audit',
+      difficulty: 'Hard',
+      route: 'system-whiteboard',
+      active: true,
+      stats: stats ? `Audits: ${stats.systemWhiteboard?.auditsRun || 0} (${stats.systemWhiteboard?.played || 0} Sessions)` : 'Audits: 0'
     }
   ];
 

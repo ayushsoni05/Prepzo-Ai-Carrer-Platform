@@ -185,6 +185,21 @@ export const initializeSockets = (io) => {
       }
     });
 
+    // Multiplayer Whiteboard Actions
+    socket.on('join_whiteboard', ({ roomId }) => {
+      socket.join(roomId);
+      console.log(`[WHITEBOARD] Socket ${socket.id} joined room ${roomId}`);
+      socket.to(roomId).emit('peer_joined_whiteboard', { socketId: socket.id });
+    });
+
+    socket.on('draw_line', ({ roomId, data }) => {
+      socket.to(roomId).emit('draw_line_update', data);
+    });
+
+    socket.on('clear_whiteboard', ({ roomId }) => {
+      socket.to(roomId).emit('clear_whiteboard_update');
+    });
+
     socket.on('disconnect', () => {
       console.log(`🔌 Socket disconnected: ${socket.id}`);
       // Remove from queue if they disconnect

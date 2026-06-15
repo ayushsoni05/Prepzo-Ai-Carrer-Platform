@@ -45,6 +45,8 @@ import shadowInterviewRoutes from './routes/shadowInterview.routes.js';
 import gameRoutes from './routes/game.routes.js';
 import githubRoutes from './routes/github.routes.js';
 import proctorRoutes from './routes/proctor.routes.js';
+import devopsRoutes from './routes/devops.routes.js';
+import whiteboardRoutes from './routes/whiteboard.routes.js';
 import { seeder } from './services/autonomousSeeder.service.js';
 import { errorHandler, notFound } from './middleware/error.middleware.js';
 import aiValidation from './middleware/aiValidation.middleware.js';
@@ -304,6 +306,8 @@ app.use('/api/shadow-interview', aiValidation.aiRequestContext(), shadowIntervie
 app.use('/api/games', gameRoutes);
 app.use('/api/github', githubRoutes);
 app.use('/api/proctor', proctorRoutes);
+app.use('/api/devops', devopsRoutes);
+app.use('/api/whiteboard', whiteboardRoutes);
 
 // AI Failsafe error handler (catches AI-specific errors)
 app.use(aiValidation.aiFailsafe());

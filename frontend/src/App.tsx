@@ -55,6 +55,8 @@ import { CodeGolf } from '@/pages/CodeGolf';
 import { CyberDefense } from '@/pages/CyberDefense';
 import { GithubReconstructor } from '@/pages/GithubReconstructor';
 import { ProctorSandbox } from '@/pages/ProctorSandbox';
+import { DevopsPipeline } from '@/pages/DevopsPipeline';
+import { SystemWhiteboard } from '@/pages/SystemWhiteboard';
 
 const PageTransition = ({ children, pageKey }: { children: React.ReactNode, pageKey: string }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -83,7 +85,7 @@ const PageTransition = ({ children, pageKey }: { children: React.ReactNode, page
   );
 };
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'community' | 'placement-accelerator' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | 'offer-analyzer' | 'job-apply' | 'admin-applications' | 'shadow-interview' | 'game-lobby' | 'trivia-sprint' | 'regex-invaders' | 'code-golf' | 'cyber-defense' | 'github-reconstructor' | 'proctor-sandbox' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'community' | 'placement-accelerator' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | 'offer-analyzer' | 'job-apply' | 'admin-applications' | 'shadow-interview' | 'game-lobby' | 'trivia-sprint' | 'regex-invaders' | 'code-golf' | 'cyber-defense' | 'github-reconstructor' | 'proctor-sandbox' | 'devops-pipeline' | 'system-whiteboard' | '404';
 
 // Get initial page from URL path or default to 'landing'
 const getPageFromPath = (): Page => {
@@ -101,7 +103,7 @@ const getPageFromPath = (): Page => {
   if (pageName.startsWith('profile/')) return 'profile';
   if (pageName.startsWith('battle/invite/')) return 'join-battle';
   
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'external-visualizer', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'external-visualizer', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard'];
   return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 
@@ -179,7 +181,7 @@ export default function App() {
     initRef.current = true;
     
     const initializeAuth = async () => {
-      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox'];
+      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
       const publicAuthPages = ['landing', 'login', 'signup'];
@@ -308,7 +310,7 @@ export default function App() {
         'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 
         'find-match', 'tournaments', 'battle-history', 'offer-analyzer', 
         'job-apply', 'admin-applications', 'shadow-interview', 'external-visualizer',
-        'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox'
+        'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard'
       ];
       if (protectedPages.includes(currentPage)) {
         handleNavigate('landing');
@@ -324,7 +326,7 @@ export default function App() {
         'community', 'notes', 'note-detail', 'question-bank', 'reader', 
         'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 
         'battle-history', 'job-apply', 'shadow-interview', 'game-lobby', 
-        'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox'
+        'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard'
       ];
 
       const userRole = user?.role || 'student';
@@ -368,6 +370,8 @@ export default function App() {
       'game-lobby': 'Entering Placement Playground',
       'code-golf': 'Loading Code-Golf Arena',
       'cyber-defense': 'Accessing Cyber-Defense Sandbox',
+      'devops-pipeline': 'Configuring DevOps Sandbox',
+      'system-whiteboard': 'Connecting Whiteboard Coordinates',
     };
 
     setGlobalLoading(true, labels[newPage] || `Transmitting to ${newPage}...`);
@@ -419,7 +423,7 @@ export default function App() {
   const isSkillComplete = user?.isSkillTestComplete;
   const isFullyQualified = isFieldComplete && isSkillComplete;
 
-  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'offer-analyzer', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail', 'question-bank', 'admin-applications', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox'].includes(currentPage);
+  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'offer-analyzer', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail', 'question-bank', 'admin-applications', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard'].includes(currentPage);
 
   return (
     <div className="page-shell overflow-x-hidden">
@@ -528,6 +532,8 @@ export default function App() {
                   {currentPage === 'cyber-defense' && <CyberDefense />}
                   {currentPage === 'github-reconstructor' && <GithubReconstructor />}
                   {currentPage === 'proctor-sandbox' && <ProctorSandbox />}
+                  {currentPage === 'devops-pipeline' && <DevopsPipeline />}
+                  {currentPage === 'system-whiteboard' && <SystemWhiteboard />}
                 </main>
                 <MobileNav
                   active={getSidebarActiveId(currentPage)}
