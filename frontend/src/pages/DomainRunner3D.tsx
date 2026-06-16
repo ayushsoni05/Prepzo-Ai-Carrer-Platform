@@ -66,15 +66,17 @@ const DOMAIN_QUESTIONS: Record<string, Question[]> = {
 // ── 3D Spaceship mesh ─────────────────────────────────────────────────────────
 function PlayerShip({ lane }: { lane: number }) {
   const meshRef = useRef<THREE.Group>(null);
+  const timeAccumulator = useRef(0);
   
-  useFrame(({ clock }) => {
+  useFrame((state, delta) => {
     if (!meshRef.current) return;
-    const t = clock.getElapsedTime();
+    timeAccumulator.current += delta;
+    
     // Smooth transition between lanes
     const targetX = (lane - 1) * 3.2; // lane values: 0 (left), 1 (center), 2 (right)
     meshRef.current.position.x = THREE.MathUtils.lerp(meshRef.current.position.x, targetX, 0.18);
-    // Subtle hover/wobble effect
-    meshRef.current.position.y = Math.sin(t * 5) * 0.1;
+    // Subtle hover/wobble effect using accumulated time
+    meshRef.current.position.y = Math.sin(timeAccumulator.current * 5) * 0.1;
     meshRef.current.rotation.z = -(meshRef.current.position.x - targetX) * 0.25; // Roll while moving
   });
 
@@ -104,23 +106,70 @@ function PlayerShip({ lane }: { lane: number }) {
 interface Item {
   id: string;
   type: 'gate' | 'obstacle';
-  z: number;
+  zInit: number; // initial static Z coordinate
   lane: number; // 0, 1, 2
   color: string;
   isCorrectLane?: boolean;
 }
 
-function GameItems({ items, playerLane, onCollision }: { items: Item[], playerLane: number, onCollision: (item: Item) => void }) {
-  const itemsRef = useRef<THREE.Group>(null);
-  const hitRecord = useRef<Record<string, boolean>>({});
+function GameScene({
+  lane,
+  items,
+  hyperdrive,
+  onCollision,
+  gameState
+}: {
+  lane: number;
+  items: Item[];
+  hyperdrive: boolean;
+  onCollision: (item: Item) => void;
+  gameState: string;
+}) {
+  const groupRef = useRef<THREE.Group>(null);
+  const gridRef1 = useRef<THREE.GridHelper>(null);
+  const gridRef2 = useRef<THREE.GridHelper>(null);
+  const processedItems = useRef<Record<string, boolean>>({});
+  
+  // Track movement progress
+  const zOffsetRef = useRef(0);
 
-  useFrame(() => {
-    // Check collision dynamically (at z near ship, z around 3.5 - 4.5)
+  // Reset progress when game starts/restarts
+  useEffect(() => {
+    if (gameState === 'playing') {
+      zOffsetRef.current = 0;
+      processedItems.current = {};
+      if (groupRef.current) groupRef.current.position.z = 0;
+    }
+  }, [gameState]);
+
+  useFrame((state, delta) => {
+    if (gameState !== 'playing') return;
+    
+    // 1. Advance distance
+    const speed = hyperdrive ? 26 : 14;
+    zOffsetRef.current += delta * speed;
+
+    // 2. Update parent group Z position (moves obstacles/gates forward)
+    if (groupRef.current) {
+      groupRef.current.position.z = zOffsetRef.current;
+    }
+
+    // 3. Move background grids (wrap offset for endless illusion)
+    const offset = -(zOffsetRef.current % 10);
+    if (gridRef1.current) gridRef1.current.position.z = offset + 5;
+    if (gridRef2.current) gridRef2.current.position.z = offset - 5;
+
+    // 4. Collision checking
+    // The ship is static at Z = 4.
+    // An item's absolute Z coordinate is item.zInit + zOffsetRef.current.
+    // It crosses the ship when its Z coordinate is near 4.
     items.forEach((item) => {
-      if (item.z > 3.4 && item.z < 4.6) {
-        if (!hitRecord.current[item.id]) {
-          if (item.lane === playerLane) {
-            hitRecord.current[item.id] = true;
+      const worldZ = item.zInit + zOffsetRef.current;
+      if (worldZ > 3.6 && worldZ < 4.4) {
+        if (!processedItems.current[item.id]) {
+          processedItems.current[item.id] = true;
+          // check if ship is in the same lane
+          if (lane === item.lane) {
             onCollision(item);
           }
         }
@@ -128,71 +177,58 @@ function GameItems({ items, playerLane, onCollision }: { items: Item[], playerLa
     });
   });
 
-  return (
-    <group ref={itemsRef}>
-      {items.map((item) => {
-        const xPos = (item.lane - 1) * 3.2;
-        return (
-          <group key={item.id} position={[xPos, 0, item.z]}>
-            {item.type === 'gate' ? (
-              // Knowledge Gate Portal Ring
-              <mesh>
-                <torusGeometry args={[1.2, 0.15, 8, 24]} />
-                <meshStandardMaterial 
-                  color={item.color}
-                  emissive={item.color} 
-                  emissiveIntensity={0.8}
-                  roughness={0.1}
-                />
-              </mesh>
-            ) : (
-              // Red Obstacle Cube
-              <mesh>
-                <boxGeometry args={[1.1, 1.1, 1.1]} />
-                <meshStandardMaterial 
-                  color="#ef4444" 
-                  emissive="#ef4444" 
-                  emissiveIntensity={0.8} 
-                  roughness={0.2}
-                />
-              </mesh>
-            )}
-          </group>
-        );
-      })}
-    </group>
-  );
-}
-
-// ── 3D Ground Grid ──────────────────────────────────────────────────────────
-function RoadGrid({ hyperdrive }: { hyperdrive: boolean }) {
-  const gridRef1 = useRef<THREE.GridHelper>(null);
-  const gridRef2 = useRef<THREE.GridHelper>(null);
-
-  useFrame(({ clock }) => {
-    const t = clock.getElapsedTime();
-    const speed = hyperdrive ? 25 : 12;
-    const offset = -(t * speed) % 10;
-    if (gridRef1.current) gridRef1.current.position.z = offset + 5;
-    if (gridRef2.current) gridRef2.current.position.z = offset - 5;
-  });
-
-  const color = hyperdrive ? '#fbbf24' : '#6366f1';
+  const gridColor = hyperdrive ? '#fbbf24' : '#6366f1';
 
   return (
     <>
+      {/* Moving road grids */}
       <gridHelper 
         ref={gridRef1} 
-        args={[30, 15, color, '#1e293b']} 
+        args={[30, 15, gridColor, '#1e293b']} 
         rotation={[Math.PI / 2, 0, 0]} 
         position={[0, -1.5, 0]} 
       />
       <gridHelper 
         ref={gridRef2} 
-        args={[30, 15, color, '#1e293b']} 
+        args={[30, 15, gridColor, '#1e293b']} 
         rotation={[Math.PI / 2, 0, 0]} 
         position={[0, -1.5, -10]} 
       />
+
+      {/* Ship */}
+      <PlayerShip lane={lane} />
+
+      {/* Dynamic Game Items (Gates & Obstacles) */}
+      <group ref={groupRef}>
+        {items.map((item) => {
+          const xPos = (item.lane - 1) * 3.2;
+          return (
+            <group key={item.id} position={[xPos, 0, item.zInit]}>
+              {item.type === 'gate' ? (
+                <mesh>
+                  <torusGeometry args={[1.2, 0.15, 8, 24]} />
+                  <meshStandardMaterial 
+                    color={item.color}
+                    emissive={item.color} 
+                    emissiveIntensity={0.8}
+                    roughness={0.1}
+                  />
+                </mesh>
+              ) : (
+                <mesh>
+                  <boxGeometry args={[1.1, 1.1, 1.1]} />
+                  <meshStandardMaterial 
+                    color="#ef4444" 
+                    emissive="#ef4444" 
+                    emissiveIntensity={0.8} 
+                    roughness={0.2}
+                  />
+                </mesh>
+              )}
+            </group>
+          );
+        })}
+      </group>
     </>
   );
 }
@@ -217,8 +253,6 @@ export const DomainRunner3D = () => {
 
   const [lane, setLane] = useState<number>(1); // 0: Left, 1: Center, 2: Right
   const [items, setItems] = useState<Item[]>([]);
-  const itemsRef = useRef<Item[]>([]);
-  const gameLoopIntervalRef = useRef<number | null>(null);
 
   // Fetch High Scores on Start
   useEffect(() => {
@@ -262,60 +296,26 @@ export const DomainRunner3D = () => {
     const nextIdx = index % questions.length;
     const q = questions[nextIdx];
     setCurrentQuestion(q);
-    setQIndex(nextIdx);
+    setQIndex(index); // Keep absolute index
 
-    // Shuffle options into lanes
-    const optionIndexes = [0, 1, 2];
-    // We want to map each option index to one of the lanes (0, 1, 2)
-    // Find where the correct answer maps
-    const optionsMap = [...q.options];
-    setLaneAnswers(optionsMap);
+    setLaneAnswers([...q.options]);
     setCorrectLane(q.correctIndex);
   };
 
-  // Main game loop logic to move items
+  // Listen to qIndex changes during play state to spawn next items
   useEffect(() => {
     if (gameState !== 'playing') return;
-
-    // Spawn initial items
-    spawnBatch();
-
-    const gameSpeed = hyperdrive ? 0.9 : 0.5;
-    gameLoopIntervalRef.current = window.setInterval(() => {
-      // 1. Move items closer
-      setItems((prevItems) => {
-        const moved = prevItems
-          .map((item) => ({ ...item, z: item.z + gameSpeed }))
-          .filter((item) => item.z < 8); // remove items that went past
-        
-        itemsRef.current = moved;
-
-        // If no gates are in queue, spawn a new batch
-        const hasGatesAhead = moved.some(item => item.type === 'gate' && item.z < 0);
-        if (!hasGatesAhead && moved.length <= 2) {
-          spawnBatch();
-        }
-        
-        return moved;
-      });
-    }, 16); // ~60fps movement loop
-
-    return () => {
-      if (gameLoopIntervalRef.current) clearInterval(gameLoopIntervalRef.current);
-    };
-  }, [gameState, hyperdrive, qIndex]);
+    spawnBatch(qIndex);
+  }, [qIndex, gameState, selectedDomain]);
 
   // Spawns a set of gates and optional obstacle
-  const spawnBatch = () => {
-    // Generate new gates at z = -45
-    const zPos = -45;
+  const spawnBatch = (index: number) => {
     const batchId = Math.random().toString(36).substring(2, 9);
-    
-    // Select current question info
     const questions = DOMAIN_QUESTIONS[selectedDomain];
-    const q = questions[qIndex];
+    const q = questions[index % questions.length];
 
     const newItems: Item[] = [];
+    const zPos = -index * 55 - 45; // spaced 55 units apart
 
     // Spawn 3 gates corresponding to the 3 options
     for (let i = 0; i < 3; i++) {
@@ -323,26 +323,29 @@ export const DomainRunner3D = () => {
       newItems.push({
         id: `gate-${batchId}-${i}`,
         type: 'gate',
-        z: zPos,
+        zInit: zPos,
         lane: i,
         color: isCorrect ? '#10b981' : '#f472b6', // Green for correct, Pink for incorrect
         isCorrectLane: isCorrect
       });
     }
 
-    // Occasional obstacle spawns slightly ahead (z = -30) in a random lane
-    if (Math.random() > 0.4) {
+    // Occasional obstacle spawns slightly closer (zPos + 25) in a random lane
+    if (Math.random() > 0.35) {
       const obstacleLane = Math.floor(Math.random() * 3);
       newItems.push({
         id: `obs-${batchId}`,
         type: 'obstacle',
-        z: zPos + 15, // Closer to ship initially than the gates
+        zInit: zPos + 25,
         lane: obstacleLane,
         color: '#ef4444'
       });
     }
 
-    setItems((prev) => [...prev, ...newItems]);
+    setItems((prev) => {
+      // Filter out items that are far behind to save performance
+      return [...prev.filter((item) => item.zInit < -index * 55 + 100), ...newItems];
+    });
   };
 
   // Check collision with gate or obstacle
@@ -415,7 +418,6 @@ export const DomainRunner3D = () => {
 
   const endGame = () => {
     setGameState('gameover');
-    if (gameLoopIntervalRef.current) clearInterval(gameLoopIntervalRef.current);
   };
 
   const saveScore = async () => {
@@ -558,13 +560,13 @@ export const DomainRunner3D = () => {
                     shadow-mapSize={[1024, 1024]} 
                   />
                   <Stars radius={100} depth={50} count={2500} factor={4} saturation={0} fade speed={1.5} />
-                  <PlayerShip lane={lane} />
-                  <GameItems 
-                    items={items} 
-                    playerLane={lane} 
-                    onCollision={handleCollision} 
+                  <GameScene 
+                    lane={lane}
+                    items={items}
+                    hyperdrive={hyperdrive}
+                    onCollision={handleCollision}
+                    gameState={gameState}
                   />
-                  <RoadGrid hyperdrive={hyperdrive} />
                 </Canvas>
 
                 {/* Question overlay panel */}
