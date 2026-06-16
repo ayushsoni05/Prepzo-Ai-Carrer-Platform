@@ -548,7 +548,7 @@ export const DomainRunner3D = () => {
 
               {/* 3D Canvas Container */}
               <div className="flex-1 bg-black/40 border border-white/5 rounded-[30px] relative overflow-hidden h-[380px] min-h-[300px]">
-                <Canvas shadows camera={{ position: [0, 1.5, 8], fov: 60 }}>
+                <Canvas shadows={{ type: THREE.PCFShadowMap }} camera={{ position: [0, 1.5, 8], fov: 60 }}>
                   <ambientLight intensity={0.4} />
                   <pointLight position={[10, 10, 10]} intensity={1.5} />
                   <directionalLight 
