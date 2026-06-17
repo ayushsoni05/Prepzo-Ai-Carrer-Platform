@@ -343,6 +343,7 @@ export const DomainRunner3D = () => {
     }
 
     setItems((prev) => {
+      if (index === 0) return newItems;
       // Filter out items that are far behind to save performance
       return [...prev.filter((item) => item.zInit < -index * 55 + 100), ...newItems];
     });
