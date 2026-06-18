@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, Play, Star, ShieldAlert, Award, Sparkles, Layout, Flame, BrainCircuit, Target, Code, Activity, Eye, Settings, Compass } from 'lucide-react';
+import { Trophy, Play, Star, ShieldAlert, Award, Sparkles, Layout, Flame, BrainCircuit, Target, Code, Activity, Eye, Settings, Compass, Layers } from 'lucide-react';
+
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';
 
