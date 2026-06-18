@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ArrowLeft, Play, Sparkles, Trophy, CheckCircle2, RotateCcw, Info, Server, TrendingUp, Settings, Cpu, Dna, ArrowRight 
+  ArrowLeft, Play, Sparkles, Trophy, CheckCircle2, RotateCcw, Info, Server, TrendingUp, Settings, Cpu, Dna, ArrowRight, Gauge, Activity, Radio 
 } from 'lucide-react';
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';
@@ -65,7 +65,6 @@ export const VisualPuzzleHost = () => {
         levelCompleted: true
       });
       if (res.data?.success) {
-        // Update local stats
         setStats(res.data.data.stats);
       }
     } catch (err) {
@@ -77,7 +76,6 @@ export const VisualPuzzleHost = () => {
     if (currentLevelIndex < selectedDeck.levels.length - 1) {
       setCurrentLevelIndex(currentLevelIndex + 1);
     } else {
-      // Finished all levels in this deck!
       setFeedback(`Congratulations! You have completed the ${selectedDeck.title} Deck!`);
     }
   };
@@ -98,6 +96,77 @@ export const VisualPuzzleHost = () => {
       case 'Cpu': return <Cpu className="w-8 h-8" />;
       case 'Dna': return <Dna className="w-8 h-8" />;
       default: return <Sparkles className="w-8 h-8" />;
+    }
+  };
+
+  // Helper calculations for dynamic telemetry readout
+  const getTelemetryData = () => {
+    if (!currentLevel || !gameState) return [];
+
+    switch (currentLevel.layoutInfo.type) {
+      case 'network':
+        const w = gameState.sliderVal;
+        const latency = gameState.connectedTo === 'cdn' 
+          ? Math.max(45, Math.round(180 - w * 150))
+          : Math.round(240 - w * 80);
+        const loadA = gameState.connectedTo === 'cdn' ? 0 : Math.round((1 - w) * 100);
+        const loadB = gameState.connectedTo === 'cdn' ? 0 : Math.round(w * 100);
+        return [
+          { label: 'Latency', value: `${latency} ms`, status: latency < 100 ? 'text-emerald-400' : 'text-yellow-500' },
+          { label: 'DB A Load', value: `${loadA}%`, status: loadA > 80 ? 'text-red-400 font-bold animate-pulse' : 'text-white/60' },
+          { label: 'DB B Load', value: `${loadB}%`, status: loadB > 80 ? 'text-red-400 font-bold animate-pulse' : 'text-white/60' },
+          { label: 'Route Type', value: gameState.connectedTo?.toUpperCase() || 'NONE' }
+        ];
+      case 'finance':
+        const eq = gameState.equity || 0;
+        const gd = gameState.gold || 0;
+        const bd = gameState.bonds || 0;
+        const expectedYield = (eq * 0.12 + gd * 0.05 + bd * 0.03).toFixed(1);
+        const maxDrawdown = (eq * 0.25 + gd * 0.08 + bd * 0.02).toFixed(1);
+        const sharpe = (parseFloat(expectedYield) / (parseFloat(maxDrawdown) || 1)).toFixed(2);
+        return [
+          { label: 'Exp. Annual Yield', value: `${expectedYield}%`, status: 'text-emerald-400' },
+          { label: 'Max Est. Drawdown', value: `${maxDrawdown}%`, status: parseFloat(maxDrawdown) > 20 ? 'text-red-400' : 'text-white/60' },
+          { label: 'Sharpe Ratio', value: sharpe, status: parseFloat(sharpe) > 0.8 ? 'text-indigo-400 font-bold' : 'text-white/40' }
+        ];
+      case 'mechanical':
+        const isLinked = success;
+        const rpm = isLinked ? (currentLevel.id === 'me-3' ? 120 : 360) : 0;
+        const torque = isLinked ? (currentLevel.id === 'me-2' ? 45 : 90) : 0;
+        return [
+          { label: 'Output Velocity', value: `${rpm} RPM`, status: isLinked ? 'text-emerald-400' : 'text-white/20' },
+          { label: 'Transmission Torque', value: `${torque} Nm`, status: isLinked ? 'text-emerald-400' : 'text-white/20' },
+          { label: 'Rotational Spin', value: currentLevel.id === 'me-2' ? 'CCW (Reverse)' : 'CW (Forward)' }
+        ];
+      case 'electrical':
+        const active = success;
+        const sum = (gameState.gateType === 'XOR') ? '1 (High)' : '0 (Low)';
+        const carry = (gameState.gateType2 === 'AND') ? '1 (High)' : '0 (Low)';
+        return [
+          { label: 'Input Rails V', value: '5.0 V', status: 'text-purple-400' },
+          { label: 'Active LED Gate', value: gameState.gateType || 'NONE' },
+          { label: 'Binary SUM output', value: sum, status: sum.includes('1') ? 'text-emerald-400' : 'text-white/40' },
+          { label: 'Binary CARRY output', value: carry, status: carry.includes('1') ? 'text-emerald-400' : 'text-white/40' }
+        ];
+      case 'biotech':
+        const rot = gameState.rotation || 0;
+        const scale = gameState.scale !== undefined ? gameState.scale : 100;
+        const density = gameState.density !== undefined ? gameState.density : 50;
+        // binding affinity calculation based on target values
+        let targetRot = currentLevel.id === 'biotech-1' ? 180 : currentLevel.id === 'biotech-2' ? 90 : 270;
+        let diffRot = Math.abs(rot - targetRot);
+        let affinity = Math.max(0, Math.round(100 - diffRot * 0.8));
+        if (currentLevel.id === 'biotech-3') {
+          const diffScale = Math.abs(scale - 50);
+          affinity = Math.max(0, Math.round(affinity - diffScale * 0.5));
+        }
+        return [
+          { label: 'Complementarity', value: `${affinity}%`, status: affinity > 85 ? 'text-emerald-400 animate-pulse font-bold' : 'text-white/40' },
+          { label: 'Binding Energy', value: `${(-5.2 * (affinity/100)).toFixed(2)} kcal/mol`, status: 'text-rose-400' },
+          { label: 'Peptide Density', value: `${density}%` }
+        ];
+      default:
+        return [];
     }
   };
 
@@ -139,7 +208,6 @@ export const VisualPuzzleHost = () => {
               ).length;
               const isFullyCompleted = completedCount === deck.levels.length;
 
-              // Color definitions matching the card icons
               let iconColorClass = "text-indigo-400 bg-indigo-500/10 border-indigo-500/20";
               if (deck.id === 'cs') iconColorClass = "text-blue-400 bg-blue-500/10 border-blue-500/20";
               else if (deck.id === 'finance') iconColorClass = "text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
@@ -218,6 +286,13 @@ export const VisualPuzzleHost = () => {
           </div>
 
           <div className="flex items-center gap-4">
+            <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider ${
+              currentLevel?.layoutInfo.difficulty === 'Easy' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
+              currentLevel?.layoutInfo.difficulty === 'Medium' ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' :
+              'bg-red-500/10 text-red-400 border border-red-500/20'
+            }`}>
+              {currentLevel?.layoutInfo.difficulty}
+            </span>
             <div className="text-sm font-medium text-white/60">
               Level {currentLevelIndex + 1} of {selectedDeck.levels.length}
             </div>
@@ -240,34 +315,53 @@ export const VisualPuzzleHost = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 items-stretch">
           
           {/* Left Panel: Instructions & Configuration */}
-          <div className="lg:col-span-5 flex flex-col space-y-6 bg-[#13171d] p-6 rounded-3xl border border-white/5 shadow-xl">
-            <div className="space-y-4">
-              <h3 className="text-xl font-bold flex items-center gap-2">
-                <Info size={18} className="text-indigo-400" />
-                Level Instructions
-              </h3>
-              <p className="text-white/80 text-sm leading-relaxed">
-                {currentLevel?.objective}
-              </p>
+          <div className="lg:col-span-5 flex flex-col space-y-6 bg-[#13171d] p-6 rounded-3xl border border-white/5 shadow-xl justify-between">
+            <div className="space-y-6">
               
-              <div className="space-y-2 bg-black/20 p-4 rounded-2xl border border-white/5 text-xs text-white/40 font-mono">
-                <div className="text-white/20 uppercase font-bold tracking-wider text-[10px] mb-2">Step Guidelines:</div>
-                <ul className="space-y-2">
-                  {currentLevel?.layoutInfo.instructions.map((step, sIdx) => (
-                    <li key={sIdx} className="flex gap-2 items-start">
-                      <span className="text-indigo-400 font-bold">{sIdx + 1}.</span>
-                      <span className="text-white/80">{step}</span>
-                    </li>
-                  ))}
-                </ul>
+              {/* Instructions */}
+              <div className="space-y-3">
+                <h3 className="text-xl font-bold flex items-center gap-2">
+                  <Info size={18} className="text-indigo-400" />
+                  Level Instructions
+                </h3>
+                <p className="text-white/80 text-sm leading-relaxed">
+                  {currentLevel?.objective}
+                </p>
+                
+                <div className="space-y-2 bg-black/20 p-4 rounded-2xl border border-white/5 text-xs text-white/40 font-mono">
+                  <div className="text-white/20 uppercase font-bold tracking-wider text-[10px] mb-2">Step Guidelines:</div>
+                  <ul className="space-y-2">
+                    {currentLevel?.layoutInfo.instructions.map((step, sIdx) => (
+                      <li key={sIdx} className="flex gap-2 items-start">
+                        <span className="text-indigo-400 font-bold">{sIdx + 1}.</span>
+                        <span className="text-white/80">{step}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
+
+              {/* Telemetry Readouts Panel */}
+              <div className="bg-black/40 border border-white/5 rounded-2xl p-4 space-y-3">
+                <h4 className="text-[10px] font-black uppercase tracking-widest text-indigo-400 flex items-center gap-2">
+                  <Gauge size={12} /> Live Simulation Telemetry
+                </h4>
+                <div className="grid grid-cols-2 gap-3">
+                  {getTelemetryData().map((readout, index) => (
+                    <div key={index} className="bg-[#0a0c10] border border-white/5 p-3 rounded-xl flex flex-col justify-between">
+                      <span className="text-[9px] text-white/30 uppercase font-bold tracking-wide">{readout.label}</span>
+                      <span className={`text-xs font-black font-mono mt-1 ${readout.status || 'text-white'}`}>{readout.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
             </div>
 
             {/* Interactive Control Deck */}
             <div className="flex-1 flex flex-col justify-center py-6 border-t border-white/5 space-y-6">
               <h3 className="text-sm font-bold text-white/60 uppercase tracking-widest">Adjust Configuration</h3>
               
-              {/* Render dynamic sliders / inputs depending on layout type */}
               {currentLevel?.layoutInfo.type === 'network' && gameState && (
                 <div className="space-y-4">
                   <div>
@@ -289,12 +383,34 @@ export const VisualPuzzleHost = () => {
                   </div>
                   
                   <div className="bg-[#0a0c10] p-4 rounded-xl border border-white/5 space-y-2">
-                    <span className="text-xs text-white/60 font-medium">Link Status:</span>
-                    <div className="flex justify-between items-center text-sm font-mono">
-                      <span>Active Route:</span>
-                      <span className={gameState.connectedTo ? 'text-emerald-400 font-bold' : 'text-red-400'}>
-                        {gameState.connectedTo === 'db-a' ? 'Database A' : gameState.connectedTo === 'db-b' ? 'Database B' : 'DISCONNECTED'}
-                      </span>
+                    <span className="text-xs text-white/60 font-medium">Link Route Selector:</span>
+                    <div className="grid grid-cols-3 gap-2">
+                      <button 
+                        onClick={() => setGameState({ ...gameState, connectedTo: 'db-a' })}
+                        className={`py-2 px-1 rounded-xl text-[10px] font-black uppercase tracking-wider border text-center transition-all ${
+                          gameState.connectedTo === 'db-a' ? 'bg-indigo-500/20 border-indigo-500 text-indigo-400 font-bold' : 'bg-black/40 border-white/5 text-white/40 hover:border-white/10'
+                        }`}
+                      >
+                        DB_A Only
+                      </button>
+                      
+                      <button 
+                        onClick={() => setGameState({ ...gameState, connectedTo: 'both' })}
+                        className={`py-2 px-1 rounded-xl text-[10px] font-black uppercase tracking-wider border text-center transition-all ${
+                          gameState.connectedTo === 'both' ? 'bg-indigo-500/20 border-indigo-500 text-indigo-400 font-bold' : 'bg-black/40 border-white/5 text-white/40 hover:border-white/10'
+                        }`}
+                      >
+                        Split Both
+                      </button>
+
+                      <button 
+                        onClick={() => setGameState({ ...gameState, connectedTo: 'cdn' })}
+                        className={`py-2 px-1 rounded-xl text-[10px] font-black uppercase tracking-wider border text-center transition-all ${
+                          gameState.connectedTo === 'cdn' ? 'bg-indigo-500/20 border-indigo-500 text-indigo-400 font-bold' : 'bg-black/40 border-white/5 text-white/40 hover:border-white/10'
+                        }`}
+                      >
+                        CDN Route
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -314,7 +430,6 @@ export const VisualPuzzleHost = () => {
                       value={gameState.equity}
                       onChange={(e) => {
                         const eq = parseInt(e.target.value);
-                        // Make sure sum can adapt or user rebalances
                         setGameState({ ...gameState, equity: eq, bonds: 100 - eq - (gameState.gold || 0) });
                       }}
                       className="w-full h-2 bg-white/5 rounded-lg appearance-none cursor-pointer accent-emerald-500"
@@ -374,7 +489,15 @@ export const VisualPuzzleHost = () => {
                   <div className="grid grid-cols-3 gap-3">
                     {/* Small Gear Tool */}
                     <div 
-                      onClick={() => setGameState({ ...gameState, gearPlaced: true, gearSize: 'small' })}
+                      onClick={() => {
+                        if (currentLevel.id === 'me-1') {
+                          setGameState({ ...gameState, gearPlaced: true, gearSize: 'small' });
+                        } else {
+                          const pegs = [...gameState.pegsOccupied];
+                          if (!pegs.includes('peg-3')) pegs.push('peg-3');
+                          setGameState({ ...gameState, pegsOccupied: pegs });
+                        }
+                      }}
                       className="p-3 bg-black/20 rounded-2xl border border-white/5 text-center cursor-pointer hover:border-amber-500/40 group transition-all"
                     >
                       <Settings className="w-8 h-8 mx-auto text-amber-500/70 group-hover:rotate-45 transition-transform" />
@@ -387,7 +510,6 @@ export const VisualPuzzleHost = () => {
                         if (currentLevel.id === 'me-1') {
                           setGameState({ ...gameState, gearPlaced: true, gearSize: 'medium' });
                         } else {
-                          // Level 2, append shaft peg
                           const pegs = [...gameState.pegsOccupied];
                           if (!pegs.includes('peg-1')) pegs.push('peg-1');
                           setGameState({ ...gameState, pegsOccupied: pegs });
@@ -418,44 +540,46 @@ export const VisualPuzzleHost = () => {
                   </div>
 
                   <p className="text-[10px] text-white/30 italic text-center mt-2">
-                    Tip: Tap a gear to place or drag it onto the pegs in the visual board.
+                    Tip: Tap a gear size to assign and mesh peg linkages.
                   </p>
                 </div>
               )}
 
               {currentLevel?.layoutInfo.type === 'electrical' && gameState && (
                 <div className="space-y-4">
-                  <span className="text-xs text-white/60 block mb-2">Gate Inventory (Logic ICs):</span>
-                  <div className="grid grid-cols-3 gap-3">
-                    <button 
-                      onClick={() => setGameState({ ...gameState, gateType: 'AND' })}
-                      className={`p-3 bg-black/20 rounded-2xl border text-center transition-all ${
-                        gameState.gateType === 'AND' ? 'border-purple-500 text-purple-400' : 'border-white/5 hover:border-purple-500/30'
-                      }`}
-                    >
-                      <div className="text-lg font-bold font-mono">AND</div>
-                      <span className="text-[9px] text-white/30">Outputs 1 if both 1</span>
-                    </button>
+                  <span className="text-xs text-white/60 block mb-2">Select Circuit Gates (Dual IC Sockets):</span>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <span className="text-[10px] text-white/30 block mb-1">Socket A (Sum Logic)</span>
+                      <div className="grid grid-cols-2 gap-2">
+                        {['AND', 'OR', 'XOR'].map(gate => (
+                          <button
+                            key={gate}
+                            onClick={() => setGameState({ ...gameState, gateType: gate })}
+                            className={`py-1.5 px-2 rounded-xl text-[10px] font-mono border ${gameState.gateType === gate ? 'bg-purple-500/20 border-purple-500 text-purple-400 font-bold' : 'bg-black/20 border-white/5 text-white/40'}`}
+                          >
+                            {gate}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
 
-                    <button 
-                      onClick={() => setGameState({ ...gameState, gateType: 'OR' })}
-                      className={`p-3 bg-black/20 rounded-2xl border text-center transition-all ${
-                        gameState.gateType === 'OR' ? 'border-purple-500 text-purple-400' : 'border-white/5 hover:border-purple-500/30'
-                      }`}
-                    >
-                      <div className="text-lg font-bold font-mono">OR</div>
-                      <span className="text-[9px] text-white/30">Outputs 1 if any 1</span>
-                    </button>
-
-                    <button 
-                      onClick={() => setGameState({ ...gameState, gateType: 'XOR' })}
-                      className={`p-3 bg-black/20 rounded-2xl border text-center transition-all ${
-                        gameState.gateType === 'XOR' ? 'border-purple-500 text-purple-400' : 'border-white/5 hover:border-purple-500/30'
-                      }`}
-                    >
-                      <div className="text-lg font-bold font-mono">XOR</div>
-                      <span className="text-[9px] text-white/30">Outputs 1 if diff</span>
-                    </button>
+                    {currentLevel.id !== 'ee-1' && (
+                      <div>
+                        <span className="text-[10px] text-white/30 block mb-1">Socket B (Carry/Negation)</span>
+                        <div className="grid grid-cols-2 gap-2">
+                          {['AND', 'OR', 'NOT'].map(gate => (
+                            <button
+                              key={gate}
+                              onClick={() => setGameState({ ...gameState, gateType2: gate })}
+                              className={`py-1.5 px-2 rounded-xl text-[10px] font-mono border ${gameState.gateType2 === gate ? 'bg-purple-500/20 border-purple-500 text-purple-400 font-bold' : 'bg-black/20 border-white/5 text-white/40'}`}
+                            >
+                              {gate}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -493,6 +617,25 @@ export const VisualPuzzleHost = () => {
                       <div className="flex justify-between text-[10px] text-white/30 mt-1">
                         <span>10%</span>
                         <span className="text-white font-bold">{gameState.density}%</span>
+                        <span>100%</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {gameState.scale !== undefined && (
+                    <div>
+                      <label className="text-xs text-white/60 block mb-2">Antibody scale size (%)</label>
+                      <input 
+                        type="range"
+                        min="20"
+                        max="100"
+                        value={gameState.scale}
+                        onChange={(e) => setGameState({ ...gameState, scale: parseInt(e.target.value) })}
+                        className="w-full h-2 bg-white/5 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                      />
+                      <div className="flex justify-between text-[10px] text-white/30 mt-1">
+                        <span>20%</span>
+                        <span className="text-white font-bold">{gameState.scale}%</span>
                         <span>100%</span>
                       </div>
                     </div>
@@ -549,11 +692,37 @@ export const VisualPuzzleHost = () => {
                       transition={{ duration: 0.5 }}
                     />
                   )}
-                  {gameState.connectedTo === 'db-b' && (
+                  {gameState.connectedTo === 'both' && (
+                    <>
+                      <motion.path 
+                        d="M 120 180 Q 250 80 380 100" 
+                        fill="none" 
+                        stroke="#10b981" 
+                        strokeWidth="4" 
+                        strokeDasharray="6,4"
+                        className="animate-pulse"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 0.5 }}
+                      />
+                      <motion.path 
+                        d="M 120 180 Q 250 280 380 260" 
+                        fill="none" 
+                        stroke="#10b981" 
+                        strokeWidth="4" 
+                        strokeDasharray="6,4"
+                        className="animate-pulse"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 0.5 }}
+                      />
+                    </>
+                  )}
+                  {gameState.connectedTo === 'cdn' && (
                     <motion.path 
-                      d="M 120 180 Q 250 280 380 260" 
+                      d="M 120 180 H 380" 
                       fill="none" 
-                      stroke="#10b981" 
+                      stroke="#38bdf8" 
                       strokeWidth="4" 
                       strokeDasharray="6,4"
                       className="animate-pulse"
@@ -564,58 +733,99 @@ export const VisualPuzzleHost = () => {
                   )}
                 </svg>
 
+                {/* Animated data packets */}
+                <div className="absolute inset-0 w-full h-full pointer-events-none z-10">
+                  {gameState.connectedTo === 'db-a' && (
+                    <motion.div 
+                      animate={{ x: [120, 250, 380], y: [180, 100, 100] }}
+                      transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+                      className="w-3 h-3 rounded-full bg-emerald-400 absolute"
+                    />
+                  )}
+                  {gameState.connectedTo === 'both' && (
+                    <>
+                      <motion.div 
+                        animate={{ x: [120, 250, 380], y: [180, 100, 100] }}
+                        transition={{ repeat: Infinity, duration: 2.2, ease: "linear" }}
+                        className="w-3 h-3 rounded-full bg-emerald-400 absolute"
+                      />
+                      <motion.div 
+                        animate={{ x: [120, 250, 380], y: [180, 240, 260] }}
+                        transition={{ repeat: Infinity, duration: 1.8, ease: "linear" }}
+                        className="w-3 h-3 rounded-full bg-emerald-400 absolute"
+                      />
+                    </>
+                  )}
+                  {gameState.connectedTo === 'cdn' && (
+                    <motion.div 
+                      animate={{ x: [120, 380], y: [180, 180] }}
+                      transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }}
+                      className="w-3 h-3 rounded-full bg-sky-400 absolute"
+                    />
+                  )}
+                </div>
+
                 <div className="flex w-full justify-between items-center z-10">
                   {/* Gateway Source */}
                   <div className="flex flex-col items-center gap-2">
                     <div 
-                      onClick={() => {
-                        // Toggle link destination simply for accessible clicking
-                        const target = gameState.connectedTo === 'db-a' ? 'db-b' : 'db-a';
-                        setGameState({ ...gameState, connectedTo: target });
-                      }}
-                      className="w-24 h-24 rounded-2xl bg-indigo-500/10 border-2 border-indigo-500/40 flex flex-col justify-center items-center gap-2 cursor-pointer hover:bg-indigo-500/20 shadow-[0_0_20px_rgba(99,102,241,0.2)]"
+                      className="w-24 h-24 rounded-2xl bg-indigo-500/10 border-2 border-indigo-500/40 flex flex-col justify-center items-center gap-2 shadow-[0_0_20px_rgba(99,102,241,0.2)]"
                     >
                       <Server className="text-indigo-400 w-8 h-8 animate-bounce" />
                       <span className="text-[10px] font-mono tracking-tighter text-white">API Gateway</span>
                     </div>
-                    <span className="text-[9px] text-white/30">Tap to connect cable</span>
                   </div>
 
-                  {/* Target Databases */}
-                  <div className="flex flex-col gap-12">
+                  {/* Targets (CDN and Databases) */}
+                  <div className="flex flex-col gap-6 items-end">
+                    
                     {/* Database A */}
                     <div 
-                      onClick={() => setGameState({ ...gameState, connectedTo: 'db-a' })}
-                      className={`w-28 h-20 rounded-2xl border flex flex-col justify-center items-center gap-1 cursor-pointer transition-all ${
-                        gameState.connectedTo === 'db-a'
+                      className={`w-28 h-16 rounded-2xl border flex flex-col justify-center items-center gap-1 transition-all ${
+                        gameState.connectedTo === 'db-a' || gameState.connectedTo === 'both'
                           ? 'bg-emerald-500/10 border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.3)]'
                           : 'bg-black/20 border-white/10'
                       }`}
                     >
                       <div className="flex items-center gap-1 text-xs font-mono">
-                        <span className={`w-2 h-2 rounded-full ${currentLevel.id === 'cs-2' ? 'bg-red-500' : 'bg-emerald-400 animate-ping'}`} />
-                        <span className="text-white">DB_A (Port 1)</span>
+                        <span className={`w-2 h-2 rounded-full ${currentLevel.id === 'cs-2' && gameState.sliderVal > 0.4 ? 'bg-red-500 animate-ping' : 'bg-emerald-400 animate-ping'}`} />
+                        <span className="text-white font-bold">DB_A</span>
                       </div>
                       <span className="text-[9px] text-white/30">
-                        {currentLevel.id === 'cs-2' ? 'OUTAGE (500 ERROR)' : 'Capacity: 50%'}
+                        {currentLevel.id === 'cs-2' && gameState.sliderVal > 0.4 ? 'OVERLOAD' : 'Operational'}
                       </span>
+                    </div>
+
+                    {/* CDN Cache Node */}
+                    <div 
+                      className={`w-28 h-16 rounded-2xl border flex flex-col justify-center items-center gap-1 transition-all ${
+                        gameState.connectedTo === 'cdn'
+                          ? 'bg-sky-500/10 border-sky-500 shadow-[0_0_15px_rgba(56,189,248,0.3)]'
+                          : 'bg-black/20 border-white/10'
+                      }`}
+                    >
+                      <div className="flex items-center gap-1 text-xs font-mono">
+                        <span className={`w-2 h-2 rounded-full ${gameState.connectedTo === 'cdn' ? 'bg-sky-400 animate-ping' : 'bg-zinc-700'}`} />
+                        <span className="text-white font-bold">CDN_CACHE</span>
+                      </div>
+                      <span className="text-[9px] text-white/30">Latency: 45ms</span>
                     </div>
 
                     {/* Database B */}
                     <div 
-                      onClick={() => setGameState({ ...gameState, connectedTo: 'db-b' })}
-                      className={`w-28 h-20 rounded-2xl border flex flex-col justify-center items-center gap-1 cursor-pointer transition-all ${
-                        gameState.connectedTo === 'db-b'
+                      className={`w-28 h-16 rounded-2xl border flex flex-col justify-center items-center gap-1 transition-all ${
+                        gameState.connectedTo === 'db-b' || gameState.connectedTo === 'both'
                           ? 'bg-emerald-500/10 border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.3)]'
                           : 'bg-black/20 border-white/10'
                       }`}
                     >
                       <div className="flex items-center gap-1 text-xs font-mono">
                         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                        <span className="text-white">DB_B (Port 2)</span>
+                        <span className="text-white font-bold">DB_B</span>
                       </div>
                       <span className="text-[9px] text-white/30">Capacity: 100%</span>
                     </div>
+
                   </div>
                 </div>
               </div>
@@ -623,58 +833,72 @@ export const VisualPuzzleHost = () => {
 
             {currentLevel?.layoutInfo.type === 'finance' && gameState && (
               <div className="w-full h-full flex flex-col justify-center items-center py-6 relative">
+                
                 {/* Efficient Frontier Curve Grid */}
-                <div className="w-80 h-48 bg-black/20 border border-white/5 rounded-2xl relative overflow-hidden flex justify-center items-center">
+                <div className="w-96 h-56 bg-black/20 border border-white/5 rounded-2xl relative overflow-hidden flex justify-center items-center">
                   
                   {/* Grid Lines */}
                   <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] [background-size:20px_20px]" />
 
                   {/* Draw efficient frontier curved path */}
                   <svg className="absolute inset-0 w-full h-full">
+                    {/* The Frontier curve path */}
                     <path 
-                      d="M 40 160 Q 160 30 300 60" 
+                      d="M 40 180 Q 180 30 320 80" 
                       fill="none" 
                       stroke="rgba(99, 102, 241, 0.4)" 
                       strokeWidth="2" 
                     />
                     
-                    {/* Level targets */}
+                    {/* Dynamic Risk-Return Target Zones based on Level */}
                     {currentLevel.id === 'finance-1' && (
-                      <rect x="140" y="70" width="40" height="40" rx="6" fill="rgba(16, 185, 129, 0.15)" stroke="#10b981" strokeWidth="1" strokeDasharray="3,2" />
+                      <rect x="160" y="80" width="50" height="40" rx="8" fill="rgba(16, 185, 129, 0.1)" stroke="#10b981" strokeWidth="1.5" strokeDasharray="4,2" />
                     )}
 
                     {currentLevel.id === 'finance-2' && (
-                      <rect x="240" y="40" width="40" height="40" rx="6" fill="rgba(16, 185, 129, 0.15)" stroke="#10b981" strokeWidth="1" strokeDasharray="3,2" />
+                      <rect x="130" y="100" width="40" height="40" rx="8" fill="rgba(16, 185, 129, 0.1)" stroke="#10b981" strokeWidth="1.5" strokeDasharray="4,2" />
+                    )}
+
+                    {currentLevel.id === 'finance-3' && (
+                      <circle cx="236" cy="73" r="15" fill="rgba(99, 102, 241, 0.2)" stroke="#6366f1" strokeWidth="1.5" strokeDasharray="3,3" />
                     )}
                   </svg>
 
                   {/* Dynamic Bouncing Portfolio Dot */}
-                  {/* We map the sliders values to X/Y positions on the curve */}
                   {(() => {
-                    const x = 40 + (gameState.equity * 2.6);
-                    // y estimation based on curve
-                    const baseRisk = (gameState.equity * 0.7) + ((gameState.gold || 0) * 0.3);
-                    const y = 160 - (baseRisk * 1.1) + (gameState.bonds * 0.2);
+                    const eq = gameState.equity || 0;
+                    const gd = gameState.gold || 0;
+                    const bd = gameState.bonds || 0;
+                    
+                    // X represents Volatility risk
+                    const risk = (eq * 0.24 + gd * 0.08 + bd * 0.02);
+                    const x = 40 + (risk * 10);
+                    
+                    // Y represents Yield expected
+                    const yld = (eq * 0.12 + gd * 0.05 + bd * 0.03);
+                    const y = 180 - (yld * 14);
 
                     return (
                       <motion.div 
                         animate={{ x: x - 6, y: y - 6 }}
                         transition={{ type: 'spring', stiffness: 100 }}
-                        className="absolute w-4 h-4 rounded-full bg-emerald-400 border border-white shadow-[0_0_12px_#10b981]"
+                        className="absolute w-4 h-4 rounded-full bg-emerald-400 border border-white shadow-[0_0_12px_#10b981] z-20"
                       />
                     );
                   })()}
 
-                  <div className="absolute bottom-2 left-3 text-[9px] text-white/30">Risk →</div>
-                  <div className="absolute top-2 left-3 text-[9px] text-white/30">Return ↑</div>
+                  <div className="absolute bottom-2 left-3 text-[9px] text-white/30">Risk (Est. Volatility) →</div>
+                  <div className="absolute top-2 left-3 text-[9px] text-white/30">Yield expected (Return) ↑</div>
                   <div className="absolute bottom-2 right-3 text-[9px] text-emerald-400 font-bold font-mono">
-                    {currentLevel.id === 'finance-1' ? 'Target: Balanced Risk' : 'Target: Inflation Shield'}
+                    {currentLevel.id === 'finance-1' && 'Target: Moderate Risk'}
+                    {currentLevel.id === 'finance-2' && 'Target: Gold Hedged'}
+                    {currentLevel.id === 'finance-3' && 'Target: Sharpe Tangency Optimal'}
                   </div>
                 </div>
 
                 <div className="mt-4 flex gap-6 text-xs text-white/60">
                   <div className="flex items-center gap-1">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> Stocks: {gameState.equity}%
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> Stocks: {gameState.equity || 0}%
                   </div>
                   {gameState.gold !== undefined && (
                     <div className="flex items-center gap-1">
@@ -682,7 +906,7 @@ export const VisualPuzzleHost = () => {
                     </div>
                   )}
                   <div className="flex items-center gap-1">
-                    <span className="w-2.5 h-2.5 rounded-full bg-blue-500" /> Bonds: {gameState.bonds}%
+                    <span className="w-2.5 h-2.5 rounded-full bg-blue-500" /> Bonds: {gameState.bonds || 0}%
                   </div>
                 </div>
               </div>
@@ -695,14 +919,14 @@ export const VisualPuzzleHost = () => {
                 <div className="w-80 h-56 bg-black/20 border border-white/5 rounded-2xl relative flex justify-between items-center px-12 overflow-hidden">
                   
                   {/* Peg grid marks */}
-                  <div className="absolute inset-0 flex justify-center items-center gap-16 pointer-events-none">
+                  <div className="absolute inset-0 flex justify-center items-center gap-14 pointer-events-none">
                     <div className="w-2 h-2 rounded-full bg-white/10" />
                     <div className="w-2 h-2 rounded-full bg-white/10" />
                     <div className="w-2 h-2 rounded-full bg-white/10" />
                   </div>
 
                   {/* Motor gear (Left) - Always spinning */}
-                  <div className="absolute left-10 flex flex-col items-center">
+                  <div className="absolute left-8 flex flex-col items-center">
                     <Settings 
                       className="w-16 h-16 text-white/20 animate-spin" 
                       style={{ animationDuration: '4s' }}
@@ -739,7 +963,7 @@ export const VisualPuzzleHost = () => {
                     </div>
                   )}
 
-                  {currentLevel.id === 'me-2' && (
+                  {currentLevel.id !== 'me-1' && (
                     <div className="absolute inset-x-0 flex justify-center gap-12 z-10 pointer-events-none">
                       {/* Peg 1 */}
                       <div 
@@ -756,8 +980,8 @@ export const VisualPuzzleHost = () => {
                       >
                         {gameState.pegsOccupied.includes('peg-1') ? (
                           <Settings 
-                            className="w-14 h-14 text-amber-500 animate-spin"
-                            style={{ animationDuration: '4s', animationDirection: 'reverse' }}
+                            className="w-12 h-12 text-amber-500 animate-spin"
+                            style={{ animationDuration: '3s', animationDirection: 'reverse' }}
                           />
                         ) : (
                           <div className="w-10 h-10 rounded-full border border-dashed border-white/10 flex justify-center items-center text-[8px] text-white/20">
@@ -790,11 +1014,38 @@ export const VisualPuzzleHost = () => {
                           </div>
                         )}
                       </div>
+
+                      {/* Peg 3 (compound addition for level 3) */}
+                      {currentLevel.id === 'me-3' && (
+                        <div 
+                          onClick={() => {
+                            const pegs = [...gameState.pegsOccupied];
+                            if (pegs.includes('peg-3')) {
+                              setGameState({ ...gameState, pegsOccupied: pegs.filter(p => p !== 'peg-3') });
+                            } else {
+                              pegs.push('peg-3');
+                              setGameState({ ...gameState, pegsOccupied: pegs });
+                            }
+                          }}
+                          className="pointer-events-auto cursor-pointer"
+                        >
+                          {gameState.pegsOccupied.includes('peg-3') ? (
+                            <Settings 
+                              className="w-10 h-10 text-rose-500 animate-spin"
+                              style={{ animationDuration: '2s', animationDirection: 'reverse' }}
+                            />
+                          ) : (
+                            <div className="w-10 h-10 rounded-full border border-dashed border-white/10 flex justify-center items-center text-[8px] text-white/20">
+                              Peg 3
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
 
                   {/* Output Gear (Right) - Spins only when validation passes */}
-                  <div className="absolute right-10 flex flex-col items-center">
+                  <div className="absolute right-8 flex flex-col items-center">
                     <Settings 
                       className={`w-20 h-20 text-white/20 ${success ? 'animate-spin' : ''}`} 
                       style={{ 
@@ -815,11 +1066,11 @@ export const VisualPuzzleHost = () => {
                   
                   {/* Schematic wiring paths */}
                   <svg className="absolute inset-0 w-full h-full pointer-events-none">
-                    {/* Inputs to Socket */}
-                    <line x1="30" y1="60" x2="160" y2="90" stroke={gameState.inputA ? '#8b5cf6' : '#27272a'} strokeWidth="3" />
-                    <line x1="30" y1="160" x2="160" y2="130" stroke={gameState.inputB ? '#8b5cf6' : '#27272a'} strokeWidth="3" />
+                    {/* Inputs to Sockets */}
+                    <line x1="30" y1="50" x2="140" y2="80" stroke={gameState.inputA ? '#8b5cf6' : '#27272a'} strokeWidth="3" />
+                    <line x1="30" y1="170" x2="140" y2="140" stroke={gameState.inputB ? '#8b5cf6' : '#27272a'} strokeWidth="3" />
                     
-                    {/* Socket to Output */}
+                    {/* Sockets to Output LED */}
                     <line x1="220" y1="110" x2="330" y2="110" stroke={success ? '#10b981' : '#27272a'} strokeWidth="4" />
                   </svg>
 
@@ -840,24 +1091,39 @@ export const VisualPuzzleHost = () => {
                     </div>
                   </div>
 
-                  {/* Empty/Filled socket box */}
+                  {/* Socket A */}
                   <div 
                     onClick={() => setGameState({ ...gameState, gateType: '' })}
-                    className={`absolute left-40 top-1/2 -translate-y-1/2 w-20 h-20 rounded-2xl border-2 border-dashed flex flex-col justify-center items-center cursor-pointer transition-all z-10 ${
+                    className={`absolute left-36 top-1/3 w-16 h-16 rounded-xl border-2 border-dashed flex flex-col justify-center items-center cursor-pointer transition-all z-10 ${
                       gameState.gateType 
-                        ? 'bg-purple-500/10 border-purple-500 shadow-[0_0_15px_rgba(139,92,246,0.3)]' 
-                        : 'bg-black/20 border-white/10 hover:border-purple-500/20'
+                        ? 'bg-purple-500/10 border-purple-500 shadow-[0_0_12px_rgba(139,92,246,0.3)]' 
+                        : 'bg-black/20 border-white/10'
                     }`}
                   >
                     {gameState.gateType ? (
-                      <>
-                        <span className="text-xl font-bold font-mono text-purple-400">{gameState.gateType}</span>
-                        <span className="text-[8px] text-white/30">Tap to clear</span>
-                      </>
+                      <span className="text-sm font-bold font-mono text-purple-400">{gameState.gateType}</span>
                     ) : (
-                      <span className="text-[9px] text-white/20 font-bold uppercase tracking-wider text-center">Place Gate</span>
+                      <span className="text-[8px] text-white/20 text-center font-bold">Sum Gate</span>
                     )}
                   </div>
+
+                  {/* Socket B (For level 2 and 3) */}
+                  {currentLevel.id !== 'ee-1' && (
+                    <div 
+                      onClick={() => setGameState({ ...gameState, gateType2: '' })}
+                      className={`absolute left-36 bottom-6 w-16 h-16 rounded-xl border-2 border-dashed flex flex-col justify-center items-center cursor-pointer transition-all z-10 ${
+                        gameState.gateType2 
+                          ? 'bg-purple-500/10 border-purple-500 shadow-[0_0_12px_rgba(139,92,246,0.3)]' 
+                          : 'bg-black/20 border-white/10'
+                      }`}
+                    >
+                      {gameState.gateType2 ? (
+                        <span className="text-sm font-bold font-mono text-purple-400">{gameState.gateType2}</span>
+                      ) : (
+                        <span className="text-[8px] text-white/20 text-center font-bold">Carry Gate</span>
+                      )}
+                    </div>
+                  )}
 
                   {/* LED Indicator target */}
                   <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col items-center z-10">
@@ -888,7 +1154,10 @@ export const VisualPuzzleHost = () => {
 
                   {/* Rotating Antibody molecule */}
                   <motion.div 
-                    animate={{ rotate: gameState.rotation }}
+                    animate={{ 
+                      rotate: gameState.rotation,
+                      scale: gameState.scale !== undefined ? (gameState.scale / 100) : 1
+                    }}
                     transition={{ type: 'spring', stiffness: 80 }}
                     className={`w-32 h-32 rounded-3xl border-2 flex flex-col justify-center items-center cursor-pointer select-none transition-all ${
                       success

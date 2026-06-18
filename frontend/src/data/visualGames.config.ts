@@ -7,6 +7,7 @@ export interface VisualPuzzleLevel {
   validation: (state: any) => boolean;
   layoutInfo: {
     type: 'network' | 'finance' | 'mechanical' | 'electrical' | 'biotech';
+    difficulty: 'Easy' | 'Medium' | 'Hard';
     instructions: string[];
     sliderLabel?: string;
     sliderMin?: number;
@@ -30,48 +31,70 @@ export const VISUAL_PUZZLE_DECKS: DomainDeck[] = [
     title: 'Computer Science',
     iconName: 'Server',
     colorClass: 'from-blue-500/20 to-indigo-500/20 border-blue-500/40 text-blue-400',
-    description: 'API Gateway Flow. Connect network nodes and adjust routing weights visually.',
+    description: 'API Gateway Flow. Route networking packets, balance loads, and manage CDN caches.',
     levels: [
       {
         id: 'cs-1',
-        name: 'Level 1: Route Balancer',
-        objective: 'Drag the network cable from the Gateway (left) to Database A (top right). Then set the load balancing weight slider to 50% (0.50) to split requests.',
-        hint: 'Use the connector handle on the Gateway node, drag it to Database A, and slide the weight to exactly 0.50.',
+        name: 'Level 1 (Easy): Route Balancer',
+        objective: 'Set the load balancing weight slider to exactly 50% (0.50) to split API requests equally between the two online databases.',
+        hint: 'Slide the weight value to exactly 0.50.',
         initialState: {
-          connectedTo: '', // 'db-a' or 'db-b' or 'both'
+          connectedTo: 'db-a',
           sliderVal: 0.0,
         },
         validation: (state) => state.connectedTo === 'db-a' && Math.abs(state.sliderVal - 0.5) < 0.05,
         layoutInfo: {
           type: 'network',
+          difficulty: 'Easy',
           instructions: [
-            '1. Click and drag the glowing plug from the API Gateway.',
-            '2. Drop it onto the port of Database A.',
-            '3. Adjust the Routing Weight slider to 0.50.'
+            '1. Click the database nodes to ensure connectivity.',
+            '2. Adjust the Routing Weight slider to exactly 0.50.'
           ],
-          sliderLabel: 'Routing Weight (Database A vs B)',
+          sliderLabel: 'Routing Weight (DB_A vs DB_B)',
           sliderMin: 0,
           sliderMax: 1
         }
       },
       {
         id: 'cs-2',
-        name: 'Level 2: Active Failover',
-        objective: 'Database A is experiencing a critical outage! Reroute the network cable to Database B (bottom right) and move the weight slider to 1.0 (100% to Database B).',
-        hint: 'Drag the cable connector to Database B, and adjust the weight slider to 1.0.',
+        name: 'Level 2 (Medium): Bandwidth Cap',
+        objective: 'Database A is hitting a bandwidth threshold! Route traffic to BOTH databases, and set the slider to 0.20 (20% to A, 80% to B) to prevent DB A from crashing.',
+        hint: 'Toggle Gateway routing to "both" databases and slide the load value to 0.20.',
         initialState: {
           connectedTo: 'db-a',
           sliderVal: 0.5,
         },
-        validation: (state) => state.connectedTo === 'db-b' && Math.abs(state.sliderVal - 1.0) < 0.05,
+        validation: (state) => state.connectedTo === 'both' && Math.abs(state.sliderVal - 0.2) < 0.05,
         layoutInfo: {
           type: 'network',
+          difficulty: 'Medium',
           instructions: [
-            '1. Database A is offline (Red alert).',
-            '2. Drag the network connector to Database B.',
-            '3. Set the Routing Weight slider to 1.0 to isolate Database A.'
+            '1. Click Gateway connector to target "Both" databases.',
+            '2. Set the Routing slider to 0.20 to offload traffic from DB A.'
           ],
-          sliderLabel: 'Failover Weight to Database B',
+          sliderLabel: 'Load Distribution to DB_A',
+          sliderMin: 0,
+          sliderMax: 1
+        }
+      },
+      {
+        id: 'cs-3',
+        name: 'Level 3 (Hard): CDN Caching Route',
+        objective: 'High-latency alert! Route traffic directly to the CDN cache node, and set the cache routing slider to 75% (0.75) to maintain response latency under 100ms.',
+        hint: 'Select the CDN node as the active route and set the cache slider to 0.75.',
+        initialState: {
+          connectedTo: 'both',
+          sliderVal: 0.2,
+        },
+        validation: (state) => state.connectedTo === 'cdn' && Math.abs(state.sliderVal - 0.75) < 0.05,
+        layoutInfo: {
+          type: 'network',
+          difficulty: 'Hard',
+          instructions: [
+            '1. Route traffic directly to the CDN node.',
+            '2. Adjust the cache routing weight slider to 0.75.'
+          ],
+          sliderLabel: 'CDN Cache hit ratio',
           sliderMin: 0,
           sliderMax: 1
         }
@@ -83,13 +106,13 @@ export const VISUAL_PUZZLE_DECKS: DomainDeck[] = [
     title: 'Business & Finance',
     iconName: 'TrendingUp',
     colorClass: 'from-emerald-500/20 to-teal-500/20 border-emerald-500/40 text-emerald-400',
-    description: 'Portfolio Frontier. Rebalance assets visually to match risk targets.',
+    description: 'Portfolio Frontier. Rebalance assets visually to match risk targets and hedge volatility.',
     levels: [
       {
         id: 'finance-1',
-        name: 'Level 1: Balanced Yield',
-        objective: 'Rebalance the portfolio using the allocation sliders. Set Equity to 50% and Bonds to 50% to target a balanced return with moderate risk.',
-        hint: 'Move both sliders until Equity (Stocks) is 50% and Bonds is 50%.',
+        name: 'Level 1 (Easy): Balanced Yield',
+        objective: 'Rebalance the asset sliders. Set Equity to 50% and Bonds to 50% to target a balanced return with moderate risk.',
+        hint: 'Set Equity (Stocks) slider to 50% and Bonds slider to 50%.',
         initialState: {
           equity: 10,
           bonds: 90
@@ -97,30 +120,50 @@ export const VISUAL_PUZZLE_DECKS: DomainDeck[] = [
         validation: (state) => Math.abs(state.equity - 50) < 2 && Math.abs(state.bonds - 50) < 2,
         layoutInfo: {
           type: 'finance',
+          difficulty: 'Easy',
           instructions: [
-            '1. A balanced portfolio mitigates equity drawdown.',
-            '2. Rebalance Stocks to 50% using the left slider.',
-            '3. Rebalance Bonds to 50% using the right slider.'
+            '1. Move the Stocks slider to 50%.',
+            '2. Move the Bonds slider to 50%.'
           ]
         }
       },
       {
         id: 'finance-2',
-        name: 'Level 2: Inflation Shield',
-        objective: 'Adjust your allocations to combat inflation. Allocate 80% to Equity and 20% to Gold, keeping Bonds at 0% to form an aggressive growth shield.',
-        hint: 'Set Equity (Stocks) slider to 80% and Gold slider to 20%.',
+        name: 'Level 2 (Medium): Volatility Shield',
+        objective: 'Market crash imminent! Move Bonds to 0% and rebalance by setting Equity to 40% and Gold allocation to 60% as a safe haven shield.',
+        hint: 'Drop Bonds to 0% and Gold allocation to 60%.',
         initialState: {
-          equity: 40,
-          gold: 10,
+          equity: 50,
+          gold: 0,
           bonds: 50
         },
-        validation: (state) => Math.abs(state.equity - 80) < 2 && Math.abs(state.gold - 20) < 2 && state.bonds === 0,
+        validation: (state) => Math.abs(state.equity - 40) < 2 && Math.abs(state.gold - 60) < 2 && state.bonds === 0,
         layoutInfo: {
           type: 'finance',
+          difficulty: 'Medium',
           instructions: [
-            '1. Under high inflation, fixed-income yields erode.',
-            '2. Drop Bonds to 0%.',
-            '3. Adjust Stocks to 80% and Gold to 20%.'
+            '1. Drop Bonds to 0% to avoid default risk.',
+            '2. Adjust Equity to 40% and Gold to 60%.'
+          ]
+        }
+      },
+      {
+        id: 'finance-3',
+        name: 'Level 3 (Hard): Sharpe Optimization',
+        objective: 'Optimize the Sharpe Ratio tangency on the Efficient Frontier. Adjust the sliders to exactly 70% Equity, 15% Gold, and 15% Bonds.',
+        hint: 'Rebalance allocations: Equity=70%, Gold=15%, Bonds=15%.',
+        initialState: {
+          equity: 40,
+          gold: 30,
+          bonds: 30
+        },
+        validation: (state) => Math.abs(state.equity - 70) < 2 && Math.abs(state.gold - 15) < 2 && Math.abs(state.bonds - 15) < 2,
+        layoutInfo: {
+          type: 'finance',
+          difficulty: 'Hard',
+          instructions: [
+            '1. Target maximum return/risk ratio.',
+            '2. Allocate Stocks to 70% and split the remainder equally between Gold and Bonds.'
           ]
         }
       }
@@ -131,42 +174,60 @@ export const VISUAL_PUZZLE_DECKS: DomainDeck[] = [
     title: 'Mechanical Engineering',
     iconName: 'Settings',
     colorClass: 'from-amber-500/20 to-orange-500/20 border-amber-500/40 text-amber-400',
-    description: 'Gear Torque Sync. Interlock gears of different radii to balance output RPM.',
+    description: 'Gear Torque Sync. Interlock compound gears to balance output RPM and rotational speed.',
     levels: [
       {
         id: 'me-1',
-        name: 'Level 1: Speed Multiplier',
-        objective: 'Place the medium-sized Idler Gear (drag from the toolbox) onto the center peg shaft to bridge the Motor Gear and the Output Conveyor belt.',
-        hint: 'Drag the 24-tooth gear from the gear box on the left and snap it onto the center peg socket.',
+        name: 'Level 1 (Easy): Speed Linkage',
+        objective: 'Select the Medium gear (24T) from the toolbox on the left and place it onto the center peg to bridge the motor transmission.',
+        hint: 'Tap the Medium Gear and verify it locks onto the central peg shaft.',
         initialState: {
           gearPlaced: false,
-          gearSize: '' // 'small', 'medium', 'large'
+          gearSize: ''
         },
         validation: (state) => state.gearPlaced && state.gearSize === 'medium',
         layoutInfo: {
           type: 'mechanical',
+          difficulty: 'Easy',
           instructions: [
-            '1. The driving motor spin cannot reach the output conveyor because of spacing.',
-            '2. Select the Medium Gear (24T) from the toolbox.',
-            '3. Drag and snap it onto the center shaft peg.'
+            '1. Select the 24T Medium Gear from the inventory.',
+            '2. Place it on the central peg to complete the linkage.'
           ]
         }
       },
       {
         id: 'me-2',
-        name: 'Level 2: Direction Reversal',
-        objective: 'conveyor needs to rotate Counter-Clockwise (CCW). Place two gears (Medium and Small) sequentially to reverse output rotational direction.',
-        hint: 'Drag both gears from the toolbox and lock them onto Shaft Peg 1 and Shaft Peg 2.',
+        name: 'Level 2 (Medium): Direction Reversal',
+        objective: 'The output conveyor must spin Counter-Clockwise (CCW). Place both Peg 1 (Medium gear) and Peg 2 (Small gear) to reverse output rotation.',
+        hint: 'Click on both Peg 1 and Peg 2 to insert the required interlocking gear set.',
         initialState: {
-          pegsOccupied: [] as string[] // contains 'peg-1', 'peg-2'
+          pegsOccupied: [] as string[]
         },
         validation: (state) => state.pegsOccupied.includes('peg-1') && state.pegsOccupied.includes('peg-2'),
         layoutInfo: {
           type: 'mechanical',
+          difficulty: 'Medium',
           instructions: [
-            '1. An odd number of gear contacts maintains spin direction; an even number reverses it.',
-            '2. Place a gear on Peg 1.',
-            '3. Place another gear on Peg 2 to bridge the transmission and reverse the direction.'
+            '1. An even number of linkages reverses torque direction.',
+            '2. Occupy both Peg 1 and Peg 2.'
+          ]
+        }
+      },
+      {
+        id: 'me-3',
+        name: 'Level 3 (Hard): Differential compound',
+        objective: 'Compound alignment! Fit all three pegs (Peg 1, Peg 2, Peg 3) with compound gear wheels to shift high input engine speed to low drive torque.',
+        hint: 'Occupy all three pegs (Peg 1, Peg 2, Peg 3) to configure the compound gear train.',
+        initialState: {
+          pegsOccupied: [] as string[]
+        },
+        validation: (state) => state.pegsOccupied.includes('peg-1') && state.pegsOccupied.includes('peg-2') && state.pegsOccupied.includes('peg-3'),
+        layoutInfo: {
+          type: 'mechanical',
+          difficulty: 'Hard',
+          instructions: [
+            '1. Bridge the transmission gaps using a compound layout.',
+            '2. Place gears on all three peg shafts.'
           ]
         }
       }
@@ -177,45 +238,67 @@ export const VISUAL_PUZZLE_DECKS: DomainDeck[] = [
     title: 'Electrical Engineering',
     iconName: 'Cpu',
     colorClass: 'from-purple-500/20 to-pink-500/20 border-purple-500/40 text-purple-400',
-    description: 'Logic Circuit Assembler. Complete binary logic paths to activate terminal indicators.',
+    description: 'Logic Circuit Assembler. Place logic IC chips to complete binary truth tables and half-adders.',
     levels: [
       {
         id: 'ee-1',
-        name: 'Level 1: Logic Gates',
-        objective: 'Complete the circuit path. Drag the AND logic gate from the components inventory and place it into the socket bay to light the green LED.',
-        hint: 'The AND gate outputs true only when both input signals are active (1). Drag it to the socket.',
+        name: 'Level 1 (Easy): Light the Path',
+        objective: 'Drag the AND logic gate into the circuit board socket to complete the connection between the high input rails and the indicator LED.',
+        hint: 'Select the AND gate from the inventory.',
         initialState: {
-          gateType: '', // 'AND', 'OR', 'XOR'
+          gateType: '',
           inputA: true,
           inputB: true
         },
         validation: (state) => state.gateType === 'AND',
         layoutInfo: {
           type: 'electrical',
+          difficulty: 'Easy',
           instructions: [
-            '1. Input A is High (1), Input B is High (1).',
-            '2. Drag the AND Gate into the socket.',
-            '3. The LED will illuminate green.'
+            '1. Both input generators are active.',
+            '2. Slot the AND gate into the central socket.'
           ]
         }
       },
       {
         id: 'ee-2',
-        name: 'Level 2: Backup Power OR',
-        objective: 'Ensure the LED alarm turns on if EITHER of the generator inputs is active. Select and drop the OR gate into the socket bay.',
-        hint: 'An OR gate outputs high (1) if at least one of its inputs is high.',
+        name: 'Level 2 (Medium): Boolean Solver',
+        objective: 'Complete the dual-gate socket circuit. Place an OR gate in Socket A and a NOT gate in Socket B to solve the path: A OR (NOT B).',
+        hint: 'Set gateType to "OR" and gateType2 to "NOT".',
         initialState: {
           gateType: '',
+          gateType2: '',
           inputA: true,
           inputB: false
         },
-        validation: (state) => state.gateType === 'OR',
+        validation: (state) => state.gateType === 'OR' && state.gateType2 === 'NOT',
         layoutInfo: {
           type: 'electrical',
+          difficulty: 'Medium',
           instructions: [
-            '1. Input A is High (1) but Input B is Low (0).',
-            '2. We need an OR gate to pass the voltage to the LED.',
-            '3. Drag and drop the OR gate block.'
+            '1. Select the OR gate for Socket A.',
+            '2. Select the NOT gate for Socket B.'
+          ]
+        }
+      },
+      {
+        id: 'ee-3',
+        name: 'Level 3 (Hard): Half-Adder Logic',
+        objective: 'Complete the Sum and Carry registers of the Half-Adder. Drop an XOR gate in Socket A (Sum) and an AND gate in Socket B (Carry).',
+        hint: 'Set gateType to "XOR" and gateType2 to "AND" to build the half-adder logic blocks.',
+        initialState: {
+          gateType: '',
+          gateType2: '',
+          inputA: true,
+          inputB: true
+        },
+        validation: (state) => state.gateType === 'XOR' && state.gateType2 === 'AND',
+        layoutInfo: {
+          type: 'electrical',
+          difficulty: 'Hard',
+          instructions: [
+            '1. Slot XOR gate in Socket A to compute binary SUM.',
+            '2. Slot AND gate in Socket B to compute binary CARRY.'
           ]
         }
       }
@@ -226,34 +309,34 @@ export const VISUAL_PUZZLE_DECKS: DomainDeck[] = [
     title: 'Healthcare & Biotech',
     iconName: 'Dna',
     colorClass: 'from-rose-500/20 to-red-500/20 border-rose-500/40 text-rose-400',
-    description: 'Protein Recombination. Rotate peptide bonds to bind viral active sites.',
+    description: 'Protein Recombination. Rotate antibodies and adjust concentration sliders to bind viral cell receptors.',
     levels: [
       {
         id: 'biotech-1',
-        name: 'Level 1: Receptor Lock',
-        objective: 'Rotate the antibody peptide structure using the angle dial to exactly 180 degrees. This aligns the positive electrostatic nodes with the virus negative receptors.',
-        hint: 'Use the dial slider or buttons to set the rotation to exactly 180 degrees (±5 degrees).',
+        name: 'Level 1 (Easy): Receptor Lock',
+        objective: 'Rotate the peptide molecule using the angle dial to exactly 180 degrees to dock with the active site of the viral receptor.',
+        hint: 'Rotate the dial until the angle is 180 degrees.',
         initialState: {
           rotation: 0
         },
         validation: (state) => Math.abs(state.rotation - 180) < 8,
         layoutInfo: {
           type: 'biotech',
+          difficulty: 'Easy',
           instructions: [
-            '1. Receptor alignment depends on steric complementation.',
-            '2. Rotate the antibody molecule using the rotation dial.',
-            '3. Lock it at 180° for ionic charge attraction.'
+            '1. Rotate the antibody molecule using the angle dial.',
+            '2. Set the rotation to exactly 180 degrees.'
           ],
-          sliderLabel: 'Steric Rotation Angle (Degrees)',
+          sliderLabel: 'Peptide rotation angle (°)',
           sliderMin: 0,
           sliderMax: 360
         }
       },
       {
         id: 'biotech-2',
-        name: 'Level 2: Peptide Matcher',
-        objective: 'Rotate the molecule to 90 degrees to align the hydrophobic binding grooves and slide the peptide density level to 75% to bind the active pocket.',
-        hint: 'Set the rotation angle to 90 degrees, and set the peptide density slider to 75%.',
+        name: 'Level 2 (Medium): Active Groove Match',
+        objective: 'Rotate the antibody to 90 degrees to fit the hydrophobic grooves, and adjust the Concentration density slider to exactly 75%.',
+        hint: 'Set the rotation angle to 90° and the density slider to 75%.',
         initialState: {
           rotation: 0,
           density: 20
@@ -261,12 +344,36 @@ export const VISUAL_PUZZLE_DECKS: DomainDeck[] = [
         validation: (state) => Math.abs(state.rotation - 90) < 8 && Math.abs(state.density - 75) < 5,
         layoutInfo: {
           type: 'biotech',
+          difficulty: 'Medium',
           instructions: [
-            '1. Set rotation to 90° to fit inside the cell groove.',
-            '2. Slide the concentration density to 75% to overcome binding energy thresholds.'
+            '1. Rotate the antibody to 90 degrees.',
+            '2. Adjust the concentration density to exactly 75%.'
           ],
           sliderLabel: 'Concentration Density (%)',
           sliderMin: 10,
+          sliderMax: 100
+        }
+      },
+      {
+        id: 'biotech-3',
+        name: 'Level 3 (Hard): Allosteric Inhibitor',
+        objective: 'Dock the inhibitor. Rotate the molecule to 270 degrees, set concentration to 90%, and adjust molecular scale to exactly 50% to fit allosteric site.',
+        hint: 'Align properties: Rotation=270°, Density=90%, Scale=50%.',
+        initialState: {
+          rotation: 0,
+          density: 30,
+          scale: 100
+        },
+        validation: (state) => Math.abs(state.rotation - 270) < 8 && Math.abs(state.density - 90) < 5 && Math.abs(state.scale - 50) < 5,
+        layoutInfo: {
+          type: 'biotech',
+          difficulty: 'Hard',
+          instructions: [
+            '1. Rotate the inhibitor molecule to 270 degrees.',
+            '2. Set density to 90% and shrink molecular scale to 50%.'
+          ],
+          sliderLabel: 'Inhibitor scale size (%)',
+          sliderMin: 20,
           sliderMax: 100
         }
       }
