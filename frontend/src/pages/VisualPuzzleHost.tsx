@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ArrowLeft, Play, Sparkles, Trophy, CheckCircle2, RotateCcw, Info, Server, TrendingUp, Settings, Cpu, Dna, ArrowRight, Gauge, Activity, Radio 
+  ArrowLeft, Play, Sparkles, Trophy, CheckCircle2, RotateCcw, Info, Server, TrendingUp, Settings, Cpu, Dna, ArrowRight, Gauge, HelpCircle, AlertTriangle, ShieldCheck 
 } from 'lucide-react';
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';
@@ -16,7 +16,25 @@ export const VisualPuzzleHost = () => {
   const [stats, setStats] = useState<any>(null);
   const [saving, setSaving] = useState(false);
 
-  // Fetch stats on load
+  // Countdown & Game Loop States
+  const [timeLeft, setTimeLeft] = useState(60);
+  const [isFailed, setIsFailed] = useState(false);
+  const [screenShake, setScreenShake] = useState(false);
+  const [showCopilot, setShowCopilot] = useState(false);
+  const [showSandbox, setShowSandbox] = useState(false);
+  const [sabotaged, setSabotaged] = useState(false);
+
+  // Snapping/Locking progress (hold correct state for 3s to lock)
+  const [holdProgress, setHoldProgress] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
+
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const holdIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const sabotageRef = useRef<NodeJS.Timeout | null>(null);
+
+  const currentLevel = selectedDeck?.levels[currentLevelIndex];
+
+  // Fetch user stats on load
   useEffect(() => {
     const fetchStats = async () => {
       try {
@@ -29,29 +47,112 @@ export const VisualPuzzleHost = () => {
     fetchStats();
   }, []);
 
-  const currentLevel = selectedDeck?.levels[currentLevelIndex];
-
-  // Initialize level state
+  // Initialize level
   useEffect(() => {
     if (currentLevel) {
       setGameState({ ...currentLevel.initialState });
       setSuccess(false);
       setFeedback('');
-    }
-  }, [currentLevel]);
+      setTimeLeft(currentLevel.countdown);
+      setIsFailed(false);
+      setScreenShake(false);
+      setHoldProgress(0);
+      setIsLocked(false);
+      setSabotaged(false);
+      setShowSandbox(false);
 
-  // Real-time validation check
-  useEffect(() => {
-    if (currentLevel && gameState) {
-      const isCorrect = currentLevel.validation(gameState);
-      if (isCorrect && !success) {
-        setSuccess(true);
-        setFeedback('Target Alignment Achieved! Perfect configuration.');
-      } else if (!isCorrect && success) {
-        setSuccess(false);
+      // Start Countdown Timer
+      if (timerRef.current) clearInterval(timerRef.current);
+      timerRef.current = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            setIsFailed(true);
+            setScreenShake(true);
+            if (timerRef.current) clearInterval(timerRef.current);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      // Setup Saboteur Anomalies for CS/EE
+      if (sabotageRef.current) clearInterval(sabotageRef.current);
+      if (currentLevel.sabotageRate) {
+        sabotageRef.current = setInterval(() => {
+          triggerSaboteurAnomalie();
+        }, currentLevel.sabotageRate);
       }
     }
-  }, [gameState, currentLevel, success]);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+      if (sabotageRef.current) clearInterval(sabotageRef.current);
+      if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
+    };
+  }, [currentLevel, currentLevelIndex]);
+
+  // Trigger Saboteur Anomalie in real-time
+  const triggerSaboteurAnomalie = () => {
+    if (!gameState) return;
+    setSabotaged(true);
+    setScreenShake(true);
+    setTimeout(() => setScreenShake(false), 500);
+
+    // Saboteur shifts values slightly
+    setGameState((prev: any) => {
+      if (prev.sliderVal !== undefined) {
+        // Shift load balancer values
+        const delta = Math.random() > 0.5 ? 0.25 : -0.25;
+        return { ...prev, sliderVal: Math.max(0, Math.min(1, prev.sliderVal + delta)) };
+      }
+      if (prev.inputB !== undefined) {
+        // Toggle input electrical generator state
+        return { ...prev, inputB: !prev.inputB };
+      }
+      return prev;
+    });
+
+    // Clear alert flag after 4 seconds
+    setTimeout(() => {
+      setSabotaged(false);
+    }, 4000);
+  };
+
+  // Real-time alignment validation and snap hold lock check
+  useEffect(() => {
+    if (currentLevel && gameState && !isFailed) {
+      const isCorrect = currentLevel.validation(gameState);
+      
+      if (isCorrect) {
+        if (!isLocked) {
+          // Start snapping progress accumulation
+          if (!holdIntervalRef.current) {
+            holdIntervalRef.current = setInterval(() => {
+              setHoldProgress((prev) => {
+                if (prev >= 100) {
+                  setIsLocked(true);
+                  setSuccess(true);
+                  if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
+                  if (timerRef.current) clearInterval(timerRef.current); // stop countdown
+                  return 100;
+                }
+                return prev + 10;
+              });
+            }, 150);
+          }
+        }
+      } else {
+        // Reset snapping hold if state goes invalid
+        setHoldProgress(0);
+        setSuccess(false);
+        setIsLocked(false);
+        if (holdIntervalRef.current) {
+          clearInterval(holdIntervalRef.current);
+          holdIntervalRef.current = null;
+        }
+      }
+    }
+  }, [gameState, currentLevel, isLocked, isFailed]);
 
   // Handle outcome submission
   const handleNextOrFinish = async () => {
@@ -76,6 +177,8 @@ export const VisualPuzzleHost = () => {
     if (currentLevelIndex < selectedDeck.levels.length - 1) {
       setCurrentLevelIndex(currentLevelIndex + 1);
     } else {
+      // Completed all levels - enable Sandbox Mode option
+      setShowSandbox(true);
       setFeedback(`Congratulations! You have completed the ${selectedDeck.title} Deck!`);
     }
   };
@@ -85,8 +188,40 @@ export const VisualPuzzleHost = () => {
       setGameState({ ...currentLevel.initialState });
       setSuccess(false);
       setFeedback('');
+      setTimeLeft(currentLevel.countdown);
+      setIsFailed(false);
+      setScreenShake(false);
+      setHoldProgress(0);
+      setIsLocked(false);
+      setSabotaged(false);
+      setShowSandbox(false);
+
+      if (timerRef.current) clearInterval(timerRef.current);
+      timerRef.current = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            setIsFailed(true);
+            setScreenShake(true);
+            if (timerRef.current) clearInterval(timerRef.current);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      if (sabotageRef.current) clearInterval(sabotageRef.current);
+      if (currentLevel.sabotageRate) {
+        sabotageRef.current = setInterval(() => {
+          triggerSaboteurAnomalie();
+        }, currentLevel.sabotageRate);
+      }
     }
   };
+
+  const retryLevel = () => {
+    resetLevel();
+  };
+
 
   const getIcon = (name: string) => {
     switch (name) {
@@ -99,7 +234,7 @@ export const VisualPuzzleHost = () => {
     }
   };
 
-  // Helper calculations for dynamic telemetry readout
+  // Live telemetry calculations
   const getTelemetryData = () => {
     if (!currentLevel || !gameState) return [];
 
@@ -139,7 +274,6 @@ export const VisualPuzzleHost = () => {
           { label: 'Rotational Spin', value: currentLevel.id === 'me-2' ? 'CCW (Reverse)' : 'CW (Forward)' }
         ];
       case 'electrical':
-        const active = success;
         const sum = (gameState.gateType === 'XOR') ? '1 (High)' : '0 (Low)';
         const carry = (gameState.gateType2 === 'AND') ? '1 (High)' : '0 (Low)';
         return [
@@ -152,7 +286,6 @@ export const VisualPuzzleHost = () => {
         const rot = gameState.rotation || 0;
         const scale = gameState.scale !== undefined ? gameState.scale : 100;
         const density = gameState.density !== undefined ? gameState.density : 50;
-        // binding affinity calculation based on target values
         let targetRot = currentLevel.id === 'biotech-1' ? 180 : currentLevel.id === 'biotech-2' ? 90 : 270;
         let diffRot = Math.abs(rot - targetRot);
         let affinity = Math.max(0, Math.round(100 - diffRot * 0.8));
@@ -196,7 +329,7 @@ export const VisualPuzzleHost = () => {
               Visual Puzzle Quest
             </h1>
             <p className="text-white/60 max-w-2xl mx-auto text-lg">
-              Solve interactive spatial and mathematical challenges matching your field of study. No coding required—just drag, connect, slide, and align!
+              High-stakes operational thriller puzzles. Deduce target values, handle active anomalies, and secure critical infrastructure in real-time.
             </p>
           </div>
 
@@ -267,11 +400,14 @@ export const VisualPuzzleHost = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0c10] text-white pt-24 px-4 md:px-8 pb-12 font-rubik flex flex-col">
+    <div className={`min-h-screen bg-[#0a0c10] text-white pt-24 px-4 md:px-8 pb-12 font-rubik flex flex-col transition-all duration-300 ${screenShake ? 'animate-shake' : ''}`}>
       <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col space-y-6">
         
-        {/* Level Navigation Header */}
-        <div className="flex justify-between items-center flex-wrap gap-4 bg-[#13171d] p-4 rounded-2xl border border-white/5">
+        {/* Navigation & Alert header */}
+        <div className="flex justify-between items-center flex-wrap gap-4 bg-[#13171d] p-4 rounded-2xl border border-white/5 relative overflow-hidden">
+          {sabotaged && (
+            <div className="absolute inset-0 bg-red-600/10 animate-pulse border border-red-500/30 rounded-2xl pointer-events-none" />
+          )}
           <div className="flex items-center gap-3">
             <button 
               onClick={() => setSelectedDeck(null)} 
@@ -281,7 +417,10 @@ export const VisualPuzzleHost = () => {
             </button>
             <div>
               <span className="text-xs text-indigo-400 font-bold uppercase tracking-wider">{selectedDeck.title} Deck</span>
-              <h2 className="text-lg font-bold">{currentLevel?.name}</h2>
+              <h2 className="text-lg font-bold flex items-center gap-2">
+                {currentLevel?.name} 
+                {sabotaged && <span className="text-xs bg-red-500 text-white px-2 py-0.5 rounded animate-bounce font-black">HACK DETECTED</span>}
+              </h2>
             </div>
           </div>
 
@@ -289,24 +428,23 @@ export const VisualPuzzleHost = () => {
             <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider ${
               currentLevel?.layoutInfo.difficulty === 'Easy' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
               currentLevel?.layoutInfo.difficulty === 'Medium' ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' :
-              'bg-red-500/10 text-red-400 border border-red-500/20'
+              'bg-red-500/10 text-red-400 border border-red-500/20 animate-pulse'
             }`}>
               {currentLevel?.layoutInfo.difficulty}
             </span>
-            <div className="text-sm font-medium text-white/60">
-              Level {currentLevelIndex + 1} of {selectedDeck.levels.length}
-            </div>
-            <div className="flex gap-1">
-              {selectedDeck.levels.map((_, idx) => (
+            
+            {/* Mission Countdown Bar */}
+            <div className="flex flex-col items-end w-32 md:w-48">
+              <div className="flex justify-between w-full text-[10px] font-mono mb-1 text-white/50">
+                <span>TIME CRITICAL</span>
+                <span className={timeLeft <= 10 ? 'text-red-400 animate-ping font-bold' : ''}>{timeLeft}s</span>
+              </div>
+              <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
                 <div 
-                  key={idx} 
-                  className={`w-8 h-2 rounded-full transition-all duration-300 ${
-                    idx === currentLevelIndex 
-                      ? 'bg-indigo-500 w-12' 
-                      : idx < currentLevelIndex ? 'bg-emerald-500' : 'bg-white/5'
-                  }`}
+                  className={`h-full transition-all duration-1000 ${timeLeft <= 10 ? 'bg-red-500' : timeLeft <= 20 ? 'bg-yellow-500' : 'bg-indigo-500'}`}
+                  style={{ width: `${(timeLeft / currentLevel.countdown) * 100}%` }}
                 />
-              ))}
+              </div>
             </div>
           </div>
         </div>
@@ -314,34 +452,44 @@ export const VisualPuzzleHost = () => {
         {/* Workspace Split Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 items-stretch">
           
-          {/* Left Panel: Instructions & Configuration */}
+          {/* Left Panel: Narrative, Dialogue & Controls */}
           <div className="lg:col-span-5 flex flex-col space-y-6 bg-[#13171d] p-6 rounded-3xl border border-white/5 shadow-xl justify-between">
             <div className="space-y-6">
               
-              {/* Instructions */}
-              <div className="space-y-3">
-                <h3 className="text-xl font-bold flex items-center gap-2">
-                  <Info size={18} className="text-indigo-400" />
-                  Level Instructions
-                </h3>
-                <p className="text-white/80 text-sm leading-relaxed">
-                  {currentLevel?.objective}
-                </p>
-                
+              {/* Character Speech Bubble Panel */}
+              <div className="bg-[#0a0c10] border border-white/5 p-4 rounded-2xl relative overflow-hidden flex gap-4 items-start">
+                <span className="text-4xl p-2 bg-white/5 rounded-2xl">{currentLevel?.character.avatar}</span>
+                <div className="space-y-1">
+                  <h4 className="text-xs font-black text-indigo-400 uppercase tracking-widest">{currentLevel?.character.name}</h4>
+                  <p className="text-xs text-white/80 leading-relaxed italic">
+                    "{currentLevel?.character.dialogue}"
+                  </p>
+                </div>
+              </div>
+
+              {/* Onboarding Help Steps (Only rendered on Easy difficulty to enforce Medium/Hard deduction) */}
+              {currentLevel?.layoutInfo.difficulty === 'Easy' ? (
                 <div className="space-y-2 bg-black/20 p-4 rounded-2xl border border-white/5 text-xs text-white/40 font-mono">
-                  <div className="text-white/20 uppercase font-bold tracking-wider text-[10px] mb-2">Step Guidelines:</div>
+                  <div className="text-white/20 uppercase font-bold tracking-wider text-[10px] mb-2">Operational Guidelines:</div>
                   <ul className="space-y-2">
                     {currentLevel?.layoutInfo.instructions.map((step, sIdx) => (
                       <li key={sIdx} className="flex gap-2 items-start">
                         <span className="text-indigo-400 font-bold">{sIdx + 1}.</span>
-                        <span className="text-white/80">{step}</span>
+                        <span className="text-white/85">{step}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
-              </div>
+              ) : (
+                <div className="p-4 bg-yellow-500/5 border border-yellow-500/10 rounded-2xl flex gap-3 items-center">
+                  <AlertTriangle className="text-yellow-500 shrink-0" size={18} />
+                  <span className="text-[10px] text-white/50 leading-snug">
+                    Guidelines locked on higher difficulties. Read your Co-Pilot's dialogue and telemetry above to deduce variables.
+                  </span>
+                </div>
+              )}
 
-              {/* Telemetry Readouts Panel */}
+              {/* Telemetry Dashboard */}
               <div className="bg-black/40 border border-white/5 rounded-2xl p-4 space-y-3">
                 <h4 className="text-[10px] font-black uppercase tracking-widest text-indigo-400 flex items-center gap-2">
                   <Gauge size={12} /> Live Simulation Telemetry
@@ -385,32 +533,17 @@ export const VisualPuzzleHost = () => {
                   <div className="bg-[#0a0c10] p-4 rounded-xl border border-white/5 space-y-2">
                     <span className="text-xs text-white/60 font-medium">Link Route Selector:</span>
                     <div className="grid grid-cols-3 gap-2">
-                      <button 
-                        onClick={() => setGameState({ ...gameState, connectedTo: 'db-a' })}
-                        className={`py-2 px-1 rounded-xl text-[10px] font-black uppercase tracking-wider border text-center transition-all ${
-                          gameState.connectedTo === 'db-a' ? 'bg-indigo-500/20 border-indigo-500 text-indigo-400 font-bold' : 'bg-black/40 border-white/5 text-white/40 hover:border-white/10'
-                        }`}
-                      >
-                        DB_A Only
-                      </button>
-                      
-                      <button 
-                        onClick={() => setGameState({ ...gameState, connectedTo: 'both' })}
-                        className={`py-2 px-1 rounded-xl text-[10px] font-black uppercase tracking-wider border text-center transition-all ${
-                          gameState.connectedTo === 'both' ? 'bg-indigo-500/20 border-indigo-500 text-indigo-400 font-bold' : 'bg-black/40 border-white/5 text-white/40 hover:border-white/10'
-                        }`}
-                      >
-                        Split Both
-                      </button>
-
-                      <button 
-                        onClick={() => setGameState({ ...gameState, connectedTo: 'cdn' })}
-                        className={`py-2 px-1 rounded-xl text-[10px] font-black uppercase tracking-wider border text-center transition-all ${
-                          gameState.connectedTo === 'cdn' ? 'bg-indigo-500/20 border-indigo-500 text-indigo-400 font-bold' : 'bg-black/40 border-white/5 text-white/40 hover:border-white/10'
-                        }`}
-                      >
-                        CDN Route
-                      </button>
+                      {['db-a', 'both', 'cdn'].map((route) => (
+                        <button 
+                          key={route}
+                          onClick={() => setGameState({ ...gameState, connectedTo: route })}
+                          className={`py-2 px-1 rounded-xl text-[10px] font-black uppercase tracking-wider border text-center transition-all ${
+                            gameState.connectedTo === route ? 'bg-indigo-500/20 border-indigo-500 text-indigo-400 font-bold' : 'bg-black/40 border-white/5 text-white/40 hover:border-white/10'
+                          }`}
+                        >
+                          {route === 'db-a' ? 'DB_A Only' : route === 'both' ? 'Split Both' : 'CDN Route'}
+                        </button>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -487,7 +620,6 @@ export const VisualPuzzleHost = () => {
                 <div className="space-y-4">
                   <span className="text-xs text-white/60 block mb-2">Available Gear Inventory:</span>
                   <div className="grid grid-cols-3 gap-3">
-                    {/* Small Gear Tool */}
                     <div 
                       onClick={() => {
                         if (currentLevel.id === 'me-1') {
@@ -504,7 +636,6 @@ export const VisualPuzzleHost = () => {
                       <span className="text-[10px] text-white/60 mt-1 block">12T (Small)</span>
                     </div>
 
-                    {/* Medium Gear Tool */}
                     <div 
                       onClick={() => {
                         if (currentLevel.id === 'me-1') {
@@ -521,7 +652,6 @@ export const VisualPuzzleHost = () => {
                       <span className="text-[10px] text-white/60 mt-1 block">24T (Medium)</span>
                     </div>
 
-                    {/* Large Gear Tool */}
                     <div 
                       onClick={() => {
                         if (currentLevel.id === 'me-1') {
@@ -648,22 +778,43 @@ export const VisualPuzzleHost = () => {
             <div className="pt-4 border-t border-white/5 flex justify-between items-center gap-4">
               <button 
                 onClick={resetLevel} 
-                className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors text-xs font-bold"
+                className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-xs font-bold"
               >
                 <RotateCcw size={14} /> Reset
               </button>
 
-              <button
-                disabled={!success || saving}
-                onClick={handleNextOrFinish}
-                className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-xs font-bold transition-all shadow-lg ${
-                  success 
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-500 hover:shadow-emerald-500/20 text-white cursor-pointer hover:scale-[1.03]' 
-                    : 'bg-white/5 text-white/20 cursor-not-allowed'
-                }`}
+              <button 
+                onClick={() => setShowCopilot(true)} 
+                className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#6366f1]/20 border border-[#6366f1]/30 hover:bg-[#6366f1]/30 text-indigo-400 transition-colors text-xs font-bold"
               >
-                {saving ? 'Saving...' : 'Submit Alignment'} <ArrowRight size={14} />
+                <HelpCircle size={14} /> Ask Co-Pilot
               </button>
+
+              <div className="flex flex-col items-end flex-1 max-w-[150px]">
+                {/* Hold to lock progress indicator */}
+                {holdProgress > 0 && !isLocked && (
+                  <div className="w-full space-y-1 mb-1">
+                    <div className="flex justify-between text-[9px] font-mono text-emerald-400">
+                      <span>ALIGNING...</span>
+                      <span>{holdProgress}%</span>
+                    </div>
+                    <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-emerald-500 transition-all duration-150" style={{ width: `${holdProgress}%` }} />
+                    </div>
+                  </div>
+                )}
+                <button
+                  disabled={!success || saving}
+                  onClick={handleNextOrFinish}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all shadow-lg w-full justify-center ${
+                    success 
+                      ? 'bg-gradient-to-r from-emerald-500 to-teal-500 hover:shadow-emerald-500/20 text-white cursor-pointer hover:scale-[1.03]' 
+                      : 'bg-white/5 text-white/20 cursor-not-allowed'
+                  }`}
+                >
+                  {saving ? 'Securing...' : 'Submit Alignment'} <ArrowRight size={14} />
+                </button>
+              </div>
             </div>
           </div>
 
@@ -677,7 +828,6 @@ export const VisualPuzzleHost = () => {
             {currentLevel?.layoutInfo.type === 'network' && gameState && (
               <div className="w-full h-full max-w-lg flex flex-col justify-between items-center py-10 relative">
                 
-                {/* SVG connection lines */}
                 <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
                   {gameState.connectedTo === 'db-a' && (
                     <motion.path 
@@ -837,12 +987,9 @@ export const VisualPuzzleHost = () => {
                 {/* Efficient Frontier Curve Grid */}
                 <div className="w-96 h-56 bg-black/20 border border-white/5 rounded-2xl relative overflow-hidden flex justify-center items-center">
                   
-                  {/* Grid Lines */}
                   <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] [background-size:20px_20px]" />
 
-                  {/* Draw efficient frontier curved path */}
                   <svg className="absolute inset-0 w-full h-full">
-                    {/* The Frontier curve path */}
                     <path 
                       d="M 40 180 Q 180 30 320 80" 
                       fill="none" 
@@ -850,7 +997,6 @@ export const VisualPuzzleHost = () => {
                       strokeWidth="2" 
                     />
                     
-                    {/* Dynamic Risk-Return Target Zones based on Level */}
                     {currentLevel.id === 'finance-1' && (
                       <rect x="160" y="80" width="50" height="40" rx="8" fill="rgba(16, 185, 129, 0.1)" stroke="#10b981" strokeWidth="1.5" strokeDasharray="4,2" />
                     )}
@@ -870,11 +1016,9 @@ export const VisualPuzzleHost = () => {
                     const gd = gameState.gold || 0;
                     const bd = gameState.bonds || 0;
                     
-                    // X represents Volatility risk
                     const risk = (eq * 0.24 + gd * 0.08 + bd * 0.02);
                     const x = 40 + (risk * 10);
                     
-                    // Y represents Yield expected
                     const yld = (eq * 0.12 + gd * 0.05 + bd * 0.03);
                     const y = 180 - (yld * 14);
 
@@ -966,18 +1110,7 @@ export const VisualPuzzleHost = () => {
                   {currentLevel.id !== 'me-1' && (
                     <div className="absolute inset-x-0 flex justify-center gap-12 z-10 pointer-events-none">
                       {/* Peg 1 */}
-                      <div 
-                        onClick={() => {
-                          const pegs = [...gameState.pegsOccupied];
-                          if (pegs.includes('peg-1')) {
-                            setGameState({ ...gameState, pegsOccupied: pegs.filter(p => p !== 'peg-1') });
-                          } else {
-                            pegs.push('peg-1');
-                            setGameState({ ...gameState, pegsOccupied: pegs });
-                          }
-                        }}
-                        className="pointer-events-auto cursor-pointer"
-                      >
+                      <div className="pointer-events-auto">
                         {gameState.pegsOccupied.includes('peg-1') ? (
                           <Settings 
                             className="w-12 h-12 text-amber-500 animate-spin"
@@ -991,18 +1124,7 @@ export const VisualPuzzleHost = () => {
                       </div>
 
                       {/* Peg 2 */}
-                      <div 
-                        onClick={() => {
-                          const pegs = [...gameState.pegsOccupied];
-                          if (pegs.includes('peg-2')) {
-                            setGameState({ ...gameState, pegsOccupied: pegs.filter(p => p !== 'peg-2') });
-                          } else {
-                            pegs.push('peg-2');
-                            setGameState({ ...gameState, pegsOccupied: pegs });
-                          }
-                        }}
-                        className="pointer-events-auto cursor-pointer"
-                      >
+                      <div className="pointer-events-auto">
                         {gameState.pegsOccupied.includes('peg-2') ? (
                           <Settings 
                             className="w-14 h-14 text-amber-600 animate-spin"
@@ -1017,18 +1139,7 @@ export const VisualPuzzleHost = () => {
 
                       {/* Peg 3 (compound addition for level 3) */}
                       {currentLevel.id === 'me-3' && (
-                        <div 
-                          onClick={() => {
-                            const pegs = [...gameState.pegsOccupied];
-                            if (pegs.includes('peg-3')) {
-                              setGameState({ ...gameState, pegsOccupied: pegs.filter(p => p !== 'peg-3') });
-                            } else {
-                              pegs.push('peg-3');
-                              setGameState({ ...gameState, pegsOccupied: pegs });
-                            }
-                          }}
-                          className="pointer-events-auto cursor-pointer"
-                        >
+                        <div className="pointer-events-auto">
                           {gameState.pegsOccupied.includes('peg-3') ? (
                             <Settings 
                               className="w-10 h-10 text-rose-500 animate-spin"
@@ -1066,11 +1177,8 @@ export const VisualPuzzleHost = () => {
                   
                   {/* Schematic wiring paths */}
                   <svg className="absolute inset-0 w-full h-full pointer-events-none">
-                    {/* Inputs to Sockets */}
                     <line x1="30" y1="50" x2="140" y2="80" stroke={gameState.inputA ? '#8b5cf6' : '#27272a'} strokeWidth="3" />
                     <line x1="30" y1="170" x2="140" y2="140" stroke={gameState.inputB ? '#8b5cf6' : '#27272a'} strokeWidth="3" />
-                    
-                    {/* Sockets to Output LED */}
                     <line x1="220" y1="110" x2="330" y2="110" stroke={success ? '#10b981' : '#27272a'} strokeWidth="4" />
                   </svg>
 
@@ -1107,7 +1215,7 @@ export const VisualPuzzleHost = () => {
                     )}
                   </div>
 
-                  {/* Socket B (For level 2 and 3) */}
+                  {/* Socket B */}
                   {currentLevel.id !== 'ee-1' && (
                     <div 
                       onClick={() => setGameState({ ...gameState, gateType2: '' })}
@@ -1147,7 +1255,7 @@ export const VisualPuzzleHost = () => {
                 {/* Receptor pocket SVG */}
                 <div className="w-72 h-72 bg-black/20 border border-white/5 rounded-3xl relative overflow-hidden flex justify-center items-center">
                   
-                  {/* Target Active Site (Static background receptor) */}
+                  {/* Target Active Receptors */}
                   <div className="absolute w-36 h-36 rounded-full bg-red-950/20 border-4 border-red-500/20 flex justify-center items-center">
                     <span className="text-[10px] text-red-400/60 font-bold uppercase tracking-wider font-mono">Virus Receptor (-)</span>
                   </div>
@@ -1170,7 +1278,6 @@ export const VisualPuzzleHost = () => {
                     <span className="text-[8px] text-white/30">Angle: {gameState.rotation}°</span>
                   </motion.div>
 
-                  {/* Positive charge markers on top of antibody */}
                   <div className="absolute top-4 right-4 text-[9px] text-white/30 font-mono">
                     Alignment: {success ? 'DOCKED (100%)' : 'MISALIGNED'}
                   </div>
@@ -1179,29 +1286,65 @@ export const VisualPuzzleHost = () => {
               </div>
             )}
 
-            {/* Success Overlay Indicator */}
+            {/* Particle Sparks Fireworks Overlay on Success Lock */}
             <AnimatePresence>
               {success && (
+                <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden flex justify-center items-center">
+                  {/* Glowing core explosion */}
+                  <motion.div 
+                    initial={{ scale: 0.1, opacity: 1 }}
+                    animate={{ scale: 2.2, opacity: 0 }}
+                    transition={{ duration: 1.2, ease: "easeOut" }}
+                    className="w-48 h-48 rounded-full border-4 border-emerald-400/40 shadow-[0_0_50px_rgba(16,185,129,0.3)] absolute"
+                  />
+                  {/* Floating particle sparkles */}
+                  {[...Array(12)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ x: 0, y: 0, scale: 1, opacity: 1 }}
+                      animate={{ 
+                        x: Math.sin(i * 30 * Math.PI / 180) * 150, 
+                        y: Math.cos(i * 30 * Math.PI / 180) * 150, 
+                        scale: 0.2, 
+                        opacity: 0 
+                      }}
+                      transition={{ duration: 1.5, ease: "easeOut" }}
+                      className="w-3.5 h-3.5 rounded-full bg-emerald-400 absolute shadow-[0_0_10px_#10b981]"
+                    />
+                  ))}
+                </div>
+              )}
+            </AnimatePresence>
+
+            {/* Mission Failed Overlay (Meltdown) */}
+            <AnimatePresence>
+              {isFailed && (
                 <motion.div 
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="absolute inset-0 bg-black/60 backdrop-blur-sm flex flex-col justify-center items-center p-6 text-center z-20 pointer-events-none"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 bg-red-950/90 backdrop-blur-md flex flex-col justify-center items-center p-6 text-center z-30"
                 >
                   <motion.div 
-                    initial={{ y: 20 }}
-                    animate={{ y: 0 }}
-                    className="bg-[#13171d] border border-emerald-500/30 p-6 rounded-3xl max-w-sm space-y-4 shadow-[0_0_30px_rgba(16,185,129,0.1)] pointer-events-auto"
+                    initial={{ scale: 0.9, y: 20 }}
+                    animate={{ scale: 1, y: 0 }}
+                    className="bg-[#13171d] border border-red-500/30 p-8 rounded-[32px] max-w-sm space-y-6 shadow-2xl"
                   >
-                    <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex justify-center items-center mx-auto border border-emerald-500/20">
-                      <CheckCircle2 className="text-emerald-400 w-6 h-6 animate-bounce" />
+                    <div className="w-16 h-16 bg-red-500/20 rounded-full flex justify-center items-center mx-auto border border-red-500/20 animate-pulse">
+                      <AlertTriangle className="text-red-500 w-8 h-8" />
                     </div>
-                    <div className="space-y-1">
-                      <h4 className="text-lg font-bold text-emerald-400">Success!</h4>
-                      <p className="text-white/60 text-xs">
-                        The parameters are perfectly balanced. Click submit to proceed.
+                    <div className="space-y-2">
+                      <h4 className="text-xl font-black text-red-500 uppercase tracking-wider">Mission Failed</h4>
+                      <p className="text-white/60 text-xs leading-relaxed">
+                        Security breach triggered or core meltdown initiated. Operational window expired.
                       </p>
                     </div>
+                    <button 
+                      onClick={retryLevel}
+                      className="w-full py-3 bg-red-500 text-white font-[900] uppercase tracking-widest text-xs rounded-xl hover:bg-red-600 transition-colors shadow-lg shadow-red-500/20 flex items-center justify-center gap-2"
+                    >
+                      <RotateCcw size={14} /> Retry Mission
+                    </button>
                   </motion.div>
                 </motion.div>
               )}
@@ -1212,6 +1355,75 @@ export const VisualPuzzleHost = () => {
         </div>
 
       </div>
+
+      {/* AI Co-Pilot Helper Chat Dialog Modal */}
+      <AnimatePresence>
+        {showCopilot && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex justify-center items-center p-4">
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-[#13171d] border border-white/10 rounded-[32px] max-w-md w-full p-6 space-y-6 shadow-2xl relative"
+            >
+              <div className="flex gap-4 items-start">
+                <span className="text-4xl p-2 bg-white/5 rounded-2xl">{currentLevel?.character.avatar}</span>
+                <div className="space-y-1">
+                  <h4 className="text-sm font-black text-indigo-400 uppercase tracking-widest">{currentLevel?.character.name} (AI Mentor)</h4>
+                  <p className="text-xs text-white/50">Consulting Operational Blueprint...</p>
+                </div>
+              </div>
+              <div className="bg-black/40 border border-white/5 p-4 rounded-2xl text-xs text-white/80 leading-relaxed italic">
+                "{currentLevel?.character.hintText}"
+              </div>
+              <button 
+                onClick={() => setShowCopilot(false)}
+                className="w-full py-3 bg-white text-black font-black uppercase tracking-widest text-xs rounded-xl hover:bg-gray-100 transition-colors"
+              >
+                Return to Mission
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Campaign Complete & Sandbox Mode Unlock Notification */}
+      <AnimatePresence>
+        {showSandbox && (
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex justify-center items-center p-4">
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="bg-[#13171d] border border-emerald-500/30 p-8 rounded-[36px] max-w-md w-full text-center space-y-6 shadow-2xl"
+            >
+              <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex justify-center items-center mx-auto border border-emerald-500/20 animate-bounce">
+                <ShieldCheck className="text-emerald-400 w-8 h-8" />
+              </div>
+              <div className="space-y-2">
+                <h4 className="text-2xl font-black text-emerald-400 uppercase tracking-tight">Campaign Accomplished!</h4>
+                <p className="text-white/60 text-xs leading-relaxed">
+                  You have successfully completed all levels in this deck! The visual operational **Sandbox Mode** is now unlocked for free-play testing.
+                </p>
+              </div>
+              <div className="flex gap-3">
+                <button 
+                  onClick={() => setSelectedDeck(null)}
+                  className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white border border-white/10 font-black uppercase tracking-widest text-xs rounded-xl transition-all"
+                >
+                  Change Deck
+                </button>
+                <button 
+                  onClick={() => { setSelectedDeck(null); navigateTo('games'); }}
+                  className="flex-1 py-3 bg-emerald-500 text-black font-black uppercase tracking-widest text-xs rounded-xl hover:bg-emerald-600 transition-colors"
+                >
+                  Exit Arena
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 };
