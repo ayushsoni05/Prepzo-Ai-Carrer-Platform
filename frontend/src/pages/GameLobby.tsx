@@ -117,15 +117,15 @@ export const GameLobby = () => {
       stats: stats ? `Audits: ${stats.systemWhiteboard?.auditsRun || 0} (${stats.systemWhiteboard?.played || 0} Sessions)` : 'Audits: 0'
     },
     {
-      id: 'domainrunner',
-      title: 'Domain Runner 3D',
-      description: 'Hyperspace portal runner dynamically loaded with questions for your academic major or field of study. Steer through answer gates!',
-      icon: <Compass className="w-8 h-8 text-pink-400 animate-spin" style={{ animationDuration: '8s' }} />,
-      xpReward: '+0.5 XP / Point (Max 150)',
+      id: 'gridquest',
+      title: 'Grid Quest: Alignment Arena',
+      description: 'Align server packets, structural bridges, cargo trucks, or molecular binders. A 2D visual puzzle arena matching your major field of study.',
+      icon: <Layers className="w-8 h-8 text-emerald-400 animate-pulse" />,
+      xpReward: '+30 XP / Level, +100 XP / Domain',
       difficulty: 'Medium',
-      route: 'domain-runner',
+      route: 'grid-quest',
       active: true,
-      stats: stats ? `Best: ${stats.domainRunner3D?.highScore || 0} pts (${stats.domainRunner3D?.played || 0} Played)` : 'Best: 0 pts'
+      stats: stats ? `Solved: ${stats.gridQuest?.completedDomains?.length || 0} Domains (${stats.gridQuest?.played || 0} Runs)` : 'Solved: 0 Domains'
     }
   ];
 

@@ -57,7 +57,7 @@ import { GithubReconstructor } from '@/pages/GithubReconstructor';
 import { ProctorSandbox } from '@/pages/ProctorSandbox';
 import { DevopsPipeline } from '@/pages/DevopsPipeline';
 import { SystemWhiteboard } from '@/pages/SystemWhiteboard';
-import { DomainRunner3D } from '@/pages/DomainRunner3D';
+import { GridQuest } from '@/pages/GridQuest';
 
 
 const PageTransition = ({ children, pageKey }: { children: React.ReactNode, pageKey: string }) => {
@@ -87,7 +87,7 @@ const PageTransition = ({ children, pageKey }: { children: React.ReactNode, page
   );
 };
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'community' | 'placement-accelerator' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | 'offer-analyzer' | 'job-apply' | 'admin-applications' | 'shadow-interview' | 'game-lobby' | 'trivia-sprint' | 'regex-invaders' | 'code-golf' | 'cyber-defense' | 'github-reconstructor' | 'proctor-sandbox' | 'devops-pipeline' | 'system-whiteboard' | 'domain-runner' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'community' | 'placement-accelerator' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | 'offer-analyzer' | 'job-apply' | 'admin-applications' | 'shadow-interview' | 'game-lobby' | 'trivia-sprint' | 'regex-invaders' | 'code-golf' | 'cyber-defense' | 'github-reconstructor' | 'proctor-sandbox' | 'devops-pipeline' | 'system-whiteboard' | 'grid-quest' | '404';
 
 // Get initial page from URL path or default to 'landing'
 const getPageFromPath = (): Page => {
@@ -105,7 +105,7 @@ const getPageFromPath = (): Page => {
   if (pageName.startsWith('profile/')) return 'profile';
   if (pageName.startsWith('battle/invite/')) return 'join-battle';
   
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'external-visualizer', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'domain-runner'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'external-visualizer', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'grid-quest'];
   return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 
@@ -183,7 +183,7 @@ export default function App() {
     initRef.current = true;
     
     const initializeAuth = async () => {
-      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'domain-runner'];
+      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'grid-quest'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
       const publicAuthPages = ['landing', 'login', 'signup'];
@@ -312,7 +312,7 @@ export default function App() {
         'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 
         'find-match', 'tournaments', 'battle-history', 'offer-analyzer', 
         'job-apply', 'admin-applications', 'shadow-interview', 'external-visualizer',
-        'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'domain-runner'
+        'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'grid-quest'
       ];
       if (protectedPages.includes(currentPage)) {
         handleNavigate('landing');
@@ -328,7 +328,7 @@ export default function App() {
         'community', 'notes', 'note-detail', 'question-bank', 'reader', 
         'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 
         'battle-history', 'job-apply', 'shadow-interview', 'game-lobby', 
-        'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'domain-runner'
+        'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'grid-quest'
       ];
 
       const userRole = user?.role || 'student';
@@ -374,7 +374,7 @@ export default function App() {
       'cyber-defense': 'Accessing Cyber-Defense Sandbox',
       'devops-pipeline': 'Configuring DevOps Sandbox',
       'system-whiteboard': 'Connecting Whiteboard Coordinates',
-      'domain-runner': 'Entering Hyperspace Track',
+      'grid-quest': 'Loading Grid Alignment Cells',
     };
 
     setGlobalLoading(true, labels[newPage] || `Transmitting to ${newPage}...`);
@@ -426,7 +426,7 @@ export default function App() {
   const isSkillComplete = user?.isSkillTestComplete;
   const isFullyQualified = isFieldComplete && isSkillComplete;
 
-  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'offer-analyzer', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail', 'question-bank', 'admin-applications', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'domain-runner'].includes(currentPage);
+  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'offer-analyzer', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail', 'question-bank', 'admin-applications', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'grid-quest'].includes(currentPage);
 
   return (
     <div className="page-shell overflow-x-hidden">
@@ -537,7 +537,7 @@ export default function App() {
                   {currentPage === 'proctor-sandbox' && <ProctorSandbox />}
                   {currentPage === 'devops-pipeline' && <DevopsPipeline />}
                   {currentPage === 'system-whiteboard' && <SystemWhiteboard />}
-                  {currentPage === 'domain-runner' && <DomainRunner3D />}
+                  {currentPage === 'grid-quest' && <GridQuest />}
                 </main>
                 <MobileNav
                   active={getSidebarActiveId(currentPage)}

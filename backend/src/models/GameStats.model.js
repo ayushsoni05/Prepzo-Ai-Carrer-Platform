@@ -46,10 +46,10 @@ const gameStatsSchema = new mongoose.Schema({
     played: { type: Number, default: 0 },
     auditsRun: { type: Number, default: 0 },
   },
-  domainRunner3D: {
+  gridQuest: {
     played: { type: Number, default: 0 },
     highScore: { type: Number, default: 0 },
-    favoriteDomain: { type: String, default: '' },
+    completedDomains: [{ type: String }],
   },
   badges: [{
     type: String,
