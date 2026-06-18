@@ -59,7 +59,7 @@ export const VisualPuzzleHost = () => {
 
     setSaving(true);
     try {
-      const res = await api.post('/api/visual-puzzles/report', {
+      const res = await api.post('/visual-puzzles/report', {
         score: 100,
         levelId: currentLevel.id,
         levelCompleted: true
