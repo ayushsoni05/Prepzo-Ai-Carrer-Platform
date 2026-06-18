@@ -4,7 +4,8 @@ import GameStats from '../models/GameStats.model.js';
 
 // Default CS questions to seed if the database is empty
 const DEFAULT_QUESTIONS = [
-  // --- EASY QUESTIONS (10) ---
+  // ==================== COMPUTER SCIENCE (30) ====================
+  // --- EASY (10) ---
   {
     question: "Which of the following is not a valid state in a process life cycle?",
     options: ["New", "Running", "Waiting", "Compiled"],
@@ -95,8 +96,7 @@ const DEFAULT_QUESTIONS = [
     difficulty: "Easy",
     explanation: "The <style> tag is used to write CSS rules internally within an HTML page. <link> is for external sheets."
   },
-
-  // --- MEDIUM QUESTIONS (10) ---
+  // --- MEDIUM (10) ---
   {
     question: "What is thrashing in an Operating System?",
     options: ["High CPU utilization", "Excessive page swapping activity", "Deadlock state", "Cache coherence problem"],
@@ -192,8 +192,7 @@ const DEFAULT_QUESTIONS = [
     difficulty: "Medium",
     explanation: "Searching in a balanced BST takes logarithmic time, O(log n), because half the tree is eliminated at each decision step."
   },
-
-  // --- HARD QUESTIONS (10) ---
+  // --- HARD (10) ---
   {
     question: "What is the primary difference between a process and a thread?",
     options: [
@@ -308,13 +307,513 @@ const DEFAULT_QUESTIONS = [
     category: "General",
     difficulty: "Hard",
     explanation: "Compilers convert high-level code into executable machine binaries beforehand. Interpreters evaluate source code sequentially on-the-fly."
+  },
+
+  // ==================== BUSINESS & FINANCE (15) ====================
+  // --- EASY (5) ---
+  {
+    question: "What is the primary goal of portfolio diversification in finance?",
+    options: ["To maximize portfolio volatility", "To reduce overall risk by spreading investments", "To eliminate capital gain taxes", "To guarantee double digit returns"],
+    correctAnswer: 1,
+    category: "Business & Finance",
+    difficulty: "Easy",
+    explanation: "Diversification spreads investments across various asset classes to lower the overall portfolio risk."
+  },
+  {
+    question: "Which financial statement reports a firm's assets, liabilities, and equity at a specific point in time?",
+    options: ["Income Statement", "Cash Flow Statement", "Balance Sheet", "Retained Earnings statement"],
+    correctAnswer: 2,
+    category: "Business & Finance",
+    difficulty: "Easy",
+    explanation: "A Balance Sheet provides a financial snapshot of assets, liabilities, and owner's equity at a single point in time."
+  },
+  {
+    question: "What does a high price-to-earnings (P/E) ratio typically suggest about a stock?",
+    options: ["The stock is severely undervalued", "Investors expect high future earnings growth", "The company is facing bankruptcy", "The dividend yield will double"],
+    correctAnswer: 1,
+    category: "Business & Finance",
+    difficulty: "Easy",
+    explanation: "A high P/E ratio indicates that investors are willing to pay a premium because they expect strong earnings growth in the future."
+  },
+  {
+    question: "What does liquidity represent in financial markets?",
+    options: ["The total cash a firm holds in bank accounts", "The ease with which an asset can be converted into cash", "The total debt of a corporation", "The volatility index of stocks"],
+    correctAnswer: 1,
+    category: "Business & Finance",
+    difficulty: "Easy",
+    explanation: "Liquidity is the speed and ease with which an asset can be sold and converted into cash without affecting its market price."
+  },
+  {
+    question: "What is inflation defined as?",
+    options: ["The decrease in overall prices", "The rate at which the purchasing power of currency falls", "An increase in bank interest rates", "A stock market crash indicator"],
+    correctAnswer: 1,
+    category: "Business & Finance",
+    difficulty: "Easy",
+    explanation: "Inflation is the general increase in prices and fall in the purchasing value of money over time."
+  },
+  // --- MEDIUM (5) ---
+  {
+    question: "In corporate finance, what is the primary purpose of calculating Net Present Value (NPV)?",
+    options: ["To calculate corporate tax liability", "To evaluate the profitability of a project investment", "To find stock price target", "To audit quarterly cash flows"],
+    correctAnswer: 1,
+    category: "Business & Finance",
+    difficulty: "Medium",
+    explanation: "NPV determines the present value of future cash flows minus initial investment, helping firms decide whether to greenlight projects."
+  },
+  {
+    question: "What does the Sharpe Ratio measure?",
+    options: ["Total absolute return of a portfolio", "Risk-adjusted return of an investment portfolio", "The leverage ratio of a commercial bank", "The dividend payout frequency"],
+    correctAnswer: 1,
+    category: "Business & Finance",
+    difficulty: "Medium",
+    explanation: "The Sharpe Ratio calculates the average excess return earned per unit of volatility or total risk."
+  },
+  {
+    question: "What is a major difference between a future contract and an option contract?",
+    options: ["Futures are traded on exchanges, options are not", "Futures oblige both parties to execute the trade, options give the buyer the right but not obligation", "Options are always cheaper", "Futures expire daily, options do not"],
+    correctAnswer: 1,
+    category: "Business & Finance",
+    difficulty: "Medium",
+    explanation: "Futures bind both buyer and seller to transaction execution at expiration. Options give the buyer a choice, while the seller is obligated if exercised."
+  },
+  {
+    question: "Which of the following describes systemic risk?",
+    options: ["Risk unique to a single company", "Risk inherent to the entire market or market segment", "Risk of software crash at exchange", "Risk of corporate audit failure"],
+    correctAnswer: 1,
+    category: "Business & Finance",
+    difficulty: "Medium",
+    explanation: "Systemic risk (or market risk) affects the entire financial system and cannot be diversified away."
+  },
+  {
+    question: "What is the primary role of a central bank?",
+    options: ["Provide personal loans to citizens", "Control money supply, interest rates, and manage inflation", "Underwrite stock IPOs", "Audit corporate tax filings"],
+    correctAnswer: 1,
+    category: "Business & Finance",
+    difficulty: "Medium",
+    explanation: "Central banks (like the Fed or RBI) manage monetary policy, stabilize currency, and act as lenders of last resort."
+  },
+  // --- HARD (5) ---
+  {
+    question: "According to Modern Portfolio Theory (MPT), what represents the 'Efficient Frontier'?",
+    options: ["Portfolios that maximize risk for a given yield", "Portfolios that offer the highest expected return for a defined level of risk", "A list of risk-free asset classes", "The boundary of global interest rate swaps"],
+    correctAnswer: 1,
+    category: "Business & Finance",
+    difficulty: "Hard",
+    explanation: "The Efficient Frontier is a set of optimal portfolios that offer the maximum expected return for a defined level of risk."
+  },
+  {
+    question: "What is the Black-Scholes model used for?",
+    options: ["Valuing corporate real estate properties", "Pricing option contracts on financial markets", "Calculating debt default probabilities", "Evaluating company merger synergies"],
+    correctAnswer: 1,
+    category: "Business & Finance",
+    difficulty: "Hard",
+    explanation: "The Black-Scholes-Merton model is a mathematical formula used to estimate the theoretical price of European options."
+  },
+  {
+    question: "What happens to bond prices when interest rates rise?",
+    options: ["Bond prices rise proportionally", "Bond prices fall", "Bond prices remain completely unchanged", "Bond yields fall to zero"],
+    correctAnswer: 1,
+    category: "Business & Finance",
+    difficulty: "Hard",
+    explanation: "Bond prices share an inverse relationship with interest rates. When interest rates rise, existing bonds with lower coupon rates become less attractive, dropping their price."
+  },
+  {
+    question: "In quantitative finance, what does 'Beta' represent?",
+    options: ["The alpha growth rate of stock earnings", "The volatility of a stock relative to the overall market", "The debt-to-equity leverage ratio", "The probability of asset liquidation"],
+    correctAnswer: 1,
+    category: "Business & Finance",
+    difficulty: "Hard",
+    explanation: "Beta measures the systematic risk or sensitivity of an individual security or portfolio relative to movements in the benchmark market index."
+  },
+  {
+    question: "What is a credit default swap (CDS)?",
+    options: ["A low-interest personal credit card line", "A financial derivative that acts as insurance against borrower default", "An agreement to exchange floating interest rates", "A government credit rating index"],
+    correctAnswer: 1,
+    category: "Business & Finance",
+    difficulty: "Hard",
+    explanation: "A CDS is a credit derivative contract that allows an investor to swap or offset their credit risk with another investor."
+  },
+
+  // ==================== MECHANICAL ENGINEERING (15) ====================
+  // --- EASY (5) ---
+  {
+    question: "Which law states that stress is directly proportional to strain within the elastic limit?",
+    options: ["Newton's First Law", "Hooke's Law", "Pascal's Law", "Boyle's Law"],
+    correctAnswer: 1,
+    category: "Mechanical Engineering",
+    difficulty: "Easy",
+    explanation: "Hooke's Law states that for relatively small deformations of an object, the displacement or size of the deformation is directly proportional to the deforming force or load."
+  },
+  {
+    question: "What is the primary function of a flywheel in an engine?",
+    options: ["To cool down engine pistons", "To store rotational energy and smooth out torque fluctuations", "To steer the transmission wheels", "To measure fuel level consumption"],
+    correctAnswer: 1,
+    category: "Mechanical Engineering",
+    difficulty: "Easy",
+    explanation: "A flywheel stores kinetic energy during power strokes and delivers it back during other strokes, smoothing out rotational speed variation."
+  },
+  {
+    question: "Which mechanical device is used to change the direction or magnitude of a force?",
+    options: ["Piston", "Simple Machine (e.g. Lever, Pulley)", "Condenser", "Radiator"],
+    correctAnswer: 1,
+    category: "Mechanical Engineering",
+    difficulty: "Easy",
+    explanation: "Simple machines (like levers, pulleys, and wedges) modify force magnitude or direction to make work easier."
+  },
+  {
+    question: "What is torque defined as?",
+    options: ["The rate of linear motion", "The rotational equivalent of linear force", "The friction inside a cylinder", "The pressure of steam exhaust"],
+    correctAnswer: 1,
+    category: "Mechanical Engineering",
+    difficulty: "Easy",
+    explanation: "Torque is a measure of the force that can cause an object to rotate about an axis."
+  },
+  {
+    question: "What is the unit of power in the SI system?",
+    options: ["Joule", "Watt", "Newton", "Pascal"],
+    correctAnswer: 1,
+    category: "Mechanical Engineering",
+    difficulty: "Easy",
+    explanation: "Power is the rate of doing work. In SI units, it is measured in Watts (Joules per second)."
+  },
+  // --- MEDIUM (5) ---
+  {
+    question: "What is the difference between a thermodynamic closed system and an open system?",
+    options: ["Closed systems can exchange heat but not mass; open systems can exchange both", "Closed systems exchange mass but not heat", "Closed systems cannot exchange anything", "Open systems exchange only mass"],
+    correctAnswer: 0,
+    category: "Mechanical Engineering",
+    difficulty: "Medium",
+    explanation: "A closed system exchanges energy (heat/work) with surroundings but its mass remains constant. A open system exchanges both energy and mass."
+  },
+  {
+    question: "What is the main purpose of adding gearing trains in machinery?",
+    options: ["To eliminate lubricating friction", "To alter speed, torque, or direction of power transmission", "To cool the drive shaft axle", "To measure pressure thresholds"],
+    correctAnswer: 1,
+    category: "Mechanical Engineering",
+    difficulty: "Medium",
+    explanation: "Gears mesh together to transmit power, allowing designers to trade rotational speed for torque or change shaft rotation directions."
+  },
+  {
+    question: "What does viscosity measure in a fluid?",
+    options: ["Fluid compressibility", "A fluid's resistance to gradual deformation by shear or tensile stress", "Surface tension density", "Boiling point temperature"],
+    correctAnswer: 1,
+    category: "Mechanical Engineering",
+    difficulty: "Medium",
+    explanation: "Viscosity is a measure of a fluid's thickness or resistance to flow (internal friction)."
+  },
+  {
+    question: "Which thermodynamic cycle is used as the standard of comparison for steam power plants?",
+    options: ["Otto Cycle", "Rankine Cycle", "Carnot Cycle", "Diesel Cycle"],
+    correctAnswer: 1,
+    category: "Mechanical Engineering",
+    difficulty: "Medium",
+    explanation: "The Rankine cycle is the idealized thermodynamic cycle that models steam turbine power systems."
+  },
+  {
+    question: "What is the purpose of a Governor in an engine?",
+    options: ["To measure engine oil temperature", "To maintain constant speed regardless of load changes", "To spark the combustion chamber", "To balance wheel alignments"],
+    correctAnswer: 1,
+    category: "Mechanical Engineering",
+    difficulty: "Medium",
+    explanation: "A governor is a device used to measure and regulate the speed of a machine, keeping it constant despite changing loads."
+  },
+  // --- HARD (5) ---
+  {
+    question: "What is the difference between regenerative braking and conventional braking?",
+    options: ["Regenerative brakes use friction pads to dissipate heat", "Regenerative brakes capture kinetic energy and convert it to stored energy", "Conventional brakes do not slow down wheels", "Regenerative brakes only work on steam engines"],
+    correctAnswer: 1,
+    category: "Mechanical Engineering",
+    difficulty: "Hard",
+    explanation: "Regenerative brakes reverse the electric motor to slow down the vehicle, converting kinetic energy into electricity to recharge battery banks."
+  },
+  {
+    question: "Which dimensionless number represents the ratio of inertial forces to viscous forces in fluid mechanics?",
+    options: ["Nusselt Number", "Reynolds Number", "Prandtl Number", "Mach Number"],
+    correctAnswer: 1,
+    category: "Mechanical Engineering",
+    difficulty: "Hard",
+    explanation: "The Reynolds number (Re) helps predict flow patterns (laminar vs turbulent) by comparing fluid inertia to internal viscous friction."
+  },
+  {
+    question: "What causes cavitation in hydraulic pumps?",
+    options: ["High fluid viscosity", "Vapor bubble formation and collapse due to local pressure drops", "Mechanical gear misalignment", "Excessive engine oil lubrication"],
+    correctAnswer: 1,
+    category: "Mechanical Engineering",
+    difficulty: "Hard",
+    explanation: "Cavitation occurs when local pressure falls below vapor pressure, forming bubbles that collapse violently and erode metal impellers."
+  },
+  {
+    question: "In mechanical design, what does the 'Endurance Limit' of a material define?",
+    options: ["Maximum stress a material can withstand before static rupture", "Stress level below which a material can withstand infinite fatigue cycles", "The temperature threshold of thermal expansion", "The hardness index of a surface treatment"],
+    correctAnswer: 1,
+    category: "Mechanical Engineering",
+    difficulty: "Hard",
+    explanation: "The endurance limit (or fatigue limit) is the stress level below which a material can be subjected to cyclic loading indefinitely without failure."
+  },
+  {
+    question: "What is the primary function of a condenser in a Rankine steam cycle?",
+    options: ["To superheat steam before entering the turbine", "To reject heat and condense exhaust steam back into liquid water", "To pump liquid water into the boiler", "To separate impurities from steam flow"],
+    correctAnswer: 1,
+    category: "Mechanical Engineering",
+    difficulty: "Hard",
+    explanation: "The condenser cools low-pressure turbine exhaust steam, converting it back to water so the pump can cycle it back to the boiler."
+  },
+
+  // ==================== ELECTRICAL ENGINEERING (15) ====================
+  // --- EASY (5) ---
+  {
+    question: "What is Ohm's Law?",
+    options: ["V = I^2 * R", "V = I * R", "P = V * I", "I = V^2 / R"],
+    correctAnswer: 1,
+    category: "Electrical Engineering",
+    difficulty: "Easy",
+    explanation: "Ohm's law states that current (I) is directly proportional to voltage (V) and inversely proportional to resistance (R), written as V = I * R."
+  },
+  {
+    question: "Which component stores electrical energy in an electrostatic field?",
+    options: ["Inductor", "Capacitor", "Resistor", "Diode"],
+    correctAnswer: 1,
+    category: "Electrical Engineering",
+    difficulty: "Easy",
+    explanation: "A capacitor stores charge on conductive plates separated by a dielectric, creating an electrostatic field."
+  },
+  {
+    question: "What is the unit of electrical resistance?",
+    options: ["Farad", "Ohm", "Henry", "Ampere"],
+    correctAnswer: 1,
+    category: "Electrical Engineering",
+    difficulty: "Easy",
+    explanation: "Electrical resistance is measured in Ohms. Farad is for capacitance, Henry for inductance."
+  },
+  {
+    question: "What is the primary function of a transformer?",
+    options: ["Convert AC voltage to DC voltage", "Change the voltage level of an AC signal", "Store electrical energy permanently", "Measure active power consumption"],
+    correctAnswer: 1,
+    category: "Electrical Engineering",
+    difficulty: "Easy",
+    explanation: "Transformers use electromagnetic induction to step up or step down AC voltage levels while maintaining power constant."
+  },
+  {
+    question: "Which logic gate outputs high (1) only when all its inputs are low (0)?",
+    options: ["AND", "NOR", "OR", "XOR"],
+    correctAnswer: 1,
+    category: "Electrical Engineering",
+    difficulty: "Easy",
+    explanation: "A NOR gate is a NOT-OR gate. It outputs high only when the OR gate output is low, which happens when all inputs are 0."
+  },
+  // --- MEDIUM (5) ---
+  {
+    question: "What does Kirchhoff's Current Law (KCL) state?",
+    options: ["Total voltage drop in a loop is zero", "The sum of currents entering a node equals the sum of currents leaving it", "Current is inversely proportional to temperature", "Current cannot flow through magnetic cores"],
+    correctAnswer: 1,
+    category: "Electrical Engineering",
+    difficulty: "Medium",
+    explanation: "KCL is based on the conservation of charge: total charge entering any junction node must equal total charge exiting it."
+  },
+  {
+    question: "What is the frequency of standard AC power grids in most of North America?",
+    options: ["50 Hz", "60 Hz", "100 Hz", "120 Hz"],
+    correctAnswer: 1,
+    category: "Electrical Engineering",
+    difficulty: "Medium",
+    explanation: "North America operates its power grid at 60 Hz. Much of Europe and Asia uses 50 Hz."
+  },
+  {
+    question: "Which semiconductor device allows current to flow in only one direction?",
+    options: ["Transistor", "Diode", "Capacitor", "Transformer"],
+    correctAnswer: 1,
+    category: "Electrical Engineering",
+    difficulty: "Medium",
+    explanation: "A diode is a P-N junction device that allows electric current to pass in forward bias while blocking it in reverse bias."
+  },
+  {
+    question: "What represents the power factor in an AC circuit?",
+    options: ["Ratio of resistance to inductance", "Ratio of real power to apparent power", "Product of voltage and current", "Frequency of voltage oscillations"],
+    correctAnswer: 1,
+    category: "Electrical Engineering",
+    difficulty: "Medium",
+    explanation: "Power factor is the cosine of the phase difference between current and voltage, representing the ratio of active power (W) to apparent power (VA)."
+  },
+  {
+    question: "What is the purpose of an operational amplifier (Op-Amp)?",
+    options: ["Rectify alternating current", "Amplify weak electrical signals with high input impedance", "Protect against lightning EMP surges", "Step down grid transmission voltage"],
+    correctAnswer: 1,
+    category: "Electrical Engineering",
+    difficulty: "Medium",
+    explanation: "Op-Amps are high-gain differential DC amplifiers used to filter, buffer, and amplify analog signals."
+  },
+  // --- HARD (5) ---
+  {
+    question: "Which equation represents Faraday's Law of Electromagnetic Induction?",
+    options: ["V = L * di/dt", "e = -dPhi/dt", "P = I^2 * R", "F = q * E"],
+    correctAnswer: 1,
+    category: "Electrical Engineering",
+    difficulty: "Hard",
+    explanation: "Faraday's law states that induced electromotive force (e) is proportional to the time rate of change of magnetic flux (Phi)."
+  },
+  {
+    question: "What makes a synchronous motor different from an induction motor?",
+    options: ["Synchronous motors run at speed directly proportional to load", "Synchronous motors rotate at the exact synchronous speed of the stator field", "Induction motors do not use AC power", "Synchronous motors do not require magnetic fields"],
+    correctAnswer: 1,
+    category: "Electrical Engineering",
+    difficulty: "Hard",
+    explanation: "Synchronous motors turn at synchronous speed in lockstep with grid frequency. Induction motors run slightly slower (slip speed) to induce rotor currents."
+  },
+  {
+    question: "What does a Boolean half-adder compute?",
+    options: ["Decimal division remainders", "Binary addition of two bits, yielding SUM and CARRY", "Voltage impedance factors", "AC phase angle vectors"],
+    correctAnswer: 1,
+    category: "Electrical Engineering",
+    difficulty: "Hard",
+    explanation: "A half-adder uses XOR gates to compute the binary sum bit (SUM) and AND gates to compute the overflow carry bit (CARRY)."
+  },
+  {
+    question: "Which phenomenon describes the concentration of AC current density near the outer surface of a conductor?",
+    options: ["Proximity Effect", "Skin Effect", "Corona Discharge", "Hall Effect"],
+    correctAnswer: 1,
+    category: "Electrical Engineering",
+    difficulty: "Hard",
+    explanation: "Skin effect is the tendency of AC to flow near the outer surface of a wire, increasing its effective resistance at high frequencies."
+  },
+  {
+    question: "What is the purpose of using a snubber circuit in power electronics?",
+    options: ["To boost high-frequency signal gains", "To suppress voltage spikes caused by inductive switching", "To convert DC back into clean AC", "To isolate digital logic rails"],
+    correctAnswer: 1,
+    category: "Electrical Engineering",
+    difficulty: "Hard",
+    explanation: "Snubbers (often RC networks) protect semiconductor switches by absorbing voltage transients during inductive turn-offs."
+  },
+
+  // ==================== HEALTHCARE & BIOTECH (15) ====================
+  // --- EASY (5) ---
+  {
+    question: "What is the basic unit of life in all living organisms?",
+    options: ["Atom", "Cell", "Molecule", "Organ"],
+    correctAnswer: 1,
+    category: "Healthcare & Biotech",
+    difficulty: "Easy",
+    explanation: "The cell is the basic structural, functional, and biological unit of all known organisms."
+  },
+  {
+    question: "Which molecule stores genetic information in cells?",
+    options: ["RNA", "DNA", "Protein", "Glucose"],
+    correctAnswer: 1,
+    category: "Healthcare & Biotech",
+    difficulty: "Easy",
+    explanation: "DNA (Deoxyribonucleic acid) is the hereditary material in humans and almost all other organisms."
+  },
+  {
+    question: "What is a vaccine?",
+    options: ["A treatment that cures active bacterial infections", "A biological preparation that provides active acquired immunity to a specific disease", "A high-dose vitamin supplement", "An antibiotic chemical compound"],
+    correctAnswer: 1,
+    category: "Healthcare & Biotech",
+    difficulty: "Easy",
+    explanation: "Vaccines train the immune system to recognize and fight pathogens by introducing weakened or inactive antigens."
+  },
+  {
+    question: "Which organ in the human body is primarily responsible for filtering blood and producing urine?",
+    options: ["Liver", "Kidneys", "Lungs", "Heart"],
+    correctAnswer: 1,
+    category: "Healthcare & Biotech",
+    difficulty: "Easy",
+    explanation: "The kidneys filter waste products and excess fluid from the bloodstream, excreting them as urine."
+  },
+  {
+    question: "What is the primary role of red blood cells?",
+    options: ["Fight bacterial pathogens", "Transport oxygen from lungs to the rest of the body", "Form blood clots to stop bleeding", "Produce insulin hormones"],
+    correctAnswer: 1,
+    category: "Healthcare & Biotech",
+    difficulty: "Easy",
+    explanation: "Red blood cells contain hemoglobin, a protein that binds oxygen and distributes it to tissues."
+  },
+  // --- MEDIUM (5) ---
+  {
+    question: "What is PCR (Polymerase Chain Reaction) used for in biotechnology?",
+    options: ["Measuring blood pressure fluctuations", "Amplifying specific DNA sequences to make millions of copies", "Synthesizing glucose sugars", "Sterilizing surgical equipment"],
+    correctAnswer: 1,
+    category: "Healthcare & Biotech",
+    difficulty: "Medium",
+    explanation: "PCR is a core lab technique used to amplify small segments of DNA for analysis, cloning, or forensics."
+  },
+  {
+    question: "What is the primary function of insulin in the human body?",
+    options: ["Increase stomach acidity", "Regulate blood glucose levels by helping cells absorb sugar", "Trigger blood clot formations", "Synthesize peptide chains"],
+    correctAnswer: 1,
+    category: "Healthcare & Biotech",
+    difficulty: "Medium",
+    explanation: "Insulin is a hormone produced by the pancreas that allows cells to take in glucose from the blood to use as energy."
+  },
+  {
+    question: "What represents the 'allosteric site' of an enzyme?",
+    options: ["The primary cleft where substrates bind to react", "A secondary pocket away from the active site that regulates enzyme activity", "The nuclear wall receptor", "The peptide chain tail"],
+    correctAnswer: 1,
+    category: "Healthcare & Biotech",
+    difficulty: "Medium",
+    explanation: "The allosteric site is a regulatory site on an enzyme where molecules can bind, altering the enzyme shape and affecting activity at the active site."
+  },
+  {
+    question: "What is recombinant DNA technology?",
+    options: ["Breeding animals of different species", "Combining DNA molecules from two different species in a lab", "Extracting pure protein from blood", "Sequencing viral genomes by PCR"],
+    correctAnswer: 1,
+    category: "Healthcare & Biotech",
+    difficulty: "Medium",
+    explanation: "Recombinant DNA involves splicing together genetic material from different sources to create novel sequences, often used to manufacture insulin or growth hormones."
+  },
+  {
+    question: "What is the main goal of Phase I clinical trials?",
+    options: ["Prove drug efficacy in large patient cohorts", "Evaluate safety, establish dosage ranges, and identify side effects in a small group of healthy volunteers", "Compare the drug against existing placebos", "Get final FDA marketing approval"],
+    correctAnswer: 1,
+    category: "Healthcare & Biotech",
+    difficulty: "Medium",
+    explanation: "Phase I trials focus primarily on safety, tolerability, and pharmacokinetics in a small group of healthy volunteers before testing efficacy."
+  },
+  // --- HARD (5) ---
+  {
+    question: "What describes 'steric hindrance' in molecular docking?",
+    options: ["The magnetic pull between charged atoms", "The prevention of chemical reactions due to spatial crowding of atoms", "The thermal speed of peptide folding", "The cell wall permeability rate"],
+    correctAnswer: 1,
+    category: "Healthcare & Biotech",
+    difficulty: "Hard",
+    explanation: "Steric hindrance occurs when the size of atoms within a molecule prevents chemical groups from aligning or binding due to spatial overlap."
+  },
+  {
+    question: "What is CRISPR-Cas9?",
+    options: ["A clinical thermometer model", "A genome editing tool that allows precise modifications to DNA", "A high-dose drug delivery capsule", "A virus classification system"],
+    correctAnswer: 1,
+    category: "Healthcare & Biotech",
+    difficulty: "Hard",
+    explanation: "CRISPR-Cas9 is a molecular technology adapted from bacterial immune systems that uses guide RNA to direct Cas9 enzymes to cut and edit specific DNA sequences."
+  },
+  {
+    question: "Which molecule acts as the primary molecular energy currency in cellular metabolism?",
+    options: ["DNA", "ATP (Adenosine Triphosphate)", "NADH", "Glucagon"],
+    correctAnswer: 1,
+    category: "Healthcare & Biotech",
+    difficulty: "Hard",
+    explanation: "ATP stores and transports chemical energy within cells, driving metabolic processes like muscle contraction and protein synthesis."
+  },
+  {
+    question: "What occurs during translation in molecular biology?",
+    options: ["DNA is copied into messenger RNA", "Ribosomes read mRNA sequences to synthesize specific amino acid peptide chains", "Peptides are broken down into glucose", "Viruses mutate their lipid casings"],
+    correctAnswer: 1,
+    category: "Healthcare & Biotech",
+    difficulty: "Hard",
+    explanation: "Translation is the process where ribosomes synthesize proteins using the genetic instruction codes carried by mRNA. Transcription is DNA-to-mRNA."
+  },
+  {
+    question: "What is monoclonal antibody therapy?",
+    options: ["A vaccine that stimulates polyclonal T-cells", "Lab-made proteins designed to bind specific targets (like cancer cells or virus spikes)", "A treatment using natural herbal antibodies", "A form of gene splicing inside bone marrow"],
+    correctAnswer: 1,
+    category: "Healthcare & Biotech",
+    difficulty: "Hard",
+    explanation: "Monoclonal antibodies are clone antibodies engineered in laboratories to bind to specific disease antigens, neutralizing them or marking them for immune destruction."
   }
 ];
 
 // Helper to seed questions if empty or incomplete
 const seedQuestionsIfNeeded = async () => {
   const count = await TriviaQuestion.countDocuments();
-  if (count < 30) {
+  if (count < 90) {
     console.log('🌱 Seeding/Resetting default CS Trivia Questions to match new Who Wants to Be a Millionaire suite...');
     await TriviaQuestion.deleteMany({});
     await TriviaQuestion.insertMany(DEFAULT_QUESTIONS);
@@ -331,8 +830,13 @@ export const getTriviaQuestions = asyncHandler(async (req, res) => {
   
   const { category, limit = 15 } = req.query;
   const matchStage = {};
+  
   if (category) {
-    matchStage.category = category;
+    if (category === 'Computer Science') {
+      matchStage.category = { $in: ['Computer Science', 'OS', 'DBMS', 'OOPs', 'Networks', 'General'] };
+    } else {
+      matchStage.category = category;
+    }
   }
 
   const parsedLimit = parseInt(limit);

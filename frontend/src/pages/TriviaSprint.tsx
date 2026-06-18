@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Trophy, Clock, Zap, ArrowRight, Home, Brain, Sparkles, Award, Play, 
-  HelpCircle, Users, Check, X, LogOut, DollarSign, ShieldCheck 
+  HelpCircle, Users, Check, X, LogOut, DollarSign, ShieldCheck, 
+  Server, TrendingUp, Settings, Cpu, Dna, ArrowLeft
 } from 'lucide-react';
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';
@@ -37,9 +38,53 @@ const LADDER_VALUES = [
   { level: 1, money: '$100', milestone: false }
 ];
 
+const TRIVIA_DECKS = [
+  {
+    id: 'cs',
+    category: 'Computer Science',
+    title: 'Computer Science',
+    icon: <Server className="w-8 h-8 text-blue-400" />,
+    description: 'OS kernels, relational databases, object-oriented paradigms, and network OSI models.',
+    colorClass: 'text-blue-400 bg-blue-500/10 border-blue-500/20'
+  },
+  {
+    id: 'finance',
+    category: 'Business & Finance',
+    title: 'Business & Finance',
+    icon: <TrendingUp className="w-8 h-8 text-emerald-400" />,
+    description: 'Portfolio frontiers, asset diversification, option pricing, and central bank systems.',
+    colorClass: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20'
+  },
+  {
+    id: 'me',
+    category: 'Mechanical Engineering',
+    title: 'Mechanical Engineering',
+    icon: <Settings className="w-8 h-8 text-amber-400" />,
+    description: 'Stress-strain elastic boundaries, flywheel smoothings, viscosities, and Rankine cycles.',
+    colorClass: 'text-amber-400 bg-amber-500/10 border-amber-500/20'
+  },
+  {
+    id: 'ee',
+    category: 'Electrical Engineering',
+    title: 'Electrical Engineering',
+    icon: <Cpu className="w-8 h-8 text-purple-400" />,
+    description: 'Kirchhoff node laws, electromagnetic induction, binary sum/carry, and switching snubbers.',
+    colorClass: 'text-purple-400 bg-purple-500/10 border-purple-500/20'
+  },
+  {
+    id: 'biotech',
+    category: 'Healthcare & Biotech',
+    title: 'Healthcare & Biotech',
+    icon: <Dna className="w-8 h-8 text-rose-400" />,
+    description: 'Cell structures, double-helix genetic stores, polymerase PCRs, and clinical drug phases.',
+    colorClass: 'text-rose-400 bg-rose-500/10 border-rose-500/20'
+  }
+];
+
 export const TriviaSprint = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
   
   // Selection states
@@ -72,31 +117,44 @@ export const TriviaSprint = () => {
   // Countdown timer ref
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Fetch 15 progressive questions on load
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const response = await api.get('/games/trivia/questions?limit=15');
-        if (response.data?.data?.length > 0) {
-          setQuestions(response.data.data);
-        } else {
-          toast.error('No questions available in database.');
-          navigateTo('game-lobby');
-        }
-      } catch (err) {
-        console.error('Failed to load questions', err);
-        toast.error('Error connecting to game servers.');
-        navigateTo('game-lobby');
-      } finally {
-        setLoading(false);
+  // Trigger game start for category
+  const handleSelectCategory = async (category: string) => {
+    setSelectedCategory(category);
+    setLoading(true);
+    setCurrentIdx(0);
+    setSelectedOption(null);
+    setLockState('idle');
+    setIsAnswered(false);
+    setCashedOut(false);
+    setIsGameCompleted(false);
+    setSecondsLeft(30);
+    setUsed5050(false);
+    setUsedAudience(false);
+    setUsedAICopilot(false);
+    setEliminatedOptions([]);
+    setAudienceData(null);
+    setAiCopilotCharacter(null);
+
+    try {
+      const response = await api.get(`/games/trivia/questions?limit=15&category=${encodeURIComponent(category)}`);
+      if (response.data?.data?.length > 0) {
+        setQuestions(response.data.data);
+      } else {
+        toast.error(`No questions available in database for ${category}.`);
+        setSelectedCategory(null);
       }
-    };
-    fetchQuestions();
-  }, []);
+    } catch (err) {
+      console.error('Failed to load questions', err);
+      toast.error('Error connecting to game servers.');
+      setSelectedCategory(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Main Timer Countdown loop
   useEffect(() => {
-    if (loading || isGameCompleted || isAnswered || cashedOut) return;
+    if (!selectedCategory || loading || isGameCompleted || isAnswered || cashedOut) return;
 
     if (secondsLeft === 0) {
       handleTimeOut();
@@ -110,7 +168,7 @@ export const TriviaSprint = () => {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [secondsLeft, loading, isGameCompleted, isAnswered, cashedOut]);
+  }, [secondsLeft, loading, isGameCompleted, isAnswered, cashedOut, selectedCategory]);
 
   // Handle timeout (counts as wrong answer)
   const handleTimeOut = () => {
@@ -143,7 +201,6 @@ export const TriviaSprint = () => {
     if (isCorrect) {
       const isMilestone = [4, 9, 14].includes(currentIdx);
       if (isMilestone) {
-        // Trigger confetti explosion on safe milestones
         confetti({
           particleCount: 80,
           spread: 60,
@@ -154,7 +211,6 @@ export const TriviaSprint = () => {
         toast.success('Correct answer! Moving up the ladder.');
       }
 
-      // If they completed the final Q15
       if (currentIdx === 14) {
         setTimeout(() => {
           completeGame(15, false);
@@ -226,10 +282,8 @@ export const TriviaSprint = () => {
     const wrongIndices = [0, 1, 2, 3].filter(idx => idx !== correctIdx);
     wrongIndices.sort(() => Math.random() - 0.5);
     
-    // Eliminate 2 wrong options
     setEliminatedOptions([wrongIndices[0], wrongIndices[1]]);
     
-    // Clear selection if we just eliminated the selected option
     if (selectedOption !== null && wrongIndices.slice(0, 2).includes(selectedOption)) {
       setSelectedOption(null);
       setLockState('idle');
@@ -268,7 +322,6 @@ export const TriviaSprint = () => {
     votes[otherIndices[1]] = p2;
     votes[otherIndices[2]] = p3;
 
-    // Adjust in case 50:50 has already eliminated some options
     if (eliminatedOptions.length > 0) {
       let sumShift = 0;
       eliminatedOptions.forEach(optIdx => {
@@ -299,28 +352,22 @@ export const TriviaSprint = () => {
     // Determine character based on category
     let charName = "Agent Sarah";
     let charAvatar = "🕵️‍♀️";
-    let charTitle = "Cybersecurity Architect";
 
-    if (currentQ.category === 'OS') {
+    if (currentQ.category === 'OS' || currentQ.category === 'Computer Science' || currentQ.category === 'DBMS' || currentQ.category === 'OOPs' || currentQ.category === 'Networks') {
       charName = "Agent Sarah";
       charAvatar = "🕵️‍♀️";
-      charTitle = "OS Operations Lead";
-    } else if (currentQ.category === 'DBMS') {
+    } else if (currentQ.category === 'Business & Finance') {
       charName = "Marcus Sterling";
       charAvatar = "💼";
-      charTitle = "Quantitative Asset Director";
-    } else if (currentQ.category === 'OOPs') {
+    } else if (currentQ.category === 'Mechanical Engineering') {
       charName = "Elena Rostova";
       charAvatar = "🔧";
-      charTitle = "Lead Mechanical Engineer";
-    } else if (currentQ.category === 'Networks') {
+    } else if (currentQ.category === 'Electrical Engineering') {
       charName = "Commander Vance";
       charAvatar = "🎖️";
-      charTitle = "Comms Officer";
     } else {
       charName = "Dr. Clara Vance";
       charAvatar = "🧬";
-      charTitle = "Quarantine Research Director";
     }
 
     const hints = [
@@ -336,6 +383,73 @@ export const TriviaSprint = () => {
     toast.success(`${charName} is online to help.`);
   };
 
+  // --- RENDERING CATEGORY DECK SELECTOR ---
+  if (!selectedCategory) {
+    return (
+      <div className="min-h-screen bg-[#02050e] bg-gradient-to-br from-[#02050e] via-[#091126] to-[#01040a] text-white pt-24 px-6 pb-20 font-rubik flex flex-col items-center justify-center">
+        <div className="max-w-5xl w-full space-y-12">
+          
+          {/* Header */}
+          <div className="flex justify-between items-center">
+            <button 
+              onClick={() => navigateTo('games')} 
+              className="flex items-center gap-2 text-white/60 hover:text-white transition-colors"
+            >
+              <ArrowLeft size={20} /> Back to Lobby
+            </button>
+          </div>
+
+          {/* Hero */}
+          <div className="text-center space-y-4">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight bg-gradient-to-r from-amber-400 via-yellow-200 to-amber-500 bg-clip-text text-transparent uppercase italic">
+              Who Wants To Be A Millionaire
+            </h1>
+            <p className="text-white/60 max-w-2xl mx-auto text-sm leading-relaxed">
+              Test your proficiency in major academic disciplines. Select your field of study, answer 15 progressive technical questions, employ your lifelines wisely, and secure the Grand Prize!
+            </p>
+          </div>
+
+          {/* Decks Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {TRIVIA_DECKS.map((deck) => (
+              <div 
+                key={deck.id}
+                className="bg-[#13171d]/60 border border-white/5 rounded-3xl p-6 flex flex-col justify-between min-h-[280px] transition-all relative overflow-hidden group hover:border-amber-500/40 hover:shadow-[0_0_30px_rgba(212,175,55,0.05)]"
+              >
+                <div className="absolute inset-0 bg-white/[0.01] group-hover:bg-white/[0.03] transition-all duration-300 pointer-events-none" />
+                
+                <div>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className={`p-3 border rounded-2xl ${deck.colorClass}`}>
+                      {deck.icon}
+                    </div>
+                    <span className="text-[9px] font-black uppercase tracking-widest px-2.5 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full">
+                      15 Levels
+                    </span>
+                  </div>
+
+                  <h3 className="text-lg font-black tracking-tight mb-2 text-white">{deck.title}</h3>
+                  <p className="text-xs text-white/50 leading-relaxed font-medium mb-4">{deck.description}</p>
+                </div>
+
+                <div>
+                  <button 
+                    onClick={() => handleSelectCategory(deck.category)}
+                    className="w-full py-3 bg-white text-black hover:bg-amber-400 hover:text-black font-black uppercase tracking-widest text-xs rounded-xl transition-all flex items-center justify-center gap-2 group-hover:shadow-lg group-hover:shadow-amber-500/10"
+                  >
+                    <Play className="w-3 h-3 fill-current" />
+                    Launch Arena
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </div>
+    );
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[#02050e] flex flex-col items-center justify-center text-white">
@@ -348,7 +462,6 @@ export const TriviaSprint = () => {
   const currentQuestion = questions[currentIdx];
   const optionLetters = ['A', 'B', 'C', 'D'];
 
-  // Calculate guaranteed XP safety nets
   const getSafeHavenMoney = () => {
     if (currentIdx >= 10) return '$32,000';
     if (currentIdx >= 5) return '$1,000';
@@ -368,6 +481,14 @@ export const TriviaSprint = () => {
               {/* Workspace Header: Lifelines & Timer */}
               <div className="flex justify-between items-center flex-wrap gap-4">
                 
+                {/* Back to selector */}
+                <button 
+                  onClick={() => setSelectedCategory(null)}
+                  className="flex items-center gap-1.5 text-xs text-white/50 hover:text-white transition-colors"
+                >
+                  <ArrowLeft size={14} /> Quit Field
+                </button>
+
                 {/* Lifelines Group */}
                 <div className="flex gap-3">
                   <button 
@@ -411,7 +532,6 @@ export const TriviaSprint = () => {
 
                 {/* Circular Countdown Timer */}
                 <div className="flex items-center gap-3">
-                  <span className="text-[10px] font-black tracking-widest text-white/30 uppercase">TIME REMAINING:</span>
                   <div className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-white/10 rounded-xl font-mono text-sm font-black">
                     <Clock size={14} className="text-amber-400" />
                     <span className={secondsLeft <= 8 ? 'text-rose-500 animate-ping font-bold' : 'text-white'}>
@@ -426,7 +546,7 @@ export const TriviaSprint = () => {
                 <div className="flex items-center justify-center gap-2">
                   <Brain className="w-4 h-4 text-amber-400" />
                   <span className="text-[10px] font-black uppercase tracking-widest text-amber-400">
-                    Question {currentIdx + 1} ({currentQuestion.category} - {currentQuestion.difficulty})
+                    {selectedCategory} Level {currentIdx + 1} ({currentQuestion.difficulty})
                   </span>
                 </div>
                 <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold tracking-tight leading-relaxed max-w-2xl mx-auto text-white">
@@ -434,7 +554,7 @@ export const TriviaSprint = () => {
                 </h2>
               </div>
 
-              {/* Options Grid Layout (Diamond style representation) */}
+              {/* Options Grid Layout */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
                 {currentQuestion.options.map((opt, idx) => {
                   const isEliminated = eliminatedOptions.includes(idx);
@@ -506,7 +626,7 @@ export const TriviaSprint = () => {
                 })}
               </div>
 
-              {/* Suspense Confirmation Panel ("Is that your final answer?") */}
+              {/* Suspense Confirmation Panel */}
               <div className="pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
                 
                 {/* Cash Out button */}
@@ -573,7 +693,7 @@ export const TriviaSprint = () => {
             </div>
           ) : (
             
-            /* Overlaid Game Completed / Elimination Outcome screen */
+            /* End Screen */
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -594,7 +714,7 @@ export const TriviaSprint = () => {
                   )}
                 </h2>
                 <p className="text-xs font-black text-white/40 uppercase tracking-widest mt-2">
-                  Technical Trivia Arena Results
+                  {selectedCategory} Arena Results
                 </p>
               </div>
 
@@ -627,12 +747,20 @@ export const TriviaSprint = () => {
               )}
 
               {/* Actions */}
-              <button
-                onClick={() => navigateTo('game-lobby')}
-                className="px-8 py-4 bg-white text-black hover:bg-gray-200 font-black uppercase tracking-widest text-xs rounded-xl transition-all flex items-center justify-center gap-2"
-              >
-                <Home className="w-4 h-4" /> Lobby Arena
-              </button>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setSelectedCategory(null)}
+                  className="px-6 py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-black uppercase tracking-widest text-xs rounded-xl transition-all flex items-center justify-center gap-2"
+                >
+                  <RotateCcw className="w-4 h-4" /> Change Field
+                </button>
+                <button
+                  onClick={() => navigateTo('game-lobby')}
+                  className="px-8 py-4 bg-white text-black hover:bg-gray-200 font-black uppercase tracking-widest text-xs rounded-xl transition-all flex items-center justify-center gap-2"
+                >
+                  <Home className="w-4 h-4" /> Lobby Arena
+                </button>
+              </div>
 
             </motion.div>
           )}

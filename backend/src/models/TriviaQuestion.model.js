@@ -19,7 +19,10 @@ const triviaQuestionSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['OS', 'DBMS', 'OOPs', 'Networks', 'General'],
+    enum: [
+      'OS', 'DBMS', 'OOPs', 'Networks', 'General',
+      'Computer Science', 'Business & Finance', 'Mechanical Engineering', 'Electrical Engineering', 'Healthcare & Biotech'
+    ],
     index: true,
   },
   difficulty: {
