@@ -127,6 +127,17 @@ export const GameLobby = () => {
       route: 'grid-quest',
       active: true,
       stats: stats ? `Solved: ${stats.gridQuest?.completedDomains?.length || 0} Domains (${stats.gridQuest?.played || 0} Runs)` : 'Solved: 0 Domains'
+    },
+    {
+      id: 'visualpuzzles',
+      title: 'Visual Puzzle Quest',
+      description: 'Solve interactive visual alignment puzzles using sliders, wiring, and gear rotations matching your field of study. No coding required.',
+      icon: <Sparkles className="w-8 h-8 text-indigo-400 animate-pulse" />,
+      xpReward: '+25 XP / Level, Badge unlocks',
+      difficulty: 'Easy',
+      route: 'visual-puzzles',
+      active: true,
+      stats: stats ? `Solved: ${stats.visualPuzzles?.completedLevels?.length || 0} Levels (${stats.visualPuzzles?.played || 0} Runs)` : 'Solved: 0 Levels'
     }
   ];
 

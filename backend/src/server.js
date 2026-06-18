@@ -48,6 +48,8 @@ import proctorRoutes from './routes/proctor.routes.js';
 import devopsRoutes from './routes/devops.routes.js';
 import whiteboardRoutes from './routes/whiteboard.routes.js';
 import gridQuestRoutes from './routes/gridQuest.routes.js';
+import visualPuzzlesRoutes from './routes/visualPuzzles.routes.js';
+
 
 import { seeder } from './services/autonomousSeeder.service.js';
 import { errorHandler, notFound } from './middleware/error.middleware.js';
@@ -311,6 +313,8 @@ app.use('/api/proctor', proctorRoutes);
 app.use('/api/devops', devopsRoutes);
 app.use('/api/whiteboard', whiteboardRoutes);
 app.use('/api/grid-quest', gridQuestRoutes);
+app.use('/api/visual-puzzles', visualPuzzlesRoutes);
+
 
 
 // AI Failsafe error handler (catches AI-specific errors)

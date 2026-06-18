@@ -51,6 +51,11 @@ const gameStatsSchema = new mongoose.Schema({
     highScore: { type: Number, default: 0 },
     completedDomains: [{ type: String }],
   },
+  visualPuzzles: {
+    played: { type: Number, default: 0 },
+    completedLevels: [{ type: String }],
+    highScore: { type: Number, default: 0 },
+  },
   badges: [{
     type: String,
   }]
