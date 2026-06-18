@@ -442,7 +442,7 @@ export const VisualPuzzleHost = () => {
               <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
                 <div 
                   className={`h-full transition-all duration-1000 ${timeLeft <= 10 ? 'bg-red-500' : timeLeft <= 20 ? 'bg-yellow-500' : 'bg-indigo-500'}`}
-                  style={{ width: `${(timeLeft / currentLevel.countdown) * 100}%` }}
+                  style={{ width: `${(timeLeft / (currentLevel?.countdown || 60)) * 100}%` }}
                 />
               </div>
             </div>

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Trophy, Clock, Zap, ArrowRight, Home, Brain, Sparkles, Award, Play, 
   HelpCircle, Users, Check, X, LogOut, DollarSign, ShieldCheck, 
-  Server, TrendingUp, Settings, Cpu, Dna, ArrowLeft
+  Server, TrendingUp, Settings, Cpu, Dna, ArrowLeft, RotateCcw
 } from 'lucide-react';
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';

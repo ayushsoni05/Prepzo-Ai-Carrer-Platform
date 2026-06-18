@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Clear, Sparkles, ShieldCheck, Terminal, AlertTriangle, HelpCircle, PenTool, Square, Circle, Type, Eye, Trash2, Cpu, Users } from 'lucide-react';
+import { ArrowLeft, Sparkles, ShieldCheck, Terminal, AlertTriangle, HelpCircle, PenTool, Square, Circle, Type, Eye, Trash2, Cpu, Users } from 'lucide-react';
 import { io } from 'socket.io-client';
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';

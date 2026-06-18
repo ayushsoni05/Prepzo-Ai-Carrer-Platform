@@ -24,6 +24,8 @@ import {
   Loader2,
   AlertCircle,
   Sparkles,
+  FileText,
+  Code,
 } from 'lucide-react';
 import { applicationsApi, Application } from '@/api/applications';
 import { jobsApi } from '@/api/jobs';

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'react-router-dom'; // Note: AnimatePresence from framer-motion is cleaner
 import { motion as motionFramer, AnimatePresence as AnimatePresenceFramer } from 'framer-motion';
-import { Trophy, ArrowLeft, Upload, FileText, Code, PieChart as PieIcon, Activity, Sparkles, ShieldAlert, Cpu, CheckCircle } from 'lucide-react';
+import { Trophy, ArrowLeft, Upload, FileText, Code, PieChart as PieIcon, Activity, Sparkles, ShieldAlert, Cpu, CheckCircle, AlertTriangle } from 'lucide-react';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 import { ActivityCalendar } from 'react-activity-calendar';
 import api from '../api/axios';
