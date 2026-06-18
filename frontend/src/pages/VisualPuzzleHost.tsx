@@ -16,9 +16,6 @@ export const VisualPuzzleHost = () => {
   const [stats, setStats] = useState<any>(null);
   const [saving, setSaving] = useState(false);
 
-  // Drag-and-drop state for network / electrical / mechanical
-  const [draggingItem, setDraggingItem] = useState<string | null>(null);
-
   // Fetch stats on load
   useEffect(() => {
     const fetchStats = async () => {
@@ -112,13 +109,13 @@ export const VisualPuzzleHost = () => {
           <div className="flex justify-between items-center">
             <button 
               onClick={() => navigateTo('games')} 
-              className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors"
+              className="flex items-center gap-2 text-white/60 hover:text-white transition-colors"
             >
               <ArrowLeft size={20} /> Back to Lobby
             </button>
             <div className="flex items-center gap-3">
               <Trophy className="text-yellow-400 w-6 h-6 animate-pulse" />
-              <span className="text-sm text-zinc-400 font-medium">
+              <span className="text-sm text-white/60 font-medium">
                 Puzzles Solved: <strong className="text-white">{stats?.visualPuzzles?.completedLevels?.length || 0}</strong>
               </span>
             </div>
@@ -129,7 +126,7 @@ export const VisualPuzzleHost = () => {
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Visual Puzzle Quest
             </h1>
-            <p className="text-zinc-400 max-w-2xl mx-auto text-lg">
+            <p className="text-white/60 max-w-2xl mx-auto text-lg">
               Solve interactive spatial and mathematical challenges matching your field of study. No coding required—just drag, connect, slide, and align!
             </p>
           </div>
@@ -142,38 +139,55 @@ export const VisualPuzzleHost = () => {
               ).length;
               const isFullyCompleted = completedCount === deck.levels.length;
 
+              // Color definitions matching the card icons
+              let iconColorClass = "text-indigo-400 bg-indigo-500/10 border-indigo-500/20";
+              if (deck.id === 'cs') iconColorClass = "text-blue-400 bg-blue-500/10 border-blue-500/20";
+              else if (deck.id === 'finance') iconColorClass = "text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
+              else if (deck.id === 'me') iconColorClass = "text-amber-400 bg-amber-500/10 border-amber-500/20";
+              else if (deck.id === 'ee') iconColorClass = "text-purple-400 bg-purple-500/10 border-purple-500/20";
+              else if (deck.id === 'biotech') iconColorClass = "text-rose-400 bg-rose-500/10 border-rose-500/20";
+
               return (
                 <div 
                   key={deck.id}
-                  onClick={() => {
-                    setSelectedDeck(deck);
-                    setCurrentLevelIndex(0);
-                  }}
-                  className={`relative p-6 rounded-3xl bg-gradient-to-b ${deck.colorClass} border cursor-pointer hover:scale-[1.02] transition-all duration-300 shadow-lg group flex flex-col justify-between h-64`}
+                  className="bg-[#13171d] border border-white/5 rounded-3xl p-6 flex flex-col justify-between min-h-[320px] transition-all relative overflow-hidden group hover:border-white/20 hover:shadow-[0_0_30px_rgba(255,255,255,0.02)]"
                 >
-                  <div className="space-y-4">
-                    <div className="p-3 bg-white/5 w-fit rounded-2xl group-hover:scale-110 transition-transform">
-                      {getIcon(deck.iconName)}
+                  <div className="absolute inset-0 bg-white/[0.01] group-hover:bg-white/[0.03] transition-all duration-300 pointer-events-none" />
+                  
+                  <div>
+                    <div className="flex items-center justify-between mb-6">
+                      <div className={`p-3 border rounded-2xl ${iconColorClass}`}>
+                        {getIcon(deck.iconName)}
+                      </div>
+                      <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${isFullyCompleted ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20'}`}>
+                        {completedCount} / {deck.levels.length} Solved
+                      </span>
                     </div>
-                    <div className="space-y-1">
-                      <h3 className="text-xl font-bold">{deck.title}</h3>
-                      <p className="text-zinc-400 text-sm line-clamp-3">{deck.description}</p>
-                    </div>
+
+                    <h3 className="text-xl font-[900] tracking-tight mb-2 text-white">{deck.title}</h3>
+                    <p className="text-sm text-white/50 leading-relaxed font-medium mb-4">{deck.description}</p>
                   </div>
 
-                  <div className="flex justify-between items-center mt-4 pt-4 border-t border-white/5">
-                    <span className="text-xs text-zinc-400 font-medium">
-                      Progress: {completedCount} / {deck.levels.length} Levels
-                    </span>
-                    {isFullyCompleted ? (
-                      <span className="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/20 font-bold">
-                        COMPLETED
-                      </span>
-                    ) : (
-                      <span className="text-xs text-zinc-300 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                        Play Deck <ArrowRight size={14} />
-                      </span>
-                    )}
+                  <div>
+                    <div className="border-t border-white/5 pt-4 flex items-center justify-between text-xs font-bold text-white/40 mb-5">
+                      <span>{deck.levels.length} Interactive Levels</span>
+                      {isFullyCompleted ? (
+                        <span className="text-emerald-400">COMPLETED</span>
+                      ) : (
+                        <span className="text-white/60">Ready</span>
+                      )}
+                    </div>
+
+                    <button 
+                      onClick={() => {
+                        setSelectedDeck(deck);
+                        setCurrentLevelIndex(0);
+                      }}
+                      className="w-full py-3.5 bg-white text-black hover:bg-gray-200 font-[900] uppercase tracking-widest text-xs rounded-xl transition-all flex items-center justify-center gap-2"
+                    >
+                      <Play className="w-3.5 h-3.5 fill-black" />
+                      Play Deck
+                    </button>
                   </div>
                 </div>
               );
@@ -185,15 +199,15 @@ export const VisualPuzzleHost = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#07090e] text-white pt-24 px-4 md:px-8 pb-12 font-rubik flex flex-col">
+    <div className="min-h-screen bg-[#0a0c10] text-white pt-24 px-4 md:px-8 pb-12 font-rubik flex flex-col">
       <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col space-y-6">
         
         {/* Level Navigation Header */}
-        <div className="flex justify-between items-center flex-wrap gap-4 bg-zinc-900/40 p-4 rounded-2xl border border-white/5">
+        <div className="flex justify-between items-center flex-wrap gap-4 bg-[#13171d] p-4 rounded-2xl border border-white/5">
           <div className="flex items-center gap-3">
             <button 
               onClick={() => setSelectedDeck(null)} 
-              className="p-2 hover:bg-white/5 rounded-xl transition-colors text-zinc-400 hover:text-white"
+              className="p-2 hover:bg-white/5 rounded-xl transition-colors text-white/60 hover:text-white"
             >
               <ArrowLeft size={18} />
             </button>
@@ -204,7 +218,7 @@ export const VisualPuzzleHost = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="text-sm font-medium text-zinc-400">
+            <div className="text-sm font-medium text-white/60">
               Level {currentLevelIndex + 1} of {selectedDeck.levels.length}
             </div>
             <div className="flex gap-1">
@@ -214,7 +228,7 @@ export const VisualPuzzleHost = () => {
                   className={`w-8 h-2 rounded-full transition-all duration-300 ${
                     idx === currentLevelIndex 
                       ? 'bg-indigo-500 w-12' 
-                      : idx < currentLevelIndex ? 'bg-emerald-500' : 'bg-zinc-800'
+                      : idx < currentLevelIndex ? 'bg-emerald-500' : 'bg-white/5'
                   }`}
                 />
               ))}
@@ -226,23 +240,23 @@ export const VisualPuzzleHost = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 items-stretch">
           
           {/* Left Panel: Instructions & Configuration */}
-          <div className="lg:col-span-5 flex flex-col space-y-6 bg-zinc-900/50 p-6 rounded-3xl border border-white/5 shadow-xl">
+          <div className="lg:col-span-5 flex flex-col space-y-6 bg-[#13171d] p-6 rounded-3xl border border-white/5 shadow-xl">
             <div className="space-y-4">
               <h3 className="text-xl font-bold flex items-center gap-2">
                 <Info size={18} className="text-indigo-400" />
                 Level Instructions
               </h3>
-              <p className="text-zinc-300 text-sm leading-relaxed">
+              <p className="text-white/80 text-sm leading-relaxed">
                 {currentLevel?.objective}
               </p>
               
-              <div className="space-y-2 bg-zinc-950/60 p-4 rounded-2xl border border-white/5 text-xs text-zinc-400 font-mono">
-                <div className="text-zinc-500 uppercase font-bold tracking-wider text-[10px] mb-2">Step Guidelines:</div>
+              <div className="space-y-2 bg-black/20 p-4 rounded-2xl border border-white/5 text-xs text-white/40 font-mono">
+                <div className="text-white/20 uppercase font-bold tracking-wider text-[10px] mb-2">Step Guidelines:</div>
                 <ul className="space-y-2">
                   {currentLevel?.layoutInfo.instructions.map((step, sIdx) => (
                     <li key={sIdx} className="flex gap-2 items-start">
                       <span className="text-indigo-400 font-bold">{sIdx + 1}.</span>
-                      <span>{step}</span>
+                      <span className="text-white/80">{step}</span>
                     </li>
                   ))}
                 </ul>
@@ -251,13 +265,13 @@ export const VisualPuzzleHost = () => {
 
             {/* Interactive Control Deck */}
             <div className="flex-1 flex flex-col justify-center py-6 border-t border-white/5 space-y-6">
-              <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-widest">Adjust Configuration</h3>
+              <h3 className="text-sm font-bold text-white/60 uppercase tracking-widest">Adjust Configuration</h3>
               
               {/* Render dynamic sliders / inputs depending on layout type */}
               {currentLevel?.layoutInfo.type === 'network' && gameState && (
                 <div className="space-y-4">
                   <div>
-                    <label className="text-xs text-zinc-400 block mb-2">{currentLevel.layoutInfo.sliderLabel}</label>
+                    <label className="text-xs text-white/60 block mb-2">{currentLevel.layoutInfo.sliderLabel}</label>
                     <input 
                       type="range"
                       min={currentLevel.layoutInfo.sliderMin}
@@ -265,17 +279,17 @@ export const VisualPuzzleHost = () => {
                       step="0.05"
                       value={gameState.sliderVal}
                       onChange={(e) => setGameState({ ...gameState, sliderVal: parseFloat(e.target.value) })}
-                      className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                      className="w-full h-2 bg-white/5 rounded-lg appearance-none cursor-pointer accent-indigo-500"
                     />
-                    <div className="flex justify-between text-[10px] text-zinc-500 mt-1">
+                    <div className="flex justify-between text-[10px] text-white/30 mt-1">
                       <span>DB A (0%)</span>
                       <span className="text-white font-bold">{(gameState.sliderVal * 100).toFixed(0)}%</span>
                       <span>DB B (100%)</span>
                     </div>
                   </div>
                   
-                  <div className="bg-zinc-950/40 p-4 rounded-xl border border-white/5 space-y-2">
-                    <span className="text-xs text-zinc-400 font-medium">Link Status:</span>
+                  <div className="bg-[#0a0c10] p-4 rounded-xl border border-white/5 space-y-2">
+                    <span className="text-xs text-white/60 font-medium">Link Status:</span>
                     <div className="flex justify-between items-center text-sm font-mono">
                       <span>Active Route:</span>
                       <span className={gameState.connectedTo ? 'text-emerald-400 font-bold' : 'text-red-400'}>
@@ -289,7 +303,7 @@ export const VisualPuzzleHost = () => {
               {currentLevel?.layoutInfo.type === 'finance' && gameState && (
                 <div className="space-y-6">
                   <div className="space-y-2">
-                    <div className="flex justify-between text-xs text-zinc-400">
+                    <div className="flex justify-between text-xs text-white/60">
                       <span>Stocks / Equity Allocation</span>
                       <span className="text-white font-bold">{gameState.equity}%</span>
                     </div>
@@ -303,13 +317,13 @@ export const VisualPuzzleHost = () => {
                         // Make sure sum can adapt or user rebalances
                         setGameState({ ...gameState, equity: eq, bonds: 100 - eq - (gameState.gold || 0) });
                       }}
-                      className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                      className="w-full h-2 bg-white/5 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                     />
                   </div>
 
                   {gameState.gold !== undefined && (
                     <div className="space-y-2">
-                      <div className="flex justify-between text-xs text-zinc-400">
+                      <div className="flex justify-between text-xs text-white/60">
                         <span>Gold Asset Allocation</span>
                         <span className="text-white font-bold">{gameState.gold}%</span>
                       </div>
@@ -322,13 +336,13 @@ export const VisualPuzzleHost = () => {
                           const gd = parseInt(e.target.value);
                           setGameState({ ...gameState, gold: gd, equity: 100 - gd - gameState.bonds });
                         }}
-                        className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                        className="w-full h-2 bg-white/5 rounded-lg appearance-none cursor-pointer accent-amber-500"
                       />
                     </div>
                   )}
 
                   <div className="space-y-2">
-                    <div className="flex justify-between text-xs text-zinc-400">
+                    <div className="flex justify-between text-xs text-white/60">
                       <span>Bonds / Fixed Income</span>
                       <span className="text-white font-bold">{gameState.bonds}%</span>
                     </div>
@@ -341,12 +355,12 @@ export const VisualPuzzleHost = () => {
                         const bd = parseInt(e.target.value);
                         setGameState({ ...gameState, bonds: bd, equity: 100 - bd - (gameState.gold || 0) });
                       }}
-                      className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                      className="w-full h-2 bg-white/5 rounded-lg appearance-none cursor-pointer accent-blue-500"
                     />
                   </div>
 
-                  <div className="p-3 bg-zinc-950/40 rounded-xl border border-white/5 flex justify-between items-center text-xs">
-                    <span className="text-zinc-500">Total Capital Allocated:</span>
+                  <div className="p-3 bg-[#0a0c10] rounded-xl border border-white/5 flex justify-between items-center text-xs">
+                    <span className="text-white/30">Total Capital Allocated:</span>
                     <span className={`font-bold ${Math.abs(gameState.equity + gameState.bonds + (gameState.gold || 0) - 100) < 2 ? 'text-emerald-400' : 'text-red-400'}`}>
                       {gameState.equity + gameState.bonds + (gameState.gold || 0)}% / 100%
                     </span>
@@ -356,23 +370,19 @@ export const VisualPuzzleHost = () => {
 
               {currentLevel?.layoutInfo.type === 'mechanical' && gameState && (
                 <div className="space-y-4">
-                  <span className="text-xs text-zinc-400 block mb-2">Available Gear Inventory:</span>
+                  <span className="text-xs text-white/60 block mb-2">Available Gear Inventory:</span>
                   <div className="grid grid-cols-3 gap-3">
                     {/* Small Gear Tool */}
                     <div 
-                      draggable
-                      onDragStart={() => setDraggingItem('small')}
                       onClick={() => setGameState({ ...gameState, gearPlaced: true, gearSize: 'small' })}
-                      className="p-3 bg-zinc-950/60 rounded-2xl border border-white/5 text-center cursor-pointer hover:border-amber-500/40 group transition-all"
+                      className="p-3 bg-black/20 rounded-2xl border border-white/5 text-center cursor-pointer hover:border-amber-500/40 group transition-all"
                     >
                       <Settings className="w-8 h-8 mx-auto text-amber-500/70 group-hover:rotate-45 transition-transform" />
-                      <span className="text-[10px] text-zinc-400 mt-1 block">12T (Small)</span>
+                      <span className="text-[10px] text-white/60 mt-1 block">12T (Small)</span>
                     </div>
 
                     {/* Medium Gear Tool */}
                     <div 
-                      draggable
-                      onDragStart={() => setDraggingItem('medium')}
                       onClick={() => {
                         if (currentLevel.id === 'me-1') {
                           setGameState({ ...gameState, gearPlaced: true, gearSize: 'medium' });
@@ -383,16 +393,14 @@ export const VisualPuzzleHost = () => {
                           setGameState({ ...gameState, pegsOccupied: pegs });
                         }
                       }}
-                      className="p-3 bg-zinc-950/60 rounded-2xl border border-white/5 text-center cursor-pointer hover:border-amber-500/40 group transition-all"
+                      className="p-3 bg-black/20 rounded-2xl border border-white/5 text-center cursor-pointer hover:border-amber-500/40 group transition-all"
                     >
                       <Settings className="w-10 h-10 mx-auto text-amber-500 group-hover:rotate-45 transition-transform" />
-                      <span className="text-[10px] text-zinc-400 mt-1 block">24T (Medium)</span>
+                      <span className="text-[10px] text-white/60 mt-1 block">24T (Medium)</span>
                     </div>
 
                     {/* Large Gear Tool */}
                     <div 
-                      draggable
-                      onDragStart={() => setDraggingItem('large')}
                       onClick={() => {
                         if (currentLevel.id === 'me-1') {
                           setGameState({ ...gameState, gearPlaced: true, gearSize: 'large' });
@@ -402,14 +410,14 @@ export const VisualPuzzleHost = () => {
                           setGameState({ ...gameState, pegsOccupied: pegs });
                         }
                       }}
-                      className="p-3 bg-zinc-950/60 rounded-2xl border border-white/5 text-center cursor-pointer hover:border-amber-500/40 group transition-all"
+                      className="p-3 bg-black/20 rounded-2xl border border-white/5 text-center cursor-pointer hover:border-amber-500/40 group transition-all"
                     >
                       <Settings className="w-12 h-12 mx-auto text-amber-600 group-hover:rotate-45 transition-transform" />
-                      <span className="text-[10px] text-zinc-400 mt-1 block">36T (Large)</span>
+                      <span className="text-[10px] text-white/60 mt-1 block">36T (Large)</span>
                     </div>
                   </div>
 
-                  <p className="text-[10px] text-zinc-500 italic text-center mt-2">
+                  <p className="text-[10px] text-white/30 italic text-center mt-2">
                     Tip: Tap a gear to place or drag it onto the pegs in the visual board.
                   </p>
                 </div>
@@ -417,36 +425,36 @@ export const VisualPuzzleHost = () => {
 
               {currentLevel?.layoutInfo.type === 'electrical' && gameState && (
                 <div className="space-y-4">
-                  <span className="text-xs text-zinc-400 block mb-2">Gate Inventory (Logic ICs):</span>
+                  <span className="text-xs text-white/60 block mb-2">Gate Inventory (Logic ICs):</span>
                   <div className="grid grid-cols-3 gap-3">
                     <button 
                       onClick={() => setGameState({ ...gameState, gateType: 'AND' })}
-                      className={`p-3 bg-zinc-950/60 rounded-2xl border text-center transition-all ${
+                      className={`p-3 bg-black/20 rounded-2xl border text-center transition-all ${
                         gameState.gateType === 'AND' ? 'border-purple-500 text-purple-400' : 'border-white/5 hover:border-purple-500/30'
                       }`}
                     >
                       <div className="text-lg font-bold font-mono">AND</div>
-                      <span className="text-[9px] text-zinc-500">Outputs 1 if both 1</span>
+                      <span className="text-[9px] text-white/30">Outputs 1 if both 1</span>
                     </button>
 
                     <button 
                       onClick={() => setGameState({ ...gameState, gateType: 'OR' })}
-                      className={`p-3 bg-zinc-950/60 rounded-2xl border text-center transition-all ${
+                      className={`p-3 bg-black/20 rounded-2xl border text-center transition-all ${
                         gameState.gateType === 'OR' ? 'border-purple-500 text-purple-400' : 'border-white/5 hover:border-purple-500/30'
                       }`}
                     >
                       <div className="text-lg font-bold font-mono">OR</div>
-                      <span className="text-[9px] text-zinc-500">Outputs 1 if any 1</span>
+                      <span className="text-[9px] text-white/30">Outputs 1 if any 1</span>
                     </button>
 
                     <button 
                       onClick={() => setGameState({ ...gameState, gateType: 'XOR' })}
-                      className={`p-3 bg-zinc-950/60 rounded-2xl border text-center transition-all ${
+                      className={`p-3 bg-black/20 rounded-2xl border text-center transition-all ${
                         gameState.gateType === 'XOR' ? 'border-purple-500 text-purple-400' : 'border-white/5 hover:border-purple-500/30'
                       }`}
                     >
                       <div className="text-lg font-bold font-mono">XOR</div>
-                      <span className="text-[9px] text-zinc-500">Outputs 1 if diff</span>
+                      <span className="text-[9px] text-white/30">Outputs 1 if diff</span>
                     </button>
                   </div>
                 </div>
@@ -455,16 +463,16 @@ export const VisualPuzzleHost = () => {
               {currentLevel?.layoutInfo.type === 'biotech' && gameState && (
                 <div className="space-y-6">
                   <div>
-                    <label className="text-xs text-zinc-400 block mb-2">{currentLevel.layoutInfo.sliderLabel}</label>
+                    <label className="text-xs text-white/60 block mb-2">{currentLevel.layoutInfo.sliderLabel}</label>
                     <input 
                       type="range"
                       min={currentLevel.layoutInfo.sliderMin}
                       max={currentLevel.layoutInfo.sliderMax}
                       value={gameState.rotation}
                       onChange={(e) => setGameState({ ...gameState, rotation: parseInt(e.target.value) })}
-                      className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-rose-500"
+                      className="w-full h-2 bg-white/5 rounded-lg appearance-none cursor-pointer accent-rose-500"
                     />
-                    <div className="flex justify-between text-[10px] text-zinc-500 mt-1">
+                    <div className="flex justify-between text-[10px] text-white/30 mt-1">
                       <span>0°</span>
                       <span className="text-white font-bold">{gameState.rotation}°</span>
                       <span>360°</span>
@@ -473,16 +481,16 @@ export const VisualPuzzleHost = () => {
 
                   {gameState.density !== undefined && (
                     <div>
-                      <label className="text-xs text-zinc-400 block mb-2">Peptide Concentration density (%)</label>
+                      <label className="text-xs text-white/60 block mb-2">Peptide Concentration density (%)</label>
                       <input 
                         type="range"
                         min="10"
                         max="100"
                         value={gameState.density}
                         onChange={(e) => setGameState({ ...gameState, density: parseInt(e.target.value) })}
-                        className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-teal-500"
+                        className="w-full h-2 bg-white/5 rounded-lg appearance-none cursor-pointer accent-teal-500"
                       />
-                      <div className="flex justify-between text-[10px] text-zinc-500 mt-1">
+                      <div className="flex justify-between text-[10px] text-white/30 mt-1">
                         <span>10%</span>
                         <span className="text-white font-bold">{gameState.density}%</span>
                         <span>100%</span>
@@ -497,7 +505,7 @@ export const VisualPuzzleHost = () => {
             <div className="pt-4 border-t border-white/5 flex justify-between items-center gap-4">
               <button 
                 onClick={resetLevel} 
-                className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-zinc-800 hover:bg-zinc-700 transition-colors text-xs font-bold"
+                className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors text-xs font-bold"
               >
                 <RotateCcw size={14} /> Reset
               </button>
@@ -508,7 +516,7 @@ export const VisualPuzzleHost = () => {
                 className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-xs font-bold transition-all shadow-lg ${
                   success 
                     ? 'bg-gradient-to-r from-emerald-500 to-teal-500 hover:shadow-emerald-500/20 text-white cursor-pointer hover:scale-[1.03]' 
-                    : 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
+                    : 'bg-white/5 text-white/20 cursor-not-allowed'
                 }`}
               >
                 {saving ? 'Saving...' : 'Submit Alignment'} <ArrowRight size={14} />
@@ -517,7 +525,7 @@ export const VisualPuzzleHost = () => {
           </div>
 
           {/* Right Panel: Interactive Visual Board */}
-          <div className="lg:col-span-7 relative bg-zinc-950/80 rounded-3xl border border-white/5 shadow-2xl flex flex-col justify-center items-center overflow-hidden min-h-[400px] p-6">
+          <div className="lg:col-span-7 relative bg-[#13171d] rounded-3xl border border-white/5 shadow-2xl flex flex-col justify-center items-center overflow-hidden min-h-[400px] p-6">
             
             {/* Grid Dotted Background */}
             <div className="absolute inset-0 bg-[radial-gradient(#ffffff03_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
@@ -568,9 +576,9 @@ export const VisualPuzzleHost = () => {
                       className="w-24 h-24 rounded-2xl bg-indigo-500/10 border-2 border-indigo-500/40 flex flex-col justify-center items-center gap-2 cursor-pointer hover:bg-indigo-500/20 shadow-[0_0_20px_rgba(99,102,241,0.2)]"
                     >
                       <Server className="text-indigo-400 w-8 h-8 animate-bounce" />
-                      <span className="text-[10px] font-mono tracking-tighter">API Gateway</span>
+                      <span className="text-[10px] font-mono tracking-tighter text-white">API Gateway</span>
                     </div>
-                    <span className="text-[9px] text-zinc-500">Tap to connect cable</span>
+                    <span className="text-[9px] text-white/30">Tap to connect cable</span>
                   </div>
 
                   {/* Target Databases */}
@@ -581,14 +589,14 @@ export const VisualPuzzleHost = () => {
                       className={`w-28 h-20 rounded-2xl border flex flex-col justify-center items-center gap-1 cursor-pointer transition-all ${
                         gameState.connectedTo === 'db-a'
                           ? 'bg-emerald-500/10 border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.3)]'
-                          : 'bg-zinc-900/40 border-white/10'
+                          : 'bg-black/20 border-white/10'
                       }`}
                     >
                       <div className="flex items-center gap-1 text-xs font-mono">
                         <span className={`w-2 h-2 rounded-full ${currentLevel.id === 'cs-2' ? 'bg-red-500' : 'bg-emerald-400 animate-ping'}`} />
-                        DB_A (Port 1)
+                        <span className="text-white">DB_A (Port 1)</span>
                       </div>
-                      <span className="text-[9px] text-zinc-500">
+                      <span className="text-[9px] text-white/30">
                         {currentLevel.id === 'cs-2' ? 'OUTAGE (500 ERROR)' : 'Capacity: 50%'}
                       </span>
                     </div>
@@ -599,14 +607,14 @@ export const VisualPuzzleHost = () => {
                       className={`w-28 h-20 rounded-2xl border flex flex-col justify-center items-center gap-1 cursor-pointer transition-all ${
                         gameState.connectedTo === 'db-b'
                           ? 'bg-emerald-500/10 border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.3)]'
-                          : 'bg-zinc-900/40 border-white/10'
+                          : 'bg-black/20 border-white/10'
                       }`}
                     >
                       <div className="flex items-center gap-1 text-xs font-mono">
                         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                        DB_B (Port 2)
+                        <span className="text-white">DB_B (Port 2)</span>
                       </div>
-                      <span className="text-[9px] text-zinc-500">Capacity: 100%</span>
+                      <span className="text-[9px] text-white/30">Capacity: 100%</span>
                     </div>
                   </div>
                 </div>
@@ -616,7 +624,7 @@ export const VisualPuzzleHost = () => {
             {currentLevel?.layoutInfo.type === 'finance' && gameState && (
               <div className="w-full h-full flex flex-col justify-center items-center py-6 relative">
                 {/* Efficient Frontier Curve Grid */}
-                <div className="w-80 h-48 bg-zinc-900/40 border border-white/5 rounded-2xl relative overflow-hidden flex justify-center items-center">
+                <div className="w-80 h-48 bg-black/20 border border-white/5 rounded-2xl relative overflow-hidden flex justify-center items-center">
                   
                   {/* Grid Lines */}
                   <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] [background-size:20px_20px]" />
@@ -657,14 +665,14 @@ export const VisualPuzzleHost = () => {
                     );
                   })()}
 
-                  <div className="absolute bottom-2 left-3 text-[9px] text-zinc-500">Risk →</div>
-                  <div className="absolute top-2 left-3 text-[9px] text-zinc-500">Return ↑</div>
+                  <div className="absolute bottom-2 left-3 text-[9px] text-white/30">Risk →</div>
+                  <div className="absolute top-2 left-3 text-[9px] text-white/30">Return ↑</div>
                   <div className="absolute bottom-2 right-3 text-[9px] text-emerald-400 font-bold font-mono">
                     {currentLevel.id === 'finance-1' ? 'Target: Balanced Risk' : 'Target: Inflation Shield'}
                   </div>
                 </div>
 
-                <div className="mt-4 flex gap-6 text-xs text-zinc-400">
+                <div className="mt-4 flex gap-6 text-xs text-white/60">
                   <div className="flex items-center gap-1">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> Stocks: {gameState.equity}%
                   </div>
@@ -684,22 +692,22 @@ export const VisualPuzzleHost = () => {
               <div className="w-full h-full flex flex-col justify-center items-center py-6 relative">
                 
                 {/* SVG connection gears */}
-                <div className="w-80 h-56 bg-zinc-900/30 border border-white/5 rounded-2xl relative flex justify-between items-center px-12 overflow-hidden">
+                <div className="w-80 h-56 bg-black/20 border border-white/5 rounded-2xl relative flex justify-between items-center px-12 overflow-hidden">
                   
                   {/* Peg grid marks */}
                   <div className="absolute inset-0 flex justify-center items-center gap-16 pointer-events-none">
-                    <div className="w-2 h-2 rounded-full bg-zinc-700" />
-                    <div className="w-2 h-2 rounded-full bg-zinc-700" />
-                    <div className="w-2 h-2 rounded-full bg-zinc-700" />
+                    <div className="w-2 h-2 rounded-full bg-white/10" />
+                    <div className="w-2 h-2 rounded-full bg-white/10" />
+                    <div className="w-2 h-2 rounded-full bg-white/10" />
                   </div>
 
                   {/* Motor gear (Left) - Always spinning */}
                   <div className="absolute left-10 flex flex-col items-center">
                     <Settings 
-                      className="w-16 h-16 text-zinc-600 animate-spin" 
+                      className="w-16 h-16 text-white/20 animate-spin" 
                       style={{ animationDuration: '4s' }}
                     />
-                    <span className="text-[8px] text-zinc-500 mt-1 font-mono">Motor (Drive)</span>
+                    <span className="text-[8px] text-white/30 mt-1 font-mono">Motor (Drive)</span>
                   </div>
 
                   {/* Dynamic central linkage gear */}
@@ -723,11 +731,11 @@ export const VisualPuzzleHost = () => {
                           />
                         </motion.div>
                       ) : (
-                        <div className="w-12 h-12 rounded-full border border-dashed border-white/10 flex justify-center items-center text-[10px] text-zinc-600">
+                        <div className="w-12 h-12 rounded-full border border-dashed border-white/10 flex justify-center items-center text-[10px] text-white/20">
                           Empty Peg
                         </div>
                       )}
-                      <span className="text-[8px] text-zinc-500 mt-1 font-mono">Shaft</span>
+                      <span className="text-[8px] text-white/30 mt-1 font-mono">Shaft</span>
                     </div>
                   )}
 
@@ -752,7 +760,7 @@ export const VisualPuzzleHost = () => {
                             style={{ animationDuration: '4s', animationDirection: 'reverse' }}
                           />
                         ) : (
-                          <div className="w-10 h-10 rounded-full border border-dashed border-white/10 flex justify-center items-center text-[8px] text-zinc-600">
+                          <div className="w-10 h-10 rounded-full border border-dashed border-white/10 flex justify-center items-center text-[8px] text-white/20">
                             Peg 1
                           </div>
                         )}
@@ -777,7 +785,7 @@ export const VisualPuzzleHost = () => {
                             style={{ animationDuration: '4s' }}
                           />
                         ) : (
-                          <div className="w-10 h-10 rounded-full border border-dashed border-white/10 flex justify-center items-center text-[8px] text-zinc-600">
+                          <div className="w-10 h-10 rounded-full border border-dashed border-white/10 flex justify-center items-center text-[8px] text-white/20">
                             Peg 2
                           </div>
                         )}
@@ -788,13 +796,13 @@ export const VisualPuzzleHost = () => {
                   {/* Output Gear (Right) - Spins only when validation passes */}
                   <div className="absolute right-10 flex flex-col items-center">
                     <Settings 
-                      className={`w-20 h-20 text-zinc-700 ${success ? 'animate-spin' : ''}`} 
+                      className={`w-20 h-20 text-white/20 ${success ? 'animate-spin' : ''}`} 
                       style={{ 
                         animationDuration: '6s',
                         animationDirection: currentLevel.id === 'me-2' ? 'reverse' : 'normal'
                       }}
                     />
-                    <span className="text-[8px] text-zinc-500 mt-1 font-mono">Conveyor Belt</span>
+                    <span className="text-[8px] text-white/30 mt-1 font-mono">Conveyor Belt</span>
                   </div>
 
                 </div>
@@ -803,7 +811,7 @@ export const VisualPuzzleHost = () => {
 
             {currentLevel?.layoutInfo.type === 'electrical' && gameState && (
               <div className="w-full h-full flex flex-col justify-center items-center py-6 relative">
-                <div className="w-96 h-56 bg-zinc-950 border border-white/5 rounded-2xl relative p-4 flex flex-col justify-between">
+                <div className="w-96 h-56 bg-[#0a0a0a] border border-white/5 rounded-2xl relative p-4 flex flex-col justify-between">
                   
                   {/* Schematic wiring paths */}
                   <svg className="absolute inset-0 w-full h-full pointer-events-none">
@@ -818,17 +826,17 @@ export const VisualPuzzleHost = () => {
                   {/* Input rails */}
                   <div className="flex flex-col justify-between h-40 z-10">
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded bg-purple-950 border border-purple-500/30 flex justify-center items-center text-[10px] font-mono">1</div>
-                      <span className="text-[10px] text-zinc-500 font-mono">Gen_A (High)</span>
+                      <div className="w-6 h-6 rounded bg-purple-950 border border-purple-500/30 flex justify-center items-center text-[10px] font-mono text-white">1</div>
+                      <span className="text-[10px] text-white/30 font-mono">Gen_A (High)</span>
                     </div>
 
                     <div className="flex items-center gap-2">
                       <div className={`w-6 h-6 rounded border flex justify-center items-center text-[10px] font-mono ${
-                        gameState.inputB ? 'bg-purple-950 border-purple-500/30 text-white' : 'bg-zinc-900 border-zinc-700 text-zinc-600'
+                        gameState.inputB ? 'bg-purple-950 border-purple-500/30 text-white' : 'bg-white/5 border-white/10 text-white/30'
                       }`}>
                         {gameState.inputB ? '1' : '0'}
                       </div>
-                      <span className="text-[10px] text-zinc-500 font-mono">Gen_B ({gameState.inputB ? 'High' : 'Low'})</span>
+                      <span className="text-[10px] text-white/30 font-mono">Gen_B ({gameState.inputB ? 'High' : 'Low'})</span>
                     </div>
                   </div>
 
@@ -838,16 +846,16 @@ export const VisualPuzzleHost = () => {
                     className={`absolute left-40 top-1/2 -translate-y-1/2 w-20 h-20 rounded-2xl border-2 border-dashed flex flex-col justify-center items-center cursor-pointer transition-all z-10 ${
                       gameState.gateType 
                         ? 'bg-purple-500/10 border-purple-500 shadow-[0_0_15px_rgba(139,92,246,0.3)]' 
-                        : 'bg-zinc-900/50 border-white/10 hover:border-purple-500/20'
+                        : 'bg-black/20 border-white/10 hover:border-purple-500/20'
                     }`}
                   >
                     {gameState.gateType ? (
                       <>
                         <span className="text-xl font-bold font-mono text-purple-400">{gameState.gateType}</span>
-                        <span className="text-[8px] text-zinc-500">Tap to clear</span>
+                        <span className="text-[8px] text-white/30">Tap to clear</span>
                       </>
                     ) : (
-                      <span className="text-[9px] text-zinc-600 font-bold uppercase tracking-wider text-center">Place Gate</span>
+                      <span className="text-[9px] text-white/20 font-bold uppercase tracking-wider text-center">Place Gate</span>
                     )}
                   </div>
 
@@ -856,11 +864,11 @@ export const VisualPuzzleHost = () => {
                     <div className={`w-14 h-14 rounded-full border-2 flex justify-center items-center transition-all ${
                       success 
                         ? 'bg-emerald-500/20 border-emerald-500 shadow-[0_0_20px_#10b981]' 
-                        : 'bg-zinc-900 border-zinc-700'
+                        : 'bg-black/20 border-white/5'
                     }`}>
-                      <Cpu className={`w-6 h-6 ${success ? 'text-emerald-400' : 'text-zinc-600'}`} />
+                      <Cpu className={`w-6 h-6 ${success ? 'text-emerald-400' : 'text-white/20'}`} />
                     </div>
-                    <span className="text-[9px] text-zinc-500 mt-2 font-mono">LED Indicator</span>
+                    <span className="text-[9px] text-white/30 mt-2 font-mono">LED Indicator</span>
                   </div>
 
                 </div>
@@ -871,7 +879,7 @@ export const VisualPuzzleHost = () => {
               <div className="w-full h-full flex flex-col justify-center items-center py-6 relative">
                 
                 {/* Receptor pocket SVG */}
-                <div className="w-72 h-72 bg-zinc-900/40 border border-white/5 rounded-3xl relative overflow-hidden flex justify-center items-center">
+                <div className="w-72 h-72 bg-black/20 border border-white/5 rounded-3xl relative overflow-hidden flex justify-center items-center">
                   
                   {/* Target Active Site (Static background receptor) */}
                   <div className="absolute w-36 h-36 rounded-full bg-red-950/20 border-4 border-red-500/20 flex justify-center items-center">
@@ -889,12 +897,12 @@ export const VisualPuzzleHost = () => {
                     }`}
                   >
                     <Dna className="w-10 h-10 text-indigo-400 animate-pulse" />
-                    <span className="text-[9px] font-bold mt-2 font-mono uppercase">Antibody (+)</span>
-                    <span className="text-[8px] text-zinc-500">Angle: {gameState.rotation}°</span>
+                    <span className="text-[9px] font-bold mt-2 font-mono uppercase text-white">Antibody (+)</span>
+                    <span className="text-[8px] text-white/30">Angle: {gameState.rotation}°</span>
                   </motion.div>
 
                   {/* Positive charge markers on top of antibody */}
-                  <div className="absolute top-4 right-4 text-[9px] text-zinc-500 font-mono">
+                  <div className="absolute top-4 right-4 text-[9px] text-white/30 font-mono">
                     Alignment: {success ? 'DOCKED (100%)' : 'MISALIGNED'}
                   </div>
 
@@ -914,14 +922,14 @@ export const VisualPuzzleHost = () => {
                   <motion.div 
                     initial={{ y: 20 }}
                     animate={{ y: 0 }}
-                    className="bg-zinc-900 border border-emerald-500/30 p-6 rounded-3xl max-w-sm space-y-4 shadow-[0_0_30px_rgba(16,185,129,0.1)] pointer-events-auto"
+                    className="bg-[#13171d] border border-emerald-500/30 p-6 rounded-3xl max-w-sm space-y-4 shadow-[0_0_30px_rgba(16,185,129,0.1)] pointer-events-auto"
                   >
                     <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex justify-center items-center mx-auto border border-emerald-500/20">
                       <CheckCircle2 className="text-emerald-400 w-6 h-6 animate-bounce" />
                     </div>
                     <div className="space-y-1">
                       <h4 className="text-lg font-bold text-emerald-400">Success!</h4>
-                      <p className="text-zinc-400 text-xs">
+                      <p className="text-white/60 text-xs">
                         The parameters are perfectly balanced. Click submit to proceed.
                       </p>
                     </div>
