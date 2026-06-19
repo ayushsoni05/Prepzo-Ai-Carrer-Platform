@@ -132,15 +132,35 @@ export const generateAIRecommendations = async (data) => {
     }
     `;
 
-    try {
-        console.log(`[aiRecommendation] Calling OpenRouter for ${testType} recommendations...`);
-        const completion = await openRouter.chat.completions.create({
-            messages: [{ role: "user", content: prompt }],
-            model: "google/gemini-2.0-flash-lite-preview-02-05:free",
-            temperature: 0.7,
-            max_tokens: 3000
-        });
+    const openRouterModels = [
+        "google/gemini-2.0-flash-lite-preview-02-05:free",
+        "google/gemini-2.5-flash",
+        "meta-llama/llama-3.3-70b-instruct:free",
+        "deepseek/deepseek-chat"
+    ];
 
+    let completion = null;
+    let lastError = null;
+    let selectedModel = "";
+
+    for (const model of openRouterModels) {
+        try {
+            console.log(`[aiRecommendation] Attempting OpenRouter call with model: ${model}...`);
+            completion = await openRouter.chat.completions.create({
+                messages: [{ role: "user", content: prompt }],
+                model: model,
+                temperature: 0.7,
+                max_tokens: 3000
+            });
+            selectedModel = model;
+            break; // Success!
+        } catch (err) {
+            console.warn(`[aiRecommendation] OpenRouter model ${model} failed:`, err.message);
+            lastError = err;
+        }
+    }
+
+    if (completion) {
         const content = completion.choices[0].message.content;
         let aiData;
         try {
@@ -153,9 +173,9 @@ export const generateAIRecommendations = async (data) => {
         }
 
         // Enrichment with high-quality thumbnails
-        return processAIData(aiData, 'OpenRouter (Gemini)');
-    } catch (error) {
-        console.error('OpenRouter Failed, falling back to Gemini...', error.message);
+        return processAIData(aiData, `OpenRouter (${selectedModel})`);
+    } else {
+        console.error('All OpenRouter models failed. Attempting direct Gemini SDK as fallback...', lastError ? lastError.message : '');
         try {
             const model = genAI.getGenerativeModel({ 
                 model: "gemini-1.5-pro",

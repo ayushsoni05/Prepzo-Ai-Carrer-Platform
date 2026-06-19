@@ -173,31 +173,45 @@ class ModelService:
                     "X-Title": "Prepzo AI Career Platform",
                     "Content-Type": "application/json"
                 }
-                payload = {
-                    "model": self.model_name,
-                    "messages": messages,
-                    "max_tokens": max_tokens or 1024,
-                    "temperature": temperature or 0.7,
-                    "top_p": top_p or 0.9,
-                    "stream": False
-                }
-                if stop:
-                    payload["stop"] = stop
-                    
-                response = await self.http_client.post(
-                    "https://openrouter.ai/api/v1/chat/completions",
-                    headers=headers,
-                    json=payload
-                )
-                
-                if response.status_code == 200:
-                    result = response.json()
-                    generated_text = result.get("choices", [{}])[0].get("message", {}).get("content", "")
-                    return self._clean_response(generated_text)
-                else:
-                    error_detail = response.text
-                    logger.error(f"OpenRouter API error: {response.status_code} - {error_detail}")
-                    raise RuntimeError(f"OpenRouter API failed with status {response.status_code}: {error_detail[:100]}")
+                openrouter_models = [
+                    self.model_name,
+                    "google/gemini-2.5-flash",
+                    "meta-llama/llama-3.3-70b-instruct:free",
+                    "deepseek/deepseek-chat"
+                ]
+                last_error = None
+                for model in openrouter_models:
+                    try:
+                        logger.info(f"Attempting OpenRouter generate with model: {model}")
+                        payload = {
+                            "model": model,
+                            "messages": messages,
+                            "max_tokens": max_tokens or 1024,
+                            "temperature": temperature or 0.7,
+                            "top_p": top_p or 0.9,
+                            "stream": False
+                        }
+                        if stop:
+                            payload["stop"] = stop
+                            
+                        response = await self.http_client.post(
+                            "https://openrouter.ai/api/v1/chat/completions",
+                            headers=headers,
+                            json=payload
+                        )
+                        
+                        if response.status_code == 200:
+                            result = response.json()
+                            generated_text = result.get("choices", [{}])[0].get("message", {}).get("content", "")
+                            return self._clean_response(generated_text)
+                        else:
+                            error_detail = response.text
+                            logger.warning(f"OpenRouter model {model} failed with status {response.status_code}: {error_detail[:100]}")
+                            last_error = RuntimeError(f"Status {response.status_code}: {error_detail[:100]}")
+                    except Exception as e:
+                        logger.warning(f"OpenRouter model {model} threw exception: {str(e)}")
+                        last_error = e
+                raise RuntimeError(f"All OpenRouter models failed. Last error: {str(last_error)}")
 
             elif self.provider == 'groq':
                 # Groq API call (Cloud)
@@ -293,27 +307,41 @@ class ModelService:
                     "X-Title": "Prepzo AI Career Platform",
                     "Content-Type": "application/json"
                 }
-                payload = {
-                    "model": self.model_name,
-                    "messages": messages,
-                    "max_tokens": max_tokens or 1024,
-                    "temperature": temperature or 0.7,
-                    "stream": False
-                }
-                
-                response = await self.http_client.post(
-                    "https://openrouter.ai/api/v1/chat/completions",
-                    headers=headers,
-                    json=payload
-                )
-                
-                if response.status_code == 200:
-                    result = response.json()
-                    return self._clean_response(result.get("choices", [{}])[0].get("message", {}).get("content", ""))
-                else:
-                    error_detail = response.text
-                    logger.error(f"OpenRouter Chat error: {response.status_code} - {error_detail}")
-                    raise RuntimeError(f"OpenRouter Chat failed: {response.status_code}")
+                openrouter_models = [
+                    self.model_name,
+                    "google/gemini-2.5-flash",
+                    "meta-llama/llama-3.3-70b-instruct:free",
+                    "deepseek/deepseek-chat"
+                ]
+                last_error = None
+                for model in openrouter_models:
+                    try:
+                        logger.info(f"Attempting OpenRouter chat with model: {model}")
+                        payload = {
+                            "model": model,
+                            "messages": messages,
+                            "max_tokens": max_tokens or 1024,
+                            "temperature": temperature or 0.7,
+                            "stream": False
+                        }
+                        
+                        response = await self.http_client.post(
+                            "https://openrouter.ai/api/v1/chat/completions",
+                            headers=headers,
+                            json=payload
+                        )
+                        
+                        if response.status_code == 200:
+                            result = response.json()
+                            return self._clean_response(result.get("choices", [{}])[0].get("message", {}).get("content", ""))
+                        else:
+                            error_detail = response.text
+                            logger.warning(f"OpenRouter chat model {model} failed with status {response.status_code}: {error_detail[:100]}")
+                            last_error = RuntimeError(f"Status {response.status_code}: {error_detail[:100]}")
+                    except Exception as e:
+                        logger.warning(f"OpenRouter chat model {model} threw exception: {str(e)}")
+                        last_error = e
+                raise RuntimeError(f"All OpenRouter chat models failed. Last error: {str(last_error)}")
 
             elif self.provider == 'groq':
                 headers = {
