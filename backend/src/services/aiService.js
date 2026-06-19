@@ -266,7 +266,7 @@ const recordEffectiveness = async (data) => {
  * @param {string} message - User's message
  * @param {Object} context - Optional context
  */
-const chatWithMentor = async (userId, sessionId, message, context = {}) => {
+const chatWithMentor = async (userId, sessionId, message, context = {}, attachedFile = null) => {
     try {
         const response = await aiClient.post('/api/mentor/chat', {
             user_id: userId,
@@ -276,7 +276,8 @@ const chatWithMentor = async (userId, sessionId, message, context = {}) => {
                 target_role: context.targetRole,
                 current_skills: context.currentSkills,
                 learning_goals: context.learningGoals
-            }
+            },
+            attached_file: attachedFile
         });
         return response.data;
     } catch (error) {

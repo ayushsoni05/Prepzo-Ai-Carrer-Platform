@@ -4,13 +4,16 @@
 
 import express from 'express';
 import { protect } from '../middleware/auth.middleware.js';
+import { mentorUpload } from '../middleware/mentorUpload.middleware.js';
+import { uploadLimiter } from '../middleware/rateLimit.middleware.js';
 import {
   chat,
   getHistory,
   getSessions,
   startInterview,
   explainConcept,
-  getStatus
+  getStatus,
+  uploadFile
 } from '../controllers/mentor.controller.js';
 
 const router = express.Router();
@@ -20,6 +23,9 @@ router.get('/status', getStatus);
 
 // Protected routes
 router.use(protect);
+
+// Upload file for AI mentor
+router.post('/upload', uploadLimiter, mentorUpload.single('file'), uploadFile);
 
 // Chat with AI mentor
 router.post('/chat', chat);

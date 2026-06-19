@@ -7,6 +7,10 @@ import { asyncHandler } from '../middleware/error.middleware.js';
 import { v4 as uuidv4 } from 'uuid';
 import * as aiServiceModule from '../services/aiService.js';
 
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const pdfParse = require('pdf-parse/lib/pdf-parse.js');
+
 // AI service client
 const aiService = aiServiceModule.default;
 
@@ -17,7 +21,7 @@ const aiService = aiServiceModule.default;
  */
 export const chat = asyncHandler(async (req, res) => {
   const userId = req.user._id.toString();
-  const { message, sessionId, context } = req.body;
+  const { message, sessionId, context, attachedFile } = req.body;
 
   if (!message || message.trim().length === 0) {
     res.status(400);
@@ -56,7 +60,8 @@ export const chat = asyncHandler(async (req, res) => {
       userId,
       activeSessionId,
       message,
-      userContext
+      userContext,
+      attachedFile
     );
   } catch (error) {
     console.error('Mentor chat call failed:', error.message);
@@ -82,6 +87,70 @@ export const chat = asyncHandler(async (req, res) => {
     intent: aiResponse?.intent_detected || aiResponse?.intent || response?.intent,
     resources: aiResponse?.resources || response?.resources || [],
     suggestions: aiResponse?.suggestions || response?.suggestions || []
+  });
+});
+
+/**
+ * @desc    Upload attachment file (Image or PDF) for AI mentor
+ * @route   POST /api/mentor/upload
+ * @access  Private
+ */
+export const uploadFile = asyncHandler(async (req, res) => {
+  if (!req.file) {
+    res.status(400);
+    throw new Error('No file uploaded');
+  }
+
+  const { buffer, originalname, mimetype } = req.file;
+
+  // Verify file signature for security
+  const fileSignature = buffer.slice(0, 4).toString('hex').toLowerCase();
+  let isValidSignature = false;
+  let fileType = '';
+
+  if (mimetype === 'application/pdf') {
+    // PDF starts with %PDF (25504446)
+    isValidSignature = fileSignature.startsWith('25504446');
+    fileType = 'pdf';
+  } else {
+    // Images: JPEG starts with ffd8ff, PNG starts with 89504e47, GIF starts with 47494638, WEBP starts with 52494646
+    const imageSignatures = ['ffd8ff', '89504e47', '47494638', '52494646'];
+    isValidSignature = imageSignatures.some(sig => fileSignature.startsWith(sig));
+    fileType = 'image';
+  }
+
+  if (!isValidSignature) {
+    res.status(400);
+    throw new Error('Invalid file content signature');
+  }
+
+  let fileText = '';
+  let fileData = '';
+
+  if (fileType === 'pdf') {
+    try {
+      const parsed = await pdfParse(buffer);
+      // Clean and normalize text
+      fileText = (parsed.text || '')
+        .replace(/\r/g, '\n')
+        .replace(/\n{3,}/g, '\n\n')
+        .replace(/[ \t]{2,}/g, ' ')
+        .trim();
+    } catch (err) {
+      res.status(400);
+      throw new Error('Failed to extract text from PDF: ' + err.message);
+    }
+  } else if (fileType === 'image') {
+    const base64Data = buffer.toString('base64');
+    fileData = `data:${mimetype};base64,${base64Data}`;
+  }
+
+  res.status(200).json({
+    success: true,
+    fileType,
+    fileName: originalname,
+    fileText,
+    fileData
   });
 });
 

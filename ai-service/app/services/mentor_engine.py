@@ -47,7 +47,8 @@ class MentorEngine:
         self,
         user_id: str,
         message: str,
-        session_id: Optional[str] = None
+        session_id: Optional[str] = None,
+        attached_file: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """
         Process a chat message from the student
@@ -56,6 +57,7 @@ class MentorEngine:
             user_id: Student's user ID
             message: The message from student
             session_id: Optional session ID for conversation continuity
+            attached_file: Optional uploaded file metadata
             
         Returns:
             Response with mentor's message and metadata
@@ -98,7 +100,7 @@ class MentorEngine:
             else:
                 # General conversation
                 response = await self._handle_general_chat(
-                    message, student_context, history
+                    message, student_context, history, attached_file
                 )
         except RuntimeError as e:
             # AI model not available - provide helpful error
@@ -494,7 +496,8 @@ You're making progress! Consistency is key - keep practicing daily and you'll se
         self,
         message: str,
         student_context: Dict[str, Any],
-        history: List[Dict[str, str]]
+        history: List[Dict[str, str]],
+        attached_file: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
         """Handle general conversation with enhanced personalization - always uses dynamic AI"""
         
@@ -522,12 +525,13 @@ You're making progress! Consistency is key - keep practicing daily and you'll se
         # Greeting messages should stay brief and conversational.
         greeting_inputs = {"hi", "hii", "hello", "hey", "yo", "hiya"}
         is_greeting = message.strip().lower() in greeting_inputs or len(message.strip()) <= 4
-
+ 
         # Use internal AI for dynamic response generation
         response = await self.internal_ai.chat(
             message=message,
             student_context=enhanced_context,
             conversation_history=history,
+            attached_file=attached_file,
             temperature=0.75,
             max_tokens=1000
         )

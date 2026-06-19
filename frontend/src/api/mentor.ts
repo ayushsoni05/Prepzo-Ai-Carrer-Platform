@@ -6,12 +6,20 @@
 import api from './axios';
 
 // Types
+export interface AttachedFile {
+  fileType: 'image' | 'pdf';
+  fileName: string;
+  fileText?: string;
+  fileData?: string;
+}
+
 export interface MentorMessage {
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
   intent?: string;
   resources?: MentorResource[];
+  attachedFile?: AttachedFile;
 }
 
 export interface MentorResource {
@@ -54,6 +62,26 @@ export const getMentorStatus = async (): Promise<MentorStatus> => {
 };
 
 /**
+ * Upload a file (PDF or Image) for the AI mentor
+ */
+export const uploadMentorFile = async (file: File): Promise<{
+  success: boolean;
+  fileType: 'pdf' | 'image';
+  fileName: string;
+  fileText?: string;
+  fileData?: string;
+}> => {
+  const formData = new FormData();
+  formData.append('file', file);
+  const response = await api.post('/mentor/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+  return response.data;
+};
+
+/**
  * Send a message to the AI mentor
  */
 export const chatWithMentor = async (
@@ -63,12 +91,14 @@ export const chatWithMentor = async (
     targetRole?: string;
     currentSkills?: string[];
     learningGoals?: string[];
-  }
+  },
+  attachedFile?: AttachedFile
 ): Promise<ChatResponse> => {
   const response = await api.post('/mentor/chat', {
     message,
     sessionId,
-    context
+    context,
+    attachedFile
   });
   return response.data;
 };

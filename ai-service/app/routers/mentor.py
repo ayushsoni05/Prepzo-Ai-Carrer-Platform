@@ -16,6 +16,7 @@ class ChatRequest(BaseModel):
     user_id: str = Field(..., description="User's ID")
     message: str = Field(..., description="Chat message from user")
     session_id: Optional[str] = Field(default=None, description="Session ID for conversation continuity")
+    attached_file: Optional[Dict[str, Any]] = Field(default=None, description="Uploaded file metadata (type, name, data, text)")
 
 
 class SessionHistoryRequest(BaseModel):
@@ -51,7 +52,8 @@ async def chat_with_mentor(request: ChatRequest):
     response = await engine.chat(
         user_id=request.user_id,
         message=request.message,
-        session_id=request.session_id
+        session_id=request.session_id,
+        attached_file=request.attached_file
     )
     
     return {

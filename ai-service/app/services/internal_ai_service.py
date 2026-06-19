@@ -37,17 +37,17 @@ class InternalAIService:
     
     def _get_prepzo_system_prompt(self) -> str:
         """Get the default Prepzo AI system prompt"""
-        return """You are the Prepzo AI Mentor. You aren't just an "AI assistant" - you are a high-level Mentor who helps students master tech and get hired.
+        return """You are the Prepzo AI Mentor. You aren't just an "AI assistant" - you are a direct, genuine, and humanized technical mentor helping students master tech and prepare for placements.
         
         Your character:
-        - Natural & Direct: Speak like a real technical mentor or senior dev. No fluff, no robotic formalisms.
-        - Personalized: Always focus on the specific student's journey.
-        - High-Fidelity: Provide code, career strategies, and deep technical answers exactly like a Senior Engineer.
-        - Conversational: Keep it casual but professional. Never start with "As an AI..." or "I don't have access to...".
+        - Natural & Direct: Speak like a real senior developer or tech mentor. Keep your tone warm but direct, professional, and conversational.
+        - Strict Precision: Answer ONLY what the student asks. Do not give unsolicited advice, excessive tips, or multi-paragraph preambles unless explicitly requested. Avoid starting with filler text.
+        - High-Fidelity: Provide actual code, real-world patterns, and deep technical answers.
+        - Genuine: Sound human. Never use robotic phrases like "As an AI...", "Based on my database...", or "Let me know if you need more help".
         
         Mandatory Format:
-        - Direct output only. Never include subject lines, placeholders, or letter headers.
-        - Use Markdown for structure and code.
+        - Direct output only. No letter headers, greetings, or meta-introductions.
+        - Use Markdown for structure and code block highlights.
         """
     
     def _build_contextualized_prompt(self, student_context: Dict[str, Any]) -> str:
@@ -298,6 +298,7 @@ class InternalAIService:
         message: str,
         student_context: Dict[str, Any],
         conversation_history: Optional[List[Dict[str, str]]] = None,
+        attached_file: Optional[Dict[str, Any]] = None,
         temperature: float = 0.7,
         max_tokens: int = 800
     ) -> str:
@@ -313,7 +314,7 @@ class InternalAIService:
             return greeting_msg
 
         system_prompt = self._build_contextualized_prompt(student_context)
-        messages: List[Dict[str, str]] = [{"role": "system", "content": system_prompt}]
+        messages: List[Dict[str, Any]] = [{"role": "system", "content": system_prompt}]
 
         if conversation_history:
             # Keep recent context only to reduce drift on smaller models.
@@ -330,7 +331,51 @@ class InternalAIService:
                 if content:
                     messages.append({"role": role, "content": content[:500]})
 
-        messages.append({"role": "user", "content": message})
+        # Handle attached file if any
+        user_message_content = message
+        user_msg: Dict[str, Any] = {"role": "user"}
+
+        if attached_file:
+            file_type = attached_file.get("fileType")
+            file_name = attached_file.get("fileName", "file")
+            
+            if file_type == "pdf":
+                pdf_text = attached_file.get("fileText", "")[:10000]
+                user_message_content = (
+                    f"[Uploaded Document: {file_name}]\n"
+                    f"--- START OF DOCUMENT CONTENT ---\n"
+                    f"{pdf_text}\n"
+                    f"--- END OF DOCUMENT CONTENT ---\n\n"
+                    f"{message}"
+                )
+                user_msg["content"] = user_message_content
+                messages.append(user_msg)
+            elif file_type == "image" and attached_file.get("fileData"):
+                image_data = attached_file.get("fileData", "")
+                
+                # Check provider
+                provider = self.model_service.provider if self.model_service else "ollama"
+                
+                if provider in ["openrouter", "groq"]:
+                    user_msg["content"] = [
+                        {"type": "text", "text": message},
+                        {"type": "image_url", "image_url": {"url": image_data}}
+                    ]
+                else:  # ollama
+                    # Ollama expects only the raw base64 string, not the data URI prefix
+                    base64_str = image_data
+                    if "," in base64_str:
+                        base64_str = base64_str.split(",", 1)[1]
+                    user_msg["content"] = message
+                    user_msg["images"] = [base64_str]
+                
+                messages.append(user_msg)
+            else:
+                user_msg["content"] = user_message_content
+                messages.append(user_msg)
+        else:
+            user_msg["content"] = user_message_content
+            messages.append(user_msg)
 
         response = await self.model_service.chat(
             messages=messages,

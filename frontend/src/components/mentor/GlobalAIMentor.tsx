@@ -8,9 +8,12 @@ import {
   Send,
   Sparkles,
   User,
-  X
+  X,
+  Paperclip,
+  FileText,
+  Loader2
 } from 'lucide-react';
-import { chatWithMentor, getMentorStatus } from '@/api/mentor';
+import { chatWithMentor, getMentorStatus, uploadMentorFile, AttachedFile } from '@/api/mentor';
 import { useAuthStore } from '@/store/authStore';
 
 interface Message {
@@ -18,6 +21,7 @@ interface Message {
   role: 'user' | 'assistant';
   content: string;
   suggestions?: string[];
+  attachedFile?: AttachedFile;
 }
 
 const starterPrompts = [
@@ -37,6 +41,13 @@ export function GlobalAIMentor() {
   const [sessionId, setSessionId] = useState<string | undefined>();
   const [messages, setMessages] = useState<Message[]>([]);
   const [queuedPrompt, setQueuedPrompt] = useState<string | null>(null);
+
+  // File Upload State
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploadingFile, setIsUploadingFile] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<AttachedFile | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -93,22 +104,74 @@ export function GlobalAIMentor() {
 
   const headerLabel = useMemo(() => (isReady ? 'AI mentor online' : 'Limited mode'), [isReady]);
 
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Check size limit (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadError('File size exceeds the 5MB limit.');
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+
+    setUploadError(null);
+    setIsUploadingFile(true);
+
+    try {
+      const response = await uploadMentorFile(file);
+      if (response.success) {
+        setUploadedFile({
+          fileType: response.fileType,
+          fileName: response.fileName,
+          fileText: response.fileText,
+          fileData: response.fileData,
+        });
+      } else {
+        setUploadError('Failed to upload file.');
+      }
+    } catch (err: any) {
+      console.error(err);
+      setUploadError(err.response?.data?.message || 'Error uploading file.');
+    } finally {
+      setIsUploadingFile(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
   const sendMessage = async (rawPrompt: string) => {
     const prompt = rawPrompt.trim();
     if (!prompt || isLoading) {
       return;
     }
 
-    setMessages((current) => [...current, { id: `u-${Date.now()}`, role: 'user', content: prompt }]);
+    const currentFile = uploadedFile;
+    setUploadedFile(null); // Clear preview instantly
+    setUploadError(null);
+
+    setMessages((current) => [
+      ...current,
+      {
+        id: `u-${Date.now()}`,
+        role: 'user',
+        content: prompt,
+        attachedFile: currentFile || undefined,
+      },
+    ]);
     setInputValue('');
     setIsLoading(true);
 
     try {
-      const response = await chatWithMentor(prompt, sessionId, {
-        targetRole: user?.targetRole || 'Software Engineer',
-        currentSkills: user?.knownTechnologies || [],
-        learningGoals: user?.skillGaps || [],
-      });
+      const response = await chatWithMentor(
+        prompt,
+        sessionId,
+        {
+          targetRole: user?.targetRole || 'Software Engineer',
+          currentSkills: user?.knownTechnologies || [],
+          learningGoals: user?.skillGaps || [],
+        },
+        currentFile || undefined
+      );
 
       if (response.status === 'warming_up') {
         setMessages((current) => [
@@ -206,12 +269,33 @@ export function GlobalAIMentor() {
                       </div>
                     )}
                     <div className={`flex max-w-[85%] flex-col ${message.role === 'user' ? 'items-end' : 'items-start'}`}>
+                      {/* Attached File Preview inside Message Bubble */}
+                      {message.attachedFile && (
+                        <div className="mb-2 max-w-full">
+                          {message.attachedFile.fileType === 'image' ? (
+                            <div className="overflow-hidden rounded-2xl border border-white/10 shadow-lg max-w-[240px]">
+                              <img src={message.attachedFile.fileData} alt={message.attachedFile.fileName} className="w-full h-auto object-contain max-h-[160px]" />
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl px-4 py-3 max-w-[260px]">
+                              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-red-500/10 border border-red-500/20 text-red-400">
+                                <FileText className="h-4.5 w-4.5" />
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-[11px] font-bold text-white truncate">{message.attachedFile.fileName}</p>
+                                <p className="text-[9px] uppercase tracking-widest text-white/40">PDF Document</p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
                       <div className={`whitespace-pre-wrap rounded-[22px] px-5 py-4 text-[13px] font-medium leading-relaxed backdrop-blur-xl ${message.role === 'user' ? 'bg-code-green/20 text-code-green border border-code-green/30 shadow-green-900/10 shadow-lg' : 'bg-white/5 text-white/80 border border-white/10 shadow-lg'}`}>
                         {message.content.split('\n').map((line, i) => {
                           const parts = line.replace(/^#{1,6}\s+/, '').split('**');
                           return (
                             <p key={i} className="mb-1 last:mb-0 min-h-[0.5em]">
-                              {parts.map((part, j) => 
+                              {parts.map((part, j) =>
                                 j % 2 === 1 ? <strong key={j} className={message.role === 'user' ? 'text-code-green font-bold' : 'text-white/95 font-bold'}>{part}</strong> : <span key={j}>{part}</span>
                               )}
                             </p>
@@ -261,7 +345,72 @@ export function GlobalAIMentor() {
                   </div>
                 )}
 
+                {/* Uploaded File Preview Badge */}
+                {uploadedFile && (
+                  <div className="mb-3 flex items-center justify-between gap-3 bg-white/5 border border-white/10 rounded-2xl px-4 py-3">
+                    <div className="flex items-center gap-3 min-w-0">
+                      {uploadedFile.fileType === 'image' ? (
+                        <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-lg border border-white/10">
+                          <img src={uploadedFile.fileData} alt="Preview" className="h-full w-full object-cover" />
+                        </div>
+                      ) : (
+                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-red-500/10 border border-red-500/20 text-red-400">
+                          <FileText className="h-5 w-5" />
+                        </div>
+                      )}
+                      <div className="min-w-0">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-white truncate max-w-[200px]">
+                          {uploadedFile.fileName}
+                        </p>
+                        <p className="text-[9px] uppercase tracking-widest text-white/40">
+                          {uploadedFile.fileType === 'image' ? 'Image File' : 'PDF Document'}
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setUploadedFile(null)}
+                      className="bg-white/5 border border-white/10 flex h-8 w-8 items-center justify-center rounded-full text-white/60 hover:text-white transition-colors flex-shrink-0"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                )}
+
+                {/* Upload Error Message */}
+                {uploadError && (
+                  <div className="mb-3 flex items-center justify-between gap-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-2xl px-4 py-3 text-[11px] font-medium leading-relaxed">
+                    <p className="flex-1">{uploadError}</p>
+                    <button
+                      type="button"
+                      onClick={() => setUploadError(null)}
+                      className="text-red-400 hover:text-red-300"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                )}
+
                 <div className="bg-white/5 border border-white/10 flex items-end gap-3 rounded-[28px] p-2 focus-within:border-white/30 transition-colors">
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isUploadingFile || isLoading}
+                    className="flex h-11 w-11 items-center justify-center rounded-full text-white/50 hover:text-white hover:bg-white/5 disabled:opacity-50 transition-colors flex-shrink-0"
+                  >
+                    {isUploadingFile ? (
+                      <Loader2 className="h-4 w-4 animate-spin text-code-green" />
+                    ) : (
+                      <Paperclip className="h-4 w-4" />
+                    )}
+                  </button>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    className="hidden"
+                    accept="image/*,application/pdf"
+                  />
                   <textarea
                     value={inputValue}
                     onChange={(event) => setInputValue(event.target.value)}
@@ -279,7 +428,7 @@ export function GlobalAIMentor() {
                     type="button"
                     onClick={() => void sendMessage(inputValue)}
                     className="flex h-11 w-11 items-center justify-center rounded-full bg-code-green text-[#0a0c10] shadow-lg disabled:opacity-50 transition-transform active:scale-95 flex-shrink-0"
-                    disabled={!inputValue.trim() || isLoading}
+                    disabled={!inputValue.trim() || isLoading || isUploadingFile}
                   >
                     <Send className="h-4 w-4" />
                   </button>
