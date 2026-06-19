@@ -533,7 +533,7 @@ You're making progress! Consistency is key - keep practicing daily and you'll se
             conversation_history=history,
             attached_file=attached_file,
             temperature=0.75,
-            max_tokens=1000
+            max_tokens=450
         )
         
         # Generate context-aware suggestions

@@ -31,6 +31,21 @@ const starterPrompts = [
   'Give me a 2-week placement plan',
 ];
 
+const cleanLaTeXArrows = (text: string): string => {
+  if (!text) return '';
+  return text
+    .replace(/\$\\rightarrow\$/g, '→')
+    .replace(/\\rightarrow/g, '→')
+    .replace(/\$\\Rightarrow\$/g, '⇒')
+    .replace(/\\Rightarrow/g, '⇒')
+    .replace(/\$\\to\$/g, '→')
+    .replace(/\\to/g, '→')
+    .replace(/\$\\leftarrow\$/g, '←')
+    .replace(/\\leftarrow/g, '←')
+    .replace(/\$\\leftrightarrow\$/g, '↔')
+    .replace(/\\leftrightarrow/g, '↔');
+};
+
 export function GlobalAIMentor() {
   const { user } = useAuthStore();
   const [isOpen, setIsOpen] = useState(false);
@@ -291,7 +306,7 @@ export function GlobalAIMentor() {
                       )}
 
                       <div className={`whitespace-pre-wrap rounded-[22px] px-5 py-4 text-[13px] font-medium leading-relaxed backdrop-blur-xl ${message.role === 'user' ? 'bg-code-green/20 text-code-green border border-code-green/30 shadow-green-900/10 shadow-lg' : 'bg-white/5 text-white/80 border border-white/10 shadow-lg'}`}>
-                        {message.content.split('\n').map((line, i) => {
+                        {cleanLaTeXArrows(message.content).split('\n').map((line, i) => {
                           const parts = line.replace(/^#{1,6}\s+/, '').split('**');
                           return (
                             <p key={i} className="mb-1 last:mb-0 min-h-[0.5em]">

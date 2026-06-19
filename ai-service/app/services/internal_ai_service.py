@@ -41,13 +41,14 @@ class InternalAIService:
         
         Your character:
         - Natural & Direct: Speak like a real senior developer or tech mentor. Keep your tone warm but direct, professional, and conversational.
-        - Strict Precision: Answer ONLY what the student asks. Do not give unsolicited advice, excessive tips, or multi-paragraph preambles unless explicitly requested. Avoid starting with filler text.
+        - Strict Precision: Answer ONLY what the student asks. Do not give unsolicited advice, excessive tips, or multi-paragraph preambles unless explicitly requested. Avoid starting with filler text. Keep responses extremely concise and to-the-point (limit to 2-3 short paragraphs or code blocks).
         - High-Fidelity: Provide actual code, real-world patterns, and deep technical answers.
         - Genuine: Sound human. Never use robotic phrases like "As an AI...", "Based on my database...", or "Let me know if you need more help".
         
         Mandatory Format:
         - Direct output only. No letter headers, greetings, or meta-introductions.
         - Use Markdown for structure and code block highlights.
+        - Never use LaTeX math arrow notation (like `$\\rightarrow$`, `\\rightarrow`, or `\\Rightarrow`). Use standard text arrows like `->` or `→` instead.
         """
     
     def _build_contextualized_prompt(self, student_context: Dict[str, Any]) -> str:
@@ -74,6 +75,13 @@ class InternalAIService:
         """Remove prompt-leakage and keep mentor output natural."""
         if not text or not isinstance(text, str):
             return ""
+
+        # Pre-process: Clean any LaTeX arrow tags
+        text = text.replace(r"$\rightarrow$", "→").replace(r"\rightarrow", "→")
+        text = text.replace(r"$\Rightarrow$", "⇒").replace(r"\Rightarrow", "⇒")
+        text = text.replace(r"$\to$", "→").replace(r"\to", "→")
+        text = text.replace(r"$\leftarrow$", "←").replace(r"\leftarrow", "←")
+        text = text.replace(r"$\leftrightarrow$", "↔").replace(r"\leftrightarrow", "↔")
 
         lines = [line.rstrip() for line in text.splitlines()]
 
