@@ -8,8 +8,168 @@ import TestResult from '../models/TestResult.model.js';
 import ProctoringSession from '../models/ProctoringSession.model.js';
 import User from '../models/User.model.js';
 import Question from '../models/Question.model.js';
+import CodingProblem from '../models/CodingProblem.model.js';
 import { seeder } from '../services/autonomousSeeder.service.js';
 import aiService from '../services/aiService.js';
+import OpenAI from 'openai';
+
+// Configure OpenAI client with OpenRouter and Groq fallback
+const groq = new OpenAI({
+  apiKey: process.env.OPENROUTER_API_KEY || process.env.GROQ_API_KEY,
+  baseURL: process.env.OPENROUTER_API_KEY ? 'https://openrouter.ai/api/v1' : 'https://api.groq.com/openai/v1',
+  defaultHeaders: process.env.OPENROUTER_API_KEY ? {
+    'HTTP-Referer': 'https://prepzo-ai-career-platform.vercel.app/',
+    'X-Title': 'Prepzo AI Career Platform',
+  } : undefined
+});
+
+// Helper to generate dynamic coding questions
+async function generateDynamicCodingQuestions(studentProfile) {
+  const stream = studentProfile?.stream || studentProfile?.fieldOfStudy || 'Computer Science';
+  const role = studentProfile?.targetRole || 'Software Engineer';
+  
+  try {
+    const systemPrompt = `
+You are an expert technical interviewer and software engineer.
+Generate exactly 4 unique and diverse coding questions for an assessment.
+The 4 questions must be tailored to a student studying ${stream} aiming for a ${role} position.
+The 4 questions must consist of:
+- Exactly 2 of 'Easy' difficulty
+- Exactly 1 of 'Medium' difficulty
+- Exactly 1 of 'Hard' difficulty
+
+For each question, provide:
+1. Title: Creative, non-generic title.
+2. Difficulty: 'Easy', 'Medium', or 'Hard'.
+3. Description: Detailed HTML-formatted description explaining the problem. You MUST include a beautifully styled embedded SVG diagram (e.g. using <svg> tag, styled rectangles, circles, lines, text) representing the core concept (like array structures, tree nodes, matrices, or index traversal) so it is visually easy to understand.
+4. Examples: Array of exactly 2 or 3 examples. Each example must have:
+   - input: string format (e.g. "nums = [1,2,3], target = 5")
+   - output: string format (e.g. "true")
+   - explanation: HTML description explaining the example.
+5. Constraints: Array of constraints (e.g., ["1 <= nums.length <= 10^5"]).
+6. Starter code in JavaScript, Python, C++, and Java. Make sure the signatures are standard LeetCode class/function formats:
+   - JavaScript: "function solve(...) {\n    \n}"
+   - Python: "class Solution:\n    def solve(self, ...):\n        "
+   - C++: "class Solution {\npublic:\n    ... solve(...) {\n        \n    }\n};"
+   - Java: "class Solution {\n    public ... solve(...) {\n        \n    }\n}"
+7. Test Cases: Exactly 10 to 15 hard hidden test cases for evaluation (e.g., edge cases, large inputs, negative values, empty/boundary coordinates).
+   - inputs and expectedOutputs must be strings.
+   - Example testCase: { "id": "tc1", "input": "...", "expectedOutput": "...", "isHidden": true }
+
+Respond with ONLY a valid JSON object matching this schema (do NOT wrap it in any markdown code blocks, just raw JSON text):
+{
+  "questions": [
+    {
+      "id": "unique-kebab-case-id-1",
+      "title": "...",
+      "difficulty": "Easy",
+      "description": "...",
+      "starterCode": {
+        "javascript": "...",
+        "python": "...",
+        "cpp": "...",
+        "java": "..."
+      },
+      "examples": [
+        { "input": "...", "output": "...", "explanation": "..." }
+      ],
+      "constraints": ["..."],
+      "testCases": [
+        { "id": "tc1", "input": "...", "expectedOutput": "...", "isHidden": false },
+        { "id": "tc2", "input": "...", "expectedOutput": "...", "isHidden": true }
+      ]
+    }
+  ]
+}
+`;
+
+    const completion = await groq.chat.completions.create({
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: `Generate 4 coding questions for a student at timestamp ${Date.now()}` }
+      ],
+      model: process.env.OPENROUTER_API_KEY ? 'google/gemini-2.5-flash' : 'llama-3.3-70b-versatile',
+      response_format: { type: 'json_object' },
+      temperature: 0.8,
+      max_tokens: 4000
+    });
+
+    const aiData = JSON.parse(completion.choices[0].message.content);
+    const questions = aiData.questions || aiData;
+    if (Array.isArray(questions) && questions.length === 4) {
+      console.log(`[aiTest] Successfully generated 4 dynamic coding questions via AI`);
+      return questions;
+    }
+    throw new Error('Invalid structure from AI response');
+  } catch (err) {
+    console.error('[aiTest] AI coding questions generation failed, using DB fallback:', err.message);
+    
+    // DB Fallback
+    const easy = await CodingProblem.aggregate([{ $match: { difficulty: 'Easy' } }, { $sample: { size: 2 } }]);
+    const medium = await CodingProblem.aggregate([{ $match: { difficulty: 'Medium' } }, { $sample: { size: 1 } }]);
+    const hard = await CodingProblem.aggregate([{ $match: { difficulty: 'Hard' } }, { $sample: { size: 1 } }]);
+    
+    const combined = [...easy, ...medium, ...hard];
+    return combined.map((q, idx) => ({
+      id: q.id || `db_code_${Date.now()}_${idx}`,
+      title: q.title,
+      difficulty: q.difficulty,
+      description: q.description,
+      starterCode: q.starterCode,
+      examples: q.testCases ? q.testCases.filter(tc => !tc.isHidden).slice(0, 2).map(tc => ({ input: tc.input, output: tc.expectedOutput, explanation: 'Standard example' })) : [],
+      constraints: q.hints && q.hints.length > 0 ? q.hints : ['Standard constraints apply'],
+      testCases: q.testCases ? q.testCases.map((tc, tcIdx) => ({
+        id: tc.id || `tc_${tcIdx}`,
+        input: tc.input,
+        expectedOutput: tc.expectedOutput,
+        isHidden: tc.isHidden
+      })) : []
+    }));
+  }
+}
+
+// Interceptor helper to append coding challenges to a test session
+const appendCodingSectionToTest = async (testData, studentProfile) => {
+  if (!testData) return;
+  try {
+    const codingQuestions = await generateDynamicCodingQuestions(studentProfile);
+    
+    if (!testData.sections) {
+      testData.sections = [];
+    }
+    
+    const exists = testData.sections.some(s => s.id === 'coding_section' || s.sectionId === 'coding_section' || s.name === 'Coding Challenges');
+    if (!exists) {
+      const codingSection = {
+        id: 'coding_section',
+        sectionId: 'coding_section',
+        name: 'Coding Challenges',
+        timeLimit: 40, // 40 minutes for coding section
+        questions: codingQuestions.map((q, idx) => ({
+          id: q.id || `code_${Date.now()}_${idx}`,
+          type: 'coding',
+          title: q.title,
+          question: q.description || q.question,
+          description: q.description || q.question,
+          difficulty: q.difficulty.toLowerCase(),
+          starterCode: q.starterCode,
+          examples: q.examples || [],
+          constraints: q.constraints || [],
+          hiddenTestCases: q.testCases || [],
+          expectedComplexity: q.expectedComplexity || { time: 'O(N)', space: 'O(1)' }
+        }))
+      };
+      
+      testData.sections.push(codingSection);
+      testData.totalQuestions = (testData.totalQuestions || 0) + codingQuestions.length;
+      testData.totalTime = (testData.totalTime || 0) + (codingSection.timeLimit * 60);
+      
+      console.log(`[aiTest] Successfully appended Coding Challenges section with ${codingQuestions.length} questions.`);
+    }
+  } catch (error) {
+    console.error('[aiTest] Error in appendCodingSectionToTest:', error);
+  }
+};
 
 // =====================================================
 // AI TEST GENERATION
@@ -149,6 +309,8 @@ export const generateFieldTest = async (req, res, next) => {
 
     // Ensure we trigger background seeding to reach the 1000 goal
     seeder.boostModule(studentProfile.stream, studentProfile.targetRole);
+
+    await appendCodingSectionToTest(testData, studentProfile);
 
     const testSession = await TestSession.create({
       userId: user._id,
@@ -332,6 +494,8 @@ export const generateSkillTest = async (req, res, next) => {
       sections: sections
     };
 
+    await appendCodingSectionToTest(testData, studentProfile);
+
     const testSession = await TestSession.create({
       userId: user._id,
       testType: 'skill_assessment',
@@ -411,6 +575,8 @@ export const generateAITest = async (req, res, next) => {
       throw error;
     }
 
+    await appendCodingSectionToTest(result.test, studentProfile);
+
     // Create a test session to track this test
     const testSession = await TestSession.create({
       userId: user._id,
@@ -425,8 +591,8 @@ export const generateAITest = async (req, res, next) => {
       aiGenerated: true,
       generatedTest: result.test,
       sections: result.test.sections.map(s => ({
-        sectionId: s.id,
-        sectionName: s.name,
+        sectionId: s.id || s.sectionId,
+        sectionName: s.name || s.sectionName,
         questionsAttempted: 0,
         correctAnswers: 0,
         score: 0,
@@ -521,6 +687,8 @@ export const generateCompanyTest = async (req, res, next) => {
       throw error;
     }
 
+    await appendCodingSectionToTest(result.test, studentProfile);
+
     // Create test session
     const testSession = await TestSession.create({
       userId: user._id,
@@ -536,8 +704,8 @@ export const generateCompanyTest = async (req, res, next) => {
       aiGenerated: true,
       generatedTest: result.test,
       sections: result.test.sections.map(s => ({
-        sectionId: s.id,
-        sectionName: s.name,
+        sectionId: s.id || s.sectionId,
+        sectionName: s.name || s.sectionName,
         questionsAttempted: 0,
         correctAnswers: 0,
         score: 0,
