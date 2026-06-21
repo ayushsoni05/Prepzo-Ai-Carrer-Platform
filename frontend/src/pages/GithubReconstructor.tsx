@@ -58,7 +58,7 @@ export const GithubReconstructor = () => {
     formData.append('repository', file);
 
     try {
-      const response = await api.post('/api/github/analyze', formData, {
+      const response = await api.post('/github/analyze', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -158,15 +158,21 @@ export const GithubReconstructor = () => {
           </motionFramer.div>
         ) : (
           <motionFramer.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
             className="grid grid-cols-1 lg:grid-cols-12 gap-8"
           >
             {/* Left Column: Language charts + Risks */}
             <div className="lg:col-span-5 space-y-6">
               
               {/* Language chart */}
-              <div className="bg-[#13171d] border border-white/5 rounded-3xl p-6 space-y-4">
+              <motionFramer.div 
+                whileHover={{ y: -4 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                className="bg-[#13171d]/85 backdrop-blur-md border border-white/5 hover:border-purple-500/20 rounded-3xl p-6 space-y-4 shadow-xl hover:shadow-purple-500/5 transition-all duration-300 relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 blur-3xl rounded-full" />
                 <div className="flex items-center gap-2">
                   <PieIcon className="w-5 h-5 text-purple-400" />
                   <h2 className="text-lg font-[900] uppercase tracking-wider text-purple-400">Language Breakdown</h2>
@@ -178,9 +184,9 @@ export const GithubReconstructor = () => {
                         data={results.languages}
                         cx="50%"
                         cy="50%"
-                        innerRadius={60}
-                        outerRadius={80}
-                        paddingAngle={5}
+                        innerRadius={65}
+                        outerRadius={85}
+                        paddingAngle={4}
                         dataKey="value"
                       >
                         {results.languages.map((entry: any, index: number) => (
@@ -188,7 +194,7 @@ export const GithubReconstructor = () => {
                         ))}
                       </Pie>
                       <Tooltip 
-                        contentStyle={{ backgroundColor: '#13171d', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px' }}
+                        contentStyle={{ backgroundColor: '#13171d', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', backdropFilter: 'blur(8px)' }}
                         itemStyle={{ color: '#ffffff', fontSize: '12px', fontWeight: 'bold' }}
                       />
                     </PieChart>
@@ -197,17 +203,22 @@ export const GithubReconstructor = () => {
                 {/* Custom list description */}
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   {results.languages.slice(0, 4).map((lang: any, i: number) => (
-                    <div key={lang.name} className="flex items-center gap-2 text-xs font-bold">
-                      <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
+                    <div key={lang.name} className="flex items-center gap-2.5 text-xs font-bold">
+                      <span className="w-3 h-3 rounded-full shrink-0 shadow-sm" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
                       <span className="text-white/50">{lang.name}:</span>
-                      <span className="text-white">{lang.value} files</span>
+                      <span className="text-white font-medium">{lang.value} files</span>
                     </div>
                   ))}
                 </div>
-              </div>
+              </motionFramer.div>
 
               {/* Security scan alerts */}
-              <div className="bg-[#13171d] border border-white/5 rounded-3xl p-6 space-y-4">
+              <motionFramer.div 
+                whileHover={{ y: -4 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                className="bg-[#13171d]/85 backdrop-blur-md border border-white/5 hover:border-red-500/20 rounded-3xl p-6 space-y-4 shadow-xl hover:shadow-red-500/5 transition-all duration-300 relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/5 blur-3xl rounded-full" />
                 <div className="flex items-center gap-2">
                   <ShieldAlert className="w-5 h-5 text-red-400" />
                   <h2 className="text-lg font-[900] uppercase tracking-wider text-red-400">Security & Quality Audit</h2>
@@ -215,9 +226,9 @@ export const GithubReconstructor = () => {
                 {results.securityRisks?.length > 0 ? (
                   <div className="space-y-3">
                     {results.securityRisks.map((risk: string, i: number) => (
-                      <div key={i} className="p-3 bg-red-500/5 border border-red-500/10 rounded-2xl text-xs font-bold text-red-400 flex items-start gap-2">
+                      <div key={i} className="p-3.5 bg-red-500/5 border border-red-500/10 rounded-2xl text-xs font-bold text-red-400 flex items-start gap-2.5">
                         <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
-                        <p>{risk}</p>
+                        <p className="leading-relaxed">{risk}</p>
                       </div>
                     ))}
                   </div>
@@ -227,7 +238,7 @@ export const GithubReconstructor = () => {
                     <p>No immediate security anomalies detected in analyzed files.</p>
                   </div>
                 )}
-              </div>
+              </motionFramer.div>
 
             </div>
 
@@ -237,20 +248,77 @@ export const GithubReconstructor = () => {
               {/* Metric Card row */}
               <div className="grid grid-cols-3 gap-6">
                 {[
-                  { label: 'Files Analyzed', val: results.totalFiles, sub: 'Boilerplate ignored' },
-                  { label: 'Lines of Code', val: results.totalLines.toLocaleString(), sub: 'Raw Code Count' },
-                  { label: 'Auth Strength', val: `${results.authorshipStrength}%`, sub: 'Complexity density' }
+                  { label: 'Files Analyzed', val: results.totalFiles, sub: 'Boilerplate ignored', color: 'text-purple-400' },
+                  { label: 'Lines of Code', val: results.totalLines.toLocaleString(), sub: 'Raw Code Count', color: 'text-blue-400' },
+                  { label: 'Auth Strength', val: `${results.authorshipStrength}%`, sub: 'Complexity density', color: 'text-emerald-400' }
                 ].map((stat, idx) => (
-                  <div key={idx} className="bg-[#13171d] border border-white/5 rounded-3xl p-5 relative overflow-hidden">
+                  <motionFramer.div 
+                    key={idx} 
+                    whileHover={{ y: -4, scale: 1.02 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                    className="bg-[#13171d]/85 backdrop-blur-md border border-white/5 hover:border-white/10 rounded-3xl p-5 relative overflow-hidden shadow-lg transition-all duration-300"
+                  >
+                    <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-white/5 rounded-full blur-2xl" />
                     <p className="text-[9px] font-black text-white/30 uppercase tracking-widest">{stat.label}</p>
-                    <p className="text-2xl font-[900] text-purple-400 italic tracking-tighter mt-1">{stat.val}</p>
+                    <p className={`text-2xl font-[900] ${stat.color} italic tracking-tighter mt-1`}>{stat.val}</p>
                     <p className="text-[9px] font-bold text-white/20 mt-1 uppercase italic">{stat.sub}</p>
-                  </div>
+                  </motionFramer.div>
                 ))}
               </div>
 
+              {/* Enhanced Authorship Proof Indicator Card */}
+              <motionFramer.div 
+                whileHover={{ y: -4 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                className="bg-[#13171d]/85 backdrop-blur-md border border-white/5 hover:border-emerald-500/20 rounded-[30px] p-6 space-y-5 relative overflow-hidden shadow-xl"
+              >
+                <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 blur-3xl rounded-full" />
+                <div className="flex justify-between items-center">
+                  <div className="space-y-1">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-white/40">Verified Authorship Quality</h3>
+                    <p className="text-lg font-black text-white">Authorship Strength Index</p>
+                  </div>
+                  <div className={`px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-wider ${
+                    results.authorshipStrength >= 75 
+                      ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' 
+                      : results.authorshipStrength >= 40 
+                        ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' 
+                        : 'bg-red-500/10 border-red-500/20 text-red-400'
+                  }`}>
+                    {results.authorshipStrength >= 75 ? 'Definitive Proof' : results.authorshipStrength >= 40 ? 'Moderate Proof' : 'Weak Proof'}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="w-full bg-black/45 h-3 rounded-full overflow-hidden border border-white/5 p-0.5 relative">
+                    <motionFramer.div 
+                      className={`h-full rounded-full ${
+                        results.authorshipStrength >= 75 
+                          ? 'bg-gradient-to-r from-emerald-500 to-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.3)]' 
+                          : results.authorshipStrength >= 40 
+                            ? 'bg-gradient-to-r from-amber-500 to-yellow-400 shadow-[0_0_10px_rgba(245,158,11,0.3)]' 
+                            : 'bg-gradient-to-r from-red-500 to-rose-400 shadow-[0_0_10px_rgba(239,68,68,0.3)]'
+                      }`}
+                      initial={{ width: 0 }}
+                      animate={{ width: `${results.authorshipStrength}%` }}
+                      transition={{ duration: 1, ease: 'easeOut' }}
+                    />
+                  </div>
+                  <div className="flex justify-between text-[9px] font-bold text-white/30 uppercase italic">
+                    <span>Low Signal</span>
+                    <span>Accredited Developer Codebase ({results.authorshipStrength}%)</span>
+                    <span>High Signal</span>
+                  </div>
+                </div>
+              </motionFramer.div>
+
               {/* GitHub Timeline Heatmap */}
-              <div className="bg-[#13171d] border border-white/5 rounded-3xl p-6 space-y-6">
+              <motionFramer.div 
+                whileHover={{ y: -4 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                className="bg-[#13171d]/85 backdrop-blur-md border border-white/5 hover:border-emerald-500/20 rounded-[30px] p-6 space-y-6 shadow-xl relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#5ed29c]/5 blur-3xl rounded-full" />
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Activity className="w-5 h-5 text-[#5ed29c]" />
@@ -258,7 +326,7 @@ export const GithubReconstructor = () => {
                   </div>
                   <span className="text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 bg-[#5ed29c]/10 text-[#5ed29c] rounded-full border border-[#5ed29c]/20">timeline map</span>
                 </div>
-                <div className="flex justify-center bg-black/25 border border-white/5 rounded-3xl p-6 overflow-x-auto custom-scrollbar">
+                <div className="flex justify-center bg-black/25 border border-white/5 rounded-2xl p-6 overflow-x-auto custom-scrollbar">
                   <ActivityCalendar 
                     data={results.timeline} 
                     theme={{
@@ -269,21 +337,25 @@ export const GithubReconstructor = () => {
                     }}
                   />
                 </div>
-              </div>
+              </motionFramer.div>
 
               {/* XP Payout information */}
-              <div className="p-6 rounded-[30px] bg-gradient-to-r from-purple-950/20 to-black border border-purple-500/20 flex items-center justify-between">
+              <motionFramer.div 
+                whileHover={{ scale: 1.01 }}
+                className="p-6 rounded-[30px] bg-gradient-to-r from-purple-950/20 via-black/40 to-black border border-purple-500/20 flex items-center justify-between shadow-lg"
+              >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-purple-500/10 border border-purple-500/20 rounded-2xl flex items-center justify-center">
-                    <Sparkles className="w-6 h-6 text-purple-400" />
+                  <div className="w-12 h-12 bg-purple-500/10 border border-purple-500/20 rounded-2xl flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-purple-500/10 animate-pulse" />
+                    <Sparkles className="w-6 h-6 text-purple-400 relative z-10" />
                   </div>
                   <div>
                     <h3 className="text-sm font-black uppercase tracking-wider">Reconstruction Payout</h3>
                     <p className="text-[10px] font-bold text-white/30 uppercase mt-0.5">Authorship proof logged to GameStats</p>
                   </div>
                 </div>
-                <p className="text-2xl font-[900] text-purple-400 italic tracking-tighter">+{results.xpEarned} XP</p>
-              </div>
+                <p className="text-2xl font-[900] text-purple-400 italic tracking-tighter animate-bounce">+{results.xpEarned} XP</p>
+              </motionFramer.div>
 
               {/* Redo action button */}
               <button
@@ -291,7 +363,7 @@ export const GithubReconstructor = () => {
                   setResults(null);
                   setFile(null);
                 }}
-                className="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/5 rounded-2xl font-[900] uppercase tracking-widest text-xs transition-all active:scale-95"
+                className="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/15 rounded-2xl font-[900] uppercase tracking-widest text-xs transition-all active:scale-95 shadow-md"
               >
                 Analyze Another Repository
               </button>

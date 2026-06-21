@@ -194,7 +194,7 @@ export const analyzeRepositoryZip = asyncHandler(async (req, res) => {
       timeline: timelineData,
       securityRisks: securityRisks.slice(0, 5), // return max 5 risk items
       authorshipStrength,
-      xpEarned,
+      xpEarned: earnedXp,
       badges: stats.badges
     }
   });
