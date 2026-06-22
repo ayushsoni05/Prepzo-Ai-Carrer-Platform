@@ -1,14 +1,15 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, RecaptchaVerifier } from 'firebase/auth';
+import { ENV } from '../config/env';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA6DuJTxowaIuzj_FZgIyudoqOByG8fmT4",
-  authDomain: "prepzo-ai-carrer-platform.firebaseapp.com",
-  projectId: "prepzo-ai-carrer-platform",
-  storageBucket: "prepzo-ai-carrer-platform.firebasestorage.app",
-  messagingSenderId: "529957180758",
-  appId: "1:529957180758:web:efba7671a4919989c4f2f7",
-  measurementId: "G-1DZS4LYXXW"
+  apiKey: ENV.FIREBASE.API_KEY,
+  authDomain: ENV.FIREBASE.AUTH_DOMAIN,
+  projectId: ENV.FIREBASE.PROJECT_ID,
+  storageBucket: ENV.FIREBASE.STORAGE_BUCKET,
+  messagingSenderId: ENV.FIREBASE.MESSAGING_SENDER_ID,
+  appId: ENV.FIREBASE.APP_ID,
+  measurementId: ENV.FIREBASE.MEASUREMENT_ID
 };
 
 // Initialize Firebase

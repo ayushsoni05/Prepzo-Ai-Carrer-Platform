@@ -3,6 +3,8 @@
  * into absolute URLs by prepending the backend host.
  */
 
+import { ENV } from '../config/env';
+
 export const getFileUrl = (path?: string | null): string => {
   if (!path) return '';
   
@@ -35,7 +37,7 @@ export const getFileUrl = (path?: string | null): string => {
   }
 
   // Prepend the backend host (remove /api from VITE_API_URL)
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+  const apiUrl = ENV.API_URL;
   const baseUrl = apiUrl.replace(/\/api\/?$/, '');
   
   // Ensure path starts with a slash

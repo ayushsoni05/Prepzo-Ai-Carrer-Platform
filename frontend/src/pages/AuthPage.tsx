@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { ENV } from '../config/env';
 import { CollegeDropdown } from '@/components/ui/CollegeDropdown';
 import { 
   SearchableDropdown, 
@@ -212,7 +213,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
   }, []);
 
   const handleGoogleLogin = () => {
-    const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+    const apiBaseUrl = ENV.API_URL;
     // Remove trailing slash if present
     const cleanBaseUrl = apiBaseUrl.endsWith('/') ? apiBaseUrl.slice(0, -1) : apiBaseUrl;
     window.location.href = `${cleanBaseUrl}/auth/google`;

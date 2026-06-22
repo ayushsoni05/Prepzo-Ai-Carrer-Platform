@@ -1,10 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { ENV } from '../config/env';
 
-const API_URL = import.meta.env.VITE_API_URL;
-if (!API_URL) {
-  console.warn("⚠️ VITE_API_URL is NOT set! Falling back to localhost for development.");
-}
-const BASE_URL = API_URL || 'http://localhost:5000/api';
+const BASE_URL = ENV.API_URL;
 
 console.log(`🚀 Prepzo API initialized at: ${BASE_URL}`);
 

@@ -5,6 +5,7 @@ import { io } from 'socket.io-client';
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';
 import { showSuccess, showError } from '@/utils/toastManager';
+import { ENV } from '../config/env';
 
 export const SystemWhiteboard = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -47,7 +48,7 @@ export const SystemWhiteboard = () => {
     contextRef.current = context;
 
     // Connect to Socket.io backend
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+    const backendUrl = ENV.SOCKET_URL;
     const socket = io(backendUrl, {
       withCredentials: true
     });

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { io, Socket } from 'socket.io-client';
+import { ENV } from '../config/env';
 
 interface SocketState {
   socket: Socket | null;
@@ -50,9 +51,7 @@ export const useSocketStore = create<SocketState>((set, get) => ({
   connect: (_userData) => {
     if (get().socket) return; // Already connected
 
-    const socketUrl = import.meta.env.VITE_API_URL 
-      ? import.meta.env.VITE_API_URL.replace('/api', '') 
-      : 'http://localhost:5000';
+    const socketUrl = ENV.SOCKET_URL;
       
     const newSocket = io(socketUrl, {
       withCredentials: true,

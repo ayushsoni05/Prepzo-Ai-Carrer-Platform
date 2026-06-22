@@ -1,6 +1,7 @@
 import { showSuccess, showError, showInfo } from '@/utils/toastManager';
 import toast from 'react-hot-toast';
 import { GridBeam } from '@/components/ui/background-grid-beam';
+import { ENV } from '../../config/env';
 // --- Local definitions for missing types ---
 import { 
   TestAnalysisResult 
@@ -541,7 +542,7 @@ const CodingArea = memo(({
         java: 62
       };
       
-      const res = await fetch('https://ce.judge0.com/submissions?base64_encoded=false&wait=true', {
+      const res = await fetch(`${ENV.JUDGE0_URL}?base64_encoded=false&wait=true`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

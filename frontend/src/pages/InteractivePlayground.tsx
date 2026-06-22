@@ -13,6 +13,7 @@ import { getCodingProblemById, CodingProblem } from '@/api/codingLab';
 import { generateTranspiledPayload } from '../utils/generateTranspiledPayload';
 import { SubmissionsTab, Submission } from '../components/SubmissionsTab';
 import { createSubmission, getSubmissionsByProblem } from '../api/submissions';
+import { ENV } from '../config/env';
 import toast from 'react-hot-toast';
 import confetti from 'canvas-confetti';
 import { AlgorithmVisualizer } from '../components/visualizer/AlgorithmVisualizer';
@@ -145,7 +146,7 @@ export const InteractivePlayground: React.FC = () => {
           java: 62
         };
 
-        const res = await fetch('https://ce.judge0.com/submissions?base64_encoded=false&wait=true', {
+        const res = await fetch(`${ENV.JUDGE0_URL}?base64_encoded=false&wait=true`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
