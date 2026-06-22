@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Trophy, Clock, Zap, ArrowRight, Home, Brain, Sparkles, Award, Play, 
-  HelpCircle, Users, Check, X, LogOut, DollarSign, ShieldCheck, 
+  Trophy, Clock, ArrowRight, Home, Brain, Sparkles, Play, 
+  HelpCircle, Users, Check, X, DollarSign, ShieldCheck, 
   Server, TrendingUp, Settings, Cpu, Dna, ArrowLeft, RotateCcw
 } from 'lucide-react';
 import api from '../api/axios';
@@ -109,7 +109,6 @@ export const TriviaSprint = () => {
 
   // Final stats
   const [earnedXp, setEarnedXp] = useState(0);
-  const [stats, setStats] = useState<any>(null);
 
   // Sound/haptics effect
   const [screenShake, setScreenShake] = useState(false);
@@ -247,7 +246,6 @@ export const TriviaSprint = () => {
       });
       if (response.data?.success) {
         setEarnedXp(response.data.data.earnedXp);
-        setStats(response.data.data.stats);
       }
     } catch (err) {
       console.error('Failed to report millionaire outcome', err);

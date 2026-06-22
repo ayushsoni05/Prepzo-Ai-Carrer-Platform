@@ -70,12 +70,14 @@ export interface Application {
     locations?: Array<{ city: string }>;
     salary?: { min?: number; max?: number };
     applicationDeadline?: string;
+    description?: string;
   };
   company: {
     _id: string;
     name: string;
     logo?: string;
   };
+  formData?: ApplicationFormData;
   status: ApplicationStatus;
   resumeUrl?: string;
   coverLetter?: string;

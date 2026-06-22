@@ -73,7 +73,7 @@ api.interceptors.request.use(
               const response = await axios.post(`${BASE_URL}/auth/refresh`, refreshToken ? { refreshToken } : {}, { withCredentials: true });
               if (response.data?.accessToken) {
                 token = response.data.accessToken;
-                localStorage.setItem('prepzo-token', token);
+                localStorage.setItem('prepzo-token', response.data.accessToken);
               }
               if (response.data?.refreshToken) {
                 localStorage.setItem('prepzo-refresh-token', response.data.refreshToken);

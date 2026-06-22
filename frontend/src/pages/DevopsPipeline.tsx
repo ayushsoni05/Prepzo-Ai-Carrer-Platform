@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Play, Terminal, HelpCircle, Sparkles, CheckCircle2, AlertTriangle, ShieldCheck, Settings, RefreshCw, Cpu, Layers } from 'lucide-react';
+import { ArrowLeft, Play, Terminal, Sparkles, CheckCircle2, Layers } from 'lucide-react';
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';
 import { showSuccess, showError } from '@/utils/toastManager';
@@ -175,7 +175,7 @@ export const DevopsPipeline = () => {
 
     // Report outcome to backend
     try {
-      const response = await api.post('/api/devops/report', { success });
+      const response = await api.post('/devops/report', { success });
       if (response.data?.success) {
         setXpEarned(response.data.data.earnedXp);
         const originalBadges = response.data.data.stats?.badges || [];

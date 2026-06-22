@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { Target, Heart, Award, Home, RotateCcw, AlertCircle, Play, ShieldAlert, Sparkles } from 'lucide-react';
+import { Target, Heart, Award, Home, RotateCcw, Play, ShieldAlert, Sparkles } from 'lucide-react';
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';
 import toast from 'react-hot-toast';

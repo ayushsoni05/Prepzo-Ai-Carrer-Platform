@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { placementApi, ATSAnalysisResult, TailoredResumeResult, OutreachResult } from '@/api/placement';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { CircularProgress } from '@/components/ui/CircularProgress';
 import { Badge } from '@/components/ui/badge';
-import { Briefcase, Target, Building2, FileText, Send, Sparkles, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Target, FileText, Send, Sparkles, AlertCircle, CheckCircle2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const PlacementAccelerator = () => {

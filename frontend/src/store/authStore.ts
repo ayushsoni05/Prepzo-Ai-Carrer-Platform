@@ -115,6 +115,10 @@ export interface User {
     }[];
     completedAt: string;
   };
+  streak?: number;
+  solvedProblems?: Array<{ problemId: string; difficulty?: 'Easy' | 'Medium' | 'Hard'; solvedAt: string }>;
+  profileLanguage?: string;
+  profileSlug?: string;
 }
 
 interface AuthState {

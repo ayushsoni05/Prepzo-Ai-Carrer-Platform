@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldAlert, ArrowLeft, RefreshCw, Trophy, Sparkles, ShieldCheck, Terminal, AlertTriangle, HelpCircle, Eye, Copy, RefreshCw as ResetIcon } from 'lucide-react';
+import { ShieldAlert, ArrowLeft, Sparkles, ShieldCheck, Terminal, Eye, RefreshCw as ResetIcon } from 'lucide-react';
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';
 import { showSuccess, showError } from '@/utils/toastManager';
@@ -76,13 +76,13 @@ export const ProctorSandbox = () => {
     };
 
     // 2. Clipboard tracking (Copy & Paste blocks)
-    const handleCopy = (e: ClipboardEvent) => {
+    const handleCopy = (_e: ClipboardEvent) => {
       setFlags((prev: any) => ({ ...prev, copyPastes: prev.copyPastes + 1 }));
       setTrustScore((prev) => Math.max(0, prev - 8));
       addLog('[PROCTOR_FLAG] WARNING: Text copy detected. Clipboard operations are restricted.');
     };
 
-    const handlePaste = (e: ClipboardEvent) => {
+    const handlePaste = (_e: ClipboardEvent) => {
       setFlags((prev: any) => ({ ...prev, copyPastes: prev.copyPastes + 1 }));
       setTrustScore((prev) => Math.max(0, prev - 12));
       addLog('[PROCTOR_FLAG] CRITICAL: Text paste detected inside browser viewport. Integrity flagged.');
@@ -132,7 +132,7 @@ export const ProctorSandbox = () => {
   const submitExam = async () => {
     setIsSubmitting(true);
     try {
-      const response = await api.post('/api/proctor/report', {
+      const response = await api.post('/proctor/report', {
         trustScore
       });
 

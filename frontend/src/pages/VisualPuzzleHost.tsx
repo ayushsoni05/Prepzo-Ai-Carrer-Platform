@@ -1,18 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ArrowLeft, Play, Sparkles, Trophy, CheckCircle2, RotateCcw, Info, Server, TrendingUp, Settings, Cpu, Dna, ArrowRight, Gauge, HelpCircle, AlertTriangle, ShieldCheck 
+  ArrowLeft, Play, Sparkles, Trophy, RotateCcw, Server, TrendingUp, Settings, Cpu, Dna, ArrowRight, Gauge, HelpCircle, AlertTriangle, ShieldCheck 
 } from 'lucide-react';
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';
-import { VISUAL_PUZZLE_DECKS, VisualPuzzleLevel, DomainDeck } from '../data/visualGames.config';
+import { VISUAL_PUZZLE_DECKS, DomainDeck } from '../data/visualGames.config';
 
 export const VisualPuzzleHost = () => {
   const [selectedDeck, setSelectedDeck] = useState<DomainDeck | null>(null);
   const [currentLevelIndex, setCurrentLevelIndex] = useState(0);
   const [gameState, setGameState] = useState<any>(null);
   const [success, setSuccess] = useState(false);
-  const [feedback, setFeedback] = useState<string>('');
   const [stats, setStats] = useState<any>(null);
   const [saving, setSaving] = useState(false);
 
@@ -52,7 +51,6 @@ export const VisualPuzzleHost = () => {
     if (currentLevel) {
       setGameState({ ...currentLevel.initialState });
       setSuccess(false);
-      setFeedback('');
       setTimeLeft(currentLevel.countdown);
       setIsFailed(false);
       setScreenShake(false);
@@ -179,7 +177,6 @@ export const VisualPuzzleHost = () => {
     } else {
       // Completed all levels - enable Sandbox Mode option
       setShowSandbox(true);
-      setFeedback(`Congratulations! You have completed the ${selectedDeck.title} Deck!`);
     }
   };
 
@@ -187,7 +184,6 @@ export const VisualPuzzleHost = () => {
     if (currentLevel) {
       setGameState({ ...currentLevel.initialState });
       setSuccess(false);
-      setFeedback('');
       setTimeLeft(currentLevel.countdown);
       setIsFailed(false);
       setScreenShake(false);

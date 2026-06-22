@@ -22,6 +22,7 @@ interface SocketState {
   submitBattle: (success: boolean, passed: number, total: number, userId?: string) => void;
   
   // Custom Room Methods
+  createCustomRoom: (config: any) => void;
   getAllRooms: () => void;
   joinCustomRoom: (roomId: string, pin?: string, user?: any) => void;
   acceptJoinRequest: (guestId: string) => void;
@@ -46,7 +47,7 @@ export const useSocketStore = create<SocketState>((set, get) => ({
   timeLimit: null,
   problems: null,
 
-  connect: (userData) => {
+  connect: (_userData) => {
     if (get().socket) return; // Already connected
 
     const socketUrl = import.meta.env.VITE_API_URL 
@@ -183,7 +184,7 @@ export const useSocketStore = create<SocketState>((set, get) => ({
     }
   },
 
-  createCustomRoom: (config) => {
+  createCustomRoom: (config: any) => {
     const { socket } = get();
     if (socket) socket.emit('create_custom_room', config);
   },
@@ -217,7 +218,7 @@ export const useSocketStore = create<SocketState>((set, get) => ({
     }
   },
 
-  setRestoredState: (state) => {
+  setRestoredState: (_state) => {
     // This function will be overwritten by BattleArena.tsx to pass data up
   },
 

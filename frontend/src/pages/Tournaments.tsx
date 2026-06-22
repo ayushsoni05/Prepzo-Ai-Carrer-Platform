@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, Swords, Users, Crown, ChevronRight, Activity, Calendar, ChevronLeft } from 'lucide-react';
 import { navigateTo } from '@/utils/navigation';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Sparkles, ShieldCheck, Terminal, AlertTriangle, HelpCircle, PenTool, Square, Circle, Type, Eye, Trash2, Cpu, Users } from 'lucide-react';
+import { ArrowLeft, Sparkles, ShieldCheck, Terminal, PenTool, Square, Circle, Type, Trash2, Cpu, Users } from 'lucide-react';
 import { io } from 'socket.io-client';
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';
@@ -131,10 +131,6 @@ export const SystemWhiteboard = () => {
 
     // Draw only on pen tool continuously. For shapes, we draw on mouse up to keep it clean.
     if (tool === 'pen') {
-      const canvas = canvasRef.current;
-      const x1 = offsetX; // Simplified tracking
-      const y1 = offsetY; // Just draw directly
-      
       contextRef.current.lineTo(offsetX, offsetY);
       contextRef.current.stroke();
 
@@ -202,7 +198,7 @@ export const SystemWhiteboard = () => {
     }
 
     try {
-      const response = await api.post('/api/whiteboard/report', {
+      const response = await api.post('/whiteboard/report', {
         audits: auditsCount
       });
 

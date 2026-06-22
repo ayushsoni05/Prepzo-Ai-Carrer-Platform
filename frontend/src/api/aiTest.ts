@@ -146,7 +146,7 @@ export interface PerformanceMetrics {
  * Generate a unique AI-powered test for the student
  */
 export const generateAITest = async (testConfig?: AITestConfig): Promise<GenerateTestResponse> => {
-  const response = await api.post('/api/ai-test/generate', { testConfig });
+  const response = await api.post('/ai-test/generate', { testConfig });
   return response.data;
 };
 
@@ -154,7 +154,7 @@ export const generateAITest = async (testConfig?: AITestConfig): Promise<Generat
  * Generate a company-specific pattern test
  */
 export const generateCompanyTest = async (company: string, testConfig?: AITestConfig): Promise<GenerateTestResponse> => {
-  const response = await api.post('/api/ai-test/generate-company', { company, testConfig });
+  const response = await api.post('/ai-test/generate-company', { company, testConfig });
   return response.data;
 };
 
@@ -162,7 +162,7 @@ export const generateCompanyTest = async (company: string, testConfig?: AITestCo
  * Get list of supported companies for pattern tests
  */
 export const getSupportedCompanies = async (): Promise<{ success: boolean; data: CompanyInfo[] }> => {
-  const response = await api.get('/api/ai-test/companies');
+  const response = await api.get('/ai-test/companies');
   return response.data;
 };
 
@@ -170,7 +170,7 @@ export const getSupportedCompanies = async (): Promise<{ success: boolean; data:
  * Get available sections for a stream
  */
 export const getSectionsForStream = async (stream: string): Promise<{ success: boolean; data: { stream: string; sections: { name: string; topics: string[] }[] } }> => {
-  const response = await api.get(`/api/ai-test/sections/${encodeURIComponent(stream)}`);
+  const response = await api.get(`/ai-test/sections/${encodeURIComponent(stream)}`);
   return response.data;
 };
 
@@ -183,7 +183,7 @@ export const getNextAdaptiveQuestion = async (
   currentPerformance: PerformanceMetrics,
   questionsAnswered: string[]
 ): Promise<AdaptiveQuestionResponse> => {
-  const response = await api.post(`/api/ai-test/${sessionId}/next-question`, {
+  const response = await api.post(`/ai-test/${sessionId}/next-question`, {
     section,
     currentPerformance,
     questionsAnswered
@@ -198,7 +198,7 @@ export const adaptDifficulty = async (
   currentPerformance: PerformanceMetrics,
   currentDifficulty: string
 ): Promise<{ success: boolean; data: { previousDifficulty: string; newDifficulty: string } }> => {
-  const response = await api.post('/api/ai-test/adapt-difficulty', {
+  const response = await api.post('/ai-test/adapt-difficulty', {
     currentPerformance,
     currentDifficulty
   });
@@ -215,7 +215,7 @@ export const evaluateCode = async (
   hiddenTestCases?: { input: string; output: string }[],
   options?: { timeLimit?: number; memoryLimit?: number; expectedComplexity?: { time: string; space: string } }
 ): Promise<{ success: boolean; data: CodeEvaluationResult }> => {
-  const response = await api.post('/api/ai-test/evaluate-code', {
+  const response = await api.post('/ai-test/evaluate-code', {
     code,
     language,
     testCases,
@@ -235,7 +235,7 @@ export const submitCodingQuestion = async (
   language: string,
   question: AIQuestion
 ): Promise<{ success: boolean; data: CodeEvaluationResult & { isAccepted: boolean } }> => {
-  const response = await api.post(`/api/ai-test/${sessionId}/submit-code`, {
+  const response = await api.post(`/ai-test/${sessionId}/submit-code`, {
     questionId,
     code,
     language,
@@ -255,7 +255,7 @@ export const validateAnswer = async (
   studentAnswer: string | number,
   timeTaken: number
 ): Promise<{ success: boolean; data: { questionId: string; isCorrect?: boolean; score?: number; correctAnswer?: number; explanation?: string; result?: CodeEvaluationResult; feedback?: string; timeTaken: number } }> => {
-  const response = await api.post(`/api/ai-test/${sessionId}/validate`, {
+  const response = await api.post(`/ai-test/${sessionId}/validate`, {
     questionId,
     questionType,
     question,
@@ -289,7 +289,7 @@ export const completeAITest = async (
     recommendations?: unknown;
   };
 }> => {
-  const response = await api.post(`/api/ai-test/${sessionId}/complete`, {
+  const response = await api.post(`/ai-test/${sessionId}/complete`, {
     sections,
     codingSubmissions
   });
@@ -307,7 +307,7 @@ export const getAITestResults = async (sessionId: string): Promise<{
     violations: unknown[];
   };
 }> => {
-  const response = await api.get(`/api/ai-test/results/${sessionId}`);
+  const response = await api.get(`/ai-test/results/${sessionId}`);
   return response.data;
 };
 
@@ -338,7 +338,7 @@ export const getLiveTests = async (): Promise<{
     }[];
   };
 }> => {
-  const response = await api.get('/api/admin/proctoring/live');
+  const response = await api.get('/admin/proctoring/live');
   return response.data;
 };
 
@@ -355,7 +355,7 @@ export const getLiveSessionDetails = async (sessionId: string): Promise<{
     proctoring: unknown;
   };
 }> => {
-  const response = await api.get(`/api/admin/proctoring/live/${sessionId}`);
+  const response = await api.get(`/admin/proctoring/live/${sessionId}`);
   return response.data;
 };
 
@@ -378,7 +378,7 @@ export const getAllViolations = async (filters?: {
     pagination: { page: number; limit: number; total: number; pages: number };
   };
 }> => {
-  const response = await api.get('/api/admin/proctoring/violations', { params: filters });
+  const response = await api.get('/admin/proctoring/violations', { params: filters });
   return response.data;
 };
 
@@ -390,7 +390,7 @@ export const terminateSession = async (sessionId: string, reason: string): Promi
   message: string;
   data: { sessionId: string; status: string; terminationReason: string };
 }> => {
-  const response = await api.post(`/api/admin/proctoring/${sessionId}/terminate`, { reason });
+  const response = await api.post(`/admin/proctoring/${sessionId}/terminate`, { reason });
   return response.data;
 };
 
@@ -402,7 +402,7 @@ export const allowRetest = async (sessionId: string, reason: string, clearViolat
   message: string;
   data: { sessionId: string; studentId: string; retestApproved: boolean; violationsCleared: boolean };
 }> => {
-  const response = await api.post(`/api/admin/proctoring/${sessionId}/allow-retest`, { reason, clearViolations });
+  const response = await api.post(`/admin/proctoring/${sessionId}/allow-retest`, { reason, clearViolations });
   return response.data;
 };
 
@@ -420,7 +420,7 @@ export const getProctoringStats = async (filters?: { startDate?: string; endDate
     retests: { allowed: number };
   };
 }> => {
-  const response = await api.get('/api/admin/proctoring/stats', { params: filters });
+  const response = await api.get('/admin/proctoring/stats', { params: filters });
   return response.data;
 };
 
@@ -438,7 +438,7 @@ export const getAdminTestResults = async (sessionId: string): Promise<{
     retestInfo: unknown;
   };
 }> => {
-  const response = await api.get(`/api/admin/proctoring/results/${sessionId}`);
+  const response = await api.get(`/admin/proctoring/results/${sessionId}`);
   return response.data;
 };
 
@@ -465,7 +465,7 @@ export const getStudentTestHistory = async (userId: string, page?: number, limit
     pagination: { page: number; limit: number; total: number; pages: number };
   };
 }> => {
-  const response = await api.get(`/api/admin/proctoring/student/${userId}/history`, { params: { page, limit } });
+  const response = await api.get(`/admin/proctoring/student/${userId}/history`, { params: { page, limit } });
   return response.data;
 };
 

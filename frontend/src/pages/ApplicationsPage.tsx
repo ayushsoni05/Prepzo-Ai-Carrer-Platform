@@ -77,16 +77,6 @@ export function ApplicationsPage() {
 
   // Mobile drawer state
   const [selectedAppForSheet, setSelectedAppForSheet] = useState<Application | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
 
   // Redirect if not authenticated
@@ -530,7 +520,6 @@ function ApplicationDetailModal({
   }, []);
 
   const config = statusConfig[application.status] || { label: application.status, icon: Clock, color: 'text-white/40', bgColor: 'bg-white/5' };
-  const StatusIcon = config.icon;
 
   const canWithdraw = ['applied', 'viewed', 'under_review', 'shortlisted'].includes(
     application.status

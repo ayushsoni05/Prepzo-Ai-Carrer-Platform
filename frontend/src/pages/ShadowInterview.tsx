@@ -17,7 +17,6 @@ import {
 } from 'lucide-react';
 import { navigateTo } from '@/utils/navigation';
 import { useSpeech } from '@/hooks/useSpeech';
-import { useAuthStore } from '@/store/authStore';
 import { codingProblems, CodingProblem } from '@/api/codingLab';
 import {
   startShadowInterview,

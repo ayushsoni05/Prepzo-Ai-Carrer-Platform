@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '@/store/appStore';
 import { ActivityCalendar } from 'react-activity-calendar';
 const ActivityCalendarComponent = ActivityCalendar;
 import { 
-  Briefcase, Calendar, ExternalLink, Linkedin, Github, Edit2, Save, X, Upload, 
-  Trash2, FileText, Target, CalendarDays, Zap, GraduationCap, MapPin, Search, 
-  Home, Users, Briefcase as JobsIcon, MessageSquare, Bell, MoreHorizontal, Plus,
-  Award, Eye, BarChart2, ChevronLeft, Globe, Mail, Phone, Copy, Link, Check
+  Briefcase, Calendar, Linkedin, Github, Edit2, X, Upload, 
+  Zap, GraduationCap, MapPin, Search, 
+  Users, Plus,
+  Award, Eye, BarChart2, ChevronLeft, Mail, Phone, Copy, Link, Check
 } from 'lucide-react';
 import api from '../api/axios';
 import { uploadApi } from '@/api/auth';
@@ -126,7 +126,6 @@ const Profile = () => {
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [formData, setFormData] = useState<any>({});
   const [editIndex, setEditIndex] = useState<number>(-1);
-  const [uploading, setUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [showAddSectionMenu, setShowAddSectionMenu] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
@@ -236,7 +235,6 @@ const Profile = () => {
   };
 
   const handleImageUpload = async (file: File, type: 'avatar' | 'coverPhoto') => {
-    setUploading(true);
     try {
       const response = await uploadApi.uploadImage(file);
       if (response.success && response.imageUrl) {
@@ -250,8 +248,6 @@ const Profile = () => {
       }
     } catch (error: any) {
       toast.error(`Upload failed: ${error.message}`);
-    } finally {
-      setUploading(false);
     }
   };
 
@@ -688,8 +684,6 @@ const Profile = () => {
                     dark: ['#1c1f26', '#064e3b', '#047857', '#10b981', '#34d399'],
                   }}
                   colorScheme="dark"
-                  hideColorLegend
-                  hideMonthLabels
                   blockSize={9}
                   blockMargin={3}
                   blockRadius={2}

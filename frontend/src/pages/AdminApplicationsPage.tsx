@@ -9,21 +9,15 @@ import {
   Search,
   Filter,
   Download,
-  Building2,
-  Calendar,
-  CheckCircle,
-  Clock,
   User,
   Mail,
   Phone,
   Briefcase,
   GraduationCap,
-  Link as LinkIcon,
   ChevronDown,
   ChevronUp,
   Loader2,
   AlertCircle,
-  Sparkles,
   FileText,
   Code,
 } from 'lucide-react';
@@ -45,7 +39,6 @@ export function AdminApplicationsPage() {
   const [jobId, setJobId] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [total, setTotal] = useState(0);
 
   // Filter options lists
   const [companies, setCompanies] = useState<any[]>([]);
@@ -81,7 +74,6 @@ export function AdminApplicationsPage() {
       if (res.success) {
         setApplications(res.data.applications || []);
         setTotalPages(res.data.pagination?.pages || 1);
-        setTotal(res.data.pagination?.total || 0);
       }
     } catch (err: any) {
       toast.error('Failed to load applications');

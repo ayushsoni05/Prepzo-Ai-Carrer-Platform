@@ -228,7 +228,7 @@ export const AuthPage = ({ mode, onNavigate }: AuthPageProps) => {
     control,
     setValue,
   } = useForm<SignupFormData>({
-    resolver: zodResolver(signupSchema),
+    resolver: zodResolver(signupSchema) as any,
     mode: 'onChange',
     defaultValues: {
       fullName: savedSignupData.fullName || '',
