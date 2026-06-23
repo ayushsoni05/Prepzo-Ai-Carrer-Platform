@@ -59,6 +59,12 @@ import { DevopsPipeline } from '@/pages/DevopsPipeline';
 import { SystemWhiteboard } from '@/pages/SystemWhiteboard';
 import { GridQuest } from '@/pages/GridQuest';
 import { VisualPuzzleHost } from '@/pages/VisualPuzzleHost';
+import { DailySprint } from '@/pages/DailySprint';
+import { PlacementDNA } from '@/pages/PlacementDNA';
+import { CareerRoadmap } from '@/pages/CareerRoadmap';
+import { InterviewReplayTheater } from '@/pages/InterviewReplayTheater';
+import { CompanyPrepTrack } from '@/pages/CompanyPrepTrack';
+import { LiveCodingRoom } from '@/pages/LiveCodingRoom';
 
 
 
@@ -89,7 +95,7 @@ const PageTransition = ({ children, pageKey }: { children: React.ReactNode, page
   );
 };
 
-type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'community' | 'placement-accelerator' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | 'offer-analyzer' | 'job-apply' | 'admin-applications' | 'shadow-interview' | 'game-lobby' | 'trivia-sprint' | 'regex-invaders' | 'code-golf' | 'cyber-defense' | 'github-reconstructor' | 'proctor-sandbox' | 'devops-pipeline' | 'system-whiteboard' | 'grid-quest' | 'visual-puzzles' | '404';
+type Page = 'landing' | 'login' | 'signup' | 'dashboard' | 'recruiter-dashboard' | 'admin' | 'onboarding' | 'jobs' | 'companies' | 'applications' | 'network' | 'community' | 'placement-accelerator' | 'tetris-demo' | 'resume' | 'settings' | 'assessment' | 'ai-interview' | 'tailwind-awesome' | 'notes' | 'note-detail' | 'question-bank' | 'reader' | 'playground' | 'coding-lab' | 'star-builder' | 'profile' | 'leaderboard' | 'battle' | 'create-battle' | 'join-battle' | 'find-match' | 'tournaments' | 'battle-history' | 'external-visualizer' | 'offer-analyzer' | 'job-apply' | 'admin-applications' | 'shadow-interview' | 'game-lobby' | 'trivia-sprint' | 'regex-invaders' | 'code-golf' | 'cyber-defense' | 'github-reconstructor' | 'proctor-sandbox' | 'devops-pipeline' | 'system-whiteboard' | 'grid-quest' | 'visual-puzzles' | 'daily-sprint' | 'placement-dna' | 'career-roadmap' | 'replay-theater' | 'company-track' | 'coding-room' | '404';
 
 // Get initial page from URL path or default to 'landing'
 const getPageFromPath = (): Page => {
@@ -107,7 +113,7 @@ const getPageFromPath = (): Page => {
   if (pageName.startsWith('profile/')) return 'profile';
   if (pageName.startsWith('battle/invite/')) return 'join-battle';
   
-  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'external-visualizer', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'grid-quest', 'visual-puzzles'];
+  const validPages: Page[] = ['landing', 'login', 'signup', 'dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'tetris-demo', 'resume', 'settings', 'assessment', 'ai-interview', 'tailwind-awesome', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'external-visualizer', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'grid-quest', 'visual-puzzles', 'daily-sprint', 'placement-dna', 'career-roadmap', 'replay-theater', 'company-track', 'coding-room'];
   return validPages.includes(pageName as Page) ? (pageName as Page) : '404';
 };
 
@@ -185,7 +191,7 @@ export default function App() {
     initRef.current = true;
     
     const initializeAuth = async () => {
-      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'resume', 'settings', 'assessment', 'notes', 'note-detail', 'question-bank', 'reader', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'grid-quest', 'visual-puzzles'];
+      const protectedPages = ['dashboard', 'recruiter-dashboard', 'admin', 'onboarding', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail', 'question-bank', 'reader', 'playground', 'coding-lab', 'star-builder', 'profile', 'leaderboard', 'battle', 'create-battle', 'join-battle', 'find-match', 'tournaments', 'battle-history', 'offer-analyzer', 'job-apply', 'admin-applications', 'shadow-interview', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'grid-quest', 'visual-puzzles', 'daily-sprint', 'placement-dna', 'career-roadmap', 'replay-theater', 'company-track', 'coding-room'];
       const isOnProtectedPage = protectedPages.includes(currentPage);
       
       const publicAuthPages = ['landing', 'login', 'signup'];
@@ -429,7 +435,7 @@ export default function App() {
   const isSkillComplete = user?.isSkillTestComplete;
   const isFullyQualified = isFieldComplete && isSkillComplete;
 
-  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'offer-analyzer', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail', 'question-bank', 'admin-applications', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'grid-quest', 'visual-puzzles'].includes(currentPage);
+  const isWorkspacePage = ['dashboard', 'jobs', 'companies', 'applications', 'network', 'community', 'placement-accelerator', 'offer-analyzer', 'resume', 'settings', 'assessment', 'ai-interview', 'notes', 'note-detail', 'question-bank', 'admin-applications', 'game-lobby', 'trivia-sprint', 'regex-invaders', 'code-golf', 'cyber-defense', 'github-reconstructor', 'proctor-sandbox', 'devops-pipeline', 'system-whiteboard', 'grid-quest', 'visual-puzzles', 'daily-sprint', 'placement-dna', 'career-roadmap', 'replay-theater', 'company-track', 'coding-room'].includes(currentPage);
 
   return (
     <div className="page-shell overflow-x-hidden">
@@ -542,6 +548,12 @@ export default function App() {
                   {currentPage === 'system-whiteboard' && <SystemWhiteboard />}
                   {currentPage === 'grid-quest' && <GridQuest />}
                   {currentPage === 'visual-puzzles' && <VisualPuzzleHost />}
+                  {currentPage === 'daily-sprint' && <DailySprint />}
+                  {currentPage === 'placement-dna' && <PlacementDNA />}
+                  {currentPage === 'career-roadmap' && <CareerRoadmap />}
+                  {currentPage === 'replay-theater' && <InterviewReplayTheater />}
+                  {currentPage === 'company-track' && <CompanyPrepTrack />}
+                  {currentPage === 'coding-room' && <LiveCodingRoom />}
                 </main>
                 <MobileNav
                   active={getSidebarActiveId(currentPage)}

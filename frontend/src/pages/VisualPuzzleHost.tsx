@@ -8,6 +8,7 @@ import { navigateTo } from '@/utils/navigation';
 import { VISUAL_PUZZLE_DECKS, DomainDeck } from '../data/visualGames.config';
 
 export const VisualPuzzleHost = () => {
+  const [decks, setDecks] = useState<DomainDeck[]>(VISUAL_PUZZLE_DECKS);
   const [selectedDeck, setSelectedDeck] = useState<DomainDeck | null>(null);
   const [currentLevelIndex, setCurrentLevelIndex] = useState(0);
   const [gameState, setGameState] = useState<any>(null);
@@ -33,17 +34,23 @@ export const VisualPuzzleHost = () => {
 
   const currentLevel = selectedDeck?.levels[currentLevelIndex];
 
-  // Fetch user stats on load
+  // Fetch user stats and dynamic decks on load
   useEffect(() => {
-    const fetchStats = async () => {
+    const fetchStatsAndDecks = async () => {
       try {
-        const res = await api.get('/games/stats');
-        setStats(res.data?.data);
+        const [statsRes, decksRes] = await Promise.all([
+          api.get('/games/stats'),
+          api.get('/visual-puzzles/decks')
+        ]);
+        setStats(statsRes.data?.data);
+        if (decksRes.data?.success && decksRes.data.data?.length > 0) {
+          setDecks(decksRes.data.data);
+        }
       } catch (err) {
-        console.error('Failed to fetch stats', err);
+        console.error('Failed to fetch stats/decks', err);
       }
     };
-    fetchStats();
+    fetchStatsAndDecks();
   }, []);
 
   // Initialize level
@@ -119,7 +126,17 @@ export const VisualPuzzleHost = () => {
   // Real-time alignment validation and snap hold lock check
   useEffect(() => {
     if (currentLevel && gameState && !isFailed) {
-      const isCorrect = currentLevel.validation(gameState);
+      let isCorrect = false;
+      try {
+        if (typeof currentLevel.validation === 'function') {
+          isCorrect = currentLevel.validation(gameState);
+        } else if ((currentLevel as any).validationCode) {
+          const valFn = new Function('state', `return (${(currentLevel as any).validationCode})(state)`);
+          isCorrect = valFn(gameState);
+        }
+      } catch (err) {
+        console.error('Validation error:', err);
+      }
       
       if (isCorrect) {
         if (!isLocked) {
@@ -331,7 +348,7 @@ export const VisualPuzzleHost = () => {
 
           {/* Decks Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {VISUAL_PUZZLE_DECKS.map((deck) => {
+            {decks.map((deck) => {
               const completedCount = deck.levels.filter(lvl => 
                 stats?.visualPuzzles?.completedLevels?.includes(lvl.id)
               ).length;

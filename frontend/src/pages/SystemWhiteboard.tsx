@@ -21,6 +21,7 @@ export const SystemWhiteboard = () => {
   const [auditReport, setAuditReport] = useState<string[]>([]);
   const [isAuditing, setIsAuditing] = useState(false);
   const [peerConnected, setPeerConnected] = useState(false);
+  const [structuredAudit, setStructuredAudit] = useState<any>(null);
 
   const [showOutcomeModal, setShowOutcomeModal] = useState(false);
   const [xpEarned, setXpEarned] = useState(0);
@@ -159,37 +160,74 @@ export const SystemWhiteboard = () => {
     showSuccess('Whiteboard cleared.');
   };
 
-  // Simulated AI Architect Auditor audits system architectures
+  // AI Architect Auditor - captures canvas and sends to backend for analysis
   const runAIAudit = async () => {
     setIsAuditing(true);
-    setAuditReport(['[SYS_INFO] Fetching architectural nodes configurations...', '[AUDIT] Initializing AI Architect Audit Co-Pilot...']);
+    setStructuredAudit(null);
+    setAuditReport(['[SYS_INFO] Capturing whiteboard canvas...', '[AUDIT] Initializing AI Architect Audit Co-Pilot...']);
     
-    const auditsList = [
-      [
-        `[AUDIT_FAIL] Single Point of Failure (SPOF) detected at Database node.`,
-        `[RECOMMENDATION] Introduce a Master-Slave replication setup or Read Replicas to secure database availability.`,
-        `[AUDIT_WARN] High Write operations rate without queue buffer.`,
-        `[RECOMMENDATION] Add an Apache Kafka or RabbitMQ event queue before database queries controller.`
-      ],
-      [
-        `[AUDIT_FAIL] Read latency bottleneck identified at Web Application instance.`,
-        `[RECOMMENDATION] Introduce a Redis Cache node before checking DB queries to lower query response latencies.`,
-        `[AUDIT_INFO] Scalability index: 68/100. Horizontal auto-scaler check passed.`
-      ],
-      [
-        `[AUDIT_FAIL] Insecure transmission vector detected. Raw HTTP channels configured.`,
-        `[RECOMMENDATION] Enforce HTTPS termination TLS certs at AWS Application Load Balancer (ALB).`,
-        `[AUDIT_SUCCESS] System availability score: 99.999% with multi-region failovers.`
-      ]
-    ];
+    try {
+      // Capture the whiteboard canvas as a base64 PNG image
+      let imageBase64 = '';
+      if (canvasRef.current) {
+        imageBase64 = canvasRef.current.toDataURL('image/png');
+        setAuditReport(prev => [...prev, '[SYS_INFO] Canvas captured. Sending to AI Vision Auditor...']);
+      }
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    const selectedAudit = auditsList[auditsCount % auditsList.length];
-    setAuditReport(prev => [...prev, ...selectedAudit, '[AUDIT_COMPLETED] AI audit complete. Recommendations logged.']);
-    setAuditsCount(prev => prev + 1);
-    setIsAuditing(false);
-    showSuccess('AI Architecture Audit completed!');
+      const response = await api.post('/whiteboard/audit', {
+        imageBase64,
+        diagramTitle: 'System Design Whiteboard'
+      });
+
+      if (response.data?.success && response.data.data) {
+        const audit = response.data.data;
+        setStructuredAudit(audit);
+        
+        // Build log entries from the structured audit response
+        const logs: string[] = [];
+        logs.push(`[AUDIT_SCORE] Architecture Score: ${audit.overallScore}/100 (Grade: ${audit.grade})`);
+        logs.push('');
+        
+        if (audit.strengths?.length) {
+          logs.push('[AUDIT_SUCCESS] --- STRENGTHS ---');
+          audit.strengths.forEach((s: string) => logs.push(`[AUDIT_SUCCESS] ✓ ${s}`));
+          logs.push('');
+        }
+        if (audit.weaknesses?.length) {
+          logs.push('[AUDIT_FAIL] --- WEAKNESSES ---');
+          audit.weaknesses.forEach((w: string) => logs.push(`[AUDIT_FAIL] ✗ ${w}`));
+          logs.push('');
+        }
+        if (audit.bottlenecks?.length) {
+          logs.push('[AUDIT_WARN] --- BOTTLENECKS ---');
+          audit.bottlenecks.forEach((b: string) => logs.push(`[AUDIT_WARN] ⚠ ${b}`));
+          logs.push('');
+        }
+        if (audit.suggestions?.length) {
+          logs.push('[RECOMMENDATION] --- SUGGESTIONS ---');
+          audit.suggestions.forEach((s: string) => logs.push(`[RECOMMENDATION] → ${s}`));
+          logs.push('');
+        }
+        if (audit.missingComponents?.length) {
+          logs.push('[AUDIT_FAIL] --- MISSING COMPONENTS ---');
+          audit.missingComponents.forEach((m: string) => logs.push(`[AUDIT_FAIL] ○ ${m}`));
+          logs.push('');
+        }
+        if (audit.summary) {
+          logs.push(`[AUDIT_INFO] ${audit.summary}`);
+        }
+        logs.push('[AUDIT_COMPLETED] AI audit complete. Recommendations logged.');
+        
+        setAuditReport(prev => [...prev, ...logs]);
+        setAuditsCount(prev => prev + 1);
+        showSuccess('AI Architecture Audit completed!');
+      }
+    } catch (err: any) {
+      setAuditReport(prev => [...prev, `[AUDIT_ERROR] ${err.response?.data?.message || 'Failed to run audit. Please try again.'}`]);
+      showError('Audit failed. Check your connection.');
+    } finally {
+      setIsAuditing(false);
+    }
   };
 
   const submitWhiteboardResult = async () => {
@@ -324,12 +362,43 @@ export const SystemWhiteboard = () => {
                 <span className="text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 bg-purple-500/10 text-purple-400 rounded-full border border-purple-500/20">Audits: {auditsCount}</span>
               </div>
 
+              {/* Structured Score Card */}
+              {structuredAudit && (
+                <div className="bg-black/40 border border-white/5 rounded-2xl p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className={`text-3xl font-[900] italic tracking-tighter ${structuredAudit.overallScore >= 70 ? 'text-emerald-400' : structuredAudit.overallScore >= 55 ? 'text-yellow-400' : 'text-red-400'}`}>
+                        {structuredAudit.overallScore}
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-black uppercase tracking-widest text-white/40">Architecture Score</div>
+                        <div className={`text-xs font-black uppercase ${structuredAudit.grade === 'A' || structuredAudit.grade === 'B' ? 'text-emerald-400' : structuredAudit.grade === 'C' ? 'text-yellow-400' : 'text-red-400'}`}>Grade: {structuredAudit.grade}</div>
+                      </div>
+                    </div>
+                    <div className="flex gap-1">
+                      {structuredAudit.strengths?.map((_: any, i: number) => <div key={`s${i}`} className="w-2 h-2 rounded-full bg-emerald-500" />)}
+                      {structuredAudit.weaknesses?.map((_: any, i: number) => <div key={`w${i}`} className="w-2 h-2 rounded-full bg-red-500" />)}
+                    </div>
+                  </div>
+                  <div className="w-full bg-black/40 h-2 rounded-full overflow-hidden border border-white/5">
+                    <div className={`h-full rounded-full transition-all duration-1000 ${structuredAudit.overallScore >= 70 ? 'bg-emerald-500' : structuredAudit.overallScore >= 55 ? 'bg-yellow-500' : 'bg-red-500'}`} style={{ width: `${structuredAudit.overallScore}%` }} />
+                  </div>
+                </div>
+              )}
+
               <div className="h-64 bg-black/45 border border-white/5 rounded-2xl p-4 font-mono text-[11px] leading-relaxed text-[#00ff9d] overflow-y-auto space-y-2.5 custom-scrollbar">
                 {auditReport.length === 0 ? (
                   <div className="text-white/20 italic">Place design components (Load Balancer, Web application server, Database instance) on board and click "Audit Architecture".</div>
                 ) : (
                   auditReport.map((log, i) => (
-                    <div key={i} className={log.includes('[AUDIT_FAIL]') ? 'text-red-500 font-bold' : log.includes('[RECOMMENDATION]') ? 'text-yellow-400 font-bold' : log.includes('AUDIT_COMPLETED') ? 'text-emerald-400 font-bold font-black' : ''}>
+                    <div key={i} className={
+                      log.includes('[AUDIT_FAIL]') ? 'text-red-500 font-bold' : 
+                      log.includes('[RECOMMENDATION]') ? 'text-yellow-400 font-bold' : 
+                      log.includes('[AUDIT_SUCCESS]') ? 'text-emerald-400 font-semibold' :
+                      log.includes('[AUDIT_WARN]') ? 'text-orange-400 font-semibold' :
+                      log.includes('[AUDIT_SCORE]') ? 'text-cyan-400 font-black text-sm' :
+                      log.includes('AUDIT_COMPLETED') ? 'text-emerald-400 font-bold font-black' : ''
+                    }>
                       {log}
                     </div>
                   ))

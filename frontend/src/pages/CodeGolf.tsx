@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, Play, RefreshCw, ArrowLeft, Code, Sparkles, AlertCircle, CheckCircle2, ShieldAlert, Cpu } from 'lucide-react';
+import { Trophy, Play, RefreshCw, ArrowLeft, Code, Sparkles, AlertCircle, CheckCircle2, ShieldAlert, Cpu, Globe } from 'lucide-react';
 import api from '../api/axios';
 import { navigateTo } from '@/utils/navigation';
 import { showSuccess, showError } from '@/utils/toastManager';
+import Editor from '@monaco-editor/react';
+import { ENV } from '../config/env';
 
 interface Challenge {
   id: string;
@@ -62,9 +64,11 @@ export const CodeGolf = () => {
   const activeChallenge = CHALLENGES[activeChallengeIdx];
   
   const [code, setCode] = useState(activeChallenge.template);
+  const [language, setLanguage] = useState<'javascript' | 'python' | 'cpp' | 'java'>('javascript');
   const [testResults, setTestResults] = useState<any[]>([]);
   const [allPassed, setAllPassed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRunning, setIsRunning] = useState(false);
   const [showOutcomeModal, setShowOutcomeModal] = useState(false);
   const [xpEarned, setXpEarned] = useState(0);
   const [unlockedBadges, setUnlockedBadges] = useState<string[]>([]);
@@ -111,59 +115,140 @@ export const CodeGolf = () => {
 
   const charCount = code.replace(/\s/g, '').length; // Measure character count excluding whitespace
 
-  const runTests = () => {
+  const runTests = async () => {
+    setIsRunning(true);
     try {
-      // Evaluate function safely using sandbox
-      // Format of code must define variable f
-      const script = `${code}\nreturn f;`;
-      const userFn = new Function(script)();
-      
-      if (typeof userFn !== 'function') {
-        throw new Error('Your code must define a function named "f" (e.g. f = n => ...)');
-      }
-
-      const results = activeChallenge.testCases.map((tc, idx) => {
-        try {
-          // Deep clone inputs to prevent side effects
-          const inputs = JSON.parse(JSON.stringify(tc.input));
-          const result = userFn(...inputs);
-          const passed = JSON.stringify(result) === JSON.stringify(tc.expected);
-          return {
-            id: idx,
-            input: JSON.stringify(tc.input[0]),
-            expected: JSON.stringify(tc.expected),
-            actual: JSON.stringify(result),
-            passed
-          };
-        } catch (e: any) {
-          return {
-            id: idx,
-            input: JSON.stringify(tc.input[0]),
-            expected: JSON.stringify(tc.expected),
-            actual: `Error: ${e.message}`,
-            passed: false
-          };
+      if (language === 'javascript') {
+        // Run JS locally via Function sandbox
+        const script = `${code}\nreturn f;`;
+        const userFn = new Function(script)();
+        
+        if (typeof userFn !== 'function') {
+          throw new Error('Your code must define a function named "f" (e.g. f = n => ...)');
         }
-      });
 
-      setTestResults(results);
-      const passedAll = results.every(r => r.passed);
-      setAllPassed(passedAll);
-      if (passedAll) {
-        showSuccess('All unit tests passed successfully!');
+        const results = activeChallenge.testCases.map((tc, idx) => {
+          try {
+            const inputs = JSON.parse(JSON.stringify(tc.input));
+            const result = userFn(...inputs);
+            const passed = JSON.stringify(result) === JSON.stringify(tc.expected);
+            return {
+              id: idx,
+              input: JSON.stringify(tc.input[0]),
+              expected: JSON.stringify(tc.expected),
+              actual: JSON.stringify(result),
+              passed
+            };
+          } catch (e: any) {
+            return {
+              id: idx,
+              input: JSON.stringify(tc.input[0]),
+              expected: JSON.stringify(tc.expected),
+              actual: `Error: ${e.message}`,
+              passed: false
+            };
+          }
+        });
+
+        setTestResults(results);
+        const passedAll = results.every(r => r.passed);
+        setAllPassed(passedAll);
+        passedAll ? showSuccess('All unit tests passed!') : showError('Some tests failed.');
       } else {
-        showError('Some unit tests failed.');
+        // Route through Judge0 for Python/C++/Java
+        const langMap: Record<string, number> = {
+          python: 71,
+          cpp: 54,
+          java: 62
+        };
+
+        // Build a wrapper that runs all test cases and prints PASS/FAIL
+        let wrapperCode = code;
+        if (language === 'python') {
+          wrapperCode += '\nimport json\n';
+          activeChallenge.testCases.forEach((tc, idx) => {
+            wrapperCode += `\nresult_${idx} = f(${tc.input.map(i => JSON.stringify(i)).join(', ')})`;
+            wrapperCode += `\nprint(f"TC${idx}:{json.dumps(result_${idx})}:${JSON.stringify(tc.expected)}")`;
+          });
+        } else {
+          // For C++/Java, run as-is and check stdout
+          wrapperCode = code;
+        }
+
+        const res = await fetch(`${ENV.JUDGE0_URL}?base64_encoded=false&wait=true`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            language_id: langMap[language] || 71,
+            source_code: wrapperCode
+          })
+        });
+        
+        const data = await res.json();
+        
+        if (data.stderr || data.compile_output) {
+          setTestResults([{
+            id: 0,
+            input: 'Compilation',
+            expected: 'Clean compile',
+            actual: data.stderr || data.compile_output,
+            passed: false
+          }]);
+          setAllPassed(false);
+          showError('Compilation error!');
+        } else if (data.stdout && language === 'python') {
+          // Parse Python test case results from stdout
+          const lines = data.stdout.trim().split('\n');
+          const results = activeChallenge.testCases.map((tc, idx) => {
+            const line = lines.find((l: string) => l.startsWith(`TC${idx}:`));
+            if (line) {
+              const parts = line.split(':');
+              const actual = parts[1];
+              const expected = parts[2];
+              return {
+                id: idx,
+                input: JSON.stringify(tc.input[0]),
+                expected,
+                actual,
+                passed: actual === expected
+              };
+            }
+            return {
+              id: idx,
+              input: JSON.stringify(tc.input[0]),
+              expected: JSON.stringify(tc.expected),
+              actual: 'No output',
+              passed: false
+            };
+          });
+          setTestResults(results);
+          const passedAll = results.every(r => r.passed);
+          setAllPassed(passedAll);
+          passedAll ? showSuccess('All unit tests passed!') : showError('Some tests failed.');
+        } else {
+          // Generic output check
+          setTestResults([{
+            id: 0,
+            input: 'stdout',
+            expected: 'Test output',
+            actual: data.stdout || 'No output',
+            passed: !!data.stdout
+          }]);
+          setAllPassed(!!data.stdout);
+        }
       }
     } catch (err: any) {
-      showError(err.message || 'Syntax Error in your function');
+      showError(err.message || 'Execution error');
       setTestResults([{
         id: 0,
-        input: 'Compilation',
-        expected: 'Valid JS Function',
+        input: 'Execution',
+        expected: 'Valid function',
         actual: err.message,
         passed: false
       }]);
       setAllPassed(false);
+    } finally {
+      setIsRunning(false);
     }
   };
 
@@ -213,9 +298,9 @@ export const CodeGolf = () => {
             </div>
           </div>
 
-          {/* Challenge Selector */}
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-bold text-white/40 uppercase tracking-wider">Select Challenge:</span>
+          {/* Challenge & Language Selector */}
+          <div className="flex items-center gap-3 flex-wrap">
+            <span className="text-xs font-bold text-white/40 uppercase tracking-wider">Challenge:</span>
             <select 
               value={activeChallengeIdx} 
               onChange={(e) => setActiveChallengeIdx(parseInt(e.target.value))}
@@ -225,6 +310,20 @@ export const CodeGolf = () => {
                 <option key={c.id} value={i}>{c.title}</option>
               ))}
             </select>
+
+            <div className="flex items-center gap-2 ml-2">
+              <Globe className="w-4 h-4 text-white/30" />
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value as any)}
+                className="bg-[#13171d] border border-white/10 text-sm font-black rounded-xl px-4 py-2.5 outline-none cursor-pointer hover:border-cyan-500/30 transition-colors"
+              >
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="java">Java</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -309,10 +408,10 @@ export const CodeGolf = () => {
             <div className="bg-[#13171d] border border-white/5 rounded-3xl p-6 space-y-4">
               <div className="flex justify-between items-center pb-2 border-b border-white/5">
                 <div className="flex items-center gap-4">
-                  <span className="text-xs font-black uppercase tracking-widest text-white/40">Javascript Console</span>
+                  <span className="text-xs font-black uppercase tracking-widest text-white/40">{language === 'javascript' ? 'JavaScript' : language === 'python' ? 'Python' : language === 'cpp' ? 'C++' : 'Java'} Console</span>
                   <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-ping" />
-                    <span className="text-[10px] font-bold text-white/30 uppercase">f is global</span>
+                    <span className={`w-2.5 h-2.5 rounded-full ${language === 'javascript' ? 'bg-yellow-400' : language === 'python' ? 'bg-blue-400' : language === 'cpp' ? 'bg-cyan-400' : 'bg-orange-400'} animate-ping`} />
+                    <span className="text-[10px] font-bold text-white/30 uppercase">{language === 'javascript' ? 'f is global' : language === 'python' ? 'def f(...)' : 'fn f(...)'}</span>
                   </div>
                 </div>
                 
@@ -335,13 +434,26 @@ export const CodeGolf = () => {
                 </div>
               </div>
 
-              {/* Monospace Input Area */}
-              <div className="relative rounded-2xl bg-black border border-white/5 p-4 min-h-[300px]">
-                <textarea
+              {/* Monaco Editor */}
+              <div className="rounded-2xl overflow-hidden border border-white/5 min-h-[300px]">
+                <Editor
+                  height="300px"
+                  language={language === 'cpp' ? 'cpp' : language}
+                  theme="vs-dark"
                   value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  className="w-full h-[280px] bg-transparent text-white font-mono text-sm leading-relaxed outline-none border-none resize-none focus:ring-0 custom-scrollbar"
-                  spellCheck="false"
+                  onChange={(value) => setCode(value || '')}
+                  options={{
+                    minimap: { enabled: false },
+                    fontSize: 13,
+                    fontFamily: 'JetBrains Mono, Fira Code, monospace',
+                    scrollBeyondLastLine: false,
+                    wordWrap: 'on',
+                    padding: { top: 16, bottom: 16 },
+                    lineNumbers: 'on',
+                    renderLineHighlight: 'gutter',
+                    bracketPairColorization: { enabled: true },
+                    tabSize: 2
+                  }}
                 />
               </div>
 
@@ -349,10 +461,11 @@ export const CodeGolf = () => {
               <div className="flex flex-col sm:flex-row gap-4 pt-2">
                 <button
                   onClick={runTests}
+                  disabled={isRunning}
                   className="flex-1 py-4 bg-white/5 hover:bg-white/10 border border-white/5 active:scale-95 transition-all rounded-xl font-[900] uppercase tracking-widest text-xs flex items-center justify-center gap-2"
                 >
-                  <RefreshCw className="w-4 h-4" />
-                  Run Unit Tests
+                  <RefreshCw className={`w-4 h-4 ${isRunning ? 'animate-spin' : ''}`} />
+                  {isRunning ? 'Compiling...' : language === 'javascript' ? 'Run Unit Tests' : `Compile & Test (${language.toUpperCase()})`}
                 </button>
                 <button
                   onClick={submitSolution}

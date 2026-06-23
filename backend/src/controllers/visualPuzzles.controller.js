@@ -1,5 +1,6 @@
 import { asyncHandler } from '../middleware/error.middleware.js';
 import GameStats from '../models/GameStats.model.js';
+import VisualPuzzleDeck from '../models/VisualPuzzleDeck.model.js';
 
 /**
  * @desc    Report Visual Puzzles game outcome
@@ -49,5 +50,18 @@ export const reportVisualPuzzleOutcome = asyncHandler(async (req, res) => {
       stats,
       earnedXp
     }
+  });
+});
+
+/**
+ * @desc    Get all visual puzzle decks and levels
+ * @route   GET /api/visual-puzzles/decks
+ * @access  Private
+ */
+export const getVisualPuzzleDecks = asyncHandler(async (req, res) => {
+  const decks = await VisualPuzzleDeck.find({});
+  res.status(200).json({
+    success: true,
+    data: decks
   });
 });

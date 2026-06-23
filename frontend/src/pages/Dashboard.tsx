@@ -844,6 +844,39 @@ export function Dashboard() {
           </div>
         </div>
       </div>
+      {/* Premium Career Suite Hub */}
+      <div className="mt-10 pointer-events-auto">
+        <div className="mb-6 px-4">
+          <h2 className="text-[10px] font-[900] uppercase tracking-[0.5em] text-purple-400 mb-2 italic opacity-80">Assessment & Planning</h2>
+          <h1 className="text-2xl md:text-5xl font-[900] text-white uppercase tracking-tighter italic">Career <span className="text-white/40">Suite.</span></h1>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+          {[
+            { id: 'dna', title: 'Placement DNA', sub: 'Employability Score Gauge', icon: <Activity className="w-6 h-6 text-cyan-400" />, route: 'placement-dna' },
+            { id: 'roadmap', title: 'AI Roadmaps', sub: 'Week-by-week targeted timeline', icon: <Target className="w-6 h-6 text-purple-400" />, route: 'career-roadmap' },
+            { id: 'sprint', title: 'Daily Sprint', sub: 'Duolingo-style mini rounds', icon: <Flame className="w-6 h-6 text-orange-400 animate-pulse" />, route: 'daily-sprint' },
+            { id: 'replay', title: 'Replay Theater', sub: 'AI interview analysis feedback', icon: <Bot className="w-6 h-6 text-[#5ed29c]" />, route: 'replay-theater' },
+            { id: 'tracks', title: 'Company Tracks', sub: 'FAANG & Big Tech standard loops', icon: <Building2 className="w-6 h-6 text-indigo-400" />, route: 'company-track' },
+            { id: 'room', title: 'Live Coding Room', sub: 'Real-time collaborative editing', icon: <Code className="w-6 h-6 text-blue-400" />, route: 'coding-room' }
+          ].map((suite) => (
+            <div
+              key={suite.id}
+              onClick={() => navigateTo(suite.route)}
+              className="p-6 rounded-3xl bg-black/40 backdrop-blur-md border border-white/5 hover:border-purple-500/25 hover:scale-[1.01] transition-all duration-200 cursor-pointer flex flex-col justify-between group relative overflow-hidden h-40"
+            >
+              <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/2 blur-[40px] rounded-full pointer-events-none group-hover:bg-purple-500/5 transition-colors duration-200" />
+              <div className="bg-white/5 border border-white/5 w-12 h-12 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-white/10 transition-colors">
+                {suite.icon}
+              </div>
+              <div>
+                <h3 className="font-extrabold text-sm text-white group-hover:text-purple-400 transition-colors leading-tight mb-1">{suite.title}</h3>
+                <p className="text-[10px] text-white/40 leading-snug">{suite.sub}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <div id="question-bank-container" className="pointer-events-auto mt-10">
         <div className="mb-6 px-4 flex items-end justify-between">

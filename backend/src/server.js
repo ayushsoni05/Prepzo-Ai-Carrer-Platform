@@ -49,6 +49,12 @@ import devopsRoutes from './routes/devops.routes.js';
 import whiteboardRoutes from './routes/whiteboard.routes.js';
 import gridQuestRoutes from './routes/gridQuest.routes.js';
 import visualPuzzlesRoutes from './routes/visualPuzzles.routes.js';
+import dailySprintRoutes from './routes/dailySprint.routes.js';
+import placementScoreRoutes from './routes/placementScore.routes.js';
+import roadmapRoutes from './routes/roadmap.routes.js';
+import replayRoutes from './routes/replay.routes.js';
+import companyTrackRoutes from './routes/companyTrack.routes.js';
+import codingRoomRoutes from './routes/codingRoom.routes.js';
 
 
 import { seeder } from './services/autonomousSeeder.service.js';
@@ -314,6 +320,12 @@ app.use('/api/devops', devopsRoutes);
 app.use('/api/whiteboard', whiteboardRoutes);
 app.use('/api/grid-quest', gridQuestRoutes);
 app.use('/api/visual-puzzles', visualPuzzlesRoutes);
+app.use('/api/sprint', dailySprintRoutes);
+app.use('/api/placement-score', placementScoreRoutes);
+app.use('/api/roadmap', roadmapRoutes);
+app.use('/api/replay', replayRoutes);
+app.use('/api/company-track', companyTrackRoutes);
+app.use('/api/coding-room', codingRoomRoutes);
 
 
 

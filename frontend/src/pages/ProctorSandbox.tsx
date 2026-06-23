@@ -9,6 +9,8 @@ export const ProctorSandbox = () => {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [cameraPermission, setCameraPermission] = useState<'prompt' | 'granted' | 'denied'>('prompt');
   const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [gazeStatus, setGazeStatus] = useState('Calibrating Gaze...');
   
   const [trustScore, setTrustScore] = useState(100);
   const [flags, setFlags] = useState<any>({
@@ -50,7 +52,137 @@ export const ProctorSandbox = () => {
         stream.getTracks().forEach(track => track.stop());
       }
     };
-  }, []);
+  }, [stream]);
+
+  // Webcam motion tracking and Gaze estimation loop
+  useEffect(() => {
+    if (cameraPermission !== 'granted' || !stream) return;
+
+    let active = true;
+    let animationFrameId: number;
+    let prevFrameData: Uint8ClampedArray | null = null;
+    let deviationFrames = 0;
+
+    const analyzeGaze = () => {
+      if (!active) return;
+
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      if (video && canvas && video.readyState === video.HAVE_ENOUGH_DATA) {
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        if (ctx) {
+          const width = 160;
+          const height = 120;
+          if (canvas.width !== width) {
+            canvas.width = width;
+            canvas.height = height;
+          }
+
+          // Draw the video frame mirrored
+          ctx.drawImage(video, 0, 0, width, height);
+
+          // Get image data to run difference checks
+          const frame = ctx.getImageData(0, 0, width, height);
+          const data = frame.data;
+
+          let totalX = 0;
+          let totalY = 0;
+          let motionPixelsCount = 0;
+
+          if (prevFrameData) {
+            for (let i = 0; i < data.length; i += 4) {
+              const rDiff = Math.abs(data[i] - prevFrameData[i]);
+              const gDiff = Math.abs(data[i + 1] - prevFrameData[i + 1]);
+              const bDiff = Math.abs(data[i + 2] - prevFrameData[i + 2]);
+              
+              if (rDiff + gDiff + bDiff > 90) {
+                // Motion pixel found
+                const pixelIndex = i / 4;
+                const x = pixelIndex % width;
+                const y = Math.floor(pixelIndex / width);
+                totalX += x;
+                totalY += y;
+                motionPixelsCount++;
+              }
+            }
+          }
+
+          // Save current frame data for next iteration comparison
+          prevFrameData = new Uint8ClampedArray(data);
+
+          // Default center focus target
+          let targetX = width / 2;
+          let targetY = height / 2;
+          let hasMotion = false;
+
+          if (motionPixelsCount > 150) {
+            targetX = totalX / motionPixelsCount;
+            targetY = totalY / motionPixelsCount;
+            hasMotion = true;
+          }
+
+          // Clear canvas to draw overlay
+          ctx.clearRect(0, 0, width, height);
+
+          // Draw grid and crosshair overlay (neon aesthetic)
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(width / 2, 0); ctx.lineTo(width / 2, height);
+          ctx.moveTo(0, height / 2); ctx.lineTo(width, height / 2);
+          ctx.stroke();
+
+          // Draw target bounding box (neon blue/green if focused, red if deviating)
+          const isDeviating = hasMotion && (targetX < width * 0.28 || targetX > width * 0.72);
+          
+          if (isDeviating) {
+            deviationFrames++;
+            if (deviationFrames > 35) { // ~1 second of deviation
+              setGazeStatus('WARNING: Gaze Deviation!');
+            }
+          } else {
+            deviationFrames = Math.max(0, deviationFrames - 1);
+            if (deviationFrames === 0) {
+              setGazeStatus('Gaze Focused');
+            }
+          }
+
+          // Trigger proctor log and trust deduction if deviation holds
+          if (deviationFrames === 36) {
+            addLog('[PROCTOR_FLAG] WARNING: Gaze deviation detected (candidate looking off-screen).');
+            setTrustScore((prev) => Math.max(0, prev - 8));
+            showError('Gaze Deviation Flagged!');
+          }
+
+          // Draw tracking box
+          ctx.strokeStyle = isDeviating ? 'rgba(239, 68, 68, 0.8)' : 'rgba(0, 255, 157, 0.8)';
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(targetX - 20, targetY - 20, 40, 40);
+
+          // Draw target center dot
+          ctx.fillStyle = isDeviating ? '#ef4444' : '#00ff9d';
+          ctx.beginPath();
+          ctx.arc(targetX, targetY, 3, 0, 2 * Math.PI);
+          ctx.fill();
+
+          // Draw telemetry text
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+          ctx.font = '7px monospace';
+          ctx.fillText(`X:${Math.round(targetX)} Y:${Math.round(targetY)}`, 5, 10);
+          ctx.fillText(isDeviating ? 'STATE: OFF-SCREEN' : 'STATE: LOCK', 5, 20);
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(analyzeGaze);
+    };
+
+    animationFrameId = requestAnimationFrame(analyzeGaze);
+
+    return () => {
+      active = false;
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [cameraPermission, stream]);
 
   const addLog = (msg: string) => {
     const timestamp = new Date().toLocaleTimeString();
@@ -193,19 +325,35 @@ export const ProctorSandbox = () => {
 
               <div className="w-full h-56 bg-black rounded-2xl overflow-hidden flex items-center justify-center border border-white/5 relative">
                 {cameraPermission === 'granted' ? (
-                  <video 
-                    ref={videoRef}
-                    autoPlay
-                    playsInline
-                    muted
-                    className="w-full h-full object-cover scale-x-[-1]"
-                  />
+                  <>
+                    <video 
+                      ref={videoRef}
+                      autoPlay
+                      playsInline
+                      muted
+                      className="w-full h-full object-cover scale-x-[-1]"
+                    />
+                    <canvas 
+                      ref={canvasRef}
+                      className="absolute top-2 right-2 w-[120px] h-[90px] rounded-lg border border-white/10 bg-black/60 backdrop-blur-sm"
+                      style={{ imageRendering: 'pixelated' }}
+                    />
+                  </>
                 ) : (
                   <div className="text-center p-6 space-y-2">
                     <ShieldAlert className="w-10 h-10 text-white/20 mx-auto" />
                     <p className="text-xs font-bold text-white/30 uppercase tracking-wider">Webcam stream locked / blocked</p>
                   </div>
                 )}
+              </div>
+              {/* Gaze Status Badge */}
+              <div className={`mt-3 flex items-center gap-2 px-3 py-1.5 rounded-full border text-[10px] font-black uppercase tracking-widest w-fit ${
+                gazeStatus.includes('WARNING') 
+                  ? 'bg-red-500/10 border-red-500/30 text-red-400' 
+                  : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+              }`}>
+                <Eye className="w-3 h-3" />
+                {gazeStatus}
               </div>
             </div>
 
