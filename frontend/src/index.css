@@ -1245,3 +1245,82 @@ a, button, input, textarea, select, div, section, article, nav, header, footer, 
   flex-shrink: 0;
 }
 
+/* Jobs Page Light Mode Specific Adjustments */
+[data-theme='light'] .min-h-screen.bg-\[\#0a0c10\] {
+  background-color: #f8fafc !important;
+}
+[data-theme='light'] .text-white {
+  color: #0f172a !important;
+}
+[data-theme='light'] .text-white\/40 {
+  color: #64748b !important;
+}
+[data-theme='light'] .text-white\/50 {
+  color: #334155 !important;
+}
+[data-theme='light'] .text-white\/30 {
+  color: #475569 !important;
+}
+[data-theme='light'] .text-white\/20 {
+  color: #94a3b8 !important;
+}
+[data-theme='light'] .bg-\[\#0a0c10\]\/50 {
+  background-color: #ffffff !important;
+  border-color: rgba(148, 163, 184, 0.3) !important;
+  color: #0f172a !important;
+}
+[data-theme='light'] input.bg-\[\#0a0c10\]\/50 {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+[data-theme='light'] input.bg-\[\#0a0c10\]\/50::placeholder {
+  color: #94a3b8 !important;
+}
+[data-theme='light'] .placeholder-white\/20::placeholder {
+  color: #94a3b8 !important;
+}
+[data-theme='light'] .group-focus-within\:text-\[\#00ff9d\] {
+  color: #057642 !important;
+}
+[data-theme='light'] .bg-\[\#0a0c10\]\/50.p-1\.5 {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+[data-theme='light'] .bg-\[\#0a0c10\]\/50.p-1\.5 button.text-white\/40 {
+  color: #64748b !important;
+}
+[data-theme='light'] .bg-\[\#0a0c10\]\/40 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02), 0 8px 10px -6px rgba(0, 0, 0, 0.02) !important;
+}
+[data-theme='light'] .bg-\[\#0a0c10\]\/40:hover {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+[data-theme='light'] .bg-\[\#0a0c10\] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+[data-theme='light'] .text-\[\#00ff9d\] {
+  color: #057642 !important;
+}
+[data-theme='light'] .bg-\[\#00ff9d\]\/10 {
+  background-color: rgba(5, 118, 66, 0.1) !important;
+}
+[data-theme='light'] .bg-white\/5 {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+  border-color: #e2e8f0 !important;
+}
+[data-theme='light'] .text-white\/30.bg-white\/5 {
+  color: #475569 !important;
+}
+[data-theme='light'] .w-20.h-20.bg-\[\#0a0c10\] {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+[data-theme='light'] .w-20.h-20.bg-\[\#0a0c10\] svg {
+  color: #94a3b8 !important;
+}
+
