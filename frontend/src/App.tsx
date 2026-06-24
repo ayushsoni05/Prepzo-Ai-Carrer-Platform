@@ -10,6 +10,7 @@ import { GlobalAIMentor } from '@/components/mentor/GlobalAIMentor';
 import { useAuthStore } from '@/store/authStore';
 import { useAppStore } from '@/store/appStore';
 import { useSocketStore } from '@/store/socketStore';
+import { ArrowLeft } from 'lucide-react';
 
 import { JobsPage } from '@/pages/JobsPage';
 import { CompaniesPage } from '@/pages/CompaniesPage';
