@@ -161,7 +161,7 @@ export function Dashboard() {
   }, [opportunitiesWorkspace]);
 
   const activeTab = (dashboardTab === 'overview' ? 'home' : (dashboardTab as DashboardTab)) || 'home';
-  const readinessScore = user?.placementReadinessScore || 68.42;
+  const readinessScore = user?.placementReadinessScore || 0;
   const atsScore = resumeAnalysis?.overallScore ?? user?.atsScore ?? 0;
 
   const skillBars = useMemo(() => {
@@ -200,13 +200,8 @@ export function Dashboard() {
   const isSkillComplete = !!user?.isSkillTestComplete;
   const isFullyQualified = isFieldComplete && isSkillComplete;
 
-  // Calculate real metrics for "fancy things"
-  const dailyStreak = useMemo(() => {
-    if (!atsHistory || atsHistory.length === 0) return 1;
-    // Simple logic: count unique days in history
-    const days = new Set(atsHistory.map(h => new Date(h.analyzedAt).toDateString()));
-    return Math.max(1, days.size);
-  }, [atsHistory]);
+  // Use real streak from user model
+  const dailyStreak = user?.streak || 0;
 
   const activityScore = useMemo(() => {
     const base = readinessScore * 0.8;
