@@ -293,13 +293,13 @@ export function JobsPage() {
                 </div>
               )}
               {isAuthenticated && (
-                <GlassButton
+                <button
                   onClick={() => navigate('/jobs/saved')}
-                  className="px-8 py-4 h-auto bg-white/5 hover:bg-white/10"
+                  className="px-8 py-4 h-auto bg-[#00ff9d] text-[#0a0c10] rounded-[18px] text-[13px] font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 flex items-center gap-2 shadow-lg shadow-[#00ff9d]/20"
                 >
-                   <Bookmark className="w-5 h-5 text-[#00ff9d]" />
-                   <span className="text-[14px] font-black uppercase tracking-widest ml-3">Saved Nodes</span>
-                </GlassButton>
+                   <Bookmark className="w-5 h-5 text-[#0a0c10]" />
+                   <span>Saved Nodes</span>
+                </button>
               )}
             </div>
           </div>
