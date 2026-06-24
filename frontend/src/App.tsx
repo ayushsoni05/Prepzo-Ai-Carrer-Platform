@@ -523,7 +523,7 @@ export default function App() {
                     currentPage={currentPage}
                     onNavigate={handleNavigate}
                   />
-                  {currentPage !== 'dashboard' && (
+                  {['jobs', 'companies', 'applications', 'network', 'notes', 'note-detail', 'question-bank', 'offer-analyzer', 'placement-accelerator', 'profile', 'leaderboard'].includes(currentPage) && (
                     <div className="px-6 pt-4 md:px-8 flex items-center justify-between border-b border-white/5 pb-3">
                       <button
                         onClick={() => handleNavigate('dashboard')}

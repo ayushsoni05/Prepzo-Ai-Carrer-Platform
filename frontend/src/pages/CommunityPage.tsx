@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { NetworkPage } from './NetworkPage';
 import { CompaniesPage } from './CompaniesPage';
-import { Users, Building2, Activity } from 'lucide-react';
+import { Users, Building2, Activity, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { navigateTo } from '@/utils/navigation';
 
 export function CommunityPage() {
   const [activeView, setActiveView] = useState<'network' | 'companies'>('network');
@@ -10,8 +11,16 @@ export function CommunityPage() {
   return (
     <div className="min-h-screen bg-[#f3f2ef] flex flex-col relative overflow-hidden">
       {/* Global Community Navigation */}
-      <div className="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200 pt-4 pb-0 md:pl-[100px] flex justify-center md:justify-start px-4">
-        <div className="flex gap-8">
+      <div className="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200 pt-4 pb-0 md:pl-[100px] flex items-center px-6">
+        <div className="flex gap-8 items-center">
+          <button 
+            onClick={() => navigateTo('dashboard')}
+            className="flex items-center gap-1.5 text-gray-500 hover:text-gray-900 mr-4 font-bold text-xs pb-4 border-r border-gray-200 pr-4"
+          >
+            <ArrowLeft size={16} />
+            <span>Dashboard</span>
+          </button>
+
           <button
             onClick={() => setActiveView('network')}
             className={`pb-4 flex items-center gap-2 relative transition-colors ${
