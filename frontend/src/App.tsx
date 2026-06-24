@@ -501,16 +501,17 @@ export default function App() {
               />
             </PageTransition>
           )}
-          
           {/* Workspace Pages wrapped in MainLayout */}
           {isWorkspacePage && (
             <PageTransition pageKey="workspace">
               <div className="flex h-[100dvh] overflow-hidden bg-[#0a0c10] relative">
-                <Sidebar 
-                  active={getSidebarActiveId(currentPage)} 
-                  onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
-                  lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
-                />
+                {currentPage === 'dashboard' && (
+                  <Sidebar 
+                    active={getSidebarActiveId(currentPage)} 
+                    onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
+                    lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
+                  />
+                )}
                 <main className="flex-1 h-full overflow-y-auto overflow-x-hidden custom-scrollbar pb-32 md:pb-0 pt-16 md:pt-0">
                   <MobileHeader 
                     user={user || undefined}
@@ -521,6 +522,17 @@ export default function App() {
                     currentPage={currentPage}
                     onNavigate={handleNavigate}
                   />
+                  {currentPage !== 'dashboard' && (
+                    <div className="px-6 pt-4 md:px-8 flex items-center justify-between border-b border-white/5 pb-3">
+                      <button
+                        onClick={() => handleNavigate('dashboard')}
+                        className="flex items-center gap-2 text-white/50 hover:text-white py-1.5 px-3.5 bg-white/5 border border-white/5 rounded-xl text-xs font-bold transition-all hover:bg-white/10"
+                      >
+                        <ArrowLeft className="w-3.5 h-3.5" />
+                        <span>Back to Dashboard</span>
+                      </button>
+                    </div>
+                  )}
                   <div className="hidden md:block">
                     <GlobalBreadcrumb />
                   </div>
@@ -555,11 +567,13 @@ export default function App() {
                   {currentPage === 'company-track' && <CompanyPrepTrack />}
                   {currentPage === 'coding-room' && <LiveCodingRoom />}
                 </main>
-                <MobileNav
-                  active={getSidebarActiveId(currentPage)}
-                  onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
-                  lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
-                />
+                {currentPage === 'dashboard' && (
+                  <MobileNav
+                    active={getSidebarActiveId(currentPage)}
+                    onNavigate={(id) => handleNavigate(id === 'opportunities' ? 'jobs' : id === 'home' ? 'dashboard' : id)}
+                    lockedItems={!isFullyQualified ? ['home', 'resume', 'opportunities', 'settings'] : []}
+                  />
+                )}
               </div>
             </PageTransition>
           )}
