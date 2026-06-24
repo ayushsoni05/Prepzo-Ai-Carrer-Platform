@@ -39,7 +39,8 @@ import {
   Calculator,
   BarChart3,
   DollarSign,
-  Gamepad2
+  Gamepad2,
+  Flame
 } from 'lucide-react';
 import { getFileUrl } from '@/utils/fileUrl';
 import {
