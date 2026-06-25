@@ -1,0 +1,58 @@
+name: Daily Contributions Streak
+
+on:
+  schedule:
+    - cron: '0 9 * * *' # Triggers daily at 09:00 UTC (2:30 PM IST)
+  workflow_dispatch: # Allows manual trigger for testing
+
+jobs:
+  commit-feature:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Run Daily Commit Automation
+        run: node scripts/daily_commit.js
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "Prepzo Streak Builder"
+          git config --global user.email "streak-builder@prepzo.ai"
+          
+          # Check if there are any changes staged/tracked
+          if git status --porcelain | grep -q .; then
+            git add .
+            
+            # Determine date-based message
+            CURRENT_DAY=$(date +%d)
+            if [ "$CURRENT_DAY" -eq 25 ]; then
+              MSG="feat: add AI Cover Letter Generator module"
+            elif [ "$CURRENT_DAY" -eq 26 ]; then
+              MSG="feat: add ATS Match Optimizer tool"
+            elif [ "$CURRENT_DAY" -eq 27 ]; then
+              MSG="feat: add Interactive DSA Flashcards"
+            elif [ "$CURRENT_DAY" -eq 28 ]; then
+              MSG="feat: add Cyberpunk Portfolio Builder"
+            elif [ "$CURRENT_DAY" -eq 29 ]; then
+              MSG="feat: add STAR Method Audio Coach"
+            else
+              MSG="feat: add System Design Topology Simulator"
+            fi
+            
+            git commit -m "$MSG"
+            git push origin main
+            echo "Successfully pushed daily feature commit!"
+          else
+            echo "No changes to commit for today."
+          fi
