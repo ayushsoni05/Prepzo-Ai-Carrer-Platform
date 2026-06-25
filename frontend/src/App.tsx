@@ -66,6 +66,12 @@ import { CareerRoadmap } from '@/pages/CareerRoadmap';
 import { InterviewReplayTheater } from '@/pages/InterviewReplayTheater';
 import { CompanyPrepTrack } from '@/pages/CompanyPrepTrack';
 import { LiveCodingRoom } from '@/pages/LiveCodingRoom';
+import CoverLetterGenerator from '@/pages/CoverLetterGenerator';
+import ATSOptimizer from '@/pages/ATSOptimizer';
+import DSAFlashcards from '@/pages/DSAFlashcards';
+import PortfolioBuilder from '@/pages/PortfolioBuilder';
+import STARCoach from '@/pages/STARCoach';
+import SystemSimulator from '@/pages/SystemSimulator';
 
 
 
@@ -567,6 +573,12 @@ export default function App() {
                   {currentPage === 'replay-theater' && <InterviewReplayTheater />}
                   {currentPage === 'company-track' && <CompanyPrepTrack />}
                   {currentPage === 'coding-room' && <LiveCodingRoom />}
+                  {currentPage === 'cover-letter' && <CoverLetterGenerator />}
+                  {currentPage === 'ats-optimizer' && <ATSOptimizer />}
+                  {currentPage === 'dsa-flashcards' && <DSAFlashcards />}
+                  {currentPage === 'portfolio-builder' && <PortfolioBuilder />}
+                  {currentPage === 'star-coach' && <STARCoach />}
+                  {currentPage === 'system-simulator' && <SystemSimulator />}
                 </main>
                 {currentPage === 'dashboard' && (
                   <MobileNav
