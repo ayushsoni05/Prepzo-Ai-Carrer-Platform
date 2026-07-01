@@ -4,15 +4,100 @@
 [![License](https://img.shields.io/badge/license-confidential--proprietary-red.svg)](#)
 [![Stack](https://img.shields.io/badge/stack-React%20%7C%20Node%20%7C%20FastAPI-blue.svg)](#)
 
-Prepzo is a production-grade, AI-orchestrated technical diagnostic and career acceleration ecosystem. It simulates rigorous recruitment environments through adaptive cognitive assessments, real-time audio/visual proctoring, dynamic path roadmaps, and detailed placement readiness mapping.
+---
+
+## 💡 What is Prepzo? (In Simple Terms)
+
+Think of Prepzo as a **flight simulator for getting a software engineering job**. 
+
+Usually, preparing for interviews is stressful because you do not know what the interviewer will ask, or how strong your resume and coding skills look compared to others. Prepzo solves this by creating a mock placement environment. It diagnoses your skills using artificial intelligence, tracks your coding practice consistency, tests you in a proctored environment, and shows you exactly how ready you are for top companies.
 
 ---
 
-## 🏛️ System Architecture
+## 🛠️ The Tech Stack: What We Used & Why
+
+Prepzo is built using a modern **triple-tier architecture**:
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                              FRONTEND                                  │
+│ React (UI) + Vite (Build tool) + Tailwind (CSS) + Zustand (State)      │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │ HTTPS REST / API calls
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                            BACKEND CORE                                │
+│                Node.js & Express.js (Database Routing)                 │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │ Database Queries / AI Microservice Sync
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                           AI & DATA SERVICES                           │
+│     FastAPI (Python API) + MongoDB (Data) + Groq API (LLM Engine)      │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+### 1. The Frontend (The User Interface)
+*   **React 18**: A library used to build the user interface using reusable visual blocks called components.
+*   **Vite**: A build tool that compiles and runs the frontend development server.
+*   **TypeScript**: A typed extension of JavaScript that prevents coding errors by ensuring variables hold the correct types of data.
+*   **Tailwind CSS**: A styling framework used to design premium visual themes (including dark-mode cards, glows, and animations).
+*   **Zustand**: A lightweight state management library that stores application state (such as the logged-in user or active page navigation) globally.
+
+### 2. The Backend Core (The Control Center)
+*   **Node.js**: A runtime environment that runs JavaScript code outside of the web browser (on a server).
+*   **Express.js**: A simple web framework running on Node.js used to build API endpoints (routes like `/api/login` or `/api/sprint/submit`).
+*   **Mongoose**: A library that connects Node.js to MongoDB, defining clean validation schemas for our database.
+
+### 3. The AI Microservice (The Intelligence Layer)
+*   **FastAPI (Python)**: A high-performance Python framework used to handle complex calculations and AI processing.
+*   **LangGraph**: A library that builds structured execution graphs to manage conversation loops for our AI Mentor.
+*   **Groq API**: An inference service that hosts advanced models like `llama-3.1-70b` and `gemma2-9b` to generate custom questions, analyze audio inputs, and generate cover letters.
+
+### 4. The Database (The Storage Room)
+*   **MongoDB**: A database that stores data in JSON-like documents.
+
+---
+
+## 📁 Repository Directory Structure
+
+Here is how the project files are organized:
+
+```
+Prepzo-Ai-Carrer-Platform/
+│
+├── .github/workflows/          # Automated GitHub Actions configurations
+│   └── daily-commit.yml        # Daily streak runner script
+│
+├── backend/                    # Node.js Core Backend Service
+│   ├── src/
+│   │   ├── controllers/        # Logical controllers (the brains behind the routes)
+│   │   ├── middleware/         # Security guards (validates logins & checks limits)
+│   │   ├── models/             # Database schemas (User, GameStats, etc.)
+│   │   ├── routes/             # REST API endpoint definitions
+│   │   └── server.js           # Server startup script
+│   └── .env.example            # Sample configuration template
+│
+├── frontend/                   # React TypeScript Frontend Client
+│   ├── src/
+│   │   ├── components/         # Reusable UI elements (buttons, navigation, loaders)
+│   │   ├── pages/              # Platform feature pages (DailySprint, PlacementDNA, etc.)
+│   │   ├── api/                # Axios configuration to connect with backend endpoints
+│   │   ├── App.tsx             # Root page-switching hub
+│   │   └── main.tsx            # Application entrance point
+│   └── package.json            # NPM dependencies configuration
+│
+└── scripts/                    # Platform scripts
+    └── daily_commit.js         # Streak automation program
+```
+
+---
+
+## 🏛️ System Diagrams
 
 ### 🔄 Request-Response Lifecycle (UML Sequence)
 
-This sequence diagram illustrates how candidate assessments, proctoring controls, and adaptive AI question generation flow through the platform's microservices:
+This diagram shows how data flows between components when a candidate takes an assessment:
 
 ```mermaid
 sequenceDiagram
@@ -46,11 +131,9 @@ sequenceDiagram
     API-->>UI: Return Diagnostics & Grade Performance
 ```
 
----
+### 📊 Database Entity Relationships (UML Class Diagram)
 
-## 📊 Database Domain Model (UML Class Diagram)
-
-The entity relationships showing candidate profiles, tracking telemetry, active roadmaps, and gaming stats are mapped below:
+This diagram maps how different models in the database relate to one another:
 
 ```mermaid
 classDiagram
@@ -115,45 +198,36 @@ classDiagram
 
 ---
 
-## ⚡ Core Platform Features
+## 🔍 How Every Feature Works Under the Hood
 
 ### 1. 🎯 Adaptive Assessment Engine
-*   **Dual-Stage Evaluation Pipeline**: Executes a Field Core assessment (60 questions on fundamentals) followed by a deep-dive Skill Depth stage tailored specifically to user-defined technologies.
-*   **Autonomous Seed Engine**: A continuous background process that safely populates MongoDB with unique question pools using API rate-limit smoothing.
-*   **Three-Day Cooldown**: Restricts assessment attempts to three-day intervals to measure long-term retention.
+*   **How it works**: When you start a test, the FastAPI microservice sends your profile info to the Llama-3.1 LLM via Groq. The AI generates custom core questions plus deep-dive questions based on your specific skills. 
+*   **Continuous Seeding**: A background seed worker regularly generates and caches questions in MongoDB. This ensures that when a candidate takes a test, they get questions immediately, avoiding API rate-limit bottlenecks.
 
 ### 2. 🛡️ Proctoring & Sensor Integrity
-*   **Dynamic Sensor Daemons**: Captures screen-sharing state, tab focus, keyboard combinations, and background decibels.
-*   **Automated Violation System**: Auto-flags candidates who attempt tab navigation, lockouts, or unauthorized copy/paste actions.
+*   **How it works**: As you take an assessment, background listeners monitor browser state. If you open a new tab, press `Ctrl+C`/`Ctrl+V`, disconnect screen-sharing, or generate loud noises, the system registers a violation log in MongoDB and increments your penalty flags.
 
 ### 3. 🧠 AI Mentor & Behavioral Counselor
-*   **Adaptive Persona Training**: Chat directly with AI coaches configured for specific company cultures (e.g. Google's Googliness vs. Amazon's Leadership Principles).
-*   **Stress Interview Emulation**: Interactive mock sessions designed to test situational confidence under pressure.
+*   **How it works**: A conversational agent is available directly on the dashboard. You can select specific interview modes (such as "Google Googliness" or "Amazon Leadership Principles") to conduct stress-test chats.
 
 ### 4. 🥇 Daily Sprint Loop
-*   **Streak Freeze Protection**: Decrements active freezes to protect consistency scores during offline periods.
-*   **XP Multipliers**: Awards speed-based XP bonuses on correct answers.
-*   **Division Leagues**: Promotes players through Bronze, Silver, Gold, Platinum, and Diamond tiers.
+*   **How it works**: A timed 3-round sprint tests your knowledge daily. An SVG ring acts as a visual 90-second countdown. If you miss a day, the system decrements a "Streak Freeze" token to preserve your active streak. Correct answers reward XP, promoting you through Bronze to Diamond leagues.
 
 ### 5. 🧬 Placement DNA
-*   **Heatmap Gap Matrices**: Highlights delta values between current performance and target hiring metrics.
-*   **Match Predictor**: Computes real-time match indices for major target companies based on assessment scores.
+*   **How it works**: Calculates a readiness grade based on resume strength, technical XP, interview performance, and project portfolio. It maps this data into a visual radar chart and compares it with company requirements to calculate your target match percentage.
 
 ### 6. 🗺️ Career Roadmap Planner
-*   **Scalable Timelines**: Generates 10-to-16-week prep roadmaps aligned with candidate tiers (FAANG, Product-focused, Startups).
-*   **Interactive Node Navigation**: Seamlessly routes tasks to Prepzo platforms (e.g., Code Golf, Trivia, System Whiteboards).
+*   **How it works**: Calculates a week-by-week timeline tailored for your target company tier (such as FAANG or Startups). Tasks are connected directly to active platform tools (e.g. system design whiteboards) and are marked complete as you build progress.
 
 ### 7. 🎬 Interview Replay Theater
-*   **Speech Pacing Tracker**: Charts words-per-minute (WPM) speed against performance averages.
-*   **Filler Word Timeline**: Identifies exact timestamps of spoken filler words (e.g., "like", "uh", "um").
+*   **How it works**: Analyzes video and audio records of your mock interviews. It counts filler words like "um" and "like", graphs words-per-minute pacing, and flags moments where you displayed strong confidence or lost focus.
 
 ### 8. 💻 Live Coding Room
-*   **Collaborative Sessions**: Instant multiplayer text synchronization via websocket coding channels.
-*   **Hint Tracking**: Monitors the helper prompts utilized to calculate candidate independence scores.
+*   **How it works**: A multiplayer workspace where candidates can coordinate real-time coding tasks. An integrated hint system monitors helper usage to evaluate candidate independence levels.
 
 ---
 
-## 🛠️ Developer Utilities (Integrated Extensions)
+## 🔧 Developer Sandboxes & Extensions
 
 *   **AI Cover Letter Matcher**: Compiles resume data and job details to output matching, high-conversion cover letters.
 *   **ATS Match Optimizer**: Analyzes job listings and outputs resume optimization updates.
@@ -164,23 +238,17 @@ classDiagram
 
 ---
 
-## 👑 Competitor-Beating Admin Console
+## 👑 Administrative Operations Control
 
-An analytics dashboard offering administration over candidate metrics:
-*   **Mock Placements Drive**: Plans placement events, manages candidate rosters, and exports scores.
-*   **Sandbox Code Workspace**: Fully-isolated environment to run, test, and write code scripts.
-*   **Telemetry Logs**: Real-time audit trails of proctoring violations and test telemetry.
-*   **Bulk Provisioners**: Auto-creates mock candidates, scores, and track progress datasets for demonstration.
-*   **Performance Dossier Exporter**: Download comprehensive student details in Excel or print-ready PDF formats.
+An advanced workspace console built for platform admins and colleges:
+*   **Placements Drive Planner**: Orchestrates institutional recruitment events, provisions candidate groups, and tracks overall metrics.
+*   **Bulk Generation Provisioners**: Auto-creates candidate mock data logs for system testing.
+*   **Violation Logs Telemetry**: Review candidate warnings, tab violations, and screen-sharing disconnects in a detailed grid.
+*   **Dossier Exporters**: Click to download student summaries and scores in Excel or print-ready PDF formats.
 
 ---
 
 ## ⚙️ Getting Started & Local Setup
-
-### Prerequisites
-*   Node.js (v18+)
-*   Python (3.10+)
-*   MongoDB (v6+)
 
 ### 1. Clone the Repository
 ```bash
@@ -192,7 +260,12 @@ cd Prepzo-Ai-Carrer-Platform
 ```bash
 cd backend
 npm install
-# Add a `.env` file with MONGODB_URI and JWT_SECRET keys
+
+# Create a `.env` file inside /backend with the following keys:
+# MONGODB_URI=your_mongodb_connection_string
+# JWT_SECRET=your_jwt_secret
+# PORT=5000
+
 npm run dev
 ```
 
@@ -203,4 +276,4 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:5173` to access the Prepzo acceleration portal.
+Open `http://localhost:5173` in your browser.
