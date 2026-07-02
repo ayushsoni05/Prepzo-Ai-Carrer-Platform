@@ -13,7 +13,7 @@ export const NotificationDropdown: React.FC = () => {
 
   const fetchNotifications = async () => {
     try {
-      const response = await api.get('/api/notifications', {
+      const response = await api.get('/notifications', {
         params: { category: activeCategory !== 'all' ? activeCategory : undefined }
       });
       if (response.data?.success) {
@@ -30,7 +30,7 @@ export const NotificationDropdown: React.FC = () => {
     // Poll unread count every 30 seconds for real-time signaling
     const interval = setInterval(async () => {
       try {
-        const countRes = await api.get('/api/notifications/unread-count');
+        const countRes = await api.get('/notifications/unread-count');
         if (countRes.data?.success) {
           setUnreadCount(countRes.data.data.count);
         }
@@ -42,7 +42,7 @@ export const NotificationDropdown: React.FC = () => {
   const handleMarkAsRead = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     try {
-      const res = await api.put(`/api/notifications/${id}/read`);
+      const res = await api.put(`/notifications/${id}/read`);
       if (res.data?.success) {
         setNotifications(prev => prev.map(n => n._id === id ? { ...n, isRead: true } : n));
         setUnreadCount(prev => Math.max(0, prev - 1));
@@ -54,7 +54,7 @@ export const NotificationDropdown: React.FC = () => {
 
   const handleMarkAllRead = async () => {
     try {
-      const res = await api.put('/api/notifications/read-all');
+      const res = await api.put('/notifications/read-all');
       if (res.data?.success) {
         setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
         setUnreadCount(0);
@@ -68,7 +68,7 @@ export const NotificationDropdown: React.FC = () => {
   const handleDelete = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     try {
-      const res = await api.delete(`/api/notifications/${id}`);
+      const res = await api.delete(`/notifications/${id}`);
       if (res.data?.success) {
         setNotifications(prev => prev.filter(n => n._id !== id));
         fetchNotifications();
@@ -80,7 +80,7 @@ export const NotificationDropdown: React.FC = () => {
 
   const handleClearAll = async () => {
     try {
-      const res = await api.delete('/api/notifications/clear-all');
+      const res = await api.delete('/notifications/clear-all');
       if (res.data?.success) {
         setNotifications([]);
         setUnreadCount(0);

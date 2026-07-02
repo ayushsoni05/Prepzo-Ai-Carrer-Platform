@@ -56,7 +56,7 @@ export const NotificationCenter = () => {
   const fetchNotifications = async () => {
     try {
       setLoading(true);
-      const res = await api.get('/api/notifications');
+      const res = await api.get('/notifications');
       if (res.data?.success) {
         setNotifications(res.data.data.docs || res.data.data);
       }
@@ -72,7 +72,7 @@ export const NotificationCenter = () => {
   const fetchMetadata = async () => {
     try {
       const [countRes, userRes] = await Promise.all([
-        api.get('/api/notifications/unread-count'),
+        api.get('/notifications/unread-count'),
         api.get('/api/users/profile') // or get user details including settings
       ]);
 
@@ -103,7 +103,7 @@ export const NotificationCenter = () => {
     }
 
     // Connect Server-Sent Events (SSE) for real-time alerts
-    const sseUrl = `${api.defaults.baseURL || ''}/api/notifications/stream`;
+    const sseUrl = `${api.defaults.baseURL || ''}/notifications/stream`;
     const eventSource = new EventSource(sseUrl, { withCredentials: true });
 
     eventSource.onmessage = (event) => {
@@ -150,7 +150,7 @@ export const NotificationCenter = () => {
 
   const handleMarkAsRead = async (id: string) => {
     try {
-      const res = await api.put(`/api/notifications/${id}/read`);
+      const res = await api.put(`/notifications/${id}/read`);
       if (res.data?.success) {
         setNotifications((prev) =>
           prev.map((n) => (n._id === id ? { ...n, isRead: true } : n))
@@ -166,7 +166,7 @@ export const NotificationCenter = () => {
 
   const handleMarkAllAsRead = async () => {
     try {
-      const res = await api.put('/api/notifications/read-all');
+      const res = await api.put('/notifications/read-all');
       if (res.data?.success) {
         setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
         setUnreadCount(0);
@@ -179,7 +179,7 @@ export const NotificationCenter = () => {
 
   const handleDeleteNotification = async (id: string) => {
     try {
-      const res = await api.delete(`/api/notifications/${id}`);
+      const res = await api.delete(`/notifications/${id}`);
       if (res.data?.success) {
         setNotifications((prev) => prev.filter((n) => n._id !== id));
         fetchMetadata();
@@ -192,7 +192,7 @@ export const NotificationCenter = () => {
 
   const handleClearAll = async () => {
     try {
-      const res = await api.delete('/api/notifications/clear-all');
+      const res = await api.delete('/notifications/clear-all');
       if (res.data?.success) {
         setNotifications([]);
         setUnreadCount(0);
@@ -212,7 +212,7 @@ export const NotificationCenter = () => {
     setPreferences(updatedPrefs);
 
     try {
-      await api.put('/api/notifications/preferences', { preferences: updatedPrefs });
+      await api.put('/notifications/preferences', { preferences: updatedPrefs });
       toast.success('Notification channels updated');
     } catch (err) {
       console.error('Failed to save preference settings:', err);
@@ -231,7 +231,7 @@ export const NotificationCenter = () => {
         const sub = await reg.pushManager.getSubscription();
         if (sub) {
           await sub.unsubscribe();
-          await api.post('/api/notifications/push-unsubscribe', { endpoint: sub.endpoint });
+          await api.post('/notifications/push-unsubscribe', { endpoint: sub.endpoint });
           setPushSubscribed(false);
           toast.success('Browser notifications disabled');
         }
@@ -250,7 +250,7 @@ export const NotificationCenter = () => {
           applicationServerKey: 'BEl62iC79X77us62iC79X77us_dummyKey_replace_in_prod'
         });
 
-        await api.post('/api/notifications/push-subscribe', { subscription: sub });
+        await api.post('/notifications/push-subscribe', { subscription: sub });
         setPushSubscribed(true);
         toast.success('Subscribed to push notifications!');
       }
