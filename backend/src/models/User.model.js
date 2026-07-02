@@ -643,6 +643,7 @@ const userSchema = new mongoose.Schema({
     targetedAds: { type: Boolean, default: false },
     autoplayVideos: { type: Boolean, default: true },
     language: { type: String, default: 'English' },
+    weeklyDigestEnabled: { type: Boolean, default: true },
     notificationPreferences: {
       streakReminders: {
         email: { type: Boolean, default: true },

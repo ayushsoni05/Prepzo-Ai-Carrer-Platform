@@ -12,6 +12,7 @@ dotenv.config({ path: path.join(__dirname, '../../.env') });
 import User from '../models/User.model.js';
 import PlacementScore from '../models/PlacementScore.model.js';
 import UserStreak from '../models/UserStreak.model.js';
+import NewsletterDispatch from '../models/NewsletterDispatch.model.js';
 
 const NEWSLETTER_TEMPLATE = `
 <!DOCTYPE html>
@@ -160,13 +161,15 @@ const NEWSLETTER_TEMPLATE = `
       </ul>
 
       <div class="cta-container">
-        <a href="https://prepzo.ai/placement-dna" class="cta-button">Bridge Your Skill Gaps</a>
+        <a href="{{CTA_LINK}}" class="cta-button">Bridge Your Skill Gaps</a>
       </div>
     </div>
     <div class="footer">
-      This automated career newsletter was dispatched specifically to {{EMAIL}} | Prepzo © 2026.
+      This automated career newsletter was dispatched specifically to {{EMAIL}} | Prepzo © 2026.<br/><br/>
+      If you no longer wish to receive these updates, you can <a href="{{UNSUBSCRIBE_LINK}}" style="color: #a78bfa; text-decoration: underline;">unsubscribe here</a>.
     </div>
   </div>
+  {{TRACKING_PIXEL}}
 </body>
 </html>
 `;
@@ -182,12 +185,18 @@ const run = async () => {
   console.log('Connecting to database...');
   await mongoose.connect(process.env.MONGODB_URI);
 
-  const users = await User.find({}, 'email name');
-  console.log(`Found ${users.length} registered users to dispatch newsletters.`);
+  // Filter users to only select those who haven't disabled the newsletter
+  const users = await User.find({ "settings.weeklyDigestEnabled": { $ne: false } });
+  console.log(`Found ${users.length} registered users with active digest configurations to dispatch newsletters.`);
 
   const useBrevo = process.env.BREVO_API_KEY && process.env.EMAIL_FROM;
+  const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 
   for (const user of users) {
+    // Generate dispatch record
+    const dispatchId = new mongoose.Types.ObjectId();
+
     // Fetch stats
     const placementScore = await PlacementScore.findOne({ user: user._id });
     const userStreak = await UserStreak.findOne({ user: user._id });
@@ -229,20 +238,40 @@ const run = async () => {
       skillGapsHtml = `<li><span>No skill gaps identified. Keep practice rooms active.</span></li>`;
     }
 
+    // Dynamic tracking URLs
+    const destinationUrl = `${frontendUrl}/placement-dna`;
+    const trackingCtaLink = `${backendUrl}/api/newsletter/click?dispatchId=${dispatchId}&url=${encodeURIComponent(destinationUrl)}`;
+    const unsubscribeLink = `${backendUrl}/api/newsletter/unsubscribe/${user._id}`;
+    const trackingPixel = `<img src="${backendUrl}/api/newsletter/open/${dispatchId}" width="1" height="1" alt="" style="display:none;" />`;
+
     const personalizedNewsletter = NEWSLETTER_TEMPLATE
-      .replace(/{{NAME}}/g, user.name || 'Developer')
+      .replace(/{{NAME}}/g, user.fullName || 'Developer')
       .replace(/{{EMAIL}}/g, user.email)
       .replace(/{{DNA_SCORE}}/g, dnaScore)
       .replace(/{{DNA_GRADE}}/g, grade)
       .replace(/{{STREAK}}/g, streakCount)
       .replace(/{{COMPANY_MATCHES}}/g, companyMatchesHtml)
-      .replace(/{{SKILL_GAPS}}/g, skillGapsHtml);
+      .replace(/{{SKILL_GAPS}}/g, skillGapsHtml)
+      .replace(/{{CTA_LINK}}/g, trackingCtaLink)
+      .replace(/{{UNSUBSCRIBE_LINK}}/g, unsubscribeLink)
+      .replace(/{{TRACKING_PIXEL}}/g, trackingPixel);
+
+    // Save dispatch record to MongoDB
+    await NewsletterDispatch.create({
+      _id: dispatchId,
+      user: user._id,
+      email: user.email,
+      subject: '📊 Your Weekly Prepzo Placement DNA & Career Diagnostic Update',
+      openCount: 0,
+      clickCount: 0,
+      status: useBrevo && !isDryRun ? 'sent' : 'mocked'
+    });
 
     if (useBrevo && !isDryRun) {
       try {
         await axios.post('https://api.brevo.com/v3/smtp/email', {
           sender: { name: 'Prepzo Career Core', email: process.env.EMAIL_FROM },
-          to: [{ email: user.email, name: user.name }],
+          to: [{ email: user.email, name: user.fullName || user.name }],
           subject: '📊 Your Weekly Prepzo Placement DNA & Career Diagnostic Update',
           htmlContent: personalizedNewsletter
         }, {
@@ -252,12 +281,12 @@ const run = async () => {
             'accept': 'application/json'
           }
         });
-        console.log(`Sent personalized newsletter to: ${user.email}`);
+        console.log(`Sent tracked newsletter to: ${user.email} (ID: ${dispatchId})`);
       } catch (err) {
         console.error(`Failed to send newsletter to ${user.email}:`, err.message);
       }
     } else {
-      console.log(`[MOCK] Dispatched newsletter to ${user.email} (DNA Score: ${dnaScore}, Streak: ${streakCount})`);
+      console.log(`[MOCK] Dispatched tracked newsletter to ${user.email} (ID: ${dispatchId}, DNA Score: ${dnaScore}, Streak: ${streakCount})`);
     }
   }
 
