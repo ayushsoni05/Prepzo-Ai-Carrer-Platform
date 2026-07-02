@@ -69,6 +69,7 @@ import { AtsOptimizer } from '@/components/dashboard/AtsOptimizer';
 import { ReferralGenerator } from '@/components/dashboard/ReferralGenerator';
 import { latexTemplates } from '@/data/latexTemplates';
 import { fetchOverleafTemplates, downloadOverleafTemplate, OverleafTemplate } from '@/api/overleaf';
+import { NotificationDropdown } from '@/components/navigation/NotificationDropdown';
 type DashboardTab = 'home' | 'resume' | 'assessment' | 'opportunities' | 'settings';
 
 export function Dashboard() {
@@ -1637,6 +1638,7 @@ export function Dashboard() {
                   <p className="text-xs font-[900] text-white uppercase tracking-[0.1em] leading-none">{user?.fullName}</p>
                   <p className="text-[9px] font-[900] text-white/20 uppercase tracking-[0.2em] mt-1 italic">{user?.targetRole || 'Engineer'}</p>
                 </div>
+                <NotificationDropdown />
                 <Dropdown>
                   <DropdownTrigger className="cursor-pointer outline-none">
                     <div className="w-10 h-10 rounded-xl bg-black border border-white/10 flex items-center justify-center font-[900] text-white text-xs uppercase shadow-lg shadow-[#5ed29c]/5 hover:border-[#5ed29c]/30 transition-all overflow-hidden relative">

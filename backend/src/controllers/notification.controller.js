@@ -5,6 +5,7 @@
 
 import { asyncHandler } from '../middleware/error.middleware.js';
 import Notification from '../models/Notification.model.js';
+import { generatePersonalizedNotifications } from '../services/notificationPersonalization.service.js';
 
 /**
  * @desc    Get user notifications
@@ -14,6 +15,9 @@ import Notification from '../models/Notification.model.js';
 export const getNotifications = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const { page = 1, limit = 20, category, isRead } = req.query;
+
+  // Dynamically trigger personalized updates based on scoring/streak analysis
+  await generatePersonalizedNotifications(userId);
 
   const options = {
     page: parseInt(page),
