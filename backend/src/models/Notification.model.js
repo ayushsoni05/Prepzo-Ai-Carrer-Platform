@@ -271,11 +271,46 @@ notificationSchema.statics.markAllAsRead = async function (userId, category) {
 
 // Static method to create notification
 notificationSchema.statics.createNotification = async function (data) {
+  try {
+    const User = mongoose.model('User');
+    const user = await User.findById(data.recipient);
+    
+    if (user && user.settings && user.settings.notificationPreferences) {
+      const categoryMap = {
+        'jobs': 'jobMatches',
+        'connections': 'leaderboardAlerts',
+        'engagement': 'leaderboardAlerts',
+        'system': 'streakReminders',
+        'ai': 'aiInsights'
+      };
+      
+      const mappedCategory = categoryMap[data.category] || 'streakReminders';
+      const prefs = user.settings.notificationPreferences[mappedCategory];
+      
+      if (prefs) {
+        if (prefs.inApp === false) {
+          return null; // Silent skip if in-app disabled
+        }
+        data.deliveryChannels = {
+          inApp: prefs.inApp,
+          email: prefs.email,
+          push: prefs.push
+        };
+      }
+    }
+  } catch (error) {
+    console.error('Error checking notification preferences:', error);
+  }
+
   const notification = new this(data);
   await notification.save();
   
-  // Here you could emit socket event for real-time notification
-  // socketService.emit(data.recipient, 'notification', notification);
+  try {
+    const { notificationEmitter } = await import('../utils/notificationEmitter.js');
+    notificationEmitter.emit('notification_created', notification);
+  } catch (err) {
+    console.error('Error emitting notification event:', err);
+  }
   
   return notification;
 };

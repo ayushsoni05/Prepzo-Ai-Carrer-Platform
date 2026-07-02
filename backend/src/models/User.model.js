@@ -642,7 +642,33 @@ const userSchema = new mongoose.Schema({
     twoFactorAuth: { type: Boolean, default: false },
     targetedAds: { type: Boolean, default: false },
     autoplayVideos: { type: Boolean, default: true },
-    language: { type: String, default: 'English' }
+    language: { type: String, default: 'English' },
+    notificationPreferences: {
+      streakReminders: {
+        email: { type: Boolean, default: true },
+        push: { type: Boolean, default: true },
+        inApp: { type: Boolean, default: true }
+      },
+      jobMatches: {
+        email: { type: Boolean, default: true },
+        push: { type: Boolean, default: true },
+        inApp: { type: Boolean, default: true }
+      },
+      leaderboardAlerts: {
+        email: { type: Boolean, default: false },
+        push: { type: Boolean, default: false },
+        inApp: { type: Boolean, default: true }
+      },
+      aiInsights: {
+        email: { type: Boolean, default: true },
+        push: { type: Boolean, default: true },
+        inApp: { type: Boolean, default: true }
+      }
+    },
+    pushSubscriptions: {
+      type: [mongoose.Schema.Types.Mixed],
+      default: []
+    }
   },
 
   // Account Status

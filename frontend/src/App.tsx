@@ -72,6 +72,7 @@ import DSAFlashcards from '@/pages/DSAFlashcards';
 import PortfolioBuilder from '@/pages/PortfolioBuilder';
 import STARCoach from '@/pages/STARCoach';
 import SystemSimulator from '@/pages/SystemSimulator';
+import { NotificationCenter } from '@/pages/NotificationCenter';
 
 
 
@@ -579,6 +580,7 @@ export default function App() {
                   {currentPage === 'portfolio-builder' && <PortfolioBuilder />}
                   {currentPage === 'star-coach' && <STARCoach />}
                   {currentPage === 'system-simulator' && <SystemSimulator />}
+                  {currentPage === 'notification-center' && <NotificationCenter />}
                 </main>
                 {currentPage === 'dashboard' && (
                   <MobileNav

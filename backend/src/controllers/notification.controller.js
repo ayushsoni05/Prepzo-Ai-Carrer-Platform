@@ -16,6 +16,14 @@ export const getNotifications = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const { page = 1, limit = 20, category, isRead } = req.query;
 
+  // Consolidate/aggregate redundant alert types before fetching
+  try {
+    const { aggregateUserNotifications } = await import('../services/notificationAggregator.service.js');
+    await aggregateUserNotifications(userId);
+  } catch (aggError) {
+    console.error('Failed to run AI notification aggregator:', aggError);
+  }
+
   // Dynamically trigger personalized updates based on scoring/streak analysis
   await generatePersonalizedNotifications(userId);
 
@@ -135,13 +143,29 @@ export const clearAllNotifications = asyncHandler(async (req, res) => {
  * @access  Private
  */
 export const updatePreferences = asyncHandler(async (req, res) => {
-  const { emailEnabled, pushEnabled, categories } = req.body;
+  const { preferences } = req.body;
+  const User = (await import('../models/User.model.js')).default;
 
-  // Store in user model (you can extend User model to include notification preferences)
-  // For now, we'll return success
+  const user = await User.findById(req.user._id);
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  if (preferences) {
+    user.settings.notificationPreferences = {
+      ...user.settings.notificationPreferences,
+      ...preferences
+    };
+    if (preferences.emailAlerts !== undefined) user.settings.emailAlerts = preferences.emailAlerts;
+    if (preferences.pushNotifications !== undefined) user.settings.pushNotifications = preferences.pushNotifications;
+    
+    await user.save();
+  }
+
   res.json({
     success: true,
-    message: 'Preferences updated',
-    data: { emailEnabled, pushEnabled, categories },
+    message: 'Preferences updated successfully',
+    data: user.settings,
   });
 });
