@@ -29,8 +29,6 @@ jobs:
       - name: Dispatch Email Campaign
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
-          SMTP_HOST: ${{ secrets.SMTP_HOST }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
-          SMTP_USER: ${{ secrets.SMTP_USER }}
-          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
         run: node backend/src/scripts/send_campaign.js

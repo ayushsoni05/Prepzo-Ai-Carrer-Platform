@@ -193,19 +193,18 @@ const run = async () => {
 
   // Define transport or mock logger
   let transporter;
-  const useSMTP = process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS;
+  const useBrevo = process.env.BREVO_API_KEY && process.env.EMAIL_FROM;
 
-  if (useSMTP && !isDryRun) {
+  if (useBrevo && !isDryRun) {
     transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT || 587,
-      secure: false,
+      host: 'smtp-relay.brevo.com',
+      port: 587,
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS
+        user: process.env.EMAIL_FROM,
+        pass: process.env.BREVO_API_KEY
       }
     });
-    console.log(`Configured SMTP transport using: ${process.env.SMTP_HOST}`);
+    console.log(`Configured Brevo SMTP Relay using: ${process.env.EMAIL_FROM}`);
   } else {
     console.log('Operating in DRY-RUN/MOCK delivery mode. All emails will be printed to logs.');
   }
@@ -225,12 +224,12 @@ const run = async () => {
     if (transporter) {
       try {
         await transporter.sendMail({
-          from: `"Prepzo Acceleration Core" <${process.env.SMTP_USER}>`,
+          from: `"Prepzo" <${process.env.EMAIL_FROM}>`,
           to: recipient.email,
           subject: '⚡ Accelerate Your Coding Career - Meet Prepzo',
           html: personalizedHtml
         });
-        console.log(`Sent campaign email to: ${recipient.email}`);
+        console.log(`Sent campaign email via Brevo to: ${recipient.email}`);
       } catch (err) {
         console.error(`Failed to send email to ${recipient.email}:`, err.message);
       }
