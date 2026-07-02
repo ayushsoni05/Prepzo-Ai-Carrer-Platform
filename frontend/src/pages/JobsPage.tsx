@@ -200,6 +200,14 @@ export function JobsPage() {
     }
   }, [selectedJobId]);
 
+  // Handle query param jobId selection on mount/url change
+  useEffect(() => {
+    const queryJobId = searchParams.get('jobId');
+    if (queryJobId) {
+      setSelectedJobId(queryJobId);
+    }
+  }, [searchParams]);
+
 
   // Handle search
   const handleSearch = (e: React.FormEvent) => {

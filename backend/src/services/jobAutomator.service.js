@@ -536,10 +536,10 @@ class JobAutomatorService {
           title,
           message,
           relatedEntities: { job: job._id, company: company._id },
-          actionUrl: `/jobs/${job._id}`,
+          actionUrl: `/jobs?jobId=${job._id}`,
           category: 'jobs',
           actions: [
-            { label: 'View Details', type: 'primary', url: `/jobs/${job._id}` }
+            { label: 'View Details', type: 'primary', url: `/jobs?jobId=${job._id}` }
           ],
           deliveryChannels: { inApp: true, email: true, push: false }
         });
