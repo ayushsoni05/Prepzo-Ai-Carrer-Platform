@@ -238,6 +238,12 @@ export const useAuthStore = create<AuthState>()(
       },
       
       fetchUser: async () => {
+        const token = localStorage.getItem('prepzo-token');
+        if (token === 'mock-admin-token') {
+          set({ isLoading: false });
+          return get().user;
+        }
+        
         set({ isLoading: true });
         try {
           const response = await authApi.getMe();

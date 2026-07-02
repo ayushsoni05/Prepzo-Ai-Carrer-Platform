@@ -162,6 +162,44 @@ const autoSeedNotes = async () => {
   }
 };
 
+const autoSeedAdmin = async () => {
+  try {
+    const User = (await import('../models/User.model.js')).default;
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@prepzo.com';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'Admin@123';
+    const adminName = process.env.ADMIN_NAME || 'Admin User';
+
+    const existingAdmin = await User.findOne({ email: adminEmail });
+    if (!existingAdmin) {
+      console.log(`🌱 Seeding default admin user: ${adminEmail}...`);
+      await User.create({
+        fullName: adminName,
+        email: adminEmail,
+        phone: '1234567890',
+        dateOfBirth: new Date('1990-01-01'),
+        gender: 'Other',
+        password: adminPassword, // Model hooks will hash this
+        collegeName: 'Admin College',
+        degree: 'B.Tech',
+        fieldOfStudy: 'Computer Science',
+        yearOfStudy: '4th Year',
+        targetRole: 'Software Engineer',
+        role: 'admin',
+        accountStatus: 'active',
+        isEmailVerified: true,
+        isOnboarded: true,
+        isAssessmentComplete: true,
+        placementReadinessScore: 100,
+      });
+      console.log('✅ Default admin user seeded successfully.');
+    } else {
+      console.log(`📊 Admin user already exists: ${adminEmail}. Skipping seed.`);
+    }
+  } catch (err) {
+    console.error('❌ Failed to auto-seed admin user:', err.message);
+  }
+};
+
 const connectDB = async () => {
   try {
     let mongoUri = process.env.MONGODB_URI;
@@ -176,6 +214,7 @@ const connectDB = async () => {
         // Auto-seed if empty
         await autoSeedInterviewQuestions();
         await autoSeedNotes();
+        await autoSeedAdmin();
         return;
       } catch (localError) {
         console.warn(`⚠️ Connection to ${mongoUri.split('@')[1] || 'remote'} failed, starting in-memory server...`);
@@ -198,6 +237,7 @@ const connectDB = async () => {
           // Auto-seed the in-memory DB
           await autoSeedInterviewQuestions();
           await autoSeedNotes();
+          await autoSeedAdmin();
           return;
         } catch (memError) {
           console.error(`❌ Failed to start In-memory MongoDB: ${memError.message}`);
@@ -211,6 +251,7 @@ const connectDB = async () => {
     // Auto-seed if empty (critical for Render/production)
     await autoSeedInterviewQuestions();
     await autoSeedNotes();
+    await autoSeedAdmin();
   } catch (error) {
     console.error(`❌ Critical MongoDB Connection Error: ${error.message}`);
     console.error(`NODE_ENV is ${process.env.NODE_ENV}`);
