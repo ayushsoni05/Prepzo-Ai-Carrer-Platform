@@ -1,0 +1,36 @@
+name: Automated Weekly Ad Campaign
+
+on:
+  schedule:
+    - cron: '0 9 * * 1' # Triggers every Monday at 09:00 UTC (2:30 PM IST)
+  workflow_dispatch: # Allows manual trigger from GitHub UI for testing
+
+jobs:
+  run-campaign:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Backend Dependencies
+        run: |
+          cd backend
+          npm install
+
+      - name: Run Lead Discovery Scraper
+        run: node backend/src/scripts/find_leads.js
+
+      - name: Dispatch Email Campaign
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+        run: node backend/src/scripts/send_campaign.js
