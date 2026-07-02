@@ -55,6 +55,9 @@ import roadmapRoutes from './routes/roadmap.routes.js';
 import replayRoutes from './routes/replay.routes.js';
 import companyTrackRoutes from './routes/companyTrack.routes.js';
 import codingRoomRoutes from './routes/codingRoom.routes.js';
+import newsletterRoutes from './routes/newsletter.routes.js';
+import jobAutomationRoutes from './routes/jobAutomation.routes.js';
+import { jobAutomator } from './services/jobAutomator.service.js';
 
 
 import { seeder } from './services/autonomousSeeder.service.js';
@@ -269,11 +272,15 @@ const startAIService = () => {
         console.log('✅ AI Service is running and ready!');
         // Start the Autonomous Seeder only in dev
         seeder.start().catch(err => console.error('Failed to start Autonomous Seeder:', err));
+        // Start the Job Automation Service
+        jobAutomator.start();
       }
     } else {
       console.log('✅ AI Service already running.');
       // Start the Autonomous Seeder only in dev
       seeder.start().catch(err => console.error('Failed to start Autonomous Seeder:', err));
+      // Start the Job Automation Service
+      jobAutomator.start();
     }
   } else {
     console.log('🌐 Production Mode / Manual AI Start: Background loops and child processes bypassed for stability.');
@@ -326,6 +333,8 @@ app.use('/api/roadmap', roadmapRoutes);
 app.use('/api/replay', replayRoutes);
 app.use('/api/company-track', companyTrackRoutes);
 app.use('/api/coding-room', codingRoomRoutes);
+app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/admin/job-automation', jobAutomationRoutes);
 
 
 

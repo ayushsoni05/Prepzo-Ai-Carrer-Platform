@@ -57,6 +57,7 @@ import {
 import { GridBeam } from '@/components/ui/background-grid-beam';
 import { companiesApi, Company } from '@/api/companies';
 import { jobsApi, Job } from '@/api/jobs';
+import { JobAutomationPanel } from '@/components/admin/JobAutomationPanel';
 
 interface AdminPanelProps {
   onNavigate: (page: string) => void;
@@ -71,6 +72,7 @@ const sidebarItems = [
   { icon: Layout, label: 'Whiteboard Audits', id: 'whiteboards' },
   { icon: Terminal, label: 'Live Session Monitor', id: 'live-sessions' },
   { icon: Building2, label: 'Jobs & Companies', id: 'companies' },
+  { icon: Activity, label: 'Job Automation', id: 'job-automation' },
   { icon: Calendar, label: 'Placement Drives', id: 'drives' },
   { icon: Bell, label: 'Campaign Manager', id: 'campaigns' },
   { icon: Shield, label: 'AI Proctor Center', id: 'proctoring' },
@@ -1000,6 +1002,10 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
                 </GlassCard>
               </div>
             </div>
+          )}
+
+          {activeTab === 'job-automation' && (
+            <JobAutomationPanel />
           )}
 
           {activeTab === 'drives' && (
