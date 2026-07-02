@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import mongoose from 'mongoose';
-import nodemailer from 'nodemailer';
+import axios from 'axios';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 
@@ -191,20 +191,10 @@ const run = async () => {
     process.exit(0);
   }
 
-  // Define transport or mock logger
-  let transporter;
   const useBrevo = process.env.BREVO_API_KEY && process.env.EMAIL_FROM;
 
   if (useBrevo && !isDryRun) {
-    transporter = nodemailer.createTransport({
-      host: 'smtp-relay.brevo.com',
-      port: 587,
-      auth: {
-        user: process.env.EMAIL_FROM,
-        pass: process.env.BREVO_API_KEY
-      }
-    });
-    console.log(`Configured Brevo SMTP Relay using: ${process.env.EMAIL_FROM}`);
+    console.log('Configured Brevo REST API dispatcher.');
   } else {
     console.log('Operating in DRY-RUN/MOCK delivery mode. All emails will be printed to logs.');
   }
@@ -221,17 +211,24 @@ const run = async () => {
       .replace(/{{NAME}}/g, recipient.name)
       .replace(/{{EMAIL}}/g, recipient.email);
 
-    if (transporter) {
+    if (useBrevo && !isDryRun) {
       try {
-        await transporter.sendMail({
-          from: `"Prepzo" <${process.env.EMAIL_FROM}>`,
-          to: recipient.email,
+        await axios.post('https://api.brevo.com/v3/smtp/email', {
+          sender: { name: 'Prepzo Team', email: process.env.EMAIL_FROM },
+          to: [{ email: recipient.email, name: recipient.name }],
           subject: '⚡ Accelerate Your Coding Career - Meet Prepzo',
-          html: personalizedHtml
+          htmlContent: personalizedHtml
+        }, {
+          headers: {
+            'api-key': process.env.BREVO_API_KEY,
+            'content-type': 'application/json',
+            'accept': 'application/json'
+          }
         });
-        console.log(`Sent campaign email via Brevo to: ${recipient.email}`);
+        console.log(`Sent campaign email via Brevo REST API to: ${recipient.email}`);
       } catch (err) {
-        console.error(`Failed to send email to ${recipient.email}:`, err.message);
+        const errMsg = err.response && err.response.data ? JSON.stringify(err.response.data) : err.message;
+        console.error(`Failed to send email to ${recipient.email}:`, errMsg);
       }
     } else {
       const logEntry = `To: ${recipient.name} <${recipient.email}>\nSegment: ${recipient.segment}\nSubject: ⚡ Accelerate Your Coding Career - Meet Prepzo\nBody Snippet: "Hello ${recipient.name}, why face real..."\n----------------------------------------\n`;
