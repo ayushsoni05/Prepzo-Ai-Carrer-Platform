@@ -88,9 +88,9 @@ export const decrypt = (encryptedText) => {
     
     return decrypted;
   } catch (error) {
-    console.error('Decryption error:', error);
-    // Return encrypted text as-is if decryption fails
-    return encryptedText;
+    console.warn(`[Decryption] Failed to decrypt text (possibly encrypted with a different key/salt): ${error.message}`);
+    // Return empty string instead of raw encrypted garbage
+    return '';
   }
 };
 
