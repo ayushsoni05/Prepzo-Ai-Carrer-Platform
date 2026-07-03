@@ -28,7 +28,10 @@ const jobAutomationConfigSchema = new mongoose.Schema(
       type: [String],
       default: [
         'https://weworkremotely.com/categories/remote-programming-jobs.rss',
-        'https://remoteok.com/remote-jobs.rss'
+        'https://remoteok.com/remote-jobs.rss',
+        'https://remotive.com/feed',
+        'https://himalayas.app/jobs/rss',
+        'https://www.realworkfromanywhere.com/rss.xml'
       ],
     },
     lastRunTime: {
