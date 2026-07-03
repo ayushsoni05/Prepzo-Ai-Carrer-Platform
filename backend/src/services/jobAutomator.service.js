@@ -473,10 +473,10 @@ class JobAutomatorService {
     // Try OpenRouter Fallback with multiple models
     if (openRouter) {
       const openRouterModels = [
-        'google/gemini-2.0-flash-lite-preview-02-05:free',
         'google/gemini-2.5-flash',
         'meta-llama/llama-3.3-70b-instruct:free',
-        'deepseek/deepseek-chat'
+        'deepseek/deepseek-chat',
+        'qwen/qwen-2.5-72b-instruct:free'
       ];
 
       for (const model of openRouterModels) {
@@ -486,6 +486,7 @@ class JobAutomatorService {
             messages: [{ role: 'user', content: prompt }],
             model: model,
             temperature: 0.2,
+            max_tokens: 1500,
           });
           const text = response.choices[0].message.content;
           const start = text.indexOf('{');
