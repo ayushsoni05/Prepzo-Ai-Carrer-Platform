@@ -56,7 +56,9 @@ export const getDashboardStats = async (req, res) => {
     });
     
     // Get average placement readiness score
-    const users = await User.find({ placementReadinessScore: { $exists: true, $gt: 0 } });
+    const users = await User.find({ placementReadinessScore: { $exists: true, $gt: 0 } })
+      .select('placementReadinessScore')
+      .lean();
     const avgScore = users.length > 0 
       ? Math.round(users.reduce((sum, u) => sum + (u.placementReadinessScore || 0), 0) / users.length)
       : 0;
