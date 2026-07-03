@@ -8,7 +8,7 @@ const jobAutomationConfigSchema = new mongoose.Schema(
     },
     autoApproveJobs: {
       type: Boolean,
-      default: false, // Default to requiring admin approval/moderation
+      default: true, // Auto publish to student boards immediately
     },
     maxJobsPerRun: {
       type: Number,

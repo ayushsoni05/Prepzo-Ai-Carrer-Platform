@@ -14,6 +14,7 @@ import {
   seedSystemData,
   sendAnnouncement,
   getAuditLogs,
+  bulkProvisionUsers,
 } from '../controllers/admin.controller.js';
 import { protect, admin } from '../middleware/auth.middleware.js';
 
@@ -31,6 +32,7 @@ router.post('/seed', seedSystemData);
 router.get('/users', getAllUsers);
 router.get('/users/export', exportUsers);
 router.post('/users/bulk', bulkUserAction);
+router.post('/users/bulk-provision', bulkProvisionUsers);
 router.get('/users/:id', getUserDetails);
 router.put('/users/:id', updateUser);
 router.delete('/users/:id', deleteUser);

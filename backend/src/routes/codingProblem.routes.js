@@ -155,4 +155,74 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+/**
+ * @desc    Create a new coding problem
+ * @route   POST /api/coding-problems
+ */
+router.post('/', async (req, res, next) => {
+  try {
+    const { title, difficulty, category, starterCode, testCases } = req.body;
+
+    if (!title) {
+      return res.status(400).json({
+        success: false,
+        message: 'Title is required'
+      });
+    }
+
+    const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+    // Check if duplicate
+    const existing = await CodingProblem.findOne({ id });
+    if (existing) {
+      return res.status(400).json({
+        success: false,
+        message: `A coding problem with title "${title}" already exists`
+      });
+    }
+
+    // Parse testCases string (e.g., "[1,2] -> 3") into schema objects
+    let parsedTestCases = [];
+    if (testCases) {
+      if (typeof testCases === 'string') {
+        parsedTestCases = testCases
+          .split('\n')
+          .map(line => line.trim())
+          .filter(Boolean)
+          .map((line, idx) => {
+            const parts = line.split('->').map(p => p.trim());
+            return {
+              id: `tc${idx + 1}`,
+              input: parts[0] || '',
+              expectedOutput: parts[1] || '',
+              isHidden: idx >= 3 // default first 3 to public, rest hidden
+            };
+          });
+      } else if (Array.isArray(testCases)) {
+        parsedTestCases = testCases;
+      }
+    }
+
+    const problem = await CodingProblem.create({
+      id,
+      title,
+      difficulty: difficulty || 'Medium',
+      categoryTags: category ? [category] : ['DSA'],
+      companyTags: ['Practice'],
+      acceptanceRate: 100,
+      description: `<p>Determine the optimal solution for the problem <strong>${title}</strong>.</p>`,
+      starterCode: starterCode ? { javascript: starterCode } : { javascript: 'function solution() {\n  \n}' },
+      testCases: parsedTestCases
+    });
+
+    res.status(201).json({
+      success: true,
+      data: problem
+    });
+  } catch (error) {
+    console.error('Failed to create coding problem:', error);
+    next(error);
+  }
+});
+
 export default router;

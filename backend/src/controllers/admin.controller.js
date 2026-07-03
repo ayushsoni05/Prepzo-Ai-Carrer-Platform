@@ -699,3 +699,53 @@ export const getAuditLogs = async (req, res) => {
     res.status(500).json({ message: error.message || 'Server error' });
   }
 };
+
+// @desc    Bulk provision new user accounts
+// @route   POST /api/admin/users/bulk-provision
+// @access  Private/Admin
+export const bulkProvisionUsers = async (req, res) => {
+  try {
+    const { users } = req.body;
+
+    if (!users || !Array.isArray(users) || users.length === 0) {
+      return res.status(400).json({ message: 'A list of users is required' });
+    }
+
+    let createdCount = 0;
+    let skippedCount = 0;
+
+    for (const u of users) {
+      const { fullName, email, password, role } = u;
+      if (!fullName || !email) {
+        skippedCount++;
+        continue;
+      }
+
+      const existing = await User.findOne({ email: email.toLowerCase() });
+      if (existing) {
+        skippedCount++;
+        continue;
+      }
+
+      await User.create({
+        fullName,
+        email: email.toLowerCase(),
+        password: password || 'TempPassword123!',
+        role: role || 'student',
+        isOnboarded: false,
+        accountStatus: 'active'
+      });
+      createdCount++;
+    }
+
+    res.json({
+      success: true,
+      message: `Bulk provisioning completed: Created ${createdCount} accounts, Skipped ${skippedCount} duplicates/invalid entries.`,
+      createdCount,
+      skippedCount
+    });
+  } catch (error) {
+    console.error('Bulk provision users error:', error);
+    res.status(500).json({ message: error.message || 'Server error' });
+  }
+};

@@ -473,6 +473,7 @@ class JobAutomatorService {
     // Try OpenRouter Fallback with multiple models
     if (openRouter) {
       const openRouterModels = [
+        'openrouter/free',
         'google/gemini-2.5-flash',
         'meta-llama/llama-3.3-70b-instruct:free',
         'deepseek/deepseek-chat',
