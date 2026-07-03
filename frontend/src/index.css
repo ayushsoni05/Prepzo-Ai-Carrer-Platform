@@ -1304,6 +1304,10 @@ a, button, input, textarea, select, div, section, article, nav, header, footer, 
   background-color: #f3f2ef !important;
   border-color: #e2e8f0 !important;
 }
+[data-theme='light'] .bg-\[\#12161f\] {
+  background-color: #f3f2ef !important;
+  border-color: rgba(148, 163, 184, 0.28) !important;
+}
 [data-theme='light'] .text-\[\#00ff9d\] {
   color: #057642 !important;
 }
