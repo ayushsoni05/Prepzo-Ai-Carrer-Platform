@@ -192,6 +192,14 @@ const autoSeedAdmin = async () => {
         placementReadinessScore: 100,
       });
       console.log('✅ Default admin user seeded successfully.');
+    } else if (existingAdmin.isAccountLocked || existingAdmin.failedLoginAttempts > 0) {
+      console.log(`🔓 Admin user exists but is locked or has failed attempts. Resetting status...`);
+      existingAdmin.isAccountLocked = false;
+      existingAdmin.accountLockedAt = null;
+      existingAdmin.accountLockReason = null;
+      existingAdmin.failedLoginAttempts = 0;
+      await existingAdmin.save();
+      console.log(`🔓 Admin user successfully unlocked.`);
     } else {
       console.log(`📊 Admin user already exists: ${adminEmail}. Skipping seed.`);
     }
