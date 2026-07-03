@@ -192,16 +192,19 @@ const autoSeedAdmin = async () => {
         placementReadinessScore: 100,
       });
       console.log('✅ Default admin user seeded successfully.');
-    } else if (existingAdmin.isAccountLocked || existingAdmin.failedLoginAttempts > 0) {
-      console.log(`🔓 Admin user exists but is locked or has failed attempts. Resetting status...`);
+    } else {
+      console.log(`🔄 Syncing existing admin user credentials and status: ${adminEmail}...`);
+      existingAdmin.password = adminPassword; // Model hooks will hash this on save
+      existingAdmin.role = 'admin';
+      existingAdmin.accountStatus = 'active';
+      existingAdmin.isEmailVerified = true;
+      existingAdmin.isOnboarded = true;
       existingAdmin.isAccountLocked = false;
       existingAdmin.accountLockedAt = null;
       existingAdmin.accountLockReason = null;
       existingAdmin.failedLoginAttempts = 0;
       await existingAdmin.save();
-      console.log(`🔓 Admin user successfully unlocked.`);
-    } else {
-      console.log(`📊 Admin user already exists: ${adminEmail}. Skipping seed.`);
+      console.log(`✅ Admin user synced and unlocked.`);
     }
   } catch (err) {
     console.error('❌ Failed to auto-seed admin user:', err.message);
