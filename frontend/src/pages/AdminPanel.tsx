@@ -550,52 +550,64 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
 
               {/* Placement DNA Analytics distribution */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <GlassCard className="p-6 flex flex-col justify-between">
+                <GlassCard className="p-6 flex flex-col justify-between bg-[var(--bg-elevated)] border-[var(--panel-border)]">
                   <div className="flex justify-between items-start">
-                    <span className="text-xs text-white/40 font-bold uppercase tracking-wider">Active Students</span>
-                    <Users className="w-5 h-5 text-cyan-400" />
+                    <span className="text-xs text-[var(--text-muted)] font-bold uppercase tracking-wider">Active Students (24h)</span>
+                    <Users className="w-5 h-5 text-[var(--primary)]" />
                   </div>
                   <div className="mt-4">
-                    <span className="text-4xl font-extrabold">{stats?.activeUsers || 142}</span>
-                    <p className="text-[10px] text-green-400 mt-1 font-semibold">↑ 12% increase this month</p>
+                    <span className="text-4xl font-extrabold text-[var(--text)]">{stats?.users?.active24h || 0}</span>
+                    <p className="text-[10px] text-[var(--text-soft)] mt-1 font-semibold">Currently active candidates</p>
                   </div>
                 </GlassCard>
 
-                <GlassCard className="p-6 flex flex-col justify-between">
+                <GlassCard className="p-6 flex flex-col justify-between bg-[var(--bg-elevated)] border-[var(--panel-border)]">
                   <div className="flex justify-between items-start">
-                    <span className="text-xs text-white/40 font-bold uppercase tracking-wider">Median Placement DNA</span>
-                    <Activity className="w-5 h-5 text-purple-400" />
+                    <span className="text-xs text-[var(--text-muted)] font-bold uppercase tracking-wider">Avg Placement Score</span>
+                    <Activity className="w-5 h-5 text-[var(--primary)]" />
                   </div>
                   <div className="mt-4">
-                    <span className="text-4xl font-extrabold">72 <span className="text-sm font-normal text-white/40">/ 100</span></span>
-                    <p className="text-[10px] text-purple-400 mt-1 font-semibold">Standard target candidate score</p>
+                    <span className="text-4xl font-extrabold text-[var(--text)]">{stats?.performance?.avgPlacementScore || 0} <span className="text-sm font-normal text-[var(--text-muted)]">/ 100</span></span>
+                    <p className="text-[10px] text-[var(--text-soft)] mt-1 font-semibold">Average candidate readiness</p>
                   </div>
                 </GlassCard>
 
-                <GlassCard className="p-6 flex flex-col justify-between">
+                <GlassCard className="p-6 flex flex-col justify-between bg-[var(--bg-elevated)] border-[var(--panel-border)]">
                   <div className="flex justify-between items-start">
-                    <span className="text-xs text-white/40 font-bold uppercase tracking-wider">Verification Rate</span>
-                    <UserCheck className="w-5 h-5 text-emerald-400" />
+                    <span className="text-xs text-[var(--text-muted)] font-bold uppercase tracking-wider">Total Registered Candidates</span>
+                    <UserCheck className="w-5 h-5 text-[var(--primary)]" />
                   </div>
                   <div className="mt-4">
-                    <span className="text-4xl font-extrabold">94.2%</span>
-                    <p className="text-[10px] text-emerald-400 mt-1 font-semibold">Proctor integrity coefficient</p>
+                    <span className="text-4xl font-extrabold text-[var(--text)]">{stats?.users?.total || 0}</span>
+                    <p className="text-[10px] text-[var(--text-soft)] mt-1 font-semibold">Candidates inside Neural Network</p>
                   </div>
                 </GlassCard>
               </div>
 
               {/* Competitor analysis distribution graph */}
-              <GlassCard className="p-8 space-y-6">
-                <h3 className="font-extrabold text-base">Candidate DNA Score distribution vs. Competitor Benchmarks</h3>
-                <div className="h-48 flex items-end gap-3 pt-6 border-b border-white/5 pb-2">
-                  {[24, 45, 60, 85, 70, 52, 30].map((h, i) => (
-                    <div key={i} className="flex-1 flex flex-col items-center gap-2">
-                      <div className="w-full bg-gradient-to-t from-purple-500 to-cyan-400 rounded-t-lg transition-all duration-1000" style={{ height: `${h * 1.5}px` }} />
-                      <span className="text-[10px] text-white/30 font-semibold">Range {i * 15 + 10}</span>
-                    </div>
-                  ))}
+              <GlassCard className="p-8 space-y-6 bg-[var(--bg-elevated)] border-[var(--panel-border)]">
+                <h3 className="font-extrabold text-base text-[var(--text)]">Candidate DNA Score distribution vs. Competitor Benchmarks</h3>
+                <div className="h-48 flex items-end gap-3 pt-6 border-b border-[var(--panel-border)] pb-2">
+                  {(stats?.performance?.scoreDistribution || [0, 0, 0, 0, 0, 0, 0]).map((count, i) => {
+                    const maxCount = Math.max(...(stats?.performance?.scoreDistribution || [0, 0, 0, 0, 0, 0, 0]), 1);
+                    return (
+                      <div key={i} className="flex-1 flex flex-col items-center gap-2 group relative">
+                        {/* Tooltip on hover */}
+                        <div className="absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity bg-[var(--bg-elevated)] border border-[var(--panel-border)] px-2.5 py-1 rounded-lg shadow-lg text-[10px] font-bold text-[var(--text)] pointer-events-none whitespace-nowrap z-20">
+                          {count} {count === 1 ? 'Candidate' : 'Candidates'}
+                        </div>
+                        {/* Bar */}
+                        <div 
+                          className="w-full bg-gradient-to-t from-[var(--primary)] to-[var(--primary-light)] rounded-t-md hover:brightness-110 transition-all duration-500 shadow-md" 
+                          style={{ height: `${(count / maxCount) * 120 + 6}px` }} 
+                        />
+                        {/* Label */}
+                        <span className="text-[10px] text-[var(--text-muted)] font-semibold mt-1">Range {i * 15 + 10}</span>
+                      </div>
+                    );
+                  })}
                 </div>
-                <div className="flex justify-between text-xs text-white/40">
+                <div className="flex justify-between text-xs text-[var(--text-muted)]">
                   <span>Standard Distribution range matches standard HackerRank median profile ranges (60-75 score brackets).</span>
                 </div>
               </GlassCard>

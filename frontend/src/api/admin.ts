@@ -114,6 +114,7 @@ export interface DashboardStats {
   performance: {
     avgPlacementScore: number;
     totalViolations: number;
+    scoreDistribution?: number[];
   };
 }
 

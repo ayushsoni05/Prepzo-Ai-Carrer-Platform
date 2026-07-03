@@ -12,7 +12,7 @@ const jobAutomationConfigSchema = new mongoose.Schema(
     },
     maxJobsPerRun: {
       type: Number,
-      default: 15, // Cap to 15 per run to conserve API rate limits
+      default: 25, // Cap to 25 per run to conserve API rate limits
     },
     searchQueries: {
       type: [String],

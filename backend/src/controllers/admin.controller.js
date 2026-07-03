@@ -63,6 +63,20 @@ export const getDashboardStats = async (req, res) => {
       ? Math.round(users.reduce((sum, u) => sum + (u.placementReadinessScore || 0), 0) / users.length)
       : 0;
 
+    const scoreDistribution = [0, 0, 0, 0, 0, 0, 0];
+    users.forEach(u => {
+      const score = u.placementReadinessScore || 0;
+      if (score > 0) {
+        if (score <= 15) scoreDistribution[0]++;
+        else if (score <= 30) scoreDistribution[1]++;
+        else if (score <= 45) scoreDistribution[2]++;
+        else if (score <= 60) scoreDistribution[3]++;
+        else if (score <= 75) scoreDistribution[4]++;
+        else if (score <= 90) scoreDistribution[5]++;
+        else scoreDistribution[6]++;
+      }
+    });
+
     // Get proctoring violation stats
     const testsWithViolations = await TestSession.find({ 'proctoringViolations.0': { $exists: true } });
     const totalViolations = testsWithViolations.reduce((sum, t) => sum + (t.proctoringViolations?.length || 0), 0);
@@ -88,6 +102,7 @@ export const getDashboardStats = async (req, res) => {
       performance: {
         avgPlacementScore: avgScore,
         totalViolations,
+        scoreDistribution,
       }
     });
   } catch (error) {

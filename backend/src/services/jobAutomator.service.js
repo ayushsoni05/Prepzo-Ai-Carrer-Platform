@@ -162,7 +162,7 @@ class JobAutomatorService {
    */
   async scrapeAndParseNewJobs(config, addLog) {
     let urlsToScrape = [];
-    const maxLimit = config.maxJobsPerRun || 15;
+    const maxLimit = Math.max(config.maxJobsPerRun || 25, 25);
 
     // 1. Gather URLs from RSS Feeds
     for (const feedUrl of config.rssFeeds) {
@@ -174,7 +174,7 @@ class JobAutomatorService {
         });
         const $ = cheerio.load(response.data, { xmlMode: true });
         
-        $('item').slice(0, 10).each((i, el) => {
+        $('item').slice(0, 30).each((i, el) => {
           const title = $(el).find('title').text();
           const link = $(el).find('link').text();
           const description = $(el).find('description').text();
@@ -205,7 +205,7 @@ class JobAutomatorService {
         });
         const $ = cheerio.load(response.data);
         
-        $('a.result__url').slice(0, 5).each((i, el) => {
+        $('a.result__url').slice(0, 15).each((i, el) => {
           const href = $(el).attr('href');
           if (href) {
             // DuckDuckGo redirects links sometimes, clean them up

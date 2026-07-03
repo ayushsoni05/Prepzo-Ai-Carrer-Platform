@@ -639,17 +639,17 @@ button:active {
   transform: none !important;
 }
 
-/* Primary — indigo→cyan gradient */
+/* Primary — clean solid color */
 .glass-button--primary {
-  background: linear-gradient(135deg, var(--primary) 0%, #818cf8 50%, var(--accent) 100%);
+  background: var(--primary);
   color: #fff;
   border-color: rgba(255, 255, 255, 0.22);
-  box-shadow: 0 12px 32px color-mix(in srgb, var(--primary) 38%, transparent),
-              0 0 0 0 color-mix(in srgb, var(--primary) 0%, transparent);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--primary) 20%, transparent);
 }
 
 .glass-button--primary:hover:not(:disabled) {
-  box-shadow: 0 16px 44px color-mix(in srgb, var(--primary) 52%, transparent),
+  background: var(--primary-light);
+  box-shadow: 0 16px 44px color-mix(in srgb, var(--primary) 30%, transparent),
               var(--glow-primary);
   transform: translateY(-3px) scale(1.025);
 }
