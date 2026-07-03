@@ -219,7 +219,8 @@ export const JobAutomationPanel: React.FC = () => {
         <div className="flex items-center gap-3">
           <GlassButton
             onClick={fetchStatus}
-            className="flex items-center gap-2 text-zinc-300 hover:text-white"
+            variant="secondary"
+            className="flex items-center gap-2 bg-code-green hover:bg-[#4bcfa2] text-[#0a0c10] border-none font-extrabold shadow-[0_4px_20px_rgba(94,210,156,0.15)] rounded-full transition-all"
           >
             <RefreshCw size={16} />
             Refresh Status
@@ -228,10 +229,11 @@ export const JobAutomationPanel: React.FC = () => {
           <GlassButton
             onClick={triggerRun}
             disabled={isRunning || triggering}
-            className={`flex items-center gap-2 font-bold ${
+            variant="secondary"
+            className={`flex items-center gap-2 font-bold rounded-full border-none transition-all ${
               isRunning 
-                ? 'border-amber-500/20 text-amber-400 cursor-not-allowed bg-amber-400/5' 
-                : 'border-emerald-500 hover:bg-emerald-500/10 text-emerald-400 bg-emerald-500/5'
+                ? 'bg-amber-500/20 text-amber-400 cursor-not-allowed' 
+                : 'bg-code-green hover:bg-[#4bcfa2] text-[#0a0c10] shadow-[0_4px_20px_rgba(94,210,156,0.15)]'
             }`}
           >
             {isRunning ? (
@@ -371,22 +373,24 @@ export const JobAutomationPanel: React.FC = () => {
                 <span>SYSTEM STDOUT / SCRAPER TERMINAL LOGS</span>
                 <span>Active Run: {latestLog?.startTime ? new Date(latestLog.startTime).toLocaleString() : '--'}</span>
               </div>
-              <div className="bg-zinc-950/80 border border-zinc-800/80 rounded-xl p-4 font-mono text-xs text-emerald-400/90 h-[450px] overflow-y-auto space-y-2 scrollbar-thin shadow-inner">
-                {latestLog && latestLog.logs && latestLog.logs.length > 0 ? (
-                  latestLog.logs.map((log: JobAutomationLogEntry, idx: number) => (
-                    <div key={idx} className="flex items-start gap-3 hover:bg-zinc-900/30 py-0.5 rounded transition-colors px-1">
-                      <span className="text-zinc-600 select-none">
-                        [{new Date(log.timestamp).toLocaleTimeString()}]
-                      </span>
-                      <span className="flex-1 whitespace-pre-wrap">{log.message}</span>
+              <div className="bg-zinc-950/80 border border-zinc-800/80 rounded-xl overflow-hidden shadow-inner">
+                <div className="p-4 font-mono text-xs text-emerald-400/90 h-[450px] overflow-y-auto space-y-2 scrollbar-thin">
+                  {latestLog && latestLog.logs && latestLog.logs.length > 0 ? (
+                    latestLog.logs.map((log: JobAutomationLogEntry, idx: number) => (
+                      <div key={idx} className="flex items-start gap-3 hover:bg-zinc-900/30 py-0.5 rounded transition-colors px-1">
+                        <span className="text-zinc-600 select-none">
+                          [{new Date(log.timestamp).toLocaleTimeString()}]
+                        </span>
+                        <span className="flex-1 whitespace-pre-wrap">{log.message}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-zinc-600 text-center py-20 font-sans italic">
+                      No run logs found in terminal. Click "Trigger Scraper Now" to run.
                     </div>
-                  ))
-                ) : (
-                  <div className="text-zinc-600 text-center py-20 font-sans italic">
-                    No run logs found in terminal. Click "Trigger Scraper Now" to run.
-                  </div>
-                )}
-                <div ref={consoleEndRef} />
+                  )}
+                  <div ref={consoleEndRef} />
+                </div>
               </div>
             </motion.div>
           )}
@@ -717,19 +721,21 @@ export const JobAutomationPanel: React.FC = () => {
               {/* Scrollable logs list */}
               <div className="space-y-1">
                 <div className="text-zinc-500 text-xs">CHRONOLOGICAL STEP LOGS</div>
-                <div className="bg-zinc-950 border border-zinc-850 rounded-xl p-4 font-mono text-xs text-zinc-300 h-64 overflow-y-auto space-y-1.5 scrollbar-thin">
-                  {selectedLog.logs && selectedLog.logs.length > 0 ? (
-                    selectedLog.logs.map((log: JobAutomationLogEntry, idx: number) => (
-                      <div key={idx} className="flex gap-2">
-                        <span className="text-zinc-600 select-none">
-                          [{new Date(log.timestamp).toLocaleTimeString()}]
-                        </span>
-                        <span>{log.message}</span>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="text-zinc-600 text-center py-20 italic">No log entries.</div>
-                  )}
+                <div className="bg-zinc-950 border border-zinc-850 rounded-xl overflow-hidden">
+                  <div className="p-4 font-mono text-xs text-zinc-300 h-64 overflow-y-auto space-y-1.5 scrollbar-thin">
+                    {selectedLog.logs && selectedLog.logs.length > 0 ? (
+                      selectedLog.logs.map((log: JobAutomationLogEntry, idx: number) => (
+                        <div key={idx} className="flex gap-2">
+                          <span className="text-zinc-600 select-none">
+                            [{new Date(log.timestamp).toLocaleTimeString()}]
+                          </span>
+                          <span>{log.message}</span>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-zinc-600 text-center py-20 italic">No log entries.</div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
