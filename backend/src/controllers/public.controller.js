@@ -15,8 +15,10 @@ export const getPublicStats = async (req, res) => {
     
     // Calculate a "Placement Signal" (Avg score of top 10% students or generic high value if none)
     const topStudents = await User.find({ role: 'student', placementReadinessScore: { $gt: 0 } })
+      .select('placementReadinessScore')
       .sort({ placementReadinessScore: -1 })
-      .limit(10);
+      .limit(10)
+      .lean();
     
     const readinessSignal = topStudents.length > 0 
       ? Math.round(topStudents.reduce((sum, u) => sum + u.placementReadinessScore, 0) / topStudents.length)
