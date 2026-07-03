@@ -492,7 +492,7 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         onMouseEnter={() => setIsSidebarHovered(true)}
         onMouseLeave={() => setIsSidebarHovered(false)}
-        className="fixed left-0 top-0 bottom-0 w-64 bg-[#0a0c10]/95 backdrop-blur-xl border-r border-white/5 z-40 h-screen overflow-y-auto shrink-0 flex flex-col justify-between shadow-2xl"
+        className="fixed left-0 top-0 bottom-0 w-64 bg-[#0a0c10] border-r border-white/5 z-40 h-screen overflow-y-auto shrink-0 flex flex-col justify-between shadow-2xl"
       >
         <div className="p-6">
           <div className="flex items-center gap-3 mb-8">
