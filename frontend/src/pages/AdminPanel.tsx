@@ -101,7 +101,12 @@ function Terminal(props: any) {
 }
 
 export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('prepzo-admin-tab') || 'dashboard';
+    }
+    return 'dashboard';
+  });
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isSidebarHovered, setIsSidebarHovered] = useState(false);
   const { logout, isAuthenticated, user: authUser } = useAuthStore();
@@ -204,8 +209,14 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
       return;
     }
     
+    setAuthError(null); // Clear any initial auth errors once the user validates successfully
     setIsAuthorized(true);
   }, [isAuthenticated, authUser]);
+
+  // Save active tab to localStorage
+  useEffect(() => {
+    localStorage.setItem('prepzo-admin-tab', activeTab);
+  }, [activeTab]);
   
   // Fetch stats helper
   const fetchStats = useCallback(async () => {
