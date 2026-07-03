@@ -215,7 +215,9 @@ export default function App() {
             setAuthValidated(true);
             // Redirect authenticated users trying to access login/signup/landing to dashboard
             if (isOnPublicAuthPage) {
-              const targetDashboard = validatedUser.role === 'recruiter' ? 'recruiter-dashboard' : 'dashboard';
+              const targetDashboard = (validatedUser.role === 'admin' || validatedUser.role === 'superadmin')
+                ? 'admin'
+                : (validatedUser.role === 'recruiter' ? 'recruiter-dashboard' : 'dashboard');
               setCurrentPage(targetDashboard);
               window.history.replaceState({}, '', `/${targetDashboard}`);
             }
@@ -360,7 +362,7 @@ export default function App() {
       } else if (studentPages.includes(currentPage) && userRole === 'recruiter') {
         handleNavigate('recruiter-dashboard');
         toast.error('Access denied: Student access only.');
-      } else if (['login', 'signup'].includes(currentPage)) {
+      } else if (['login', 'signup', 'landing'].includes(currentPage)) {
         const home = (userRole === 'admin' || userRole === 'superadmin') 
           ? 'admin' 
           : userRole === 'recruiter' 
