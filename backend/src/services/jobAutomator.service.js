@@ -227,8 +227,18 @@ class JobAutomatorService {
     for (const item of urlsToScrape) {
       uniqueMap.set(item.url, item);
     }
-    const candidateUrls = Array.from(uniqueMap.values());
-    await addLog(`Discovered ${candidateUrls.length} total raw candidates.`);
+    const rawCandidates = Array.from(uniqueMap.values());
+    await addLog(`Discovered ${rawCandidates.length} total raw candidates. Pre-filtering already scraped jobs...`);
+
+    // Pre-filter already existing jobs to save resources and time
+    const candidateUrls = [];
+    for (const cand of rawCandidates) {
+      const exists = await Job.exists({ applicationLink: cand.url });
+      if (!exists) {
+        candidateUrls.push(cand);
+      }
+    }
+    await addLog(`Found ${candidateUrls.length} new candidates to process.`);
 
     let addedCount = 0;
     let foundCount = 0;
@@ -239,49 +249,42 @@ class JobAutomatorService {
     let systemUser = await User.findOne({ role: 'admin' });
     const defaultAdminId = systemUser ? systemUser._id : new mongoose.Types.ObjectId('69a590f221db2e23dc9e1e11');
 
-    for (const item of candidateUrls) {
-      if (addedCount >= maxLimit) {
-        await addLog(`Reached limit of ${maxLimit} jobs. Stopping scraping batch.`);
-        break;
-      }
+    // Concurrency queue processing worker
+    const processCandidate = async (item) => {
+      if (addedCount >= maxLimit) return;
 
-      foundCount++;
       const { url } = item;
-
-      // Check if job applicationLink already exists in DB
-      const existingJob = await Job.findOne({ applicationLink: url });
-      if (existingJob) {
-        continue;
-      }
-
       try {
-        await addLog(`Processing candidate URL: ${url}`);
-        let pageText = await this.fetchAndCleanPageText(url);
+        foundCount++;
+        await addLog(`Processing: ${url}`);
         
-        // Fallback to RSS description/summary if the page content could not be retrieved
-        if ((!pageText || pageText.length < 200) && item.hintDescription) {
-          await addLog(`Web page scraping returned empty or blocked. Using RSS summary description as fallback.`);
+        let pageText = "";
+        if (item.source === 'rss' && item.hintDescription) {
+          // Direct RSS parsing payload usage: completely bypasses Cloudflare blocks and network time!
           const $desc = cheerio.load(item.hintDescription);
-          pageText = $desc.text().replace(/\s+/g, ' ').trim();
+          pageText = `Job Title: ${item.hintTitle || ''}\nDescription Summary: ${$desc.text().replace(/\s+/g, ' ').trim()}`;
+        } else {
+          // Web search items are fetched with a short timeout
+          pageText = await this.fetchAndCleanPageText(url);
         }
 
         if (!pageText || pageText.length < 100) {
-          await addLog(`Could not retrieve meaningful text from: ${url}. Skipping.`);
-          continue;
+          await addLog(`Could not retrieve meaningful text for: ${url}. Skipping.`);
+          return;
         }
 
         // Parse with AI
-        await addLog(`Invoking AI (Gemini) to parse page content...`);
+        await addLog(`Parsing details using AI for: ${url}...`);
         const aiOutput = await this.parseJobDetailsWithAI(pageText, url);
         if (!aiOutput || !aiOutput.job || !aiOutput.company) {
-          await addLog(`AI failed to parse structured details from: ${url}. Skipping.`);
-          continue;
+          await addLog(`AI failed to parse details for: ${url}. Skipping.`);
+          return;
         }
 
         const normalizedOutput = this.normalizeParsedData(aiOutput);
         if (!normalizedOutput.job || !normalizedOutput.company) {
-          await addLog(`Normalization returned empty job or company data. Skipping.`);
-          continue;
+          await addLog(`Normalization failed for: ${url}. Skipping.`);
+          return;
         }
 
         // Save company
@@ -289,16 +292,20 @@ class JobAutomatorService {
         let companyObj = await Company.findOne({ name: { $regex: new RegExp(`^${companyName.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') } });
         
         if (!companyObj) {
-          await addLog(`Creating new Company: ${companyName}`);
-          companyObj = await Company.create({
-            ...normalizedOutput.company,
-            status: 'approved',
-            addedBy: defaultAdminId,
-            logo: `https://ui-avatars.com/api/?name=${encodeURIComponent(companyName)}&background=random&size=200`
-          });
-          companiesCreatedCount++;
+          try {
+            await addLog(`Creating new Company: ${companyName}`);
+            companyObj = await Company.create({
+              ...normalizedOutput.company,
+              status: 'approved',
+              addedBy: defaultAdminId,
+              logo: `https://ui-avatars.com/api/?name=${encodeURIComponent(companyName)}&background=random&size=200`
+            });
+            companiesCreatedCount++;
+          } catch (createErr) {
+            companyObj = await Company.findOne({ name: { $regex: new RegExp(`^${companyName.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}$`, 'i') } });
+            if (!companyObj) throw createErr;
+          }
         } else {
-          // Update hiring status if not already active
           if (companyObj.hiringStatus !== 'actively_hiring') {
             companyObj.hiringStatus = 'actively_hiring';
             await companyObj.save();
@@ -306,7 +313,7 @@ class JobAutomatorService {
         }
 
         // Save Job
-        const isApproved = config.autoApproveJobs;
+        const isApproved = config.autoApproveJobs !== false;
         const jobObj = await Job.create({
           ...normalizedOutput.job,
           company: companyObj._id,
@@ -324,7 +331,7 @@ class JobAutomatorService {
         await companyObj.save();
 
         addedCount++;
-        await addLog(`✅ Successfully created Job: "${jobObj.title}" at "${companyName}" (Status: ${jobObj.status})`);
+        await addLog(`✅ Created Job: "${jobObj.title}" at "${companyName}" (Status: ${jobObj.status})`);
 
         // Trigger matches & notifications if job is active/approved
         if (isApproved) {
@@ -334,7 +341,21 @@ class JobAutomatorService {
       } catch (err) {
         await addLog(`Failed to process job at URL ${url}. Error: ${err.message}`);
       }
-    }
+    };
+
+    // Concurrency Worker Pool Setup
+    const concurrency = 4;
+    const queue = [...candidateUrls];
+    const workers = Array(concurrency).fill(null).map(async () => {
+      while (queue.length > 0) {
+        if (addedCount >= maxLimit) break;
+        const item = queue.shift();
+        if (!item) break;
+        await processCandidate(item);
+      }
+    });
+
+    await Promise.all(workers);
 
     return {
       found: foundCount,
@@ -351,7 +372,7 @@ class JobAutomatorService {
   async fetchAndCleanPageText(url) {
     try {
       const response = await axios.get(url, {
-        timeout: 10000,
+        timeout: 3000,
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
           'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
