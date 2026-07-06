@@ -3,7 +3,7 @@
  * Workday-style multi-step application form with resume parsing auto-fill.
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Upload,
@@ -37,6 +37,22 @@ const STEPS = [
   { id: 'availability', label: 'Availability', icon: Clock },
   { id: 'cover', label: 'Cover Letter', icon: FileText },
   { id: 'review', label: 'Review & Submit', icon: CheckCircle2 },
+];
+
+const POPULAR_SKILLS = [
+  'React', 'React Native', 'Next.js', 'Vue.js', 'Angular', 'Svelte',
+  'Node.js', 'Express.js', 'NestJS', 'GraphQL', 'REST API',
+  'JavaScript', 'TypeScript', 'HTML5', 'CSS3', 'Sass', 'Tailwind CSS',
+  'Python', 'Django', 'Flask', 'FastAPI', 'Pandas', 'NumPy',
+  'Java', 'Spring Boot', 'Kotlin', 'Scala',
+  'Go', 'Rust', 'Ruby', 'Ruby on Rails', 'PHP', 'Laravel',
+  'C++', 'C#', 'ASP.NET', 'Swift', 'Objective-C', 'Flutter', 'Dart',
+  'SQL', 'MySQL', 'PostgreSQL', 'SQLite', 'MongoDB', 'Redis', 'Cassandra', 'DynamoDB', 'Firebase',
+  'DevOps', 'AWS', 'Google Cloud', 'Azure', 'Docker', 'Kubernetes', 'Terraform', 'Ansible', 'Jenkins', 'CI/CD',
+  'Git', 'GitHub', 'Linux', 'Bash', 'System Design', 'Algorithms', 'Data Structures',
+  'Machine Learning', 'Deep Learning', 'NLP', 'TensorFlow', 'PyTorch', 'Computer Vision',
+  'Security', 'Cybersecurity', 'Agile', 'Scrum', 'Jira', 'Figma', 'UI/UX Design',
+  'Project Management', 'Zapier', 'Make.com', 'GoHighLevel'
 ];
 
 interface JobApplicationFormProps {
@@ -73,6 +89,38 @@ export function JobApplicationForm({ jobId, onClose }: JobApplicationFormProps) 
   }));
 
   const [skillInput, setSkillInput] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [filteredSkills, setFilteredSkills] = useState<string[]>([]);
+  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Filter skills based on user input
+  useEffect(() => {
+    if (skillInput.trim()) {
+      const searchStr = skillInput.toLowerCase();
+      const matches = POPULAR_SKILLS.filter(skill => 
+        skill.toLowerCase().includes(searchStr) && 
+        !formData.skills.includes(skill)
+      );
+      setFilteredSkills(matches);
+      setShowDropdown(matches.length > 0);
+      setActiveSuggestionIndex(0);
+    } else {
+      setFilteredSkills([]);
+      setShowDropdown(false);
+    }
+  }, [skillInput, formData.skills]);
+
+  // Click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const fetchJob = async () => {
@@ -195,6 +243,38 @@ export function JobApplicationForm({ jobId, onClose }: JobApplicationFormProps) 
     if (skillInput.trim() && !formData.skills.includes(skillInput.trim())) {
       setFormData(prev => ({ ...prev, skills: [...prev.skills, skillInput.trim()] }));
       setSkillInput('');
+      setShowDropdown(false);
+    }
+  };
+
+  const selectSkill = (skill: string) => {
+    if (!formData.skills.includes(skill)) {
+      setFormData(prev => ({ ...prev, skills: [...prev.skills, skill] }));
+    }
+    setSkillInput('');
+    setShowDropdown(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (showDropdown && filteredSkills[activeSuggestionIndex]) {
+        selectSkill(filteredSkills[activeSuggestionIndex]);
+      } else {
+        addSkill();
+      }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActiveSuggestionIndex(prev => 
+        prev < filteredSkills.length - 1 ? prev + 1 : prev
+      );
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveSuggestionIndex(prev => 
+        prev > 0 ? prev - 1 : prev
+      );
+    } else if (e.key === 'Escape') {
+      setShowDropdown(false);
     }
   };
 
@@ -495,7 +575,36 @@ export function JobApplicationForm({ jobId, onClose }: JobApplicationFormProps) 
                     <div>
                       <label className={`block text-[11px] font-black uppercase tracking-[0.2em] mb-3 ${textLabel}`}>Skills</label>
                       <div className="flex gap-3">
-                        <input type="text" value={skillInput} onChange={(e) => setSkillInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill())} placeholder="Type a skill and press Enter" className={`flex-1 px-6 py-4 border rounded-2xl font-medium focus:border-[#00ff9d]/30 focus:ring-0 transition-all ${darkMode ? 'bg-white/5 border-white/10 text-white bg-[#0c0f16]' : 'bg-white border-slate-200 text-slate-900 bg-white'}`} />
+                        <div className="relative flex-1" ref={dropdownRef}>
+                          <input 
+                            type="text" 
+                            value={skillInput} 
+                            onChange={(e) => setSkillInput(e.target.value)} 
+                            onFocus={() => {
+                              if (skillInput.trim()) setShowDropdown(true);
+                            }}
+                            onKeyDown={handleKeyDown} 
+                            placeholder="Type a skill (e.g. React, Devops)" 
+                            className={`w-full px-6 py-4 border rounded-2xl font-medium focus:border-[#00ff9d]/30 focus:ring-0 transition-all ${darkMode ? 'bg-white/5 border-white/10 text-white bg-[#0c0f16]' : 'bg-white border-slate-200 text-slate-900 bg-white'}`} 
+                          />
+                          {showDropdown && filteredSkills.length > 0 && (
+                            <div className={`absolute left-0 right-0 mt-2 max-h-60 overflow-y-auto rounded-2xl border shadow-2xl z-50 backdrop-blur-xl ${darkMode ? 'bg-[#0f131a]/95 border-white/10 text-white custom-scrollbar' : 'bg-white border-slate-200 text-slate-900 custom-scrollbar'}`}>
+                              {filteredSkills.map((skill, index) => (
+                                <div
+                                  key={skill}
+                                  onClick={() => selectSkill(skill)}
+                                  className={`px-6 py-3.5 cursor-pointer text-[10px] font-black uppercase tracking-widest transition-colors ${
+                                    index === activeSuggestionIndex 
+                                      ? (darkMode ? 'bg-[#00ff9d]/10 text-[#00ff9d]' : 'bg-emerald-500/10 text-emerald-600') 
+                                      : (darkMode ? 'hover:bg-white/5' : 'hover:bg-slate-50')
+                                  }`}
+                                >
+                                  {skill}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                         <button onClick={addSkill} className={`px-6 py-4 rounded-2xl font-bold transition-all border ${darkMode ? 'bg-[#00ff9d]/10 border-[#00ff9d]/30 text-[#00ff9d] hover:bg-[#00ff9d]/20' : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600 hover:bg-emerald-500/20'}`}>Add</button>
                       </div>
                       {job?.requiredSkills?.length > 0 && (
