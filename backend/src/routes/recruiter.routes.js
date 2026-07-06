@@ -5,7 +5,9 @@ import {
   getCandidateAiSummary, 
   updateCandidateRecruiterNotes, 
   scheduleInterview,
-  getCandidateBattles
+  getCandidateBattles,
+  getCruiterJobs,
+  updateCandidatePipelineStage
 } from '../controllers/recruiter.controller.js';
 import { protect, authorize } from '../middleware/auth.middleware.js';
 
@@ -21,5 +23,7 @@ router.route('/candidates/:id/ai-summary').get(getCandidateAiSummary);
 router.route('/candidates/:id/notes').put(updateCandidateRecruiterNotes);
 router.route('/candidates/:id/schedule').post(scheduleInterview);
 router.route('/candidates/:id/battles').get(getCandidateBattles);
+router.route('/candidates/:id/stage').put(updateCandidatePipelineStage);
+router.route('/jobs').get(getCruiterJobs);
 
 export default router;

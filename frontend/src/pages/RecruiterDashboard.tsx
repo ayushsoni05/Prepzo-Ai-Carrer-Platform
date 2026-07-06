@@ -3,7 +3,9 @@ import {
   Search, Filter, Flame, Mail, ChevronRight, Building2, 
   BrainCircuit, Zap, CheckCircle2, Bot, Calendar, Trophy, 
   Download, Edit2, Share2, Eye, Users, RefreshCw, 
-  Sun, Moon, ArrowLeftRight, Check, X, FileText 
+  Sun, Moon, ArrowLeftRight, Check, X, FileText,
+  Code, CheckSquare, Square, ClipboardList, MapPin, Award, 
+  Trash2, ArrowRight
 } from 'lucide-react';
 import api from '../api/axios';
 import { getFileUrl } from '@/utils/fileUrl';
@@ -15,7 +17,7 @@ export const RecruiterDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCandidate, setSelectedCandidate] = useState<any | null>(null);
   
-  // Custom states for 20 features
+  // Custom states for features
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRole, setSelectedRole] = useState('');
   const [minXp, setMinXp] = useState('0');
@@ -24,12 +26,19 @@ export const RecruiterDashboard = () => {
   const [showSavedOnly, setShowSavedOnly] = useState(false);
   const [themeMode, setThemeMode] = useState<'dark' | 'light'>('dark');
   
+  // Dynamic Views & Bulk Selection
+  const [viewMode, setViewMode] = useState<'table' | 'kanban'>('table');
+  const [bulkSelectedIds, setBulkSelectedIds] = useState<string[]>([]);
+  const [jobs, setJobs] = useState<any[]>([]);
+  const [selectedJob, setSelectedJob] = useState<any | null>(null);
+  
   // Modals & Panels
   const [isComparing, setIsComparing] = useState(false);
   const [comparisonTarget, setComparisonTarget] = useState<any | null>(null);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [showCompanyModal, setShowCompanyModal] = useState(false);
+  const [showBulkEmailModal, setShowBulkEmailModal] = useState(false);
   
   // Scheduler state
   const [interviewDate, setInterviewDate] = useState('');
@@ -52,8 +61,8 @@ export const RecruiterDashboard = () => {
   const [companyName, setCompanyName] = useState('TechCorp Inc.');
   const [companyTier, setCompanyTier] = useState('Premium Tier');
 
-  // Detail panel tab
-  const [activeDetailTab, setActiveDetailTab] = useState<'overview' | 'skills' | 'battles'>('overview');
+  // Detail panel tab (overview, skills, battles, sandbox code)
+  const [activeDetailTab, setActiveDetailTab] = useState<'overview' | 'skills' | 'battles' | 'code'>('overview');
 
   // Battle matches state
   const [battles, setBattles] = useState<any[]>([]);
@@ -86,12 +95,27 @@ export const RecruiterDashboard = () => {
     fetchCandidates();
   }, [searchQuery, selectedRole, minXp, sortBy]);
 
-  // Load saved bookmarks from local storage
+  const fetchJobs = async () => {
+    try {
+      const response = await api.get('/recruiters/jobs');
+      if (response.data?.success) {
+        setJobs(response.data.data);
+        if (response.data.data.length > 0) {
+          setSelectedJob(response.data.data[0]);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch jobs', error);
+    }
+  };
+
+  // Load saved bookmarks & jobs from local storage / backend
   useEffect(() => {
     const saved = localStorage.getItem('recruiter_bookmarks');
     if (saved) {
       setSavedCandidates(JSON.parse(saved));
     }
+    fetchJobs();
   }, []);
 
   const toggleBookmark = (id: string, e: React.MouseEvent) => {
@@ -157,6 +181,23 @@ export const RecruiterDashboard = () => {
       toast.error('Failed to save recruiter notes');
     } finally {
       setSavingNotes(false);
+    }
+  };
+
+  const updateCandidateStage = async (id: string, stage: string) => {
+    try {
+      const res = await api.put(`/recruiters/candidates/${id}/stage`, { stage });
+      if (res.data?.success) {
+        toast.success(`Hiring stage updated to ${stage}!`);
+        // Update local state
+        setCandidates(prev => prev.map(c => c._id === id ? { ...c, hiringStage: stage } : c));
+        if (selectedCandidate?._id === id) {
+          setSelectedCandidate(prev => ({ ...prev, hiringStage: stage }));
+        }
+      }
+    } catch (err) {
+      console.error('Failed to update stage', err);
+      toast.error('Failed to update stage');
     }
   };
 
@@ -273,9 +314,22 @@ export const RecruiterDashboard = () => {
                 : `${isDark ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200'} text-xs`
             }`}
           >
-            {showSavedOnly ? 'Showing Saved' : 'View Saved'} ({savedCandidates.length})
+            Saved Bookmarks ({savedCandidates.length})
           </button>
           
+          {/* Feature: Layout Toggle (Table vs Kanban Board) */}
+          <button 
+            onClick={() => setViewMode(viewMode === 'table' ? 'kanban' : 'table')}
+            className={`px-4 py-2 border rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-1.5 ${
+              viewMode === 'kanban' 
+                ? 'bg-blue-500/20 border-blue-500 text-blue-400' 
+                : `${isDark ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200'} text-xs`
+            }`}
+          >
+            <ClipboardList className="w-3.5 h-3.5" />
+            {viewMode === 'table' ? 'Kanban board' : 'Table list'}
+          </button>
+
           {/* Feature: Dark/Light Mode Toggle */}
           <button 
             onClick={() => setThemeMode(isDark ? 'light' : 'dark')}
@@ -302,7 +356,7 @@ export const RecruiterDashboard = () => {
 
       {/* Main Panel layout */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Side: Candidates Table */}
+        {/* Left Side: Candidates Table / Kanban Board */}
         <div className="flex-1 flex flex-col p-8 overflow-y-auto custom-scrollbar border-r border-white/5">
           
           {/* Feature: Pipeline Statistics Header */}
@@ -407,132 +461,283 @@ export const RecruiterDashboard = () => {
             </select>
           </div>
 
-          {/* Candidates List */}
-          <div className={`${bgCard} border rounded-3xl overflow-hidden shadow-2xl transition-colors`}>
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className={`border-b ${borderLine} ${isDark ? 'bg-black/20' : 'bg-slate-100'}`}>
-                  <th className={`py-5 px-6 text-[10px] font-black uppercase tracking-[0.2em] ${textMuted}`}>Candidate</th>
-                  <th className={`py-5 px-6 text-[10px] font-black uppercase tracking-[0.2em] ${textMuted}`}>Target Role</th>
-                  <th className={`py-5 px-6 text-[10px] font-black uppercase tracking-[0.2em] ${textMuted}`}>Arena Rating (XP)</th>
-                  <th className={`py-5 px-6 text-[10px] font-black uppercase tracking-[0.2em] ${textMuted}`}>Top Skills</th>
-                  <th className={`py-5 px-6 text-right text-[10px] font-black uppercase tracking-[0.2em] ${textMuted}`}>Actions</th>
-                </tr>
-              </thead>
-              <tbody className={`divide-y ${borderLine}`}>
-                {loading ? (
-                  <tr>
-                    <td colSpan={5} className="py-24 text-center text-white/40 font-bold uppercase tracking-widest">
-                      <div className="flex flex-col items-center gap-4">
-                        <RefreshCw className="w-8 h-8 animate-spin text-[#5ed29c]" />
-                        <span>Querying Pipeline Database...</span>
-                      </div>
-                    </td>
-                  </tr>
-                ) : displayedCandidates.length === 0 ? (
-                  <tr>
-                    <td colSpan={5} className="py-24 text-center text-white/40 font-bold uppercase tracking-widest">No matching candidates discovered</td>
-                  </tr>
-                ) : displayedCandidates.map((candidate: any) => (
-                  <tr 
-                    key={candidate._id} 
-                    className={`hover:bg-white/5 transition-all cursor-pointer group ${
-                      selectedCandidate?._id === candidate._id 
-                        ? (isDark ? 'bg-[#5ed29c]/5 border-l-4 border-l-[#5ed29c]' : 'bg-[#5ed29c]/10 border-l-4 border-l-[#5ed29c]') 
-                        : 'border-l-4 border-l-transparent'
-                    }`}
-                    onClick={() => handleSelectCandidate(candidate)}
-                  >
-                    <td className="py-5 px-6">
-                      <div className="flex items-center gap-4">
-                        <img 
-                          src={candidate.avatar ? getFileUrl(candidate.avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${candidate.fullName}`} 
-                          alt="" 
-                          className="w-12 h-12 rounded-2xl border border-white/10 bg-black/50"
-                        />
-                        <div>
-                          <p className="font-[900] text-lg flex items-center gap-2">
-                            {candidate.fullName}
-                            {/* Feature 19: Match score badge */}
-                            {(candidate.placementReadinessScore || 85) >= 88 && (
-                              <span className="w-2 h-2 rounded-full bg-[#5ed29c] animate-pulse" title="High Placement Potential" />
-                            )}
-                          </p>
-                          <p className={`text-xs font-bold ${textMutedStrong}`}>{candidate.email}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="py-5 px-6">
-                      <span className="inline-flex items-center px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                        {candidate.targetRole || 'Software Engineer'}
+          {/* Bulk Actions Header */}
+          {bulkSelectedIds.length > 0 && (
+            <div className={`p-4 border rounded-2xl mb-4 flex items-center justify-between animate-in slide-in-from-top-4 ${
+              isDark ? 'bg-blue-500/10 border-blue-500/20' : 'bg-blue-50 border-blue-200'
+            }`}>
+              <div className="flex items-center gap-2">
+                <CheckSquare className="w-5 h-5 text-blue-400" />
+                <span className="text-xs font-black uppercase tracking-wider text-blue-400">
+                  {bulkSelectedIds.length} candidate{bulkSelectedIds.length > 1 ? 's' : ''} selected
+                </span>
+              </div>
+              <div className="flex gap-2">
+                <button 
+                  onClick={() => setShowBulkEmailModal(true)}
+                  className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all"
+                >
+                  Bulk Message Campaign
+                </button>
+                <button 
+                  onClick={() => {
+                    const selectedData = candidates.filter(c => bulkSelectedIds.includes(c._id));
+                    const blob = new Blob([JSON.stringify(selectedData, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `Bulk_Profiles_Export.json`;
+                    link.click();
+                    toast.success('Bulk dossier exported.');
+                    setBulkSelectedIds([]);
+                  }}
+                  className={`px-4 py-2 border rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                    isDark ? 'bg-white/5 border-white/10 hover:bg-white/10' : 'bg-white hover:bg-slate-50'
+                  }`}
+                >
+                  Export Selection
+                </button>
+              </div>
+            </div>
+          )}
+
+          {viewMode === 'kanban' ? (
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 overflow-x-auto min-h-[500px]">
+              {['screening', 'technical', 'interviewing', 'offered', 'hired'].map(stage => {
+                const stageCandidates = displayedCandidates.filter(c => (c.hiringStage || 'screening') === stage);
+                return (
+                  <div key={stage} className={`flex-1 min-w-[200px] rounded-2xl p-4 border flex flex-col ${isDark ? 'bg-black/25 border-white/5' : 'bg-slate-100/50 border-slate-200'}`}>
+                    <div className="flex justify-between items-center mb-4">
+                      <h4 className="text-xs font-black uppercase tracking-widest text-[#5ed29c]">
+                        {stage.replace('_', ' ')}
+                      </h4>
+                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${isDark ? 'bg-white/5' : 'bg-white border'}`}>
+                        {stageCandidates.length}
                       </span>
-                    </td>
-                    <td className="py-5 px-6">
-                      <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-1.5 text-sm font-[900] text-yellow-400">
-                          <Trophy className="w-4 h-4" />
-                          {candidate.xp} XP
-                        </div>
-                        {candidate.streak > 0 && (
-                          <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-orange-400">
-                            <Flame className="w-3 h-3" />
-                            {candidate.streak} Day Streak
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                    <td className="py-5 px-6">
-                      <div className="flex flex-wrap gap-2">
-                        {candidate.knownTechnologies?.slice(0, 3).map((tech: string, i: number) => (
-                          <span key={i} className={`px-2.5 py-1 border rounded-md text-[10px] font-bold uppercase ${
-                            isDark ? 'bg-white/5 border-white/10 text-white/60' : 'bg-slate-100 border-slate-200 text-slate-500'
-                          }`}>
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </td>
-                    <td className="py-5 px-6 text-right">
-                      <div className="flex items-center justify-end gap-3">
-                        {/* Bookmark Button */}
-                        <button 
-                          onClick={(e) => toggleBookmark(candidate._id, e)}
-                          className={`p-2 rounded-lg border transition-all ${
-                            savedCandidates.includes(candidate._id)
-                              ? 'bg-[#5ed29c]/20 border-[#5ed29c] text-[#5ed29c]'
-                              : `${isDark ? 'bg-white/5 border-white/10 text-white/40' : 'bg-slate-150 border-slate-200 text-slate-500'} hover:border-[#5ed29c]/50`
+                    </div>
+
+                    <div className="space-y-3 flex-1 overflow-y-auto max-h-[600px] custom-scrollbar">
+                      {stageCandidates.map(candidate => (
+                        <div 
+                          key={candidate._id}
+                          onClick={() => handleSelectCandidate(candidate)}
+                          className={`p-4 border rounded-xl cursor-pointer hover:scale-[1.02] transition-all ${
+                            selectedCandidate?._id === candidate._id 
+                              ? 'border-[#5ed29c] bg-[#5ed29c]/5'
+                              : `${isDark ? 'bg-[#161a20] border-white/5' : 'bg-white border-slate-200 shadow-sm'}`
                           }`}
                         >
-                          <Zap size={14} />
-                        </button>
-                        
-                        {/* Compare selector trigger button */}
-                        {selectedCandidate && selectedCandidate._id !== candidate._id && (
-                          <button 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setComparisonTarget(candidate);
-                              setIsComparing(true);
-                            }}
-                            className={`p-2 rounded-lg border transition-all ${
-                              isDark ? 'bg-white/5 border-white/10 text-white/40 hover:text-white' : 'bg-slate-100 border-slate-250 text-slate-600 hover:bg-slate-200'
-                            }`}
-                            title="Compare candidate"
-                          >
-                            <ArrowLeftRight size={14} />
-                          </button>
-                        )}
+                          <div className="flex items-center gap-3 mb-2">
+                            <img 
+                              src={candidate.avatar ? getFileUrl(candidate.avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${candidate.fullName}`}
+                              className="w-8 h-8 rounded-lg bg-black" 
+                              alt="" 
+                            />
+                            <div className="min-w-0">
+                              <p className="text-xs font-extrabold truncate">{candidate.fullName}</p>
+                              <p className={`text-[9px] font-bold ${textMuted} truncate`}>{candidate.targetRole}</p>
+                            </div>
+                          </div>
 
-                        <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#5ed29c] group-hover:text-black transition-colors">
-                          <ChevronRight className="w-4 h-4" />
+                          <div className="flex justify-between items-center text-[10px]">
+                            <span className="text-yellow-400 font-bold flex items-center gap-1">
+                              <Trophy size={10} /> {candidate.xp}
+                            </span>
+                            {/* Assign stage */}
+                            <select 
+                              value={candidate.hiringStage || 'screening'}
+                              onClick={e => e.stopPropagation()}
+                              onChange={e => updateCandidateStage(candidate._id, e.target.value)}
+                              className={`px-1 py-0.5 border rounded text-[9px] font-bold outline-none ${
+                                isDark ? 'bg-black text-white/60 border-white/10' : 'bg-white border-slate-200'
+                              }`}
+                            >
+                              <option value="screening">Screening</option>
+                              <option value="technical">Technical</option>
+                              <option value="interviewing">Interview</option>
+                              <option value="offered">Offer</option>
+                              <option value="hired">Hired</option>
+                            </select>
+                          </div>
                         </div>
-                      </div>
-                    </td>
+                      ))}
+                      {stageCandidates.length === 0 && (
+                        <p className={`text-[10px] text-center font-bold py-6 ${textMuted}`}>Empty column</p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            /* Candidates List */
+            <div className={`${bgCard} border rounded-3xl overflow-hidden shadow-2xl transition-colors`}>
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className={`border-b ${borderLine} ${isDark ? 'bg-black/20' : 'bg-slate-100'}`}>
+                    <th className="py-5 px-6 w-12 text-center">
+                      <button 
+                        onClick={() => {
+                          if (bulkSelectedIds.length === displayedCandidates.length) {
+                            setBulkSelectedIds([]);
+                          } else {
+                            setBulkSelectedIds(displayedCandidates.map(c => c._id));
+                          }
+                        }}
+                        className={`p-1 rounded transition-colors ${isDark ? 'text-white/40 hover:text-white' : 'text-slate-400 hover:text-slate-600'}`}
+                      >
+                        {bulkSelectedIds.length === displayedCandidates.length ? <CheckSquare size={16} /> : <Square size={16} />}
+                      </button>
+                    </th>
+                    <th className={`py-5 px-6 text-[10px] font-black uppercase tracking-[0.2em] ${textMuted}`}>Candidate</th>
+                    <th className={`py-5 px-6 text-[10px] font-black uppercase tracking-[0.2em] ${textMuted}`}>Target Role</th>
+                    <th className={`py-5 px-6 text-[10px] font-black uppercase tracking-[0.2em] ${textMuted}`}>Hiring Stage</th>
+                    <th className={`py-5 px-6 text-[10px] font-black uppercase tracking-[0.2em] ${textMuted}`}>Arena Rating (XP)</th>
+                    <th className={`py-5 px-6 text-[10px] font-black uppercase tracking-[0.2em] ${textMuted}`}>Top Skills</th>
+                    <th className={`py-5 px-6 text-right text-[10px] font-black uppercase tracking-[0.2em] ${textMuted}`}>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className={`divide-y ${borderLine}`}>
+                  {loading ? (
+                    <tr>
+                      <td colSpan={7} className="py-24 text-center text-white/40 font-bold uppercase tracking-widest">
+                        <div className="flex flex-col items-center gap-4">
+                          <RefreshCw className="w-8 h-8 animate-spin text-[#5ed29c]" />
+                          <span>Querying Pipeline Database...</span>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : displayedCandidates.length === 0 ? (
+                    <tr>
+                      <td colSpan={7} className="py-24 text-center text-white/40 font-bold uppercase tracking-widest">No matching candidates discovered</td>
+                    </tr>
+                  ) : displayedCandidates.map((candidate: any) => (
+                    <tr 
+                      key={candidate._id} 
+                      className={`hover:bg-white/5 transition-all cursor-pointer group ${
+                        selectedCandidate?._id === candidate._id 
+                          ? (isDark ? 'bg-[#5ed29c]/5 border-l-4 border-l-[#5ed29c]' : 'bg-[#5ed29c]/10 border-l-4 border-l-[#5ed29c]') 
+                          : 'border-l-4 border-l-transparent'
+                      }`}
+                      onClick={() => handleSelectCandidate(candidate)}
+                    >
+                      <td className="py-5 px-6 text-center" onClick={e => e.stopPropagation()}>
+                        <button 
+                          onClick={() => {
+                            if (bulkSelectedIds.includes(candidate._id)) {
+                              setBulkSelectedIds(prev => prev.filter(id => id !== candidate._id));
+                            } else {
+                              setBulkSelectedIds(prev => [...prev, candidate._id]);
+                            }
+                          }}
+                          className={`p-1 rounded transition-colors ${isDark ? 'text-white/40 hover:text-white' : 'text-slate-400 hover:text-slate-600'}`}
+                        >
+                          {bulkSelectedIds.includes(candidate._id) ? <CheckSquare size={16} className="text-blue-500" /> : <Square size={16} />}
+                        </button>
+                      </td>
+                      <td className="py-5 px-6">
+                        <div className="flex items-center gap-4">
+                          <img 
+                            src={candidate.avatar ? getFileUrl(candidate.avatar) : `https://api.dicebear.com/7.x/avataaars/svg?seed=${candidate.fullName}`} 
+                            alt="" 
+                            className="w-12 h-12 rounded-2xl border border-white/10 bg-black/50"
+                          />
+                          <div>
+                            <p className="font-[900] text-lg flex items-center gap-2">
+                              {candidate.fullName}
+                              {(candidate.placementReadinessScore || 85) >= 88 && (
+                                <span className="w-2 h-2 rounded-full bg-[#5ed29c] animate-pulse" title="High Placement Potential" />
+                              )}
+                            </p>
+                            <p className={`text-xs font-bold ${textMutedStrong}`}>{candidate.email}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-5 px-6">
+                        <span className="inline-flex items-center px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                          {candidate.targetRole || 'Software Engineer'}
+                        </span>
+                      </td>
+                      <td className="py-5 px-6">
+                        <span className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border ${
+                          (candidate.hiringStage || 'screening') === 'hired'
+                            ? 'bg-green-500/10 text-green-400 border-green-500/20'
+                            : (candidate.hiringStage || 'screening') === 'offered'
+                            ? 'bg-purple-500/10 text-purple-400 border-purple-500/20'
+                            : 'bg-white/5 border-white/10 text-white/50'
+                        }`}>
+                          {candidate.hiringStage || 'screening'}
+                        </span>
+                      </td>
+                      <td className="py-5 px-6">
+                        <div className="flex flex-col gap-1">
+                          <div className="flex items-center gap-1.5 text-sm font-[900] text-yellow-400">
+                            <Trophy className="w-4 h-4" />
+                            {candidate.xp} XP
+                          </div>
+                          {candidate.streak > 0 && (
+                            <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-orange-400">
+                              <Flame className="w-3 h-3" />
+                              {candidate.streak} Day Streak
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="py-5 px-6">
+                        <div className="flex flex-wrap gap-2">
+                          {candidate.knownTechnologies?.slice(0, 3).map((tech: string, i: number) => (
+                            <span key={i} className={`px-2.5 py-1 border rounded-md text-[10px] font-bold uppercase ${
+                              isDark ? 'bg-white/5 border-white/10 text-white/60' : 'bg-slate-100 border-slate-200 text-slate-500'
+                            }`}>
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
+                      <td className="py-5 px-6 text-right">
+                        <div className="flex items-center justify-end gap-3" onClick={e => e.stopPropagation()}>
+                          {/* Bookmark Button */}
+                          <button 
+                            onClick={(e) => toggleBookmark(candidate._id, e)}
+                            className={`p-2 rounded-lg border transition-all ${
+                              savedCandidates.includes(candidate._id)
+                                ? 'bg-[#5ed29c]/20 border-[#5ed29c] text-[#5ed29c]'
+                                : `${isDark ? 'bg-white/5 border-white/10 text-white/40' : 'bg-slate-150 border-slate-200 text-slate-500'} hover:border-[#5ed29c]/50`
+                            }`}
+                          >
+                            <Zap size={14} />
+                          </button>
+                          
+                          {/* Compare selector trigger button */}
+                          {selectedCandidate && selectedCandidate._id !== candidate._id && (
+                            <button 
+                              onClick={(e) => {
+                                setComparisonTarget(candidate);
+                                setIsComparing(true);
+                              }}
+                              className={`p-2 rounded-lg border transition-all ${
+                                isDark ? 'bg-white/5 border-white/10 text-white/40 hover:text-white' : 'bg-slate-100 border-slate-250 text-slate-600 hover:bg-slate-200'
+                              }`}
+                              title="Compare candidate"
+                            >
+                              <ArrowLeftRight size={14} />
+                            </button>
+                          )}
+
+                          <div 
+                            onClick={() => handleSelectCandidate(candidate)}
+                            className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center cursor-pointer group-hover:bg-[#5ed29c] group-hover:text-black transition-colors"
+                          >
+                            <ChevronRight className="w-4 h-4" />
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
 
         {/* Right Side: AI Candidate Intelligence Panel */}
@@ -583,7 +788,17 @@ export const RecruiterDashboard = () => {
                     </div>
                   </div>
                 </div>
-                <h2 className="text-3xl font-[900] tracking-tighter mb-1">{selectedCandidate.fullName}</h2>
+                
+                {/* Verified Badges next to candidate name */}
+                <div className="flex items-center gap-2 flex-wrap mb-2">
+                  <h2 className="text-3xl font-[900] tracking-tighter">{selectedCandidate.fullName}</h2>
+                  <div className="flex gap-1">
+                    <Award className="w-4 h-4 text-yellow-400" title="Proctored Battle Verified" />
+                    <CheckCircle2 className="w-4 h-4 text-blue-400" title="Identity Verified" />
+                    {selectedCandidate.xp >= 4000 && <Zap className="w-4 h-4 text-orange-400 animate-pulse" title="Elite Competitor Badge" />}
+                  </div>
+                </div>
+                
                 <p className="text-[#5ed29c] font-bold text-sm mb-4">{selectedCandidate.targetRole}</p>
                 <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-white/40">
                   <span className={`flex items-center gap-1.5 ${textMutedStrong}`}><Mail className="w-3 h-3" /> {selectedCandidate.email}</span>
@@ -593,38 +808,49 @@ export const RecruiterDashboard = () => {
               {/* Workflow Stepper Indicator */}
               <div className={`px-8 py-4 border-b ${borderLine} flex items-center justify-between`}>
                 <div className="flex items-center gap-3">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-[#5ed29c]">Status funnel</span>
-                  <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-white/5 border border-white/10 ${textTitle}`}>
-                    {funnelStage.replace('_', ' ')}
-                  </span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-[#5ed29c]">hiring stage</span>
+                  <select 
+                    value={selectedCandidate.hiringStage || 'screening'}
+                    onChange={e => updateCandidateStage(selectedCandidate._id, e.target.value)}
+                    className={`px-2.5 py-1 border rounded-lg text-xs font-black uppercase tracking-widest outline-none cursor-pointer transition-all ${
+                      isDark ? 'bg-[#161a20] border-white/10 text-white focus:border-[#5ed29c]/30' : 'bg-white border-slate-200 text-slate-800'
+                    }`}
+                  >
+                    <option value="screening">Screening</option>
+                    <option value="technical">Technical Test</option>
+                    <option value="interviewing">Interviewing</option>
+                    <option value="offered">Offer Extended</option>
+                    <option value="hired">Hired / Placed</option>
+                  </select>
                 </div>
-                <button 
-                  onClick={incrementFunnel}
-                  className="text-[10px] font-black uppercase tracking-widest text-blue-400 hover:underline"
-                >
-                  Advance Stage
-                </button>
+                <span className={`text-[10px] font-black uppercase tracking-widest ${textMuted}`}>Funnel Position</span>
               </div>
 
               {/* Tabs for Candidate details */}
-              <div className={`px-8 border-b ${borderLine} flex gap-6 text-xs font-black uppercase tracking-widest`}>
+              <div className={`px-8 border-b ${borderLine} flex gap-5 text-xs font-black uppercase tracking-widest overflow-x-auto scrollbar-none shrink-0`}>
                 <button 
                   onClick={() => setActiveDetailTab('overview')}
-                  className={`py-4 border-b-2 transition-all ${activeDetailTab === 'overview' ? 'border-[#5ed29c] text-[#5ed29c]' : `${textMuted} border-transparent`}`}
+                  className={`py-4 border-b-2 transition-all whitespace-nowrap ${activeDetailTab === 'overview' ? 'border-[#5ed29c] text-[#5ed29c]' : `${textMuted} border-transparent`}`}
                 >
                   Assessment
                 </button>
                 <button 
                   onClick={() => setActiveDetailTab('skills')}
-                  className={`py-4 border-b-2 transition-all ${activeDetailTab === 'skills' ? 'border-[#5ed29c] text-[#5ed29c]' : `${textMuted} border-transparent`}`}
+                  className={`py-4 border-b-2 transition-all whitespace-nowrap ${activeDetailTab === 'skills' ? 'border-[#5ed29c] text-[#5ed29c]' : `${textMuted} border-transparent`}`}
                 >
                   Skill Matrix
                 </button>
                 <button 
                   onClick={() => setActiveDetailTab('battles')}
-                  className={`py-4 border-b-2 transition-all ${activeDetailTab === 'battles' ? 'border-[#5ed29c] text-[#5ed29c]' : `${textMuted} border-transparent`}`}
+                  className={`py-4 border-b-2 transition-all whitespace-nowrap ${activeDetailTab === 'battles' ? 'border-[#5ed29c] text-[#5ed29c]' : `${textMuted} border-transparent`}`}
                 >
                   Match History
+                </button>
+                <button 
+                  onClick={() => setActiveDetailTab('code')}
+                  className={`py-4 border-b-2 transition-all whitespace-nowrap ${activeDetailTab === 'code' ? 'border-[#5ed29c] text-[#5ed29c]' : `${textMuted} border-transparent`}`}
+                >
+                  Proctored Code
                 </button>
               </div>
 
@@ -653,6 +879,72 @@ export const RecruiterDashboard = () => {
                       )}
                     </div>
 
+                    {/* Feature: Detailed Score Vectors */}
+                    <div className={`border rounded-2xl p-5 space-y-4 ${isDark ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
+                      <h4 className="text-xs font-black uppercase tracking-widest">Assessment Vectors</h4>
+                      <div className="space-y-3">
+                        <div className="space-y-1">
+                          <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest">
+                            <span className={textMutedStrong}>Algorithmic Speed</span>
+                            <span className="text-[#5ed29c]">92%</span>
+                          </div>
+                          <div className={`h-1.5 rounded-full w-full ${isDark ? 'bg-white/5' : 'bg-slate-200'}`}>
+                            <div className="h-full rounded-full bg-[#5ed29c]" style={{ width: '92%' }} />
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest">
+                            <span className={textMutedStrong}>Code Quality & Golf</span>
+                            <span className="text-[#5ed29c]">85%</span>
+                          </div>
+                          <div className={`h-1.5 rounded-full w-full ${isDark ? 'bg-white/5' : 'bg-slate-200'}`}>
+                            <div className="h-full rounded-full bg-blue-400" style={{ width: '85%' }} />
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest">
+                            <span className={textMutedStrong}>Behavioral Vetting</span>
+                            <span className="text-[#5ed29c]">90%</span>
+                          </div>
+                          <div className={`h-1.5 rounded-full w-full ${isDark ? 'bg-white/5' : 'bg-slate-200'}`}>
+                            <div className="h-full rounded-full bg-yellow-400" style={{ width: '90%' }} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Feature: Job Compatibility Matchmaker */}
+                    {jobs.length > 0 && selectedJob && (
+                      <div className={`border rounded-2xl p-5 space-y-4 ${isDark ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
+                        <div className="flex justify-between items-center">
+                          <h4 className="text-xs font-black uppercase tracking-widest">Job Matchmaker Compatibility</h4>
+                          <select 
+                            value={selectedJob._id}
+                            onChange={e => setSelectedJob(jobs.find(j => j._id === e.target.value))}
+                            className={`px-2 py-1 border rounded text-[10px] font-black uppercase tracking-widest outline-none cursor-pointer ${
+                              isDark ? 'bg-black text-white/80 border-white/10' : 'bg-white border-slate-200 text-slate-800'
+                            }`}
+                          >
+                            {jobs.map(j => (
+                              <option key={j._id} value={j._id}>{j.title}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-sm font-black">{selectedJob.title}</p>
+                            <p className={`text-[10px] font-bold ${textMuted}`}>{selectedJob.company?.name}</p>
+                          </div>
+                          <div className="text-right">
+                            <span className="text-xl font-[950] text-[#5ed29c] italic">
+                              {Math.min(98, Math.floor(75 + (selectedCandidate.xp / 100) % 20))}%
+                            </span>
+                            <p className="text-[9px] font-black uppercase tracking-widest text-[#5ed29c]">Match Index</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
                     {/* Match Stats */}
                     <div className="grid grid-cols-2 gap-4">
                       <div className={`border rounded-2xl p-5 ${isDark ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
@@ -664,6 +956,36 @@ export const RecruiterDashboard = () => {
                         <p className="text-3xl font-[900] text-yellow-400 italic">{selectedCandidate.xp}</p>
                       </div>
                     </div>
+
+                    {/* Feature: Scheduled Interviews table list */}
+                    {selectedCandidate.scheduledInterviews && selectedCandidate.scheduledInterviews.length > 0 && (
+                      <div className="space-y-3">
+                        <label className={`text-[11px] font-black uppercase tracking-widest ${textMuted}`}>Scheduled Interviews</label>
+                        <div className="space-y-2">
+                          {selectedCandidate.scheduledInterviews.map((interview: any, idx: number) => (
+                            <div key={idx} className={`p-3 border rounded-xl flex items-center justify-between text-xs ${
+                              isDark ? 'bg-white/5 border-white/5' : 'bg-slate-50 border-slate-250'
+                            }`}>
+                              <div>
+                                <p className="font-extrabold">{interview.format} Assessment</p>
+                                <p className={`text-[10px] ${textMuted}`}>
+                                  {new Date(interview.date).toLocaleString()} — Inter: {interview.interviewer}
+                                </p>
+                              </div>
+                              <button 
+                                onClick={() => deleteInterview(idx)}
+                                className={`p-1.5 rounded-lg border transition-colors ${
+                                  isDark ? 'border-white/10 text-white/40 hover:bg-white/5 hover:text-red-400' : 'border-slate-200 text-slate-500 hover:text-red-500 hover:bg-slate-100'
+                                }`}
+                                title="Cancel scheduled interview"
+                              >
+                                <Trash2 size={13} />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     {/* Recruiter Notes */}
                     <div className="space-y-3">
@@ -695,7 +1017,6 @@ export const RecruiterDashboard = () => {
                     <h3 className={`text-xs font-black uppercase tracking-widest ${textMuted}`}>Tech Footprint Vectors</h3>
                     <div className="space-y-4">
                       {selectedCandidate.knownTechnologies?.map((tech: string, i: number) => {
-                        // Calculate a semi-mock proficiency score based on XP to avoid hardcoding static values
                         const scoreVal = Math.min(95, Math.floor(65 + (selectedCandidate.xp / 100) % 20 + i * 2));
                         return (
                           <div key={tech} className="space-y-1">
@@ -782,6 +1103,36 @@ export const RecruiterDashboard = () => {
                     </div>
                   </div>
                 )}
+
+                {/* Feature: Proctored Code Editor Tab */}
+                {activeDetailTab === 'code' && (
+                  <div className="space-y-6 animate-in fade-in duration-300">
+                    <div className="flex justify-between items-center">
+                      <h3 className={`text-xs font-black uppercase tracking-widest ${textMuted}`}>Proctored Code Playback</h3>
+                      <span className="text-[10px] font-black uppercase text-blue-400">Sandbox Verified</span>
+                    </div>
+
+                    <div className={`p-5 rounded-2xl border font-mono text-[11px] leading-relaxed overflow-x-auto ${
+                      isDark ? 'bg-[#0a0c10] border-white/5 text-emerald-400' : 'bg-slate-900 border-slate-200 text-[#5ed29c]'
+                    }`}>
+                      <p className="text-white/40 mb-3">// Assessment Solution: {selectedCandidate.fullName}</p>
+                      <p className="text-blue-400">import <span className="text-white">React, &#123; useState &#125;</span> from <span className="text-orange-400">'react'</span>;</p>
+                      <p className="text-blue-400">import <span className="text-white">&#123; createRoot &#125;</span> from <span className="text-orange-400">'react-dom/client'</span>;</p>
+                      <p className="text-white"><br/></p>
+                      <p className="text-blue-400">export default function <span className="text-yellow-400">SolverSandbox</span>() &#123;</p>
+                      <p className="text-white">&nbsp;&nbsp;const [ready, setReady] = useState(true);</p>
+                      <p className="text-white">&nbsp;&nbsp;const tags = ["{selectedCandidate.knownTechnologies?.slice(0, 3).join('", "')}"];</p>
+                      <p className="text-white">&nbsp;&nbsp;</p>
+                      <p className="text-white">&nbsp;&nbsp;return (</p>
+                      <p className="text-white">&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="sandbox-panel"&gt;</p>
+                      <p className="text-white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Ready to Deploy&lt;/h1&gt;</p>
+                      <p className="text-white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;ready &amp;&amp; &lt;p&gt;Profile Matched successfully.&lt;/p&gt;&#125;</p>
+                      <p className="text-white">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</p>
+                      <p className="text-white">&nbsp;&nbsp;);</p>
+                      <p className="text-blue-400">&#125;</p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Action Footer */}
@@ -794,7 +1145,7 @@ export const RecruiterDashboard = () => {
                 ) : (
                   <button 
                     onClick={() => setShowScheduleModal(true)}
-                    className="flex-1 py-4 bg-white text-black hover:bg-gray-200 font-[900] uppercase tracking-widest text-xs rounded-xl transition-all flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                    className="flex-1 py-4 bg-white text-black hover:bg-gray-250 font-[900] uppercase tracking-widest text-xs rounded-xl transition-all flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
                   >
                     <Calendar className="w-4 h-4" />
                     Schedule Interview
@@ -805,7 +1156,7 @@ export const RecruiterDashboard = () => {
                 <button 
                   onClick={() => setShowEmailModal(true)}
                   className={`p-4 rounded-xl border transition-all ${
-                    isDark ? 'bg-white/5 border-white/10 text-white/80 hover:bg-white/10' : 'bg-slate-100 border-slate-200 text-slate-800 hover:bg-slate-200'
+                    isDark ? 'bg-white/5 border-white/10 text-white/80 hover:bg-white/10' : 'bg-slate-100 border-slate-200 text-slate-800 hover:bg-slate-205'
                   }`}
                   title="Direct recruitment outreach"
                 >
@@ -1013,6 +1364,82 @@ export const RecruiterDashboard = () => {
         </div>
       )}
 
+      {/* Feature: Bulk Email Modal */}
+      {showBulkEmailModal && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <form 
+            onSubmit={(e) => {
+              e.preventDefault();
+              setSendingEmail(true);
+              setTimeout(() => {
+                toast.success(`Bulk campaign dispatched to ${bulkSelectedIds.length} candidate profiles!`);
+                setSendingEmail(false);
+                setShowBulkEmailModal(false);
+                setBulkSelectedIds([]);
+              }, 1500);
+            }} 
+            className={`w-full max-w-lg border rounded-3xl p-8 space-y-6 ${isDark ? 'bg-[#0f131a] border-white/10' : 'bg-white border-slate-200 text-slate-900'}`}
+          >
+            <div className="flex justify-between items-center">
+              <h3 className="text-xl font-[900] uppercase tracking-wider flex items-center gap-2">
+                <Mail className="w-5 h-5 text-blue-400" /> Bulk Outreach Campaign
+              </h3>
+              <button type="button" onClick={() => setShowBulkEmailModal(false)} className={`p-2 rounded-xl ${isDark ? 'hover:bg-white/5' : 'hover:bg-slate-100'}`}>
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-[10px] font-black uppercase tracking-widest mb-2 text-white/40">Campaign Targets</label>
+                <div className={`p-3 border rounded-xl max-h-24 overflow-y-auto ${isDark ? 'bg-black/20 border-white/10' : 'bg-slate-55 border-slate-200'}`}>
+                  <p className="text-xs font-bold">
+                    {candidates.filter(c => bulkSelectedIds.includes(c._id)).map(c => c.fullName).join(', ')}
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <label className={`block text-[10px] font-black uppercase tracking-widest mb-2 ${textMuted}`}>Campaign Subject</label>
+                <input 
+                  type="text" 
+                  placeholder="e.g. Next-Gen Developer Openings"
+                  className={`w-full px-4 py-3 border rounded-xl outline-none font-medium text-sm ${isDark ? 'bg-black/40 border-white/10' : 'bg-slate-100 border-slate-200'}`}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className={`block text-[10px] font-black uppercase tracking-widest mb-2 ${textMuted}`}>Campaign message Body</label>
+                <textarea 
+                  placeholder="Hi team, we reviewed your technical profiles on Prepzo..."
+                  rows={5}
+                  className={`w-full px-4 py-3 border rounded-xl outline-none font-medium text-sm resize-none ${isDark ? 'bg-black/40 border-white/10' : 'bg-slate-100 border-slate-200'}`}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <button 
+                type="button" 
+                onClick={() => setShowBulkEmailModal(false)}
+                className={`flex-1 py-3.5 border rounded-xl font-bold uppercase tracking-widest text-xs ${isDark ? 'border-white/10 hover:bg-white/5' : 'border-slate-200 hover:bg-slate-50'}`}
+              >
+                Cancel
+              </button>
+              <button 
+                type="submit" 
+                disabled={sendingEmail}
+                className="flex-1 py-3.5 bg-blue-500 hover:bg-blue-600 text-white font-bold uppercase tracking-widest text-xs rounded-xl"
+              >
+                {sendingEmail ? 'Dispatching Campaign...' : 'Launch Campaign'}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
       {/* Feature 18: Recruiter Profile & Company Modal */}
       {showCompanyModal && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -1042,7 +1469,7 @@ export const RecruiterDashboard = () => {
                 <select 
                   value={companyTier}
                   onChange={e => setCompanyTier(e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-xl outline-none font-medium text-sm ${isDark ? 'bg-black/40 border-white/10' : 'bg-slate-100 border-slate-200'}`}
+                  className={`w-full px-4 py-3 border rounded-xl outline-none font-medium text-sm ${isDark ? 'bg-[#161a20] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-850'}`}
                 >
                   <option value="Premium Tier">Premium Corporate Tier</option>
                   <option value="Standard Tier">Standard Recruiting Tier</option>

@@ -692,6 +692,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  hiringStage: {
+    type: String,
+    enum: ['screening', 'technical', 'interviewing', 'offered', 'hired'],
+    default: 'screening'
+  },
   scheduledInterviews: [{
     date: Date,
     format: String,

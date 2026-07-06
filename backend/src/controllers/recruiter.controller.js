@@ -1,5 +1,6 @@
 import User from '../models/User.model.js';
 import Battle from '../models/Battle.model.js';
+import Job from '../models/Job.model.js';
 
 /**
  * @desc    Get all students/candidates for the recruiter dashboard
@@ -80,6 +81,7 @@ export const getCandidates = async (req, res) => {
           linkedin: 1,
           github: 1,
           recruiterNotes: 1,
+          hiringStage: 1,
           scheduledInterviews: 1
         }
       }
@@ -295,6 +297,52 @@ export const getCandidateBattles = async (req, res) => {
     });
   } catch (error) {
     console.error('Get battles error:', error);
+    res.status(500).json({ success: false, message: error.message || 'Server error' });
+  }
+};
+
+/**
+ * @desc    Get all active company jobs
+ * @route   GET /api/recruiters/jobs
+ * @access  Private (Recruiter only)
+ */
+export const getCruiterJobs = async (req, res) => {
+  try {
+    const jobs = await Job.find({ status: 'active' }).populate('company', 'name logo');
+    res.status(200).json({
+      success: true,
+      message: 'Active company jobs fetched successfully',
+      data: jobs
+    });
+  } catch (error) {
+    console.error('Get jobs error:', error);
+    res.status(500).json({ success: false, message: error.message || 'Server error' });
+  }
+};
+
+/**
+ * @desc    Update candidate hiring stage in pipeline
+ * @route   PUT /api/recruiters/candidates/:id/stage
+ * @access  Private (Recruiter only)
+ */
+export const updateCandidatePipelineStage = async (req, res) => {
+  try {
+    const { stage } = req.body;
+    const candidate = await User.findOneAndUpdate(
+      { _id: req.params.id, role: 'student' },
+      { $set: { hiringStage: stage } },
+      { new: true }
+    );
+    if (!candidate) {
+      return res.status(404).json({ success: false, message: 'Candidate not found' });
+    }
+    res.status(200).json({
+      success: true,
+      message: 'Candidate pipeline stage updated successfully',
+      data: { hiringStage: candidate.hiringStage }
+    });
+  } catch (error) {
+    console.error('Update stage error:', error);
     res.status(500).json({ success: false, message: error.message || 'Server error' });
   }
 };
