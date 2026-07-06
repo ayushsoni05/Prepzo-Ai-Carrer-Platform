@@ -10,6 +10,7 @@ import {
 import api from '../api/axios';
 import { getFileUrl } from '@/utils/fileUrl';
 import toast from 'react-hot-toast';
+import { CustomSelect } from '@/components/ui/CustomSelect';
 
 export const RecruiterDashboard = () => {
   // Candidate data & status
@@ -291,6 +292,30 @@ export const RecruiterDashboard = () => {
   const textMutedStrong = isDark ? 'text-white/60' : 'text-slate-500';
   const borderLine = isDark ? 'border-white/5' : 'border-slate-200';
 
+  const roleOptions = [
+    { value: '', label: 'All Roles' },
+    { value: 'Full Stack Engineer', label: 'Full Stack' },
+    { value: 'Backend Engineer', label: 'Backend' },
+    { value: 'Frontend Developer', label: 'Frontend' },
+    { value: 'DevOps Engineer', label: 'DevOps' },
+    { value: 'AI/ML Engineer', label: 'AI/ML' }
+  ];
+
+  const xpOptions = [
+    { value: '0', label: 'All XP levels' },
+    { value: '2000', label: 'Min 2000 XP' },
+    { value: '3000', label: 'Min 3000 XP' },
+    { value: '4000', label: 'Min 4000 XP' },
+    { value: '5000', label: 'Min 5000 XP' }
+  ];
+
+  const sortOptions = [
+    { value: 'xp', label: 'Sort by XP Rating' },
+    { value: 'atsScore', label: 'Sort by ATS Match' },
+    { value: 'streak', label: 'Sort by Coding Streak' },
+    { value: 'name', label: 'Sort by Name' }
+  ];
+
   return (
     <div className={`min-h-screen ${bgMain} font-rubik selection:bg-[#5ed29c] selection:text-black flex flex-col overflow-hidden transition-colors duration-300`}>
       {/* Header */}
@@ -416,49 +441,31 @@ export const RecruiterDashboard = () => {
             </div>
 
             {/* Target Role Filter */}
-            <select
+            <CustomSelect
               value={selectedRole}
-              onChange={e => setSelectedRole(e.target.value)}
-              className={`px-6 py-4 border rounded-2xl text-xs font-bold uppercase tracking-widest outline-none cursor-pointer transition-all ${
-                isDark ? 'bg-[#161a20] border-white/5 text-white' : 'bg-white border-slate-200 text-slate-700'
-              }`}
-            >
-              <option value="">All Roles</option>
-              <option value="Full Stack Engineer">Full Stack</option>
-              <option value="Backend Engineer">Backend</option>
-              <option value="Frontend Developer">Frontend</option>
-              <option value="DevOps Engineer">DevOps</option>
-              <option value="AI/ML Engineer">AI/ML</option>
-            </select>
+              onChange={setSelectedRole}
+              options={roleOptions}
+              placeholder="All Roles"
+              className="w-48"
+            />
 
             {/* Min XP Filter */}
-            <select
+            <CustomSelect
               value={minXp}
-              onChange={e => setMinXp(e.target.value)}
-              className={`px-6 py-4 border rounded-2xl text-xs font-bold uppercase tracking-widest outline-none cursor-pointer transition-all ${
-                isDark ? 'bg-[#161a20] border-white/5 text-white' : 'bg-white border-slate-200 text-slate-700'
-              }`}
-            >
-              <option value="0">All XP levels</option>
-              <option value="2000">Min 2000 XP</option>
-              <option value="3000">Min 3000 XP</option>
-              <option value="4000">Min 4000 XP</option>
-              <option value="5000">Min 5000 XP</option>
-            </select>
+              onChange={setMinXp}
+              options={xpOptions}
+              placeholder="All XP levels"
+              className="w-48"
+            />
 
             {/* Sorting controls */}
-            <select
+            <CustomSelect
               value={sortBy}
-              onChange={e => setSortBy(e.target.value)}
-              className={`px-6 py-4 border rounded-2xl text-xs font-bold uppercase tracking-widest outline-none cursor-pointer transition-all ${
-                isDark ? 'bg-[#161a20] border-white/5 text-white' : 'bg-white border-slate-200 text-slate-700'
-              }`}
-            >
-              <option value="xp">Sort by XP Rating</option>
-              <option value="atsScore">Sort by ATS Match</option>
-              <option value="streak">Sort by Coding Streak</option>
-              <option value="name">Sort by Name</option>
-            </select>
+              onChange={setSortBy}
+              options={sortOptions}
+              placeholder="Sort by"
+              className="w-56"
+            />
           </div>
 
           {/* Bulk Actions Header */}
