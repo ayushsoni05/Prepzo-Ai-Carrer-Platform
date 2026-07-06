@@ -618,18 +618,18 @@ export const RecruiterDashboard = () => {
                     {/* Honest AI Summary */}
                     <div>
                       <div className="flex items-center gap-3 mb-4">
-                        <Bot className="w-5 h-5 text-purple-400 animate-pulse" />
-                        <h3 className="text-xs font-black uppercase tracking-[0.2em] text-purple-400">Diagnostic Summary</h3>
+                        <Bot className="w-5 h-5 text-blue-500 animate-pulse" />
+                        <h3 className="text-xs font-black uppercase tracking-[0.2em] text-blue-500">Diagnostic Summary</h3>
                       </div>
 
                       {isGeneratingSummary ? (
                         <div className="flex flex-col items-center justify-center py-12">
-                          <RefreshCw className="w-8 h-8 text-purple-400 animate-spin mb-3" />
-                          <p className="text-[10px] font-black uppercase tracking-widest text-purple-400 animate-pulse">Running Diagnostic AI Assessment...</p>
+                          <RefreshCw className="w-8 h-8 text-blue-500 animate-spin mb-3" />
+                          <p className="text-[10px] font-black uppercase tracking-widest text-blue-500 animate-pulse">Running Diagnostic AI Assessment...</p>
                         </div>
                       ) : (
-                        <div className={`border rounded-2xl p-6 relative ${isDark ? 'bg-purple-500/5 border-purple-500/20' : 'bg-purple-50 border-purple-200'}`}>
-                          <div className="text-sm font-medium leading-relaxed whitespace-pre-line text-purple-300">
+                        <div className={`border rounded-2xl p-6 relative ${isDark ? 'bg-blue-500/5 border-blue-500/20' : 'bg-blue-50 border-blue-200'}`}>
+                          <div className={`text-sm font-medium leading-relaxed whitespace-pre-line ${isDark ? 'text-blue-300' : 'text-blue-900'}`}>
                             {aiSummary || 'Failed to construct summary.'}
                           </div>
                         </div>
