@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import User from '../models/User.model.js';
+import Battle from '../models/Battle.model.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -255,10 +256,50 @@ async function run() {
     const emails = candidatesData.map(c => c.email);
     await User.deleteMany({ email: { $in: emails } });
 
+    console.log('🧹 Cleaning up old mock battles...');
+    await Battle.deleteMany({});
+
     console.log('➕ Seeding 12 high-quality active candidates...');
+    const seededCandidates = [];
     for (const c of candidatesData) {
-      await User.create(c);
-      console.log(`- Seeded: ${c.fullName} (${c.email})`);
+      const u = await User.create(c);
+      seededCandidates.push(u);
+      console.log(`- Seeded: ${u.fullName} (${u.email})`);
+    }
+
+    console.log('⚔️ Seeding mock battles for candidates...');
+    for (let i = 0; i < seededCandidates.length; i++) {
+      const student = seededCandidates[i];
+      const opponent = seededCandidates[(i + 1) % seededCandidates.length];
+
+      await Battle.create({
+        battleId: `battle_${student._id}_${opponent._id}`,
+        type: '1v1',
+        status: 'completed',
+        problemIds: ['two-sum'],
+        participants: [
+          {
+            userId: student._id,
+            progress: 100,
+            status: 'submitted',
+            submittedAt: new Date(Date.now() - 24 * 60 * 60 * 1000),
+            testsPassed: 5,
+            totalTests: 5
+          },
+          {
+            userId: opponent._id,
+            progress: 80,
+            status: 'submitted',
+            submittedAt: new Date(Date.now() - 24 * 60 * 60 * 1000),
+            testsPassed: 4,
+            totalTests: 5
+          }
+        ],
+        startTime: new Date(Date.now() - 25 * 60 * 60 * 1000),
+        endTime: new Date(Date.now() - 24 * 60 * 60 * 1000),
+        winnerId: student._id
+      });
+      console.log(`- Seeded battle: ${student.fullName} vs ${opponent.fullName}`);
     }
 
     console.log('🎉 Seeding completed successfully!');

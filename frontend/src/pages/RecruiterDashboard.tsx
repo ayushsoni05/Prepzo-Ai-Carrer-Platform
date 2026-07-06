@@ -55,6 +55,10 @@ export const RecruiterDashboard = () => {
   // Detail panel tab
   const [activeDetailTab, setActiveDetailTab] = useState<'overview' | 'skills' | 'battles'>('overview');
 
+  // Battle matches state
+  const [battles, setBattles] = useState<any[]>([]);
+  const [loadingBattles, setLoadingBattles] = useState(false);
+
   // Fetch candidates from database
   const fetchCandidates = async () => {
     setLoading(true);
@@ -110,6 +114,8 @@ export const RecruiterDashboard = () => {
     setAiSummary(null);
     setInviteSent(false);
     setIsGeneratingSummary(true);
+    setLoadingBattles(true);
+    setBattles([]);
     
     try {
       const summaryRes = await api.get(`/recruiters/candidates/${candidate._id}/ai-summary`);
@@ -121,6 +127,17 @@ export const RecruiterDashboard = () => {
       toast.error('AI Summary endpoint failed');
     } finally {
       setIsGeneratingSummary(false);
+    }
+
+    try {
+      const battlesRes = await api.get(`/recruiters/candidates/${candidate._id}/battles`);
+      if (battlesRes.data?.success) {
+        setBattles(battlesRes.data.data);
+      }
+    } catch (err) {
+      console.error('Failed to load battles history', err);
+    } finally {
+      setLoadingBattles(false);
     }
   };
 
@@ -728,29 +745,40 @@ export const RecruiterDashboard = () => {
                     </div>
 
                     <div className="space-y-3">
-                      <div className={`p-4 border rounded-xl flex items-center justify-between ${isDark ? 'bg-green-500/5 border-green-500/20' : 'bg-emerald-50 border-emerald-200'}`}>
-                        <div>
-                          <p className="text-xs font-black uppercase tracking-widest text-emerald-400">Match Win vs Alice</p>
-                          <p className={`text-[10px] ${textMuted}`}>Vite optimization challenge</p>
+                      {loadingBattles ? (
+                        <div className="text-center py-6">
+                          <RefreshCw className="w-6 h-6 animate-spin text-[#5ed29c] mx-auto mb-2" />
+                          <p className="text-[10px] font-black uppercase tracking-widest text-white/40">Querying Battle Arena DB...</p>
                         </div>
-                        <span className="text-xs font-[950] text-[#5ed29c]">+25 Elo</span>
-                      </div>
+                      ) : battles.length === 0 ? (
+                        <p className={`text-xs text-center py-6 ${textMuted}`}>No proctored battle matches found in Mongo database.</p>
+                      ) : battles.map((b: any) => {
+                        const isWinner = b.winnerId === selectedCandidate._id || b.winnerId?._id === selectedCandidate._id;
+                        const opponent = b.participants?.find((p: any) => p.userId?._id !== selectedCandidate._id && p.userId !== selectedCandidate._id);
+                        const opponentName = opponent?.userId?.fullName || 'Arena Competitor';
+                        const challengeName = b.problemIds?.[0] ? b.problemIds[0].replace('-', ' ') : 'Speed Coding Challenge';
 
-                      <div className={`p-4 border rounded-xl flex items-center justify-between ${isDark ? 'bg-green-500/5 border-green-500/20' : 'bg-emerald-50 border-emerald-200'}`}>
-                        <div>
-                          <p className="text-xs font-black uppercase tracking-widest text-emerald-400">Match Win vs Developer_9</p>
-                          <p className={`text-[10px] ${textMuted}`}>Redux Toolkit debugging</p>
-                        </div>
-                        <span className="text-xs font-[950] text-[#5ed29c]">+18 Elo</span>
-                      </div>
-
-                      <div className={`p-4 border rounded-xl flex items-center justify-between ${isDark ? 'bg-red-500/5 border-red-500/20' : 'bg-rose-50 border-rose-200'}`}>
-                        <div>
-                          <p className="text-xs font-black uppercase tracking-widest text-rose-455 text-red-500">Match Loss vs Staff_Architect</p>
-                          <p className={`text-[10px] ${textMuted}`}>System Sharding scenario</p>
-                        </div>
-                        <span className="text-xs font-[950] text-red-400">-12 Elo</span>
-                      </div>
+                        return (
+                          <div 
+                            key={b._id} 
+                            className={`p-4 border rounded-xl flex items-center justify-between ${
+                              isWinner 
+                                ? (isDark ? 'bg-green-500/5 border-green-500/20' : 'bg-emerald-50 border-emerald-200')
+                                : (isDark ? 'bg-red-500/5 border-red-500/20' : 'bg-rose-50 border-rose-200')
+                            }`}
+                          >
+                            <div>
+                              <p className={`text-xs font-black uppercase tracking-widest ${isWinner ? 'text-emerald-400' : 'text-red-400'}`}>
+                                {isWinner ? 'Match Win' : 'Match Loss'} vs {opponentName}
+                              </p>
+                              <p className={`text-[10px] ${textMuted} uppercase font-bold`}>{challengeName}</p>
+                            </div>
+                            <span className={`text-xs font-[950] ${isWinner ? 'text-[#5ed29c]' : 'text-red-400'}`}>
+                              {isWinner ? '+25 Elo' : '-15 Elo'}
+                            </span>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}

@@ -1,4 +1,5 @@
 import User from '../models/User.model.js';
+import Battle from '../models/Battle.model.js';
 
 /**
  * @desc    Get all students/candidates for the recruiter dashboard
@@ -268,6 +269,32 @@ export const scheduleInterview = async (req, res) => {
     });
   } catch (error) {
     console.error('Schedule interview error:', error);
+    res.status(500).json({ success: false, message: error.message || 'Server error' });
+  }
+};
+
+/**
+ * @desc    Get candidate battle matches from DB
+ * @route   GET /api/recruiters/candidates/:id/battles
+ * @access  Private (Recruiter only)
+ */
+export const getCandidateBattles = async (req, res) => {
+  try {
+    const battles = await Battle.find({
+      'participants.userId': req.params.id
+    })
+    .populate('participants.userId', 'fullName avatar')
+    .populate('winnerId', 'fullName')
+    .sort({ createdAt: -1 })
+    .limit(10);
+
+    res.status(200).json({
+      success: true,
+      message: 'Candidate battles fetched successfully',
+      data: battles
+    });
+  } catch (error) {
+    console.error('Get battles error:', error);
     res.status(500).json({ success: false, message: error.message || 'Server error' });
   }
 };
