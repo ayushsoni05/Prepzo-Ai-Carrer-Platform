@@ -24,6 +24,7 @@ import {
 import { applicationsApi, Application } from '@/api/applications';
 import { jobsApi } from '@/api/jobs';
 import { companiesApi } from '@/api/companies';
+import { CustomSelect } from '@/components/ui/CustomSelect';
 import toast from 'react-hot-toast';
 
 export function AdminApplicationsPage() {
@@ -184,44 +185,40 @@ export function AdminApplicationsPage() {
         </div>
 
         {/* Company Filter */}
-        <select
+        <CustomSelect
           value={companyId}
-          onChange={e => { setCompanyId(e.target.value); setPage(1); }}
-          className="w-full px-4 py-3 bg-[#0a0c10] border border-white/5 rounded-xl text-white focus:border-[#00ff9d]/30 focus:ring-0 transition-all text-sm font-medium appearance-none"
-        >
-          <option value="">All Companies</option>
-          {companies.map(c => (
-            <option key={c._id} value={c._id}>{c.name}</option>
-          ))}
-        </select>
+          options={[
+            { value: '', label: 'All Companies' },
+            ...companies.map(c => ({ value: c._id || '', label: c.name || '' }))
+          ]}
+          onChange={val => { setCompanyId(val); setPage(1); }}
+        />
 
         {/* Job Filter */}
-        <select
+        <CustomSelect
           value={jobId}
-          onChange={e => { setJobId(e.target.value); setPage(1); }}
-          className="w-full px-4 py-3 bg-[#0a0c10] border border-white/5 rounded-xl text-white focus:border-[#00ff9d]/30 focus:ring-0 transition-all text-sm font-medium appearance-none"
-        >
-          <option value="">All Job Roles</option>
-          {jobs.map(j => (
-            <option key={j._id} value={j._id}>{j.title}</option>
-          ))}
-        </select>
+          options={[
+            { value: '', label: 'All Job Roles' },
+            ...jobs.map(j => ({ value: j._id || '', label: j.title || '' }))
+          ]}
+          onChange={val => { setJobId(val); setPage(1); }}
+        />
 
         {/* Status Filter */}
-        <select
+        <CustomSelect
           value={status}
-          onChange={e => { setStatus(e.target.value); setPage(1); }}
-          className="w-full px-4 py-3 bg-[#0a0c10] border border-white/5 rounded-xl text-white focus:border-[#00ff9d]/30 focus:ring-0 transition-all text-sm font-medium appearance-none"
-        >
-          <option value="">All Statuses</option>
-          <option value="applied">Applied</option>
-          <option value="under_review">Under Review</option>
-          <option value="shortlisted">Shortlisted</option>
-          <option value="interview_scheduled">Interview Scheduled</option>
-          <option value="offer_extended">Offer Extended</option>
-          <option value="rejected">Rejected</option>
-          <option value="withdrawn">Withdrawn</option>
-        </select>
+          options={[
+            { value: '', label: 'All Statuses' },
+            { value: 'applied', label: 'Applied' },
+            { value: 'under_review', label: 'Under Review' },
+            { value: 'shortlisted', label: 'Shortlisted' },
+            { value: 'interview_scheduled', label: 'Interview Scheduled' },
+            { value: 'offer_extended', label: 'Offer Extended' },
+            { value: 'rejected', label: 'Rejected' },
+            { value: 'withdrawn', label: 'Withdrawn' }
+          ]}
+          onChange={val => { setStatus(val); setPage(1); }}
+        />
 
         {/* Submit */}
         <button

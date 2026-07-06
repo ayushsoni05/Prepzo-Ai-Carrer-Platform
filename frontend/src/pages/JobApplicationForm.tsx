@@ -26,6 +26,7 @@ import {
 import { applicationsApi, ApplicationFormData } from '@/api/applications';
 import { jobsApi } from '@/api/jobs';
 import { useAppStore } from '@/store/appStore';
+import { CustomSelect } from '@/components/ui/CustomSelect';
 import toast from 'react-hot-toast';
 
 const STEPS = [
@@ -54,6 +55,31 @@ const POPULAR_SKILLS = [
   'Security', 'Cybersecurity', 'Agile', 'Scrum', 'Jira', 'Figma', 'UI/UX Design',
   'Project Management', 'Zapier', 'Make.com', 'GoHighLevel'
 ];
+
+const GENDER_OPTIONS = [
+  { value: 'male', label: 'Male' },
+  { value: 'female', label: 'Female' },
+  { value: 'other', label: 'Other' },
+  { value: 'prefer_not_to_say', label: 'Prefer not to say' }
+];
+
+const NOTICE_PERIOD_OPTIONS = [
+  { value: 'Immediate', label: 'Immediate' },
+  { value: '15_days', label: '15 Days' },
+  { value: '30_days', label: '30 Days' },
+  { value: '60_days', label: '60 Days' },
+  { value: '90_days', label: '90 Days' }
+];
+
+const HOW_HEARD_OPTIONS = [
+  { value: 'Prepzo Platform', label: 'Prepzo Platform' },
+  { value: 'LinkedIn', label: 'LinkedIn' },
+  { value: 'Referral', label: 'Referral' },
+  { value: 'Company Website', label: 'Company Website' },
+  { value: 'Job Fair', label: 'Job Fair' },
+  { value: 'Other', label: 'Other' }
+];
+
 
 interface JobApplicationFormProps {
   jobId: string;
@@ -480,15 +506,12 @@ export function JobApplicationForm({ jobId, onClose }: JobApplicationFormProps) 
                       <InputField label="Phone *" value={formData.personalInfo.phone} onChange={(v) => updatePersonalInfo('phone', v)} placeholder="+91 9876543210" />
                       <InputField label="Alternate Phone" value={formData.personalInfo.alternatePhone || ''} onChange={(v) => updatePersonalInfo('alternatePhone', v)} placeholder="Optional" />
                       <InputField label="Date of Birth" value={formData.personalInfo.dateOfBirth || ''} onChange={(v) => updatePersonalInfo('dateOfBirth', v)} type="date" />
-                      <div>
-                        <label className={`block text-[11px] font-black uppercase tracking-[0.2em] mb-3 ${textLabel}`}>Gender</label>
-                        <select value={formData.personalInfo.gender || ''} onChange={(e) => updatePersonalInfo('gender', e.target.value || undefined)} className={`w-full px-6 py-4 border rounded-2xl font-medium focus:border-[#00ff9d]/30 focus:ring-0 transition-all appearance-none ${darkMode ? 'bg-white/5 border-white/10 text-white bg-[#0a0c10]' : 'bg-white border-slate-200 text-slate-900 bg-white'}`}>
-                          <option value="" className={darkMode ? 'bg-[#0a0c10]' : 'bg-white'}>Prefer not to say</option>
-                          <option value="male" className={darkMode ? 'bg-[#0a0c10]' : 'bg-white'}>Male</option>
-                          <option value="female" className={darkMode ? 'bg-[#0a0c10]' : 'bg-white'}>Female</option>
-                          <option value="other" className={darkMode ? 'bg-[#0a0c10]' : 'bg-white'}>Other</option>
-                        </select>
-                      </div>
+                      <CustomSelect 
+                        label="Gender *" 
+                        value={formData.personalInfo.gender || ''} 
+                        options={GENDER_OPTIONS} 
+                        onChange={(val) => updatePersonalInfo('gender', val || undefined)} 
+                      />
                     </div>
                     <div>
                       <h3 className={`text-[13px] font-black uppercase tracking-widest mb-4 ${textMutedStrong}`}>Address</h3>
@@ -649,16 +672,12 @@ export function JobApplicationForm({ jobId, onClose }: JobApplicationFormProps) 
                       <p className={`font-medium ${textMutedStrong}`}>When can you start?</p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className={`block text-[11px] font-black uppercase tracking-[0.2em] mb-3 ${textLabel}`}>Notice Period</label>
-                        <select value={formData.availability.noticePeriod} onChange={(e) => setFormData(prev => ({ ...prev, availability: { ...prev.availability, noticePeriod: e.target.value } }))} className={`w-full px-6 py-4 border rounded-2xl font-medium focus:border-[#00ff9d]/30 focus:ring-0 transition-all appearance-none ${darkMode ? 'bg-white/5 border-white/10 text-white bg-[#0a0c10]' : 'bg-white border-slate-200 text-slate-900 bg-white'}`}>
-                          <option value="Immediate">Immediate</option>
-                          <option value="15 days">15 Days</option>
-                          <option value="1 month">1 Month</option>
-                          <option value="2 months">2 Months</option>
-                          <option value="3 months">3 Months</option>
-                        </select>
-                      </div>
+                      <CustomSelect 
+                        label="Notice Period *" 
+                        value={formData.availability.noticePeriod} 
+                        options={NOTICE_PERIOD_OPTIONS} 
+                        onChange={(val) => setFormData(prev => ({ ...prev, availability: { ...prev.availability, noticePeriod: val } }))} 
+                      />
                       <InputField label="Preferred Joining Date" value={formData.availability.preferredJoiningDate || ''} onChange={(v) => setFormData(prev => ({ ...prev, availability: { ...prev.availability, preferredJoiningDate: v } }))} type="date" />
                       <InputField label="Expected Salary (Annual ₹)" value={formData.availability.expectedSalary ? String(formData.availability.expectedSalary) : ''} onChange={(v) => setFormData(prev => ({ ...prev, availability: { ...prev.availability, expectedSalary: parseInt(v) || undefined } }))} type="number" placeholder="e.g. 800000" />
                       <div className="flex items-center gap-3 pt-8">
@@ -680,18 +699,12 @@ export function JobApplicationForm({ jobId, onClose }: JobApplicationFormProps) 
                       <label className={`block text-[11px] font-black uppercase tracking-[0.2em] mb-3 ${textLabel}`}>Why This Role? *</label>
                       <textarea value={formData.additionalInfo.whyThisRole || ''} onChange={(e) => setFormData(prev => ({ ...prev, additionalInfo: { ...prev.additionalInfo, whyThisRole: e.target.value } }))} placeholder="I'm excited about this opportunity because..." rows={6} className={`w-full px-6 py-4 border rounded-2xl font-medium focus:border-[#00ff9d]/30 focus:ring-0 transition-all resize-none ${darkMode ? 'bg-white/5 border-white/10 text-white bg-[#0c0f16]' : 'bg-white border-slate-200 text-slate-900 bg-white'}`} />
                     </div>
-                    <div>
-                      <label className={`block text-[11px] font-black uppercase tracking-[0.2em] mb-3 ${textLabel}`}>How Did You Hear About This Position?</label>
-                      <select value={formData.additionalInfo.howDidYouHear || ''} onChange={(e) => setFormData(prev => ({ ...prev, additionalInfo: { ...prev.additionalInfo, howDidYouHear: e.target.value } }))} className={`w-full px-6 py-4 border rounded-2xl font-medium focus:border-[#00ff9d]/30 focus:ring-0 transition-all appearance-none ${darkMode ? 'bg-white/5 border-white/10 text-white bg-[#0a0c10]' : 'bg-white border-slate-200 text-slate-900 bg-white'}`}>
-                        <option value="">Select...</option>
-                        <option value="Prepzo Platform">Prepzo Platform</option>
-                        <option value="LinkedIn">LinkedIn</option>
-                        <option value="Referral">Referral</option>
-                        <option value="Company Website">Company Website</option>
-                        <option value="Job Fair">Job Fair</option>
-                        <option value="Other">Other</option>
-                      </select>
-                    </div>
+                      <CustomSelect 
+                        label="How Did You Hear About This Position?" 
+                        value={formData.additionalInfo.howDidYouHear || ''} 
+                        options={HOW_HEARD_OPTIONS} 
+                        onChange={(val) => setFormData(prev => ({ ...prev, additionalInfo: { ...prev.additionalInfo, howDidYouHear: val } }))} 
+                      />
                     <div>
                       <label className={`block text-[11px] font-black uppercase tracking-[0.2em] mb-3 ${textLabel}`}>Additional Notes</label>
                       <textarea value={formData.additionalInfo.additionalNotes || ''} onChange={(e) => setFormData(prev => ({ ...prev, additionalInfo: { ...prev.additionalInfo, additionalNotes: e.target.value } }))} placeholder="Anything else you'd like us to know?" rows={3} className={`w-full px-6 py-4 border rounded-2xl font-medium focus:border-[#00ff9d]/30 focus:ring-0 transition-all resize-none ${darkMode ? 'bg-white/5 border-white/10 text-white bg-[#0c0f16]' : 'bg-white border-slate-200 text-slate-900 bg-white'}`} />
