@@ -35,6 +35,21 @@ import { BottomSheet } from '@/components/ui/BottomSheet';
 import toast from 'react-hot-toast';
 import { navigateTo } from '@/utils/navigation';
 
+// Helper functions for rendering and formatting job descriptions
+const stripHtml = (html: string) => {
+  if (!html) return '';
+  return html.replace(/<[^>]*>/g, '').trim();
+};
+
+const renderDescription = (desc: string) => {
+  if (!desc) return 'No description provided.';
+  const hasHtml = /<[a-z][\s\S]*>/i.test(desc);
+  if (hasHtml) {
+    return <div dangerouslySetInnerHTML={{ __html: desc }} className="space-y-3 html-description text-white/70" />;
+  }
+  return desc;
+};
+
 export function JobsPage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -714,7 +729,7 @@ function JobDetailModal({
           {/* Details */}
           <section>
             <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-2">Briefing</h4>
-            <p className="text-white/60 text-sm leading-relaxed whitespace-pre-line">{job.description}</p>
+            <div className="text-white/60 text-sm leading-relaxed whitespace-pre-line">{renderDescription(job.description)}</div>
           </section>
 
           {job.responsibilities && job.responsibilities.length > 0 && (
@@ -843,7 +858,7 @@ function JobDetailModal({
             <div className="md:col-span-2 space-y-10">
               <section>
                 <h4 className="text-[12px] font-black uppercase tracking-[0.2em] text-[#00ff9d] mb-4">Briefing</h4>
-                <p className="text-white/60 leading-relaxed font-medium whitespace-pre-line">{job.description}</p>
+                <div className="text-white/60 leading-relaxed font-medium whitespace-pre-line">{renderDescription(job.description)}</div>
               </section>
 
               {job.responsibilities && job.responsibilities.length > 0 && (
@@ -1098,7 +1113,7 @@ function JobCard({
             </div>
 
             <p className="text-white/40 text-[15px] leading-relaxed font-medium tracking-tight mb-8 line-clamp-2 max-w-2xl font-rubik italic">
-              " {job.description || 'No description provided.'} "
+              " {stripHtml(job.description) || 'No description provided.'} "
             </p>
 
             <div className="flex flex-wrap gap-3">

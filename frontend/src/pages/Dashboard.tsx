@@ -70,7 +70,11 @@ import { ReferralGenerator } from '@/components/dashboard/ReferralGenerator';
 import { latexTemplates } from '@/data/latexTemplates';
 import { fetchOverleafTemplates, downloadOverleafTemplate, OverleafTemplate } from '@/api/overleaf';
 import { NotificationDropdown } from '@/components/navigation/NotificationDropdown';
-type DashboardTab = 'home' | 'resume' | 'assessment' | 'opportunities' | 'settings';
+// Helper function to strip HTML tags from recommended job previews
+const stripHtml = (html: string) => {
+  if (!html) return '';
+  return html.replace(/<[^>]*>/g, '').trim();
+};
 
 export function Dashboard() {
   const { user, completeAssessmentAsync, logout } = useAuthStore();
@@ -1483,7 +1487,7 @@ export function Dashboard() {
                     </div>
                     
                     <p className="text-[13px] font-medium text-white/50 leading-relaxed italic mb-6 line-clamp-2">
-                      {job.description}
+                      {stripHtml(job.description)}
                     </p>
 
                     <div className="flex items-center justify-between pt-4 border-t border-white/5">
