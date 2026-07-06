@@ -687,6 +687,18 @@ const userSchema = new mongoose.Schema({
     default: null,
   },
 
+  // Recruiter notes and scheduled interviews
+  recruiterNotes: {
+    type: String,
+    default: ''
+  },
+  scheduledInterviews: [{
+    date: Date,
+    format: String,
+    interviewer: String,
+    scheduledAt: { type: Date, default: Date.now }
+  }],
+
   // Extended Role
   role: {
     type: String,

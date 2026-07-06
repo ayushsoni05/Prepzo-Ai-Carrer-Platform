@@ -1,5 +1,11 @@
 import { Router } from 'express';
-import { getCandidates, getCandidateById } from '../controllers/recruiter.controller.js';
+import { 
+  getCandidates, 
+  getCandidateById, 
+  getCandidateAiSummary, 
+  updateCandidateRecruiterNotes, 
+  scheduleInterview 
+} from '../controllers/recruiter.controller.js';
 import { protect, authorize } from '../middleware/auth.middleware.js';
 
 const router = Router();
@@ -10,5 +16,8 @@ router.use(authorize('recruiter', 'admin'));
 
 router.route('/candidates').get(getCandidates);
 router.route('/candidates/:id').get(getCandidateById);
+router.route('/candidates/:id/ai-summary').get(getCandidateAiSummary);
+router.route('/candidates/:id/notes').put(updateCandidateRecruiterNotes);
+router.route('/candidates/:id/schedule').post(scheduleInterview);
 
 export default router;
