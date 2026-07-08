@@ -157,6 +157,10 @@ export const RecruiterDashboard = () => {
     setIsGeneratingSummary(true);
     setLoadingBattles(true);
     setBattles([]);
+
+    // Pre-populate standard fallback email outreach templates
+    setEmailSubject(`Prepzo: Technical Opportunity for ${candidate.fullName}`);
+    setEmailBody(`Hi ${candidate.fullName.split(' ')[0]},\n\nI was reviewing your technical coding profile on Prepzo and was impressed by your verified achievements.\n\nWe have open opportunities for a ${candidate.targetRole || 'Software Developer'} and would love to invite you to connect for a brief 15-minute chat.\n\nBest regards,\nSarah Vance\nEnterprise Recruiting Team`);
     
     try {
       const summaryRes = await api.get(`/recruiters/candidates/${candidate._id}/ai-summary`);
@@ -435,6 +439,26 @@ export const RecruiterDashboard = () => {
     { value: 'atsScore', label: 'Sort by ATS Match' },
     { value: 'streak', label: 'Sort by Coding Streak' },
     { value: 'name', label: 'Sort by Name' }
+  ];
+
+  const stageOptions = [
+    { value: 'screening', label: 'Screening' },
+    { value: 'technical', label: 'Technical Test' },
+    { value: 'interviewing', label: 'Interviewing' },
+    { value: 'offered', label: 'Offer Extended' },
+    { value: 'hired', label: 'Hired / Placed' }
+  ];
+
+  const formatOptions = [
+    { value: 'Coding', label: 'Coding Sandbox (60m)' },
+    { value: 'System Design', label: 'System Architecture (60m)' },
+    { value: 'Behavioral', label: 'Recruiter Vetting (30m)' }
+  ];
+
+  const tierOptions = [
+    { value: 'Premium Tier', label: 'Premium Corporate Tier' },
+    { value: 'Standard Tier', label: 'Standard Recruiting Tier' },
+    { value: 'Enterprise Elite Tier', label: 'Enterprise Elite Tier' }
   ];
 
   return (
@@ -937,19 +961,13 @@ export const RecruiterDashboard = () => {
               <div className={`px-8 py-4 border-b ${borderLine} flex items-center justify-between`}>
                 <div className="flex items-center gap-3">
                   <span className="text-[10px] font-black uppercase tracking-widest text-[#5ed29c]">hiring stage</span>
-                  <select 
+                  <CustomSelect
                     value={selectedCandidate.hiringStage || 'screening'}
-                    onChange={e => updateCandidateStage(selectedCandidate._id, e.target.value)}
-                    className={`px-2.5 py-1 border rounded-lg text-xs font-black uppercase tracking-widest outline-none cursor-pointer transition-all ${
-                      isDark ? 'bg-[#161a20] border-white/10 text-white focus:border-[#5ed29c]/30' : 'bg-white border-slate-200 text-slate-800'
-                    }`}
-                  >
-                    <option value="screening">Screening</option>
-                    <option value="technical">Technical Test</option>
-                    <option value="interviewing">Interviewing</option>
-                    <option value="offered">Offer Extended</option>
-                    <option value="hired">Hired / Placed</option>
-                  </select>
+                    onChange={val => updateCandidateStage(selectedCandidate._id, val)}
+                    options={stageOptions}
+                    placeholder="Screening"
+                    className="w-48"
+                  />
                 </div>
                 <span className={`text-[10px] font-black uppercase tracking-widest ${textMuted}`}>Funnel Position</span>
               </div>
@@ -1130,17 +1148,13 @@ export const RecruiterDashboard = () => {
                       <div className={`border rounded-2xl p-5 space-y-4 ${isDark ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
                         <div className="flex justify-between items-center">
                           <h4 className="text-xs font-black uppercase tracking-widest">Job Matchmaker Compatibility</h4>
-                          <select 
+                          <CustomSelect 
                             value={selectedJob._id}
-                            onChange={e => setSelectedJob(jobs.find(j => j._id === e.target.value))}
-                            className={`px-2 py-1 border rounded text-[10px] font-black uppercase tracking-widest outline-none cursor-pointer ${
-                              isDark ? 'bg-black text-white/80 border-white/10' : 'bg-white border-slate-200 text-slate-800'
-                            }`}
-                          >
-                            {jobs.map(j => (
-                              <option key={j._id} value={j._id}>{j.title}</option>
-                            ))}
-                          </select>
+                            onChange={val => setSelectedJob(jobs.find(j => j._id === val))}
+                            options={jobs.map(j => ({ value: j._id, label: j.title }))}
+                            placeholder="Select Job"
+                            className="w-48 text-[9px]"
+                          />
                         </div>
                         <div className="flex items-center justify-between">
                           <div>
@@ -1561,15 +1575,13 @@ export const RecruiterDashboard = () => {
 
               <div>
                 <label className={`block text-[10px] font-black uppercase tracking-widest mb-2 ${textMuted}`}>Interview Format</label>
-                <select 
+                <CustomSelect
                   value={interviewFormat}
-                  onChange={e => setInterviewFormat(e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-xl outline-none font-medium text-sm ${isDark ? 'bg-black/40 border-white/10' : 'bg-slate-100 border-slate-200'}`}
-                >
-                  <option value="Coding">Coding Sandbox (60m)</option>
-                  <option value="System Design">System Architecture (60m)</option>
-                  <option value="Behavioral">Recruiter Vetting (30m)</option>
-                </select>
+                  onChange={setInterviewFormat}
+                  options={formatOptions}
+                  placeholder="Select Format"
+                  className="w-full"
+                />
               </div>
 
               <div>
@@ -1775,15 +1787,13 @@ export const RecruiterDashboard = () => {
 
               <div>
                 <label className={`block text-[10px] font-black uppercase tracking-widest mb-2 ${textMuted}`}>Licensing Tier</label>
-                <select 
+                <CustomSelect
                   value={companyTier}
-                  onChange={e => setCompanyTier(e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-xl outline-none font-medium text-sm ${isDark ? 'bg-[#161a20] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-850'}`}
-                >
-                  <option value="Premium Tier">Premium Corporate Tier</option>
-                  <option value="Standard Tier">Standard Recruiting Tier</option>
-                  <option value="Enterprise Elite Tier">Enterprise Elite Tier</option>
-                </select>
+                  onChange={setCompanyTier}
+                  options={tierOptions}
+                  placeholder="Select Tier"
+                  className="w-full text-sm"
+                />
               </div>
             </div>
 
