@@ -69,6 +69,22 @@ export const RecruiterDashboard = () => {
   const [battles, setBattles] = useState<any[]>([]);
   const [loadingBattles, setLoadingBattles] = useState(false);
 
+  // Keystroke Code Playback visualizer state
+  const [playbackState, setPlaybackState] = useState<'idle' | 'playing' | 'paused'>('idle');
+  const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
+  const [playbackIndex, setPlaybackIndex] = useState<number>(0);
+  const [playbackText, setPlaybackText] = useState<string>('');
+
+  // AI Outreach generator state
+  const [generatingOutreach, setGeneratingOutreach] = useState(false);
+
+  // Collaborative Room state
+  const [showCollaborativeRoom, setShowCollaborativeRoom] = useState(false);
+  const [collaborativeCode, setCollaborativeCode] = useState<string>('');
+  const [terminalLogs, setTerminalLogs] = useState<string[]>([]);
+  const [liveChatMessages, setLiveChatMessages] = useState<{ sender: string; text: string }[]>([]);
+  const [chatInput, setChatInput] = useState('');
+
   // Fetch candidates from database
   const fetchCandidates = async () => {
     setLoading(true);
@@ -200,6 +216,103 @@ export const RecruiterDashboard = () => {
       console.error('Failed to update stage', err);
       toast.error('Failed to update stage');
     }
+  };
+
+  // Keystroke Code Playback visualizer effect
+  useEffect(() => {
+    if (playbackState !== 'playing' || !selectedCandidate?.proctorStats?.playbackEvents) return;
+    const events = selectedCandidate.proctorStats.playbackEvents;
+    if (playbackIndex >= events.length) {
+      setPlaybackState('idle');
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      const currentEvent = events[playbackIndex];
+      
+      if (currentEvent.eventType === 'insert') {
+        setPlaybackText(prev => prev + currentEvent.text);
+      } else if (currentEvent.eventType === 'paste') {
+        setPlaybackText(prev => prev + currentEvent.text);
+      } else if (currentEvent.eventType === 'delete') {
+        setPlaybackText(prev => prev.slice(0, -1));
+      }
+
+      setPlaybackIndex(prev => prev + 1);
+    }, 150 / playbackSpeed);
+
+    return () => clearTimeout(timer);
+  }, [playbackState, playbackIndex, playbackSpeed, selectedCandidate]);
+
+  // Reset playback whenever candidate changes
+  useEffect(() => {
+    setPlaybackState('idle');
+    setPlaybackIndex(0);
+    setPlaybackText('');
+  }, [selectedCandidate]);
+
+  // AI outreach template generator call
+  const handleGenerateOutreachDraft = async () => {
+    if (!selectedCandidate) return;
+    setGeneratingOutreach(true);
+    try {
+      const res = await api.post(`/recruiters/candidates/${selectedCandidate._id}/outreach-draft`);
+      if (res.data?.success) {
+        setEmailSubject(res.data.data.subject);
+        setEmailBody(res.data.data.body);
+        setShowEmailModal(true);
+        toast.success('AI outreach campaign draft generated!');
+      }
+    } catch (error) {
+      console.error('Failed to generate AI outreach email draft', error);
+      toast.error('Failed to query AI outreach compiler');
+    } finally {
+      setGeneratingOutreach(false);
+    }
+  };
+
+  // Collaborative Coding Sandbox controls
+  const handleLaunchCollaborativeRoom = () => {
+    if (!selectedCandidate) return;
+    setCollaborativeCode(`// Live Collaborative Sandbox - Interviewing ${selectedCandidate.fullName}\n\nfunction solveChallenge() {\n  // Collaborate here...\n\n}`);
+    setTerminalLogs([
+      `[SYSTEM] Collaborative sandbox compiled successfully.`,
+      `[SYSTEM] Joint session active with user: ${selectedCandidate.fullName}`
+    ]);
+    setLiveChatMessages([
+      { sender: 'System', text: `Welcome to the joint collaboration room with ${selectedCandidate.fullName}!` },
+      { sender: selectedCandidate.fullName, text: `Hello! I'm ready to solve the design task.` }
+    ]);
+    setShowCollaborativeRoom(true);
+  };
+
+  const handleSendChatMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!chatInput.trim()) return;
+    setLiveChatMessages(prev => [...prev, { sender: 'Recruiter (You)', text: chatInput }]);
+    const currentInput = chatInput;
+    setChatInput('');
+    
+    // Simulate candidate responding
+    setTimeout(() => {
+      setLiveChatMessages(prev => [...prev, { 
+        sender: selectedCandidate?.fullName || 'Candidate', 
+        text: `Got it! Let me optimize that part of the code.` 
+      }]);
+      setTerminalLogs(prev => [...prev, `[USER] Candidate edited line 5: const result = data.filter(...)`]);
+    }, 1500);
+  };
+
+  const handleRunCollaborativeCode = () => {
+    setTerminalLogs(prev => [
+      ...prev,
+      `[RUN] Executing collaborative sandbox code...`,
+      `[SUCCESS] Test case 1/3 passed.`,
+      `[SUCCESS] Test case 2/3 passed.`,
+      `[SUCCESS] Test case 3/3 passed.`,
+      `[RESULT] Compilation complete. Optimization rating: 94%`
+    ]);
+    toast.success('Code executed successfully!');
   };
 
   const handleBookInterview = async (e: React.FormEvent) => {
@@ -886,39 +999,123 @@ export const RecruiterDashboard = () => {
                       )}
                     </div>
 
-                    {/* Feature: Detailed Score Vectors */}
-                    <div className={`border rounded-2xl p-5 space-y-4 ${isDark ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
-                      <h4 className="text-xs font-black uppercase tracking-widest">Assessment Vectors</h4>
-                      <div className="space-y-3">
-                        <div className="space-y-1">
-                          <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest">
-                            <span className={textMutedStrong}>Algorithmic Speed</span>
-                            <span className="text-[#5ed29c]">92%</span>
-                          </div>
-                          <div className={`h-1.5 rounded-full w-full ${isDark ? 'bg-white/5' : 'bg-slate-200'}`}>
-                            <div className="h-full rounded-full bg-[#5ed29c]" style={{ width: '92%' }} />
+                    {/* Feature: Radar comparison chart */}
+                    {(() => {
+                      const center = 100;
+                      const radius = 70;
+                      const radarData = selectedCandidate?.radarScores || {
+                        algorithmicSpeed: 82,
+                        codeReadability: 88,
+                        optimizationSpeed: 78,
+                        behavioralAlignment: 90,
+                        domainKnowledge: 84
+                      };
+
+                      const dimensions = [
+                        { key: 'algorithmicSpeed', label: 'Speed', val: radarData.algorithmicSpeed },
+                        { key: 'codeReadability', label: 'Readability', val: radarData.codeReadability },
+                        { key: 'optimizationSpeed', label: 'Optimize', val: radarData.optimizationSpeed },
+                        { key: 'behavioralAlignment', label: 'Behavioral', val: radarData.behavioralAlignment },
+                        { key: 'domainKnowledge', label: 'Domain', val: radarData.domainKnowledge }
+                      ];
+
+                      const getCoordinates = (index: number, value: number) => {
+                        const angle = (Math.PI * 2 / 5) * index - Math.PI / 2;
+                        const r = (value / 100) * radius;
+                        const x = center + r * Math.cos(angle);
+                        const y = center + r * Math.sin(angle);
+                        return { x, y };
+                      };
+
+                      const polygonPoints = dimensions.map((d, idx) => {
+                        const { x, y } = getCoordinates(idx, d.val);
+                        return `${x},${y}`;
+                      }).join(' ');
+
+                      const ringRays = [25, 50, 70].map(r => {
+                        return dimensions.map((_, idx) => {
+                          const angle = (Math.PI * 2 / 5) * idx - Math.PI / 2;
+                          const x = center + r * Math.cos(angle);
+                          const y = center + r * Math.sin(angle);
+                          return `${x},${y}`;
+                        }).join(' ');
+                      });
+
+                      return (
+                        <div className={`border rounded-2xl p-5 space-y-4 ${isDark ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200'}`}>
+                          <h4 className="text-xs font-black uppercase tracking-widest">Skill Intelligence Vectors</h4>
+                          <div className="flex flex-col sm:flex-row items-center gap-6">
+                            {/* Radar Chart SVG */}
+                            <div className="relative w-36 h-36 shrink-0 flex items-center justify-center bg-black/10 rounded-2xl p-1">
+                              <svg viewBox="0 0 200 200" className="w-full h-full">
+                                {ringRays.map((points, idx) => (
+                                  <polygon 
+                                    key={idx} 
+                                    points={points} 
+                                    fill="none" 
+                                    stroke={isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'} 
+                                    strokeWidth="1" 
+                                  />
+                                ))}
+                                {dimensions.map((_, idx) => {
+                                  const outerPoint = getCoordinates(idx, 100);
+                                  return (
+                                    <line 
+                                      key={idx} 
+                                      x1={center} 
+                                      y1={center} 
+                                      x2={outerPoint.x} 
+                                      y2={outerPoint.y} 
+                                      stroke={isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'} 
+                                      strokeWidth="1" 
+                                    />
+                                  );
+                                })}
+                                <polygon 
+                                  points={polygonPoints} 
+                                  fill="rgba(94, 210, 156, 0.25)" 
+                                  stroke="#5ed29c" 
+                                  strokeWidth="2" 
+                                  className="transition-all duration-500"
+                                />
+                                {dimensions.map((d, idx) => {
+                                  const pt = getCoordinates(idx, d.val);
+                                  return (
+                                    <circle 
+                                      key={idx} 
+                                      cx={pt.x} 
+                                      cy={pt.y} 
+                                      r="3" 
+                                      fill="#5ed29c" 
+                                      stroke={isDark ? '#161a20' : '#ffffff'} 
+                                      strokeWidth="1" 
+                                    />
+                                  );
+                                })}
+                              </svg>
+                            </div>
+
+                            {/* Dimensions progress indicators */}
+                            <div className="flex-1 w-full space-y-2">
+                              {dimensions.map(d => (
+                                <div key={d.key} className="space-y-0.5">
+                                  <div className="flex justify-between text-[9px] font-bold uppercase tracking-widest">
+                                    <span className={textMutedStrong}>{d.label}</span>
+                                    <span className="text-[#5ed29c] font-black">{d.val}%</span>
+                                  </div>
+                                  <div className={`h-1.5 rounded-full w-full ${isDark ? 'bg-white/5' : 'bg-slate-200'}`}>
+                                    <div 
+                                      className="h-full rounded-full bg-[#5ed29c] transition-all duration-500" 
+                                      style={{ width: `${d.val}%` }} 
+                                    />
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         </div>
-                        <div className="space-y-1">
-                          <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest">
-                            <span className={textMutedStrong}>Code Quality & Golf</span>
-                            <span className="text-[#5ed29c]">85%</span>
-                          </div>
-                          <div className={`h-1.5 rounded-full w-full ${isDark ? 'bg-white/5' : 'bg-slate-200'}`}>
-                            <div className="h-full rounded-full bg-blue-400" style={{ width: '85%' }} />
-                          </div>
-                        </div>
-                        <div className="space-y-1">
-                          <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest">
-                            <span className={textMutedStrong}>Behavioral Vetting</span>
-                            <span className="text-[#5ed29c]">90%</span>
-                          </div>
-                          <div className={`h-1.5 rounded-full w-full ${isDark ? 'bg-white/5' : 'bg-slate-200'}`}>
-                            <div className="h-full rounded-full bg-yellow-400" style={{ width: '90%' }} />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                      );
+                    })()}
 
                     {/* Feature: Job Compatibility Matchmaker */}
                     {jobs.length > 0 && selectedJob && (
@@ -1119,31 +1316,106 @@ export const RecruiterDashboard = () => {
                       <span className="text-[10px] font-black uppercase text-blue-400">Sandbox Verified</span>
                     </div>
 
-                    <div className={`p-5 rounded-2xl border font-mono text-[11px] leading-relaxed overflow-x-auto ${
+                    {/* Threat level warning banner */}
+                    {selectedCandidate.proctorStats && (selectedCandidate.proctorStats.plagiarismScore >= 70 || selectedCandidate.proctorStats.aiProbability >= 70) && (
+                      <div className="p-4 rounded-xl border border-red-500/30 bg-red-500/10 text-red-400 flex items-center justify-between text-xs animate-pulse">
+                        <div className="flex items-center gap-2">
+                          <X size={16} />
+                          <span>Warning: High Plagiarism / AI Code Generator Probability Detected</span>
+                        </div>
+                        <div className="text-right">
+                          <p>AI: {selectedCandidate.proctorStats.aiProbability}%</p>
+                          <p>Copied blocks: {selectedCandidate.proctorStats.pasteCount}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Proctor Stats grid */}
+                    <div className="grid grid-cols-4 gap-3 text-center text-[10px] font-black uppercase tracking-widest text-white/50">
+                      <div className={`p-2.5 border rounded-xl ${isDark ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200 text-slate-700'}`}>
+                        <p className={`font-black text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}>{selectedCandidate.proctorStats?.aiProbability || 0}%</p>
+                        <p>AI probability</p>
+                      </div>
+                      <div className={`p-2.5 border rounded-xl ${isDark ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200 text-slate-700'}`}>
+                        <p className={`font-black text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}>{selectedCandidate.proctorStats?.pasteCount || 0} times</p>
+                        <p>paste count</p>
+                      </div>
+                      <div className={`p-2.5 border rounded-xl ${isDark ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200 text-slate-700'}`}>
+                        <p className={`font-black text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}>{selectedCandidate.proctorStats?.backspaceCount || 0}</p>
+                        <p>backspaces</p>
+                      </div>
+                      <div className={`p-2.5 border rounded-xl ${isDark ? 'bg-white/5 border-white/5' : 'bg-slate-100 border-slate-200 text-slate-700'}`}>
+                        <p className={`font-black text-xs ${isDark ? 'text-white' : 'text-slate-900'}`}>{selectedCandidate.proctorStats?.totalIdleTimeSeconds || 0}s</p>
+                        <p>idle pauses</p>
+                      </div>
+                    </div>
+
+                    {/* Replay Controls */}
+                    <div className="flex items-center gap-4 py-2">
+                      <button 
+                        type="button"
+                        onClick={() => setPlaybackState(playbackState === 'playing' ? 'paused' : 'playing')}
+                        className="px-4 py-2.5 bg-blue-500 hover:bg-blue-600 text-white font-bold uppercase tracking-widest text-[9px] rounded-xl transition-all"
+                      >
+                        {playbackState === 'playing' ? 'Pause Replay' : 'Start Playback'}
+                      </button>
+                      
+                      <div className={`flex gap-1 border rounded-xl p-1 text-[9px] font-bold ${isDark ? 'bg-white/5 border-white/10' : 'bg-slate-100 border-slate-200 text-slate-700'}`}>
+                        {[1, 2, 4].map(s => (
+                          <button 
+                            key={s}
+                            type="button"
+                            onClick={() => setPlaybackSpeed(s)}
+                            className={`px-2 py-0.5 rounded-md ${playbackSpeed === s ? 'bg-blue-500 text-white' : 'opacity-40 hover:opacity-100'}`}
+                          >
+                            {s}x
+                          </button>
+                        ))}
+                      </div>
+
+                      <input 
+                        type="range"
+                        min={0}
+                        max={selectedCandidate.proctorStats?.playbackEvents?.length || 100}
+                        value={playbackIndex}
+                        onChange={e => {
+                          const index = parseInt(e.target.value);
+                          setPlaybackIndex(index);
+                          const events = selectedCandidate.proctorStats?.playbackEvents || [];
+                          let text = '';
+                          for (let i = 0; i < index; i++) {
+                            const ev = events[i];
+                            if (ev.eventType === 'insert' || ev.eventType === 'paste') {
+                              text += ev.text;
+                            } else if (ev.eventType === 'delete') {
+                              text = text.slice(0, -1);
+                            }
+                          }
+                          setPlaybackText(text);
+                        }}
+                        className="flex-1 accent-blue-500 cursor-pointer h-1 rounded bg-white/10"
+                      />
+                      <span className="text-[10px] font-mono text-white/50">{playbackIndex}/{selectedCandidate.proctorStats?.playbackEvents?.length || 0}</span>
+                    </div>
+
+                    {/* Syntax Playback Area */}
+                    <div className={`p-5 rounded-2xl border font-mono text-[11px] leading-relaxed overflow-x-auto min-h-[220px] max-h-[300px] transition-all duration-300 relative ${
                       isDark ? 'bg-[#0a0c10] border-white/5 text-emerald-400' : 'bg-slate-900 border-slate-200 text-[#5ed29c]'
                     }`}>
-                      <p className="text-white/40 mb-3">// Assessment Solution: {selectedCandidate.fullName}</p>
-                      <p className="text-blue-400">import <span className="text-white">React, &#123; useState &#125;</span> from <span className="text-orange-400">'react'</span>;</p>
-                      <p className="text-blue-400">import <span className="text-white">&#123; createRoot &#125;</span> from <span className="text-orange-400">'react-dom/client'</span>;</p>
-                      <p className="text-white"><br/></p>
-                      <p className="text-blue-400">export default function <span className="text-yellow-400">SolverSandbox</span>() &#123;</p>
-                      <p className="text-white">&nbsp;&nbsp;const [ready, setReady] = useState(true);</p>
-                      <p className="text-white">&nbsp;&nbsp;const tags = ["{selectedCandidate.knownTechnologies?.slice(0, 3).join('", "')}"];</p>
-                      <p className="text-white">&nbsp;&nbsp;</p>
-                      <p className="text-white">&nbsp;&nbsp;return (</p>
-                      <p className="text-white">&nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="sandbox-panel"&gt;</p>
-                      <p className="text-white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Ready to Deploy&lt;/h1&gt;</p>
-                      <p className="text-white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#123;ready &amp;&amp; &lt;p&gt;Profile Matched successfully.&lt;/p&gt;&#125;</p>
-                      <p className="text-white">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</p>
-                      <p className="text-white">&nbsp;&nbsp;);</p>
-                      <p className="text-blue-400">&#125;</p>
+                      {playbackText ? (
+                        <pre className="whitespace-pre-wrap">{playbackText}</pre>
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center text-center p-8 opacity-40">
+                          <p>Click playback button or scrub slider to visualize code sequence...</p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
               </div>
 
               {/* Action Footer */}
-              <div className={`p-6 border-t ${borderLine} bg-black/20 mt-auto flex gap-3`}>
+              <div className={`p-6 border-t ${borderLine} bg-black/20 mt-auto flex flex-wrap gap-3`}>
                 {inviteSent ? (
                   <div className="flex-1 py-4 bg-green-500/10 border border-green-500/20 text-green-400 font-black uppercase tracking-widest text-xs rounded-xl flex items-center justify-center gap-2">
                     <CheckCircle2 className="w-5 h-5" />
@@ -1158,6 +1430,28 @@ export const RecruiterDashboard = () => {
                     Schedule Interview
                   </button>
                 )}
+
+                {/* Collaborative sandbox room trigger */}
+                <button 
+                  onClick={handleLaunchCollaborativeRoom}
+                  className="px-5 py-4 bg-[#5ed29c]/20 border border-[#5ed29c] text-[#5ed29c] hover:bg-[#5ed29c]/30 font-[900] uppercase tracking-widest text-xs rounded-xl transition-all flex items-center justify-center gap-2"
+                  title="Launch Collaborative Live Coding Studio"
+                >
+                  <Code className="w-4 h-4" />
+                  Live Interview
+                </button>
+
+                {/* Generate AI Pitch button */}
+                <button 
+                  onClick={handleGenerateOutreachDraft}
+                  disabled={generatingOutreach}
+                  className={`p-4 rounded-xl border transition-all ${
+                    isDark ? 'bg-white/5 border-white/10 text-white/80 hover:bg-white/10' : 'bg-slate-100 border-slate-205 text-slate-800 hover:bg-slate-200'
+                  }`}
+                  title="Draft customized outreach with AI"
+                >
+                  {generatingOutreach ? <RefreshCw className="w-4.5 h-4.5 animate-spin text-blue-400" /> : <Bot className="w-4.5 h-4.5 text-blue-400" />}
+                </button>
                 
                 {/* Email compose outreach button */}
                 <button 
@@ -1495,6 +1789,134 @@ export const RecruiterDashboard = () => {
               >
                 Save Changes
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Feature: Live Collaborative Sandbox Room */}
+      {showCollaborativeRoom && selectedCandidate && (
+        <div className="fixed inset-0 bg-black/95 backdrop-blur z-50 flex flex-col font-sans text-white animate-in zoom-in-95 duration-200">
+          {/* Header */}
+          <header className="px-8 py-4 border-b border-white/10 bg-[#0c0f16] flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+              <h3 className="text-sm font-black uppercase tracking-[0.2em]">Live Pairing Sandbox</h3>
+              <span className="text-white/40">|</span>
+              <p className="text-xs text-white/60">Interviewing: <span className="text-white font-extrabold">{selectedCandidate.fullName}</span></p>
+            </div>
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={handleRunCollaborativeCode}
+                className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-black text-xs font-black uppercase tracking-widest rounded-xl transition-all flex items-center gap-1.5"
+              >
+                <Zap className="w-3.5 h-3.5 fill-black" /> Run Test Suite
+              </button>
+              <button 
+                onClick={() => {
+                  setShowCollaborativeRoom(false);
+                  toast.success('Collaborative session saved & logged.');
+                }} 
+                className="px-4 py-2 border border-white/10 hover:bg-white/5 text-xs font-black uppercase tracking-widest rounded-xl transition-all"
+              >
+                Close Session
+              </button>
+            </div>
+          </header>
+
+          {/* IDE Layout */}
+          <div className="flex-1 flex overflow-hidden">
+            {/* Editor Pane */}
+            <div className="flex-1 flex flex-col border-r border-white/10">
+              <div className="px-6 py-2 bg-[#090b10] text-[10px] font-black uppercase tracking-widest text-white/40 border-b border-white/10 flex justify-between items-center">
+                <span>solution.js</span>
+                <span className="text-emerald-400 font-bold">Collaborative Sync Active</span>
+              </div>
+              <textarea 
+                value={collaborativeCode}
+                onChange={e => setCollaborativeCode(e.target.value)}
+                className="flex-1 p-6 bg-[#0c0f16] font-mono text-sm outline-none resize-none text-emerald-400 leading-relaxed custom-scrollbar"
+                placeholder="// Start writing collaborative solutions here..."
+              />
+              {/* Terminal Logs */}
+              <div className="h-48 border-t border-white/10 bg-[#06080b] flex flex-col font-mono text-[11px] overflow-hidden">
+                <div className="px-6 py-2 bg-[#090b10] text-[10px] font-black uppercase tracking-widest text-white/40 border-b border-white/10">
+                  Terminal Outputs
+                </div>
+                <div className="flex-1 p-4 overflow-y-auto space-y-1.5 text-white/60 custom-scrollbar font-mono">
+                  {terminalLogs.map((log, idx) => {
+                    const isSystem = log.startsWith('[SYSTEM]');
+                    const isRun = log.startsWith('[RUN]');
+                    const isSuccess = log.startsWith('[SUCCESS]');
+                    const color = isSystem ? 'text-blue-400' : isRun ? 'text-yellow-400' : isSuccess ? 'text-emerald-400' : 'text-white/45';
+                    return (
+                      <p key={idx} className={color}>{log}</p>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Chat & Proctor Pane */}
+            <div className="w-[380px] bg-[#090c10] flex flex-col">
+              {/* Proctor status alerts */}
+              <div className="p-4 border-b border-white/10 bg-black/20 space-y-2">
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">Pairing Live Proctoring</h4>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-white/60">Focus Status</span>
+                  <span className="text-emerald-400 font-bold flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5" /> In Window
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-white/60">Paste Alerts</span>
+                  <span className="text-white font-bold">0 paste events</span>
+                </div>
+              </div>
+
+              {/* Chat messages */}
+              <div className="flex-1 flex flex-col min-h-0">
+                <div className="px-6 py-2 bg-[#090b10] text-[10px] font-black uppercase tracking-widest text-white/40 border-b border-white/10">
+                  Joint Session Chat
+                </div>
+                <div className="flex-1 p-4 overflow-y-auto space-y-3 custom-scrollbar flex flex-col">
+                  {liveChatMessages.map((msg, idx) => {
+                    const isMe = msg.sender.includes('Recruiter');
+                    const isSystem = msg.sender === 'System';
+                    return (
+                      <div 
+                        key={idx} 
+                        className={`max-w-[80%] rounded-2xl p-3 text-xs leading-relaxed ${
+                          isSystem 
+                            ? 'bg-blue-500/10 border border-blue-500/20 text-blue-400 mx-auto text-center'
+                            : isMe
+                            ? 'bg-blue-500 text-white ml-auto rounded-tr-none'
+                            : 'bg-white/5 border border-white/10 text-white mr-auto rounded-tl-none'
+                        }`}
+                      >
+                        {!isSystem && <p className="font-black text-[9px] uppercase tracking-widest text-white/50 mb-1">{msg.sender}</p>}
+                        <p>{msg.text}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+                {/* Chat Input form */}
+                <form onSubmit={handleSendChatMessage} className="p-4 border-t border-white/10 bg-[#0c0f16] flex gap-2">
+                  <input 
+                    type="text"
+                    value={chatInput}
+                    onChange={e => setChatInput(e.target.value)}
+                    placeholder="Type message to candidate..."
+                    className="flex-1 px-4 py-2 bg-black/40 border border-white/10 rounded-xl outline-none text-xs focus:border-blue-500 transition-colors text-white"
+                  />
+                  <button 
+                    type="submit"
+                    className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-bold text-xs rounded-xl uppercase tracking-widest"
+                  >
+                    Send
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>

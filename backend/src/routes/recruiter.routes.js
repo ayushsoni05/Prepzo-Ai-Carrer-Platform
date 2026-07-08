@@ -7,7 +7,8 @@ import {
   scheduleInterview,
   getCandidateBattles,
   getCruiterJobs,
-  updateCandidatePipelineStage
+  updateCandidatePipelineStage,
+  generateOutreachEmail
 } from '../controllers/recruiter.controller.js';
 import { protect, authorize } from '../middleware/auth.middleware.js';
 
@@ -24,6 +25,7 @@ router.route('/candidates/:id/notes').put(updateCandidateRecruiterNotes);
 router.route('/candidates/:id/schedule').post(scheduleInterview);
 router.route('/candidates/:id/battles').get(getCandidateBattles);
 router.route('/candidates/:id/stage').put(updateCandidatePipelineStage);
+router.route('/candidates/:id/outreach-draft').post(generateOutreachEmail);
 router.route('/jobs').get(getCruiterJobs);
 
 export default router;

@@ -246,6 +246,57 @@ const candidatesData = [
   }
 ];
 
+function generatePlaybackEvents() {
+  const codeString = `function twoSum(nums, target) {
+  const map = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const diff = target - nums[i];
+    if (map.has(diff)) {
+      return [map.get(diff), i];
+    }
+    map.set(nums[i], i);
+  }
+  return [];
+}`;
+
+  const events = [];
+  let currentTimestamp = 200;
+  let line = 1;
+
+  for (let i = 0; i < codeString.length; i++) {
+    const char = codeString[i];
+    if (char === '\n') {
+      events.push({
+        eventType: 'insert',
+        text: '\n',
+        line: line,
+        timestamp: currentTimestamp
+      });
+      line++;
+      currentTimestamp += 300;
+    } else {
+      events.push({
+        eventType: 'insert',
+        text: char,
+        line: line,
+        timestamp: currentTimestamp
+      });
+      currentTimestamp += Math.floor(Math.random() * 80) + 40;
+    }
+
+    if (i === 15) {
+      events.push({
+        eventType: 'paste',
+        text: 'nums, target',
+        line: line,
+        timestamp: currentTimestamp + 100
+      });
+      currentTimestamp += 500;
+    }
+  }
+  return events;
+}
+
 async function run() {
   try {
     console.log('🚀 Connecting to MongoDB...');
@@ -262,6 +313,30 @@ async function run() {
     console.log('➕ Seeding 12 high-quality active candidates...');
     const seededCandidates = [];
     for (const c of candidatesData) {
+      const customEvents = generatePlaybackEvents();
+      c.proctorStats = {
+        aiProbability: Math.floor(Math.random() * 65) + 10,
+        plagiarismScore: Math.floor(Math.random() * 40) + 5,
+        pasteCount: Math.floor(Math.random() * 4),
+        backspaceCount: Math.floor(Math.random() * 30) + 12,
+        totalIdleTimeSeconds: Math.floor(Math.random() * 120) + 30,
+        playbackEvents: customEvents
+      };
+
+      if (c.fullName === 'Ayush Soni') {
+        c.proctorStats.aiProbability = 88;
+        c.proctorStats.plagiarismScore = 79;
+        c.proctorStats.pasteCount = 6;
+      }
+
+      c.radarScores = {
+        algorithmicSpeed: Math.floor(Math.random() * 25) + 73,
+        codeReadability: Math.floor(Math.random() * 25) + 73,
+        optimizationSpeed: Math.floor(Math.random() * 25) + 73,
+        behavioralAlignment: Math.floor(Math.random() * 25) + 73,
+        domainKnowledge: Math.floor(Math.random() * 25) + 73
+      };
+
       const u = await User.create(c);
       seededCandidates.push(u);
       console.log(`- Seeded: ${u.fullName} (${u.email})`);

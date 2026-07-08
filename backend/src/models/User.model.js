@@ -703,6 +703,26 @@ const userSchema = new mongoose.Schema({
     interviewer: String,
     scheduledAt: { type: Date, default: Date.now }
   }],
+  proctorStats: {
+    aiProbability: { type: Number, default: 0 },
+    plagiarismScore: { type: Number, default: 0 },
+    pasteCount: { type: Number, default: 0 },
+    backspaceCount: { type: Number, default: 0 },
+    totalIdleTimeSeconds: { type: Number, default: 0 },
+    playbackEvents: [{
+      eventType: { type: String },
+      text: { type: String, default: '' },
+      line: { type: Number, default: 0 },
+      timestamp: { type: Number, default: 0 }
+    }]
+  },
+  radarScores: {
+    algorithmicSpeed: { type: Number, default: 80 },
+    codeReadability: { type: Number, default: 80 },
+    optimizationSpeed: { type: Number, default: 80 },
+    behavioralAlignment: { type: Number, default: 80 },
+    domainKnowledge: { type: Number, default: 80 }
+  },
 
   // Extended Role
   role: {

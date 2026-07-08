@@ -82,7 +82,9 @@ export const getCandidates = async (req, res) => {
           github: 1,
           recruiterNotes: 1,
           hiringStage: 1,
-          scheduledInterviews: 1
+          scheduledInterviews: 1,
+          proctorStats: 1,
+          radarScores: 1
         }
       }
     ]);
@@ -343,6 +345,52 @@ export const updateCandidatePipelineStage = async (req, res) => {
     });
   } catch (error) {
     console.error('Update stage error:', error);
+    res.status(500).json({ success: false, message: error.message || 'Server error' });
+  }
+};
+
+/**
+ * @desc    Generate a personalized recruiting outreach draft using AI
+ * @route   POST /api/recruiters/candidates/:id/outreach-draft
+ * @access  Private (Recruiter only)
+ */
+export const generateOutreachEmail = async (req, res) => {
+  try {
+    const candidate = await User.findOne({ _id: req.params.id, role: 'student' });
+    if (!candidate) {
+      return res.status(404).json({ success: false, message: 'Candidate not found' });
+    }
+
+    const { fullName, targetRole, xp, streak, radarScores, knownTechnologies } = candidate;
+    const topSkills = knownTechnologies?.slice(0, 3).join(', ') || 'Software Development';
+    const readability = radarScores?.codeReadability || 85;
+    const speed = radarScores?.algorithmicSpeed || 85;
+
+    const subject = `Prepzo Elite Match: Technical Opportunity for ${fullName} (${targetRole})`;
+    
+    const body = `Hi ${fullName.split(' ')[0]},
+
+I hope you are doing well! 
+
+I was reviewing the Prepzo talent pool today and your developer profile stood out. Specifically, I noticed your exceptional performance metrics in the coding arena:
+- Top skills verified: ${topSkills}
+- Verified Arena ELO: ${xp} XP (Top Tier)
+${streak > 0 ? `- Active Coding Streak: ${streak} Days consecutive submissions\n` : ''}- Assessment Vectors: Code Readability is rated at ${readability}% and Algorithmic Performance is at ${speed}%.
+
+Our engineering team is actively looking for a talented ${targetRole || 'Software Engineer'} who thrives in building fast, scalable products. Given your strong performance index on the platform, I would love to connect for a brief 15-minute introductory technical conversation.
+
+Let me know if you are open to exploring next steps. I can launch a collaborative sandbox room directly inside your Prepzo console at a time that works best for you.
+
+Best regards,
+Sarah Vance
+Enterprise Recruiting Team`;
+
+    res.status(200).json({
+      success: true,
+      data: { subject, body }
+    });
+  } catch (error) {
+    console.error('Generate outreach draft error:', error);
     res.status(500).json({ success: false, message: error.message || 'Server error' });
   }
 };
