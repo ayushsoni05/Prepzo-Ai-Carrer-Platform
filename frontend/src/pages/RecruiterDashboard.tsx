@@ -344,6 +344,14 @@ export const RecruiterDashboard = () => {
     }
   };
 
+  const deleteInterview = (index: number) => {
+    if (!selectedCandidate) return;
+    const updatedInterviews = (selectedCandidate.scheduledInterviews || []).filter((_: any, idx: number) => idx !== index);
+    setCandidates(prev => prev.map(c => c._id === selectedCandidate._id ? { ...c, scheduledInterviews: updatedInterviews } : c));
+    setSelectedCandidate(prev => ({ ...prev, scheduledInterviews: updatedInterviews }));
+    toast.success('Scheduled interview cancelled');
+  };
+
   const handleSendEmail = (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedCandidate || !emailSubject || !emailBody) {
