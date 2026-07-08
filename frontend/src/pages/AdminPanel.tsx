@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import ThinkingLoader from '@/components/ui/loading';
 import * as adminApi from '@/api/admin';
 import api from '@/api/axios';
+import { CustomSelect } from '@/components/ui/CustomSelect';
 import type { User, DashboardStats, Violation, UserDetails } from '@/api/admin';
 import {
   Users,
@@ -863,15 +864,17 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <select
+                      <CustomSelect
                         value={roleFilter}
-                        onChange={(e) => setRoleFilter(e.target.value)}
-                        className="bg-[#12161f] border border-white/5 rounded-xl px-3 py-2 text-xs focus:outline-none"
-                      >
-                        <option value="">All Roles</option>
-                        <option value="student">Student</option>
-                        <option value="recruiter">Recruiter</option>
-                      </select>
+                        onChange={setRoleFilter}
+                        options={[
+                          { value: '', label: 'All Roles' },
+                          { value: 'student', label: 'Student' },
+                          { value: 'recruiter', label: 'Recruiter' }
+                        ]}
+                        placeholder="All Roles"
+                        className="w-36 text-xs"
+                      />
                     </div>
                   </div>
 
@@ -954,27 +957,31 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-1">
                         <label className="text-white/40 font-bold uppercase">Difficulty</label>
-                        <select
+                        <CustomSelect
                           value={newQuestion.difficulty}
-                          onChange={(e) => setNewQuestion({ ...newQuestion, difficulty: e.target.value })}
-                          className="w-full bg-[#12161f] border border-white/10 rounded-xl p-3 focus:outline-none"
-                        >
-                          <option>Easy</option>
-                          <option>Medium</option>
-                          <option>Hard</option>
-                        </select>
+                          onChange={(val) => setNewQuestion({ ...newQuestion, difficulty: val })}
+                          options={[
+                            { value: 'Easy', label: 'Easy' },
+                            { value: 'Medium', label: 'Medium' },
+                            { value: 'Hard', label: 'Hard' }
+                          ]}
+                          placeholder="Easy"
+                          className="w-full text-xs"
+                        />
                       </div>
                       <div className="space-y-1">
                         <label className="text-white/40 font-bold uppercase">Category</label>
-                        <select
+                        <CustomSelect
                           value={newQuestion.category}
-                          onChange={(e) => setNewQuestion({ ...newQuestion, category: e.target.value })}
-                          className="w-full bg-[#12161f] border border-white/10 rounded-xl p-3 focus:outline-none"
-                        >
-                          <option>DSA</option>
-                          <option>System Design</option>
-                          <option>Behavioral</option>
-                        </select>
+                          onChange={(val) => setNewQuestion({ ...newQuestion, category: val })}
+                          options={[
+                            { value: 'DSA', label: 'DSA' },
+                            { value: 'System Design', label: 'System Design' },
+                            { value: 'Behavioral', label: 'Behavioral' }
+                          ]}
+                          placeholder="DSA"
+                          className="w-full text-xs"
+                        />
                       </div>
                     </div>
 
@@ -1339,28 +1346,32 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
                       <label className="text-white/40 font-bold uppercase">Channel</label>
-                      <select
+                      <CustomSelect
                         value={campaignChannel}
-                        onChange={(e) => setCampaignChannel(e.target.value)}
-                        className="w-full bg-[#12161f] border border-white/10 rounded-xl p-3 focus:outline-none"
-                      >
-                        <option value="push">Web Push Notification</option>
-                        <option value="email">Email Broadcast</option>
-                        <option value="inapp">In-App Toast Banner</option>
-                      </select>
+                        onChange={setCampaignChannel}
+                        options={[
+                          { value: 'push', label: 'Web Push Notification' },
+                          { value: 'email', label: 'Email Broadcast' },
+                          { value: 'inapp', label: 'In-App Toast Banner' }
+                        ]}
+                        placeholder="Web Push Notification"
+                        className="w-full text-xs"
+                      />
                     </div>
 
                     <div className="space-y-1">
                       <label className="text-white/40 font-bold uppercase">Target Segment</label>
-                      <select
+                      <CustomSelect
                         value={campaignAudience}
-                        onChange={(e) => setCampaignAudience(e.target.value)}
-                        className="w-full bg-[#12161f] border border-white/10 rounded-xl p-3 focus:outline-none"
-                      >
-                        <option value="all">All Registered Candidates</option>
-                        <option value="high-xp">Top 10% XP Leaders</option>
-                        <option value="low-streak">Users with low streaks</option>
-                      </select>
+                        onChange={setCampaignAudience}
+                        options={[
+                          { value: 'all', label: 'All Registered Candidates' },
+                          { value: 'high-xp', label: 'Top 10% XP Leaders' },
+                          { value: 'low-streak', label: 'Users with low streaks' }
+                        ]}
+                        placeholder="All Registered Candidates"
+                        className="w-full text-xs"
+                      />
                     </div>
                   </div>
 
@@ -1539,17 +1550,19 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
 
                           <div className="space-y-1">
                             <label className="text-white/40 font-bold uppercase">Manual Grade Override</label>
-                            <select
+                            <CustomSelect
                               value={activeVideoRating.grade}
-                              onChange={(e) => setActiveVideoRating({ ...activeVideoRating, grade: e.target.value })}
-                              className="w-full bg-[#12161f] border border-white/10 rounded-xl p-3 focus:outline-none"
-                            >
-                              <option>A</option>
-                              <option>B</option>
-                              <option>C</option>
-                              <option>D</option>
-                              <option>F</option>
-                            </select>
+                              onChange={(val) => setActiveVideoRating({ ...activeVideoRating, grade: val })}
+                              options={[
+                                { value: 'A', label: 'A' },
+                                { value: 'B', label: 'B' },
+                                { value: 'C', label: 'C' },
+                                { value: 'D', label: 'D' },
+                                { value: 'F', label: 'F' }
+                              ]}
+                              placeholder="Grade"
+                              className="w-full text-xs font-semibold text-white bg-transparent"
+                            />
                           </div>
                         </div>
 
@@ -1584,15 +1597,17 @@ export const AdminPanel = ({ onNavigate }: AdminPanelProps) => {
                       <p className="text-[10px] text-white/40">Scale target rewards on tests/games completed.</p>
                     </div>
 
-                    <select
-                      value={xpMultiplier}
-                      onChange={(e) => setXpMultiplier(parseInt(e.target.value))}
-                      className="bg-[#12161f] border border-white/5 rounded-xl px-3 py-2 text-xs focus:outline-none font-bold"
-                    >
-                      <option value="1">1x (Default)</option>
-                      <option value="2">2x (Weekend Surge)</option>
-                      <option value="3">3x (Holiday Event)</option>
-                    </select>
+                    <CustomSelect
+                      value={xpMultiplier.toString()}
+                      onChange={(val) => setXpMultiplier(parseInt(val))}
+                      options={[
+                        { value: '1', label: '1x (Default)' },
+                        { value: '2', label: '2x (Weekend Surge)' },
+                        { value: '3', label: '3x (Holiday Event)' }
+                      ]}
+                      placeholder="1x (Default)"
+                      className="w-44 text-xs font-bold"
+                    />
                   </div>
 
                   <div className="flex justify-between items-center border-t border-white/5 pt-4">
