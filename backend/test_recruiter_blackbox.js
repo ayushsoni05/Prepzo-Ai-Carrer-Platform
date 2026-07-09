@@ -35,7 +35,7 @@ async function runBlackboxTests() {
         stdio: 'inherit'
       });
       // Wait for server to boot up
-      await sleep(3500);
+      await sleep(9500);
     }
 
     // 2. Perform Login as Recruiter
