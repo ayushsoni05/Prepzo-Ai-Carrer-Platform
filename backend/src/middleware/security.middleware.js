@@ -216,7 +216,7 @@ export const noSQLInjectionPrevention = (req, res, next) => {
 
     if (typeof obj === 'string') {
       // Exempt certain common fields that might contain technical chars or currency
-      const exemptFields = ['careerGoals', 'targetRole', 'message', 'text', 'code', 'bio', 'description', 'prompt', 'question', 'explanation', 'latexSource', 'latex'];
+      const exemptFields = ['careerGoals', 'targetRole', 'message', 'text', 'code', 'bio', 'description', 'prompt', 'question', 'explanation', 'latexSource', 'latex', 'expectedCtc'];
       const fieldName = path.split('.').pop();
       
       if (exemptFields.includes(fieldName)) {
